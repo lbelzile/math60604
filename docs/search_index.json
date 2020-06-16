@@ -1,0 +1,12 @@
+[
+["index.html", "Modélisation statistique Remarques", " Modélisation statistique Remarques Ces notes sont l’oeuvre de Léo Belzile (HEC Montréal) et sont mis à disposition sous la Licence publique Creative Commons Attribution - Utilisation non commerciale - Partage dans les mêmes conditions 4.0 International et ont été compilé le 16 juin 2020. Bien que les diapositives illustrent l’implémentation des techniques statistiques et des modèles à l’aide de SAS, ces notes présentent le pendant R: visitez le site web du projet R pour télécharger le logiciel. L’interface graphique la plus populaire (et celle que je vous recommande) est RStudio Desktop. "],
+["intro.html", "1 Introduction à l’inférence statistique", " 1 Introduction à l’inférence statistique "],
+["regression-lineaire.html", "2 Régression linéaire", " 2 Régression linéaire "],
+["modeles-lineaires-generalises.html", "3 Modèles linéaires généralisés", " 3 Modèles linéaires généralisés "],
+["donnees-correlees-longitudinales.html", "4 Données corrélées et longitudinales", " 4 Données corrélées et longitudinales "],
+["modeles-lineaires-mixtes.html", "5 Modèles linéaires mixtes", " 5 Modèles linéaires mixtes "],
+["survie.html", "6 Analyse de survie", " 6 Analyse de survie "],
+["vraisemblance.html", "7 Inférence basée sur la vraisemblance", " 7 Inférence basée sur la vraisemblance "],
+["r.html", "R", " R "],
+["references.html", "References", " References "]
+]

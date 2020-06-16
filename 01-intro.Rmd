@@ -1,0 +1,1 @@
+# Introduction à l'inférence statistique {#intro}
