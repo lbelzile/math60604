@@ -1,6 +1,7 @@
 bookdown::gitbook:
   css: css/style.css
   toc_depth: 1
+  split_bib: no
   config:
     toc:
       collapse: section
@@ -10,7 +11,8 @@ bookdown::gitbook:
       after: |
         <li><a href="https://github.com/rstudio/bookdown" target="blank">Publié avec bookdown</a></li>
     download: ["pdf"]
-    split_bib: false
+    
+    sharing: null
 bookdown::pdf_book:
   includes:
     in_header: preamble.tex

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020) (preloaded format=xelatex 2020.5.8)  25 JUN 2020 19:18
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020) (preloaded format=xelatex 2020.5.8)  25 JUN 2020 19:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -507,11 +507,7 @@ LaTeX Info: Redefining \degres on input line 785.
 \parindentFFN=\dimen194
 \FBfnindent=\dimen195
 )) (/usr/local/texlive/2020/texmf-dist/tex/latex/carlisle/scalefnt.sty) (/usr/l
-ocal/texlive/2020/texmf-dist/tex/latex/amsfonts/eucal.sty
-Package: eucal 2009/06/22 v3.00 Euler Script fonts
-LaTeX Font Info:    Overwriting math alphabet `\EuScript' in version `bold'
-(Font)                  U/eus/m/n --> U/eus/b/n on input line 33.
-) (/usr/local/texlive/2020/texmf-dist/tex/latex/heuristica/heuristica.fontspec)
+ocal/texlive/2020/texmf-dist/tex/latex/heuristica/heuristica.fontspec)
 
 Package fontspec Info: Heuristica-Regular scale = 0.8795907107958844.
 
@@ -620,18 +616,31 @@ LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
 (Font)                  OT1/lmr/bx/n --> TU/heuristica(1)/b/n on input line 79.
 
-LaTeX Font Info:    Redeclaring math alphabet \mathcal on input line 81.
-(/usr/local/texlive/2020/texmf-dist/tex/latex/amscls/amsthm.sty
+(/usr/local/texlive/2020/texmf-dist/tex/latex/mathalpha/mathalpha.sty
+Package: mathalpha 2019/10/05 - 1.13mathalpha (License LPPL) Michael Sharpe
+`mathalpha' v1.13, 2019/10/05, a renaming of mathalfa (msharpe) (/usr/local/tex
+live/2020/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+Package: xkeyval 2014/12/03 v2.7a package option processing (HA)
+(/usr/local/texlive/2020/texmf-dist/tex/generic/xkeyval/xkeyval.tex (/usr/local
+/texlive/2020/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+\XKV@toks=\toks27
+\XKV@tempa@toks=\toks28
+)
+\XKV@depth=\count313
+File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
+))
+\symrsfs=\mathgroup6
+) (/usr/local/texlive/2020/texmf-dist/tex/latex/amscls/amsthm.sty
 Package: amsthm 2017/10/31 v2.20.4
-\thm@style=\toks27
-\thm@bodyfont=\toks28
-\thm@headfont=\toks29
-\thm@notefont=\toks30
-\thm@headpunct=\toks31
+\thm@style=\toks29
+\thm@bodyfont=\toks30
+\thm@headfont=\toks31
+\thm@notefont=\toks32
+\thm@headpunct=\toks33
 \thm@preskip=\skip61
 \thm@postskip=\skip62
 \thm@headsep=\skip63
-\dth@everypar=\toks32
+\dth@everypar=\toks34
 ) (/usr/local/texlive/2020/texmf-dist/tex/latex/framed/framed.sty
 Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
 \OuterFrameSep=\skip64
@@ -644,38 +653,38 @@ Package: natbib 2010/09/13 8.31b (PWD, AO)
 \bibhang=\skip65
 \bibsep=\skip66
 LaTeX Info: Redefining \cite on input line 694.
-\c@NAT@ctr=\count313
+\c@NAT@ctr=\count314
 ) (./MATH60604_Modelisation_statistique.aux)
 \openout1 = `MATH60604_Modelisation_statistique.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 179.
-LaTeX Font Info:    ... okay on input line 179.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 179.
-LaTeX Font Info:    ... okay on input line 179.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 179.
-LaTeX Font Info:    ... okay on input line 179.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 179.
-LaTeX Font Info:    ... okay on input line 179.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 179.
-LaTeX Font Info:    ... okay on input line 179.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 179.
-LaTeX Font Info:    ... okay on input line 179.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 179.
-LaTeX Font Info:    ... okay on input line 179.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 179.
-LaTeX Font Info:    ... okay on input line 179.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 179.
-LaTeX Font Info:    ... okay on input line 179.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 179.
-LaTeX Font Info:    ... okay on input line 179.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 178.
+LaTeX Font Info:    ... okay on input line 178.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 178.
+LaTeX Font Info:    ... okay on input line 178.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 178.
+LaTeX Font Info:    ... okay on input line 178.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 178.
+LaTeX Font Info:    ... okay on input line 178.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 178.
+LaTeX Font Info:    ... okay on input line 178.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 178.
+LaTeX Font Info:    ... okay on input line 178.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 178.
+LaTeX Font Info:    ... okay on input line 178.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 178.
+LaTeX Font Info:    ... okay on input line 178.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 178.
+LaTeX Font Info:    ... okay on input line 178.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 178.
+LaTeX Font Info:    ... okay on input line 178.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/lmss/m/n --> TU/lmss/m/n on input line 179.
+(Font)                  OT1/lmss/m/n --> TU/lmss/m/n on input line 178.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/lmss/bx/n --> TU/lmss/b/n on input line 179.
+(Font)                  OT1/lmss/bx/n --> TU/lmss/b/n on input line 178.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/lmtt/m/n --> TU/lmtt/m/n on input line 179.
+(Font)                  OT1/lmtt/m/n --> TU/lmtt/m/n on input line 178.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/lmtt/m/n --> TU/lmtt/b/n on input line 179.
+(Font)                  OT1/lmtt/m/n --> TU/lmtt/b/n on input line 178.
 
 Package fontspec Info: latinmodern-math scale = 1.051623854249179.
 
@@ -704,7 +713,7 @@ t=math;language=dflt;"
 (fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.: 
 
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(0)/m/n' will be
-(Font)              scaled to size 11.51523pt on input line 179.
+(Font)              scaled to size 11.51523pt on input line 178.
 
 Package fontspec Info: latinmodern-math scale = 1.051623854249179.
 
@@ -743,18 +752,18 @@ t=math;language=dflt;"
 (fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.: 
 
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 11.51523pt on input line 179.
+(Font)              scaled to size 11.51523pt on input line 178.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `normal' on input line 179.
+(Font)              `operators' in the math version `normal' on input line 178.
 
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  OT1/lmr/m/n --> TU/latinmodern-math.otf(1)/m/n on input
- line 179.
+ line 178.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `bold' on input line 179.
+(Font)              `operators' in the math version `bold' on input line 178.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
 (Font)                  OT1/lmr/bx/n --> TU/latinmodern-math.otf(1)/b/n on inpu
-t line 179.
+t line 178.
 
 Package fontspec Info: latinmodern-math scale = 1.051623854249179.
 
@@ -841,15 +850,15 @@ t=math;language=dflt;"
 (fontspec)             =0pt\relax \fontdimen 21\font =0pt\relax 
 
 LaTeX Font Info:    Encoding `OMS' has changed to `TU' for symbol font
-(Font)              `symbols' in the math version `normal' on input line 179.
+(Font)              `symbols' in the math version `normal' on input line 178.
 LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
 (Font)                  OMS/lmsy/m/n --> TU/latinmodern-math.otf(2)/m/n on inpu
-t line 179.
+t line 178.
 LaTeX Font Info:    Encoding `OMS' has changed to `TU' for symbol font
-(Font)              `symbols' in the math version `bold' on input line 179.
+(Font)              `symbols' in the math version `bold' on input line 178.
 LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
 (Font)                  OMS/lmsy/b/n --> TU/latinmodern-math.otf(2)/b/n on inpu
-t line 179.
+t line 178.
 
 Package fontspec Info: latinmodern-math scale = 1.051623854249179.
 
@@ -919,16 +928,16 @@ t=math;language=dflt;"
 
 LaTeX Font Info:    Encoding `OMX' has changed to `TU' for symbol font
 (Font)              `largesymbols' in the math version `normal' on input line 1
-79.
+78.
 LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
 (Font)                  OMX/lmex/m/n --> TU/latinmodern-math.otf(3)/m/n on inpu
-t line 179.
+t line 178.
 LaTeX Font Info:    Encoding `OMX' has changed to `TU' for symbol font
-(Font)              `largesymbols' in the math version `bold' on input line 179
+(Font)              `largesymbols' in the math version `bold' on input line 178
 .
 LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
 (Font)                  OMX/lmex/m/n --> TU/latinmodern-math.otf(3)/b/n on inpu
-t line 179.
+t line 178.
 
 Package unicode-math Warning: Using \overbracket and \underbracket from
 (unicode-math)                `mathtools' package.
@@ -947,7 +956,7 @@ Package unicode-math Warning: I'm going to overwrite the following commands
 (unicode-math)                colon-like commands, using them will lead to
 (unicode-math)                inconsistencies.
 
-LaTeX Info: Redefining \microtypecontext on input line 179.
+LaTeX Info: Redefining \microtypecontext on input line 178.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using protrusion set `basicmath'.
 Package microtype Info: No adjustment of tracking.
@@ -958,7 +967,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 \AtBeginShipoutBox=\box55
-Package hyperref Info: Link coloring OFF on input line 179.
+Package hyperref Info: Link coloring OFF on input line 178.
 (/usr/local/texlive/2020/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
 (/usr/local/texlive/2020/texmf-dist/tex/latex/refcount/refcount.sty
@@ -968,11 +977,11 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 ty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count314
+\c@section@level=\count315
 )
-LaTeX Info: Redefining \ref on input line 179.
-LaTeX Info: Redefining \pageref on input line 179.
-LaTeX Info: Redefining \nameref on input line 179.
+LaTeX Info: Redefining \ref on input line 178.
+LaTeX Info: Redefining \pageref on input line 178.
+LaTeX Info: Redefining \nameref on input line 178.
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
 *geometry* verbose mode - [ preamble ] result:
@@ -1007,46 +1016,46 @@ LaTeX Info: Redefining \nameref on input line 179.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Info: Redefining \dots on input line 179.
+LaTeX Info: Redefining \dots on input line 178.
 Package french.ldf Info: Setting StandardEnumerateEnv=true for
 (french.ldf)             compatibility with enumerate package,
-(french.ldf)             reported on input line 179.
-LaTeX Info: Redefining \up on input line 179.
+(french.ldf)             reported on input line 178.
+LaTeX Info: Redefining \up on input line 178.
 LaTeX Font Info:    Font shape `TU/heuristica(0)/m/n' will be
-(Font)              scaled to size 15.98404pt on input line 181.
+(Font)              scaled to size 15.98404pt on input line 180.
 LaTeX Font Info:    Font shape `TU/heuristica(0)/m/n' will be
-(Font)              scaled to size 11.10004pt on input line 181.
+(Font)              scaled to size 11.10004pt on input line 180.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 12.61945pt on input line 181.
+(Font)              scaled to size 12.61945pt on input line 180.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 8.41296pt on input line 181.
+(Font)              scaled to size 8.41296pt on input line 180.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 6.30972pt on input line 181.
+(Font)              scaled to size 6.30972pt on input line 180.
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 1
-81.
+80.
 (/usr/local/texlive/2020/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 12.62073pt on input line 181.
+(Font)              scaled to size 12.62073pt on input line 180.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 8.41382pt on input line 181.
+(Font)              scaled to size 8.41382pt on input line 180.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 6.31036pt on input line 181.
+(Font)              scaled to size 6.31036pt on input line 180.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 12.61816pt on input line 181.
+(Font)              scaled to size 12.61816pt on input line 180.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 8.41211pt on input line 181.
+(Font)              scaled to size 8.41211pt on input line 180.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 6.30908pt on input line 181.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 181
+(Font)              scaled to size 6.30908pt on input line 180.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 180
 .
 (/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 ) (/usr/local/texlive/2020/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 181
+LaTeX Font Info:    Trying to load font information for U+msb on input line 180
 .
 (/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -1059,16 +1068,16 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 LaTeX Font Info:    Font shape `TU/heuristica(0)/m/sl' in size <10.95> not avai
 lable
 (Font)              Font shape `TU/heuristica(0)/m/it' tried instead on input l
-ine 186.
+ine 185.
 LaTeX Font Info:    Font shape `TU/heuristica(0)/m/it' will be
-(Font)              scaled to size 10.12877pt on input line 186.
+(Font)              scaled to size 10.12877pt on input line 185.
 [2
 
 ]
 LaTeX Font Info:    Font shape `TU/heuristica(0)/m/n' will be
-(Font)              scaled to size 23.01407pt on input line 186.
+(Font)              scaled to size 23.01407pt on input line 185.
 LaTeX Font Info:    Font shape `TU/heuristica(0)/b/n' will be
-(Font)              scaled to size 23.01407pt on input line 186.
+(Font)              scaled to size 23.01407pt on input line 185.
 (./MATH60604_Modelisation_statistique.toc
 LaTeX Font Info:    Font shape `TU/heuristica(0)/b/n' will be
 (Font)              scaled to size 10.12877pt on input line 2.
@@ -1099,40 +1108,33 @@ LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 ]
 Chapitre 1.
 LaTeX Font Info:    Font shape `TU/heuristica(0)/m/n' will be
-(Font)              scaled to size 19.18456pt on input line 218.
+(Font)              scaled to size 19.18456pt on input line 215.
 LaTeX Font Info:    Font shape `TU/heuristica(0)/b/n' will be
-(Font)              scaled to size 19.18456pt on input line 218.
+(Font)              scaled to size 19.18456pt on input line 215.
 LaTeX Font Info:    Font shape `TU/heuristica(0)/m/n' will be
-(Font)              scaled to size 13.32004pt on input line 221.
+(Font)              scaled to size 13.32004pt on input line 218.
 LaTeX Font Info:    Font shape `TU/heuristica(0)/b/n' will be
-(Font)              scaled to size 13.32004pt on input line 221.
-[7]
-LaTeX Font Info:    Trying to load font information for U+eus on input line 287
-.
-(/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/ueus.fd
-File: ueus.fd 2013/01/14 v3.01 Euler Script
-) (/usr/local/texlive/2020/texmf-dist/tex/latex/microtype/mt-eus.cfg
-File: mt-eus.cfg 2006/07/28 v1.2 microtype config. file: AMS Euler Script (RS)
-) [8]
+(Font)              scaled to size 13.32004pt on input line 218.
+[7] [8]
 LaTeX Font Info:    Font shape `TU/heuristica(0)/b/n' will be
-(Font)              scaled to size 11.10004pt on input line 313.
+(Font)              scaled to size 11.10004pt on input line 310.
 LaTeX Font Info:    Font shape `TU/heuristica(0)/m/n' will be
+(Font)              scaled to size 7.09013pt on input line 315.
+LaTeX Font Info:    Font shape `TU/heuristica(0)/m/n' will be
+(Font)              scaled to size 5.06439pt on input line 315.
+LaTeX Font Info:    Font shape `TU/heuristica(1)/m/n' will be
+(Font)              scaled to size 10.12877pt on input line 318.
+LaTeX Font Info:    Font shape `TU/heuristica(1)/m/n' will be
 (Font)              scaled to size 7.09013pt on input line 318.
-LaTeX Font Info:    Font shape `TU/heuristica(0)/m/n' will be
+LaTeX Font Info:    Font shape `TU/heuristica(1)/m/n' will be
 (Font)              scaled to size 5.06439pt on input line 318.
-LaTeX Font Info:    Font shape `TU/heuristica(1)/m/n' will be
-(Font)              scaled to size 10.12877pt on input line 321.
-LaTeX Font Info:    Font shape `TU/heuristica(1)/m/n' will be
-(Font)              scaled to size 7.09013pt on input line 321.
-LaTeX Font Info:    Font shape `TU/heuristica(1)/m/n' will be
-(Font)              scaled to size 5.06439pt on input line 321.
 [9] [10]
 LaTeX Font Info:    Font shape `TU/heuristica(1)/m/n' will be
-(Font)              scaled to size 11.10004pt on input line 358.
+(Font)              scaled to size 11.10004pt on input line 355.
 LaTeX Font Info:    Font shape `TU/heuristica(1)/m/n' will be
-(Font)              scaled to size 7.40002pt on input line 358.
+(Font)              scaled to size 7.40002pt on input line 355.
 LaTeX Font Info:    Font shape `TU/heuristica(1)/m/n' will be
-(Font)              scaled to size 5.55002pt on input line 358.
+(Font)              scaled to size 5.55002pt on input line 355.
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `lmss' (encoding: TU).
 (microtype)             For optimal results, create family-specific settings.
@@ -1142,15 +1144,15 @@ File: MATH60604_Modelisation_statistique_files/figure-latex/intconf-1.pdf Graph
 ic file (type pdf)
 <use MATH60604_Modelisation_statistique_files/figure-latex/intconf-1.pdf>
 LaTeX Font Info:    Font shape `TU/heuristica(0)/m/sc' will be
-(Font)              scaled to size 10.12877pt on input line 447.
+(Font)              scaled to size 10.12877pt on input line 444.
 [13]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 5832) has occurred while \output is active []
 
 [14]
 Underfull \vbox (badness 1005) has occurred while \output is active []
 
 [15]
-Underfull \hbox (badness 1354) in paragraph at lines 489--490
+Underfull \hbox (badness 1354) in paragraph at lines 486--487
 \TU/heuristica(0)/m/n/10.95 échantillons), on peut considérer une approximation
  sous une hypothèse moins restrictive
  []
@@ -1184,20 +1186,20 @@ Chapitre 7.
 ] (./MATH60604_Modelisation_statistique.bbl [29] [30
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 522.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 519.
 [31]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 522.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 519.
 (./MATH60604_Modelisation_statistique.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 522.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 522.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 519.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 519.
  ) 
 Here is how much of TeX's memory you used:
- 21130 strings out of 479487
- 371622 string characters out of 5885553
- 836550 words of memory out of 5000000
- 38236 multiletter control sequences out of 15000+600000
- 540147 words of font info for 103 fonts, out of 8000000 for 9000
+ 21350 strings out of 479487
+ 374806 string characters out of 5885553
+ 844273 words of memory out of 5000000
+ 38451 multiletter control sequences out of 15000+600000
+ 539938 words of font info for 103 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 58i,11n,121p,1702b,505s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 58i,11n,121p,1734b,505s stack positions out of 5000i,500n,10000p,200000b,80000s
 
 Output written on MATH60604_Modelisation_statistique.pdf (31 pages).

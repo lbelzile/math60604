@@ -10,8 +10,6 @@ output:
 documentclass: book
 fontsize: 11pt
 papersize: letter
-header-includes:
-  - \usepackage[mathscr]{eucal}
 bibliography: [book.bib, packages.bib, notes60604.bib]
 biblio-style: apalike2
 link-citations: yes
@@ -42,9 +40,7 @@ Bien que les diapositives illustrent l'implémentation des techniques statistiqu
 \newcommand{\bbeta}{\boldsymbol{\beta}}
 \newcommand{\hbb}{\widehat{\boldsymbol{\beta}}}
 \newcommand{\limni}{\lim_{n \ra \infty}}
-\newcommand{\Sp}{\mathscr{S}}
-\newcommand{\Hy}{\mathscr{H}}
-\newcommand{\pr}[2][]{{\mathsf P}_{#1}\left(#2\right)}
+\newcommand{\pr}{{\mathsf Pr}{}}
 \newcommand{\E}[2][]{{\mathsf E}_{#1}\left(#2\right)}
 \newcommand{\Va}[2][]{{\mathsf{Var}_{#1}}\left(#2\right)}
 \newcommand{\I}[1]{{\mathbf 1}_{#1}}
