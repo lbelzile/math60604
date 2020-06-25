@@ -1,12 +1,15 @@
-% \usepackage{amsmath,amssymb,mathtools}
+\usepackage{mathtools}
 \usepackage{enumerate}
 \usepackage{geometry}
+\usepackage[french]{babel}
 \geometry{hmargin=1.2in}
 \usepackage[mathscr]{eucal}
+\usepackage{fontspec}
+\setmainfont[Scale=0.925]{heuristica}
+
 \DeclareMathAlphabet{\mathcrl}{U}{rsfs}{m}{n}
-\usepackage{utopia}
 \DeclareMathAlphabet{\mathcal}{OMS}{cmsy}{m}{n}
-\usepackage{booktabs}
+% \usepackage{booktabs} % already loaded
 \usepackage{amsthm}
 \makeatletter
 \def\thm@space@setup{%
@@ -14,7 +17,6 @@
   \thm@postskip=\thm@preskip
 }
 \makeatother
-
 \usepackage{framed,color}
 \definecolor{shadecolor}{RGB}{248,248,248}
 

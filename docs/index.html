@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Modélisation statistique</title>
   <meta name="description" content="Ces notes forment un complément web du cours MATH 60604 (Modélisation statistique) offert à la M.Sc. en gestion (science des données et analytique d’affaires) à HEC Montréal.." />
-  <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Modélisation statistique" />
   <meta property="og:type" content="book" />
@@ -31,6 +31,7 @@
   
 
 <link rel="next" href="intro.html"/>
+<script src="libs/header-attrs-2.3/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -48,6 +49,7 @@
 
 
 
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 
 
 
@@ -101,11 +103,10 @@
 <div id="header">
 <h1 class="title">Modélisation statistique</h1>
 </div>
-<div id="remarques" class="section level1 unnumbered">
+<div id="remarques" class="section level1 unnumbered" number="">
 <h1>Remarques</h1>
-<p>Ces notes sont l’oeuvre de Léo Belzile (HEC Montréal) et sont mis à disposition sous la <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.fr">Licence publique Creative Commons Attribution - Utilisation non commerciale - Partage dans les mêmes conditions 4.0 International</a> et ont été compilé le 16 juin 2020.</p>
+<p>Ces notes sont l’oeuvre de Léo Belzile (HEC Montréal) et sont mis à disposition sous la <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.fr">Licence publique Creative Commons Attribution - Utilisation non commerciale - Partage dans les mêmes conditions 4.0 International</a> et ont été compilé le 25 juin 2020.</p>
 <p>Bien que les diapositives illustrent l’implémentation des techniques statistiques et des modèles à l’aide de <strong>SAS</strong>, ces notes présentent le pendant <strong>R</strong>: visitez <a href="https://cran.r-project.org/">le site web du projet <strong>R</strong></a> pour télécharger le logiciel. L’interface graphique la plus populaire (et celle que je vous recommande) est <a href="https://www.rstudio.com/products/rstudio/download/">RStudio Desktop</a>.</p>
-
 
 </div>
             </section>
@@ -160,11 +161,26 @@ gitbook.start({
 "toc": {
 "collapse": "section",
 "scroll_highlight": true
-}
+},
+"split_bib": false
 });
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>
