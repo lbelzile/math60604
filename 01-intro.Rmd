@@ -9,9 +9,7 @@ Bien que sans prérequis, nous assumerons que l'étudiant(e) a une connaissance 
 - variables aléatoires et leurs lois (Bernoulli, binomiale, géométrique, Poisson, normale, Student, exponentielle, Weibull, etc.), 
 - propriétés de variables aléatoires: espérance, variance, biais, 
 - graphiques de base (histogramme, nuage de point, densité, boîte à moustache, etc.), 
-- tests d'hypothèses, puissance et erreur de type I, 
 - théorème central limite,
-- valeurs-$p$ et intervalles de confiance,
 - tests-$t$ pour un et deux échantillons et pour données appariées,
 - régression linéaire simple.
 
@@ -102,7 +100,7 @@ S^2_n &= \frac{1}{n-1} \sum_{i=1}^n (X_i-\overline{X})^2.
 
 ### Loi nulle et valeur-$p$
 
-La **valeur-$p$** nous permet de déterminer si la valeur observée de la statistique de test $T$ est plausible sous $\mathscr{H}_0$. Plus précisément, la valeur-$p$ est la probabilité que la statistique de test est égal or encore plus extrême de ce qu'on observe selon les données, en supposant que $\mathscr{H}_0$ est vraie. Suppose qu'on a un échantillon $X_1, \ldots, X_n$ et qu'on observe une valeur de la statistique de test de $T=t$. Pour un test d'hypothèse bilatéral $\mathscr{H}_0:\theta=\theta_0$ vs. $\mathscr{H}_a:\theta \neq \theta_0$, la valeur-$p$ est 
+La **valeur-$p$** nous permet de déterminer si la valeur observée de la statistique de test $T$ est plausible sous $\mathscr{H}_0$. Plus précisément, la valeur-$p$ est la probabilité que la statistique de test est égal or encore plus extrême de ce qu'on observe selon les données, en supposant que $\mathscr{H}_0$ est vraie.  Suppose qu'on a un échantillon $X_1, \ldots, X_n$ et qu'on observe une valeur de la statistique de test de $T=t$. Pour un test d'hypothèse bilatéral $\mathscr{H}_0:\theta=\theta_0$ vs. $\mathscr{H}_a:\theta \neq \theta_0$, la valeur-$p$ est 
  $\mathsf{Pr}_0(|T| \geq |t|)$, c'est-à-dire, la probabilité que $|T|$ est égal ou plus grand que ce qu'on observe, en valeur absolue, sous $\mathscr{H}_0$. Si la distribution de $T$ est symétrique autour de $0$, la valeur-$p$ vaut
 \begin{align*}
 p = 2 \times \mathsf{Pr}_0(T \geq |t|), 
@@ -116,13 +114,13 @@ suit une loi de Student-$t$ avec $n-1$ degrés de liberté. Avec cette loi nulle
 
 ### Conclusion
 
-La valeur-$p$ nous permet de faire une décision quant aux hypothèses du test. Si $\mathscr{H}_0$ est vraie, la valeur-$p$ suit une loi uniforme. Si la valeur-$p$ est petite, ça veut dire que le fait d'observer une statistique de test égal ou encore plus extrême que $t$ est peu probable, et donc nous aurons tendance de croire que $\mathscr{H}_0$ n'est pas vraie. Il y a pourtant toujours un risque sous-jacent qu'on fait un erreur quand on fait une décision. En statistique, il y a deux types d'erreurs: 
+La valeur-$p$ nous permet de faire une décision quant aux hypothèses du test. Si $\mathscr{H}_0$ est vraie, la valeur-$p$ suit une loi uniforme. [Si la valeur-$p$ est petite](https://xkcd.com/1478/), ça veut dire que le fait d'observer une statistique de test égal ou encore plus extrême que $t$ est peu probable, et donc nous aurons tendance de croire que $\mathscr{H}_0$ n'est pas vraie. Il y a pourtant toujours un risque sous-jacent de commettre un erreur quand on prend une décision. En statistique, il y a [deux types d'erreurs](https://xkcd.com/2303/): 
 
 
 - erreur de type I: on rejette $\mathscr{H}_0$ alors que $\mathscr{H}_0$ est vraie
 - erreur de type II: on ne rejette pas $\mathscr{H}_0$ alors que $\mathscr{H}_0$ est fausse
 
-Si le modèle générant les données est correct (sic), alors l'hypothèse nulle ou l'hypothèse alternative est vraie (ces deux scénarios couvrant l'univers des possibles). 
+Si le modèle générant les données est correct (sic), alors l'hypothèse nulle ou l'hypothèse alternative est vraie (ces deux scénarios couvrant l'univers des possibles). Si on fait un test d'hypothèse, il y a toujours une  possibilité de commettre une erreur judiciaire (dit erreur de Type 1, c'est-à-dire de condamner un innocent ou rejeter $\mathscr{H}_0$ alors que l'hypothèse nulle est vraie). Pour se prémunir de ce risque, on fixe préalablement un niveau de tolérance. Plus notre seuil de tolérance $\alpha$ est grand, plus on rejette souvent l'hypothèse nulle même si cette dernière est vraie. Le choix du statu quo (typiquement $\mathscr{H}_0$) s'explique plus facilement avec un exemple médical. Si vous voulez prouver qu'un nouveau traitement est meilleur que l'actuel (ou l'absence de traitement), vous devez démontrer hors de tout doute raisonnable que ce dernier ne cause pas de torts aux patients et offre une nette amélioration (pensez à Didier Raoult et ses allégations non-étayées voulant que la chloroquine, un antipaludique, soit efficace face au virus de la Covid19). 
 
 
 | Décision\\ vrai modèle | $\mathscr{H}_0$ | $\mathscr{H}_a$ |
@@ -139,9 +137,16 @@ La valeur de $\alpha \in (0, 1)$ est la probabilité qu'on rejette $\mathscr{H}_
 - si $P < \alpha$ on rejette $\mathscr{H}_0$, 
 - si $P \geq \alpha$ on ne rejette pas $\mathscr{H}_0$.
 
+Attention à ne pas confondre niveau du test (probabilité fixée au préalable par l'expérimentateur) et la valeur-$p$ (qui dépend de l'échantillon). Si vous faites un test à un niveau 5\% la
+probabilité de faire une erreur de type I est de 5\% par définition, quelque soit la
+valeur de la valeur-$p$. La valeur-$p$ s’interprète comme la probabilité d’obtenir une valeur de
+la statistique de test égale ou même plus grande que celle qu'on a observée dans l’échantillon, si $\mathscr{H}_0$ est vraie.
+
+
 ### Puissance statistique
 
-Quand on ne rejette pas $\mathscr{H}_0$ et que $\mathscr{H}_a$ est en fait vraie, on fait un erreur de type II. Dénotons par $1-\gamma$ la probabilité de faire une erreur de type II, c'est-à-dire
+Le but du test d'hypothèse est de découvrir des différences ou des effets significatifs: notre hypothèse d'intérêt est typiquement représenté par l'hypothèse alternative et on fait tout notre possible pour arriver à détecter quand cette dernière est plausible: par exemple, si une nouvelle configuration d'un site web (hypothèse alternative) permet d'augmenter les ventes par rapport au statu quo (hypothèse nulle). Notre capacité à détecter cette amélioration dépend de la puissance du test: plus cette dernière est élevée, plus grande est notre capacité à rejeter $\mathscr{H}_0$.
+Quand on ne rejette pas $\mathscr{H}_0$ et que $\mathscr{H}_a$ est en fait vraie, on commet une erreur de type II. Dénotons par $1-\gamma$ la probabilité de faire une erreur de type II, c'est-à-dire
 \begin{align*}
 \gamma = \mathsf{Pr}_a(\text{rejeter } \mathscr{H}_0)
 \end{align*}
@@ -177,8 +182,9 @@ p1 <- ggplot(region1) +
   theme_classic() + theme(legend.position = "bottom") + 
   stat_function(fun = dnorm, args = list(mean = 3, sd = 1), xlim = c(qnorm(0.975),10),
                 geom = "area", fill = "white") +
-  ylab("f(x)") + stat_function(fun = dnorm, n = 1000, args = list(mean = 0, sd = 1), xlim = c(-5,5)) + 
-  stat_function(fun = dt, n = 1000, args = list(mean = 3, sd = 1), lty = 2, xlim = c(-5,5))
+  ylab("f(x)") + 
+  stat_function(fun = dnorm, args = list(mean = 0, sd = 1), xlim = c(-5,5)) + 
+  stat_function(fun = dnorm, n = 1000, args = list(mean = 3, sd = 1), lty = 2, xlim = c(-5,5))
 p1
 ```
 
@@ -200,13 +206,19 @@ p2
 ```
 
 
-On veut qu'un test ait une puissance élevée, c'est-à-dire, on veut que $\gamma$ soit le plus près de 1 possible. Minimalement, la puissance du test devrait être $\alpha$ parce qu'on rejette l'hypothèse nulle $\alpha$\% du temps même quand cette dernière est vraie. La variabilité des données et la taille de l'écart (par exemple, une différence entre la moyenne de deux groupes)dans la population influent sur la puissance, mais nous n'avons pas de contrôle sur ces paramètres. À l'inverse, on peut augmenter la taille de l'échantillon pour augmenter la puissance: la plupart du temps, la variabilité de l'estimateur qu'on veut tester décroît à un rythme de $n^{-1/2}$. Le choix de la statistique de test influe aussi sur la puissance, mais les statistiques de test que nous choisirons sont souvent standard et parmi les plus puissantes qui soient, aussi on ne traitera pas de ce point dans le cadre de ce cours.
+On veut qu'un test ait une puissance élevée, c'est-à-dire, on veut que $\gamma$ soit le plus près de 1 possible. Minimalement, la puissance du test devrait être $\alpha$ parce qu'on rejette l'hypothèse nulle $\alpha$\% du temps même quand cette dernière est vraie. Aux fins de démonstration, il faut amasser suffisamment de preuves: la puissance, qui correspond à notre habileté à détecter quand $\mathscr{H}_0$ est fausse, dépend de plusieurs critères, à savoir:
 
-Pour calculer la puissance d'un test, il faut choisir une alternative spécifique: par exemple, si on utilise un test-$t$ pour un échantillon, la statistique $T=\sqrt{n}(\overline{X}-\mu_0)/S_n \sim \mathcal{T}_{n-1}$. Si la vraie moyenne est $\Delta + \mu_0$, alors la loi alternative est Student-$t$, mais non-centrée. Règle général, on détermine la puissance en simulant des observations d'une alternative donnée et en calculant la proportion de tests qui mènent au rejet de l'hypothèse nulle.
+- la taille de l'effet: plus la différence est grande entre la valeur du paramètre postulé $\theta_0$ sous $\mathscr{H}_0$ et le comportement observé, plus il est facile de le détecter (voir Figure \@ref(fig:puissance3));
+- la variabilité: moins les observations sont variables, plus il est facile de déterminer que la différence observée est significative (les grandes différences sont alors moins plausibles, comme l'illustre la Figure \@ref(fig:puissance2));
+- la taille de l'échantillon: plus on a d'observations, plus notre capacité à détecter une différence significative augmente parce que l'erreur-type décroît avec la taille de l'échantillon à un rythme (ordinairement) de $n^{-1/2}$. La loi nulle devient aussi plus concentrée quand la taille de l'échantillon augmente.
+
+Le choix de la statistique de test influe aussi sur la puissance, mais les statistiques de test que nous choisirons sont souvent standards et parmi les plus puissantes qui soient, aussi on ne traitera pas de ce point dans le cadre de ce cours.
+
+Pour calculer la puissance d'un test, il faut choisir une alternative spécifique: par exemple, si on utilise un test-$t$ pour un échantillon, la statistique $T=\sqrt{n}(\overline{X}-\mu_0)/S_n \sim \mathcal{T}_{n-1}$. Si la vraie moyenne est $\Delta + \mu_0$, alors la loi alternative est Student-$t$, mais non-centrée avec paramètre de décalage $\Delta$. Règle générale, on détermine la puissance à l'aide d'un estimateur Monte-Carlo en simulant des observations d'une alternative donnée, en calculant la statistique de test et la valeur-$p$ associée de façon répétée. On calcule par la suite la proportion de tests qui mènent au rejet de l'hypothèse nulle à niveau $\alpha$, ce qui correspond au pourcentage de valeurs-$p$ inférieures à $\alpha$.
 
 ### Intervalle de confiance
 
-Un **intervalle de confiance** est une manière alternative de rapporter les conclusions d'un test, en ce sent qu'on fournit une estimation ponctuelle de $\hat{\theta}$ avec une marge d'erreur. L'intervalle de confiance donne donc une indication de la variabilité de la procédure d'estimation. Un intervalle de confiance de Wald à $(1-\alpha)$ pour un paramètre $\theta$ est de la forme
+Un **intervalle de confiance** est une manière alternative de rapporter les conclusions d'un test, en ce sens qu'on fournit une estimation ponctuelle de $\hat{\theta}$ avec une marge d'erreur. L'intervalle de confiance donne donc une indication de la variabilité de la procédure d'estimation. Un intervalle de confiance de Wald à $(1-\alpha)$ pour un paramètre $\theta$ est de la forme
 \begin{align*}
 \widehat{\theta} \pm \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta})
 \end{align*}
@@ -214,7 +226,7 @@ où $\mathfrak{q}_{\alpha/2}$ est le quantile d'ordre $1-\alpha/2$ de la loi nul
 \begin{align*}
 T =\frac{\widehat{\theta}-\theta}{\mathrm{se}(\widehat{\theta})}
 \end{align*}
-et $\theta$ représente la valeur du paramètre $\theta$ (supposé fixe, mais inconnu) de la population. Les bornes de l'intervalle de confiance sont aléatoires puisque $\widehat{\theta}$ et $\mathrm{se}(\widehat{\theta})$ sont des variable aléatoires: leurs valeurs dépend sur l'échantillon et donc varient d'un échantillon à un autre. 
+et $\theta$ représente la valeur du paramètre $\theta$ (supposé fixe, mais inconnu) de la population. Les bornes de l'intervalle de confiance sont aléatoires puisque $\widehat{\theta}$ et $\mathrm{se}(\widehat{\theta})$ sont des variable aléatoires: leurs valeurs observées changent d'un échantillon à un autre. 
 
 Par exemple, pour un échantillon aléatoire $X_1, \ldots, X_n$ provenant d'une loi normale $\mathsf{No}(\mu, \sigma)$, l'intervalle de confiance à $(1-\alpha)$ pour la moyenne (dans la population) $\mu$ est
 \begin{align*}
@@ -222,25 +234,29 @@ Par exemple, pour un échantillon aléatoire $X_1, \ldots, X_n$ provenant d'une 
 \end{align*}
 où $t_{n-1, \alpha/2}$ est le quantile d'ordre $1-\alpha/2$ de la loi Student-$t$ avec $n-1$ degrés de libertés. 
 
-Avant qu'on calcule l'intervalle de confiance, il y a une probabilité de $1-\alpha$ que $\theta$ soit contenu dans l'intervalle **aléatoire** symmétrique $(\widehat{\theta} - \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta}), \widehat{\theta} + \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta}))$. Une fois qu'on a un échantillon et qu'on calcule les bornes de l'intervalle de confiance, il n'y a plus de notion de probabilité. La vraie valeur du paramètre $\theta$ est soit contenue dans l'intervalle de confiance, soit pas. La seule interprétation de l'intervalle de confiance qui soit valable alors est la suivante: si on répète l'expérience plusieurs fois et qu'à chaque fois on calcule un intervalle de confiance à $1-\alpha$, alors $1-\alpha$ de ces intervalles devraient contenir la vraie valeur de $\theta$ (de la même manière, si vous lancez une pièce de monnaie équilibrée, vous devriez obtenir une fréquence de 50\% de pile et 50\% de face, mais chaque lancer donnera un ou l'autre de ces choix).
+Avant qu'on calcule l'intervalle de confiance, il y a une probabilité de $1-\alpha$ que $\theta$ soit contenu dans l'intervalle **aléatoire** symmétrique $(\widehat{\theta} - \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta}), \widehat{\theta} + \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta}))$. Une fois qu'on a un échantillon et qu'on calcule les bornes de l'intervalle de confiance, il n'y a plus de notion de probabilité. La vraie valeur du paramètre $\theta$ (inconnue) est soit contenue dans l'intervalle de confiance, soit pas. La seule interprétation de l'intervalle de confiance qui soit valable alors est la suivante: si on répète l'expérience plusieurs fois et qu'à chaque fois on calcule un intervalle de confiance à $1-\alpha$, alors $(1-\alpha)$\% de ces intervalles devraient contenir la vraie valeur de $\theta$ (de la même manière, si vous lancez une pièce de monnaie équilibrée, vous devriez obtenir grosso modo une fréquence de 50\% de pile et 50\% de face, mais chaque lancer donnera un ou l'autre de ces choix).
 
 ```{r intconf, eval= TRUE, echo = FALSE, cache = TRUE, fig.width = 8, fig.height = 5, fig.cap = "Intervalles de confiance à 95\\% pour la moyenne d'une population normale $\\mathsf{No}(0,1)$ pour 100 échantillons aléatoires. En moyenne, 5\\% de ces intervalles (en rouge) n'incluent pas la vraie valeur de la moyenne de zéro."}
+
+set.seed(1234)
 interv <- t(sapply(1:100, function(i){t.test(rnorm(1000), mu=0)$conf.int}))
 # interv <- interv[order(interv[,1]),]
 par(mar = c(4,1,0.1,0.1))
-plot(NA, xlim = c(-0.2,0.2), ylim = c(1,100), ylab = "", xlab = "", type = "n", yaxt = "n", bty = "n")
+plot(NA, xlim = c(-0.2,0.2), ylim = c(1,100), ylab = "", 
+     xlab = "", type = "n", yaxt = "n", bty = "n")
 for(i in 1:100){
-   segments(y0 = i, x0 = interv[i,1], x1 = interv[i,2], col = ifelse(all(interv[i,1] < 0, interv[i,2] > 0), 1,2))
+   segments(y0 = i, x0 = interv[i,1], x1 = interv[i,2], 
+            col = ifelse(all(interv[i,1] < 0, interv[i,2] > 0), 1,2), lwd = 2)
 }
 abline(v = 0, col = "white", lwd= 2)
 ```
 
-L'intervalle de confiance peut être considéré comme le pendant du test d'hypothèse. À niveau $\alpha$, on ne rejetterait aucune des valeurs contenues dans l'intervalle de confiance de niveau $1-\alpha$. Si la valeur-$p$ est inférieure à $\alpha$, la valeur postulée pour $\theta$ est donc hors intervalle. La valeur-$p$ ne donne la probabilité que pour une valeur postulée, mais permet de quantifier à quel point le résultat est extrême. 
+Si on s'intéresse seulement à la décision rejeter/ne pas rejeter $\mathscr{H}_0$, l'intervalle de confiance est équivalent à la valeur-$p$ en ce sens qu'il mène à la même décision. L'intervalle de confiance donne en revanche l'ensemble des valeurs pour lesquelles la statistique de test ne fournit pas assez de preuves pour rejeter $\mathscr{H}_0$: pour un test à niveau $\alpha$, on ne rejetterait aucune des valeurs contenues dans l'intervalle de confiance de niveau $1-\alpha$. Si la valeur-$p$ est inférieure à $\alpha$, la valeur postulée pour $\theta$ est donc hors de l'intervalle de confiance calculé. À l'inverse, la valeur-$p$ ne donne la probabilité d'obtenir un résultat aussi extrême sous l'hypothèse nulle que pour une seule valeur numérique, mais permet de quantifier  précisément à quel point le résultat est extrême. 
 
 
 ### Exemple: achat en ligne de milléniaux
 
-Supposons qu'un chercheur veut faire une étude sur l'évolution des ventes en ligne au Canada. Elle postule que la génération Y (les milléniaux) font plus d'achats en ligne que les générations antérieures. Pour répondre à cette question, un sondage est envoyé à un échantillon aléatoire de $n=500$ individus représentatif de la population avec 160 milléniaux et 340 personnes plus âgées issues des générations X et des baby-boomers. La variable `depenses` mesure le montant d'achat effectués en ligne dans le mois dernier (en dollars).
+Supposons qu'un chercheur veut faire une étude sur l'évolution des ventes en ligne au Canada. Elle postule que les membres de la génération Y fait plus d'achats en ligne que ceux des générations antérieures. Pour répondre à cette question, un sondage est envoyé à un échantillon aléatoire de $n=500$ individus représentatif de la population avec 160 membres de la génération Y et 340 personnes plus âgées. La variable réponse est le montant d'achat effectués en ligne dans le mois dernier (en dollars).
 
 ```{r generate_sales, echo = FALSE}
 set.seed(20200623)
@@ -250,38 +266,68 @@ enligne <- data.frame(depenses = round(c(rexp(n=160, rate = 1/72),
 Welch_test <- t.test(depenses~id, data = enligne, alternative = "less")
 ```
 
-On pourrait simplement considérer la différence entre le montant moyen des Y et celui des autres générations; on standardise par l'écart-type de l'échantillon pour obtenir une valeur sans unité de mesure. La différence de moyenne observée dans l'échantillon est de `r round(as.numeric(diff(Welch_test$estimate)), 2)` dollars et donc les milléniaux ont dépensé davantage. En revanche, notre échantillon est aléatoire et le montant d'achat en ligne d'un individu à l'autre (et d'un mois à l'autre) est variable.
+Dans cet exemple, on s'intéresse à la différence entre le montant moyen des Y et celui des générations antérieures: la différence de moyenne observée dans l'échantillon est de `r round(as.numeric(diff(Welch_test$estimate)), 2)` dollars et donc les milléniaux ont dépensé davantage. En revanche, notre échantillon est aléatoire et le montant d'achat en ligne varie d'un individu à l'autre (et d'un mois à l'autre): ce n'est donc pas suffisant pour dire que la différence est significative. 
 
+La première étape de notre analyse consiste à définir les quantités d'intérêt et à formuler nos hypothèse en fonction de paramètres du modèle; il convient également de définir ces derniers en fonction des variables en présence dans l'exemple. Ici, on considère un test pour la différence de moyenne dans les populations postulées $\mu_1$ (pour la génération Y) et $\mu_2$ (pour les générations antérieures) d'écart-type respectif $\sigma_1$ et $\sigma_2$. Comment déterminer quelle hypothèse on considère? Comme statisticien, on se fait l'avocat du Diable: l'hypothèse d'intérêt du chercheur est l'hypothèse alternative et ici, $\mathscr{H}_a: \mu_1 > \mu_2$, où $\mu_1$ représente la moyenne des achats mensuels des milléniaux. L'hypothèse nulle comprend toutes les autres valeurs pour la différence de moyenne, soit $\mathscr{H}_0: \mu_1 \leq \mu_2$. Il suffit néanmoins de considérer le cas $\mu_1=\mu_2$ (pourquoi?) 
 
-La première étape de notre analyse consiste à définir les quantités d'intérêt et à formuler nos hypothèse en fonction de paramètres du modèle; il convient également de définir ces derniers. Dans cet exemple, on considère un test pour la différence de moyenne dans les populations postulées $\mu_1$ (pour la génération Y) et $\mu_2$ (pour les générations antérieures) d'écart-type respectif $\sigma_1$ et $\sigma_2$. Comment déterminer quelle hypothèse on considère? Comme statisticien, on se fait l'avocat du Diable: l'hypothèse d'intérêt du chercheur est l'hypothèse alternative et ici, $\mathscr{H}_a: \mu_1 > \mu_2$, où $\mu_1$ représente la moyenne des achats mensuels des milléniaux. L'hypothèse nulle en toutes les autres valeurs, soit $\mathscr{H}_0: \mu_1 \leq \mu_2$, mais il suffit de considérer le cas $\mu_1=\mu_2$ (pourquoi?). S'il n'y a aucune différence de moyenne entre les groupes, alors $\overline{X}_1-\overline{X}_2$ a moyenne zéro; la différence de moyenne a une variance de $\sigma^2_1/n_1+\sigma^2_2/n_2$. Il y a toujours possibilité de commettre une erreur judiciaire (dit erreur de Type 1, c'est-à-dire de condamner un innocent ou rejeter $\mathscr{H}_0$ alors que l'hypothèse nulle est vraie). Pour se prémunir de ce risque, on fixe préalablement un niveau de tolérance. On effectuera le test à niveau $\alpha=0.05$; cela veut dire que, si $\mathscr{H}_0$ est vraie, on commettra une erreur de type I en moyenne cinq fois sur 100. Plus on choisit un $\alpha$ petit, moins on arrivera à détecter quand l'hypothèse nulle est fausse (rappelez-vous que nous sommes intéressés à démontrer que l'hypothèse alternative). 
-
-
-La deuxième étape consiste à choisir une statistique de test. Ici, on considère la statistique de Welch (@Welch:1947) pour une différence de moyenne entre deux échantillons:
+La deuxième étape consiste à choisir une statistique de test. S'il n'y a aucune différence de moyenne entre les groupes, alors $\overline{X}_1-\overline{X}_2$ a moyenne zéro et la différence de moyenne a une variance de $\sigma^2_1/n_1+\sigma^2_2/n_2$. Ici, on considère la statistique de @Welch:1947 pour une différence de moyenne entre deux échantillons:
 \begin{align*}
-T = \frac{\overline{X}_1 - \overline{X}_2}{\left(\frac{S_1^2}{n_1}+\frac{S_2^2}{n_2} \right)^{1/2}}, 
-\end{align*}
-où $\overline{X}_i$ est la moyenne empirique dans l'échantillon $i$ ($i=1, 2$) et $S_i^2$ est la variance empirique et $n_i$ la taille de l'échantillon du groupe $i$. La statistique est utilisée pour calculer la différence de moyennes de deux échantillons de variance potentiellement différente. La valeur de la statistique dans l'échantillon est `r round(-Welch_test$statistic, 2)`, mais on obtiendrait une valeur différente avec un autre échantillon. Il convient donc de déterminer si cette valeur est compatible avec notre hypothèse nulle en la comparant à la loi nulle sous $\mathscr{H}_0$ de $T$.
+T = \frac{\overline{X}_1 - \overline{X}_2}{\left(\frac{S_1^2}{n_1}+\frac{S_2^2}{n_2} \right)^{1/2}}, \end{align*}
+où $\overline{X}_i$ est la moyenne empirique dans l'échantillon $i$ ($i=1, 2$) et $S_i^2$ est la variance empirique et $n_i$ la taille de l'échantillon du groupe $i$. La statistique est utilisée pour calculer la différence de moyennes de deux échantillons de variance potentiellement différente. La valeur de la statistique dans l'échantillon est $T=`r round(-Welch_test$statistic, 2)`$, mais on obtiendrait une valeur différente avec un autre échantillon. Il convient donc de déterminer si cette valeur est compatible avec notre hypothèse nulle en la comparant à la loi nulle sous $\mathscr{H}_0$ de $T$. On effectuera le test à niveau $\alpha=0.05$.
 
-La troisième étape est l'obtention d'un étalon de mesure pour déterminer si notre résultat est extrême ou inattendu. Vous remarquerez que la statistique de Welch a moyenne zéro et variance un sous l'hypothèse nulle que $\mu_1=\mu_2$: standardiser une statistique permet d'obtenir un objet dont on connaît le comportement pour de grands échantillons. 
-Asymptotiquement, $T$ suit une loi normale $\mathsf{No}(0, 1)$, mais il existe une meilleure approximation pour $n$ petit; on compare le comportement de $T$ à l'aide d'une loi de Student (approximation de @Satterthwaite:1946). 
 
-La dernière étape consiste à obtenir une valeur-$p$, soit la probabilité d'observer un résultat aussi extrême sous $\mathscr{H}_0$: l'avantage de la valeur-$p$ est que cette valeur est une probabilité (dans $[0, 1]$) et qu'elle suit une loi uniforme sous $\mathscr{H}_0$. Puisque nous avons une hypothèse alternative unilatérale, on regarde la probabilité sous $\mathscr{H}_0$ que $\mathsf{Pr}(T > t)$. Cette $p$-valeur vaut $P=`r round(Welch_test$p.value, 3)`$ et donc, à niveau 5\%, on rejette l'hypothèse nulle pour conclure que la génération Y dépense davantage en ligne que les générations antérieures.
+La troisième étape est l'obtention d'un étalon de mesure pour déterminer si notre résultat est extrême ou inattendu. Vous remarquerez que la statistique de Welch a moyenne zéro et variance un sous l'hypothèse nulle que $\mu_1=\mu_2$: standardiser une statistique permet d'obtenir un objet dont on connaît le comportement pour de grands échantillons et obtenir une quantité sans unité de mesure. La dérivation de la loi nulle est hors objectifs du cours, aussi cette dernière vous sera donnée dans tous les cas qu'on considère. Asymptotiquement, $T$ suit une loi normale $\mathsf{No}(0, 1)$, mais il existe une meilleure approximation pour $n$ petit; on compare le comportement de $T$ à l'aide d'une loi de Student (à l'aide de l'approximation de @Satterthwaite:1946). 
 
-Le choix du statu quo (typiquement $\mathscr{H}_0$) s'explique plus facilement avec un exemple médical. Si vous voulez prouver qu'un nouveau traitement est meilleur que l'actuel (ou l'absence de traitement), vous devez démontrer hors de tout doute raisonnable que ce dernier ne cause pas de torts aux patients et offre une nette amélioration (pensez à Didier Raoult et ses allégations non-étayées voulant que la chloroquine, un antipaludique, soit efficace face au virus de la Covid19). Aux fins de démonstration, il faut amasser suffisamment de preuves: la puissance, qui correspond à notre habileté à détecter quand $\mathscr{H}_0$ est fausse, dépend de plusieurs critères, à savoir:
+La dernière étape consiste à obtenir une valeur-$p$, soit la probabilité d'observer un résultat aussi extrême sous $\mathscr{H}_0$: l'avantage de la valeur-$p$ est que cette valeur est une probabilité (dans $[0, 1]$) et qu'elle suit une loi uniforme sous $\mathscr{H}_0$. Puisque nous avons une hypothèse alternative unilatérale, on regarde la probabilité sous $\mathscr{H}_0$ que $\mathsf{Pr}(T > t)$. La $p$-valeur vaut $`r format(Welch_test$p.value, digits=2)`$ et donc, à niveau 5\%, on rejette l'hypothèse nulle pour conclure que la génération Y dépense davantage en ligne que les générations antérieures.
 
-- la taille de l'effet: plus la différence est grande entre $\mathscr{H}_0$ et le comportement observé, plus il est facile de la détecter;
-- la variabilité: moins celle-ci est grande, plus il est facile de déterminer que la différence observée est significative;
-- la taille de l'échantillon: plus on a d'observations, plus notre capacité à détecter quelque chose augmente.
- 
 
 ### Exemple: prix de billets de trains
+f
+La compagnie nationale de chemin de fer [Renfe](https://www.renfe.com/) gère les trains régionaux et les trains à haute vitesse dans toute l'Espagne. Les prix des billets vendus par Renfe sont [aggrégés](https://www.kaggle.com/thegurusteam/spanish-high-speed-rail-system-ticket-pricing) par une compagnie. On s'intéresse ici à une seule ligne, Madrid--Barcelone. Notre question scientifique est la suivante: est-ce que le prix des billets pour un aller (une direction) est plus chère pour un retour? Pour ce faire, on considère un échantillon de 10000 billets entre les deux plus grandes villes espagnoles. On s'intéresse au billets de TGV vendus (AVE) au tarif Promotionnel. Notre statistique de test sera simplement la différence de moyenne entre les deux échantillons: la différence entre le prix en euros d'un train Madrid--Barcelone ($\mu_1$) et le prix d'un billet Barcelone--Madrid ($\mu_2$) est $\mu_1-\mu_2$ et notre hypothèse nulle est qu'il n'y a aucune différence de prix, soit $\mathscr{H}_0: \mu_1-\mu_2=0$. Graphiquement, il n'y a pas de différence discernable entre les boîtes à moustaches de la Figure \@ref(fig:renfetest), mais un test statistique permettrait de vérifier cette affirmation.
 
-La compagnie nationale de chemin de fer [Renfe](https://www.renfe.com/) gère les trains régionaux et les trains à haute vitesse dans toute l'Espagne. Les prix des billets venus sont disponibles en ligne. On s'intéresse ici à une seule ligne, Madrid--Barcelone. Notre question scientifique est la suivante: est-ce que le prix des billets pour un aller (une direction) est plus chère pour un retour? Pour ce faire, on considère uniquement un échantillon de billets au tarif Promotionnel pour des trains AVE. Notre statistique de test sera simplement la différence de moyenne entre les deux échantillons: la différence entre le prix en euros d'un train Madrid--Barcelone ($\mu_1$) et le prix d'un billet Barcelone--Madrid ($\mu_2$) est $\mu_1-\mu_2$ et notre hypothèse nulle est qu'il n'y a aucune différence de prix, soit $\mathscr{H}_0: \mu_1-\mu_2=0$.
+```{r renfetest, fig.cap="Boîtes à moustache des prix de billets de trains à haute vitesse au tarif promotionnel de la Renfe, selon la destination.", fig.width = 6, fit.height = 5}
+# Charger les données format SAS
+url <- "https://lbelzile.bitbucket.io/MATH60619A/renfe.sas7bdat"
+renfe <- haven::read_sas(url)
+# Sélectionner les données au tarif préférentiel et les colonnes prix et destination
+donnees <- renfe[renfe$fare == "Promo", c("price","dest")]
+donnees$dest <- factor(donnees$dest, labels = c("Barcelone-Madrid","Madrid-Barcelone"))
+# Bibliothèque graphique
+library(ggplot2)
+# Boîte à moustache par destination, avec moyenne (triangle)
+ggplot(data = donnees, aes(y = price, x = dest, col = dest)) + 
+  geom_boxplot() +
+  xlab("destination") + 
+  ylab("prix (en euros)") + 
+  theme(legend.position = "none")
+# Test-t et différence de moyenne
+ttest <- t.test(price~dest, data = donnees)
+ttest #imprimer le résultat
+```
 
-Plutôt que d'utiliser la loi asymptotique (due au théorème central limite et valide pour de grands échantillons), on peut considérer une approximation sous une hypothèse moins restrictive d'échangeabilité des données. Le [test de permutation](https://www.jwilber.me/permutationtest/) consiste à permuter les observations. S'il n'y a aucune différence entre deux groupes, on peut permuter les étiquettes et recréer deux groupes de taille identique à notre échantillon original. On recalcule la statistique de test sur ces nouvelle données (pour toutes les permutations possible, mais typiquement pour un nombre aléatoire suffisamment grand): si la valeur de notre statistique observée sur l'échantillon original est extrême, c'est autant de preuve contre l'hypothèse nulle.
+Plutôt que d'utiliser la loi asymptotique (qui est valide pour de grands échantillons à cause du théorème central limite), on peut considérer une approximation sous une hypothèse moins restrictive en supposant que les données sont échangeables. Sous l'hypothèse nulle, il n'y aucune différence entre les deux destinations et les étiquettes pour la destination (une variable catégorielle binaire) sont arbitraires. On pourrait considérer les mêmes données, mais avec une permutation des variables explicatives: c'est ce qu'on appelle un [test de permutation](https://www.jwilber.me/permutationtest/). On va recréer deux groupes de taille identique à notre échantillon original, mais en changeant les observations. On recalcule la statistique de test sur ces nouvelle données (si on a une poignée d'observations, il est possible de lister toutes les permutations possibles; typiquement, il suffit de considérer un grand nombre de telles permutations, disons 10000). Pour chaque nouveau jeu de données, on calculera la statistique de test et on calculera le rang de notre statistique par rapport à cette référence. Si la valeur de notre statistique observée sur l'échantillon original est extrême en comparaison, c'est autant de preuves contre l'hypothèse nulle.
  
- 
- 
+```{r renfepermut, cache = TRUE, fig.cap="Approximations par permutation de la loi nulle de la statistique de test de Welch (histogramme et trait noir) et loi asymptotique normale standard (trait bleu) pour le prix de billets de trains AVE au tarif promotionnel entre Madrid et Barcelone. La valeur de la statistique de test de l'échantillon original est représentée par un trait vertical.", fig.width = 6, fit.height = 5}
+# Valeur-p par permutation
+n <- nrow(donnees)
+B <- 1e4
+ttest_stats <- numeric(B) 
+ttest_stats[1] <- ttest$statistic
+set.seed(20200608) # germe pour nombres pseudo-aléatoires
+for(i in 2:B){
+  # Recalculer la statistique de test, mais permuter les étiquettes
+  ttest_stats[i] <- t.test(price ~ dest[sample.int(n = n)], data = donnees)$statistic
+}
+# Tracer un graphique de la distribution empirique obtenue par permutation
+ggplot(data = data.frame(statistique = ttest_stats), aes(x=statistique)) +
+  geom_histogram(bins = 30, aes(x=statistique, y=..density..), alpha = 0.2) + 
+  geom_density() + 
+  geom_vline(xintercept = ttest_stats[1]) + 
+  ylab("densité") + 
+  stat_function(fun = dnorm, col = "blue")
+```
+
+La valeur-$p$ du test de permutation, $`r mean(abs(ttest_stats)> abs(ttest_stats[1]))`$, est la proportion de statistiques plus extrêmes que celle observée. Cette valeur-$p$ est quasi-identique à celle de l'approximation de Satterthwaite, à savoir $`r ttest$p.value`$ (la loi Student-$t$ est numériquement équivalente à une loi standard normale avec autant de degrés de liberté), tel que représenté dans la Figure \@ref(fig:renfepermut). Malgré que notre échantillon soit très grand, avec $n=`r n`$ observations, la différence n'est pas jugée significative. Avec un échantillon de deux millions de billets, on pourrait estimer précisément la moyenne (au centime près): la différence de prix entre les deux destinations et cette dernière deviendrait statistiquement significative. Elle n'est pas en revanche pertinente (une différence de $0.28$ euros sur un prix moyen de $82.56$ euros est quantité négligeable).
 
 
 ## Analyse exploratoire de données
