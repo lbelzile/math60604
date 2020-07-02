@@ -188,7 +188,7 @@
 \chapter*{Remarques}\label{remarques}}
 \addcontentsline{toc}{chapter}{Remarques}
 
-Ces notes sont l'oeuvre de Léo Belzile (HEC Montréal) et sont mis à disposition sous la \href{https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.fr}{Licence publique Creative Commons Attribution - Utilisation non commerciale - Partage dans les mêmes conditions 4.0 International} et ont été compilé le 25 juin 2020.
+Ces notes sont l'oeuvre de Léo Belzile (HEC Montréal) et sont mis à disposition sous la \href{https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.fr}{Licence publique Creative Commons Attribution - Utilisation non commerciale - Partage dans les mêmes conditions 4.0 International} et ont été compilé le 01 juillet 2020.
 
 Bien que les diapositives illustrent l'implémentation des techniques statistiques et des modèles à l'aide de \textbf{SAS}, ces notes présentent le pendant \textbf{R}: visitez \href{https://cran.r-project.org/}{le site web du projet \textbf{R}} pour télécharger le logiciel. L'interface graphique la plus populaire (et celle que je vous recommande) est \href{https://www.rstudio.com/products/rstudio/download/}{RStudio Desktop}.
 
@@ -259,6 +259,8 @@ Plusieurs exemples seront traités dans le cours:
 \tightlist
 \item
   Est-ce qu'il y a de la discrimination salariale envers les femmes professeurs d'un collège américain?
+\item
+  Études supérieures: \href{https://www.theglobeandmail.com/report-on-business/is-the-university-experience-worth-the-cost/article31703109/}{est-ce que le prix en vaut la chandelle?}.
 \item
   Quels sont les critères médicaux qui impactent les primes d'assurance maladies?
 \item
@@ -412,7 +414,38 @@ Quand on ne rejette pas \(\mathscr{H}_0\) et que \(\mathscr{H}_a\) est en fait v
 \begin{align*}
 \gamma = \mathsf{Pr}_a(\text{rejeter } \mathscr{H}_0)
 \end{align*}
-La \textbf{puissance statistique} d'un test est la probabilité que le test rejette \(\mathscr{H}_0\) alors que \(\mathscr{H}_0\) est fausse, soit \(\gamma\). On veut qu'un test ait une puissance élevée, c'est-à-dire, on veut que \(\gamma\) soit le plus près de 1 possible. Minimalement, la puissance du test devrait être \(\alpha\) parce qu'on rejette \(\alpha\) pourcent du temps même quand l'hypothèse nulle est vraie. La variabilité des données et la taille de l'écart réel dans la population influent sur la puissance, mais nous n'avons pas de contrôle sur ces paramètres. À l'inverse, on peut augmenter la taille de l'échantillon pour augmenter la puissance. Le choix de la statistique de test influe aussi sur la puissance, mais les statistiques de test que nous choisirons sont souvent standard et parmi les plus puissantes qui soient, aussi on ne traitera pas de ce point dans le cadre de ce cours.
+La \textbf{puissance statistique} d'un test est la probabilité que le test rejette \(\mathscr{H}_0\) alors que \(\mathscr{H}_0\) est fausse, soit \(\gamma\). Selon le choix de l'alternative, il est plus ou moins facile de rejeter l'hypothèse nulle en faveur de l'alternative.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604_Modelisation_statistique_files/figure-latex/puissance1-1} 
+
+}
+
+\caption{Comparaison de la loi nulle (ligne pleine) et d'une alternative spécifique pour un test-$t$ (ligne traitillée). La puissance correspond à l'aire sous la courbe de la densité de la loi alternative qui est dans la zone de rejet du test (en blanc).}\label{fig:puissance1}
+\end{figure}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604_Modelisation_statistique_files/figure-latex/puissance2-1} 
+
+}
+
+\caption{Augmentation de la puissance suite à une augmentation de la différence de moyenne sous l'hypothèse alternative. La puissance est l'aire sous la courbe (blanc) de la loi alternative (ligne traitillée); cette dernière est plus décalée vers la droite par rapport à la loi nulle postulée (ligne pleine).}\label{fig:puissance2}
+\end{figure}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604_Modelisation_statistique_files/figure-latex/puissance3-1} 
+
+}
+
+\caption{Augmentation de la puissance suite à une augmentation de la taille de l'échantillon ou une diminution de l'écart-type de la population: la loi nulle (ligne pleine) est plus concentrée et la taille de la région de rejet diminue. La puissance est l'aire sous la courbe (blanc) de la loi alternative (ligne traitillée). Règle générale, la loi nulle change selon la taille de l'échantillon.}\label{fig:puissance3}
+\end{figure}
+
+On veut qu'un test ait une puissance élevée, c'est-à-dire, on veut que \(\gamma\) soit le plus près de 1 possible. Minimalement, la puissance du test devrait être \(\alpha\) parce qu'on rejette l'hypothèse nulle \(\alpha\)\% du temps même quand cette dernière est vraie. La variabilité des données et la taille de l'écart (par exemple, une différence entre la moyenne de deux groupes)dans la population influent sur la puissance, mais nous n'avons pas de contrôle sur ces paramètres. À l'inverse, on peut augmenter la taille de l'échantillon pour augmenter la puissance: la plupart du temps, la variabilité de l'estimateur qu'on veut tester décroît à un rythme de \(n^{-1/2}\). Le choix de la statistique de test influe aussi sur la puissance, mais les statistiques de test que nous choisirons sont souvent standard et parmi les plus puissantes qui soient, aussi on ne traitera pas de ce point dans le cadre de ce cours.
+
+Pour calculer la puissance d'un test, il faut choisir une alternative spécifique: par exemple, si on utilise un test-\(t\) pour un échantillon, la statistique \(T=\sqrt{n}(\overline{X}-\mu_0)/S_n \sim \mathcal{T}_{n-1}\). Si la vraie moyenne est \(\Delta + \mu_0\), alors la loi alternative est Student-\(t\), mais non-centrée. Règle général, on détermine la puissance en simulant des observations d'une alternative donnée et en calculant la proportion de tests qui mènent au rejet de l'hypothèse nulle.
 
 \hypertarget{intervalle-de-confiance}{%
 \subsection{Intervalle de confiance}\label{intervalle-de-confiance}}
@@ -441,7 +474,7 @@ Avant qu'on calcule l'intervalle de confiance, il y a une probabilité de \(1-\a
 
 }
 
-\caption{Intervalles de confiance à 95\% pour la moyenne d'une population normale $\mathsf{No}(0,1)$. Environ 95 de ces 100 intervalles devraient inclure zéro.}\label{fig:intconf}
+\caption{Intervalles de confiance à 95\% pour la moyenne d'une population normale $\mathsf{No}(0,1)$ pour 100 échantillons aléatoires. En moyenne, 5\% de ces intervalles (en rouge) n'incluent pas la vraie valeur de la moyenne de zéro.}\label{fig:intconf}
 \end{figure}
 
 L'intervalle de confiance peut être considéré comme le pendant du test d'hypothèse. À niveau \(\alpha\), on ne rejetterait aucune des valeurs contenues dans l'intervalle de confiance de niveau \(1-\alpha\). Si la valeur-\(p\) est inférieure à \(\alpha\), la valeur postulée pour \(\theta\) est donc hors intervalle. La valeur-\(p\) ne donne la probabilité que pour une valeur postulée, mais permet de quantifier à quel point le résultat est extrême.

@@ -29,6 +29,7 @@ Ce chapitre porte sur deux concepts fondamentaux pour la modélisation, à savoi
 Plusieurs exemples seront traités dans le cours:
 
 - Est-ce qu'il y a de la discrimination salariale envers les femmes professeurs d'un collège américain?
+- Études supérieures: [est-ce que le prix en vaut la chandelle?](https://www.theglobeandmail.com/report-on-business/is-the-university-experience-worth-the-cost/article31703109/).
 - Quels sont les critères médicaux qui impactent les primes d'assurance maladies?
 - Qu'est-ce qui explique que les prix de l'essence soient plus élevés en Gaspésie qu'ailleurs au Québec? [Un rapport de surveillance des prix de l'essence en Gaspésie par la Régie de l'énergie se penche sur la question.](http://www.regie-energie.qc.ca/energie/rapports/Rapport_PrixGasp%C3%A9sie_20191219.pdf)
 - Est-ce que les examens pratiques de conduite sont plus faciles en régions en Grande-Bretagne? [Une analyse du journal britannique _The Guardian_ ](https://www.theguardian.com/world/2019/aug/23/an-easy-ride-scottish-village-fuels-debate-driving-test-pass-rates) laisse penser que c'est le cas.
@@ -144,7 +145,64 @@ Quand on ne rejette pas $\mathscr{H}_0$ et que $\mathscr{H}_a$ est en fait vraie
 \begin{align*}
 \gamma = \mathsf{Pr}_a(\text{rejeter } \mathscr{H}_0)
 \end{align*}
-La **puissance statistique** d'un test est la probabilité que le test rejette $\mathscr{H}_0$ alors que $\mathscr{H}_0$ est fausse, soit $\gamma$. On veut qu'un test ait une puissance élevée, c'est-à-dire, on veut que $\gamma$ soit le plus près de 1 possible. Minimalement, la puissance du test devrait être $\alpha$ parce qu'on rejette $\alpha$ pourcent du temps même quand l'hypothèse nulle est vraie. La variabilité des données et la taille de l'écart réel dans la population influent sur la puissance, mais nous n'avons pas de contrôle sur ces paramètres. À l'inverse, on peut augmenter la taille de l'échantillon pour augmenter la puissance. Le choix de la statistique de test influe aussi sur la puissance, mais les statistiques de test que nous choisirons sont souvent standard et parmi les plus puissantes qui soient, aussi on ne traitera pas de ce point dans le cadre de ce cours.
+La **puissance statistique** d'un test est la probabilité que le test rejette $\mathscr{H}_0$ alors que $\mathscr{H}_0$ est fausse, soit $\gamma$. Selon le choix de l'alternative, il est plus ou moins facile de rejeter l'hypothèse nulle en faveur de l'alternative. 
+
+```{r puissance1, echo = FALSE, fig.width=7, fig.height = 5, fig.cap="Comparaison de la loi nulle (ligne pleine) et d'une alternative spécifique pour un test-$t$ (ligne traitillée). La puissance correspond à l'aire sous la courbe de la densité de la loi alternative qui est dans la zone de rejet du test (en blanc)."}
+library(ggplot2)
+region <- data.frame(start = c(-Inf, qt(0.025, df = 10), qt(0.975, df = 10)), 
+                     end = c(qt(0.025, df = 10), qt(0.975, df = 10), Inf),
+                     région = factor(c("rejeter","ne pas rejeter","rejeter")))
+ggplot(region) + 
+  geom_rect(aes(xmin = start, xmax = end, fill = région), 
+    ymin = -Inf, ymax = Inf, alpha = 0.2, data = region) +
+  scale_fill_manual(values = c("blue","orange")) + 
+  coord_cartesian(xlim = c(-3.5,6), ylim = c(0, 0.5), expand = FALSE) +
+  theme_classic() + theme(legend.position = "bottom") + 
+  stat_function(fun = dt, args = list(ncp = 1.5, df=10), xlim = c(qt(0.975, df = 10), 10),
+                geom = "area", fill = "white") +
+  stat_function(fun = dt, n = 1000, args = list(df= 10), xlim = c(-5,6)) + 
+  stat_function(fun = dt, n = 1000, args = list(ncp = 1.5, df=10), lty = 2, xlim = c(-5,6)) +
+  ylab("f(x)")
+```
+
+```{r puissance2, echo = FALSE, fig.width=7, fig.height = 5, fig.cap="Augmentation de la puissance suite à une augmentation de la différence de moyenne sous l'hypothèse alternative. La puissance est l'aire sous la courbe (blanc) de la loi alternative (ligne traitillée); cette dernière est plus décalée vers la droite par rapport à la loi nulle postulée (ligne pleine)."}
+region1 <- data.frame(start = c(-Inf, qnorm(0.025), qnorm(0.975)), 
+                     end = c(qnorm(0.025), qnorm(0.975), Inf),
+                     région = factor(c("rejeter","ne pas rejeter","rejeter")))
+p1 <- ggplot(region1) + 
+  geom_rect(aes(xmin = start, xmax = end, fill = région), 
+    ymin = -Inf, ymax = Inf, alpha = 0.2, data = region1) +
+  scale_fill_manual(values = c("blue","orange")) + 
+  coord_cartesian(xlim = c(-3.5,5), ylim = c(0, 0.5), expand = FALSE) +
+  theme_classic() + theme(legend.position = "bottom") + 
+  stat_function(fun = dnorm, args = list(mean = 3, sd = 1), xlim = c(qnorm(0.975),10),
+                geom = "area", fill = "white") +
+  ylab("f(x)") + stat_function(fun = dnorm, n = 1000, args = list(mean = 0, sd = 1), xlim = c(-5,5)) + 
+  stat_function(fun = dt, n = 1000, args = list(mean = 3, sd = 1), lty = 2, xlim = c(-5,5))
+p1
+```
+
+```{r puissance3, echo = FALSE, fig.width=7, fig.height = 5, fig.cap="Augmentation de la puissance suite à une augmentation de la taille de l'échantillon ou une diminution de l'écart-type de la population: la loi nulle (ligne pleine) est plus concentrée et la taille de la région de rejet diminue. La puissance est l'aire sous la courbe (blanc) de la loi alternative (ligne traitillée). Règle générale, la loi nulle change selon la taille de l'échantillon."}
+region2 <- data.frame(start = c(-Inf, qnorm(0.025, sd = 0.5), qnorm(0.975, sd = 0.5)), 
+                     end = c(qnorm(0.025, sd = 0.5), qnorm(0.975, sd = 0.5), Inf),
+                     région = factor(c("rejeter","ne pas rejeter","rejeter")))
+p2 <- ggplot(region) + 
+  geom_rect(aes(xmin = start, xmax = end, fill = région), 
+    ymin = -Inf, ymax = Inf, alpha = 0.2, data = region2) +
+  scale_fill_manual(values = c("blue","orange")) + 
+  coord_cartesian(xlim = c(-3.5,5), ylim = c(0, 1), expand = FALSE) +
+  theme_classic() + theme(legend.position = "bottom") + 
+  stat_function(fun = dnorm, args = list(mean = 1.5, sd = 0.5), xlim = c(qnorm(0.975, sd = 0.5),10), geom = "area", fill = "white") +
+  stat_function(fun = dnorm, n = 1000, args = list(mean = 0, sd = 0.5), xlim = c(-5,5)) + 
+  stat_function(fun = dnorm, n = 1000, args = list(mean = 1.5, sd = 0.5), lty = 2, xlim = c(-5,5)) +
+  ylab("f(x)")
+p2
+```
+
+
+On veut qu'un test ait une puissance élevée, c'est-à-dire, on veut que $\gamma$ soit le plus près de 1 possible. Minimalement, la puissance du test devrait être $\alpha$ parce qu'on rejette l'hypothèse nulle $\alpha$\% du temps même quand cette dernière est vraie. La variabilité des données et la taille de l'écart (par exemple, une différence entre la moyenne de deux groupes)dans la population influent sur la puissance, mais nous n'avons pas de contrôle sur ces paramètres. À l'inverse, on peut augmenter la taille de l'échantillon pour augmenter la puissance: la plupart du temps, la variabilité de l'estimateur qu'on veut tester décroît à un rythme de $n^{-1/2}$. Le choix de la statistique de test influe aussi sur la puissance, mais les statistiques de test que nous choisirons sont souvent standard et parmi les plus puissantes qui soient, aussi on ne traitera pas de ce point dans le cadre de ce cours.
+
+Pour calculer la puissance d'un test, il faut choisir une alternative spécifique: par exemple, si on utilise un test-$t$ pour un échantillon, la statistique $T=\sqrt{n}(\overline{X}-\mu_0)/S_n \sim \mathcal{T}_{n-1}$. Si la vraie moyenne est $\Delta + \mu_0$, alors la loi alternative est Student-$t$, mais non-centrée. Règle général, on détermine la puissance en simulant des observations d'une alternative donnée et en calculant la proportion de tests qui mènent au rejet de l'hypothèse nulle.
 
 ### Intervalle de confiance
 
@@ -166,7 +224,7 @@ où $t_{n-1, \alpha/2}$ est le quantile d'ordre $1-\alpha/2$ de la loi Student-$
 
 Avant qu'on calcule l'intervalle de confiance, il y a une probabilité de $1-\alpha$ que $\theta$ soit contenu dans l'intervalle **aléatoire** symmétrique $(\widehat{\theta} - \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta}), \widehat{\theta} + \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta}))$. Une fois qu'on a un échantillon et qu'on calcule les bornes de l'intervalle de confiance, il n'y a plus de notion de probabilité. La vraie valeur du paramètre $\theta$ est soit contenue dans l'intervalle de confiance, soit pas. La seule interprétation de l'intervalle de confiance qui soit valable alors est la suivante: si on répète l'expérience plusieurs fois et qu'à chaque fois on calcule un intervalle de confiance à $1-\alpha$, alors $1-\alpha$ de ces intervalles devraient contenir la vraie valeur de $\theta$ (de la même manière, si vous lancez une pièce de monnaie équilibrée, vous devriez obtenir une fréquence de 50\% de pile et 50\% de face, mais chaque lancer donnera un ou l'autre de ces choix).
 
-```{r intconf, eval= TRUE, echo = FALSE, cache = TRUE, fig.width = 8, fig.height = 5, fig.cap = "Intervalles de confiance à 95\\% pour la moyenne d'une population normale $\\mathsf{No}(0,1)$. Environ 95 de ces 100 intervalles devraient inclure zéro."}
+```{r intconf, eval= TRUE, echo = FALSE, cache = TRUE, fig.width = 8, fig.height = 5, fig.cap = "Intervalles de confiance à 95\\% pour la moyenne d'une population normale $\\mathsf{No}(0,1)$ pour 100 échantillons aléatoires. En moyenne, 5\\% de ces intervalles (en rouge) n'incluent pas la vraie valeur de la moyenne de zéro."}
 interv <- t(sapply(1:100, function(i){t.test(rnorm(1000), mu=0)$conf.int}))
 # interv <- interv[order(interv[,1]),]
 par(mar = c(4,1,0.1,0.1))

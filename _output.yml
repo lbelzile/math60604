@@ -1,5 +1,6 @@
 bookdown::gitbook:
   css: css/style.css
+  highlight: tango
   toc_depth: 1
   split_bib: no
   config:
