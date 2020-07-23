@@ -3,3 +3,4 @@
 # **R** {-}
 
 
+Je suis partisan de la [philosophie Tinyverse](https://raw.githubusercontent.com/eddelbuettel/gsir-te/master/docs/Getting-Started-in-R.pdf); voir l'introduction sur les fonctionnalités de **R** avec des ressources et des dépendances minimales.

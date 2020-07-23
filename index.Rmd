@@ -10,11 +10,14 @@ output:
 documentclass: book
 fontsize: 11pt
 papersize: letter
+header-includes:
+  - \usepackage{amsmath,amssymb,mathtools,enumerate,booktabs}
 bibliography: [book.bib, packages.bib, notes60604.bib]
 biblio-style: apalike2
 link-citations: yes
 github-repo: lbelzile/math60604
 always_allow_html: yes
+links-as-notes: false
 description: "Ces notes forment un complément web du cours MATH 60604 (Modélisation statistique) offert à la M.Sc. en gestion (science des données et analytique d'affaires) à HEC Montréal.."
 ---
 
@@ -26,13 +29,16 @@ Ces notes sont l'oeuvre de Léo Belzile (HEC Montréal) et sont mis à dispositi
 Bien que les diapositives illustrent l'implémentation des techniques statistiques et des modèles à l'aide de **SAS**, ces notes présentent le pendant  **R**: visitez [le site web du projet **R**](https://cran.r-project.org/) pour télécharger le logiciel. L'interface graphique la plus populaire (et celle que je vous recommande) est [RStudio Desktop](https://www.rstudio.com/products/rstudio/download/).
 
 
-Ce cours traite de modélisation des données, aussi convient-il de s'attarder au fait que nos modèles seront des approximations de la réalité: plusieurs statisticien(ne)s citent George Box, qui a répété plusieurs fois que « tous les modèles sont faux, mais certains sont utiles ». Ce point de vue est réducteur; Peter McCullagh et John Nelder (traduction libre) expliquent dans le préambule de leur livre
+Ce cours traite de modélisation des données, aussi convient-il de s'attarder au fait que nos modèles seront des approximations de la réalité: George Box a affirmé à plusieurs reprises que  « tous les modèles sont faux, mais certains sont utiles ». Ce point de vue est réducteur; Peter McCullagh et John Nelder (traduction libre) expliquent dans le préambule de leur livre
 
 > La modélisation en science demeure, du moins partiellement, un art. Certains principes existent, en revanche, pour guider le modélisateur. Le premier est que tous les modèles sont faux; certains, cependant, sont mieux que d’autres et le modélisateur doit chercher le meilleur à sa portée. En même temps, il est sage de reconnaître que la quête perpétuelle de la vérité n’est pas envisageable.
 
 Et David R. Cox (traduction libre), de rajouter 
 
 > ...il n’est pas utile de simplement énoncer que tout modèle est faux. L’idée même de modèle sous-tend une notion de simplification et d’idéalisation. L’idée qu’un système physique, biologique ou sociologique complexe puisse être décrit de manière exacte par quelques formules est franchement absurde. La construction de représentations idéalisées qui capturent les aspects stables les plus importants du système est néanmoins une partie essentielle de toute analyse scientifique et les modèles statistiques ne diffèrent pas en cela d’autres types de modèles.
+
+
+
 
 
 \newcommand{\bs}[1]{\boldsymbol{#1}}
@@ -49,6 +55,7 @@ Et David R. Cox (traduction libre), de rajouter
 \newcommand{\hbb}{\widehat{\boldsymbol{\beta}}}
 \newcommand{\limni}{\lim_{n \ra \infty}}
 \newcommand{\pr}{{\mathsf Pr}{}}
+\renewcommand{\P}[2][]{{\mathsf P}_{#1}\left(#2\right)}
 \newcommand{\E}[2][]{{\mathsf E}_{#1}\left(#2\right)}
 \newcommand{\Va}[2][]{{\mathsf{Var}_{#1}}\left(#2\right)}
 \newcommand{\I}[1]{{\mathbf 1}_{#1}}
@@ -57,7 +64,14 @@ Et David R. Cox (traduction libre), de rajouter
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, out.width = '70%', fig.align = 'center')
+options(knitr.graphics.auto_pdf = TRUE)
 options(scipen = 1, digits = 3)
+library(viridis)
 library(ggplot2, warn.conflicts = FALSE, quietly = TRUE)
+
+options(ggplot2.continuous.colour="viridis")
+options(ggplot2.continuous.fill = "viridis")
+scale_colour_discrete <- scale_colour_viridis_d
+scale_fill_discrete <- scale_fill_viridis_d
 theme_set(theme_minimal())
 ```

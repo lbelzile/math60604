@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>A Compléments mathématiques | Modélisation statistique</title>
+  <meta name="description" content="Ces notes forment un complément web du cours MATH 60604 (Modélisation statistique) offert à la M.Sc. en gestion (science des données et analytique d’affaires) à HEC Montréal.." />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="A Compléments mathématiques | Modélisation statistique" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Ces notes forment un complément web du cours MATH 60604 (Modélisation statistique) offert à la M.Sc. en gestion (science des données et analytique d’affaires) à HEC Montréal.." />
+  <meta name="github-repo" content="lbelzile/math60604" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="A Compléments mathématiques | Modélisation statistique" />
+  
+  <meta name="twitter:description" content="Ces notes forment un complément web du cours MATH 60604 (Modélisation statistique) offert à la M.Sc. en gestion (science des données et analytique d’affaires) à HEC Montréal.." />
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="r.html"/>
+<link rel="next" href="references.html"/>
+<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Modélisation statistique</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Remarques</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction à l’inférence statistique</a></li>
+<li class="chapter" data-level="2" data-path="regression-lineaire.html"><a href="regression-lineaire.html"><i class="fa fa-check"></i><b>2</b> Régression linéaire</a></li>
+<li class="chapter" data-level="3" data-path="modeles-lineaires-generalises.html"><a href="modeles-lineaires-generalises.html"><i class="fa fa-check"></i><b>3</b> Modèles linéaires généralisés</a></li>
+<li class="chapter" data-level="4" data-path="donnees-correlees-longitudinales.html"><a href="donnees-correlees-longitudinales.html"><i class="fa fa-check"></i><b>4</b> Données corrélées et longitudinales</a></li>
+<li class="chapter" data-level="5" data-path="modeles-lineaires-mixtes.html"><a href="modeles-lineaires-mixtes.html"><i class="fa fa-check"></i><b>5</b> Modèles linéaires mixtes</a></li>
+<li class="chapter" data-level="6" data-path="survie.html"><a href="survie.html"><i class="fa fa-check"></i><b>6</b> Analyse de survie</a></li>
+<li class="chapter" data-level="7" data-path="vraisemblance.html"><a href="vraisemblance.html"><i class="fa fa-check"></i><b>7</b> Inférence basée sur la vraisemblance</a></li>
+<li class="appendix"><span><b>Annexe</b></span></li>
+<li><a href="r.html#r"><strong>R</strong></a></li>
+<li class="chapter" data-level="A" data-path="compléments-mathématiques.html"><a href="compléments-mathématiques.html"><i class="fa fa-check"></i><b>A</b> Compléments mathématiques</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Publié avec bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Modélisation statistique</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="compléments-mathématiques" class="section level1" number="8">
+<h1><span class="header-section-number">A</span> Compléments mathématiques</h1>
+<div id="population-et-échantillons" class="section level3" number="8.0.1">
+<h3><span class="header-section-number">A.0.1</span> Population et échantillons</h3>
+<p>Ce qui différencie la statistique des autres sciences est la prise en compte de l’incertitude et de la notion d’aléatoire. Règle générale, on cherche à estimer une caractéristique d’une population définie à l’aide d’un échantillon (un sous-groupe de la population) de taille restreinte.</p>
+<p>La <strong>population d’intérêt</strong> est une collection d’individus formant la matière première d’une étude statistique. Par exemple, pour l’Enquête sur la population active (EPA) de Statistique Canada, « la population cible comprend la population canadienne civile non institutionnalisée de 15 ans et plus ». Même si on faisait un recensement et qu’on interrogeait tous les membres de la population cible, la caractéristique d’intérêt peut varier selon le moment de la collecte; une personne peut trouver un emploi, quitter le marché du travail ou encore se retrouver au chômage. Cela explique la variabilité intrinsèque.</p>
+<p>En général, on se base sur un <strong>échantillon</strong> pour obtenir de l’information. L’<strong>inférence statistique</strong> vise à tirer des conclusions, pour toute la population, en utilisant seulement l’information contenue dans l’échantillon et en tenant compte des sources de variabilité. Le sondeur George Gallup (traduction libre) a fait cette merveilleuse analogie entre échantillon et population:</p>
+<blockquote>
+<p>«Il n’est pas nécessaire de manger un bol complet de soupe pour savoir si elle est trop salé; pour autant qu’elle ait été bien brassée, une cuillère suffit.»</p>
+</blockquote>
+<p>Un <strong>échantillon</strong> est un sous-groupe d’individus tirés de la population à partir duquel on fait une analyse statistiques. La création de plans d’enquête est un sujet complexe et des cours entiers d’échantillonnage y sont consacrés. Même si on ne collectera pas de données, il convient de noter la condition essentielle pour pouvoir tirer des conclusions fiables à partir d’un échantillon: ce dernier doit être représentatif de la population étudiée, en ce sens que sa composition doit être similaire à celle de la population. On doit ainsi éviter les biais de sélection, notamment les échantillons de commodité qui consistent en une sélection d’amis et de connaissances.</p>
+<p>Notre échantillon est <strong>aléatoire</strong>, donc notre mesure d’une caractéristique d’intérêt le sera également et la conclusion de notre procédure de test variera d’un échantillon à l’autre. Plus la taille de notre échantillon sera grande, plus on obtiendra une mesure précise, voire exacte si on fait un recensement, de la quantité d’intérêt. L’exemple suivant illustre pourquoi le choix de l’échantillon est important.</p>
+
+<div class="example">
+<p><span id="exm:Galluppoll" class="example"><strong>Exemple A.1  </strong></span>
+Désireuse de prédire le résultat de l’élection présidentielle américaine de 1936, la revue <em>Literary Digest</em> a sondé 10 millions d’électeurs par la poste, dont 2.4 millions ont répondu au sondage en donnant une nette avance au candidat républicain Alf Landon (57%) face au président sortant Franklin D. Roosevelt (43%). Ce dernier a néanmoins remporté l’élection avec 62% des suffrages, une erreur de prédiction de 19%. Le plan d’échantillonnage avait été conçu en utilisant des bottins téléphoniques, des enregistrements d’automobiles et des listes de membres de clubs privés, etc.: </p>
+<p>Gallup avait de son côté correctement prédit la victoire de Roosevelt en utilisant un échantillon aléatoire de (seulement) 50 000 électeurs. </p>
+</div>
+</div>
+<div id="variables-aléatoires" class="section level2" number="8.1">
+<h2><span class="header-section-number">A.1</span> Variables aléatoires</h2>
+<p>Un phénomène d’intérêt varie d’un individu à l’autre (autrement un modèle statistique est rarement adéquat). On cherche à décrire son comportement, soit l’ensemble des valeurs possibles et leur probabilité/fréquence relative au sein de la population décrites par la loi de probabilité de la variable aléatoire.</p>
+<p>On fera la distinction entre deux cas de figure: quand le phénomène prend des valeurs finies, comme par exemple un événement binaire (achat/non-achat d’un produit) ou un continuum de valeurs (par exemple, le prix d’un item). On dénote les variables aléatoires par des lettres majuscules: par exemple, <span class="math inline">\(Y \sim \mathsf{No}(\mu, \sigma^2)\)</span> indique que <span class="math inline">\(Y\)</span> suit une loi normale de paramètres <span class="math inline">\(\mu\)</span> et <span class="math inline">\(\sigma\)</span>, qui représentent respectivement l’espérance et la variance de <span class="math inline">\(Y\)</span>.</p>
+<p>La fonction de répartition <span class="math inline">\(F(y)\)</span> donne la probabilité cumulative qu’un événement n’excède pas une variable donnée, <span class="math inline">\(F(y) = \mathsf{Pr}(Y \leq y)\)</span>.</p>
+<p>Si la variable <span class="math inline">\(Y\)</span> prend des valeurs discrètes, alors on utilise la fonction de masse <span class="math inline">\(f(y)=\mathsf{Pr}(Y=y)\)</span> qui donne la probabilité pour chacune des valeurs de <span class="math inline">\(y\)</span>.
+Si la variable <span class="math inline">\(Y\)</span> est continue, aucune valeur numérique de <span class="math inline">\(y\)</span> n’a de probabilité non-nulle; la densité sert à estimer la probabilité que la variable <span class="math inline">\(Y\)</span> appartienne à un ensemble <span class="math inline">\(B\)</span>, via <span class="math inline">\(\mathsf{Pr}(Y \in B) = \int_B f(y) \mathrm{d} y\)</span>; la fonction de répartition est ainsi <span class="math inline">\(F(y) = \int_{-\infty}^y f(x) \mathrm{d} x\)</span>. Plusieurs lois aléatoires décrivent des phénomènes physiques simples et ont donc une justification empirique; on revisite les distributions les plus fréquemment couvertes.</p>
+
+<div class="example">
+<p><span id="exm:loibern" class="example"><strong>Exemple A.2  (Loi de Bernoulli)  </strong></span>On considère un phénomène binaire, comme le lancer d’une pièce de monnaie (pile/face). De manière générale, on associe les deux possibilités à succès/échec et on suppose que la probabilité de succès est <span class="math inline">\(\pi\)</span>. Par convention, on représente les échecs (non) par des zéros et les réussites (oui) par des uns. Donc, si la variable <span class="math inline">\(Y\)</span> vaut <span class="math inline">\(0\)</span> ou <span class="math inline">\(1\)</span>, alors <span class="math inline">\(\mathsf{Pr}(Y=1)=\pi\)</span> et <span class="math inline">\(\mathsf{Pr}(Y=0)=1-\pi\)</span> (complémentaire). La fonction de masse de la <a href="https://fr.wikipedia.org/wiki/Loi_de_Bernoulli">loi Bernoulli</a> s’écrit de façon plus compacte
+<span class="math display">\[\begin{align*}
+\mathsf{P}(Y=y) = \pi^y (1-\pi)^{1-y}, \quad y=0, 1.
+\end{align*}\]</span></p>
+<p>Un calcul rapide montre que <span class="math inline">\(\mathsf{E}(Y)=\pi\)</span> et <span class="math inline">\(\mathsf{Va}(Y)=\pi(1-\pi)\)</span>.
+Voici quelques exemples de questions de recherches comprenant une variable réponse binaire:</p>
+<ul>
+<li><p>est-ce qu’un client potentiel a répondu favorablement à une offre
+promotionnelle?</p></li>
+<li><p>est-ce qu’un client est satisfait du service après-vente?</p></li>
+<li><p>est-ce qu’une firme va faire faillite au cours des trois prochaines années?</p></li>
+<li><p>est-ce qu’un participant à une étude réussit une tâche?</p>
+</div></li>
+</ul>
+
+<div class="example">
+<p><span id="exm:loibinom" class="example"><strong>Exemple A.3  (Loi binomiale)  </strong></span>Si les données représentent la somme d’événements Bernoulli indépendants, la loi du nombre de réussites <span class="math inline">\(Y\)</span> pour un nombre d’essais donné <span class="math inline">\(m\)</span> est dite <a href="https://fr.wikipedia.org/wiki/Loi_binomiale">binomiale</a>, dénotée <span class="math inline">\(\mathsf{Bin}(m, \pi)\)</span>; sa fonction de masse est
+<span class="math display">\[\begin{align*}
+\mathsf{Pr}(Y=y) = \binom{m}{y}\pi^y (1-\pi)^{1-y}, \quad y=0, 1.
+\end{align*}\]</span>
+La vraisemblance pour un échantillon de la loi binomiale est (à constante de normalisation près qui ne dépend pas de <span class="math inline">\(\pi\)</span>) la même que pour un échantillon aléatoire de <span class="math inline">\(m\)</span> variables Bernoulli indépendantes. L’espérance d’une variable binomiale est <span class="math inline">\(\mathsf{E}(Y)=m\pi\)</span> et la variance <span class="math inline">\(\mathsf{Va}(Y)=m\pi(1-\pi)\)</span>.</p>
+<p>On peut ainsi considérer le nombre de personnes qui ont obtenu leur permis de conduire parmi <span class="math inline">\(m\)</span> candidat(e)s ou le nombre de clients sur <span class="math inline">\(m\)</span> qui ont passé une commande de plus de 10$ dans un magasin.</p>
+</div>
+<p>Plus généralement, on peut considérer des variables de dénombrement qui prennent des valeurs entières. Parmi les exemples de questions de recherches comprenant une variable réponse de dénombrement:</p>
+<ul>
+<li>le nombre de réclamations faites par un client d’une compagnie d’assurance
+au cours d’une année.</li>
+<li>le nombre d’achats effectués par un client depuis un mois.</li>
+<li>le nombre de tâches réussies par un participant lors d’une étude.</li>
+</ul>
+
+<div class="example">
+<p><span id="exm:loigeom" class="example"><strong>Exemple A.4  (Loi géométrique)  </strong></span>La <a href="https://fr.wikipedia.org/wiki/Loi_g%C3%A9om%C3%A9trique">loi géométrique</a> décrit le comportement du nombre d’essais Bernoulli de probabilité de succès <span class="math inline">\(\pi\)</span> nécessaires avant l’obtention d’un premier succès. La fonction de masse de <span class="math inline">\(Y \sim \mathsf{Geo}(\pi)\)</span> est
+<span class="math display">\[\begin{align*}
+\mathsf{Pr}(Y=y) = \pi (1-\pi)^{y-1}, \quad y=1,2, \ldots
+\end{align*}\]</span></p>
+<p>Par exemple, on pourrait modéliser le nombre de visites d’une maison en vente avant une première offre d’achat à l’aide d’une variable géométrique.</p>
+</div>
+
+<div class="example">
+<p><span id="exm:loipoisson" class="example"><strong>Exemple A.5  (Loi de Poisson)  </strong></span>Si la probabilité d’un événement Bernoulli est <strong>rare</strong> dans le sens où <span class="math inline">\(n\pi \to \lambda\)</span> quand le nombre d’essais <span class="math inline">\(n\)</span> augmente, alors le nombre de succès suit une loi de Poisson de fonction de masse
+<span class="math display">\[\begin{align*}
+\mathsf{Pr}(Y=y) = \frac{\exp(-\lambda)\lambda^y}{\Gamma(y+1)}, \quad y=0, 1, 2, \ldots
+\end{align*}\]</span>
+où <span class="math inline">\(\Gamma(\cdot)\)</span> dénote la fonction gamma. Le paramètre <span class="math inline">\(\lambda\)</span> de la loi de Poisson représente à la fois l’espérance et la variance de la variable, c’est-à-dire que <span class="math inline">\(\mathsf{E}(Y)=\mathsf{Va}(Y)=\lambda\)</span>.</p>
+</div>
+
+<div class="example">
+<p><span id="exm:loibinneg" class="example"><strong>Exemple A.6  (Loi binomiale négative)  </strong></span>On considère une série d’essais Bernoulli de probabilité de succès <span class="math inline">\(\pi\)</span> jusqu’à l’obtention de <span class="math inline">\(m\)</span> succès. Soit <span class="math inline">\(Y\)</span>, le nombre d’échecs: puisque la dernière réalisation doit forcément être un succès, mais que l’ordre des succès/échecs précédents n’importe pas, la fonction de masse est
+<span class="math display">\[\begin{align*}
+\mathsf{Pr}(Y=y)= \binom{m-1+y}{y} \pi^m (1-\pi)^{y}.
+\end{align*}\]</span></p>
+<p>La loi binomiale négative apparaît également si on considère la loi non-conditionnelle du modèle hiérarchique gamma-Poisson, dans lequel on suppose que le paramètre de la moyenne de la loi Poisson est aussi aléatoire, c’est-à-dire <span class="math inline">\(Y \mid \Lambda=\lambda \sim \mathsf{Po}(\lambda)\)</span> et <span class="math inline">\(\Lambda\)</span> suit une loi Gamma de paramètre de forme <span class="math inline">\(r\)</span> et de paramètre d’échelle <span class="math inline">\(\theta\)</span>, dont la densité est <span class="math display">\[f(x) = \theta^{-r}x^{r-1}\exp(-x/\theta)/\Gamma(r).\]</span> Le nombre d’événements suit alors une loi binomiale négative.</p>
+La paramétrisation la plus courante pour la modélisation est légèrement différente: on utilise la fonction de masse est
+<span class="math display">\[\begin{align*}
+\mathsf{P}(Y=y)=\frac{\Gamma(y+r)}{\Gamma(y+1)\Gamma(r)} \left(\frac{r}{r + \mu} \right)^{r} \left(\frac{\mu}{r+\mu}\right)^y, y=0, 1, \ldots, \mu,r &gt;0,
+\end{align*}\]</span>
+où <span class="math inline">\(\Gamma\)</span> dénote la fonction gamma. À noter que le paramètre <span class="math inline">\(r&gt;0\)</span> n’est plus nécessairement entier. La moyenne théorique et la variance sont
+<span class="math inline">\(\mathsf{E}(Y)=\mu\)</span> et <span class="math inline">\(\mathsf{Va}(Y)=\mu+k\mu^2\)</span>, où <span class="math inline">\(k=1/r\)</span>. La variance d’une variable binomiale négative est <em>supérieure</em> à sa moyenne et le modèle est utilisé comme alternative à la loi de Poisson pour modéliser la surdispersion.
+</div>
+</div>
+<div id="loi-des-grands-nombres" class="section level2" number="8.2">
+<h2><span class="header-section-number">A.2</span> Loi des grands nombres</h2>
+<p>Un estimateur est dit <strong>convergent</strong> si la valeur obtenue à mesure que la taille de l’échantillon augmente s’approche de la vraie valeur que l’on cherche à estimer. La loi des grands nombres établit que la moyenne empirique de <span class="math inline">\(n\)</span> observations indépendantes de même espérance, <span class="math inline">\(\overline{Y}_n\)</span>, tend vers l’espérance commune des variables <span class="math inline">\(\mu\)</span>, où <span class="math inline">\(\overline{Y}_n \rightarrow \mu\)</span>. En gros, ce résultat nous dit que l’on réussit à approximer de mieux en mieux la quantité d’intérêt quand la taille de l’échantillon (et donc la quantité d’information disponible sur le paramètre) augmente. La loi des grands nombres est très utiles dans les expériences Monte Carlo: on peut ainsi approximer par simulation la moyenne d’une fonction de variables aléatoires <span class="math inline">\(g(Y)\)</span> en simulant de façon répétée des variables <span class="math inline">\(Y\)</span> indépendantes et identiquement distribuées et en prenant la moyenne empirique <span class="math inline">\(n^{-1} \sum_{i=1}^n g(Y_i)\)</span>.</p>
+<p>Si la loi des grands nombres nous renseigne sur le comportement limite ponctuel, il ne nous donne aucune information sur la variabilité de notre estimé de la moyenne et la vitesse à laquelle on s’approche de la vraie valeur du paramètre.</p>
+</div>
+<div id="théorème-central-limite" class="section level2" number="8.3">
+<h2><span class="header-section-number">A.3</span> Théorème central limite</h2>
+<p>Le théorème central limite dit que, pour un échantillon aléatoire de taille <span class="math inline">\(n\)</span> dont les observations sont indépendantes et tirées d’une loi quelconque d’espérance <span class="math inline">\(\mu\)</span> et de variance finie <span class="math inline">\(\sigma^2\)</span>, alors la moyenne empirique tend non seulement vers <span class="math inline">\(\mu\)</span>, mais à une vitesse précise:</p>
+<ul>
+<li>l’estimateur <span class="math inline">\(\overline{Y}\)</span> sera centré autour de <span class="math inline">\(\mu\)</span>,</li>
+<li>l’erreur-type sera de <span class="math inline">\(\sigma/\sqrt{n}\)</span>; le taux de convergence est donc de <span class="math inline">\(\sqrt{n}\)</span>. Ainsi, pour un échantillon de taille 100, l’erreur-type de la moyenne empirique sera 10 fois moindre que l’écart-type de la variable aléatoire sous-jacente.</li>
+<li>la loi approximative de la moyenne <span class="math inline">\(\overline{Y}\)</span> sera normale.</li>
+</ul>
+<p>Mathématiquement, le théorème central limite dicte que <span class="math inline">\(\sqrt{n}(\overline{Y}-\mu) \stackrel{\mathrm{d}}{\rightarrow} \mathsf{No}(0, \sigma^2)\)</span>. Si <span class="math inline">\(n\)</span> est grand (typiquement supérieur à <span class="math inline">\(30\)</span>, mais cette règle dépend de la loi sous-jacente de <span class="math inline">\(Y\)</span>), alors <span class="math inline">\(\overline{Y} \stackrel{\cdot}{\sim} \mathsf{No}(\mu, \sigma^2/n)\)</span>.</p>
+<p>Comment interpréter ce résultat? On considère comme exemple le temps de trajet moyen de trains à haute vitesse AVE entre Madrid et Barcelone opérés par la Renfe.</p>
+<div class="figure" style="text-align: center"><span id="fig:renfeclt"></span>
+<img src="MATH60604_Modelisation_statistique_files/figure-html/renfeclt-1.png" alt="Distribution empirique des temps de trajet en trains à grande vitesse." width="70%" />
+<p class="caption">
+Figure A.1: Distribution empirique des temps de trajet en trains à grande vitesse.
+</p>
+</div>
+<p>Une analyse exploratoire indique que la durée du trajet de la base de données est celle affichée sur le billet (et non le temps réel du parcours). Ainsi, il n’y a ainsi que 15 valeurs possibles. Le temps affiché moyen pour le parcours, estimé sur la base de 9603 observations, est de 170 minutes et 41 secondes. La Figure (voir <a href="compléments-mathématiques.html#fig:renfeclt">A.1</a>) montre la distribution empirique des données.</p>
+<p>Considérons maintenant des échantillons de taille dix. Dans notre premier échantillon aléatoire, la durée moyenne affichée est 167.7 minutes, elle est de 169.2 minutes dans le deuxième, de 172.7 dans le troisième, et ainsi de suite.</p>
+<div class="figure" style="text-align: center"><span id="fig:renfemeanCLT"></span>
+<img src="MATH60604_Modelisation_statistique_files/figure-html/renfemeanCLT-1.png" alt="Représentation graphique du théorème central limite: échantillon aléatoire de 20 observations avec leur moyenne empirique (trait vertical rouge) (en haut à gauche). Les trois autres panneaux montrent les histogrammes des moyennes empiriques d'échantillons répétés de taille 5 (en haut à droite), 20 (en bas à gauche) et les histogrammes pour $n=5, 20, 100$ (en bas à droite) avec courbe de densité de l'approximation normale fournie par le théorème central limite." width="90%" />
+<p class="caption">
+Figure A.2: Représentation graphique du théorème central limite: échantillon aléatoire de 20 observations avec leur moyenne empirique (trait vertical rouge) (en haut à gauche). Les trois autres panneaux montrent les histogrammes des moyennes empiriques d’échantillons répétés de taille 5 (en haut à droite), 20 (en bas à gauche) et les histogrammes pour <span class="math inline">\(n=5, 20, 100\)</span> (en bas à droite) avec courbe de densité de l’approximation normale fournie par le théorème central limite.
+</p>
+</div>
+<p>Supposons qu’on tire <span class="math inline">\(B=1000\)</span> échantillons différents, chacun de taille <span class="math inline">\(n=5\)</span>, de notre ensemble, et qu’on calcule la moyenne de chacun d’entre eux. Le graphique supérieur droit <a href="compléments-mathématiques.html#fig:renfemeanCLT">A.2</a> montre un de ces 1000 échantillons aléatoire de taille <span class="math inline">\(n=20\)</span> tiré de notre base de données. Les autres graphiques de la Figure <a href="compléments-mathématiques.html#fig:renfemeanCLT">A.2</a> illustrent l’effet de l’augmentation de la taille de l’échantillon: si l’approximation normale est approximative avec <span class="math inline">\(n=5\)</span>, la distribution des moyennes est virtuellement identique à partir de <span class="math inline">\(n=20\)</span>. Plus la moyenne est calculée à partir d’un grand échantillon (c’est-à-dire, plus <span class="math inline">\(n\)</span> augmente), plus la qualité de l’approximation normale est meilleure et plus la courbe se concentre autour de la vraie moyenne; malgré le fait que nos données sont discrètes, la distribution des moyennes est approximativement normale.</p>
+<p>On a considéré un seul échantillon dans l’exemple, mais vous pouvez vous amuser à regarder la taille de l’échantillon nécessaire pour que l’effet du théorème central limite prenne effet en simulant des observations d’une loi quelconque de variance finie. Cette <a href="http://195.134.76.37/applets/AppletCentralLimit/Appl_CentralLimit2.html">applette</a> permet de faire des simulations en variant la loi des données et la taille de l’échantillon.</p>
+<p>Les statistiques de test qui découlent d’une moyenne centrée-réduite (ou d’une quantité équivalente pour laquelle un théorème central limite s’applique) ont souvent une loi nulle standard normale, du moins asymptotiquement (quand <span class="math inline">\(n\)</span> est grand, typiquement <span class="math inline">\(n&gt;30\)</span> est suffisant). C’est ce qui garantie la validité de notre inférence!</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="r.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": null,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["MATH60604_Modelisation_statistique.pdf"],
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -208,6 +208,7 @@
 \newenvironment{rmdwarning}
   {\begin{rmdblock}{warning}}
   {\end{rmdblock}}
+\usepackage{amsmath,amssymb,mathtools,enumerate,booktabs}
 \usepackage[]{natbib}
 \bibliographystyle{apalike2}
 
@@ -215,6 +216,21 @@
 \author{}
 \date{\vspace{-2.5em}}
 
+\usepackage{amsthm}
+\newtheorem{theorem}{Théorème}[chapter]
+\newtheorem{lemma}{Lemme}[chapter]
+\newtheorem{corollary}{Corollaire}[chapter]
+\newtheorem{proposition}{Proposition}[chapter]
+\newtheorem{conjecture}{Conjecture}[chapter]
+\theoremstyle{definition}
+\newtheorem{definition}{Définition}[chapter]
+\theoremstyle{definition}
+\newtheorem{example}{Exemple}[chapter]
+\theoremstyle{definition}
+\newtheorem{exercise}{Exercice}[chapter]
+\theoremstyle{remark}
+\newtheorem*{remark}{Remarque}
+\newtheorem*{solution}{Solution}
 \begin{document}
 \maketitle
 
@@ -228,11 +244,11 @@
 \chapter*{Remarques}\label{remarques}}
 \addcontentsline{toc}{chapter}{Remarques}
 
-Ces notes sont l'oeuvre de Léo Belzile (HEC Montréal) et sont mis à disposition sous la \href{https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.fr}{Licence publique Creative Commons Attribution - Utilisation non commerciale - Partage dans les mêmes conditions 4.0 International} et ont été compilé le 02 juillet 2020.
+Ces notes sont l'oeuvre de Léo Belzile (HEC Montréal) et sont mis à disposition sous la \href{https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.fr}{Licence publique Creative Commons Attribution - Utilisation non commerciale - Partage dans les mêmes conditions 4.0 International} et ont été compilé le 23 juillet 2020.
 
 Bien que les diapositives illustrent l'implémentation des techniques statistiques et des modèles à l'aide de \textbf{SAS}, ces notes présentent le pendant \textbf{R}: visitez \href{https://cran.r-project.org/}{le site web du projet \textbf{R}} pour télécharger le logiciel. L'interface graphique la plus populaire (et celle que je vous recommande) est \href{https://www.rstudio.com/products/rstudio/download/}{RStudio Desktop}.
 
-Ce cours traite de modélisation des données, aussi convient-il de s'attarder au fait que nos modèles seront des approximations de la réalité: plusieurs statisticien(ne)s citent George Box, qui a répété plusieurs fois que « tous les modèles sont faux, mais certains sont utiles ». Ce point de vue est réducteur; Peter McCullagh et John Nelder (traduction libre) expliquent dans le préambule de leur livre
+Ce cours traite de modélisation des données, aussi convient-il de s'attarder au fait que nos modèles seront des approximations de la réalité: George Box a affirmé à plusieurs reprises que « tous les modèles sont faux, mais certains sont utiles ». Ce point de vue est réducteur; Peter McCullagh et John Nelder (traduction libre) expliquent dans le préambule de leur livre
 
 \begin{quote}
 La modélisation en science demeure, du moins partiellement, un art. Certains principes existent, en revanche, pour guider le modélisateur. Le premier est que tous les modèles sont faux; certains, cependant, sont mieux que d'autres et le modélisateur doit chercher le meilleur à sa portée. En même temps, il est sage de reconnaître que la quête perpétuelle de la vérité n'est pas envisageable.
@@ -258,6 +274,7 @@ Et David R. Cox (traduction libre), de rajouter
 \newcommand{\hbb}{\widehat{\boldsymbol{\beta}}}
 \newcommand{\limni}{\lim_{n \ra \infty}}
 \newcommand{\pr}{{\mathsf Pr}{}}
+\renewcommand{\P}[2][]{{\mathsf P}_{#1}\left(#2\right)}
 \newcommand{\E}[2][]{{\mathsf E}_{#1}\left(#2\right)}
 \newcommand{\Va}[2][]{{\mathsf{Var}_{#1}}\left(#2\right)}
 \newcommand{\I}[1]{{\mathbf 1}_{#1}}
@@ -266,45 +283,21 @@ Et David R. Cox (traduction libre), de rajouter
 \hypertarget{intro}{%
 \chapter{Introduction à l'inférence statistique}\label{intro}}
 
-\hypertarget{pruxe9requis}{%
-\section{Prérequis}\label{pruxe9requis}}
-
-Bien que sans prérequis, nous assumerons que l'étudiant(e) a une connaissance préalable des notions suivantes:
-
-\begin{itemize}
-\tightlist
-\item
-  population et échantillon,
-\item
-  types de variables: continues, catégorielles (ordinales ou nominales), binaires,
-\item
-  variables aléatoires et leurs lois (Bernoulli, binomiale, géométrique, Poisson, normale, Student, exponentielle, Weibull, etc.),
-\item
-  propriétés de variables aléatoires: espérance, variance, biais,
-\item
-  graphiques de base (histogramme, nuage de point, densité, boîte à moustache, etc.),
-\item
-  théorème central limite,
-\item
-  tests-\(t\) pour un et deux échantillons et pour données appariées,
-\item
-  régression linéaire simple.
-\end{itemize}
-
-Ces notions sont d'ordinaire traitées dans un cours d'introduction à la statistique au niveau baccalauréat/licence, voir même au collégial.
+Ce chapitre porte sur deux concepts fondamentaux pour la modélisation, à savoir les principes sous-jacents aux tests d'hypothèses et l'analyse exploratoire des données.
 
 L'inférence statistique a pour but de tirer des conclusions formelles à partir de données. Dans le cadre de la recherche scientifique, le chercheur formule une hypothèse, collecte des données pour valider ou infirmer cette dernière et conclure quant à la plausibilité de son hypothèse.
 
 On distingue deux types de jeux de données: les données \textbf{expérimentales} sont typiquement collectées en milieu contrôlé suivant un protocole d'enquête et un plan d'expérience: elles servent à répondre à une question prédéterminée. L'approche expérimentale est désirable pour éviter le «jardin des embranchements» (une \href{http://www.stat.columbia.edu/~gelman/research/unpublished/p_hacking.pdf}{allégorie signifiant qu'un chercheur peut raffiner son hypothèse à la lumière des données, sans ajustement pour des variables confondantes}), mais elle n'est pas toujours réalisable: par exemple, un économiste ne peut pas modifier les taux d'intérêts pour observer les impacts sur le taux d'épargne des consommateurs. Lorsque les données ont déjà été collectées, on parle de données \textbf{observationnelles}.
 
-On fera dans ce cours une distinction entre inférence et prédiction, bien que ces deux objectifs ne soient pas mutuellement exclusifs. La plupart des boîtes noires utilisées en apprentissage automatique tombent dans la catégorie des modèles prédictifs: ces modèles ne sont pas interprétables et ignorent parfois la structure inhérente aux données. Par contraste, les modèles explicatifs qui servent à l'inférence sont souvent simples et interprétables.
+Il y a généralement deux raisons de développer un modèle reliant une variable réponse \(Y\) à un ensemble de variables explicatives \(\mathbf{X}\): à des fins de prédiction (modèle prédictif) ou pour tester des hypothèses de recherche concernant les effets de
+ces variables (modèle explicatif). On fera dans ce cours une distinction entre inférence et prédiction, bien que ces deux objectifs ne soient pas mutuellement exclusifs. La plupart des boîtes noires utilisées en apprentissage automatique tombent dans la catégorie des modèles prédictifs: ces modèles ne sont pas interprétables et ignorent parfois la structure inhérente aux données. Par contraste, les modèles explicatifs sont souvent simples et interprétables; ainsi, les modèles de régressions sont fréquemment utilisés pour l'inférence.
 
-Ce chapitre porte sur deux concepts fondamentaux pour la modélisation, à savoir les principes sous-jacents aux tests d'hypothèses et l'analyse exploratoire des données. Il contient également des exemples de problèmes quotidiens pour lesquels la statistique offre des pistes de réflexion.
-
-Plusieurs exemples seront traités dans le cours:
+Un modèle prédictif permet d'obtenir des prédictions de la valeur de \(Y\) pour d'autres combinaisons de variables explicatives ou des données futures. Par exemple, on peut chercher à prédire la consommation énergétique d'une maison en fonction de la météo, du nombre d'habitants de la maison et de sa taille. On se concentrera dans ce cours sur les modèles explicatifs. Par exemple, on peut chercher à déterminer
 
 \begin{itemize}
 \tightlist
+\item
+  Est-ce que les consommateurs sont prêts à dépenser davantage lorsqu'ils paient par crédit qu'en argent comptant?
 \item
   Est-ce qu'il y a de la discrimination salariale envers les femmes professeurs d'un collège américain?
 \item
@@ -316,11 +309,11 @@ Plusieurs exemples seront traités dans le cours:
 \item
   Est-ce que les examens pratiques de conduite sont plus faciles en régions en Grande-Bretagne? \href{https://www.theguardian.com/world/2019/aug/23/an-easy-ride-scottish-village-fuels-debate-driving-test-pass-rates}{Une analyse du journal britannique \emph{The Guardian}} laisse penser que c'est le cas.
 \item
-  Est-ce le risque de transmission de la Covid augmente en fonction de la distanciation? \href{https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(20)31142-9/fulltext}{Une (mauvaise) méta-analyse souligne que c'est le cas} (ou l'art de tirer des conclusions erronées à partir d'une étude bancale).
+  Est-ce le risque de transmission de la Covid augmente en fonction de la distanciation? \href{https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(20)31142-9/fulltext}{Une (mauvaise) méta-analyse dit que oui} (ou l'art de tirer des conclusions erronées à partir d'une étude bancale).
 \end{itemize}
 
-\hypertarget{tests-dhypothuxe8se-heuristique}{%
-\section{Tests d'hypothèse (heuristique)}\label{tests-dhypothuxe8se-heuristique}}
+\hypertarget{tests-dhypothuxe8se}{%
+\section{Tests d'hypothèse}\label{tests-dhypothuxe8se}}
 
 Un test d'hypothèse statistique est une façon d'évaluer la preuve statistique provenant d'un échantillon afin de faire une décision quant à la population sous-jacente. Les étapes principales sont:
 
@@ -347,7 +340,7 @@ Mon approche privilégiée pour présenter les tests d'hypothèse est de faire u
 \item
   Votre postulat de départ repose sur la présomption d'innocence: vous condamnerez uniquement le suspect si la preuve est accablante. Cela permet d'éviter les erreurs judiciaires. L'hypothèse nulle \(\mathscr{H}_0\) est donc \emph{non-coupable}, et l'hypothèse alternative \(\mathscr{H}_a\) est coupable. En cas de doute raisonnable, vous émettrez un verdict de non-culpabilité.
 \item
-  La preuve présentée est la statistique de test. La couronne choisit la preuve de manière à appuyer son postulat de culpabilité le mieux possible. Ce choix reflète la \textbf{puissance} (plus la preuve est accablante, plus grande est la chance d'un verdict de culpabilité --- le procureur a donc tout intérêt à bien choisir les faits présentés en cour).
+  La choix de la statistique de test représente la preuve. Plus la preuve est accablante, plus grande est la chance d'un verdict de culpabilité --- le procureur a donc tout intérêt à bien choisir les faits présentés en cour. Le choix de la statistique devrait donc idéalement maximiser la preuve pour appuyer le postulat de culpabilité le mieux possible (ce choix reflète la \textbf{puissance} du test).
 \item
   En qualité de juré, vous analysez la preuve à partir de la jurisprudence et de l'avis d'expert pour vous assurer que les faits ne relèvent pas du hasard. Pour le test d'hypothèse, ce rôle est tenu par la loi sous \(\mathscr{H}_0\): si la personne était innocente, est-ce que les preuves présentées tiendraient la route? Des preuves probantes (ADN, etc.) auront davantage de poids que des preuves circonstancielles (la pièce de théâtre \emph{Douze hommes en colère} de Reginald Rose présente un bel exemple de procès où un des juré émet un doute raisonnable et convainc un à un les autres membres du jury de prononcer un verdict de non-culpabilité).
 \item
@@ -359,11 +352,11 @@ On s'attarde davantage sur ces définitions heuristiques et le vocabulaire emplo
 \hypertarget{hypothuxe8se}{%
 \subsection{Hypothèse}\label{hypothuxe8se}}
 
-Dans les test statistique il y a toujours deux hypothèse: l'hypothèse nulle (\(\mathscr{H}{}_{0}\)) et l'hypothèse alternative (\(\mathscr{H}_a\)). Habituellement, l'hypothèse nulle est le « statu quo » et l'alternative est l'hypothèse que l'on cherche à démontrer. Un test d'hypothèse statistique nous permet de décider si nos données nous fournissent assez de preuves pour rejeter \(\mathscr{H}_0\) en faveur de \(\mathscr{H}_a\), selon un risque d'erreur spécifié. Généralement, les tests d'hypothèses sont exprimés en fonction de paramètres (de valeurs inconnues) du modèle sous-jacent, par ex. \(\theta\). Un test d'hypothèse bilatéral concernant un paramètre unidimensionnel \(\theta\) s'exprimerait la forme suivante:
+Dans les test statistique il y a toujours deux hypothèse: l'hypothèse nulle (\(\mathscr{H}_{0}\)) et l'hypothèse alternative (\(\mathscr{H}_a\)). Habituellement, l'hypothèse nulle est le « statu quo » et l'alternative est l'hypothèse que l'on cherche à démontrer. Un test d'hypothèse statistique nous permet de décider si nos données nous fournissent assez de preuves pour rejeter \(\mathscr{H}_0\) en faveur de \(\mathscr{H}_a\), selon un risque d'erreur spécifié. Généralement, les tests d'hypothèses sont exprimés en fonction de paramètres (de valeurs inconnues) du modèle sous-jacent, par ex. \(\theta\). Un test d'hypothèse bilatéral concernant un paramètre unidimensionnel \(\theta\) s'exprimerait la forme suivante:
 \begin{align*}
 \mathscr{H}_0: \theta=\theta_0 \qquad \text{versus} \qquad \mathscr{H}_a:\theta \neq \theta_0.
 \end{align*}
-Ces hypothèses permettent de tester si \(\theta\) est égal précisément à une valeur, \(\theta_0\).
+Ces hypothèses permettent de tester si \(\theta\) est égal à une valeur numérique précise \(\theta_0\).
 
 Par exemple, pour un test bilatéral concernant le paramètre d'un modèle de régression \(\beta_j\) associé à une variable explicative d'intérêt \(\mathrm{X}_j\) dans la population, les hypothèses sont:
 \begin{align*}
@@ -380,9 +373,7 @@ Une statistique de test \(T\) est une fonction des données d'échantillon qui c
 \begin{align*}
 T = \frac{\widehat{\theta} - \theta_0}{\mathrm{se}(\widehat{\theta})} 
 \end{align*}
-où \(\widehat{\theta}\) est l'estimateur du paramètre \(\theta\) et \(\mathrm{se}(\widehat{\theta})\) est l'estimateur de l'écart-type de \(\widehat{\theta}\).
-
-Un \textbf{estimateur} est une règle ou une formule utilisée pour calculer l'estimation d'un paramètre ou quantité d'intérêt selon des données observées. Par exemple, la moyenne d'échantillon \(\overline{X}\) est un estimateur de la moyenne dans la population \(\mu\). Une fois qu'on a des données observées, on peut calculer la valeur de \(\overline{X}\), c'est-à-dire, on obtient une valeur numérique, appelée estimé. Autrement dit, un estimateur est la procédure ou formule qui nous dit comment utiliser les données pour calculer une estimation. Un estimateur est une variable aléatoire car sa valeur dépend sur l'échantillon. L'estimé, quant à lui, est la valeur numérique calculée sur un échantillon donné.
+où \(\widehat{\theta}\) est l'estimateur du paramètre \(\theta\), \(\theta_0\) la valeur numérique postulée (par ex., zéro) et \(\mathrm{se}(\widehat{\theta})\) est l'estimateur de l'écart-type de \(\widehat{\theta}\).
 
 Par exemple, pour une hypothèse sur la moyenne d'une population de la forme
 \begin{align*}
@@ -394,27 +385,39 @@ T &= \frac{\overline{X}-0}{S_n/\sqrt{n}}
 \end{align*}
 où \(\overline{X}\) est la moyenne de l'échantillon \(X_1, \ldots, X_n\),
 \begin{align*}
-\overline{X} &= \frac{1}{n} \sum_{i=1}^n X_i
+\overline{X} &= \frac{1}{n} \sum_{i=1}^n X_i = \frac{X_1+ \cdots + X_n}{n}
 \end{align*}
 et l'erreur-type de la moyenne \(\overline{X}\) est \(S_n/\sqrt{n}\); l'écart-type \(S_n\) est un estimateur de \(\sigma\), où
 \begin{align*}
 S^2_n &= \frac{1}{n-1} \sum_{i=1}^n (X_i-\overline{X})^2.
 \end{align*}
 
+Il convient de faire la différence entre fonctions et valeurs numériques. Un \textbf{estimateur} est une règle ou une formule utilisée pour calculer l'estimation d'un paramètre ou quantité d'intérêt selon des données observées. Par exemple, la moyenne d'échantillon \(\overline{X}\) est un estimateur de la moyenne dans la population \(\mu\). Une fois qu'on a des données observées, on peut calculer un estimé de la moyenne empirique \(\overline{x},\) c'est-à-dire, on obtient une valeur numérique. Autrement dit,
+
+\begin{itemize}
+\tightlist
+\item
+  un estimateur est la procédure ou formule qui nous dit comment utiliser les données pour calculer une estimation.
+\item
+  un estimateur est une variable aléatoire car sa valeur fluctue d'un échantillon à l'autre.
+\item
+  l'estimé est la valeur numérique calculée sur un échantillon donné.
+\end{itemize}
+
 \hypertarget{loi-nulle-et-valeur-p}{%
 \subsection{\texorpdfstring{Loi nulle et valeur-\(p\)}{Loi nulle et valeur-p}}\label{loi-nulle-et-valeur-p}}
 
-La \textbf{valeur-\(p\)} nous permet de déterminer si la valeur observée de la statistique de test \(T\) est plausible sous \(\mathscr{H}_0\). Plus précisément, la valeur-\(p\) est la probabilité que la statistique de test est égal or encore plus extrême de ce qu'on observe selon les données, en supposant que \(\mathscr{H}_0\) est vraie. Suppose qu'on a un échantillon \(X_1, \ldots, X_n\) et qu'on observe une valeur de la statistique de test de \(T=t\). Pour un test d'hypothèse bilatéral \(\mathscr{H}_0:\theta=\theta_0\) vs.~\(\mathscr{H}_a:\theta \neq \theta_0\), la valeur-\(p\) est
+La \textbf{valeur-\(p\)} nous permet de déterminer si la valeur observée de la statistique de test \(T\) est plausible sous \(\mathscr{H}_0\). Plus précisément, la valeur-\(p\) est la probabilité, si \(\mathscr{H}_0\) est vraie, que la statistique de test soit égale or plus extrême à ce qu'on observe. Supposons qu'on a un échantillon \(X_1, \ldots, X_n\) et qu'on observe une valeur de la statistique de test de \(T=t\). Pour un test d'hypothèse bilatéral \(\mathscr{H}_0:\theta=\theta_0\) vs.~\(\mathscr{H}_a:\theta \neq \theta_0\), la valeur-\(p\) est
 \(\mathsf{Pr}_0(|T| \geq |t|)\), c'est-à-dire, la probabilité que \(|T|\) est égal ou plus grand que ce qu'on observe, en valeur absolue, sous \(\mathscr{H}_0\). Si la distribution de \(T\) est symétrique autour de \(0\), la valeur-\(p\) vaut
 \begin{align*}
 p = 2 \times \mathsf{Pr}_0(T \geq |t|), 
 \end{align*}
 
-Prenons l'exemple d'un test d'hypothèse bilatéral pour la moyenne au population \(\mathscr{H}_0:\mu=0\) contre \(\mathscr{H}_a:\mu \neq 0\). Si l'échantillon provient d'une (population de) loi normale \(\mathsf{No}(\mu, \sigma^2)\), on peut démontrer que, si \(\mathscr{H}_0\) est vraie et donc, \(\mu=0\)), la statistique de test
+Prenons l'exemple d'un test d'hypothèse bilatéral pour la moyenne au population \(\mathscr{H}_0:\mu=0\) contre \(\mathscr{H}_a:\mu \neq 0\). Si l'échantillon provient d'une (population de) loi normale \(\mathsf{No}(\mu, \sigma^2)\), on peut démontrer que, si \(\mathscr{H}_0\) est vraie et donc \(\mu=0\)), la statistique de test
 \begin{align*}
 T = \frac{\overline{X}}{S/\sqrt{n}}
 \end{align*}
-suit une loi de Student-\(t\) avec \(n-1\) degrés de liberté. Avec cette loi nulle, on peut calculer la valeur-\(p\) (ou bien à partir d'une table ou en utilisant un logiciel statistique). Puisque la distribution Student-\(t\) est symétrique autour de \(0\), on peut calculer la valeur-\(p\) comme \(P = 2\times\mathsf{Pr}(T_{n-1} > |t|)\), où \(T_{n-1}\) dénote une variable aléatoire avec distribution de Student-\(t\) avec \(n-1\) degrés de liberté.
+suit une loi de Student-\(t\) avec \(n-1\) degrés de liberté. À partir de cette loi nulle, on peut calculer la valeur-\(p\) (ou bien à partir d'une table ou d'un logiciel statistique). Puisque la distribution Student-\(t\) est symétrique autour de \(0\), on peut calculer la valeur-\(p\) comme \(P = 2\times\mathsf{Pr}(T_{n-1} > |t|)\), où \(T_{n-1}\) dénote une variable aléatoire avec distribution de Student-\(t\) avec \(n-1\) degrés de liberté.
 
 \hypertarget{conclusion}{%
 \subsection{Conclusion}\label{conclusion}}
@@ -567,40 +570,47 @@ La dernière étape consiste à obtenir une valeur-\(p\), soit la probabilité d
 \subsection{Exemple: prix de billets de trains}\label{exemple-prix-de-billets-de-trains}}
 
 f
-La compagnie nationale de chemin de fer \href{https://www.renfe.com/}{Renfe} gère les trains régionaux et les trains à haute vitesse dans toute l'Espagne. Les prix des billets vendus par Renfe sont \href{https://www.kaggle.com/thegurusteam/spanish-high-speed-rail-system-ticket-pricing}{aggrégés} par une compagnie. On s'intéresse ici à une seule ligne, Madrid--Barcelone. Notre question scientifique est la suivante: est-ce que le prix des billets pour un aller (une direction) est plus chère pour un retour? Pour ce faire, on considère un échantillon de 10000 billets entre les deux plus grandes villes espagnoles. On s'intéresse au billets de TGV vendus (AVE) au tarif Promotionnel. Notre statistique de test sera simplement la différence de moyenne entre les deux échantillons: la différence entre le prix en euros d'un train Madrid--Barcelone (\(\mu_1\)) et le prix d'un billet Barcelone--Madrid (\(\mu_2\)) est \(\mu_1-\mu_2\) et notre hypothèse nulle est qu'il n'y a aucune différence de prix, soit \(\mathscr{H}_0: \mu_1-\mu_2=0\). Graphiquement, il n'y a pas de différence discernable entre les boîtes à moustaches de la Figure \ref{fig:renfetest}, mais un test statistique permettrait de vérifier cette affirmation.
+La compagnie nationale de chemin de fer \href{https://www.renfe.com/}{Renfe} gère les trains régionaux et les trains à haute vitesse dans toute l'Espagne. Les prix des billets vendus par Renfe sont \href{https://www.kaggle.com/thegurusteam/spanish-high-speed-rail-system-ticket-pricing}{aggrégés} par une compagnie. On s'intéresse ici à une seule ligne, Madrid--Barcelone. Notre question scientifique est la suivante: est-ce que le prix des billets pour un aller (une direction) est plus chère pour un retour? Pour ce faire, on considère un échantillon de 10000 billets entre les deux plus grandes villes espagnoles. On s'intéresse au billets de TGV vendus (AVE) au tarif Promotionnel. Notre statistique de test sera simplement la différence de moyenne entre les deux échantillons: la différence entre le prix en euros d'un train Madrid--Barcelone (\(\mu_1\)) et le prix d'un billet Barcelone--Madrid (\(\mu_2\)) est \(\mu_1-\mu_2\) et notre hypothèse nulle est qu'il n'y a aucune différence de prix, soit \(\mathscr{H}_0: \mu_1-\mu_2=0\). Un test statistique nous permettrait de vérifier cette affirmation.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Charger les données format SAS}
-\NormalTok{url \textless{}{-}}\StringTok{ "https://lbelzile.bitbucket.io/MATH60619A/renfe.sas7bdat"}
-\NormalTok{renfe \textless{}{-}}\StringTok{ }\NormalTok{haven}\OperatorTok{::}\KeywordTok{read\_sas}\NormalTok{(url)}
-\CommentTok{\# Sélectionner les données au tarif préférentiel et les colonnes prix et destination}
-\NormalTok{donnees \textless{}{-}}\StringTok{ }\NormalTok{renfe[renfe}\OperatorTok{$}\NormalTok{fare }\OperatorTok{==}\StringTok{ "Promo"}\NormalTok{, }\KeywordTok{c}\NormalTok{(}\StringTok{"price"}\NormalTok{,}\StringTok{"dest"}\NormalTok{)]}
-\NormalTok{donnees}\OperatorTok{$}\NormalTok{dest \textless{}{-}}\StringTok{ }\KeywordTok{factor}\NormalTok{(donnees}\OperatorTok{$}\NormalTok{dest, }\DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{"Barcelona{-}Madrid"}\NormalTok{,}\StringTok{"Madrid{-}Barcelona"}\NormalTok{))}
 \CommentTok{\# Bibliothèque graphique}
 \KeywordTok{library}\NormalTok{(ggplot2)}
-\CommentTok{\# Boîte à moustache par destination, avec moyenne (triangle)}
-\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ donnees, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ price, }\DataTypeTok{x =}\NormalTok{ dest, }\DataTypeTok{col =}\NormalTok{ dest)) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{geom\_boxplot}\NormalTok{() }\OperatorTok{+}
-\StringTok{  }\KeywordTok{xlab}\NormalTok{(}\StringTok{"destination"}\NormalTok{) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{ylab}\NormalTok{(}\StringTok{"prix (en euros)"}\NormalTok{) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"none"}\NormalTok{)}
+\CommentTok{\# Manipulation de données, incluant \%\textgreater{}\%}
+\KeywordTok{library}\NormalTok{(poorman)}
+\CommentTok{\# Charger les données format SAS}
+\NormalTok{url \textless{}{-}}\StringTok{ "https://lbelzile.bitbucket.io/MATH60604/renfe.sas7bdat"}
+\NormalTok{renfe \textless{}{-}}\StringTok{ }\NormalTok{haven}\OperatorTok{::}\KeywordTok{read\_sas}\NormalTok{(url)}
+\KeywordTok{head}\NormalTok{(renfe, }\DataTypeTok{n =} \DecValTok{5}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}
-
-{\centering \includegraphics[width=0.7\linewidth]{MATH60604_Modelisation_statistique_files/figure-latex/renfetest-1} 
-
-}
-
-\caption{Boîtes à moustache des prix de billets de trains à haute vitesse au tarif promotionnel de la Renfe, selon la destination.}\label{fig:renfetest}
-\end{figure}
+\begin{verbatim}
+## # A tibble: 5 x 7
+##    prix type    classe     tarif     dest duree  jour
+##   <dbl> <chr>   <chr>      <chr>    <dbl> <dbl> <dbl>
+## 1 143.  AVE     Preferente Promo        0   190     6
+## 2 182.  AVE     Preferente Flexible     0   190     2
+## 3  86.8 AVE     Preferente Promo        0   165     7
+## 4  86.8 AVE     Preferente Promo        0   190     7
+## 5  69.0 AVE-TGV Preferente Promo        0   175     4
+\end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\CommentTok{\#Identifier les variables catégorielles}
+\NormalTok{renfe \textless{}{-}}\StringTok{ }\NormalTok{renfe }\OperatorTok{\%\textgreater{}\%}\StringTok{ }
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{dest =} \KeywordTok{factor}\NormalTok{(}\KeywordTok{recode}\NormalTok{(dest, }\StringTok{"0"}\NormalTok{ =}\StringTok{ "Barcelone{-}Madrid"}\NormalTok{,}
+               \StringTok{"1"}\NormalTok{ =}\StringTok{ "Madrid{-}Barcelone"}\NormalTok{)),}
+         \DataTypeTok{type =} \KeywordTok{factor}\NormalTok{(type),}
+         \DataTypeTok{dest =} \KeywordTok{factor}\NormalTok{(dest),}
+         \DataTypeTok{jour =} \KeywordTok{factor}\NormalTok{(jour),}
+         \DataTypeTok{tarif =} \KeywordTok{factor}\NormalTok{(tarif),}
+         \DataTypeTok{classe =} \KeywordTok{factor}\NormalTok{(classe))}
+\CommentTok{\# Sous{-}échantillon avec uniquement les données au tarif promotionnel}
+\NormalTok{renfe\_promo \textless{}{-}}\StringTok{ }\NormalTok{renfe }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{subset}\NormalTok{(tarif }\OperatorTok{==}\StringTok{ "Promo"}\NormalTok{)}
 \CommentTok{\# Test{-}t et différence de moyenne}
-\NormalTok{ttest \textless{}{-}}\StringTok{ }\KeywordTok{t.test}\NormalTok{(price}\OperatorTok{\textasciitilde{}}\NormalTok{dest, }\DataTypeTok{data =}\NormalTok{ donnees)}
+\NormalTok{ttest \textless{}{-}}\StringTok{ }\KeywordTok{t.test}\NormalTok{(prix}\OperatorTok{\textasciitilde{}}\NormalTok{dest, }\DataTypeTok{data =}\NormalTok{ renfe\_promo)}
 \NormalTok{ttest }\CommentTok{\#imprimer le résultat}
 \end{Highlighting}
 \end{Shaded}
@@ -609,13 +619,13 @@ La compagnie nationale de chemin de fer \href{https://www.renfe.com/}{Renfe} gè
 ## 
 ## 	Welch Two Sample t-test
 ## 
-## data:  price by dest
+## data:  prix by dest
 ## t = -1, df = 8040, p-value = 0.2
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
 ##  -1.100  0.209
 ## sample estimates:
-## mean in group Barcelona-Madrid mean in group Madrid-Barcelona 
+## mean in group Barcelone-Madrid mean in group Madrid-Barcelone 
 ##                           82.1                           82.6
 \end{verbatim}
 
@@ -624,18 +634,20 @@ Plutôt que d'utiliser la loi asymptotique (qui est valide pour de grands échan
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Valeur{-}p par permutation}
-\NormalTok{n \textless{}{-}}\StringTok{ }\KeywordTok{nrow}\NormalTok{(donnees)}
+\NormalTok{n \textless{}{-}}\StringTok{ }\KeywordTok{nrow}\NormalTok{(renfe\_promo)}
 \NormalTok{B \textless{}{-}}\StringTok{ }\FloatTok{1e4}
 \NormalTok{ttest\_stats \textless{}{-}}\StringTok{ }\KeywordTok{numeric}\NormalTok{(B) }
 \NormalTok{ttest\_stats[}\DecValTok{1}\NormalTok{] \textless{}{-}}\StringTok{ }\NormalTok{ttest}\OperatorTok{$}\NormalTok{statistic}
 \KeywordTok{set.seed}\NormalTok{(}\DecValTok{20200608}\NormalTok{) }\CommentTok{\# germe pour nombres pseudo{-}aléatoires}
 \ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{2}\OperatorTok{:}\NormalTok{B)\{}
   \CommentTok{\# Recalculer la statistique de test, mais permuter les étiquettes}
-\NormalTok{  ttest\_stats[i] \textless{}{-}}\StringTok{ }\KeywordTok{t.test}\NormalTok{(price }\OperatorTok{\textasciitilde{}}\StringTok{ }\NormalTok{dest[}\KeywordTok{sample.int}\NormalTok{(}\DataTypeTok{n =}\NormalTok{ n)], }\DataTypeTok{data =}\NormalTok{ donnees)}\OperatorTok{$}\NormalTok{statistic}
+\NormalTok{  ttest\_stats[i] \textless{}{-}}\StringTok{ }\KeywordTok{t.test}\NormalTok{(prix }\OperatorTok{\textasciitilde{}}\StringTok{ }\NormalTok{dest[}\KeywordTok{sample.int}\NormalTok{(}\DataTypeTok{n =}\NormalTok{ n)], }
+                           \DataTypeTok{data =}\NormalTok{ renfe\_promo)}\OperatorTok{$}\NormalTok{statistic}
 \NormalTok{\}}
 \CommentTok{\# Tracer un graphique de la distribution empirique obtenue par permutation}
-\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =} \KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{statistique =}\NormalTok{ ttest\_stats), }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{statistique)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom\_histogram}\NormalTok{(}\DataTypeTok{bins =} \DecValTok{30}\NormalTok{, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{statistique, }\DataTypeTok{y=}\NormalTok{..density..), }\DataTypeTok{alpha =} \FloatTok{0.2}\NormalTok{) }\OperatorTok{+}\StringTok{ }
+\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =} \KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{statistique =}\NormalTok{ ttest\_stats), }
+       \KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{statistique)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom\_histogram}\NormalTok{(}\DataTypeTok{bins =} \DecValTok{30}\NormalTok{, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y=}\NormalTok{..density..), }\DataTypeTok{alpha =} \FloatTok{0.2}\NormalTok{) }\OperatorTok{+}\StringTok{ }
 \StringTok{  }\KeywordTok{geom\_density}\NormalTok{() }\OperatorTok{+}\StringTok{ }
 \StringTok{  }\KeywordTok{geom\_vline}\NormalTok{(}\DataTypeTok{xintercept =}\NormalTok{ ttest\_stats[}\DecValTok{1}\NormalTok{]) }\OperatorTok{+}\StringTok{ }
 \StringTok{  }\KeywordTok{ylab}\NormalTok{(}\StringTok{"densité"}\NormalTok{) }\OperatorTok{+}\StringTok{ }
@@ -649,13 +661,389 @@ Plutôt que d'utiliser la loi asymptotique (qui est valide pour de grands échan
 
 }
 
-\caption{Approximations par permutation de la loi nulle de la statistique de test de Welch (histogramme et trait noir) et loi asymptotique normale standard (trait bleu) pour le prix de billets de trains AVE au tarif promotionnel entre Madrid et Barcelone. La valeur de la statistique de test de l'échantillon original est représentée par un trait vertical.}\label{fig:renfepermut}
+\caption{Approximation par permutation de la loi nulle de la statistique de test de Welch (histogramme et trait noir) et loi asymptotique normale standard (trait bleu) pour le prix de billets de trains AVE au tarif promotionnel entre Madrid et Barcelone. La valeur de la statistique de test de l'échantillon original est représentée par un trait vertical.}\label{fig:renfepermut}
 \end{figure}
 
 La valeur-\(p\) du test de permutation, \(0.186\), est la proportion de statistiques plus extrêmes que celle observée. Cette valeur-\(p\) est quasi-identique à celle de l'approximation de Satterthwaite, à savoir \(0.182\) (la loi Student-\(t\) est numériquement équivalente à une loi standard normale avec autant de degrés de liberté), tel que représenté dans la Figure \ref{fig:renfepermut}. Malgré que notre échantillon soit très grand, avec \(n=8059\) observations, la différence n'est pas jugée significative. Avec un échantillon de deux millions de billets, on pourrait estimer précisément la moyenne (au centime près): la différence de prix entre les deux destinations et cette dernière deviendrait statistiquement significative. Elle n'est pas en revanche pertinente (une différence de \(0.28\) euros sur un prix moyen de \(82.56\) euros est quantité négligeable).
 
 \hypertarget{analyse-exploratoire-de-donnuxe9es}{%
 \section{Analyse exploratoire de données}\label{analyse-exploratoire-de-donnuxe9es}}
+
+\begin{quote}
+Mieux vaut une réponse approximative à la bonne question, qu'une réponse exacte à la mauvaise question, qui peut toujours être précisée. --- John Tukey
+\end{quote}
+
+Avant d'ajuster un modèle aux données, il est souhaitable de comprendre leur nature pour éviter de mauvaises surprises et des erreurs d'interprétations. Cette section est inspirée du chapitre éponyme de l'ouvrage \href{https://r4ds.had.co.nz/exploratory-data-analysis.html}{\emph{R for Data Science} par Garrett Grolemund et Hadley Wickham}. Une connaissance rudimentaire des graphiques est de mise et on s'attardera aux \href{https://rstudio.cloud/learn/primers/1.1}{rudiments de la visualisation graphique}. Je recommande également la lecture de la \S\textasciitilde1.6 du livre \href{https://www.openintro.org/book/isrs/}{\emph{Introductory Statistics with Randomization and Simulation} (en anglais)} pour une revue.
+Si vous incluez un graphique (ou un tableau), il est important d\textless ajouter une légende qui décrit le graphique et le résume, de mettre les noms de variables (avec les unités) sur les axes, de soigner le rendu et le formatage pour obtenir un produit fini. Votre graphique raconte une histoire, aussi prenez-soin que cette dernière soit nécessaire et attrayante.
+
+Si l'analyse exploratoire est souvent négligée dans les cours de statistique (parce qu'elle n'a pas de fondement mathématique), elle n'en est pas moins importante car elle nous sert à interpréter les données dans le contexte du problème et à nous assurer que notre analyse ou notre traitement de ces dernières est cohérent. Le sujet est difficile à cerner, puisque c'est davantage un art qu'une approche rigoureuse; Grolemund et Wickham parlent même « d'état d'esprit ». Le but de l'analyse exploratoire graphique est d'extraire des informations utiles, le plus souvent par le biais d'une série de questions qui sont raffinées au fur et à mesure que progresse l'analyse. On s'intéresse particulièrement aux relations et interactions entre différentes variables et la distribution empirique de chaque variable. Les étapes majeures sont:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Formuler des questions sur les données
+\item
+  Chercher des réponses à ces questions à l'aide de statistiques descriptives, de tableaux de fréquence ou de contingence et de graphiques.
+\item
+  Raffiner nos questions, et utiliser les trouvailles pour peaufiner notre analyse
+\end{enumerate}
+
+Dans un rapport, un résumé des caractéristiques les plus importantes devrait être inclut pour que le lecteur ou la lectrice puisse valider l'interprétation.
+
+Commençons par les données: celles que l'on manipulera dans ce cours sont stockées sous forme tabulaire. Dans une base de donnée en format court, chaque ligne correspond à une observation et chaque colonne à une variable; les entrées de la base de données contiennent les valeurs.
+
+\begin{itemize}
+\tightlist
+\item
+  Une \textbf{variable} représente une caractéristique de la population d'intérêt, par exemple le sexe d'un individu, le prix d'un article, etc.
+\item
+  une \textbf{observation}, parfois appelée donnée, est un ensemble de mesures collectées sous des conditions identiques, par exemple pour un individu ou à un instant donné.
+\end{itemize}
+
+Le choix de modèle statistique ou de test dépend souvent du type de variables collectées. Les variables peuvent être de plusieurs types: quantitatives (discrètes ou continues) si elles prennent des valeurs numériques, qualitatives (binaires, nominales ou ordinales) si elles sont décrites par un adjectif; je préfère le terme catégorielle, plus évocateur.\\
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{images/continuous_discrete} 
+
+}
+
+\caption{Illustration par Allison Horst de variables continues (gauche) et discrètes (droite).}\label{fig:variablesquanti}
+\end{figure}
+
+Les modèles de régression servent à expliquer des variables quantitatives en fonction d'autres caractéristiques.
+
+\begin{itemize}
+\tightlist
+\item
+  une variable discrète prend un nombre déterminé de valeurs; ce sont souvent des variables de dénombrement ou des variables dychotomisées
+\item
+  une variable continue peut prendre (en théorie) une infinité de valeurs, même si les valeurs mesurées sont arrondies ou mesurées avec une précision limitée (temps, taille, masse, vitesse, salaire). Dans bien des cas, nous pouvons considérer comme continues des variables discrètes si elles prennent un assez grand nombre de valeurs.
+\end{itemize}
+
+Les variables catégorielles représentent un ensemble fini de possibilités. On les regroupe en deux types, pour lesquels on ne fera pas de distinction: nominales s'il n'y a pas d'ordre entre les modalités (sexe, couleur, pays d'origine) ou ordinale (échelle de Likert, tranche salariale). La codification des modalités des variables catégorielle est arbitraire; en revanche, on préservera l'ordre lorsqu'on représentera graphiquement les variables ordinales. Lors de l'estimation, chaque variable catégorielle doit est transformée en un ensemble d'indicateurs binaires: il est donc essentiel de déclarer ces dernières dans votre logiciel statistique, surtout si elles sont parfois encodées dans la base de données à l'aide de valeurs entières.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{images/nominal_ordinal_binary} 
+
+}
+
+\caption{Illustration par Allison Horst de variables catégorielles nominales (gauche), ordinales (centre) et binaires (droite).}\label{fig:variablescateg}
+\end{figure}
+
+Le principal type de graphique pour représenter la distribution d'une variable catégorielle est le diagramme à bande, dans lequel la fréquence de chaque catégorie est présentée sur l'axe des ordonnées (\(y\)) en fonction de la modalité, sur l'axe des abscisses (\(x\)), et ordonnées pour des variables ordinales. Cette représentation est en tout point supérieur au \href{http://www.perceptualedge.com/articles/08-21-07.pdf}{diagramme en camembert}, une engeance répandu qui devrait être honnie (notamment parce que l'humain juge mal les différences d'aires, qu'une simple rotation change la perception du graphique et qu'il est difficile de mesurer les proportions) --- ce n'est pas de la tarte!
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604_Modelisation_statistique_files/figure-latex/barplotrenfe-1} 
+
+}
+
+\caption{Diagramme à bande pour la classe des billets de trains du jeu de données Renfe}\label{fig:barplotrenfe}
+\end{figure}
+
+Puisque les variables continues peuvent prendre autant de valeurs distinctes qu'il y a d'observations, on ne peut simplement compter le nombre d'occurrence par valeur unique. On regroupera plutôt dans un certain nombre d'intervalle, en discrétisant l'ensemble des valeurs en classes pour obtenir un histogramme. Le nombre de classes dépendra du nombre d'observations si on veut que l'estimation ne soit pas impactée par le faible nombre d'observations par classe: règle générale, le nombre de classes ne devrait pas dépasser \(\sqrt{n}\), où \(n\) est le nombre d'observations de l'échantillon. On obtiendra la fréquence de chaque classe, mais si on normalise l'histogramme (de façon à ce que l'aire sous les bandes verticales égale un), on obtient une approximation discrétisée de la fonction de densité. Faire varier le nombre de classes permet parfois de faire apparaître des caractéristiques de la variable (notamment la multimodalité, l'asymmétrie et les arrondis).
+
+Puisque qu'on groupe les observations en classe pour tracer l'histogramme, il est difficile de voir l'étendue des valeurs que prenne la variable: on peut rajouter des traits sous l'histogramme pour représenter les valeurs uniques prises par la variable, tandis que la hauteur de l'histogramme nous renseigne sur leur fréquence relative.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604_Modelisation_statistique_files/figure-latex/histrenfe-1} 
+
+}
+
+\caption{Histogramme du prix des billets au tarif Promo de trains du jeu de données Renfe}\label{fig:histrenfe}
+\end{figure}
+
+On peut voir en examinant l'étendue des données et en traçant un histogramme s'il y a des valeurs aberrantes ou inhabituelles.
+Une boîte-à-moustache (\emph{boxplot}) représente graphiquement cinq statistiques descriptives.
+
+\begin{itemize}
+\tightlist
+\item
+  La boîte donne les 1e, 2e et 3e quartiles \(q_1, q_2, q_3\).
+\item
+  50\% des observations sont au-dessus/en-dessous de la médiane \(q_2\).
+\item
+  La longueur des moustaches est moins de \(1.5\) fois l'écart interquartile \(q_3-q_1\) (tracée entre 3e quartile et le dernier point plus petit que \(q_3+1.5(q_3-q_1)\), etc.)
+\item
+  Les observations au-delà des moustaches sont encerclées. Notez que plus le nombre d'observations est élevé, plus le nombres de valeurs aberrantes augmente. C'est un défaut de la boîte à moustache, qui a été conçue pour des jeux de données qui passeraient pour petits selon les standards actuels.
+\end{itemize}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{images/01-intro-boiteamoustache} 
+
+}
+
+\caption{Boîte à moustache}\label{fig:boiteamoustache}
+\end{figure}
+
+On peut représenter la distribution d'une variable réponse continue en fonction d'une variable catégorielle en traçant une boîte à moustaches pour chaque catégorie et en les disposant côte-à-côte. Une troisième variable catégorielle peut être ajoutée par le biais de couleurs, comme dans la Figure \ref{fig:histboxplot}.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604_Modelisation_statistique_files/figure-latex/histboxplot-1} 
+
+}
+
+\caption{Boîte à moustache du prix des billets au tarif Promo en fonction de la classe pour le jeu de données Renfe}\label{fig:histboxplot}
+\end{figure}
+
+Si on veut représenter la covariate entre deux variables continues, on utilise un nuage de points où chaque variable est représentée sur un axe et chaque observation donne la coordonnée des points. Si la représentation graphique est dominée par quelques valeurs très grandes, une transformation des données peut être utile: vous verrez souvent des données positives à l'échelle logarithmique.
+
+Par exemple, la Figure \ref{fig:nuagedepoints} montre le temps de réaction d'individus participant à une expérience effectuée au Tech3Lab; on voit que le temps de réaction pour une personne qui texte est plus lent que lors d'une conversation téléphonique. La corrélation linéaire entre ces données appariées est faible.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604_Modelisation_statistique_files/figure-latex/nuagedepoints-1} 
+
+}
+
+\caption{Nuage de points du temps de réaction à deux tâches (données appariées) pour les données distractions}\label{fig:nuagedepoints}
+\end{figure}
+
+Plutôt que de décrire plus en détail le processus de l'analyse exploratoire, on présente un exemple qui illustre le cheminement habitue sur les données de trains de la Renfe introduites précédemment.
+
+\begin{example}[Analyse exploratoire des trains Renfe]
+\protect\hypertarget{exm:renfe-aed}{}{\label{exm:renfe-aed} \iffalse (Analyse exploratoire des trains Renfe) \fi{} }La première étape consisterait à lire la description de la base de données. Le jeu de données \texttt{renfe} contient les variables suivantes
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{prix}: prix du billet (en euros);
+\item
+  \texttt{dest}: indicateur binaire du trajet, soit de Barcelone vers Madrid (\texttt{0}) ou de Madrid vers Barcelone (\texttt{1});
+\item
+  \texttt{tarif}: variable catégorielle indiquant le tarif du billet, un parmi \texttt{AdultoIda}, \texttt{Promo} et \texttt{Flexible};
+\item
+  \texttt{classe}: classe du billet, soit \texttt{Preferente}, \texttt{Turista}, \texttt{TuristaPlus} ou \texttt{TuristaSolo};
+\item
+  \texttt{type}: variable catégorielle indiquant le type de train, soit Alta Velocidad Española (\texttt{AVE}), soit Alta Velocidad Española conjointement avec TGV (un partenariat entre la SNCF et Renfe pour les trains à destination ou en provenance de Toulouse) \texttt{AVE-TGV}, soit les trains régionaux \texttt{REXPRESS}; seuls les trains étiquetés \texttt{AVE} ou \texttt{AVE-TGV} sont des trains à grande vitesse.
+\item
+  \texttt{duree}: longueur annoncée du trajet (en minutes);
+\item
+  \texttt{jour} entier indiquant le jour de la semaine du départ allant de dimanche (\texttt{1}) à samedi (\texttt{7}).
+\end{itemize}
+
+Il n'y a pas de valeurs manquantes et un aperçu des données (\texttt{head(renfe)}) montre qu'elles sont en format large, ce qui veut dire que chaque ligne correspond à un billet de train. On entame l'analyse exploratoire avec des questions plutôt vagues, par exemple
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Quels sont les facteurs déterminant le prix et le temps de parcours?
+\item
+  Est-ce que le temps de parcours est le même peut importe le type de train?
+\item
+  Quelles sont les caractéristiques distinctives des types de train?
+\item
+  Quelles sont les principales différences entre les tarifs?
+\end{enumerate}
+
+À l'exception de \texttt{prix} et de \texttt{duree}, toutes les variables explicatives sont catégorielles, parfois appelé facteur (\texttt{factor}). S'il faut déclarer chacune de ces variables, on porte une attention particulière à \texttt{jour} pour éviter les mauvaises surprises ultérieures.
+
+On peut utiliser \texttt{str} pour obtenir un aperçu des données; la fonction \texttt{summary} permet d'obtenir des statistiques descriptives (minimum, maximum, moyenne, quartiles, nombre de valeurs manquantes) pour des variables continues et autrement la fréquence de variables catégorielles. On peut créer une base de données pour chaque fréquence. La manipulation de variables dans des bases de données est parfois loin d'être toujours élégante en \textbf{R}: on accès aux variables avec \texttt{\$}, par exemple \texttt{renfe\$prix}. Une alternative plus lisible et modulaire est d'utiliser l'opérateur tuyau (\texttt{\%\textgreater{}\%}), qui permet de créer une chaîne logique de commandes; la fonction \texttt{count} sert à compter le nombre d'instance de chaque modalité (ces fonctionnalités ne sont pas disponibles dans \textbf{R} par défaut, mais avec les paquetages \texttt{tidyverse} ou l'alternative minimale \texttt{poorman}, préalablement chargée).
+\end{example}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{renfe }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{count}\NormalTok{(classe)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        classe    n
+## 1  Preferente  809
+## 2     Turista 7197
+## 3 TuristaPlus 1916
+## 4 TuristaSolo   78
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# un raccourci pour la même syntaxe}
+\NormalTok{renfe }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{group\_by}\NormalTok{(type) }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{tally}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       type    n
+## 1      AVE 9174
+## 2  AVE-TGV  429
+## 3 REXPRESS  397
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{renfe }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{group\_by}\NormalTok{(tarif) }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{tally}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       tarif    n
+## 1 AdultoIda  397
+## 2  Flexible 1544
+## 3     Promo 8059
+\end{verbatim}
+
+En analysant le nombre de trains dans les catégories, on remarque qu'il y a autant de billets de type \texttt{REXPRESS} que le nombre de billets au tarif \texttt{AdultoIda}. On peut faire le décompte par catégorie avec un tableau de contingence, qui compte le nombre respectif dans chaque sous-catégorie. Dans la base de données Renfe, tous les billets pour les RegioExpress sont vendus au tarif \texttt{AdultoIda} en classe \texttt{Turista}. Le nombre de billets est minime, à peine 397 sur 10000. Cela suggère une nouvelle question: pourquoi ces trains sont-ils si peu populaires?
+
+\begin{verbatim}
+##       tarif     type    n
+## 1 AdultoIda REXPRESS  397
+## 2  Flexible      AVE 1446
+## 3  Flexible  AVE-TGV   98
+## 4     Promo      AVE 7728
+## 5     Promo  AVE-TGV  331
+\end{verbatim}
+
+On remarque également que le seul 17 temps de parcours sont affichés sur les billets (\texttt{renfe\ \%\textgreater{}\%\ distinct(duree)} ou \texttt{unique(renfe\$duree)}). On peut donc penser que la durée affichée sur le billet (en minutes) est le temps de trajet annoncé. La majeure partie (15 sur 17) des temps de parcours sont sous la barre des 3h15, hormis deux qui dépassent les 9h! Selon Google Maps, les deux villes sont distantes de 615km par la route, 500km à vol d'oiseau. Cela implique que, vraisemblablement, certains trains dépassent les 200km/h, tandis que d'autres vont plutôt à 70km/h. Quels sont ces trains plus lent? La variable \texttt{type} codifie probablement ce fait, et permet de voir que ce sont les trains RegioExpress qui sont dans cette catégorie.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{renfe }\OperatorTok{\%\textgreater{}\%}\StringTok{ }
+\StringTok{  }\KeywordTok{subset}\NormalTok{(duree }\OperatorTok{\textgreater{}}\StringTok{ }\DecValTok{200}\NormalTok{) }\OperatorTok{\%\textgreater{}\%}\StringTok{ }
+\StringTok{  }\KeywordTok{group\_by}\NormalTok{(type, dest) }\OperatorTok{\%\textgreater{}\%}\StringTok{ }
+\StringTok{  }\KeywordTok{summarise}\NormalTok{(}\StringTok{"durée moyenne"}\NormalTok{ =}\StringTok{ }\KeywordTok{mean}\NormalTok{(duree), }
+            \StringTok{"écart{-}type"}\NormalTok{ =}\StringTok{ }\KeywordTok{sd}\NormalTok{(duree),}
+            \StringTok{"prix moyen"}\NormalTok{ =}\StringTok{ }\KeywordTok{mean}\NormalTok{(prix), }
+            \StringTok{"écart{-}type"}\NormalTok{ =}\StringTok{ }\KeywordTok{sd}\NormalTok{(prix)) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       type             dest durée moyenne écart-type prix moyen écart-type
+## 1 REXPRESS Barcelone-Madrid           544          0       43.2          0
+## 2 REXPRESS Madrid-Barcelone           562          0       43.2          0
+\end{verbatim}
+
+Aller de Madrid à Barcelone à l'aide d'un train régulier prend 18 minutes de plus. Avec plus de 9h de trajet, pas étonnant donc que ces billets soient peu courus. Encore plus frappant, on note que le prix des billets est fixe: 43.25 euros peu importe que le trajet soit aller ou retour. C'est probablement la trouvaille la plus importante jusqu'à maintenant, car les billets de train de type RegioExpress ne forment pas un échantillon: il n'y a aucune variabilité! On aurait pu également découvrir cette anomalie en traçant une boîte à moustache du prix en fonction du type de train.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604_Modelisation_statistique_files/figure-latex/renfe-aed4-1} 
+
+}
+
+\caption{Boîte à moustache du prix de billets de train de Renfe en fonction de la destination et du type de train.}\label{fig:renfe-aed4}
+\end{figure}
+
+On pourrait soupçonner que les trains étiquetés \texttt{AVE} soient plus rapides, sachant que c'est l'acronyme de \emph{Alta Velocidad Española}, littéralement haute vitesse espagnole. Qu'en est-il des distinctions entre les deux types de trains étiquetés AVE? Selon \href{https://www.renfe-sncf.com/rw-en/services/a-unique-experience/Pages/services.aspx}{le site de la SNCF}, les trains AVE-TGV sont des partenariats entre la Renfe et la SNCF et effectuent des liaisons entre la France et l'Espagne.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{renfe }\OperatorTok{\%\textgreater{}\%}\StringTok{ }
+\StringTok{  }\KeywordTok{subset}\NormalTok{(type }\OperatorTok{\%in\%}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"AVE"}\NormalTok{,}\StringTok{"AVE{-}TGV"}\NormalTok{)) }\OperatorTok{\%\textgreater{}\%}\StringTok{ }
+\StringTok{  }\KeywordTok{group\_by}\NormalTok{(type, dest) }\OperatorTok{\%\textgreater{}\%}\StringTok{ }
+\StringTok{  }\KeywordTok{summarise}\NormalTok{(}\StringTok{"durée moyenne"}\NormalTok{ =}\StringTok{ }\KeywordTok{mean}\NormalTok{(duree), }
+            \StringTok{"écart{-}type"}\NormalTok{ =}\StringTok{ }\KeywordTok{sd}\NormalTok{(duree),}
+            \StringTok{"prix moyen"}\NormalTok{ =}\StringTok{ }\KeywordTok{mean}\NormalTok{(prix),}
+            \StringTok{"écart{-}type"}\NormalTok{ =}\StringTok{ }\KeywordTok{sd}\NormalTok{(prix))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      type             dest durée moyenne écart-type prix moyen écart-type
+## 1     AVE Barcelone-Madrid           171       15.9       87.4       19.8
+## 2     AVE Madrid-Barcelone           170       16.6       88.2       20.8
+## 3 AVE-TGV Barcelone-Madrid           175        0.0       87.0       16.8
+## 4 AVE-TGV Madrid-Barcelone           179        0.0       90.6       20.2
+\end{verbatim}
+
+Les prix sont beaucoup plus élevés, en moyenne plus de deux fois plus que les trains régionaux. Les écarts de prix importants (l'écart type est de 20 euros) indique qu'il y a peut-être d'autres sources d'hétérogénéité, mais on pourrait soupçonner que la Renfe pratique la tarification dynamique. Il y un seul temps de parcours prévu pour les trains AVE-TGV. On ne note pas de différence de prix notable selon la direction ou le type de train grande vitesse, mais peut-être que les tarifs ou la classe disponibles diffèrent selon que le train ou non est en partenariat avec la compagnie française.
+
+On a pas encore considéré le tarif et la classe des billets, hormis pour les trains RegioExpress. On voit dans la Figure \ref{fig:renfe-aed7} une forte différente dans l'hétérogénéité des prix selon le tarif; le tarif Promo prend plusieurs valeurs distinctes, tandis que les tarifs AdultoIda et Flexible semblent ne prendre que quelques valeurs. La première classe (\texttt{Preferente}) est plus chère et il y a moins d'observations dans ce groupe. La classe Turista est la classe la moins dispendieuse et la plus populaire. \href{http://web.archive.org/web/20161111134241/http://www.renfe.com/viajeros/tarifas/billete_promo.html}{\texttt{TuristaPlus}} offre plus de confort, tandis que \texttt{TuristaSolo} permet d'obtenir un siège individuel.
+
+Côté tarif, \href{http://web.archive.org/web/20161111134241/http://www.renfe.com/viajeros/tarifas/billete_promo.html}{Promo} et \href{http://web.archive.org/web/20161110220249/http://www.renfe.com/viajeros/tarifas/billete_promoplus.html}{PromoPlus} permette d'obtenir des rabais pouvant aller jusqu'à respectivement 70\% et 65\%. Les annulations et changements ne sont pas possibles avec Promo, mais disponibles avec PromoPlus moyennant une pénalité équivalent à 30-20\% du prix du billet. Le tarif \href{http://web.archive.org/web/20161108192609/http://www.renfe.com/viajeros/tarifas/billete_flexible.html}{Flexible} est disponible au même prix que les billets réguliers, avec des bénéfices additionnels.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{renfe }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{subset}\NormalTok{(tarif  }\OperatorTok{!=}\StringTok{ "AdultoIda"}\NormalTok{) }\OperatorTok{\%\textgreater{}\%}
+\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ prix, }\DataTypeTok{x =}\NormalTok{ classe, }\DataTypeTok{col =}\NormalTok{ tarif)) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{geom\_boxplot}\NormalTok{() }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{y =} \StringTok{"prix (en euros)"}\NormalTok{,}
+       \DataTypeTok{x =} \StringTok{"classe"}\NormalTok{,}
+       \DataTypeTok{color =} \StringTok{"tarif"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"bottom"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604_Modelisation_statistique_files/figure-latex/renfe-aed6-1} 
+
+}
+
+\caption{Boîte à moustache du prix en fonction du tarif et de la classe de billets de trains à haute vitesse de la Renfe.}\label{fig:renfe-aed6}
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ renfe, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ prix, }\DataTypeTok{y=}\NormalTok{..density.., }\DataTypeTok{fill =}\NormalTok{ tarif)) }\OperatorTok{+}
+\StringTok{    }\KeywordTok{geom\_histogram}\NormalTok{(}\DataTypeTok{binwidth =} \DecValTok{5}\NormalTok{) }\OperatorTok{+}
+\StringTok{    }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \StringTok{"prix (en euros)"}\NormalTok{, }\DataTypeTok{y =} \StringTok{"densité"}\NormalTok{) }\OperatorTok{+}\StringTok{ }
+\StringTok{    }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"bottom"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604_Modelisation_statistique_files/figure-latex/renfe-aed7-1} 
+
+}
+
+\caption{Histogrammes du prix en fonction du tarif de billets de trains de la Renfe.}\label{fig:renfe-aed7}
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Vérifier la répartition des billets Flexible}
+\NormalTok{renfe }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{subset}\NormalTok{(tarif  }\OperatorTok{==}\StringTok{ "Flexible"}\NormalTok{) }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{count}\NormalTok{(prix, classe)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   prix      classe    n
+## 1  108     Turista 1050
+## 2  108 TuristaSolo   67
+## 3  127     Turista  285
+## 4  127 TuristaSolo    9
+## 5  129 TuristaPlus   31
+## 6  140  Preferente    2
+## 7  152 TuristaPlus   10
+## 8  182  Preferente   78
+## 9  214  Preferente   12
+\end{verbatim}
+
+On note que la répartition des prix pour les billets de classe Flexible est inhabituelle: notre boîte à moustache est écrasée et l'écart interquartile semble nul, même si quelques valeurs inexpliquées sont aussi présentes. L'écrasante majorité des billets Flexibles sont en classe Turista, donc ça pourrait être dû à un (trop) faible nombre de billets dans chaque catégorie. On peut rejeter cette hypothèse en calculant le nombre de trains au tarif Flexible pour les différents types de billets. Ni la durée, ni le type de train, ni la destination n'expliquent pas pourquoi le prix de certains billets Flexibles est plus faible ou élevés. Le prix des billets Promo est plus faible, et les billets au tarif Preferente (la première classe) sont plus élevés.
+
+On peut résumer notre brève analyse exploratoire:
+
+\begin{itemize}
+\tightlist
+\item
+  plus de 91\% des trains sont des trains à grande vitesse AVE.
+\item
+  le temps de trajet dépend du type de train: les trains à grande vitesse mettent 3h20 au maximum pour relier Madrid et Barcelone.
+\item
+  les temps de trajets sont ceux annoncés (variable discrète avec 17 valeurs uniques, dont 13 pour les trains AVE)
+\item
+  le prix de trains RegioExpress est fixe (43.25€); tous ces billets sont dans la classe Turista et au tarif Adulto Ida. 57\% de ces trains vont de Barcelone à Madrid. La durée du trajet pour les RegioExpress est de 9h22 de Barcelona à Madrid, 18 minutes de plus que dans l'autre direction.
+\item
+  les billets en classe\texttt{Preferente} sont plus chers et moins fréquents. La classe \texttt{Turista} est la classe la moins dispendieuse et la plus populaire. \texttt{TuristaPlus} offre plus de confort, tandis que \texttt{TuristaSolo} permet d'obtenir un siège individuel.
+\item
+  selon le \href{https://www.renfe.com/es/es/viajar/tarifas/billetes.html}{site web de la Renfe}, les billets au tarif \texttt{Flexible} « viennent avec des offres additionnelles qui permettent au passagers d'échanger leurs billets ou annuler s'ils manquent leurs trains. »; en contrepartie, ces billets sont plus chers et leur tarif est fixe sauf une poignée de billets dont le prix reste inexpliqué.
+\item
+  la distribution des prix des billets de TGV au tarif \texttt{Promo} est plus ou moins symmétrique, tandis que les billets au tarif \texttt{Flexible} apparaissent tronqués à gauche (le prix minimum pour ces billets est 107.7€ dans l'échantillon).
+\item
+  la Renfe pratique la tarification dynamique pour les billets au tarif promotionnel \texttt{Promo}: ces derniers peuvent être jusqu'à 70\% moins chers que les billets à prix régulier lorsqu'achetés via l'agence officielle ou le site de Renfe. Ces billets ne peuvent être ni rembourés, ni échangés.
+\item
+  il n'y a pas d'indication à effet de quoi les prix varient selon la direction du trajet.
+  ```
+\end{itemize}
 
 \hypertarget{regression-lineaire}{%
 \chapter{Régression linéaire}\label{regression-lineaire}}
@@ -682,6 +1070,180 @@ La valeur-\(p\) du test de permutation, \(0.186\), est la proportion de statisti
 \hypertarget{r}{%
 \chapter*{\texorpdfstring{\textbf{R}}{R}}\label{r}}
 \addcontentsline{toc}{chapter}{\textbf{R}}
+
+Je suis partisan de la \href{https://raw.githubusercontent.com/eddelbuettel/gsir-te/master/docs/Getting-Started-in-R.pdf}{philosophie Tinyverse}; voir l'introduction sur les fonctionnalités de \textbf{R} avec des ressources et des dépendances minimales.
+
+\hypertarget{compluxe9ments-mathuxe9matiques}{%
+\chapter{Compléments mathématiques}\label{compluxe9ments-mathuxe9matiques}}
+
+\hypertarget{population-et-uxe9chantillons}{%
+\subsection{Population et échantillons}\label{population-et-uxe9chantillons}}
+
+Ce qui différencie la statistique des autres sciences est la prise en compte de l'incertitude et de la notion d'aléatoire. Règle générale, on cherche à estimer une caractéristique d'une population définie à l'aide d'un échantillon (un sous-groupe de la population) de taille restreinte.
+
+La \textbf{population d'intérêt} est une collection d'individus formant la matière première d'une étude statistique. Par exemple, pour l'Enquête sur la population active (EPA) de Statistique Canada, « la population cible comprend la population canadienne civile non institutionnalisée de 15 ans et plus ». Même si on faisait un recensement et qu'on interrogeait tous les membres de la population cible, la caractéristique d'intérêt peut varier selon le moment de la collecte; une personne peut trouver un emploi, quitter le marché du travail ou encore se retrouver au chômage. Cela explique la variabilité intrinsèque.
+
+En général, on se base sur un \textbf{échantillon} pour obtenir de l'information. L'\textbf{inférence statistique} vise à tirer des conclusions, pour toute la population, en utilisant seulement l'information contenue dans l'échantillon et en tenant compte des sources de variabilité. Le sondeur George Gallup (traduction libre) a fait cette merveilleuse analogie entre échantillon et population:
+
+\begin{quote}
+«Il n'est pas nécessaire de manger un bol complet de soupe pour savoir si elle est trop salé; pour autant qu'elle ait été bien brassée, une cuillère suffit.»
+\end{quote}
+
+Un \textbf{échantillon} est un sous-groupe d'individus tirés de la population à partir duquel on fait une analyse statistiques. La création de plans d'enquête est un sujet complexe et des cours entiers d'échantillonnage y sont consacrés. Même si on ne collectera pas de données, il convient de noter la condition essentielle pour pouvoir tirer des conclusions fiables à partir d'un échantillon: ce dernier doit être représentatif de la population étudiée, en ce sens que sa composition doit être similaire à celle de la population. On doit ainsi éviter les biais de sélection, notamment les échantillons de commodité qui consistent en une sélection d'amis et de connaissances.
+
+Notre échantillon est \textbf{aléatoire}, donc notre mesure d'une caractéristique d'intérêt le sera également et la conclusion de notre procédure de test variera d'un échantillon à l'autre. Plus la taille de notre échantillon sera grande, plus on obtiendra une mesure précise, voire exacte si on fait un recensement, de la quantité d'intérêt. L'exemple suivant illustre pourquoi le choix de l'échantillon est important.
+
+\begin{example}
+\protect\hypertarget{exm:Galluppoll}{}{\label{exm:Galluppoll} }
+Désireuse de prédire le résultat de l'élection présidentielle américaine de 1936, la revue \emph{Literary Digest} a sondé 10 millions d'électeurs par la poste, dont 2.4 millions ont répondu au sondage en donnant une nette avance au candidat républicain Alf Landon (57\%) face au président sortant Franklin D. Roosevelt (43\%). Ce dernier a néanmoins remporté l'élection avec 62\% des suffrages, une erreur de prédiction de 19\%. Le plan d'échantillonnage avait été conçu en utilisant des bottins téléphoniques, des enregistrements d'automobiles et des listes de membres de clubs privés, etc.: \href{https://www.jstor.org/stable/2749114}{la non-réponse différentielle et un échantillon biaisé vers les classes supérieures sont en grande partie responsable de cette erreur.}
+
+Gallup avait de son côté correctement prédit la victoire de Roosevelt en utilisant un échantillon aléatoire de (seulement) 50 000 électeurs. \href{https://medium.com/@ozanozbey/how-not-to-sample-11579793dac}{L'histoire complète (en anglais).}
+\end{example}
+
+\hypertarget{variables-aluxe9atoires}{%
+\section{Variables aléatoires}\label{variables-aluxe9atoires}}
+
+Un phénomène d'intérêt varie d'un individu à l'autre (autrement un modèle statistique est rarement adéquat). On cherche à décrire son comportement, soit l'ensemble des valeurs possibles et leur probabilité/fréquence relative au sein de la population décrites par la loi de probabilité de la variable aléatoire.
+
+On fera la distinction entre deux cas de figure: quand le phénomène prend des valeurs finies, comme par exemple un événement binaire (achat/non-achat d'un produit) ou un continuum de valeurs (par exemple, le prix d'un item). On dénote les variables aléatoires par des lettres majuscules: par exemple, \(Y \sim \mathsf{No}(\mu, \sigma^2)\) indique que \(Y\) suit une loi normale de paramètres \(\mu\) et \(\sigma\), qui représentent respectivement l'espérance et la variance de \(Y\).
+
+La fonction de répartition \(F(y)\) donne la probabilité cumulative qu'un événement n'excède pas une variable donnée, \(F(y) = \mathsf{Pr}(Y \leq y)\).
+
+Si la variable \(Y\) prend des valeurs discrètes, alors on utilise la fonction de masse \(f(y)=\mathsf{Pr}(Y=y)\) qui donne la probabilité pour chacune des valeurs de \(y\).
+Si la variable \(Y\) est continue, aucune valeur numérique de \(y\) n'a de probabilité non-nulle; la densité sert à estimer la probabilité que la variable \(Y\) appartienne à un ensemble \(B\), via \(\mathsf{Pr}(Y \in B) = \int_B f(y) \mathrm{d} y\); la fonction de répartition est ainsi \(F(y) = \int_{-\infty}^y f(x) \mathrm{d} x\). Plusieurs lois aléatoires décrivent des phénomènes physiques simples et ont donc une justification empirique; on revisite les distributions les plus fréquemment couvertes.
+
+\begin{example}[Loi de Bernoulli]
+\protect\hypertarget{exm:loibern}{}{\label{exm:loibern} \iffalse (Loi de Bernoulli) \fi{} }On considère un phénomène binaire, comme le lancer d'une pièce de monnaie (pile/face). De manière générale, on associe les deux possibilités à succès/échec et on suppose que la probabilité de succès est \(\pi\). Par convention, on représente les échecs (non) par des zéros et les réussites (oui) par des uns. Donc, si la variable \(Y\) vaut \(0\) ou \(1\), alors \(\mathsf{Pr}(Y=1)=\pi\) et \(\mathsf{Pr}(Y=0)=1-\pi\) (complémentaire). La fonction de masse de la \href{https://fr.wikipedia.org/wiki/Loi_de_Bernoulli}{loi Bernoulli} s'écrit de façon plus compacte
+\begin{align*}
+\mathsf{P}(Y=y) = \pi^y (1-\pi)^{1-y}, \quad y=0, 1.
+\end{align*}
+
+Un calcul rapide montre que \(\mathsf{E}(Y)=\pi\) et \(\mathsf{Va}(Y)=\pi(1-\pi)\).
+Voici quelques exemples de questions de recherches comprenant une variable réponse binaire:
+
+\begin{itemize}
+\tightlist
+\item
+  est-ce qu'un client potentiel a répondu favorablement à une offre
+  promotionnelle?
+\item
+  est-ce qu'un client est satisfait du service après-vente?
+\item
+  est-ce qu'une firme va faire faillite au cours des trois prochaines années?
+\item
+  est-ce qu'un participant à une étude réussit une tâche?
+\end{itemize}
+\end{example}
+
+\begin{example}[Loi binomiale]
+\protect\hypertarget{exm:loibinom}{}{\label{exm:loibinom} \iffalse (Loi binomiale) \fi{} }Si les données représentent la somme d'événements Bernoulli indépendants, la loi du nombre de réussites \(Y\) pour un nombre d'essais donné \(m\) est dite \href{https://fr.wikipedia.org/wiki/Loi_binomiale}{binomiale}, dénotée \(\mathsf{Bin}(m, \pi)\); sa fonction de masse est
+\begin{align*}
+\mathsf{Pr}(Y=y) = \binom{m}{y}\pi^y (1-\pi)^{1-y}, \quad y=0, 1.
+\end{align*}
+La vraisemblance pour un échantillon de la loi binomiale est (à constante de normalisation près qui ne dépend pas de \(\pi\)) la même que pour un échantillon aléatoire de \(m\) variables Bernoulli indépendantes. L'espérance d'une variable binomiale est \(\mathsf{E}(Y)=m\pi\) et la variance \(\mathsf{Va}(Y)=m\pi(1-\pi)\).
+
+On peut ainsi considérer le nombre de personnes qui ont obtenu leur permis de conduire parmi \(m\) candidat(e)s ou le nombre de clients sur \(m\) qui ont passé une commande de plus de 10\$ dans un magasin.
+\end{example}
+
+Plus généralement, on peut considérer des variables de dénombrement qui prennent des valeurs entières. Parmi les exemples de questions de recherches comprenant une variable réponse de dénombrement:
+
+\begin{itemize}
+\tightlist
+\item
+  le nombre de réclamations faites par un client d'une compagnie d'assurance
+  au cours d'une année.
+\item
+  le nombre d'achats effectués par un client depuis un mois.
+\item
+  le nombre de tâches réussies par un participant lors d'une étude.
+\end{itemize}
+
+\begin{example}[Loi géométrique]
+\protect\hypertarget{exm:loigeom}{}{\label{exm:loigeom} \iffalse (Loi géométrique) \fi{} }La \href{https://fr.wikipedia.org/wiki/Loi_g\%C3\%A9om\%C3\%A9trique}{loi géométrique} décrit le comportement du nombre d'essais Bernoulli de probabilité de succès \(\pi\) nécessaires avant l'obtention d'un premier succès. La fonction de masse de \(Y \sim \mathsf{Geo}(\pi)\) est
+\begin{align*}
+\mathsf{Pr}(Y=y) = \pi (1-\pi)^{y-1}, \quad y=1,2, \ldots
+\end{align*}
+
+Par exemple, on pourrait modéliser le nombre de visites d'une maison en vente avant une première offre d'achat à l'aide d'une variable géométrique.
+\end{example}
+
+\begin{example}[Loi de Poisson]
+\protect\hypertarget{exm:loipoisson}{}{\label{exm:loipoisson} \iffalse (Loi de Poisson) \fi{} }Si la probabilité d'un événement Bernoulli est \textbf{rare} dans le sens où \(n\pi \to \lambda\) quand le nombre d'essais \(n\) augmente, alors le nombre de succès suit une loi de Poisson de fonction de masse
+\begin{align*}
+\mathsf{Pr}(Y=y) = \frac{\exp(-\lambda)\lambda^y}{\Gamma(y+1)}, \quad y=0, 1, 2, \ldots
+\end{align*}
+où \(\Gamma(\cdot)\) dénote la fonction gamma. Le paramètre \(\lambda\) de la loi de Poisson représente à la fois l'espérance et la variance de la variable, c'est-à-dire que \(\mathsf{E}(Y)=\mathsf{Va}(Y)=\lambda\).
+\end{example}
+
+\begin{example}[Loi binomiale négative]
+\protect\hypertarget{exm:loibinneg}{}{\label{exm:loibinneg} \iffalse (Loi binomiale négative) \fi{} }On considère une série d'essais Bernoulli de probabilité de succès \(\pi\) jusqu'à l'obtention de \(m\) succès. Soit \(Y\), le nombre d'échecs: puisque la dernière réalisation doit forcément être un succès, mais que l'ordre des succès/échecs précédents n'importe pas, la fonction de masse est
+\begin{align*}
+\mathsf{Pr}(Y=y)= \binom{m-1+y}{y} \pi^m (1-\pi)^{y}.
+\end{align*}
+
+La loi binomiale négative apparaît également si on considère la loi non-conditionnelle du modèle hiérarchique gamma-Poisson, dans lequel on suppose que le paramètre de la moyenne de la loi Poisson est aussi aléatoire, c'est-à-dire \(Y \mid \Lambda=\lambda \sim \mathsf{Po}(\lambda)\) et \(\Lambda\) suit une loi Gamma de paramètre de forme \(r\) et de paramètre d'échelle \(\theta\), dont la densité est \[f(x) = \theta^{-r}x^{r-1}\exp(-x/\theta)/\Gamma(r).\] Le nombre d'événements suit alors une loi binomiale négative.
+
+La paramétrisation la plus courante pour la modélisation est légèrement différente: on utilise la fonction de masse est
+\begin{align*}
+\mathsf{P}(Y=y)=\frac{\Gamma(y+r)}{\Gamma(y+1)\Gamma(r)} \left(\frac{r}{r + \mu} \right)^{r} \left(\frac{\mu}{r+\mu}\right)^y, y=0, 1, \ldots, \mu,r >0,
+\end{align*}
+où \(\Gamma\) dénote la fonction gamma. À noter que le paramètre \(r>0\) n'est plus nécessairement entier. La moyenne théorique et la variance sont
+\(\mathsf{E}(Y)=\mu\) et \(\mathsf{Va}(Y)=\mu+k\mu^2\), où \(k=1/r\). La variance d'une variable binomiale négative est \emph{supérieure} à sa moyenne et le modèle est utilisé comme alternative à la loi de Poisson pour modéliser la surdispersion.
+\end{example}
+
+\hypertarget{loi-des-grands-nombres}{%
+\section{Loi des grands nombres}\label{loi-des-grands-nombres}}
+
+Un estimateur est dit \textbf{convergent} si la valeur obtenue à mesure que la taille de l'échantillon augmente s'approche de la vraie valeur que l'on cherche à estimer. La loi des grands nombres établit que la moyenne empirique de \(n\) observations indépendantes de même espérance, \(\overline{Y}_n\), tend vers l'espérance commune des variables \(\mu\), où \(\overline{Y}_n \rightarrow \mu\). En gros, ce résultat nous dit que l'on réussit à approximer de mieux en mieux la quantité d'intérêt quand la taille de l'échantillon (et donc la quantité d'information disponible sur le paramètre) augmente. La loi des grands nombres est très utiles dans les expériences Monte Carlo: on peut ainsi approximer par simulation la moyenne d'une fonction de variables aléatoires \(g(Y)\) en simulant de façon répétée des variables \(Y\) indépendantes et identiquement distribuées et en prenant la moyenne empirique \(n^{-1} \sum_{i=1}^n g(Y_i)\).
+
+Si la loi des grands nombres nous renseigne sur le comportement limite ponctuel, il ne nous donne aucune information sur la variabilité de notre estimé de la moyenne et la vitesse à laquelle on s'approche de la vraie valeur du paramètre.
+
+\hypertarget{thuxe9oruxe8me-central-limite}{%
+\section{Théorème central limite}\label{thuxe9oruxe8me-central-limite}}
+
+Le théorème central limite dit que, pour un échantillon aléatoire de taille \(n\) dont les observations sont indépendantes et tirées d'une loi quelconque d'espérance \(\mu\) et de variance finie \(\sigma^2\), alors la moyenne empirique tend non seulement vers \(\mu\), mais à une vitesse précise:
+
+\begin{itemize}
+\tightlist
+\item
+  l'estimateur \(\overline{Y}\) sera centré autour de \(\mu\),
+\item
+  l'erreur-type sera de \(\sigma/\sqrt{n}\); le taux de convergence est donc de \(\sqrt{n}\). Ainsi, pour un échantillon de taille 100, l'erreur-type de la moyenne empirique sera 10 fois moindre que l'écart-type de la variable aléatoire sous-jacente.
+\item
+  la loi approximative de la moyenne \(\overline{Y}\) sera normale.
+\end{itemize}
+
+Mathématiquement, le théorème central limite dicte que \(\sqrt{n}(\overline{Y}-\mu) \stackrel{\mathrm{d}}{\rightarrow} \mathsf{No}(0, \sigma^2)\). Si \(n\) est grand (typiquement supérieur à \(30\), mais cette règle dépend de la loi sous-jacente de \(Y\)), alors \(\overline{Y} \stackrel{\cdot}{\sim} \mathsf{No}(\mu, \sigma^2/n)\).
+
+Comment interpréter ce résultat? On considère comme exemple le temps de trajet moyen de trains à haute vitesse AVE entre Madrid et Barcelone opérés par la Renfe.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604_Modelisation_statistique_files/figure-latex/renfeclt-1} 
+
+}
+
+\caption{Distribution empirique des temps de trajet en trains à grande vitesse.}\label{fig:renfeclt}
+\end{figure}
+
+Une analyse exploratoire indique que la durée du trajet de la base de données est celle affichée sur le billet (et non le temps réel du parcours). Ainsi, il n'y a ainsi que 15 valeurs possibles. Le temps affiché moyen pour le parcours, estimé sur la base de 9603 observations, est de 170 minutes et 41 secondes. La Figure (voir \ref{fig:renfeclt}) montre la distribution empirique des données.
+
+Considérons maintenant des échantillons de taille dix. Dans notre premier échantillon aléatoire, la durée moyenne affichée est 167.7 minutes, elle est de 169.2 minutes dans le deuxième, de 172.7 dans le troisième, et ainsi de suite.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.9\linewidth]{MATH60604_Modelisation_statistique_files/figure-latex/renfemeanCLT-1} 
+
+}
+
+\caption{Représentation graphique du théorème central limite: échantillon aléatoire de 20 observations avec leur moyenne empirique (trait vertical rouge) (en haut à gauche). Les trois autres panneaux montrent les histogrammes des moyennes empiriques d'échantillons répétés de taille 5 (en haut à droite), 20 (en bas à gauche) et les histogrammes pour $n=5, 20, 100$ (en bas à droite) avec courbe de densité de l'approximation normale fournie par le théorème central limite.}\label{fig:renfemeanCLT}
+\end{figure}
+
+Supposons qu'on tire \(B=1000\) échantillons différents, chacun de taille \(n=5\), de notre ensemble, et qu'on calcule la moyenne de chacun d'entre eux. Le graphique supérieur droit \ref{fig:renfemeanCLT} montre un de ces 1000 échantillons aléatoire de taille \(n=20\) tiré de notre base de données. Les autres graphiques de la Figure \ref{fig:renfemeanCLT} illustrent l'effet de l'augmentation de la taille de l'échantillon: si l'approximation normale est approximative avec \(n=5\), la distribution des moyennes est virtuellement identique à partir de \(n=20\). Plus la moyenne est calculée à partir d'un grand échantillon (c'est-à-dire, plus \(n\) augmente), plus la qualité de l'approximation normale est meilleure et plus la courbe se concentre autour de la vraie moyenne; malgré le fait que nos données sont discrètes, la distribution des moyennes est approximativement normale.
+
+On a considéré un seul échantillon dans l'exemple, mais vous pouvez vous amuser à regarder la taille de l'échantillon nécessaire pour que l'effet du théorème central limite prenne effet en simulant des observations d'une loi quelconque de variance finie. Cette \href{http://195.134.76.37/applets/AppletCentralLimit/Appl_CentralLimit2.html}{applette} permet de faire des simulations en variant la loi des données et la taille de l'échantillon.
+
+Les statistiques de test qui découlent d'une moyenne centrée-réduite (ou d'une quantité équivalente pour laquelle un théorème central limite s'applique) ont souvent une loi nulle standard normale, du moins asymptotiquement (quand \(n\) est grand, typiquement \(n>30\) est suffisant). C'est ce qui garantie la validité de notre inférence!
 
   \bibliography{book.bib,packages.bib,notes60604.bib}
 
