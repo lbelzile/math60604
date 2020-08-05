@@ -24,12 +24,12 @@ description: "Ces notes forment un complément web du cours MATH 60604 (Modélis
 
 # Remarques {-}
 
-Ces notes sont l'oeuvre de Léo Belzile (HEC Montréal) et sont mis à disposition sous la [Licence publique Creative Commons Attribution - Utilisation non commerciale - Partage dans les mêmes conditions 4.0 International](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.fr) et ont été compilé le `r format(Sys.Date(), "%d %B %Y")`. 
+Ces notes sont l'oeuvre de Léo Belzile (HEC Montréal) et sont mises à disposition sous la [Licence publique Creative Commons Attribution - Utilisation non commerciale - Partage dans les mêmes conditions 4.0 International](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.fr). Cette version est celle du `r format(Sys.Date(), "%d %B %Y")`. 
 
 Bien que les diapositives illustrent l'implémentation des techniques statistiques et des modèles à l'aide de **SAS**, ces notes présentent le pendant  **R**: visitez [le site web du projet **R**](https://cran.r-project.org/) pour télécharger le logiciel. L'interface graphique la plus populaire (et celle que je vous recommande) est [RStudio Desktop](https://www.rstudio.com/products/rstudio/download/).
 
 
-Ce cours traite de modélisation des données, aussi convient-il de s'attarder au fait que nos modèles seront des approximations de la réalité: George Box a affirmé à plusieurs reprises que  « tous les modèles sont faux, mais certains sont utiles ». Ce point de vue est réducteur; Peter McCullagh et John Nelder (traduction libre) expliquent dans le préambule de leur livre
+Ce cours traite de modélisation des données et une citation célèbre de George Box dit que « tous les modèles sont faux, mais certains sont utiles ». Ce point de vue est réducteur; Peter McCullagh et John Nelder (traduction libre) expliquent dans le préambule de leur livre
 
 > La modélisation en science demeure, du moins partiellement, un art. Certains principes existent, en revanche, pour guider le modélisateur. Le premier est que tous les modèles sont faux; certains, cependant, sont mieux que d’autres et le modélisateur doit chercher le meilleur à sa portée. En même temps, il est sage de reconnaître que la quête perpétuelle de la vérité n’est pas envisageable.
 
@@ -68,7 +68,7 @@ options(knitr.graphics.auto_pdf = TRUE)
 options(scipen = 1, digits = 3)
 library(viridis)
 library(ggplot2, warn.conflicts = FALSE, quietly = TRUE)
-
+library(poorman, quietly = TRUE, warn.conflicts = FALSE)
 options(ggplot2.continuous.colour="viridis")
 options(ggplot2.continuous.fill = "viridis")
 scale_colour_discrete <- scale_colour_viridis_d

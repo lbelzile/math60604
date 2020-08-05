@@ -1,7 +1,7 @@
 # Compléments mathématiques
 
 
-### Population et échantillons
+## Population et échantillons
 
 Ce qui différencie la statistique des autres sciences est la prise en compte de l'incertitude et de la notion d'aléatoire. Règle générale, on cherche à estimer une caractéristique d'une population définie à l'aide d'un échantillon (un sous-groupe de la population) de taille restreinte. 
 
@@ -38,7 +38,7 @@ Si la variable $Y$ est continue, aucune valeur numérique de $y$ n'a de probabil
 ```{example, label="loibern", name="Loi de Bernoulli"}
 On considère un phénomène binaire, comme le lancer d'une pièce de monnaie (pile/face). De manière générale, on associe les deux possibilités à succès/échec et on suppose que la probabilité de succès est $\pi$. Par convention, on représente les échecs (non) par des zéros et les réussites (oui) par des uns. Donc, si la variable $Y$ vaut $0$ ou $1$, alors  $\mathsf{Pr}(Y=1)=\pi$ et $\mathsf{Pr}(Y=0)=1-\pi$ (complémentaire). La fonction de masse de la [loi Bernoulli](https://fr.wikipedia.org/wiki/Loi_de_Bernoulli) s'écrit de façon plus compacte
 \begin{align*}
-\mathsf{P}(Y=y) = \pi^y (1-\pi)^{1-y}, \quad y=0, 1.
+\mathsf{Pr}(Y=y) = \pi^y (1-\pi)^{1-y}, \quad y=0, 1.
 \end{align*}
 
 Un calcul rapide montre que $\mathsf{E}(Y)=\pi$ et $\mathsf{Va}(Y)=\pi(1-\pi)$.
@@ -102,16 +102,89 @@ La loi binomiale négative apparaît également si on considère la loi non-cond
 
 La paramétrisation la plus courante pour la modélisation est légèrement différente: on utilise la fonction de masse est
 \begin{align*}
-\mathsf{P}(Y=y)=\frac{\Gamma(y+r)}{\Gamma(y+1)\Gamma(r)} \left(\frac{r}{r + \mu} \right)^{r} \left(\frac{\mu}{r+\mu}\right)^y, y=0, 1, \ldots, \mu,r >0,
+\mathsf{Pr}(Y=y)=\frac{\Gamma(y+r)}{\Gamma(y+1)\Gamma(r)} \left(\frac{r}{r + \mu} \right)^{r} \left(\frac{\mu}{r+\mu}\right)^y, y=0, 1, \ldots, \mu,r >0,
 \end{align*}
 où $\Gamma$ dénote la fonction gamma. À noter que le paramètre $r>0$ n'est plus nécessairement entier. La moyenne théorique et la variance sont 
 $\mathsf{E}(Y)=\mu$ et $\mathsf{Va}(Y)=\mu+k\mu^2$, où $k=1/r$. La variance d'une variable binomiale négative est *supérieure* à sa moyenne et le modèle est utilisé comme alternative à la loi de Poisson pour modéliser la surdispersion. 
 ```
 
+### Diagrammes quantiles-quantiles
+
+Puisqu'un modèle est une approximation de la réalité, il y aura une différence entre valeur observée $y$ et valeur ajustée $\widehat{y}$ par le modèle: on nomme cette différence $e = y - \widehat{y}$ résidu. Plus généralement, on pourrait ajuster une fonction de vraisemblance à des données et vouloir vérifier graphiquement que notre modèle postulé est adéquat. Si $Y$ est une variable aléatoire et $F$ sa fonction de répartition, alors l'application $F(Y) \sim \mathsf{U}(0,1)$. De la même façon, appliquer la fonction quantile à une variable uniforme permet de simuler de la loi $F$, et donc $F^{-1}(U)$. Supposons un échantillon de taille $n$ de variables uniformes. On peut démontrer que les statistiques d'ordre $U_{(1)} \leq \cdots \leq U_{(n)}$ ont une loi marginale Beta: et $U_{(k)} \sim \mathsf{Beta}(k, n+1-k)$ d'espérance $k/(n+1)$.
+
+Les paramètres de la loi $F$ sont inconnus, mais on peut obtenir un estimateur $\widehat{F}$ et appliquer la transformation inverse pour obtenir une variable approximativement uniforme. Un diagramme quantile-quantile représente les données en fonction des moments des statistiques d'ordre transformées
+
+- sur l'axe des abscisses, les quantiles théoriques $\widehat{F}^{-1}\{\mathrm{rang}(Y_i)/(n+1)\}$
+- sur l'axe des ordonnées, les quantiles empiriques $Y_i$
+
+Si le modèle est adéquat, les valeurs ordonnées devraient suivre une droite de pente unitaire qui passe par l'origine. L'oeil humain a de la difficulté à juger de la qualité de l'adéquation en regardant une droite, aussi est-il préférable de soustraire cette pente pour faciliter l'interprétation (une méthode proposée par Tukey, mais faire attention à l'échelle!) Les données de la Figure \@ref(fig:diagrammeqq2) montrent ces deux représentations sur des mêmes données simulées d'une loi normale standard.
+
+```{r diagrammeqq2, cache = TRUE, eval = TRUE, echo = FALSE, fig.cap = "Diagramme quantile-quantile normal (gauche) et représentation de Tukey du même diagramme (en soustrayant la traîne)"}
+library(qqplotr, warn.conflicts = FALSE)
+library(patchwork)
+set.seed(1234)
+data <- data.frame(sample = rnorm(100))
+di <- "norm"
+dp <- list(mean = 0, scale = 1)
+de <- TRUE
+g2 <- ggplot(data = data, mapping = aes(sample = sample)) +
+ stat_qq_band(distribution = di, detrend = de, bandType = "boot", B = 9999) +
+ stat_qq_line(distribution = di, detrend = de) +
+ stat_qq_point(distribution = di, detrend = de) +
+ labs(x = "quantiles théoriques", y = "quantiles empiriques")
+de <- FALSE
+g1 <- ggplot(data = data, mapping = aes(sample = sample)) +
+ stat_qq_band(distribution = di, detrend = de, bandType = "boot", B = 9999) +
+ stat_qq_line(distribution = di, detrend = de) +
+ stat_qq_point(distribution = di, detrend = de) +
+ labs(x = "quantiles théoriques", y = "quantiles empiriques")
+g1 + g2
+
+```
+
+Même si on connaissait exactement la loi aléatoire des données, la variabilité intrinsèque à l'échantillon fait en sorte que des déviations qui semblent significatives et anormales à l'oeil de l'analyste sont en fait compatibles avec le modèle: un simple estimé ponctuel sans mesure d'incertitude ne permet donc pas facilement de voir ce qui est plausible ou pas. On va donc idéalement ajouter un intervalle de confiance (approximatif) ponctuel ou conjoint au diagramme.
+
+Pour obtenir l'intervalle de confiance approximatif, la méthode la plus simple est par simulation (autoamorçage paramétrique), en répétant $B$ fois les étapes suivantes 
+
+1. simuler un échantillon $\{Y^{(b)}_{i}\} (i=1,\ldots, n)$ du modèle $\widehat{F}$
+2. estimer les paramètres du modèle $F$ par maximum de vraisemblance pour obtenir $\widehat{F}_{(b)}$
+3. calculer et stocker les positions $\widehat{F}^{-1}_{(b)}\{i/(n+1)\}$.
+
+Le résultat de cette opération sera une matrice $n \times B$ de données simulées; on obtient un intervalle de confiance symmétrique en conservant le quantile $\alpha/2$ et $1-\alpha/2$ de chaque colonne. Le nombre de simulation $B$ devrait large (typiquement 999 ou davantage) et être choisi de manière à ce que $B/alpha$ soit un entier.
+
+Pour l'intervalle de confiance ponctuel, chaque valeur représente une statistique et donc individuellement, la probabilité qu'une statistique d'ordre sorte de l'intervalle de confiance est $\alpha$. En revanche, les statistiques d'ordres ne sont pas indépendantes et sont qui est plus ordonnées, ce qui fait qu'un point hors de l'intervalle risque de n'être pas isolé. [Il est aussi possible d'obtenir par autoamorçage un intervalle de confiance (approximatif) conjoint, pour lequel une valeur sort de l'intervalle $100(1-\alpha)$\% du temps; [voir à ce sujet mes notes de cours Section 4.4.3 (en anglais)](https://lbelzile.github.io/lineaRmodels/qqplot.html). Les intervalles présentés dans la Figure \@ref(fig:diagrammeqq2) sont ponctuels et illustrent clairement que la variabilité des statistiques d'ordre situées dans la queue est plus importante que celles qui sont centrales.
+
+
+
+
+## Moments
+
+Un premier cours de statistique débute souvent par la présentation de statistiques descriptives comme la moyenne et l'écart-type. Ce sont des estimateurs des moments (centrés), qui caractérisent la loi du phénomène d'intérêt. Dans le cas de la loi normale unidimensionnelle, qui a deux paramètres, l'espérance et la variance caractérisent complètement le modèle.
+
+Soit $Y$ une variable aléatoire de fonction de densité (ou de masse) $f(x)$. Cette fonction est non-négative et satisfait $\int_{\mathbb{R}} f(x) \mathrm{d}x=1$: elle décrit la probabilité d'obtenir un résultat dans un ensemble donné des réels $\mathbb{R}$.
+
+On définit l'espérance d'une variable aléatoire $Y$ comme \[\mathsf{E}(Y)=\int_{\mathbb{R}} x f(x) \mathrm{d} x.\] 
+L'espérance est  la « moyenne théorique» : dans le cas discret, $\mu = \mathsf{E}(Y)=\sum_{x \in \mathcal{X}} x \mathsf{Pr}(X=x)$, où $\mathcal{X}$ représente le support de la loi, à savoir les valeurs qui ont une probabilité non-nulle. Plus généralement, l'espérance d'une fonction $g(x)$ pour une variable aléatoire $Y$  est simplement l'intégrale de $g(x)$ pondérée par la densité $f(x)$. De même, si l'intégrale est convergente, la variance est 
+\[\mathsf{Va}(Y)=\mathsf{E}\{Y-\mathsf{E}(Y)\}^2 \equiv \int_{\mathbb{R}} (x-\mu)^2 f(x) \mathrm{d} x.\]
+
+Un estimateur $\hat{\theta}$ pour un paramètre $\theta$ est sans biais  si son biais $\mathsf{biais}(\hat{\theta})=\mathsf{E}(\hat{\theta})- \theta$ est nul.
+L'estimateur sans biais de l'espérance de $Y$ est $\overline{Y}_n = n^{-1} \sum_{i=1}^n Y_i$ et celui de la variance $S_n = (n-1)^{-1} \sum_{i=1}^n (Y_i-\overline{Y})^2$. Un estimateur sans biais est souhaitable, mais pas toujours optimal. Quelquefois, il n'existe pas d'estimateur non-biaisé! 
+
+
+
+Souvent, on cherche à balancer le biais et la variance: rappelez-vous qu'un estimateur est une variable aléatoire (étant une fonction de variables aléatoires) et qu'il est lui-même variable: même s'il est sans biais, la valeur numérique obtenue fluctuera d'un échantillon à l'autre. On peut chercher un estimateur qui minimise l'erreur moyenne quadratique, \[\mathsf{EMQ}(\hat{\theta}) = \mathsf{E}\{(\hat{\theta}-\theta)^2\}=\mathsf{Va}(\hat{\theta}) + \{\mathsf{E}(\hat{\theta})\}^2.\]
+C'est donc un compromis entre le carré du biais  et la variance de l'estimateur. 
+La plupart des estimateurs que nous considérerons dans le cadre du cours sont 
+des estimateurs du maximum de vraisemblance. Ces derniers sont asymptotiquement efficaces, c'est-à-dire qu'ils minimisent l'erreur moyenne quadratique parmi tous les estimateurs possibles quand la taille de l'échantillon est suffisamment grande. Ils ont également d'autre propriétés qui les rendent attractifs comme choix par défaut pour l'estimation.
+
 ## Loi des grands nombres
 
 
-Un estimateur est dit **convergent** si la valeur obtenue à mesure que la taille de l'échantillon augmente s'approche de la vraie valeur que l'on cherche à estimer. La loi des grands nombres établit que la moyenne empirique de $n$ observations indépendantes de même espérance,  $\overline{Y}_n$, tend vers l'espérance commune des variables $\mu$, où $\overline{Y}_n \rightarrow \mu$. En gros, ce résultat nous dit que l'on réussit à approximer de mieux en mieux la quantité d'intérêt quand la taille de l'échantillon (et donc la quantité d'information disponible sur le paramètre) augmente. La loi des grands nombres est très utiles dans les expériences Monte Carlo: on peut ainsi approximer par simulation la moyenne d'une fonction de variables aléatoires $g(Y)$ en simulant de façon répétée des variables $Y$ indépendantes et identiquement distribuées et en prenant la moyenne empirique $n^{-1} \sum_{i=1}^n g(Y_i)$.
+Un estimateur est dit **convergent** si la valeur obtenue à mesure que la taille de l'échantillon augmente s'approche de la vraie valeur que l'on cherche à estimer. Mathématiquement parlant, un estimateur est dit convergent s'il converge en probabilité, ou $\hat{\theta} \stackrel{\mathsf{Pr}}{\to} \theta$: en langage commun, la probabilité que la différence entre $\hat{\theta}$ et $\theta$ diffèrent est négligeable quand $n$ est grand. 
+
+La condition _a minima_ pour le choix d'un estimateur est donc la convergence: plus on récolte d'information, plus notre estimateur devrait s'approcher de la valeur qu'on tente d'estimer. 
+
+La loi des grands nombres établit que la moyenne empirique de $n$ observations indépendantes de même espérance,  $\overline{Y}_n$, tend vers l'espérance commune des variables $\mu$, où $\overline{Y}_n \rightarrow \mu$. En gros, ce résultat nous dit que l'on réussit à approximer de mieux en mieux la quantité d'intérêt quand la taille de l'échantillon (et donc la quantité d'information disponible sur le paramètre) augmente. La loi des grands nombres est très utiles dans les expériences Monte Carlo: on peut ainsi approximer par simulation la moyenne d'une fonction $g(x)$ de variables aléatoires  en simulant de façon répétée des variables $Y$ indépendantes et identiquement distribuées et en prenant la moyenne empirique $n^{-1} \sum_{i=1}^n g(Y_i)$.
 
 Si la loi des grands nombres nous renseigne sur le comportement limite ponctuel, il ne nous donne aucune information sur la variabilité de notre estimé de la moyenne et la vitesse à laquelle on s'approche de la vraie valeur du paramètre.
 

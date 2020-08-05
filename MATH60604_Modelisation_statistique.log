@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020) (preloaded format=xelatex 2020.5.8)  23 JUL 2020 16:18
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020) (preloaded format=xelatex 2020.5.8)  5 AUG 2020 14:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1191,72 +1191,74 @@ ic file (type pdf)
 <use MATH60604_Modelisation_statistique_files/figure-latex/intconf-1.pdf>
 [16] [17]
 LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10.95> not available
-(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 578.
-[18] [19]
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 576.
+[18]
+Overfull \vbox (1.92773pt too high) detected at line 644
+ []
+
+[19]
 File: MATH60604_Modelisation_statistique_files/figure-latex/renfepermut-1.pdf G
 raphic file (type pdf)
 <use MATH60604_Modelisation_statistique_files/figure-latex/renfepermut-1.pdf>
-[20] [21]
-Underfull \hbox (badness 10000) in paragraph at lines 704--705
 
- []
+Underfull \vbox (badness 3601) has occurred while \output is active []
 
-File: images/continuous_discrete.png Graphic file (type bmp)
-<images/continuous_discrete.png>
-[22]
-File: images/nominal_ordinal_binary.png Graphic file (type bmp)
-<images/nominal_ordinal_binary.png>
+[20]
+LaTeX Font Info:    Font shape `TU/heuristica(0)/b/it' will be
+(Font)              scaled to size 10.12877pt on input line 669.
+[21]
 File: MATH60604_Modelisation_statistique_files/figure-latex/barplotrenfe-1.pdf 
 Graphic file (type pdf)
 <use MATH60604_Modelisation_statistique_files/figure-latex/barplotrenfe-1.pdf>
-
-Underfull \vbox (badness 1661) has occurred while \output is active []
-
-[23]
+[22]
 File: MATH60604_Modelisation_statistique_files/figure-latex/histrenfe-1.pdf Gra
 phic file (type pdf)
 <use MATH60604_Modelisation_statistique_files/figure-latex/histrenfe-1.pdf>
-[24]
 File: images/01-intro-boiteamoustache.pdf Graphic file (type pdf)
 <use images/01-intro-boiteamoustache.pdf>
+[23]
 File: MATH60604_Modelisation_statistique_files/figure-latex/histboxplot-1.pdf G
 raphic file (type pdf)
 <use MATH60604_Modelisation_statistique_files/figure-latex/histboxplot-1.pdf>
-[25]
+[24]
 File: MATH60604_Modelisation_statistique_files/figure-latex/nuagedepoints-1.pdf
  Graphic file (type pdf)
 <use MATH60604_Modelisation_statistique_files/figure-latex/nuagedepoints-1.pdf>
 
-[26] [27] [28]
-Overfull \hbox (1.8062pt too wide) in paragraph at lines 921--921
+[25]
+File: MATH60604_Modelisation_statistique_files/figure-latex/seriechrono-1.pdf G
+raphic file (type pdf)
+<use MATH60604_Modelisation_statistique_files/figure-latex/seriechrono-1.pdf>
+[26] [27]
+Overfull \hbox (1.8062pt too wide) in paragraph at lines 915--915
 []\TU/lmtt/m/n/10.95 ##       type             dest durée moyenne écart-type pr
 ix moyen écart-type[] 
  []
 
 
-Overfull \hbox (1.8062pt too wide) in paragraph at lines 921--921
+Overfull \hbox (1.8062pt too wide) in paragraph at lines 915--915
 []\TU/lmtt/m/n/10.95 ## 1 REXPRESS Barcelone-Madrid           544          0   
     43.2          0[] 
  []
 
 
-Overfull \hbox (1.8062pt too wide) in paragraph at lines 921--921
+Overfull \hbox (1.8062pt too wide) in paragraph at lines 915--915
 []\TU/lmtt/m/n/10.95 ## 2 REXPRESS Madrid-Barcelone           562          0   
     43.2          0[] 
  []
 
+[28]
 File: MATH60604_Modelisation_statistique_files/figure-latex/renfe-aed4-1.pdf Gr
 aphic file (type pdf)
 <use MATH60604_Modelisation_statistique_files/figure-latex/renfe-aed4-1.pdf>
-[29] [30]
+[29]
 File: MATH60604_Modelisation_statistique_files/figure-latex/renfe-aed6-1.pdf Gr
 aphic file (type pdf)
 <use MATH60604_Modelisation_statistique_files/figure-latex/renfe-aed6-1.pdf>
-[31]
 File: MATH60604_Modelisation_statistique_files/figure-latex/renfe-aed7-1.pdf Gr
 aphic file (type pdf)
 <use MATH60604_Modelisation_statistique_files/figure-latex/renfe-aed7-1.pdf>
-[32] [33] [34
+[30] [31] [32] [33] [34
 
 ]
 Chapitre 2.
@@ -1287,29 +1289,36 @@ Chapitre 7.
 ]
 Annexe A.
 [49] [50] [51] [52]
+File: MATH60604_Modelisation_statistique_files/figure-latex/diagrammeqq2-1.pdf 
+Graphic file (type pdf)
+<use MATH60604_Modelisation_statistique_files/figure-latex/diagrammeqq2-1.pdf>
+[53]
+Underfull \vbox (badness 2269) has occurred while \output is active []
+
+[54] [55]
 File: MATH60604_Modelisation_statistique_files/figure-latex/renfeclt-1.pdf Grap
 hic file (type pdf)
 <use MATH60604_Modelisation_statistique_files/figure-latex/renfeclt-1.pdf>
 File: MATH60604_Modelisation_statistique_files/figure-latex/renfemeanCLT-1.pdf 
 Graphic file (type pdf)
 <use MATH60604_Modelisation_statistique_files/figure-latex/renfemeanCLT-1.pdf>
-[53] (./MATH60604_Modelisation_statistique.bbl [54] [55] [56
+[56] (./MATH60604_Modelisation_statistique.bbl [57] [58])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1311.
+[59
 
-])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1250.
-[57]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1250.
+]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1311.
 (./MATH60604_Modelisation_statistique.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 1250.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1250.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 1311.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1311.
  ) 
 Here is how much of TeX's memory you used:
- 22005 strings out of 479487
- 390065 string characters out of 5885553
- 859194 words of memory out of 5000000
+ 22002 strings out of 479487
+ 390523 string characters out of 5885553
+ 859360 words of memory out of 5000000
  39071 multiletter control sequences out of 15000+600000
- 540002 words of font info for 111 fonts, out of 8000000 for 9000
+ 540010 words of font info for 112 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 58i,14n,121p,1325b,568s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 58i,14n,121p,1370b,526s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on MATH60604_Modelisation_statistique.pdf (57 pages).
+Output written on MATH60604_Modelisation_statistique.pdf (59 pages).

@@ -49,7 +49,6 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 
 
 <style type="text/css">
@@ -177,10 +176,10 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <!-- - tests-$t$ pour un et deux échantillons et pour données appariées, -->
 <!-- - régression linéaire simple. -->
 <!-- Ces notions sont d'ordinaire traitées dans un cours d'introduction à la statistique au niveau baccalauréat/licence, voir même au collégial. -->
-<p>L’inférence statistique a pour but de tirer des conclusions formelles à partir de données. Dans le cadre de la recherche scientifique, le chercheur formule une hypothèse, collecte des données pour valider ou infirmer cette dernière et conclure quant à la plausibilité de son hypothèse.</p>
-<p>On distingue deux types de jeux de données: les données <strong>expérimentales</strong> sont typiquement collectées en milieu contrôlé suivant un protocole d’enquête et un plan d’expérience: elles servent à répondre à une question prédéterminée. L’approche expérimentale est désirable pour éviter le «jardin des embranchements» (une <a href="http://www.stat.columbia.edu/~gelman/research/unpublished/p_hacking.pdf">allégorie signifiant qu’un chercheur peut raffiner son hypothèse à la lumière des données, sans ajustement pour des variables confondantes</a>), mais elle n’est pas toujours réalisable: par exemple, un économiste ne peut pas modifier les taux d’intérêts pour observer les impacts sur le taux d’épargne des consommateurs. Lorsque les données ont déjà été collectées, on parle de données <strong>observationnelles</strong>.</p>
+<p>L’inférence statistique a pour but de tirer des conclusions formelles à partir de données. Dans le cadre de la recherche scientifique, le chercheur formule une hypothèse, collecte des données et conclut quant à la plausibilité de son hypothèse.</p>
+<p>On distingue deux types de jeux de données: les données <strong>expérimentales</strong> sont typiquement collectées en milieu contrôlé suivant un protocole d’enquête et un plan d’expérience: elles servent à répondre à une question prédéterminée. L’approche expérimentale est désirable pour éviter le «jardin des embranchements» (une <a href="http://www.stat.columbia.edu/~gelman/research/unpublished/p_hacking.pdf">allégorie signifiant qu’un chercheur peut raffiner son hypothèse à la lumière des données, sans ajustement pour des variables confondantes</a>), mais elle n’est pas toujours réalisable: par exemple, un économiste ne peut pas modifier les taux d’intérêts pour observer les impacts sur le taux d’épargne des consommateurs. Lorsque les données ont été collectées préalablement à d’autres fins, on parle de données <strong>observationnelles</strong>.</p>
 <p>Il y a généralement deux raisons de développer un modèle reliant une variable réponse <span class="math inline">\(Y\)</span> à un ensemble de variables explicatives <span class="math inline">\(\mathbf{X}\)</span>: à des fins de prédiction (modèle prédictif) ou pour tester des hypothèses de recherche concernant les effets de
-ces variables (modèle explicatif). On fera dans ce cours une distinction entre inférence et prédiction, bien que ces deux objectifs ne soient pas mutuellement exclusifs. La plupart des boîtes noires utilisées en apprentissage automatique tombent dans la catégorie des modèles prédictifs: ces modèles ne sont pas interprétables et ignorent parfois la structure inhérente aux données. Par contraste, les modèles explicatifs sont souvent simples et interprétables; ainsi, les modèles de régressions sont fréquemment utilisés pour l’inférence.</p>
+ces variables (modèle explicatif). On fera dans ce cours une distinction entre inférence et prédiction bien que ces deux objectifs ne soient pas mutuellement exclusifs. La plupart des boîtes noires utilisées en apprentissage automatique tombent dans la catégorie des modèles prédictifs: ces modèles ne sont pas interprétables et ignorent parfois la structure inhérente aux données. Par contraste, les modèles explicatifs sont souvent simples et interprétables; ainsi, les modèles de régressions sont fréquemment utilisés pour l’inférence.</p>
 <p>Un modèle prédictif permet d’obtenir des prédictions de la valeur de <span class="math inline">\(Y\)</span> pour d’autres combinaisons de variables explicatives ou des données futures. Par exemple, on peut chercher à prédire la consommation énergétique d’une maison en fonction de la météo, du nombre d’habitants de la maison et de sa taille. On se concentrera dans ce cours sur les modèles explicatifs. Par exemple, on peut chercher à déterminer</p>
 <ul>
 <li>Est-ce que les consommateurs sont prêts à dépenser davantage lorsqu’ils paient par crédit qu’en argent comptant?</li>
@@ -206,7 +205,7 @@ ces variables (modèle explicatif). On fera dans ce cours une distinction entre 
 <li>Le juge vous demande de choisir entre deux hypothèses mutuellement exclusives, coupable ou non-coupable, sur la base des preuves présentées.</li>
 <li>Votre postulat de départ repose sur la présomption d’innocence: vous condamnerez uniquement le suspect si la preuve est accablante. Cela permet d’éviter les erreurs judiciaires. L’hypothèse nulle <span class="math inline">\(\mathscr{H}_0\)</span> est donc <em>non-coupable</em>, et l’hypothèse alternative <span class="math inline">\(\mathscr{H}_a\)</span> est coupable. En cas de doute raisonnable, vous émettrez un verdict de non-culpabilité.</li>
 <li>La choix de la statistique de test représente la preuve. Plus la preuve est accablante, plus grande est la chance d’un verdict de culpabilité — le procureur a donc tout intérêt à bien choisir les faits présentés en cour. Le choix de la statistique devrait donc idéalement maximiser la preuve pour appuyer le postulat de culpabilité le mieux possible (ce choix reflète la <strong>puissance</strong> du test).</li>
-<li>En qualité de juré, vous analysez la preuve à partir de la jurisprudence et de l’avis d’expert pour vous assurer que les faits ne relèvent pas du hasard. Pour le test d’hypothèse, ce rôle est tenu par la loi sous <span class="math inline">\(\mathscr{H}_0\)</span>: si la personne était innocente, est-ce que les preuves présentées tiendraient la route? Des preuves probantes (ADN, etc.) auront davantage de poids que des preuves circonstancielles (la pièce de théâtre <em>Douze hommes en colère</em> de Reginald Rose présente un bel exemple de procès où un des juré émet un doute raisonnable et convainc un à un les autres membres du jury de prononcer un verdict de non-culpabilité).</li>
+<li>En qualité de juré, vous analysez la preuve à partir de la jurisprudence et de l’avis d’expert pour vous assurer que les faits ne relèvent pas du hasard. Pour le test d’hypothèse, ce rôle est tenu par la loi sous <span class="math inline">\(\mathscr{H}_0\)</span>: si la personne était innocente, est-ce que les preuves présentées tiendraient la route? des traces d’ADN auront davantage de poids que des ouï-dire (la pièce de théâtre <em>Douze hommes en colère</em> de Reginald Rose présente un bel exemple de procès où un des juré émet un doute raisonnable et convainc un à un les autres membres du jury de prononcer un verdict de non-culpabilité).</li>
 <li>Vous émettez un verdict, à savoir une décision binaire, où l’accusé est déclaré soit non-coupable, soit coupable. Si vous avez une valeur-<span class="math inline">\(p\)</span>, disons <span class="math inline">\(P\)</span>, pour votre statistique de test et que vous effectuez ce dernier à niveau <span class="math inline">\(\alpha\)</span>, la règle de décision revient à rejeter <span class="math inline">\(\mathscr{H}_0\)</span> si <span class="math inline">\(P &lt; \alpha\)</span>.</li>
 </ul>
 <p>On s’attarde davantage sur ces définitions heuristiques et le vocabulaire employé pour parler de tests d’hypothèse. Le matériel de la section suivante a été préparé par Juliana Schulz.</p>
@@ -298,7 +297,7 @@ suit une loi de Student-<span class="math inline">\(t\)</span> avec <span class=
 </table>
 <p>Comme chercheur, on doit fixer préalablement le niveau de risque que nous sommes prêt à tolérer. Si on connaît la distribution de <span class="math inline">\(T\)</span> sous <span class="math inline">\(\mathscr{H}_0\)</span>, on peut contrôler le risque de faire un erreur de type I. Ceci fait référence au <strong>niveau</strong> du test, dénoté par <span class="math inline">\(\alpha\)</span>:
 <span class="math display">\[\begin{align*}
-\alpha = \mathsf{P}_0\left(\text{ rejeter } \mathscr{H}_0\right).
+\alpha = \mathsf{Pr}_0\left(\text{ rejeter } \mathscr{H}_0\right).
 \end{align*}\]</span>
 La valeur de <span class="math inline">\(\alpha \in (0, 1)\)</span> est la probabilité qu’on rejette <span class="math inline">\(\mathscr{H}_0\)</span> quand <span class="math inline">\(\mathscr{H}_0\)</span> est en fait vraie. Comme chercheur, on choisit ce niveau <span class="math inline">\(\alpha\)</span>; habituellement <span class="math inline">\(1\)</span>%, <span class="math inline">\(5\)</span>% ou <span class="math inline">\(10\)</span>%. Pour prendre une décision, on doit comparer la valeur-<span class="math inline">\(p\)</span> <span class="math inline">\(P\)</span> avec le niveau du test <span class="math inline">\(\alpha\)</span>:</p>
 <ul>
@@ -351,17 +350,17 @@ Figure 1.3: Augmentation de la puissance suite à une augmentation de la taille 
 <span class="math display">\[\begin{align*}
 \widehat{\theta} \pm \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta})
 \end{align*}\]</span>
-où <span class="math inline">\(\mathfrak{q}_{\alpha/2}\)</span> est le quantile d’ordre <span class="math inline">\(1-\alpha/2\)</span> de la loi nulle de la statistique de Wald <span class="math inline">\(T\)</span>, soit
+où <span class="math inline">\(\mathfrak{q}_{\alpha/2}\)</span> est le quantile d’ordre <span class="math inline">\(1-\alpha/2\)</span> de la loi nulle de la statistique de Wald,
 <span class="math display">\[\begin{align*}
-T =\frac{\widehat{\theta}-\theta}{\mathrm{se}(\widehat{\theta})}
+T =\frac{\widehat{\theta}-\theta}{\mathrm{se}(\widehat{\theta})},
 \end{align*}\]</span>
-et <span class="math inline">\(\theta\)</span> représente la valeur du paramètre <span class="math inline">\(\theta\)</span> (supposé fixe, mais inconnu) de la population. Les bornes de l’intervalle de confiance sont aléatoires puisque <span class="math inline">\(\widehat{\theta}\)</span> et <span class="math inline">\(\mathrm{se}(\widehat{\theta})\)</span> sont des variable aléatoires: leurs valeurs observées changent d’un échantillon à un autre.</p>
+et où <span class="math inline">\(\theta\)</span> représente la valeur du paramètre <span class="math inline">\(\theta\)</span> (supposé fixe, mais inconnu) de la population. Les bornes de l’intervalle de confiance sont aléatoires puisque <span class="math inline">\(\widehat{\theta}\)</span> et <span class="math inline">\(\mathrm{se}(\widehat{\theta})\)</span> sont des variable aléatoires: leurs valeurs observées changent d’un échantillon à un autre.</p>
 <p>Par exemple, pour un échantillon aléatoire <span class="math inline">\(X_1, \ldots, X_n\)</span> provenant d’une loi normale <span class="math inline">\(\mathsf{No}(\mu, \sigma)\)</span>, l’intervalle de confiance à <span class="math inline">\((1-\alpha)\)</span> pour la moyenne (dans la population) <span class="math inline">\(\mu\)</span> est
 <span class="math display">\[\begin{align*}
 \overline{X} \pm t_{n-1, \alpha/2} \frac{S}{\sqrt{n}}
 \end{align*}\]</span>
 où <span class="math inline">\(t_{n-1, \alpha/2}\)</span> est le quantile d’ordre <span class="math inline">\(1-\alpha/2\)</span> de la loi Student-<span class="math inline">\(t\)</span> avec <span class="math inline">\(n-1\)</span> degrés de libertés.</p>
-<p>Avant qu’on calcule l’intervalle de confiance, il y a une probabilité de <span class="math inline">\(1-\alpha\)</span> que <span class="math inline">\(\theta\)</span> soit contenu dans l’intervalle <strong>aléatoire</strong> symmétrique <span class="math inline">\((\widehat{\theta} - \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta}), \widehat{\theta} + \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta}))\)</span>. Une fois qu’on a un échantillon et qu’on calcule les bornes de l’intervalle de confiance, il n’y a plus de notion de probabilité. La vraie valeur du paramètre <span class="math inline">\(\theta\)</span> (inconnue) est soit contenue dans l’intervalle de confiance, soit pas. La seule interprétation de l’intervalle de confiance qui soit valable alors est la suivante: si on répète l’expérience plusieurs fois et qu’à chaque fois on calcule un intervalle de confiance à <span class="math inline">\(1-\alpha\)</span>, alors <span class="math inline">\((1-\alpha)\)</span>% de ces intervalles devraient contenir la vraie valeur de <span class="math inline">\(\theta\)</span> (de la même manière, si vous lancez une pièce de monnaie équilibrée, vous devriez obtenir grosso modo une fréquence de 50% de pile et 50% de face, mais chaque lancer donnera un ou l’autre de ces choix).</p>
+<p>Avant qu’on calcule l’intervalle de confiance, il y a une probabilité de <span class="math inline">\(1-\alpha\)</span> que <span class="math inline">\(\theta\)</span> soit contenu dans l’intervalle <strong>aléatoire</strong> symmétrique <span class="math inline">\((\widehat{\theta} - \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta}), \widehat{\theta} + \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta}))\)</span>. Une fois qu’on obtient un échantillon et qu’on calcule les bornes de l’intervalle de confiance, il n’y a plus de notion de probabilité: la vraie valeur du paramètre <span class="math inline">\(\theta\)</span> (inconnue) est soit contenue dans l’intervalle de confiance, soit pas. La seule interprétation de l’intervalle de confiance qui soit valable alors est la suivante: si on répète l’expérience plusieurs fois et qu’à chaque fois on calcule un intervalle de confiance à <span class="math inline">\(1-\alpha\)</span>, alors une proportion de <span class="math inline">\((1-\alpha)\)</span> de ces intervalles devraient contenir la vraie valeur de <span class="math inline">\(\theta\)</span> (de la même manière, si vous lancez une pièce de monnaie équilibrée, vous devriez obtenir grosso modo une fréquence de 50% de pile et 50% de face, mais chaque lancer donnera un ou l’autre de ces choix).</p>
 <div class="figure" style="text-align: center"><span id="fig:intconf"></span>
 <img src="MATH60604_Modelisation_statistique_files/figure-html/intconf-1.png" alt="Intervalles de confiance à 95\% pour la moyenne d'une population normale $\mathsf{No}(0,1)$ pour 100 échantillons aléatoires. En moyenne, 5\% de ces intervalles (en rouge) n'incluent pas la vraie valeur de la moyenne de zéro." width="70%" />
 <p class="caption">
@@ -369,10 +368,11 @@ Figure 1.4: Intervalles de confiance à 95% pour la moyenne d’une population n
 </p>
 </div>
 <p>Si on s’intéresse seulement à la décision rejeter/ne pas rejeter <span class="math inline">\(\mathscr{H}_0\)</span>, l’intervalle de confiance est équivalent à la valeur-<span class="math inline">\(p\)</span> en ce sens qu’il mène à la même décision. L’intervalle de confiance donne en revanche l’ensemble des valeurs pour lesquelles la statistique de test ne fournit pas assez de preuves pour rejeter <span class="math inline">\(\mathscr{H}_0\)</span>: pour un test à niveau <span class="math inline">\(\alpha\)</span>, on ne rejetterait aucune des valeurs contenues dans l’intervalle de confiance de niveau <span class="math inline">\(1-\alpha\)</span>. Si la valeur-<span class="math inline">\(p\)</span> est inférieure à <span class="math inline">\(\alpha\)</span>, la valeur postulée pour <span class="math inline">\(\theta\)</span> est donc hors de l’intervalle de confiance calculé. À l’inverse, la valeur-<span class="math inline">\(p\)</span> ne donne la probabilité d’obtenir un résultat aussi extrême sous l’hypothèse nulle que pour une seule valeur numérique, mais permet de quantifier précisément à quel point le résultat est extrême.</p>
+
+<div class="example">
+<span id="exm:achats-milleniaux" class="example"><strong>Exemple 1.1  (Achat en ligne de milléniaux)  </strong></span>
+Supposons qu’une chercheuse veut faire une étude sur l’évolution des ventes en ligne au Canada. Elle postule que les membres de la génération Y fait plus d’achats en ligne que ceux des générations antérieures. Pour répondre à cette question, un sondage est envoyé à un échantillon aléatoire de <span class="math inline">\(n=500\)</span> individus représentatif de la population avec 160 membres de la génération Y et 340 personnes plus âgées. La variable réponse est le montant d’achat effectués en ligne dans le mois dernier (en dollars).
 </div>
-<div id="exemple-achat-en-ligne-de-milléniaux" class="section level3" number="1.1.7">
-<h3><span class="header-section-number">1.1.7</span> Exemple: achat en ligne de milléniaux</h3>
-<p>Supposons qu’un chercheur veut faire une étude sur l’évolution des ventes en ligne au Canada. Elle postule que les membres de la génération Y fait plus d’achats en ligne que ceux des générations antérieures. Pour répondre à cette question, un sondage est envoyé à un échantillon aléatoire de <span class="math inline">\(n=500\)</span> individus représentatif de la population avec 160 membres de la génération Y et 340 personnes plus âgées. La variable réponse est le montant d’achat effectués en ligne dans le mois dernier (en dollars).</p>
 <p>Dans cet exemple, on s’intéresse à la différence entre le montant moyen des Y et celui des générations antérieures: la différence de moyenne observée dans l’échantillon est de 16.49 dollars et donc les milléniaux ont dépensé davantage. En revanche, notre échantillon est aléatoire et le montant d’achat en ligne varie d’un individu à l’autre (et d’un mois à l’autre): ce n’est donc pas suffisant pour dire que la différence est significative.</p>
 <p>La première étape de notre analyse consiste à définir les quantités d’intérêt et à formuler nos hypothèse en fonction de paramètres du modèle; il convient également de définir ces derniers en fonction des variables en présence dans l’exemple. Ici, on considère un test pour la différence de moyenne dans les populations postulées <span class="math inline">\(\mu_1\)</span> (pour la génération Y) et <span class="math inline">\(\mu_2\)</span> (pour les générations antérieures) d’écart-type respectif <span class="math inline">\(\sigma_1\)</span> et <span class="math inline">\(\sigma_2\)</span>. Comment déterminer quelle hypothèse on considère? Comme statisticien, on se fait l’avocat du Diable: l’hypothèse d’intérêt du chercheur est l’hypothèse alternative et ici, <span class="math inline">\(\mathscr{H}_a: \mu_1 &gt; \mu_2\)</span>, où <span class="math inline">\(\mu_1\)</span> représente la moyenne des achats mensuels des milléniaux. L’hypothèse nulle comprend toutes les autres valeurs pour la différence de moyenne, soit <span class="math inline">\(\mathscr{H}_0: \mu_1 \leq \mu_2\)</span>. Il suffit néanmoins de considérer le cas <span class="math inline">\(\mu_1=\mu_2\)</span> (pourquoi?)</p>
 <p>La deuxième étape consiste à choisir une statistique de test. S’il n’y a aucune différence de moyenne entre les groupes, alors <span class="math inline">\(\overline{X}_1-\overline{X}_2\)</span> a moyenne zéro et la différence de moyenne a une variance de <span class="math inline">\(\sigma^2_1/n_1+\sigma^2_2/n_2\)</span>. Ici, on considère la statistique de <span class="citation">Welch (<a href="references.html#ref-Welch:1947" role="doc-biblioref">1947</a>)</span> pour une différence de moyenne entre deux échantillons:
@@ -381,41 +381,28 @@ T = \frac{\overline{X}_1 - \overline{X}_2}{\left(\frac{S_1^2}{n_1}+\frac{S_2^2}{
 où <span class="math inline">\(\overline{X}_i\)</span> est la moyenne empirique dans l’échantillon <span class="math inline">\(i\)</span> (<span class="math inline">\(i=1, 2\)</span>) et <span class="math inline">\(S_i^2\)</span> est la variance empirique et <span class="math inline">\(n_i\)</span> la taille de l’échantillon du groupe <span class="math inline">\(i\)</span>. La statistique est utilisée pour calculer la différence de moyennes de deux échantillons de variance potentiellement différente. La valeur de la statistique dans l’échantillon est <span class="math inline">\(T=2.76\)</span>, mais on obtiendrait une valeur différente avec un autre échantillon. Il convient donc de déterminer si cette valeur est compatible avec notre hypothèse nulle en la comparant à la loi nulle sous <span class="math inline">\(\mathscr{H}_0\)</span> de <span class="math inline">\(T\)</span>. On effectuera le test à niveau <span class="math inline">\(\alpha=0.05\)</span>.</p>
 <p>La troisième étape est l’obtention d’un étalon de mesure pour déterminer si notre résultat est extrême ou inattendu. Vous remarquerez que la statistique de Welch a moyenne zéro et variance un sous l’hypothèse nulle que <span class="math inline">\(\mu_1=\mu_2\)</span>: standardiser une statistique permet d’obtenir un objet dont on connaît le comportement pour de grands échantillons et obtenir une quantité sans unité de mesure. La dérivation de la loi nulle est hors objectifs du cours, aussi cette dernière vous sera donnée dans tous les cas qu’on considère. Asymptotiquement, <span class="math inline">\(T\)</span> suit une loi normale <span class="math inline">\(\mathsf{No}(0, 1)\)</span>, mais il existe une meilleure approximation pour <span class="math inline">\(n\)</span> petit; on compare le comportement de <span class="math inline">\(T\)</span> à l’aide d’une loi de Student (à l’aide de l’approximation de <span class="citation">Satterthwaite (<a href="references.html#ref-Satterthwaite:1946" role="doc-biblioref">1946</a>)</span>).</p>
 <p>La dernière étape consiste à obtenir une valeur-<span class="math inline">\(p\)</span>, soit la probabilité d’observer un résultat aussi extrême sous <span class="math inline">\(\mathscr{H}_0\)</span>: l’avantage de la valeur-<span class="math inline">\(p\)</span> est que cette valeur est une probabilité (dans <span class="math inline">\([0, 1]\)</span>) et qu’elle suit une loi uniforme sous <span class="math inline">\(\mathscr{H}_0\)</span>. Puisque nous avons une hypothèse alternative unilatérale, on regarde la probabilité sous <span class="math inline">\(\mathscr{H}_0\)</span> que <span class="math inline">\(\mathsf{Pr}(T &gt; t)\)</span>. La <span class="math inline">\(p\)</span>-valeur vaut <span class="math inline">\(0.0031\)</span> et donc, à niveau 5%, on rejette l’hypothèse nulle pour conclure que la génération Y dépense davantage en ligne que les générations antérieures.</p>
+
+<div class="example">
+<span id="exm:prix-trains-tests" class="example"><strong>Exemple 1.2  (Prix de billets de trains à grande vitesse espagnols)  </strong></span>La compagnie nationale de chemin de fer <a href="https://www.renfe.com/">Renfe</a> gère les trains régionaux et les trains à haute vitesse dans toute l’Espagne. Les prix des billets vendus par Renfe sont <a href="https://www.kaggle.com/thegurusteam/spanish-high-speed-rail-system-ticket-pricing">aggrégés</a> par une compagnie. On s’intéresse ici à une seule ligne, Madrid–Barcelone. Notre question scientifique est la suivante: est-ce que le prix des billets pour un aller (une direction) est plus chère pour un retour? Pour ce faire, on considère un échantillon de 10000 billets entre les deux plus grandes villes espagnoles. On s’intéresse au billets de TGV vendus (AVE) au tarif Promotionnel. Notre statistique de test sera simplement la différence de moyenne entre les deux échantillons: la différence entre le prix en euros d’un train Madrid–Barcelone (<span class="math inline">\(\mu_1\)</span>) et le prix d’un billet Barcelone–Madrid (<span class="math inline">\(\mu_2\)</span>) est <span class="math inline">\(\mu_1-\mu_2\)</span> et notre hypothèse nulle est qu’il n’y a aucune différence de prix, soit <span class="math inline">\(\mathscr{H}_0: \mu_1-\mu_2=0\)</span>. Une statistique de test nous permettrait de vérifier cette affirmation, ici un test de Welch pour deux échantillons.
 </div>
-<div id="exemple-prix-de-billets-de-trains" class="section level3" number="1.1.8">
-<h3><span class="header-section-number">1.1.8</span> Exemple: prix de billets de trains</h3>
-<p>f
-La compagnie nationale de chemin de fer <a href="https://www.renfe.com/">Renfe</a> gère les trains régionaux et les trains à haute vitesse dans toute l’Espagne. Les prix des billets vendus par Renfe sont <a href="https://www.kaggle.com/thegurusteam/spanish-high-speed-rail-system-ticket-pricing">aggrégés</a> par une compagnie. On s’intéresse ici à une seule ligne, Madrid–Barcelone. Notre question scientifique est la suivante: est-ce que le prix des billets pour un aller (une direction) est plus chère pour un retour? Pour ce faire, on considère un échantillon de 10000 billets entre les deux plus grandes villes espagnoles. On s’intéresse au billets de TGV vendus (AVE) au tarif Promotionnel. Notre statistique de test sera simplement la différence de moyenne entre les deux échantillons: la différence entre le prix en euros d’un train Madrid–Barcelone (<span class="math inline">\(\mu_1\)</span>) et le prix d’un billet Barcelone–Madrid (<span class="math inline">\(\mu_2\)</span>) est <span class="math inline">\(\mu_1-\mu_2\)</span> et notre hypothèse nulle est qu’il n’y a aucune différence de prix, soit <span class="math inline">\(\mathscr{H}_0: \mu_1-\mu_2=0\)</span>. Un test statistique nous permettrait de vérifier cette affirmation.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="intro.html#cb1-1"></a><span class="co"># Bibliothèque graphique</span></span>
-<span id="cb1-2"><a href="intro.html#cb1-2"></a><span class="kw">library</span>(ggplot2)</span>
-<span id="cb1-3"><a href="intro.html#cb1-3"></a><span class="co"># Manipulation de données, incluant %&gt;%</span></span>
-<span id="cb1-4"><a href="intro.html#cb1-4"></a><span class="kw">library</span>(poorman)</span>
-<span id="cb1-5"><a href="intro.html#cb1-5"></a><span class="co"># Charger les données format SAS</span></span>
-<span id="cb1-6"><a href="intro.html#cb1-6"></a>url &lt;-<span class="st"> &quot;https://lbelzile.bitbucket.io/MATH60604/renfe.sas7bdat&quot;</span></span>
-<span id="cb1-7"><a href="intro.html#cb1-7"></a>renfe &lt;-<span class="st"> </span>haven<span class="op">::</span><span class="kw">read_sas</span>(url)</span>
-<span id="cb1-8"><a href="intro.html#cb1-8"></a><span class="kw">head</span>(renfe, <span class="dt">n =</span> <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="intro.html#cb1-1" aria-hidden="true"></a><span class="co"># Manipulation de données, incluant %&gt;%</span></span>
+<span id="cb1-2"><a href="intro.html#cb1-2" aria-hidden="true"></a><span class="kw">library</span>(poorman)</span>
+<span id="cb1-3"><a href="intro.html#cb1-3" aria-hidden="true"></a><span class="co"># Charger les données</span></span>
+<span id="cb1-4"><a href="intro.html#cb1-4" aria-hidden="true"></a><span class="kw">data</span>(renfe, <span class="dt">package =</span> <span class="st">&quot;hecmodstat&quot;</span>)</span>
+<span id="cb1-5"><a href="intro.html#cb1-5" aria-hidden="true"></a><span class="kw">head</span>(renfe, <span class="dt">n =</span> <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 5 x 7
-##    prix type    classe     tarif     dest duree  jour
-##   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1 143.  AVE     Preferente Promo        0   190     6
-## 2 182.  AVE     Preferente Flexible     0   190     2
-## 3  86.8 AVE     Preferente Promo        0   165     7
-## 4  86.8 AVE     Preferente Promo        0   190     7
-## 5  69.0 AVE-TGV Preferente Promo        0   175     4</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="intro.html#cb3-1"></a><span class="co">#Identifier les variables catégorielles</span></span>
-<span id="cb3-2"><a href="intro.html#cb3-2"></a>renfe &lt;-<span class="st"> </span>renfe <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb3-3"><a href="intro.html#cb3-3"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">dest =</span> <span class="kw">factor</span>(<span class="kw">recode</span>(dest, <span class="st">&quot;0&quot;</span> =<span class="st"> &quot;Barcelone-Madrid&quot;</span>,</span>
-<span id="cb3-4"><a href="intro.html#cb3-4"></a>               <span class="st">&quot;1&quot;</span> =<span class="st"> &quot;Madrid-Barcelone&quot;</span>)),</span>
-<span id="cb3-5"><a href="intro.html#cb3-5"></a>         <span class="dt">type =</span> <span class="kw">factor</span>(type),</span>
-<span id="cb3-6"><a href="intro.html#cb3-6"></a>         <span class="dt">dest =</span> <span class="kw">factor</span>(dest),</span>
-<span id="cb3-7"><a href="intro.html#cb3-7"></a>         <span class="dt">jour =</span> <span class="kw">factor</span>(jour),</span>
-<span id="cb3-8"><a href="intro.html#cb3-8"></a>         <span class="dt">tarif =</span> <span class="kw">factor</span>(tarif),</span>
-<span id="cb3-9"><a href="intro.html#cb3-9"></a>         <span class="dt">classe =</span> <span class="kw">factor</span>(classe))</span>
-<span id="cb3-10"><a href="intro.html#cb3-10"></a><span class="co"># Sous-échantillon avec uniquement les données au tarif promotionnel</span></span>
-<span id="cb3-11"><a href="intro.html#cb3-11"></a>renfe_promo &lt;-<span class="st"> </span>renfe <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">subset</span>(tarif <span class="op">==</span><span class="st"> &quot;Promo&quot;</span>)</span>
-<span id="cb3-12"><a href="intro.html#cb3-12"></a><span class="co"># Test-t et différence de moyenne</span></span>
-<span id="cb3-13"><a href="intro.html#cb3-13"></a>ttest &lt;-<span class="st"> </span><span class="kw">t.test</span>(prix<span class="op">~</span>dest, <span class="dt">data =</span> renfe_promo)</span>
-<span id="cb3-14"><a href="intro.html#cb3-14"></a>ttest <span class="co">#imprimer le résultat</span></span></code></pre></div>
+##    prix type    classe     tarif    dest             duree jour 
+##   &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt;      &lt;fct&gt;    &lt;fct&gt;            &lt;dbl&gt; &lt;fct&gt;
+## 1 143.  AVE     Preferente Promo    Barcelone-Madrid   190 6    
+## 2 182.  AVE     Preferente Flexible Barcelone-Madrid   190 2    
+## 3  86.8 AVE     Preferente Promo    Barcelone-Madrid   165 7    
+## 4  86.8 AVE     Preferente Promo    Barcelone-Madrid   190 7    
+## 5  69.0 AVE-TGV Preferente Promo    Barcelone-Madrid   175 4</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="intro.html#cb3-1" aria-hidden="true"></a><span class="co"># Sous-échantillon avec uniquement les données au tarif promotionnel</span></span>
+<span id="cb3-2"><a href="intro.html#cb3-2" aria-hidden="true"></a>renfe_promo &lt;-<span class="st"> </span>renfe <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">subset</span>(tarif <span class="op">==</span><span class="st"> &quot;Promo&quot;</span>)</span>
+<span id="cb3-3"><a href="intro.html#cb3-3" aria-hidden="true"></a><span class="co"># Test-t et différence de moyenne</span></span>
+<span id="cb3-4"><a href="intro.html#cb3-4" aria-hidden="true"></a>ttest &lt;-<span class="st"> </span><span class="kw">t.test</span>(prix<span class="op">~</span>dest, <span class="dt">data =</span> renfe_promo)</span>
+<span id="cb3-5"><a href="intro.html#cb3-5" aria-hidden="true"></a>ttest <span class="co">#imprimer le résultat</span></span></code></pre></div>
 <pre><code>## 
 ## 	Welch Two Sample t-test
 ## 
@@ -428,25 +415,27 @@ La compagnie nationale de chemin de fer <a href="https://www.renfe.com/">Renfe</
 ## mean in group Barcelone-Madrid mean in group Madrid-Barcelone 
 ##                           82.1                           82.6</code></pre>
 <p>Plutôt que d’utiliser la loi asymptotique (qui est valide pour de grands échantillons à cause du théorème central limite), on peut considérer une approximation sous une hypothèse moins restrictive en supposant que les données sont échangeables. Sous l’hypothèse nulle, il n’y aucune différence entre les deux destinations et les étiquettes pour la destination (une variable catégorielle binaire) sont arbitraires. On pourrait considérer les mêmes données, mais avec une permutation des variables explicatives: c’est ce qu’on appelle un <a href="https://www.jwilber.me/permutationtest/">test de permutation</a>. On va recréer deux groupes de taille identique à notre échantillon original, mais en changeant les observations. On recalcule la statistique de test sur ces nouvelle données (si on a une poignée d’observations, il est possible de lister toutes les permutations possibles; typiquement, il suffit de considérer un grand nombre de telles permutations, disons 10000). Pour chaque nouveau jeu de données, on calculera la statistique de test et on calculera le rang de notre statistique par rapport à cette référence. Si la valeur de notre statistique observée sur l’échantillon original est extrême en comparaison, c’est autant de preuves contre l’hypothèse nulle.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="intro.html#cb5-1"></a><span class="co"># Valeur-p par permutation</span></span>
-<span id="cb5-2"><a href="intro.html#cb5-2"></a>n &lt;-<span class="st"> </span><span class="kw">nrow</span>(renfe_promo)</span>
-<span id="cb5-3"><a href="intro.html#cb5-3"></a>B &lt;-<span class="st"> </span><span class="fl">1e4</span></span>
-<span id="cb5-4"><a href="intro.html#cb5-4"></a>ttest_stats &lt;-<span class="st"> </span><span class="kw">numeric</span>(B) </span>
-<span id="cb5-5"><a href="intro.html#cb5-5"></a>ttest_stats[<span class="dv">1</span>] &lt;-<span class="st"> </span>ttest<span class="op">$</span>statistic</span>
-<span id="cb5-6"><a href="intro.html#cb5-6"></a><span class="kw">set.seed</span>(<span class="dv">20200608</span>) <span class="co"># germe pour nombres pseudo-aléatoires</span></span>
-<span id="cb5-7"><a href="intro.html#cb5-7"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>B){</span>
-<span id="cb5-8"><a href="intro.html#cb5-8"></a>  <span class="co"># Recalculer la statistique de test, mais permuter les étiquettes</span></span>
-<span id="cb5-9"><a href="intro.html#cb5-9"></a>  ttest_stats[i] &lt;-<span class="st"> </span><span class="kw">t.test</span>(prix <span class="op">~</span><span class="st"> </span>dest[<span class="kw">sample.int</span>(<span class="dt">n =</span> n)], </span>
-<span id="cb5-10"><a href="intro.html#cb5-10"></a>                           <span class="dt">data =</span> renfe_promo)<span class="op">$</span>statistic</span>
-<span id="cb5-11"><a href="intro.html#cb5-11"></a>}</span>
-<span id="cb5-12"><a href="intro.html#cb5-12"></a><span class="co"># Tracer un graphique de la distribution empirique obtenue par permutation</span></span>
-<span id="cb5-13"><a href="intro.html#cb5-13"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">data.frame</span>(<span class="dt">statistique =</span> ttest_stats), </span>
-<span id="cb5-14"><a href="intro.html#cb5-14"></a>       <span class="kw">aes</span>(<span class="dt">x=</span>statistique)) <span class="op">+</span></span>
-<span id="cb5-15"><a href="intro.html#cb5-15"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">30</span>, <span class="kw">aes</span>(<span class="dt">y=</span>..density..), <span class="dt">alpha =</span> <span class="fl">0.2</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb5-16"><a href="intro.html#cb5-16"></a><span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb5-17"><a href="intro.html#cb5-17"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> ttest_stats[<span class="dv">1</span>]) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb5-18"><a href="intro.html#cb5-18"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;densité&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb5-19"><a href="intro.html#cb5-19"></a><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dnorm, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="intro.html#cb5-1" aria-hidden="true"></a><span class="co"># Valeur-p par permutation</span></span>
+<span id="cb5-2"><a href="intro.html#cb5-2" aria-hidden="true"></a>n &lt;-<span class="st"> </span><span class="kw">nrow</span>(renfe_promo)</span>
+<span id="cb5-3"><a href="intro.html#cb5-3" aria-hidden="true"></a>B &lt;-<span class="st"> </span><span class="fl">1e4</span></span>
+<span id="cb5-4"><a href="intro.html#cb5-4" aria-hidden="true"></a>ttest_stats &lt;-<span class="st"> </span><span class="kw">numeric</span>(B) </span>
+<span id="cb5-5"><a href="intro.html#cb5-5" aria-hidden="true"></a>ttest_stats[<span class="dv">1</span>] &lt;-<span class="st"> </span>ttest<span class="op">$</span>statistic</span>
+<span id="cb5-6"><a href="intro.html#cb5-6" aria-hidden="true"></a><span class="kw">set.seed</span>(<span class="dv">20200608</span>) <span class="co"># germe pour nombres pseudo-aléatoires</span></span>
+<span id="cb5-7"><a href="intro.html#cb5-7" aria-hidden="true"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>B){</span>
+<span id="cb5-8"><a href="intro.html#cb5-8" aria-hidden="true"></a>  <span class="co"># Recalculer la statistique de test, mais permuter les étiquettes</span></span>
+<span id="cb5-9"><a href="intro.html#cb5-9" aria-hidden="true"></a>  ttest_stats[i] &lt;-<span class="st"> </span><span class="kw">t.test</span>(prix <span class="op">~</span><span class="st"> </span>dest[<span class="kw">sample.int</span>(<span class="dt">n =</span> n)], </span>
+<span id="cb5-10"><a href="intro.html#cb5-10" aria-hidden="true"></a>                           <span class="dt">data =</span> renfe_promo)<span class="op">$</span>statistic</span>
+<span id="cb5-11"><a href="intro.html#cb5-11" aria-hidden="true"></a>}</span>
+<span id="cb5-12"><a href="intro.html#cb5-12" aria-hidden="true"></a><span class="co"># Bibliothèque graphique</span></span>
+<span id="cb5-13"><a href="intro.html#cb5-13" aria-hidden="true"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb5-14"><a href="intro.html#cb5-14" aria-hidden="true"></a><span class="co"># Tracer un graphique de la distribution empirique obtenue par permutation</span></span>
+<span id="cb5-15"><a href="intro.html#cb5-15" aria-hidden="true"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">data.frame</span>(<span class="dt">statistique =</span> ttest_stats), </span>
+<span id="cb5-16"><a href="intro.html#cb5-16" aria-hidden="true"></a>       <span class="kw">aes</span>(<span class="dt">x=</span>statistique)) <span class="op">+</span></span>
+<span id="cb5-17"><a href="intro.html#cb5-17" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">30</span>, <span class="kw">aes</span>(<span class="dt">y=</span>..density..), <span class="dt">alpha =</span> <span class="fl">0.2</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb5-18"><a href="intro.html#cb5-18" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_density</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb5-19"><a href="intro.html#cb5-19" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> ttest_stats[<span class="dv">1</span>]) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb5-20"><a href="intro.html#cb5-20" aria-hidden="true"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;densité&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb5-21"><a href="intro.html#cb5-21" aria-hidden="true"></a><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dnorm, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:renfepermut"></span>
 <img src="MATH60604_Modelisation_statistique_files/figure-html/renfepermut-1.png" alt="Approximation par permutation de la loi nulle de la statistique de test de Welch (histogramme et trait noir) et loi asymptotique normale standard (trait bleu) pour le prix de billets de trains AVE au tarif promotionnel entre Madrid et Barcelone. La valeur de la statistique de test de l'échantillon original est représentée par un trait vertical." width="70%" />
 <p class="caption">
@@ -458,48 +447,49 @@ Figure 1.5: Approximation par permutation de la loi nulle de la statistique de t
 </div>
 <div id="analyse-exploratoire-de-données" class="section level2" number="1.2">
 <h2><span class="header-section-number">1.2</span> Analyse exploratoire de données</h2>
-<blockquote>
-<p>Mieux vaut une réponse approximative à la bonne question, qu’une réponse exacte à la mauvaise question, qui peut toujours être précisée. — John Tukey</p>
-</blockquote>
-<p>Avant d’ajuster un modèle aux données, il est souhaitable de comprendre leur nature pour éviter de mauvaises surprises et des erreurs d’interprétations. Cette section est inspirée du chapitre éponyme de l’ouvrage <a href="https://r4ds.had.co.nz/exploratory-data-analysis.html"><em>R for Data Science</em> par Garrett Grolemund et Hadley Wickham</a>. Une connaissance rudimentaire des graphiques est de mise et on s’attardera aux <a href="https://rstudio.cloud/learn/primers/1.1">rudiments de la visualisation graphique</a>. Je recommande également la lecture de la ~1.6 du livre <a href="https://www.openintro.org/book/isrs/"><em>Introductory Statistics with Randomization and Simulation</em> (en anglais)</a> pour une revue.
-Si vous incluez un graphique (ou un tableau), il est important d&lt;ajouter une légende qui décrit le graphique et le résume, de mettre les noms de variables (avec les unités) sur les axes, de soigner le rendu et le formatage pour obtenir un produit fini. Votre graphique raconte une histoire, aussi prenez-soin que cette dernière soit nécessaire et attrayante.</p>
+<p>Avant d’ajuster un modèle aux données, il est souhaitable de comprendre leur nature pour éviter de mauvaises surprises et des erreurs d’interprétations. Cette section est inspirée du chapitre éponyme de l’ouvrage <a href="https://r4ds.had.co.nz/exploratory-data-analysis.html"><em>R for Data Science</em> par Garrett Grolemund et Hadley Wickham</a>. Une connaissance rudimentaire des graphiques est de mise et on s’attardera aux <a href="https://rstudio.cloud/learn/primers/1.1">rudiments de la visualisation graphique</a>.</p>
+<ul>
+<li><a href="https://www.openintro.org/book/isrs/">Section 1.6 du livre <em>Introductory Statistics with Randomization and Simulation</em> d’OpenIntro</a></li>
+<li><a href="https://serialmentor.com/dataviz/"><em>Fundamentals of Data Visualization</em> par Claus O. Wilke</a></li>
+<li><a href="https://r4ds.had.co.nz/">Chapitre 3 de <em><strong>R</strong> for Data Science</em> par Garrett Grolemund et Hadley Wickham</a></li>
+<li><a href="https://socviz.co/lookatdata.html#lookatdata">Chapitre 1 de <em>Data Visualization: A practical introduction</em> par Kieran Healy</a></li>
+</ul>
 <p>Si l’analyse exploratoire est souvent négligée dans les cours de statistique (parce qu’elle n’a pas de fondement mathématique), elle n’en est pas moins importante car elle nous sert à interpréter les données dans le contexte du problème et à nous assurer que notre analyse ou notre traitement de ces dernières est cohérent. Le sujet est difficile à cerner, puisque c’est davantage un art qu’une approche rigoureuse; Grolemund et Wickham parlent même « d’état d’esprit ». Le but de l’analyse exploratoire graphique est d’extraire des informations utiles, le plus souvent par le biais d’une série de questions qui sont raffinées au fur et à mesure que progresse l’analyse. On s’intéresse particulièrement aux relations et interactions entre différentes variables et la distribution empirique de chaque variable. Les étapes majeures sont:</p>
 <ol style="list-style-type: decimal">
 <li>Formuler des questions sur les données</li>
 <li>Chercher des réponses à ces questions à l’aide de statistiques descriptives, de tableaux de fréquence ou de contingence et de graphiques.</li>
 <li>Raffiner nos questions, et utiliser les trouvailles pour peaufiner notre analyse</li>
 </ol>
-<p>Dans un rapport, un résumé des caractéristiques les plus importantes devrait être inclut pour que le lecteur ou la lectrice puisse valider l’interprétation.</p>
+<p>Dans un rapport, un résumé des caractéristiques les plus importantes devrait être inclut pour que le lecteur ou la lectrice puisse valider son interprétation des données.</p>
+<div id="soignez-votre-travail" class="section level3" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> Soignez votre travail</h3>
+<p>Si vous incluez un graphique (ou un tableau), il est important d’ajouter une légende qui décrit le graphique et le résume, les noms de variables (avec les unités) sur les axes, mais aussi de soigner le rendu et le formatage pour obtenir un produit fini propre, lisible et cohérent: en particulier, votre description devrait coïncider avec le rendu. Votre graphique raconte une histoire, aussi prenez-soin que cette dernière soit nécessaire et attrayante.</p>
+</div>
+<div id="variables-types-de-données-et-graphiques" class="section level3" number="1.2.2">
+<h3><span class="header-section-number">1.2.2</span> Variables, types de données et graphiques</h3>
 <p>Commençons par les données: celles que l’on manipulera dans ce cours sont stockées sous forme tabulaire. Dans une base de donnée en format court, chaque ligne correspond à une observation et chaque colonne à une variable; les entrées de la base de données contiennent les valeurs.</p>
 <ul>
 <li>Une <strong>variable</strong> représente une caractéristique de la population d’intérêt, par exemple le sexe d’un individu, le prix d’un article, etc.</li>
 <li>une <strong>observation</strong>, parfois appelée donnée, est un ensemble de mesures collectées sous des conditions identiques, par exemple pour un individu ou à un instant donné.</li>
 </ul>
-Le choix de modèle statistique ou de test dépend souvent du type de variables collectées. Les variables peuvent être de plusieurs types: quantitatives (discrètes ou continues) si elles prennent des valeurs numériques, qualitatives (binaires, nominales ou ordinales) si elles sont décrites par un adjectif; je préfère le terme catégorielle, plus évocateur.<br />
-
-<div class="figure" style="text-align: center"><span id="fig:variablesquanti"></span>
-<img src="images/continuous_discrete.png" alt="Illustration par Allison Horst de variables continues (gauche) et discrètes (droite)." width="70%" />
-<p class="caption">
-Figure 1.6: Illustration par Allison Horst de variables continues (gauche) et discrètes (droite).
-</p>
-</div>
+<p>Le choix de modèle statistique ou de test dépend souvent du type de variables collectées. Les variables peuvent être de plusieurs types: quantitatives (discrètes ou continues) si elles prennent des valeurs numériques, qualitatives (binaires, nominales ou ordinales) si elles sont décrites par un adjectif; je préfère le terme catégorielle, plus évocateur.</p>
+<!-- ```{r variablesquanti, fig.cap = "Illustration par Allison Horst de variables continues (gauche) et discrètes (droite).", echo = FALSE} -->
+<!-- knitr::include_graphics('images/continuous_discrete.png') -->
+<!-- ``` -->
 <p>Les modèles de régression servent à expliquer des variables quantitatives en fonction d’autres caractéristiques.</p>
 <ul>
 <li>une variable discrète prend un nombre déterminé de valeurs; ce sont souvent des variables de dénombrement ou des variables dychotomisées</li>
 <li>une variable continue peut prendre (en théorie) une infinité de valeurs, même si les valeurs mesurées sont arrondies ou mesurées avec une précision limitée (temps, taille, masse, vitesse, salaire). Dans bien des cas, nous pouvons considérer comme continues des variables discrètes si elles prennent un assez grand nombre de valeurs.</li>
 </ul>
 <p>Les variables catégorielles représentent un ensemble fini de possibilités. On les regroupe en deux types, pour lesquels on ne fera pas de distinction: nominales s’il n’y a pas d’ordre entre les modalités (sexe, couleur, pays d’origine) ou ordinale (échelle de Likert, tranche salariale). La codification des modalités des variables catégorielle est arbitraire; en revanche, on préservera l’ordre lorsqu’on représentera graphiquement les variables ordinales. Lors de l’estimation, chaque variable catégorielle doit est transformée en un ensemble d’indicateurs binaires: il est donc essentiel de déclarer ces dernières dans votre logiciel statistique, surtout si elles sont parfois encodées dans la base de données à l’aide de valeurs entières.</p>
-<div class="figure" style="text-align: center"><span id="fig:variablescateg"></span>
-<img src="images/nominal_ordinal_binary.png" alt="Illustration par Allison Horst de variables catégorielles nominales (gauche), ordinales (centre) et binaires (droite)." width="70%" />
-<p class="caption">
-Figure 1.7: Illustration par Allison Horst de variables catégorielles nominales (gauche), ordinales (centre) et binaires (droite).
-</p>
-</div>
-<p>Le principal type de graphique pour représenter la distribution d’une variable catégorielle est le diagramme à bande, dans lequel la fréquence de chaque catégorie est présentée sur l’axe des ordonnées (<span class="math inline">\(y\)</span>) en fonction de la modalité, sur l’axe des abscisses (<span class="math inline">\(x\)</span>), et ordonnées pour des variables ordinales. Cette représentation est en tout point supérieur au <a href="http://www.perceptualedge.com/articles/08-21-07.pdf">diagramme en camembert</a>, une engeance répandu qui devrait être honnie (notamment parce que l’humain juge mal les différences d’aires, qu’une simple rotation change la perception du graphique et qu’il est difficile de mesurer les proportions) — ce n’est pas de la tarte!</p>
+<!-- ```{r variablescateg, fig.cap = "Illustration par Allison Horst de variables catégorielles nominales (gauche), ordinales (centre) et binaires (droite).", echo = FALSE} -->
+<!-- knitr::include_graphics('images/nominal_ordinal_binary.png') -->
+<!-- ``` -->
+<p>Le principal type de graphique pour représenter la distribution d’une variable catégorielle est le diagramme en bâtons, dans lequel la fréquence de chaque catégorie est présentée sur l’axe des ordonnées (<span class="math inline">\(y\)</span>) en fonction de la modalité, sur l’axe des abscisses (<span class="math inline">\(x\)</span>), et ordonnées pour des variables ordinales. Cette représentation est en tout point supérieur au <a href="http://www.perceptualedge.com/articles/08-21-07.pdf">diagramme en camembert</a>, une engeance répandu qui devrait être honnie (notamment parce que l’humain juge mal les différences d’aires, qu’une simple rotation change la perception du graphique et qu’il est difficile de mesurer les proportions) — ce n’est pas de la tarte!</p>
 <div class="figure" style="text-align: center"><span id="fig:barplotrenfe"></span>
-<img src="MATH60604_Modelisation_statistique_files/figure-html/barplotrenfe-1.png" alt="Diagramme à bande pour la classe des billets de trains du jeu de données Renfe" width="70%" />
+<img src="MATH60604_Modelisation_statistique_files/figure-html/barplotrenfe-1.png" alt="diagramme en bâtons pour la classe des billets de trains du jeu de données Renfe" width="70%" />
 <p class="caption">
-Figure 1.8: Diagramme à bande pour la classe des billets de trains du jeu de données Renfe
+Figure 1.6: diagramme en bâtons pour la classe des billets de trains du jeu de données Renfe
 </p>
 </div>
 <p>Puisque les variables continues peuvent prendre autant de valeurs distinctes qu’il y a d’observations, on ne peut simplement compter le nombre d’occurrence par valeur unique. On regroupera plutôt dans un certain nombre d’intervalle, en discrétisant l’ensemble des valeurs en classes pour obtenir un histogramme. Le nombre de classes dépendra du nombre d’observations si on veut que l’estimation ne soit pas impactée par le faible nombre d’observations par classe: règle générale, le nombre de classes ne devrait pas dépasser <span class="math inline">\(\sqrt{n}\)</span>, où <span class="math inline">\(n\)</span> est le nombre d’observations de l’échantillon. On obtiendra la fréquence de chaque classe, mais si on normalise l’histogramme (de façon à ce que l’aire sous les bandes verticales égale un), on obtient une approximation discrétisée de la fonction de densité. Faire varier le nombre de classes permet parfois de faire apparaître des caractéristiques de la variable (notamment la multimodalité, l’asymmétrie et les arrondis).</p>
@@ -507,11 +497,11 @@ Figure 1.8: Diagramme à bande pour la classe des billets de trains du jeu de do
 <div class="figure" style="text-align: center"><span id="fig:histrenfe"></span>
 <img src="MATH60604_Modelisation_statistique_files/figure-html/histrenfe-1.png" alt="Histogramme du prix des billets au tarif Promo de trains du jeu de données Renfe" width="70%" />
 <p class="caption">
-Figure 1.9: Histogramme du prix des billets au tarif Promo de trains du jeu de données Renfe
+Figure 1.7: Histogramme du prix des billets au tarif Promo de trains du jeu de données Renfe
 </p>
 </div>
 <p>On peut voir en examinant l’étendue des données et en traçant un histogramme s’il y a des valeurs aberrantes ou inhabituelles.
-Une boîte-à-moustache (<em>boxplot</em>) représente graphiquement cinq statistiques descriptives.</p>
+Une boîte à moustaches(<em>boxplot</em>) représente graphiquement cinq statistiques descriptives.</p>
 <ul>
 <li>La boîte donne les 1e, 2e et 3e quartiles <span class="math inline">\(q_1, q_2, q_3\)</span>.</li>
 <li>50% des observations sont au-dessus/en-dessous de la médiane <span class="math inline">\(q_2\)</span>.</li>
@@ -521,28 +511,35 @@ Une boîte-à-moustache (<em>boxplot</em>) représente graphiquement cinq statis
 <div class="figure" style="text-align: center"><span id="fig:boiteamoustache"></span>
 <img src="images/01-intro-boiteamoustache.png" alt="Boîte à moustache" width="70%" />
 <p class="caption">
-Figure 1.10: Boîte à moustache
+Figure 1.8: Boîte à moustache
 </p>
 </div>
-<p>On peut représenter la distribution d’une variable réponse continue en fonction d’une variable catégorielle en traçant une boîte à moustaches pour chaque catégorie et en les disposant côte-à-côte. Une troisième variable catégorielle peut être ajoutée par le biais de couleurs, comme dans la Figure <a href="intro.html#fig:histboxplot">1.11</a>.</p>
+<p>On peut représenter la distribution d’une variable réponse continue en fonction d’une variable catégorielle en traçant une boîte à moustaches pour chaque catégorie et en les disposant côte-à-côte. Une troisième variable catégorielle peut être ajoutée par le biais de couleurs, comme dans la Figure <a href="intro.html#fig:histboxplot">1.9</a>.</p>
 <div class="figure" style="text-align: center"><span id="fig:histboxplot"></span>
-<img src="MATH60604_Modelisation_statistique_files/figure-html/histboxplot-1.png" alt="Boîte à moustache du prix des billets au tarif Promo en fonction de la classe pour le jeu de données Renfe" width="70%" />
+<img src="MATH60604_Modelisation_statistique_files/figure-html/histboxplot-1.png" alt="boîte à moustachesdu prix des billets au tarif Promo en fonction de la classe pour le jeu de données Renfe" width="70%" />
 <p class="caption">
-Figure 1.11: Boîte à moustache du prix des billets au tarif Promo en fonction de la classe pour le jeu de données Renfe
+Figure 1.9: boîte à moustachesdu prix des billets au tarif Promo en fonction de la classe pour le jeu de données Renfe
 </p>
 </div>
-<p>Si on veut représenter la covariate entre deux variables continues, on utilise un nuage de points où chaque variable est représentée sur un axe et chaque observation donne la coordonnée des points. Si la représentation graphique est dominée par quelques valeurs très grandes, une transformation des données peut être utile: vous verrez souvent des données positives à l’échelle logarithmique.</p>
-<p>Par exemple, la Figure <a href="intro.html#fig:nuagedepoints">1.12</a> montre le temps de réaction d’individus participant à une expérience effectuée au Tech3Lab; on voit que le temps de réaction pour une personne qui texte est plus lent que lors d’une conversation téléphonique. La corrélation linéaire entre ces données appariées est faible.</p>
+<p>Si on veut représenter la covariate entre deux variables continues, on utilise un nuage de points où chaque variable est représentée sur un axe et chaque observation donne la coordonnée des points. Si la représentation graphique est dominée par quelques valeurs très grandes, une transformation des données peut être utile: vous verrez souvent des données positives à l’échelle logarithmique. Avec des données massives, les points seront superposés et le diagramme risque d’être illisible. Parmi les solutions envisagées, l’utilisation de la transparence, qui permet de voir où les points sont plus fréquents, ou encore un diagramme avec des classes hexagonale, l’équivalent d’un histogramme bidimensionnel où on remplace les classes par des hexagones. Le panneau de gauche de la Figure <a href="intro.html#fig:nuagedepoints">1.10</a> représente ainsi 100 observations simulées à l’aide d’un nuage de points 100 observations, tandis simulées. Dans le panneau de droite, on utilise plutôt un diagramme hexagonal pour représenter les 10 000 points, ce qui donne un aperçu de la densité conjointe des deux variables.</p>
 <div class="figure" style="text-align: center"><span id="fig:nuagedepoints"></span>
-<img src="MATH60604_Modelisation_statistique_files/figure-html/nuagedepoints-1.png" alt="Nuage de points du temps de réaction à deux tâches (données appariées) pour les données distractions" width="70%" />
+<img src="MATH60604_Modelisation_statistique_files/figure-html/nuagedepoints-1.png" alt="Nuage de points (gauche) et diagramme hexagonal (droite) pour des données simulées." width="70%" />
 <p class="caption">
-Figure 1.12: Nuage de points du temps de réaction à deux tâches (données appariées) pour les données distractions
+Figure 1.10: Nuage de points (gauche) et diagramme hexagonal (droite) pour des données simulées.
+</p>
+</div>
+<p>Si le nuage de point est omniprésent, certaines données ont une structure particulière qui nécessite une représentation graphique alternative. Les séries chronologiques, aussi séries temporelles, comportent des observations ordonnées. Pour ce type de données, on représente chaque variable (sur l’axe des <span class="math inline">\(y\)</span>) en fonction du temps (sur l’axe des <span class="math inline">\(x\)</span>). Il est d’usage de relier les observations, bien que cet aperçu soit parfois trompeur.</p>
+<div class="figure" style="text-align: center"><span id="fig:seriechrono"></span>
+<img src="MATH60604_Modelisation_statistique_files/figure-html/seriechrono-1.png" alt="Représentation graphique d'une série chronologique." width="70%" />
+<p class="caption">
+Figure 1.11: Représentation graphique d’une série chronologique.
 </p>
 </div>
 <p>Plutôt que de décrire plus en détail le processus de l’analyse exploratoire, on présente un exemple qui illustre le cheminement habitue sur les données de trains de la Renfe introduites précédemment.</p>
 
 <div class="example">
-<p><span id="exm:renfe-aed" class="example"><strong>Exemple 1.1  (Analyse exploratoire des trains Renfe)  </strong></span>La première étape consisterait à lire la description de la base de données. Le jeu de données <code>renfe</code> contient les variables suivantes</p>
+<span id="exm:renfe-aed" class="example"><strong>Exemple 1.3  (Analyse exploratoire des trains Renfe)  </strong></span>La première étape consisterait à lire la description de la base de données. Le jeu de données <code>renfe</code> contient les variables suivantes
+</div>
 <ul>
 <li><code>prix</code>: prix du billet (en euros);</li>
 <li><code>dest</code>: indicateur binaire du trajet, soit de Barcelone vers Madrid (<code>0</code>) ou de Madrid vers Barcelone (<code>1</code>);</li>
@@ -561,20 +558,19 @@ Figure 1.12: Nuage de points du temps de réaction à deux tâches (données app
 </ol>
 <p>À l’exception de <code>prix</code> et de <code>duree</code>, toutes les variables explicatives sont catégorielles, parfois appelé facteur (<code>factor</code>). S’il faut déclarer chacune de ces variables, on porte une attention particulière à <code>jour</code> pour éviter les mauvaises surprises ultérieures.</p>
 <p>On peut utiliser <code>str</code> pour obtenir un aperçu des données; la fonction <code>summary</code> permet d’obtenir des statistiques descriptives (minimum, maximum, moyenne, quartiles, nombre de valeurs manquantes) pour des variables continues et autrement la fréquence de variables catégorielles. On peut créer une base de données pour chaque fréquence. La manipulation de variables dans des bases de données est parfois loin d’être toujours élégante en <strong>R</strong>: on accès aux variables avec <code>$</code>, par exemple <code>renfe$prix</code>. Une alternative plus lisible et modulaire est d’utiliser l’opérateur tuyau (<code>%&gt;%</code>), qui permet de créer une chaîne logique de commandes; la fonction <code>count</code> sert à compter le nombre d’instance de chaque modalité (ces fonctionnalités ne sont pas disponibles dans <strong>R</strong> par défaut, mais avec les paquetages <code>tidyverse</code> ou l’alternative minimale <code>poorman</code>, préalablement chargée).</p>
-</div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="intro.html#cb6-1"></a>renfe <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>(classe)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="intro.html#cb6-1" aria-hidden="true"></a>renfe <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>(classe)</span></code></pre></div>
 <pre><code>##        classe    n
 ## 1  Preferente  809
 ## 2     Turista 7197
 ## 3 TuristaPlus 1916
 ## 4 TuristaSolo   78</code></pre>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="intro.html#cb8-1"></a><span class="co"># un raccourci pour la même syntaxe</span></span>
-<span id="cb8-2"><a href="intro.html#cb8-2"></a>renfe <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(type) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tally</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="intro.html#cb8-1" aria-hidden="true"></a><span class="co"># un raccourci pour la même syntaxe</span></span>
+<span id="cb8-2"><a href="intro.html#cb8-2" aria-hidden="true"></a>renfe <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(type) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tally</span>()</span></code></pre></div>
 <pre><code>##       type    n
 ## 1      AVE 9174
 ## 2  AVE-TGV  429
 ## 3 REXPRESS  397</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="intro.html#cb10-1"></a>renfe <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(tarif) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tally</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="intro.html#cb10-1" aria-hidden="true"></a>renfe <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(tarif) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tally</span>()</span></code></pre></div>
 <pre><code>##       tarif    n
 ## 1 AdultoIda  397
 ## 2  Flexible 1544
@@ -587,64 +583,64 @@ Figure 1.12: Nuage de points du temps de réaction à deux tâches (données app
 ## 4     Promo      AVE 7728
 ## 5     Promo  AVE-TGV  331</code></pre>
 <p>On remarque également que le seul 17 temps de parcours sont affichés sur les billets (<code>renfe %&gt;% distinct(duree)</code> ou <code>unique(renfe$duree)</code>). On peut donc penser que la durée affichée sur le billet (en minutes) est le temps de trajet annoncé. La majeure partie (15 sur 17) des temps de parcours sont sous la barre des 3h15, hormis deux qui dépassent les 9h! Selon Google Maps, les deux villes sont distantes de 615km par la route, 500km à vol d’oiseau. Cela implique que, vraisemblablement, certains trains dépassent les 200km/h, tandis que d’autres vont plutôt à 70km/h. Quels sont ces trains plus lent? La variable <code>type</code> codifie probablement ce fait, et permet de voir que ce sont les trains RegioExpress qui sont dans cette catégorie.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="intro.html#cb13-1"></a>renfe <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb13-2"><a href="intro.html#cb13-2"></a><span class="st">  </span><span class="kw">subset</span>(duree <span class="op">&gt;</span><span class="st"> </span><span class="dv">200</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb13-3"><a href="intro.html#cb13-3"></a><span class="st">  </span><span class="kw">group_by</span>(type, dest) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb13-4"><a href="intro.html#cb13-4"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="st">&quot;durée moyenne&quot;</span> =<span class="st"> </span><span class="kw">mean</span>(duree), </span>
-<span id="cb13-5"><a href="intro.html#cb13-5"></a>            <span class="st">&quot;écart-type&quot;</span> =<span class="st"> </span><span class="kw">sd</span>(duree),</span>
-<span id="cb13-6"><a href="intro.html#cb13-6"></a>            <span class="st">&quot;prix moyen&quot;</span> =<span class="st"> </span><span class="kw">mean</span>(prix), </span>
-<span id="cb13-7"><a href="intro.html#cb13-7"></a>            <span class="st">&quot;écart-type&quot;</span> =<span class="st"> </span><span class="kw">sd</span>(prix)) </span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="intro.html#cb13-1" aria-hidden="true"></a>renfe <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb13-2"><a href="intro.html#cb13-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">subset</span>(duree <span class="op">&gt;</span><span class="st"> </span><span class="dv">200</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb13-3"><a href="intro.html#cb13-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">group_by</span>(type, dest) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb13-4"><a href="intro.html#cb13-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="st">&quot;durée moyenne&quot;</span> =<span class="st"> </span><span class="kw">mean</span>(duree), </span>
+<span id="cb13-5"><a href="intro.html#cb13-5" aria-hidden="true"></a>            <span class="st">&quot;écart-type&quot;</span> =<span class="st"> </span><span class="kw">sd</span>(duree),</span>
+<span id="cb13-6"><a href="intro.html#cb13-6" aria-hidden="true"></a>            <span class="st">&quot;prix moyen&quot;</span> =<span class="st"> </span><span class="kw">mean</span>(prix), </span>
+<span id="cb13-7"><a href="intro.html#cb13-7" aria-hidden="true"></a>            <span class="st">&quot;écart-type&quot;</span> =<span class="st"> </span><span class="kw">sd</span>(prix)) </span></code></pre></div>
 <pre><code>##       type             dest durée moyenne écart-type prix moyen écart-type
 ## 1 REXPRESS Barcelone-Madrid           544          0       43.2          0
 ## 2 REXPRESS Madrid-Barcelone           562          0       43.2          0</code></pre>
-<p>Aller de Madrid à Barcelone à l’aide d’un train régulier prend 18 minutes de plus. Avec plus de 9h de trajet, pas étonnant donc que ces billets soient peu courus. Encore plus frappant, on note que le prix des billets est fixe: 43.25 euros peu importe que le trajet soit aller ou retour. C’est probablement la trouvaille la plus importante jusqu’à maintenant, car les billets de train de type RegioExpress ne forment pas un échantillon: il n’y a aucune variabilité! On aurait pu également découvrir cette anomalie en traçant une boîte à moustache du prix en fonction du type de train.</p>
+<p>Aller de Madrid à Barcelone à l’aide d’un train régulier prend 18 minutes de plus. Avec plus de 9h de trajet, pas étonnant donc que ces billets soient peu courus. Encore plus frappant, on note que le prix des billets est fixe: 43.25 euros peu importe que le trajet soit aller ou retour. C’est probablement la trouvaille la plus importante jusqu’à maintenant, car les billets de train de type RegioExpress ne forment pas un échantillon: il n’y a aucune variabilité! On aurait pu également découvrir cette anomalie en traçant une boîte à moustachesdu prix en fonction du type de train.</p>
 <div class="figure" style="text-align: center"><span id="fig:renfe-aed4"></span>
-<img src="MATH60604_Modelisation_statistique_files/figure-html/renfe-aed4-1.png" alt="Boîte à moustache du prix de billets de train de Renfe en fonction de la destination et du type de train." width="70%" />
+<img src="MATH60604_Modelisation_statistique_files/figure-html/renfe-aed4-1.png" alt="boîte à moustachesdu prix de billets de train de Renfe en fonction de la destination et du type de train." width="70%" />
 <p class="caption">
-Figure 1.13: Boîte à moustache du prix de billets de train de Renfe en fonction de la destination et du type de train.
+Figure 1.12: boîte à moustachesdu prix de billets de train de Renfe en fonction de la destination et du type de train.
 </p>
 </div>
 <p>On pourrait soupçonner que les trains étiquetés <code>AVE</code> soient plus rapides, sachant que c’est l’acronyme de <em>Alta Velocidad Española</em>, littéralement haute vitesse espagnole. Qu’en est-il des distinctions entre les deux types de trains étiquetés AVE? Selon <a href="https://www.renfe-sncf.com/rw-en/services/a-unique-experience/Pages/services.aspx">le site de la SNCF</a>, les trains AVE-TGV sont des partenariats entre la Renfe et la SNCF et effectuent des liaisons entre la France et l’Espagne.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="intro.html#cb15-1"></a>renfe <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb15-2"><a href="intro.html#cb15-2"></a><span class="st">  </span><span class="kw">subset</span>(type <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;AVE&quot;</span>,<span class="st">&quot;AVE-TGV&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb15-3"><a href="intro.html#cb15-3"></a><span class="st">  </span><span class="kw">group_by</span>(type, dest) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb15-4"><a href="intro.html#cb15-4"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="st">&quot;durée moyenne&quot;</span> =<span class="st"> </span><span class="kw">mean</span>(duree), </span>
-<span id="cb15-5"><a href="intro.html#cb15-5"></a>            <span class="st">&quot;écart-type&quot;</span> =<span class="st"> </span><span class="kw">sd</span>(duree),</span>
-<span id="cb15-6"><a href="intro.html#cb15-6"></a>            <span class="st">&quot;prix moyen&quot;</span> =<span class="st"> </span><span class="kw">mean</span>(prix),</span>
-<span id="cb15-7"><a href="intro.html#cb15-7"></a>            <span class="st">&quot;écart-type&quot;</span> =<span class="st"> </span><span class="kw">sd</span>(prix))</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="intro.html#cb15-1" aria-hidden="true"></a>renfe <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb15-2"><a href="intro.html#cb15-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">subset</span>(type <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;AVE&quot;</span>,<span class="st">&quot;AVE-TGV&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb15-3"><a href="intro.html#cb15-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">group_by</span>(type, dest) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb15-4"><a href="intro.html#cb15-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="st">&quot;durée moyenne&quot;</span> =<span class="st"> </span><span class="kw">mean</span>(duree), </span>
+<span id="cb15-5"><a href="intro.html#cb15-5" aria-hidden="true"></a>            <span class="st">&quot;écart-type&quot;</span> =<span class="st"> </span><span class="kw">sd</span>(duree),</span>
+<span id="cb15-6"><a href="intro.html#cb15-6" aria-hidden="true"></a>            <span class="st">&quot;prix moyen&quot;</span> =<span class="st"> </span><span class="kw">mean</span>(prix),</span>
+<span id="cb15-7"><a href="intro.html#cb15-7" aria-hidden="true"></a>            <span class="st">&quot;écart-type&quot;</span> =<span class="st"> </span><span class="kw">sd</span>(prix))</span></code></pre></div>
 <pre><code>##      type             dest durée moyenne écart-type prix moyen écart-type
 ## 1     AVE Barcelone-Madrid           171       15.9       87.4       19.8
 ## 2     AVE Madrid-Barcelone           170       16.6       88.2       20.8
 ## 3 AVE-TGV Barcelone-Madrid           175        0.0       87.0       16.8
 ## 4 AVE-TGV Madrid-Barcelone           179        0.0       90.6       20.2</code></pre>
 <p>Les prix sont beaucoup plus élevés, en moyenne plus de deux fois plus que les trains régionaux. Les écarts de prix importants (l’écart type est de 20 euros) indique qu’il y a peut-être d’autres sources d’hétérogénéité, mais on pourrait soupçonner que la Renfe pratique la tarification dynamique. Il y un seul temps de parcours prévu pour les trains AVE-TGV. On ne note pas de différence de prix notable selon la direction ou le type de train grande vitesse, mais peut-être que les tarifs ou la classe disponibles diffèrent selon que le train ou non est en partenariat avec la compagnie française.</p>
-<p>On a pas encore considéré le tarif et la classe des billets, hormis pour les trains RegioExpress. On voit dans la Figure <a href="intro.html#fig:renfe-aed7">1.15</a> une forte différente dans l’hétérogénéité des prix selon le tarif; le tarif Promo prend plusieurs valeurs distinctes, tandis que les tarifs AdultoIda et Flexible semblent ne prendre que quelques valeurs. La première classe (<code>Preferente</code>) est plus chère et il y a moins d’observations dans ce groupe. La classe Turista est la classe la moins dispendieuse et la plus populaire. <a href="http://web.archive.org/web/20161111134241/http://www.renfe.com/viajeros/tarifas/billete_promo.html"><code>TuristaPlus</code></a> offre plus de confort, tandis que <code>TuristaSolo</code> permet d’obtenir un siège individuel.</p>
+<p>On a pas encore considéré le tarif et la classe des billets, hormis pour les trains RegioExpress. On voit dans la Figure <a href="intro.html#fig:renfe-aed7">1.14</a> une forte différente dans l’hétérogénéité des prix selon le tarif; le tarif Promo prend plusieurs valeurs distinctes, tandis que les tarifs AdultoIda et Flexible semblent ne prendre que quelques valeurs. La première classe (<code>Preferente</code>) est plus chère et il y a moins d’observations dans ce groupe. La classe Turista est la classe la moins dispendieuse et la plus populaire. <a href="http://web.archive.org/web/20161111134241/http://www.renfe.com/viajeros/tarifas/billete_promo.html"><code>TuristaPlus</code></a> offre plus de confort, tandis que <code>TuristaSolo</code> permet d’obtenir un siège individuel.</p>
 <p>Côté tarif, <a href="http://web.archive.org/web/20161111134241/http://www.renfe.com/viajeros/tarifas/billete_promo.html">Promo</a> et <a href="http://web.archive.org/web/20161110220249/http://www.renfe.com/viajeros/tarifas/billete_promoplus.html">PromoPlus</a> permette d’obtenir des rabais pouvant aller jusqu’à respectivement 70% et 65%. Les annulations et changements ne sont pas possibles avec Promo, mais disponibles avec PromoPlus moyennant une pénalité équivalent à 30-20% du prix du billet. Le tarif <a href="http://web.archive.org/web/20161108192609/http://www.renfe.com/viajeros/tarifas/billete_flexible.html">Flexible</a> est disponible au même prix que les billets réguliers, avec des bénéfices additionnels.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="intro.html#cb17-1"></a>renfe <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">subset</span>(tarif  <span class="op">!=</span><span class="st"> &quot;AdultoIda&quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb17-2"><a href="intro.html#cb17-2"></a><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">y =</span> prix, <span class="dt">x =</span> classe, <span class="dt">col =</span> tarif)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb17-3"><a href="intro.html#cb17-3"></a><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb17-4"><a href="intro.html#cb17-4"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="st">&quot;prix (en euros)&quot;</span>,</span>
-<span id="cb17-5"><a href="intro.html#cb17-5"></a>       <span class="dt">x =</span> <span class="st">&quot;classe&quot;</span>,</span>
-<span id="cb17-6"><a href="intro.html#cb17-6"></a>       <span class="dt">color =</span> <span class="st">&quot;tarif&quot;</span>) <span class="op">+</span></span>
-<span id="cb17-7"><a href="intro.html#cb17-7"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="intro.html#cb17-1" aria-hidden="true"></a>renfe <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">subset</span>(tarif  <span class="op">!=</span><span class="st"> &quot;AdultoIda&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb17-2"><a href="intro.html#cb17-2" aria-hidden="true"></a><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">y =</span> prix, <span class="dt">x =</span> classe, <span class="dt">col =</span> tarif)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb17-3"><a href="intro.html#cb17-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb17-4"><a href="intro.html#cb17-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="st">&quot;prix (en euros)&quot;</span>,</span>
+<span id="cb17-5"><a href="intro.html#cb17-5" aria-hidden="true"></a>       <span class="dt">x =</span> <span class="st">&quot;classe&quot;</span>,</span>
+<span id="cb17-6"><a href="intro.html#cb17-6" aria-hidden="true"></a>       <span class="dt">color =</span> <span class="st">&quot;tarif&quot;</span>) <span class="op">+</span></span>
+<span id="cb17-7"><a href="intro.html#cb17-7" aria-hidden="true"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:renfe-aed6"></span>
-<img src="MATH60604_Modelisation_statistique_files/figure-html/renfe-aed6-1.png" alt="Boîte à moustache du prix en fonction du tarif et de la classe de billets de trains à haute vitesse de la Renfe." width="70%" />
+<img src="MATH60604_Modelisation_statistique_files/figure-html/renfe-aed6-1.png" alt="boîte à moustachesdu prix en fonction du tarif et de la classe de billets de trains à haute vitesse de la Renfe." width="70%" />
 <p class="caption">
-Figure 1.14: Boîte à moustache du prix en fonction du tarif et de la classe de billets de trains à haute vitesse de la Renfe.
+Figure 1.13: boîte à moustachesdu prix en fonction du tarif et de la classe de billets de trains à haute vitesse de la Renfe.
 </p>
 </div>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="intro.html#cb18-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> renfe, <span class="kw">aes</span>(<span class="dt">x =</span> prix, <span class="dt">y=</span>..density.., <span class="dt">fill =</span> tarif)) <span class="op">+</span></span>
-<span id="cb18-2"><a href="intro.html#cb18-2"></a><span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">5</span>) <span class="op">+</span></span>
-<span id="cb18-3"><a href="intro.html#cb18-3"></a><span class="st">    </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;prix (en euros)&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;densité&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb18-4"><a href="intro.html#cb18-4"></a><span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="intro.html#cb18-1" aria-hidden="true"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> renfe, <span class="kw">aes</span>(<span class="dt">x =</span> prix, <span class="dt">y=</span>..density.., <span class="dt">fill =</span> tarif)) <span class="op">+</span></span>
+<span id="cb18-2"><a href="intro.html#cb18-2" aria-hidden="true"></a><span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">5</span>) <span class="op">+</span></span>
+<span id="cb18-3"><a href="intro.html#cb18-3" aria-hidden="true"></a><span class="st">    </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;prix (en euros)&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;densité&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb18-4"><a href="intro.html#cb18-4" aria-hidden="true"></a><span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:renfe-aed7"></span>
 <img src="MATH60604_Modelisation_statistique_files/figure-html/renfe-aed7-1.png" alt="Histogrammes du prix en fonction du tarif de billets de trains de la Renfe." width="70%" />
 <p class="caption">
-Figure 1.15: Histogrammes du prix en fonction du tarif de billets de trains de la Renfe.
+Figure 1.14: Histogrammes du prix en fonction du tarif de billets de trains de la Renfe.
 </p>
 </div>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="intro.html#cb19-1"></a><span class="co"># Vérifier la répartition des billets Flexible</span></span>
-<span id="cb19-2"><a href="intro.html#cb19-2"></a>renfe <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">subset</span>(tarif  <span class="op">==</span><span class="st"> &quot;Flexible&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>(prix, classe)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="intro.html#cb19-1" aria-hidden="true"></a><span class="co"># Vérifier la répartition des billets Flexible</span></span>
+<span id="cb19-2"><a href="intro.html#cb19-2" aria-hidden="true"></a>renfe <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">subset</span>(tarif  <span class="op">==</span><span class="st"> &quot;Flexible&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>(prix, classe)</span></code></pre></div>
 <pre><code>##   prix      classe    n
 ## 1  108     Turista 1050
 ## 2  108 TuristaSolo   67
@@ -655,7 +651,7 @@ Figure 1.15: Histogrammes du prix en fonction du tarif de billets de trains de l
 ## 7  152 TuristaPlus   10
 ## 8  182  Preferente   78
 ## 9  214  Preferente   12</code></pre>
-<p>On note que la répartition des prix pour les billets de classe Flexible est inhabituelle: notre boîte à moustache est écrasée et l’écart interquartile semble nul, même si quelques valeurs inexpliquées sont aussi présentes. L’écrasante majorité des billets Flexibles sont en classe Turista, donc ça pourrait être dû à un (trop) faible nombre de billets dans chaque catégorie. On peut rejeter cette hypothèse en calculant le nombre de trains au tarif Flexible pour les différents types de billets. Ni la durée, ni le type de train, ni la destination n’expliquent pas pourquoi le prix de certains billets Flexibles est plus faible ou élevés. Le prix des billets Promo est plus faible, et les billets au tarif Preferente (la première classe) sont plus élevés.</p>
+<p>On note que la répartition des prix pour les billets de classe Flexible est inhabituelle: notre boîte à moustachesest écrasée et l’écart interquartile semble nul, même si quelques valeurs inexpliquées sont aussi présentes. L’écrasante majorité des billets Flexibles sont en classe Turista, donc ça pourrait être dû à un (trop) faible nombre de billets dans chaque catégorie. On peut rejeter cette hypothèse en calculant le nombre de trains au tarif Flexible pour les différents types de billets. Ni la durée, ni le type de train, ni la destination n’expliquent pas pourquoi le prix de certains billets Flexibles est plus faible ou élevés. Le prix des billets Promo est plus faible, et les billets au tarif Preferente (la première classe) sont plus élevés.</p>
 <p>On peut résumer notre brève analyse exploratoire:</p>
 <ul>
 <li>plus de 91% des trains sont des trains à grande vitesse AVE.</li>
@@ -666,13 +662,13 @@ Figure 1.15: Histogrammes du prix en fonction du tarif de billets de trains de l
 <li>selon le <a href="https://www.renfe.com/es/es/viajar/tarifas/billetes.html">site web de la Renfe</a>, les billets au tarif <code>Flexible</code> « viennent avec des offres additionnelles qui permettent au passagers d’échanger leurs billets ou annuler s’ils manquent leurs trains. »; en contrepartie, ces billets sont plus chers et leur tarif est fixe sauf une poignée de billets dont le prix reste inexpliqué.</li>
 <li>la distribution des prix des billets de TGV au tarif <code>Promo</code> est plus ou moins symmétrique, tandis que les billets au tarif <code>Flexible</code> apparaissent tronqués à gauche (le prix minimum pour ces billets est 107.7€ dans l’échantillon).</li>
 <li>la Renfe pratique la tarification dynamique pour les billets au tarif promotionnel <code>Promo</code>: ces derniers peuvent être jusqu’à 70% moins chers que les billets à prix régulier lorsqu’achetés via l’agence officielle ou le site de Renfe. Ces billets ne peuvent être ni rembourés, ni échangés.</li>
-<li>il n’y a pas d’indication à effet de quoi les prix varient selon la direction du trajet.
-```</li>
+<li>il n’y a pas d’indication à effet de quoi les prix varient selon la direction du trajet.</li>
 </ul>
 <!-- ```{r} -->
 <!-- knitr::include_url("https://www.youtube.com/embed/9bZkp7q19f0") -->
 <!-- ``` -->
 
+</div>
 </div>
 </div>
             </section>
