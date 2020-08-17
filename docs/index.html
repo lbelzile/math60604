@@ -5,20 +5,20 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Modélisation statistique</title>
-  <meta name="description" content="Ces notes forment un complément web du cours MATH 60604 (Modélisation statistique) offert à la M.Sc. en gestion (science des données et analytique d’affaires) à HEC Montréal.." />
+  <meta name="description" content="Ces notes forment un complément web du cours MATH 60604 (Modélisation statistique) offert à la M.Sc. en gestion (science des données et analytique d’affaires) à HEC Montréal." />
   <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Modélisation statistique" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="Ces notes forment un complément web du cours MATH 60604 (Modélisation statistique) offert à la M.Sc. en gestion (science des données et analytique d’affaires) à HEC Montréal.." />
+  <meta property="og:description" content="Ces notes forment un complément web du cours MATH 60604 (Modélisation statistique) offert à la M.Sc. en gestion (science des données et analytique d’affaires) à HEC Montréal." />
   <meta name="github-repo" content="lbelzile/math60604" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Modélisation statistique" />
   
-  <meta name="twitter:description" content="Ces notes forment un complément web du cours MATH 60604 (Modélisation statistique) offert à la M.Sc. en gestion (science des données et analytique d’affaires) à HEC Montréal.." />
+  <meta name="twitter:description" content="Ces notes forment un complément web du cours MATH 60604 (Modélisation statistique) offert à la M.Sc. en gestion (science des données et analytique d’affaires) à HEC Montréal." />
   
 
 
@@ -140,7 +140,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7" data-path="vraisemblance.html"><a href="vraisemblance.html"><i class="fa fa-check"></i><b>7</b> Inférence basée sur la vraisemblance</a></li>
 <li class="appendix"><span><b>Annexe</b></span></li>
 <li><a href="r.html#r"><strong>R</strong></a></li>
-<li class="chapter" data-level="A" data-path="compléments-mathématiques.html"><a href="compléments-mathématiques.html"><i class="fa fa-check"></i><b>A</b> Compléments mathématiques</a></li>
+<li class="chapter" data-level="A" data-path="complement.html"><a href="complement.html"><i class="fa fa-check"></i><b>A</b> Compléments mathématiques</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Publié avec bookdown</a></li>
@@ -167,15 +167,15 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="remarques" class="section level1 unnumbered">
 <h1>Remarques</h1>
-<p>Ces notes sont l’oeuvre de Léo Belzile (HEC Montréal) et sont mises à disposition sous la <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.fr">Licence publique Creative Commons Attribution - Utilisation non commerciale - Partage dans les mêmes conditions 4.0 International</a>. Cette version est celle du 05 août 2020.</p>
+<p>Ces notes sont l’oeuvre de Léo Belzile (HEC Montréal) et sont mises à disposition sous la <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.fr">Licence publique Creative Commons Attribution - Utilisation non commerciale - Partage dans les mêmes conditions 4.0 International</a>. Cette version est celle du 16 août 2020.</p>
 <p>Bien que les diapositives illustrent l’implémentation des techniques statistiques et des modèles à l’aide de <strong>SAS</strong>, ces notes présentent le pendant <strong>R</strong>: visitez <a href="https://cran.r-project.org/">le site web du projet <strong>R</strong></a> pour télécharger le logiciel. L’interface graphique la plus populaire (et celle que je vous recommande) est <a href="https://www.rstudio.com/products/rstudio/download/">RStudio Desktop</a>.</p>
 <p>Ce cours traite de modélisation des données et une citation célèbre de George Box dit que « tous les modèles sont faux, mais certains sont utiles ». Ce point de vue est réducteur; Peter McCullagh et John Nelder (traduction libre) expliquent dans le préambule de leur livre</p>
 <blockquote>
-<p>La modélisation en science demeure, du moins partiellement, un art. Certains principes existent, en revanche, pour guider le modélisateur. Le premier est que tous les modèles sont faux; certains, cependant, sont mieux que d’autres et le modélisateur doit chercher le meilleur à sa portée. En même temps, il est sage de reconnaître que la quête perpétuelle de la vérité n’est pas envisageable.</p>
+<p>La modélisation en science demeure, du moins partiellement, un art. Certains principes existent, en revanche, pour guider le modélisateur. Le premier est que tous les modèles sont faux; mais que <strong>certains sont meilleurs</strong> et <strong>le modélisateur doit chercher le meilleur à sa portée</strong>. En même temps, il est sage de reconnaître que la quête perpétuelle de la vérité n’est pas envisageable.</p>
 </blockquote>
 <p>Et David R. Cox (traduction libre), de rajouter</p>
 <blockquote>
-<p>…il n’est pas utile de simplement énoncer que tout modèle est faux. L’idée même de modèle sous-tend une notion de simplification et d’idéalisation. L’idée qu’un système physique, biologique ou sociologique complexe puisse être décrit de manière exacte par quelques formules est franchement absurde. La construction de représentations idéalisées qui capturent les aspects stables les plus importants du système est néanmoins une partie essentielle de toute analyse scientifique et les modèles statistiques ne diffèrent pas en cela d’autres types de modèles.</p>
+<p>…il n’est pas utile de simplement énoncer que tout modèle est faux. L’idée même de modèle sous-tend une notion de simplification et d’idéalisation. L’idée qu’un système physique, biologique ou sociologique complexe puisse être décrit de manière exacte par quelques formules est franchement absurde. La construction de <strong>représentations idéalisées qui capturent les aspects stables les plus importants du système</strong> est néanmoins une partie essentielle de toute analyse scientifique et les modèles statistiques ne diffèrent pas en cela d’autres types de modèles.</p>
 </blockquote>
 
 </div>

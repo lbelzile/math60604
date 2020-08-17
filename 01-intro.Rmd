@@ -22,10 +22,13 @@ L'inférence statistique a pour but de tirer des conclusions formelles à partir
 On distingue deux types de jeux de données: les données **expérimentales** sont typiquement collectées en milieu contrôlé suivant un protocole d'enquête et un plan d'expérience: elles servent à répondre à une question prédéterminée. L'approche expérimentale est désirable pour éviter le «jardin des embranchements» (une [allégorie signifiant qu'un chercheur peut raffiner son hypothèse à la lumière des données, sans ajustement pour des variables confondantes](http://www.stat.columbia.edu/~gelman/research/unpublished/p_hacking.pdf)), mais elle n'est pas toujours réalisable: par exemple, un économiste ne peut pas modifier les taux d'intérêts pour observer les impacts sur le taux d'épargne des consommateurs. Lorsque les données ont été collectées préalablement à d'autres fins, on parle de données **observationnelles**.
 
 
-Il y a généralement deux raisons de développer un modèle reliant une variable réponse $Y$ à un ensemble de variables explicatives $\mathbf{X}$: à des fins de prédiction (modèle prédictif) ou pour tester des hypothèses de recherche concernant les effets de
-ces variables (modèle explicatif). On fera dans ce cours une distinction entre inférence et prédiction bien que ces deux objectifs ne soient pas mutuellement exclusifs. La plupart des boîtes noires utilisées en apprentissage automatique tombent dans la catégorie des modèles prédictifs: ces modèles ne sont pas interprétables et ignorent parfois la structure inhérente aux données. Par contraste, les modèles explicatifs sont souvent simples et interprétables; ainsi, les modèles de régressions sont fréquemment utilisés pour l’inférence.
+Par modèle, on entendra la spécification d'une loi aléatoire pour les données et une équation reliant les paramètres ou l'espérance conditionnelle d'une variable réponse $Y$ à un ensemble de variables explicatives $\mathbf{X}$. Ce modèle peut servir  à des fins de prédiction (modèle prédictif) ou pour tester des hypothèses de recherche concernant les effets de
+ces variables (modèle explicatif). Ces deux objectifs ne sont pas mutuellement exclusifs même si on fait parfois une distinction entre inférence et prédiction. 
 
-Un modèle prédictif permet d’obtenir des prédictions de la valeur de $Y$ pour d'autres combinaisons de variables explicatives ou des données futures. Par exemple, on peut chercher à prédire la consommation énergétique d’une maison en fonction de la météo, du nombre d’habitants de la maison et de sa taille. On se concentrera dans ce cours sur les modèles explicatifs. Par exemple, on peut chercher à déterminer 
+Un modèle prédictif permet d’obtenir des prédictions de la valeur de $Y$ pour d'autres combinaisons de variables explicatives ou des données futures. Par exemple, on peut chercher à prédire la consommation énergétique d’une maison en fonction de la météo, du nombre d’habitants de la maison et de sa taille. La plupart des boîtes noires utilisées en apprentissage automatique tombent dans la catégorie des modèles prédictifs: ces modèles ne sont pas interprétables et ignorent parfois la structure inhérente aux données.
+
+
+Par contraste, les modèles explicatifs sont souvent simples et interprétables; les modèles de régressions sont fréquemment utilisés pour l’inférence. On se concentrera dans ce cours sur les modèles explicatifs. Par exemple, on peut chercher à déterminer 
 
 - Est-ce que les consommateurs sont prêts à dépenser davantage lorsqu'ils paient par crédit qu'en argent comptant?
 - Est-ce qu'il y a de la discrimination salariale envers les femmes professeurs d'un collège américain?
@@ -37,14 +40,16 @@ Un modèle prédictif permet d’obtenir des prédictions de la valeur de $Y$ po
 
 
 
-## Tests d'hypothèse 
+
+## Tests d'hypothèse {#tests}
 
 Un test d'hypothèse statistique est une façon d'évaluer la preuve statistique provenant d'un échantillon afin de faire une décision quant à la population sous-jacente. Les étapes principales sont:
 
-- définir les hypothèses que l'on veut tester en fonction de paramètres du modèle, 
-- calculer la statistique de test, 
+- définir les paramètres du modèles,
+- formuler les hypothèses alternatives et nulles,
+- choisir et calculer la statistique de test, 
 - déterminer son comportement sous $\mathscr{H}_0$ (loi nulle), 
-- calculer la valeur-$p$, 
+- calculer la valeur-*p*, 
 - conclure dans le contexte du problème (rejeter ou ne pas rejeter $\mathscr{H}_0$).
 
 Mon approche privilégiée pour présenter les tests d'hypothèse est de faire un parallèle avec un procès pour meurtre où vous êtes nommé juré.
@@ -53,7 +58,7 @@ Mon approche privilégiée pour présenter les tests d'hypothèse est de faire u
 - Votre postulat de départ repose sur la présomption d'innocence: vous condamnerez uniquement le suspect si la preuve est accablante. Cela permet d'éviter les erreurs judiciaires. L'hypothèse nulle $\mathscr{H}_0$ est donc *non-coupable*, et l'hypothèse alternative $\mathscr{H}_a$ est coupable. En cas de doute raisonnable, vous émettrez un verdict de non-culpabilité.
 - La choix de la statistique de test représente la preuve. Plus la preuve est accablante, plus grande est la chance d'un verdict de culpabilité --- le procureur a donc tout intérêt à bien choisir les faits présentés en cour. Le choix de la statistique devrait donc idéalement maximiser la preuve pour appuyer le postulat de culpabilité le mieux possible (ce choix reflète la **puissance** du test).
 - En qualité de juré, vous analysez la preuve à partir de la jurisprudence et de l'avis d'expert pour vous assurer que les faits ne relèvent pas du hasard. Pour le test d'hypothèse, ce rôle est tenu par la loi sous $\mathscr{H}_0$: si la personne était innocente, est-ce que les preuves présentées tiendraient la route? des traces d'ADN auront davantage de poids que des ouï-dire (la pièce de théâtre _Douze hommes en colère_ de Reginald Rose présente un bel exemple de procès où un des juré émet un doute raisonnable et convainc un à un les autres membres du jury de prononcer un verdict de non-culpabilité). 
-- Vous émettez un verdict, à savoir une décision binaire, où l'accusé est déclaré soit non-coupable, soit coupable. Si vous avez une valeur-$p$, disons $P$, pour votre statistique de test et que vous effectuez ce dernier à niveau $\alpha$, la règle de décision revient à rejeter $\mathscr{H}_0$ si $P < \alpha$.
+- Vous émettez un verdict, à savoir une décision binaire, où l'accusé est déclaré soit non-coupable, soit coupable. Si vous avez une valeur-*p*, disons $P$, pour votre statistique de test et que vous effectuez ce dernier à niveau $\alpha$, la règle de décision revient à rejeter $\mathscr{H}_0$ si $P < \alpha$.
 
 On s'attarde davantage sur ces définitions heuristiques et le vocabulaire employé pour parler de tests d'hypothèse. Le matériel de la section suivante a été préparé par Juliana Schulz.
 
@@ -65,17 +70,17 @@ Dans les test statistique il y a toujours deux hypothèse: l'hypothèse nulle ($
 \end{align*}
 Ces hypothèses permettent de tester si $\theta$ est égal à une valeur numérique précise $\theta_0$. 
 
-Par exemple, pour un test bilatéral concernant le paramètre d'un modèle de régression $\beta_j$ associé à une variable explicative d'intérêt $\mathrm{X}_j$ dans la population, les hypothèses sont:
+Par exemple, pour un test bilatéral concernant le paramètre d'un modèle de régression $\beta_j$ associé à une variable explicative d'intérêt $\mathrm{X}_j$, les hypothèses sont
 \begin{align*}
 \mathscr{H}_0: \beta_j=\beta_j^0 \qquad \text{versus} \qquad \mathscr{H}_a:\beta_j \neq \beta_j^0, 
 \end{align*}
-où $\beta_j^0$ est une valeur précise qui est reliée à la question de recherche. Par exemple, si $\beta_j^0=0$ la question de recherche sous-jacente est: est-ce que la covariable $\mathrm{X}_j$ impacte la variable réponse d'intérêt $Y$?
+où $\beta_j^0$ est une valeur précise qui est reliée à la question de recherche. Par exemple, si $\beta_j^0=0$ la question de recherche sous-jacente est: est-ce que la covariable $\mathrm{X}_j$ impacte la variable réponse d'intérêt $Y$ une fois l'effet des autres variables pris en compte?
 
 Remarque: il est possible d'imposer une direction dans les tests en considérant une hypothèse alternative de la forme $\mathscr{H}_a: \theta > \theta_0$ ou $\mathscr{H}_a: \theta < \theta_0$.
 
 ### Statistique de test
 
-Une statistique de test $T$ est une fonction des données d'échantillon qui contient de résume l'information contenue dans les données pour $\theta$. La forme de la statistique de test est choisie de façon à ce que son comportement sous $\mathscr{H}_0$, c'est-à-dire l'ensemble des valeurs que prend $T$ si $\mathscr{H}_0$ est vraie et leur probabilité relative, soit connu. En effet, $T$ est une variable aléatoire et sa valeur va changer selon l'échantillon. La **loi nulle** de la statistique de test nous permet de déterminer quelles valeurs de $T$ sont plausibles si $\mathscr{H}_0$ est vraie. Plusieurs statistiques que l'on couvrira dans ce cours sont des **statistiques de Wald**, de la forme
+Une statistique de test $T$ est un fonctionnel des données qui résume l'information contenue dans les données pour $\theta$. La forme de la statistique de test est choisie de façon à ce que son comportement sous $\mathscr{H}_0$, c'est-à-dire l'ensemble des valeurs que prend $T$ si $\mathscr{H}_0$ est vraie et leur probabilité relative, soit connu. En effet, $T$ est une variable aléatoire et sa valeur va changer selon l'échantillon. La **loi nulle** de la statistique de test nous permet de déterminer quelles valeurs de $T$ sont plausibles si $\mathscr{H}_0$ est vraie. Plusieurs statistiques que l'on couvrira dans ce cours sont des **statistiques de Wald**, de la forme
 \begin{align*}
 T = \frac{\widehat{\theta} - \theta_0}{\mathrm{se}(\widehat{\theta})} 
 \end{align*}
@@ -83,7 +88,7 @@ où $\widehat{\theta}$ est l'estimateur du paramètre $\theta$, $\theta_0$ la va
 
 Par exemple, pour une hypothèse sur la moyenne d'une population de la forme
 \begin{align*}
-\mathscr{H}_0: \mu=0 \qquad \text{versus} \qquad \mathscr{H}_a:\mu \neq 0, 
+\mathscr{H}_0: \mu=0, \qquad  \mathscr{H}_a:\mu \neq 0, 
 \end{align*}
 la statistique de test de Wald est 
 \begin{align*}
@@ -98,66 +103,69 @@ et l'erreur-type de la moyenne $\overline{X}$ est $S_n/\sqrt{n}$; l'écart-type 
 S^2_n &= \frac{1}{n-1} \sum_{i=1}^n (X_i-\overline{X})^2.
 \end{align*}
 
-Il convient de faire la différence entre fonctions et valeurs numériques. Un **estimateur** est une règle ou une formule utilisée pour calculer l'estimation d'un paramètre ou quantité d'intérêt selon des données observées. Par exemple, la moyenne d'échantillon $\overline{X}$ est un estimateur de la moyenne dans la population $\mu$. Une fois qu'on a des données observées, on peut calculer un estimé de la moyenne empirique $\overline{x},$ c'est-à-dire, on obtient une valeur numérique. Autrement dit, 
+Il convient de faire la différence entre procédures/formules et valeurs numériques. Un **estimateur** est une règle ou une formule utilisée pour calculer l'estimation d'un paramètre ou quantité d'intérêt selon des données observées. Par exemple, la moyenne d'échantillon $\overline{X}$ est un estimateur de la moyenne dans la population $\mu$. Une fois qu'on a des données observées, on peut calculer un estimé de la moyenne empirique $\overline{x},$ c'est-à-dire, on obtient une valeur numérique. Autrement dit, 
 
-- un estimateur est la procédure ou formule qui nous dit comment utiliser les données pour calculer une estimation. 
-- un estimateur est une variable aléatoire car sa valeur fluctue d'un échantillon à l'autre. 
+- un estimateur est une fonction de variables aléatoires et donc c'est aussi une variable aléatoire car sa valeur fluctue d'un échantillon à l'autre. 
 - l'estimé est la valeur numérique calculée sur un échantillon donné.
 
 
-### Loi nulle et valeur-$p$
+### Loi nulle et valeur-*p*
 
-La **valeur-$p$** nous permet de déterminer si la valeur observée de la statistique de test $T$ est plausible sous $\mathscr{H}_0$. Plus précisément, la valeur-$p$ est la probabilité, si $\mathscr{H}_0$ est vraie, que la statistique de test soit égale or plus extrême à ce qu'on observe. Supposons qu'on a un échantillon $X_1, \ldots, X_n$ et qu'on observe une valeur de la statistique de test de $T=t$. Pour un test d'hypothèse bilatéral $\mathscr{H}_0:\theta=\theta_0$ vs. $\mathscr{H}_a:\theta \neq \theta_0$, la valeur-$p$ est 
- $\mathsf{Pr}_0(|T| \geq |t|)$, c'est-à-dire, la probabilité que $|T|$ est égal ou plus grand que ce qu'on observe, en valeur absolue, sous $\mathscr{H}_0$. Si la distribution de $T$ est symétrique autour de $0$, la valeur-$p$ vaut
+La **valeur-*p*** nous permet de déterminer si la valeur observée de la statistique de test $T$ est plausible sous $\mathscr{H}_0$. Plus précisément, la valeur-*p* est la probabilité, si $\mathscr{H}_0$ est vraie, que la statistique de test soit égale or plus extrême à ce qu'on observe. Supposons qu'on a un échantillon $X_1, \ldots, X_n$ et qu'on observe une valeur de la statistique de test de $T=t$. Pour un test d'hypothèse bilatéral $\mathscr{H}_0:\theta=\theta_0$ vs. $\mathscr{H}_a:\theta \neq \theta_0$, la valeur-*p* est 
+ $\mathsf{Pr}_0(|T| \geq |t|)$. Si la distribution de $T$ est symétrique autour de zéro, la valeur-*p* vaut
 \begin{align*}
-p = 2 \times \mathsf{Pr}_0(T \geq |t|), 
+p = 2 \times \mathsf{Pr}_0(T \geq |t|).
 \end{align*}
 
 Prenons l'exemple d'un test d'hypothèse bilatéral pour la moyenne au population $\mathscr{H}_0:\mu=0$ contre $\mathscr{H}_a:\mu \neq 0$. Si l'échantillon provient d'une (population de) loi normale $\mathsf{No}(\mu, \sigma^2)$, on peut démontrer que, si $\mathscr{H}_0$ est vraie et donc $\mu=0$), la statistique de test 
 \begin{align*}
 T = \frac{\overline{X}}{S/\sqrt{n}}
 \end{align*}
-suit une loi de Student-$t$ avec $n-1$ degrés de liberté. À partir de cette loi nulle, on peut calculer la valeur-$p$ (ou bien à partir d'une table ou d'un logiciel statistique). Puisque la distribution Student-$t$ est symétrique autour de $0$, on peut calculer la valeur-$p$ comme $P = 2\times\mathsf{Pr}(T_{n-1} > |t|)$, où $T_{n-1}$ dénote une variable aléatoire avec distribution de Student-$t$ avec $n-1$ degrés de liberté. 
+suit une loi de Student-$t$ avec $n-1$ degrés de liberté, dénotée $\mathsf{St}_{n-1}$. À partir de cette loi nulle, on peut calculer la valeur-*p* (ou bien à partir d'une table ou d'un logiciel statistique). Puisque la distribution Student-$t$ est symétrique autour de $0$, on peut calculer la valeur-*p* comme $P = 2\times\mathsf{Pr}(T > |t|)$, où $T \sim \sim \mathsf{St}_{n-1}$.
 
 ### Conclusion
 
-La valeur-$p$ nous permet de faire une décision quant aux hypothèses du test. Si $\mathscr{H}_0$ est vraie, la valeur-$p$ suit une loi uniforme. [Si la valeur-$p$ est petite](https://xkcd.com/1478/), ça veut dire que le fait d'observer une statistique de test égal ou encore plus extrême que $t$ est peu probable, et donc nous aurons tendance de croire que $\mathscr{H}_0$ n'est pas vraie. Il y a pourtant toujours un risque sous-jacent de commettre un erreur quand on prend une décision. En statistique, il y a [deux types d'erreurs](https://xkcd.com/2303/): 
+La valeur-*p* nous permet de faire une décision quant aux hypothèses du test. Si $\mathscr{H}_0$ est vraie, la valeur-*p* suit une loi uniforme. [Si la valeur-*p* est petite](https://xkcd.com/1478/), ça veut dire que le fait d'observer une statistique de test égal ou encore plus extrême que $T=t$ est peu probable, et donc nous aurons tendance de croire que $\mathscr{H}_0$ n'est pas vraie. Il y a pourtant toujours un risque sous-jacent de commettre un erreur quand on prend une décision. En statistique, il y a [deux types d'erreurs](https://xkcd.com/2303/): 
 
 
 - erreur de type I: on rejette $\mathscr{H}_0$ alors que $\mathscr{H}_0$ est vraie
 - erreur de type II: on ne rejette pas $\mathscr{H}_0$ alors que $\mathscr{H}_0$ est fausse
 
-Si le modèle générant les données est correct (sic), alors l'hypothèse nulle ou l'hypothèse alternative est vraie (ces deux scénarios couvrant l'univers des possibles). Si on fait un test d'hypothèse, il y a toujours une  possibilité de commettre une erreur judiciaire (dit erreur de Type 1, c'est-à-dire de condamner un innocent ou rejeter $\mathscr{H}_0$ alors que l'hypothèse nulle est vraie). Pour se prémunir de ce risque, on fixe préalablement un niveau de tolérance. Plus notre seuil de tolérance $\alpha$ est grand, plus on rejette souvent l'hypothèse nulle même si cette dernière est vraie. Le choix du statu quo (typiquement $\mathscr{H}_0$) s'explique plus facilement avec un exemple médical. Si vous voulez prouver qu'un nouveau traitement est meilleur que l'actuel (ou l'absence de traitement), vous devez démontrer hors de tout doute raisonnable que ce dernier ne cause pas de torts aux patients et offre une nette amélioration (pensez à Didier Raoult et ses allégations non-étayées voulant que la chloroquine, un antipaludique, soit efficace face au virus de la Covid19). 
+
+Ces deux erreurs ne sont pas égales: on cherche souvent à contrôler l'erreur de type I (une erreur judiciaire, condamner un innocent). Pour se prémunir face à ce risque, on fixe préalablement un niveau de tolérance. Plus notre seuil de tolérance $\alpha$ est grand, plus on rejette souvent l'hypothèse nulle même si cette dernière est vraie.
+La valeur de $\alpha \in (0, 1)$ est la probabilité qu'on rejette $\mathscr{H}_0$ quand $\mathscr{H}_0$ est en fait vraie. 
+\begin{align*}
+\alpha = \mathsf{Pr}_0\left(\text{ rejeter } \mathscr{H}_0\right).
+\end{align*}
+Comme chercheur, on choisit ce niveau $\alpha$; habituellement $1$\%, $5$\% ou $10$\%. La probabilité de commettre une erreur de type I est $\alpha$ seulement si le modèle nul postulé pour $\mathscr{H}_0$ est correctement spécifié (sic) et correspond au modèle générateur des données.
+
+Le choix du statu quo (typiquement $\mathscr{H}_0$) s'explique plus facilement avec un exemple médical. Si vous voulez prouver qu'un nouveau traitement est meilleur que l'actuel (ou l'absence de traitement), vous devez démontrer hors de tout doute raisonnable que ce dernier ne cause pas de torts aux patients et offre une nette amélioration (pensez à Didier Raoult et ses allégations non-étayées voulant que l'hydrochloroquine, un antipaludique, soit efficace face au virus de la Covid19). 
 
 
-| Décision\\ vrai modèle | $\mathscr{H}_0$ | $\mathscr{H}_a$ |
+| **Décision** \\ **vrai modèle** | $\mathscr{H}_0$ | $\mathscr{H}_a$ |
 | :-- | :-: | :-: |
 | ne pas rejeter $\mathscr{H}_0$ | $\checkmark$ | erreur de type II |
 | rejeter $\mathscr{H}_0$ | erreur de type I | $\checkmark$| 
 
-Comme chercheur, on doit fixer préalablement le niveau de risque que nous sommes prêt à tolérer. Si on connaît la distribution de $T$ sous $\mathscr{H}_0$, on peut contrôler le risque de faire un erreur de type I. Ceci fait référence au **niveau** du test, dénoté par $\alpha$:
-\begin{align*}
-\alpha = \mathsf{Pr}_0\left(\text{ rejeter } \mathscr{H}_0\right).
-\end{align*}
-La valeur de $\alpha \in (0, 1)$ est la probabilité qu'on rejette $\mathscr{H}_0$ quand $\mathscr{H}_0$ est en fait vraie. Comme chercheur, on choisit ce niveau $\alpha$; habituellement $1$\%, $5$\% ou $10$\%. Pour prendre une décision, on doit comparer la valeur-$p$ $P$ avec le niveau du test $\alpha$:
+ Pour prendre une décision, on doit comparer la valeur-*p* $P$ avec le niveau du test $\alpha$:
 
 - si $P < \alpha$ on rejette $\mathscr{H}_0$, 
 - si $P \geq \alpha$ on ne rejette pas $\mathscr{H}_0$.
 
-Attention à ne pas confondre niveau du test (probabilité fixée au préalable par l'expérimentateur) et la valeur-$p$ (qui dépend de l'échantillon). Si vous faites un test à un niveau 5\% la
+Attention à ne pas confondre niveau du test (probabilité fixée au préalable par l'expérimentateur) et la valeur-*p* (qui dépend de l'échantillon). Si vous faites un test à un niveau 5\% la
 probabilité de faire une erreur de type I est de 5\% par définition, quelque soit la
-valeur de la valeur-$p$. La valeur-$p$ s’interprète comme la probabilité d’obtenir une valeur de
+valeur de la valeur-*p*. La valeur-*p* s’interprète comme la probabilité d’obtenir une valeur de
 la statistique de test égale ou même plus grande que celle qu'on a observée dans l’échantillon, si $\mathscr{H}_0$ est vraie.
 
 
 ### Puissance statistique
 
-Le but du test d'hypothèse est de découvrir des différences ou des effets significatifs: notre hypothèse d'intérêt est typiquement représenté par l'hypothèse alternative et on fait tout notre possible pour arriver à détecter quand cette dernière est plausible: par exemple, si une nouvelle configuration d'un site web (hypothèse alternative) permet d'augmenter les ventes par rapport au statu quo (hypothèse nulle). Notre capacité à détecter cette amélioration dépend de la puissance du test: plus cette dernière est élevée, plus grande est notre capacité à rejeter $\mathscr{H}_0$.
-Quand on ne rejette pas $\mathscr{H}_0$ et que $\mathscr{H}_a$ est en fait vraie, on commet une erreur de type II. Dénotons par $1-\gamma$ la probabilité de faire une erreur de type II, c'est-à-dire
+Le but du test d'hypothèse est de prouver (hors de tout doute raisonnable) qu'une différence ou un effet est significatif:: par exemple, si une nouvelle configuration d'un site web (hypothèse alternative) permet d'augmenter les ventes par rapport au statu quo. Notre capacité à détecter cette amélioration dépend de la puissance du test: plus cette dernière est élevée, plus grande est notre capacité à rejeter $\mathscr{H}_0$ quand ce dernier est faux.
+Quand on ne rejette pas $\mathscr{H}_0$ et que $\mathscr{H}_a$ est en fait vraie, on commet une erreur de type II: cette dernière survient avec probabilité $1-\gamma$. La **puissance statistique** d'un test est la probabilité que le test rejette $\mathscr{H}_0$ alors que $\mathscr{H}_0$ est fausse, soit 
 \begin{align*}
 \gamma = \mathsf{Pr}_a(\text{rejeter } \mathscr{H}_0)
 \end{align*}
-La **puissance statistique** d'un test est la probabilité que le test rejette $\mathscr{H}_0$ alors que $\mathscr{H}_0$ est fausse, soit $\gamma$. Selon le choix de l'alternative, il est plus ou moins facile de rejeter l'hypothèse nulle en faveur de l'alternative. 
+Selon le choix de l'alternative, il est plus ou moins facile de rejeter l'hypothèse nulle en faveur de l'alternative. 
 
 ```{r puissance1, cache = TRUE, echo = FALSE, fig.width=7, fig.height = 5, fig.cap="Comparaison de la loi nulle (ligne pleine) et d'une alternative spécifique pour un test-$t$ (ligne traitillée). La puissance correspond à l'aire sous la courbe de la densité de la loi alternative qui est dans la zone de rejet du test (en blanc)."}
 region <- data.frame(start = c(-Inf, qt(0.025, df = 10), qt(0.975, df = 10)), 
@@ -212,15 +220,14 @@ p2
 ```
 
 
-On veut qu'un test ait une puissance élevée, c'est-à-dire, on veut que $\gamma$ soit le plus près de 1 possible. Minimalement, la puissance du test devrait être $\alpha$ parce qu'on rejette l'hypothèse nulle $\alpha$\% du temps même quand cette dernière est vraie. Aux fins de démonstration, il faut amasser suffisamment de preuves: la puissance, qui correspond à notre habileté à détecter quand $\mathscr{H}_0$ est fausse, dépend de plusieurs critères, à savoir:
+On veut qu'un test ait une puissance élevée, c'est-à-dire, on veut que $\gamma$ soit le plus près de 1 possible. Minimalement, la puissance du test devrait être $\alpha$ si on rejette l'hypothèse nulle une fraction $\alpha$ du temps quand cette dernière est vraie. La puissance dépend de plusieurs critères, à savoir:
 
 - la taille de l'effet: plus la différence est grande entre la valeur du paramètre postulé $\theta_0$ sous $\mathscr{H}_0$ et le comportement observé, plus il est facile de le détecter (voir Figure \@ref(fig:puissance3));
 - la variabilité: moins les observations sont variables, plus il est facile de déterminer que la différence observée est significative (les grandes différences sont alors moins plausibles, comme l'illustre la Figure \@ref(fig:puissance2));
 - la taille de l'échantillon: plus on a d'observations, plus notre capacité à détecter une différence significative augmente parce que l'erreur-type décroît avec la taille de l'échantillon à un rythme (ordinairement) de $n^{-1/2}$. La loi nulle devient aussi plus concentrée quand la taille de l'échantillon augmente.
+- le choix de la statistique de test: par exemple, les statistiques basées sur les rangs n'utilisent pas les valeurs numériques qu'à travers le rang relatif. Ces tests sont donc moins puissants parce qu'ils n'utilisent pas toute l'information dans l'échantillon; en contrepartie, ils sont souvent plus robustes en présence de valeurs aberrantes et si le modèle est mal spécifié. Les statistiques de test que nous choisirons sont souvent standards et parmi les plus puissantes qui soient, aussi on ne traitera pas de ce point davantage dans le cadre du cours.
 
-Le choix de la statistique de test influe aussi sur la puissance, mais les statistiques de test que nous choisirons sont souvent standards et parmi les plus puissantes qui soient, aussi on ne traitera pas de ce point dans le cadre de ce cours.
-
-Pour calculer la puissance d'un test, il faut choisir une alternative spécifique: par exemple, si on utilise un test-$t$ pour un échantillon, la statistique $T=\sqrt{n}(\overline{X}-\mu_0)/S_n \sim \mathcal{T}_{n-1}$. Si la vraie moyenne est $\Delta + \mu_0$, alors la loi alternative est Student-$t$, mais non-centrée avec paramètre de décalage $\Delta$. Règle générale, on détermine la puissance à l'aide d'un estimateur Monte-Carlo en simulant des observations d'une alternative donnée, en calculant la statistique de test et la valeur-$p$ associée de façon répétée. On calcule par la suite la proportion de tests qui mènent au rejet de l'hypothèse nulle à niveau $\alpha$, ce qui correspond au pourcentage de valeurs-$p$ inférieures à $\alpha$.
+Pour calculer la puissance d'un test, il faut choisir une alternative spécifique. Pour des exemples simples de statistiques, on peut obtenir une formule pour la puissance: par exemple, si on utilise un test-$t$ pour un échantillon, la statistique $T=\sqrt{n}(\overline{X}-\mu_0)/S_n \sim \mathcal{T}_{n-1}$ et, si la vraie moyenne est $\Delta + \mu_0$, alors la loi alternative est Student-$t$, mais non-centrée avec paramètre de décalage $\Delta$. Cette dérivation est l'exception plutôt que la règle et on détermine d'ordinaire la puissance à l'aide de méthodes de Monte Carlo en simulant des observations d'une alternative donnée, en calculant la statistique de test sur le nouvel échantillon simulé et en calculant la valeur-*p* associée à notre hypothèse nulle de façon répétée. On calcule par la suite la proportion de tests qui mènent au rejet de l'hypothèse nulle à niveau $\alpha$, ce qui correspond au pourcentage de valeurs-$p$ inférieures à $\alpha$.
 
 ### Intervalle de confiance
 
@@ -240,7 +247,7 @@ Par exemple, pour un échantillon aléatoire $X_1, \ldots, X_n$ provenant d'une 
 \end{align*}
 où $t_{n-1, \alpha/2}$ est le quantile d'ordre $1-\alpha/2$ de la loi Student-$t$ avec $n-1$ degrés de libertés. 
 
-Avant qu'on calcule l'intervalle de confiance, il y a une probabilité de $1-\alpha$ que $\theta$ soit contenu dans l'intervalle **aléatoire** symmétrique $(\widehat{\theta} - \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta}), \widehat{\theta} + \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta}))$. Une fois qu'on obtient un échantillon et qu'on calcule les bornes de l'intervalle de confiance, il n'y a plus de notion de probabilité: la vraie valeur du paramètre $\theta$ (inconnue) est soit contenue dans l'intervalle de confiance, soit pas. La seule interprétation de l'intervalle de confiance qui soit valable alors est la suivante: si on répète l'expérience plusieurs fois et qu'à chaque fois on calcule un intervalle de confiance à $1-\alpha$, alors une proportion de $(1-\alpha)$ de ces intervalles devraient contenir la vraie valeur de $\theta$ (de la même manière, si vous lancez une pièce de monnaie équilibrée, vous devriez obtenir grosso modo une fréquence de 50\% de pile et 50\% de face, mais chaque lancer donnera un ou l'autre de ces choix).
+Avant qu'on calcule l'intervalle de confiance, il y a une probabilité de $1-\alpha$ que $\theta$ soit contenu dans l'intervalle **aléatoire** symmétrique $(\widehat{\theta} - \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta}), \widehat{\theta} + \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta}))$, où $\widehat{\theta}$ dénote l'estimateur de $\theta$. Une fois qu'on obtient un échantillon et qu'on calcule les bornes de l'intervalle de confiance, il n'y a plus de notion de probabilité: la vraie valeur du paramètre $\theta$ (inconnue) est soit contenue dans l'intervalle de confiance, soit pas. La seule interprétation de l'intervalle de confiance qui soit valable alors est la suivante: si on répète l'expérience plusieurs fois et qu'à chaque fois on calcule un intervalle de confiance à $1-\alpha$, alors une proportion de $(1-\alpha)$ de ces intervalles devraient contenir la vraie valeur de $\theta$ (de la même manière, si vous lancez une pièce de monnaie équilibrée, vous devriez obtenir grosso modo une fréquence de 50\% de pile et 50\% de face, mais chaque lancer donnera un ou l'autre de ces choix). Notre « confiance » est dans la procédure et non pas dans les valeurs numériques obtenues pour un échantillon donné.
 
 ```{r intconf, eval= TRUE, echo = FALSE, cache = TRUE, fig.width = 8, fig.height = 5, fig.cap = "Intervalles de confiance à 95\\% pour la moyenne d'une population normale $\\mathsf{No}(0,1)$ pour 100 échantillons aléatoires. En moyenne, 5\\% de ces intervalles (en rouge) n'incluent pas la vraie valeur de la moyenne de zéro."}
 
@@ -257,7 +264,7 @@ for(i in 1:100){
 abline(v = 0, col = "white", lwd= 2)
 ```
 
-Si on s'intéresse seulement à la décision rejeter/ne pas rejeter $\mathscr{H}_0$, l'intervalle de confiance est équivalent à la valeur-$p$ en ce sens qu'il mène à la même décision. L'intervalle de confiance donne en revanche l'ensemble des valeurs pour lesquelles la statistique de test ne fournit pas assez de preuves pour rejeter $\mathscr{H}_0$: pour un test à niveau $\alpha$, on ne rejetterait aucune des valeurs contenues dans l'intervalle de confiance de niveau $1-\alpha$. Si la valeur-$p$ est inférieure à $\alpha$, la valeur postulée pour $\theta$ est donc hors de l'intervalle de confiance calculé. À l'inverse, la valeur-$p$ ne donne la probabilité d'obtenir un résultat aussi extrême sous l'hypothèse nulle que pour une seule valeur numérique, mais permet de quantifier  précisément à quel point le résultat est extrême. 
+Si on s'intéresse seulement à la décision rejeter/ne pas rejeter $\mathscr{H}_0$, l'intervalle de confiance est équivalent à la valeur-*p* en ce sens qu'il mène à la même décision. L'intervalle de confiance donne en revanche l'ensemble des valeurs pour lesquelles la statistique de test ne fournit pas assez de preuves pour rejeter $\mathscr{H}_0$: pour un test à niveau $\alpha$, on ne rejetterait aucune des valeurs contenues dans l'intervalle de confiance de niveau $1-\alpha$. Si la valeur-*p* est inférieure à $\alpha$, la valeur postulée pour $\theta$ est donc hors de l'intervalle de confiance calculé. À l'inverse, la valeur-*p* ne donne la probabilité d'obtenir un résultat aussi extrême sous l'hypothèse nulle que pour une seule valeur numérique, mais permet de quantifier  précisément à quel point le résultat est extrême. 
 
 
 ```{example, label = "achats-milleniaux", name = "Achat en ligne de milléniaux"}
@@ -285,11 +292,11 @@ où $\overline{X}_i$ est la moyenne empirique dans l'échantillon $i$ ($i=1, 2$)
 
 La troisième étape est l'obtention d'un étalon de mesure pour déterminer si notre résultat est extrême ou inattendu. Vous remarquerez que la statistique de Welch a moyenne zéro et variance un sous l'hypothèse nulle que $\mu_1=\mu_2$: standardiser une statistique permet d'obtenir un objet dont on connaît le comportement pour de grands échantillons et obtenir une quantité sans unité de mesure. La dérivation de la loi nulle est hors objectifs du cours, aussi cette dernière vous sera donnée dans tous les cas qu'on considère. Asymptotiquement, $T$ suit une loi normale $\mathsf{No}(0, 1)$, mais il existe une meilleure approximation pour $n$ petit; on compare le comportement de $T$ à l'aide d'une loi de Student (à l'aide de l'approximation de @Satterthwaite:1946). 
 
-La dernière étape consiste à obtenir une valeur-$p$, soit la probabilité d'observer un résultat aussi extrême sous $\mathscr{H}_0$: l'avantage de la valeur-$p$ est que cette valeur est une probabilité (dans $[0, 1]$) et qu'elle suit une loi uniforme sous $\mathscr{H}_0$. Puisque nous avons une hypothèse alternative unilatérale, on regarde la probabilité sous $\mathscr{H}_0$ que $\mathsf{Pr}(T > t)$. La $p$-valeur vaut $`r format(Welch_test$p.value, digits=2)`$ et donc, à niveau 5\%, on rejette l'hypothèse nulle pour conclure que la génération Y dépense davantage en ligne que les générations antérieures.
+La dernière étape consiste à obtenir une valeur-*p*, soit la probabilité d'observer un résultat aussi extrême sous $\mathscr{H}_0$: l'avantage de la valeur-*p* est que cette valeur est une probabilité (dans $[0, 1]$) et qu'elle suit une loi uniforme sous $\mathscr{H}_0$. Puisque nous avons une hypothèse alternative unilatérale, on regarde la probabilité sous $\mathscr{H}_0$ que $\mathsf{Pr}(T > t)$. La valeur-*p* vaut $`r format(Welch_test$p.value, digits=2)`$ et donc, à niveau 5\%, on rejette l'hypothèse nulle pour conclure que la génération Y dépense davantage en ligne que les générations antérieures.
 
 
 ```{example, label="prix-trains-tests", name = "Prix de billets de trains à grande vitesse espagnols"}
-La compagnie nationale de chemin de fer [Renfe](https://www.renfe.com/) gère les trains régionaux et les trains à haute vitesse dans toute l'Espagne. Les prix des billets vendus par Renfe sont [aggrégés](https://www.kaggle.com/thegurusteam/spanish-high-speed-rail-system-ticket-pricing) par une compagnie. On s'intéresse ici à une seule ligne, Madrid--Barcelone. Notre question scientifique est la suivante: est-ce que le prix des billets pour un aller (une direction) est plus chère pour un retour? Pour ce faire, on considère un échantillon de 10000 billets entre les deux plus grandes villes espagnoles. On s'intéresse au billets de TGV vendus (AVE) au tarif Promotionnel. Notre statistique de test sera simplement la différence de moyenne entre les deux échantillons: la différence entre le prix en euros d'un train Madrid--Barcelone ($\mu_1$) et le prix d'un billet Barcelone--Madrid ($\mu_2$) est $\mu_1-\mu_2$ et notre hypothèse nulle est qu'il n'y a aucune différence de prix, soit $\mathscr{H}_0: \mu_1-\mu_2=0$. Une statistique de test nous permettrait de vérifier cette affirmation, ici un test de Welch pour deux échantillons.
+La compagnie nationale de chemin de fer [Renfe](https://www.renfe.com/) gère les trains régionaux et les trains à haute vitesse dans toute l'Espagne. Les prix des billets vendus par Renfe sont [aggrégés](https://www.kaggle.com/thegurusteam/spanish-high-speed-rail-system-ticket-pricing) par une compagnie. On s'intéresse ici à une seule ligne, Madrid--Barcelone. Notre question scientifique est la suivante: est-ce que le prix des billets pour un aller (une direction) est plus chère pour un retour? Pour ce faire, on considère un échantillon de 10000 billets entre les deux plus grandes villes espagnoles. On s'intéresse au billets de TGV vendus (AVE) au tarif Promotionnel. Notre statistique de test sera simplement la différence de moyenne entre les deux échantillons: la différence entre le prix en euros d'un train Madrid--Barcelone ($\mu_1$) et le prix d'un billet Barcelone--Madrid ($\mu_2$) est $\mu_1-\mu_2$ et notre hypothèse nulle est qu'il n'y a aucune différence de prix, soit $\mathscr{H}_0: \mu_1-\mu_2=0$. On utilise de nouveau le test de Welch pour deux échantillons.
 ```
 
 ```{r renfetest, cache = TRUE, eval = TRUE, echo = TRUE}
@@ -306,7 +313,7 @@ ttest <- t.test(prix~dest, data = renfe_promo)
 ttest #imprimer le résultat
 ```
 
-Plutôt que d'utiliser la loi asymptotique (qui est valide pour de grands échantillons à cause du théorème central limite), on peut considérer une approximation sous une hypothèse moins restrictive en supposant que les données sont échangeables. Sous l'hypothèse nulle, il n'y aucune différence entre les deux destinations et les étiquettes pour la destination (une variable catégorielle binaire) sont arbitraires. On pourrait considérer les mêmes données, mais avec une permutation des variables explicatives: c'est ce qu'on appelle un [test de permutation](https://www.jwilber.me/permutationtest/). On va recréer deux groupes de taille identique à notre échantillon original, mais en changeant les observations. On recalcule la statistique de test sur ces nouvelle données (si on a une poignée d'observations, il est possible de lister toutes les permutations possibles; typiquement, il suffit de considérer un grand nombre de telles permutations, disons 10000). Pour chaque nouveau jeu de données, on calculera la statistique de test et on calculera le rang de notre statistique par rapport à cette référence. Si la valeur de notre statistique observée sur l'échantillon original est extrême en comparaison, c'est autant de preuves contre l'hypothèse nulle.
+Plutôt que d'utiliser la loi asymptotique (qui est valide pour de grands échantillons à cause du théorème central limite), on peut considérer une approximation sous une hypothèse moins restrictive en supposant que les données sont échangeables. Sous l'hypothèse nulle, il n'y aucune différence entre les deux destinations et les étiquettes pour la destination (une variable catégorielle binaire) sont arbitraires. On pourrait considérer les mêmes données, mais avec une permutation des variables explicatives: c'est ce qu'on appelle un [test de permutation](https://www.jwilber.me/permutationtest/). On va recréer deux groupes de taille identique à notre échantillon original, mais en changeant les observations. On recalcule la statistique de test sur ces nouvelle données (si on a une poignée d'observations, il est possible de lister toutes les permutations possibles; typiquement, il suffit de considérer un grand nombre de telles permutations, disons 9999). Pour chaque nouveau jeu de données, on calculera la statistique de test et on calculera le rang de notre statistique par rapport à cette référence. Si la valeur de notre statistique observée sur l'échantillon original est extrême en comparaison, c'est autant de preuves contre l'hypothèse nulle.
  
 ```{r renfepermut, cache = TRUE, fig.cap="Approximation par permutation de la loi nulle de la statistique de test de Welch (histogramme et trait noir) et loi asymptotique normale standard (trait bleu) pour le prix de billets de trains AVE au tarif promotionnel entre Madrid et Barcelone. La valeur de la statistique de test de l'échantillon original est représentée par un trait vertical.", fig.width = 6, fit.height = 5}
 # Valeur-p par permutation
@@ -332,16 +339,17 @@ ggplot(data = data.frame(statistique = ttest_stats),
   stat_function(fun = dnorm, col = "blue")
 ```
 
-La valeur-$p$ du test de permutation, $`r mean(abs(ttest_stats)> abs(ttest_stats[1]))`$, est la proportion de statistiques plus extrêmes que celle observée. Cette valeur-$p$ est quasi-identique à celle de l'approximation de Satterthwaite, à savoir $`r ttest$p.value`$ (la loi Student-$t$ est numériquement équivalente à une loi standard normale avec autant de degrés de liberté), tel que représenté dans la Figure \@ref(fig:renfepermut). Malgré que notre échantillon soit très grand, avec $n=`r n`$ observations, la différence n'est pas jugée significative. Avec un échantillon de deux millions de billets, on pourrait estimer précisément la moyenne (au centime près): la différence de prix entre les deux destinations et cette dernière deviendrait statistiquement significative. Elle n'est pas en revanche pertinente (une différence de $0.28$ euros sur un prix moyen de $82.56$ euros est quantité négligeable).
+La valeur-*p* du test de permutation, $`r mean(abs(ttest_stats)> abs(ttest_stats[1]))`$, est la proportion de statistiques plus extrêmes que celle observée. Cette valeur-*p* est quasi-identique à celle de l'approximation de Satterthwaite, à savoir $`r ttest$p.value`$ (la loi Student-$t$ est numériquement équivalente à une loi standard normale avec autant de degrés de liberté), tel que représenté dans la Figure \@ref(fig:renfepermut). Malgré que notre échantillon soit très grand, avec $n=`r n`$ observations, la différence n'est pas jugée significative. Avec un échantillon de deux millions de billets, on pourrait estimer précisément la moyenne (au centime près): la différence de prix entre les deux destinations et cette dernière deviendrait statistiquement significative. Elle n'est pas en revanche pertinente (une différence de $0.28$ euros sur un prix moyen de $82.56$ euros est quantité négligeable).
 
 
-## Analyse exploratoire de données
+## Analyse exploratoire de données {#analyse-exploratoire}
 
-Avant d'ajuster un modèle aux données, il est souhaitable de comprendre leur nature pour éviter de mauvaises surprises et des erreurs d'interprétations. Cette section est inspirée du chapitre éponyme de l'ouvrage [*R for Data Science* par Garrett Grolemund et Hadley Wickham](https://r4ds.had.co.nz/exploratory-data-analysis.html). Une connaissance rudimentaire des graphiques est de mise et on s'attardera aux [rudiments de la visualisation graphique](https://rstudio.cloud/learn/primers/1.1). 
+L'analyse exploratoire, comme son nom l'indique, est une étape préliminaire à la modélisation servant à l'acquisition d'une meilleure compréhension des données. 
+Une connaissance rudimentaire des graphiques est nécessaire et on s'attardera aux [rudiments de la visualisation graphique](https://rstudio.cloud/learn/primers/1.1). Plusieurs ouvrages abordent ces notions (en anglais) .
 
+- [Chapitre 3 de _**R** for Data Science_ par Garrett Grolemund et Hadley Wickham](https://r4ds.had.co.nz/exploratory-data-analysis.html)
 - [Section 1.6 du livre *Introductory Statistics with Randomization and Simulation* d'OpenIntro](https://www.openintro.org/book/isrs/) 
 - [*Fundamentals of Data Visualization* par Claus O. Wilke](https://serialmentor.com/dataviz/)
-- [Chapitre 3 de _**R** for Data Science_ par Garrett Grolemund et Hadley Wickham](https://r4ds.had.co.nz/)
 - [Chapitre 1 de *Data Visualization: A practical introduction* par Kieran Healy](https://socviz.co/lookatdata.html#lookatdata)
 
 
@@ -358,7 +366,7 @@ Dans un rapport, un résumé des caractéristiques les plus importantes devrait 
 
 Si vous incluez un graphique (ou un tableau), il est important d'ajouter une légende qui décrit le graphique et le résume, les noms de variables (avec les unités) sur les axes, mais aussi de soigner le rendu et le formatage pour obtenir un produit fini propre, lisible et cohérent: en particulier, votre description devrait coïncider avec le rendu. Votre graphique raconte une histoire, aussi prenez-soin que cette dernière soit nécessaire et attrayante.
 
-### Variables, types de données et graphiques
+### Types de variables
 
 Commençons par les données: celles que l'on manipulera dans ce cours sont stockées sous forme tabulaire. Dans une base de donnée en format court, chaque ligne correspond à une observation et chaque colonne à une variable; les entrées de la base de données contiennent les valeurs.
 
@@ -373,7 +381,7 @@ Le choix de modèle statistique ou de test dépend souvent du type de variables 
 
 Les modèles de régression servent à expliquer des variables quantitatives en fonction d'autres caractéristiques.
 
-- une variable discrète prend un nombre déterminé de valeurs; ce sont souvent des variables de dénombrement ou des variables dychotomisées
+- une variable discrète prend un nombre dénombrable de valeurs; ce sont souvent des variables de dénombrement ou des variables dichotomiques.
 - une variable continue peut prendre (en théorie) une infinité de valeurs, même si les valeurs mesurées sont arrondies ou mesurées avec une précision limitée (temps, taille, masse, vitesse, salaire). Dans bien des cas, nous pouvons considérer comme continues des variables discrètes si elles prennent un assez grand nombre de valeurs.
 
 Les variables catégorielles représentent un ensemble fini de possibilités. On les regroupe en deux types, pour lesquels on ne fera pas de distinction: nominales s'il n'y a pas d'ordre entre les modalités (sexe, couleur, pays d'origine) ou ordinale (échelle de Likert, tranche salariale). La codification des modalités des variables catégorielle est arbitraire; en revanche, on préservera l'ordre lorsqu'on représentera graphiquement les variables ordinales. Lors de l'estimation, chaque variable catégorielle doit est transformée en un ensemble d'indicateurs binaires: il est donc essentiel de déclarer ces dernières dans votre logiciel statistique, surtout si elles sont parfois encodées dans la base de données à l'aide de valeurs entières.
@@ -382,9 +390,11 @@ Les variables catégorielles représentent un ensemble fini de possibilités. On
 <!-- knitr::include_graphics('images/nominal_ordinal_binary.png') -->
 <!-- ``` -->
 
+### Graphiques
+
 Le principal type de graphique pour représenter la distribution d'une variable catégorielle est le diagramme en bâtons, dans lequel la fréquence de chaque catégorie est présentée sur l'axe des ordonnées ($y$) en fonction de la modalité, sur l'axe des abscisses ($x$), et ordonnées pour des variables ordinales. Cette représentation est en tout point supérieur au [diagramme en camembert](http://www.perceptualedge.com/articles/08-21-07.pdf), une engeance répandu qui devrait être honnie (notamment parce que l'humain juge mal les différences d'aires, qu'une simple rotation change la perception du graphique et qu'il est difficile de mesurer les proportions) --- ce n'est pas de la tarte!
 
-```{r barplotrenfe, cache = TRUE, echo = FALSE, fig.cap = "diagramme en bâtons pour la classe des billets de trains du jeu de données Renfe"}
+```{r barplotrenfe, cache = TRUE, echo = FALSE, fig.cap = "Diagramme en bâtons pour la classe des billets de trains du jeu de données Renfe."}
 g1 <- ggplot(data = renfe, aes(x = classe)) + 
   geom_bar() + 
   labs(x = "classe", y = "dénombrement")
@@ -395,7 +405,7 @@ gridExtra::grid.arrange(g1, g2, ncol=2)
 ```
 
 
-Puisque les variables continues peuvent prendre autant de valeurs distinctes qu'il y a d'observations, on ne peut simplement compter le nombre d'occurrence par valeur unique. On regroupera plutôt dans un certain nombre d'intervalle, en discrétisant l'ensemble des valeurs en classes pour obtenir un histogramme. Le nombre de classes dépendra du nombre d'observations si on veut que l'estimation ne soit pas impactée par le faible nombre d'observations par classe: règle générale, le nombre de classes ne devrait pas dépasser $\sqrt{n}$, où $n$ est le nombre d'observations de l'échantillon. On obtiendra la fréquence de chaque classe, mais si on normalise l'histogramme (de façon à ce que l'aire sous les bandes verticales égale un), on obtient une approximation discrétisée de la fonction de densité. Faire varier le nombre de classes permet parfois de faire apparaître des caractéristiques de la variable (notamment la  multimodalité, l'asymmétrie et les arrondis). 
+Puisque les variables continues peuvent prendre autant de valeurs distinctes qu'il y a d'observations, on ne peut simplement compter le nombre d'occurrence par valeur unique. On regroupera plutôt dans un certain nombre d'intervalle, en discrétisant l'ensemble des valeurs en classes pour obtenir un histogramme. Le nombre de classes dépendra du nombre d'observations si on veut que l'estimation ne soit pas impactée par le faible nombre d'observations par classe: règle générale, le nombre de classes ne devrait pas dépasser $\sqrt{n}$, où $n$ est le nombre d'observations de l'échantillon. On obtiendra la fréquence de chaque classe, mais si on normalise l'histogramme (de façon à ce que l'aire sous les bandes verticales égale un), on obtient une approximation discrète de la fonction de densité. Faire varier le nombre de classes permet parfois de faire apparaître des caractéristiques de la variable (notamment la  multimodalité, l'asymmétrie et les arrondis). 
 
 Puisque qu'on groupe les observations en classe pour tracer l'histogramme, il est difficile de voir l'étendue des valeurs que prenne la variable: on peut rajouter des traits sous l'histogramme pour représenter les valeurs uniques prises par la variable, tandis que la hauteur de l'histogramme nous renseigne sur leur fréquence relative.
 
@@ -407,21 +417,19 @@ renfe %>% subset(tarif == "Promo") %>%
     labs(x = "prix de billets au tarif Promo (en euros)", y = "densité") 
 ```
 
-On peut voir en examinant l'étendue des données et en traçant un histogramme s'il y a des valeurs aberrantes ou inhabituelles. 
 Une boîte à moustaches(*boxplot*) représente graphiquement cinq statistiques descriptives.
 
-- La boîte donne les 1e, 2e et 3e quartiles $q_1, q_2, q_3$. 
-- 50\% des observations sont au-dessus/en-dessous de la médiane $q_2$.
+- La boîte donne les 1e, 2e et 3e quartiles $q_1, q_2, q_3$. Il y a donc 50\% des observations sont au-dessus/en-dessous de la médiane $q_2$ qui sépare en deux la boîte.
 - La longueur des moustaches est moins de $1.5$ fois l'écart interquartile $q_3-q_1$ (tracée entre 3e quartile et le dernier point plus petit que $q_3+1.5(q_3-q_1)$, etc.)
 - Les observations au-delà des moustaches sont encerclées. Notez que plus le nombre d'observations est élevé, plus le nombres de valeurs aberrantes augmente. C'est un défaut de la boîte à moustache, qui a été conçue pour des jeux de données qui passeraient pour petits selon les standards actuels.
 
-```{r boiteamoustache, fig.cap = "Boîte à moustache", echo = FALSE}
+```{r boiteamoustache, fig.cap = "Boîte à moustache.", echo = FALSE}
 knitr::include_graphics('images/01-intro-boiteamoustache.png')
 ```
 
 On peut représenter la distribution d'une variable réponse continue en fonction d'une variable catégorielle en traçant une boîte à moustaches pour chaque catégorie et en les disposant côte-à-côte. Une troisième variable catégorielle peut être ajoutée par le biais de couleurs, comme dans la Figure \@ref(fig:histboxplot).
 
-```{r histboxplot, cache = TRUE, echo = FALSE, fig.cap = "boîte à moustachesdu prix des billets au tarif Promo en fonction de la classe pour le jeu de données Renfe"}
+```{r histboxplot, cache = TRUE, echo = FALSE, fig.cap = "Boîte à moustaches du prix des billets au tarif Promo en fonction de la classe pour le jeu de données Renfe."}
 renfe %>% subset(tarif == "Promo") %>%
     ggplot(aes(y = prix, x = classe, col = type)) + 
     geom_boxplot() + 
@@ -429,7 +437,7 @@ renfe %>% subset(tarif == "Promo") %>%
     theme(legend.position = "bottom")
 ```
 
-Si on veut représenter la covariate entre deux variables continues, on utilise un nuage de points où chaque variable est représentée sur un axe et chaque observation donne la coordonnée des points. Si la représentation graphique est dominée par quelques valeurs très grandes, une transformation des données peut être utile: vous verrez souvent des données positives à l'échelle logarithmique. Avec des données massives, les points seront superposés et le diagramme risque d'être illisible. Parmi les solutions envisagées, l'utilisation de la transparence, qui permet de voir où les points sont plus fréquents, ou encore un diagramme avec des classes hexagonale, l'équivalent d'un histogramme bidimensionnel où on remplace les classes par des hexagones. Le panneau de gauche de la Figure \@ref(fig:nuagedepoints) représente ainsi 100 observations simulées à l'aide d'un nuage de points 100 observations, tandis simulées. Dans le panneau de droite, on utilise plutôt un diagramme hexagonal pour représenter les 10 000 points, ce qui donne un aperçu de la densité conjointe des deux variables.
+Si on veut représenter la covariabilité de deux variables continues, on utilise un nuage de points où chaque variable est représentée sur un axe et chaque observation donne la coordonnée des points. Si la représentation graphique est dominée par quelques valeurs très grandes, une transformation des données peut être utile: vous verrez souvent des données positives à l'échelle logarithmique. Avec des données massives, les points seront superposés et le diagramme risque d'être illisible. Parmi les solutions envisagées, l'utilisation de la transparence, qui permet de voir où les points sont plus fréquents, ou encore un diagramme avec des classes hexagonale, l'équivalent d'un histogramme bidimensionnel où on remplace les classes par des hexagones. Le panneau de gauche de la Figure \@ref(fig:nuagedepoints) représente ainsi 100 observations simulées à l'aide d'un nuage de points 100 observations, tandis simulées. Dans le panneau de droite, on utilise plutôt un diagramme hexagonal pour représenter les 10 000 points, ce qui donne un aperçu de la densité conjointe des deux variables.
 
 
 ```{r nuagedepoints, cache = TRUE, echo = FALSE, fig.cap="Nuage de points (gauche) et diagramme hexagonal (droite) pour des données simulées.", fig.width = 8}
@@ -449,7 +457,7 @@ g2 <- ggplot(data = data.frame(x = datsim[,1], y = datsim[,2]),
 gridExtra::grid.arrange(g1, g2, ncol=2)
 ```
 
-Si le nuage de point est omniprésent, certaines données ont une structure particulière qui nécessite une représentation graphique alternative. Les séries chronologiques, aussi séries temporelles, comportent des observations ordonnées. Pour ce type de données, on représente chaque variable (sur l'axe des $y$) en fonction du temps (sur l'axe des $x$). Il est d'usage de relier les observations, bien que cet aperçu soit parfois trompeur.
+Certaines données ont une structure particulière: pensons aux séries chronologiques, aussi appelées séries temporelles, qui comportent des observations ordonnées dans le temps. On représente chaque variable d'une série chronologique (sur l'axe des $y$) en fonction du temps (sur l'axe des $x$). Il est d'usage de relier les observations, bien que cet aperçu soit parfois trompeur.
 
 ```{r seriechrono, cache = TRUE, fig.cap = "Représentation graphique d'une série chronologique.", echo = FALSE}
 set.seed(1234)
@@ -485,11 +493,13 @@ Il n'y a pas de valeurs manquantes et un aperçu des données (`head(renfe)`) mo
 1. Quels sont les facteurs déterminant le prix et le temps de parcours?
 2. Est-ce que le temps de parcours est le même peut importe le type de train?
 3. Quelles sont les caractéristiques distinctives des types de train?
-3. Quelles sont les principales différences entre les tarifs?
+4. Quelles sont les principales différences entre les tarifs?
 
-À l'exception de `prix` et de `duree`, toutes les variables explicatives sont catégorielles, parfois appelé facteur (`factor`). S'il faut déclarer chacune de ces variables, on porte une attention particulière à `jour` pour éviter les mauvaises surprises ultérieures.
+À l'exception de `prix` et de `duree`, toutes les variables explicatives sont catégorielles et stockées sous forme de facteur (`factor`). S'il faut déclarer chacune de ces variables, on porte une attention particulière à `jour` pour éviter les mauvaises surprises ultérieures.
 
-On peut utiliser `str` pour obtenir un aperçu des données; la fonction `summary` permet d'obtenir des statistiques descriptives (minimum, maximum, moyenne, quartiles, nombre de valeurs manquantes) pour des variables continues et autrement la fréquence de variables catégorielles. On peut créer une base de données pour chaque fréquence. La manipulation de variables dans des bases de données est parfois loin d'être toujours élégante en **R**: on accès aux variables avec `$`, par exemple `renfe$prix`. Une alternative plus lisible et modulaire est d'utiliser l'opérateur tuyau (`%>%`), qui permet de créer une chaîne logique de commandes; la fonction `count` sert à compter le nombre d'instance de chaque modalité (ces fonctionnalités ne sont pas disponibles dans **R** par défaut, mais avec les paquetages `tidyverse` ou l'alternative minimale `poorman`, préalablement chargée).
+On peut utiliser `str` pour obtenir un aperçu des données; la fonction `summary` permet d'obtenir des statistiques descriptives selon que les variables sont continues (minimum, maximum, moyenne, quartiles) ou catégoriells (fréquence); la fonction rapport aussi le nombre de valeurs manquantes (`NA`) par variable. 
+
+La manipulation de variables dans des bases de données est parfois loin d'être toujours élégante en **R**: on accès aux variables avec `$`, par exemple `renfe$prix`. Une alternative plus lisible et modulaire est d'utiliser l'opérateur tuyau (`%>%`), qui permet de créer une chaîne logique de commandes; la fonction `count` sert à compter le nombre d'instance de chaque modalité (ces fonctionnalités ne sont pas disponibles dans **R** par défaut, mais avec les paquetages `tidyverse` ou l'alternative minimale `poorman`, préalablement chargée).
 
 ```{r renfe-aed1}
 renfe %>% count(classe)
@@ -504,7 +514,7 @@ En analysant le nombre de trains dans les catégories, on remarque qu'il y a aut
 renfe %>% count(tarif, type)
 ```
 
-On remarque également que le seul 17 temps de parcours sont affichés sur les billets (`renfe %>% distinct(duree)` ou `unique(renfe$duree)`). On peut donc penser que la durée affichée sur le billet (en minutes) est le temps de trajet annoncé. La majeure partie (15 sur 17) des temps de parcours sont sous la barre des 3h15, hormis deux qui dépassent les 9h! Selon Google Maps, les deux villes sont distantes de 615km par la route, 500km à vol d'oiseau. Cela implique que, vraisemblablement, certains trains dépassent les 200km/h, tandis que d'autres vont plutôt à 70km/h. Quels sont ces trains plus lent? La variable `type` codifie probablement ce fait, et permet de voir que ce sont les trains RegioExpress qui sont dans cette catégorie.
+On remarque également que seulement 17 temps de parcours sont affichés sur les billets (`renfe %>% distinct(duree)` ou `unique(renfe$duree)`). On peut donc penser que la durée affichée sur le billet (en minutes) est le temps de trajet annoncé. La majeure partie (15 sur 17) des temps de parcours sont sous la barre des 3h15, hormis deux qui dépassent les 9h! Selon Google Maps, les deux villes sont distantes de 615km par la route, 500km à vol d'oiseau. Cela implique que, vraisemblablement, certains trains dépassent les 200km/h, tandis que d'autres vont plutôt à 70km/h. Quels sont ces trains plus lent? La variable `type` codifie probablement ce fait, et permet de voir que ce sont les trains RegioExpress qui sont dans cette catégorie.
 
 ```{r renfe-aed3, eval = TRUE}
 renfe %>% 
@@ -516,9 +526,9 @@ renfe %>%
             "écart-type" = sd(prix)) 
 ```
 
-Aller de Madrid à Barcelone à l'aide d'un train régulier prend 18 minutes de plus. Avec plus de 9h de trajet, pas étonnant donc que ces billets soient peu courus. Encore plus frappant, on note que le prix des billets est fixe: 43.25 euros peu importe que le trajet soit aller ou retour. C'est probablement la trouvaille la plus importante jusqu'à maintenant, car les billets de train de type RegioExpress ne forment pas un échantillon: il n'y a aucune variabilité! On aurait pu également découvrir cette anomalie en traçant une boîte à moustachesdu prix en fonction du type de train.
+Aller de Madrid à Barcelone à l'aide d'un train régulier prend 18 minutes de plus. Avec plus de 9h de trajet, pas étonnant donc que ces billets soient peu courus. Encore plus frappant, on note que le prix des billets est fixe: 43.25 euros peu importe que le trajet soit aller ou retour. C'est probablement la trouvaille la plus importante jusqu'à maintenant, car les billets de train de type RegioExpress ne forment pas un échantillon: il n'y a aucune variabilité! On aurait pu également découvrir cette anomalie en traçant une boîte à moustaches du prix en fonction du type de train.
 
-```{r renfe-aed4, cache = TRUE,echo = FALSE, fig.cap = "boîte à moustachesdu prix de billets de train de Renfe en fonction de la destination et du type de train."}
+```{r renfe-aed4, cache = TRUE,echo = FALSE, fig.cap = "Boîte à moustaches du prix de billets de train de Renfe en fonction de la destination et du type de train."}
 ggplot(data = renfe, aes(x = type, y = prix, col = dest)) + 
   geom_boxplot() + 
   labs(y = "prix (en euros)",
@@ -547,7 +557,7 @@ On a pas encore considéré le tarif et la classe des billets, hormis pour les t
 
 Côté tarif, [Promo](http://web.archive.org/web/20161111134241/http://www.renfe.com/viajeros/tarifas/billete_promo.html) et [PromoPlus](http://web.archive.org/web/20161110220249/http://www.renfe.com/viajeros/tarifas/billete_promoplus.html) permette d'obtenir des rabais pouvant aller jusqu'à respectivement 70\% et 65\%. Les annulations et changements ne sont pas possibles avec Promo, mais disponibles avec PromoPlus moyennant une pénalité équivalent à 30-20\% du prix du billet. Le tarif [Flexible](http://web.archive.org/web/20161108192609/http://www.renfe.com/viajeros/tarifas/billete_flexible.html) est disponible au même prix que les billets réguliers, avec des bénéfices additionnels.
 
-```{r renfe-aed6, cache = TRUE, echo = TRUE, fig.cap = "boîte à moustachesdu prix en fonction du tarif et de la classe de billets de trains à haute vitesse de la Renfe."}
+```{r renfe-aed6, cache = TRUE, echo = TRUE, fig.cap = "Boîte à moustaches du prix en fonction du tarif et de la classe de billets de trains à haute vitesse de la Renfe."}
 renfe %>% subset(tarif  != "AdultoIda") %>%
 ggplot(aes(y = prix, x = classe, col = tarif)) + 
   geom_boxplot() + 
@@ -578,7 +588,7 @@ On peut résumer notre brève analyse exploratoire:
 - les billets en classe`Preferente` sont plus chers et moins fréquents. La classe `Turista` est la classe la moins dispendieuse et la plus populaire. `TuristaPlus` offre plus de confort, tandis que `TuristaSolo` permet d'obtenir un siège individuel. 
 - selon le [site web de la Renfe](https://www.renfe.com/es/es/viajar/tarifas/billetes.html), les billets au tarif `Flexible` « viennent avec des offres additionnelles qui permettent au passagers d'échanger leurs billets ou annuler s'ils manquent leurs trains. »; en contrepartie, ces billets sont plus chers et leur tarif est fixe sauf une poignée de billets dont le prix reste inexpliqué. 
 - la distribution des prix des billets de TGV au tarif `Promo` est plus ou moins symmétrique, tandis que les billets au tarif `Flexible` apparaissent tronqués à gauche (le prix minimum pour ces billets est 107.7€ dans l'échantillon). 
-- la Renfe pratique la tarification dynamique pour les billets au tarif promotionnel `Promo`: ces derniers peuvent être jusqu'à 70\% moins chers que les billets à prix régulier lorsqu'achetés via l'agence officielle ou le site de Renfe. Ces billets ne peuvent être ni rembourés, ni échangés. 
+- la Renfe pratique la tarification dynamique pour les billets au tarif promotionnel `Promo`: ces derniers peuvent être jusqu'à 70\% moins chers que les billets à prix régulier lorsqu'achetés via l'agence officielle ou le site de Renfe. Ces billets ne peuvent être ni remboursés, ni échangés. 
 - il n'y a pas d'indication à effet de quoi les prix varient selon la direction du trajet.
 
 
