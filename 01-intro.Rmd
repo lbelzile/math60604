@@ -142,7 +142,7 @@ Comme chercheur, on choisit ce niveau $\alpha$; habituellement $1$\%, $5$\% ou $
 Le choix du statu quo (typiquement $\mathscr{H}_0$) s'explique plus facilement avec un exemple médical. Si vous voulez prouver qu'un nouveau traitement est meilleur que l'actuel (ou l'absence de traitement), vous devez démontrer hors de tout doute raisonnable que ce dernier ne cause pas de torts aux patients et offre une nette amélioration (pensez à Didier Raoult et ses allégations non-étayées voulant que l'hydrochloroquine, un antipaludique, soit efficace face au virus de la Covid19). 
 
 
-| **Décision** \\ **vrai modèle** | $\mathscr{H}_0$ | $\mathscr{H}_a$ |
+| **Décision** \\ **vrai modèle**   | $\mathscr{H}_0$ | $\mathscr{H}_a$ |
 | :-- | :-: | :-: |
 | ne pas rejeter $\mathscr{H}_0$ | $\checkmark$ | erreur de type II |
 | rejeter $\mathscr{H}_0$ | erreur de type I | $\checkmark$| 
@@ -284,13 +284,13 @@ Dans cet exemple, on s'intéresse à la différence entre le montant moyen des Y
 
 La première étape de notre analyse consiste à définir les quantités d'intérêt et à formuler nos hypothèse en fonction de paramètres du modèle; il convient également de définir ces derniers en fonction des variables en présence dans l'exemple. Ici, on considère un test pour la différence de moyenne dans les populations postulées $\mu_1$ (pour la génération Y) et $\mu_2$ (pour les générations antérieures) d'écart-type respectif $\sigma_1$ et $\sigma_2$. Comment déterminer quelle hypothèse on considère? Comme statisticien, on se fait l'avocat du Diable: l'hypothèse d'intérêt du chercheur est l'hypothèse alternative et ici, $\mathscr{H}_a: \mu_1 > \mu_2$, où $\mu_1$ représente la moyenne des achats mensuels des milléniaux. L'hypothèse nulle comprend toutes les autres valeurs pour la différence de moyenne, soit $\mathscr{H}_0: \mu_1 \leq \mu_2$. Il suffit néanmoins de considérer le cas $\mu_1=\mu_2$ (pourquoi?) 
 
-La deuxième étape consiste à choisir une statistique de test. S'il n'y a aucune différence de moyenne entre les groupes, alors $\overline{X}_1-\overline{X}_2$ a moyenne zéro et la différence de moyenne a une variance de $\sigma^2_1/n_1+\sigma^2_2/n_2$. Ici, on considère la statistique de @Welch:1947 pour une différence de moyenne entre deux échantillons:
+La deuxième étape consiste à choisir une statistique de test. S'il n'y a aucune différence de moyenne entre les groupes, alors $\overline{X}_1-\overline{X}_2$ a moyenne zéro et la différence de moyenne a une variance de $\sigma^2_1/n_1+\sigma^2_2/n_2$. Ici, on considère la statistique de @Welch1947 pour une différence de moyenne entre deux échantillons:
 \begin{align*}
 T = \frac{\overline{X}_1 - \overline{X}_2}{\left(\frac{S_1^2}{n_1}+\frac{S_2^2}{n_2} \right)^{1/2}}, \end{align*}
 où $\overline{X}_i$ est la moyenne empirique dans l'échantillon $i$ ($i=1, 2$) et $S_i^2$ est la variance empirique et $n_i$ la taille de l'échantillon du groupe $i$. La statistique est utilisée pour calculer la différence de moyennes de deux échantillons de variance potentiellement différente. La valeur de la statistique dans l'échantillon est $T=`r round(-Welch_test$statistic, 2)`$, mais on obtiendrait une valeur différente avec un autre échantillon. Il convient donc de déterminer si cette valeur est compatible avec notre hypothèse nulle en la comparant à la loi nulle sous $\mathscr{H}_0$ de $T$. On effectuera le test à niveau $\alpha=0.05$.
 
 
-La troisième étape est l'obtention d'un étalon de mesure pour déterminer si notre résultat est extrême ou inattendu. Vous remarquerez que la statistique de Welch a moyenne zéro et variance un sous l'hypothèse nulle que $\mu_1=\mu_2$: standardiser une statistique permet d'obtenir un objet dont on connaît le comportement pour de grands échantillons et obtenir une quantité sans unité de mesure. La dérivation de la loi nulle est hors objectifs du cours, aussi cette dernière vous sera donnée dans tous les cas qu'on considère. Asymptotiquement, $T$ suit une loi normale $\mathsf{No}(0, 1)$, mais il existe une meilleure approximation pour $n$ petit; on compare le comportement de $T$ à l'aide d'une loi de Student (à l'aide de l'approximation de @Satterthwaite:1946). 
+La troisième étape est l'obtention d'un étalon de mesure pour déterminer si notre résultat est extrême ou inattendu. Vous remarquerez que la statistique de Welch a moyenne zéro et variance un sous l'hypothèse nulle que $\mu_1=\mu_2$: standardiser une statistique permet d'obtenir un objet dont on connaît le comportement pour de grands échantillons et obtenir une quantité sans unité de mesure. La dérivation de la loi nulle est hors objectifs du cours, aussi cette dernière vous sera donnée dans tous les cas qu'on considère. Asymptotiquement, $T$ suit une loi normale $\mathsf{No}(0, 1)$, mais il existe une meilleure approximation pour $n$ petit; on compare le comportement de $T$ à l'aide d'une loi de Student (à l'aide de l'approximation de @Satterthwaite1946). 
 
 La dernière étape consiste à obtenir une valeur-*p*, soit la probabilité d'observer un résultat aussi extrême sous $\mathscr{H}_0$: l'avantage de la valeur-*p* est que cette valeur est une probabilité (dans $[0, 1]$) et qu'elle suit une loi uniforme sous $\mathscr{H}_0$. Puisque nous avons une hypothèse alternative unilatérale, on regarde la probabilité sous $\mathscr{H}_0$ que $\mathsf{Pr}(T > t)$. La valeur-*p* vaut $`r format(Welch_test$p.value, digits=2)`$ et donc, à niveau 5\%, on rejette l'hypothèse nulle pour conclure que la génération Y dépense davantage en ligne que les générations antérieures.
 
@@ -349,7 +349,7 @@ Une connaissance rudimentaire des graphiques est nécessaire et on s'attardera a
 
 - [Chapitre 3 de _**R** for Data Science_ par Garrett Grolemund et Hadley Wickham](https://r4ds.had.co.nz/exploratory-data-analysis.html)
 - [Section 1.6 du livre *Introductory Statistics with Randomization and Simulation* d'OpenIntro](https://www.openintro.org/book/isrs/) 
-- [*Fundamentals of Data Visualization* par Claus O. Wilke](https://serialmentor.com/dataviz/)
+- [*Fundamentals of Data Visualization* par Claus O. Wilke](https://clauswilke.com/dataviz/)
 - [Chapitre 1 de *Data Visualization: A practical introduction* par Kieran Healy](https://socviz.co/lookatdata.html#lookatdata)
 
 
@@ -442,8 +442,6 @@ Si on veut représenter la covariabilité de deux variables continues, on utilis
 
 ```{r nuagedepoints, cache = TRUE, echo = FALSE, fig.cap="Nuage de points (gauche) et diagramme hexagonal (droite) pour des données simulées.", fig.width = 8}
 set.seed(1234)
-# url <- "https://lbelzile.bitbucket.io/MATH60604/distraction.sas7bdat"
-# distraction <- haven::read_sas(url)
 datsim <- TruncatedNormal::rtmvnorm(n = 100, lb = c(0,1), sigma = cbind(c(1,0.5), c(0.5,1)))
 g1 <- ggplot(data = data.frame(x = datsim[,1], y = datsim[,2]), 
              aes(x = x, y = y)) + 

@@ -1,3 +1,5 @@
+# (APPENDIX) Annexe {-} 
+
 # Compléments mathématiques {#complement}
 
 
@@ -214,8 +216,7 @@ Mathématiquement, le théorème central limite dicte que $\sqrt{n}(\overline{Y}
 Comment interpréter ce résultat? On considère comme exemple le temps de trajet moyen de trains à haute vitesse AVE entre Madrid et Barcelone opérés par la Renfe.
 
 ```{r renfeclt, echo = FALSE, fig.cap="Distribution empirique des temps de trajet en trains à grande vitesse.", fig.width = 6, fit.height = 5}
-url <- "https://lbelzile.bitbucket.io/MATH60604/renfe.sas7bdat"
-renfe <- haven::read_sas(url)[,c("type","duree")]
+data(renfe, package = "hecmodstat")
 duree <- renfe$duree[renfe$type %in% c("AVE","AVE-TGV")]
 ggplot(data = data.frame(duree), aes(x=duree)) + 
   geom_bar() + 

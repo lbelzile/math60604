@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>3 Modèles linéaires généralisés | Modélisation statistique</title>
+  <title>4 Modèles linéaires généralisés | Modélisation statistique</title>
   <meta name="description" content="Ces notes forment un complément web du cours MATH 60604 (Modélisation statistique) offert à la M.Sc. en gestion (science des données et analytique d’affaires) à HEC Montréal." />
   <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="3 Modèles linéaires généralisés | Modélisation statistique" />
+  <meta property="og:title" content="4 Modèles linéaires généralisés | Modélisation statistique" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="lbelzile/math60604" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="3 Modèles linéaires généralisés | Modélisation statistique" />
+  <meta name="twitter:title" content="4 Modèles linéaires généralisés | Modélisation statistique" />
   
   <meta name="twitter:description" content="Ces notes forment un complément web du cours MATH 60604 (Modélisation statistique) offert à la M.Sc. en gestion (science des données et analytique d’affaires) à HEC Montréal." />
   
@@ -29,7 +29,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="regression-lineaire.html"/>
+<link rel="prev" href="vraisemblance.html"/>
 <link rel="next" href="donnees-correlees-longitudinales.html"/>
 <script src="libs/header-attrs-2.3/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
@@ -49,6 +49,13 @@
 
 
 
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<link href="libs/rglwidgetClass-2/rgl.css" rel="stylesheet" />
+<script src="libs/rglwidgetClass-2/rglClass.src.js"></script>
+<script src="libs/CanvasMatrix4-2016/CanvasMatrix.src.js"></script>
+<script src="libs/rglWebGL-binding-0.100.54/rglWebGL.js"></script>
+<link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
 
 
 <style type="text/css">
@@ -133,14 +140,14 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Remarques</a></li>
 <li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction à l’inférence statistique</a></li>
 <li class="chapter" data-level="2" data-path="regression-lineaire.html"><a href="regression-lineaire.html"><i class="fa fa-check"></i><b>2</b> Régression linéaire</a></li>
-<li class="chapter" data-level="3" data-path="modeles-lineaires-generalises.html"><a href="modeles-lineaires-generalises.html"><i class="fa fa-check"></i><b>3</b> Modèles linéaires généralisés</a></li>
-<li class="chapter" data-level="4" data-path="donnees-correlees-longitudinales.html"><a href="donnees-correlees-longitudinales.html"><i class="fa fa-check"></i><b>4</b> Données corrélées et longitudinales</a></li>
-<li class="chapter" data-level="5" data-path="modeles-lineaires-mixtes.html"><a href="modeles-lineaires-mixtes.html"><i class="fa fa-check"></i><b>5</b> Modèles linéaires mixtes</a></li>
-<li class="chapter" data-level="6" data-path="survie.html"><a href="survie.html"><i class="fa fa-check"></i><b>6</b> Analyse de survie</a></li>
-<li class="chapter" data-level="7" data-path="vraisemblance.html"><a href="vraisemblance.html"><i class="fa fa-check"></i><b>7</b> Inférence basée sur la vraisemblance</a></li>
+<li class="chapter" data-level="3" data-path="vraisemblance.html"><a href="vraisemblance.html"><i class="fa fa-check"></i><b>3</b> Inférence basée sur la vraisemblance</a></li>
+<li class="chapter" data-level="4" data-path="modeles-lineaires-generalises.html"><a href="modeles-lineaires-generalises.html"><i class="fa fa-check"></i><b>4</b> Modèles linéaires généralisés</a></li>
+<li class="chapter" data-level="5" data-path="donnees-correlees-longitudinales.html"><a href="donnees-correlees-longitudinales.html"><i class="fa fa-check"></i><b>5</b> Données corrélées et longitudinales</a></li>
+<li class="chapter" data-level="6" data-path="modeles-lineaires-mixtes.html"><a href="modeles-lineaires-mixtes.html"><i class="fa fa-check"></i><b>6</b> Modèles linéaires mixtes</a></li>
+<li class="chapter" data-level="7" data-path="survie.html"><a href="survie.html"><i class="fa fa-check"></i><b>7</b> Analyse de survie</a></li>
 <li class="appendix"><span><b>Annexe</b></span></li>
-<li><a href="r.html#r"><strong>R</strong></a></li>
 <li class="chapter" data-level="A" data-path="complement.html"><a href="complement.html"><i class="fa fa-check"></i><b>A</b> Compléments mathématiques</a></li>
+<li><a href="r.html#r"><strong>R</strong></a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Publié avec bookdown</a></li>
@@ -162,8 +169,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="modeles-lineaires-generalises" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> Modèles linéaires généralisés</h1>
+<div id="modeles-lineaires-generalises" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Modèles linéaires généralisés</h1>
 
 </div>
             </section>
@@ -171,7 +178,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="regression-lineaire.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="vraisemblance.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="donnees-correlees-longitudinales.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

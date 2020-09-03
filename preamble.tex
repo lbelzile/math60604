@@ -3,10 +3,11 @@
 \usepackage{geometry}
 \usepackage[french]{babel}
 \geometry{hmargin=1.2in}
-% \usepackage[mathscr]{eucal}
-\usepackage{fontspec}
-\setmainfont[Scale=0.925]{heuristica}
-\usepackage[scr=rsfs]{mathalpha}
+\usepackage{fourier}
+\usepackage[mathscr]{eucal}
+% \usepackage{fontspec}
+% \setmainfont[Scale=0.925]{heuristica}
+% \usepackage[scr=rsfs]{mathalpha}
 % \DeclareMathAlphabet{\mathcrl}{U}{rsfs}{m}{n}
 % \DeclareMathAlphabet{\mathcal}{OMS}{cmsy}{m}{n}
 % \usepackage{booktabs} % already loaded
@@ -97,4 +98,7 @@
   {\end{rmdblock}}
 \newenvironment{rmdwarning}
   {\begin{rmdblock}{warning}}
+  {\end{rmdblock}}
+\newenvironment{rmdmathtan}
+  {\begin{rmdblock}{tangente}}
   {\end{rmdblock}}
