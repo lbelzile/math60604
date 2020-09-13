@@ -147,6 +147,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7" data-path="survie.html"><a href="survie.html"><i class="fa fa-check"></i><b>7</b> Analyse de survie</a></li>
 <li class="appendix"><span><b>Annexe</b></span></li>
 <li class="chapter" data-level="A" data-path="complement.html"><a href="complement.html"><i class="fa fa-check"></i><b>A</b> Compléments mathématiques</a></li>
+<li class="chapter" data-level="B" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>B</b> Dérivations mathématiques</a></li>
 <li><a href="r.html#r"><strong>R</strong></a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -478,7 +479,14 @@ Une connaissance rudimentaire des graphiques est nécessaire et on s’attardera
 </div>
 <div id="types-de-variables" class="section level3" number="1.2.2">
 <h3><span class="header-section-number">1.2.2</span> Types de variables</h3>
-<p>Commençons par les données: celles que l’on manipulera dans ce cours sont stockées sous forme tabulaire. Dans une base de donnée en format court, chaque ligne correspond à une observation et chaque colonne à une variable; les entrées de la base de données contiennent les valeurs.</p>
+<p>Commençons par parler des données: celles que l’on manipulera dans ce cours sont stockées sous forme tabulaire. Dans une base de donnée en format long, chaque ligne correspond à une observation et chaque colonne à une variable; les entrées de la base de données contiennent les valeurs.</p>
+<p>L’alternative au format long est le format court/large, où les colonnes représentent les modalités de variables catégorielles et il peut y avoir plusieurs valeurs par ligne qui contiennent des valeurs de la variable réponse. Le schéma de la Figure <a href="intro.html#fig:longvswide">1.6</a> permet de mieux comprendre la distinction entre les deux formats: on supposera que nos données sont toujours en format long, ce dernier étant assumé par défaut par le logiciel pour procéder à l’ajustement d’un modèle..</p>
+<div class="figure" style="text-align: center"><span id="fig:longvswide"></span>
+<img src="images/original-dfs-tidy.png" alt="Format long versus format large (_wide_) (dessin de Garrick Aden-Buie)." width="70%" />
+<p class="caption">
+Figure 1.6: Format long versus format large (<em>wide</em>) (dessin de Garrick Aden-Buie).
+</p>
+</div>
 <ul>
 <li>Une <strong>variable</strong> représente une caractéristique de la population d’intérêt, par exemple le sexe d’un individu, le prix d’un article, etc.</li>
 <li>une <strong>observation</strong>, parfois appelée donnée, est un ensemble de mesures collectées sous des conditions identiques, par exemple pour un individu ou à un instant donné.</li>
@@ -503,7 +511,7 @@ Une connaissance rudimentaire des graphiques est nécessaire et on s’attardera
 <div class="figure" style="text-align: center"><span id="fig:barplotrenfe"></span>
 <img src="MATH60604_Modelisation_statistique_files/figure-html/barplotrenfe-1.png" alt="Diagramme en bâtons pour la classe des billets de trains du jeu de données Renfe." width="70%" />
 <p class="caption">
-Figure 1.6: Diagramme en bâtons pour la classe des billets de trains du jeu de données Renfe.
+Figure 1.7: Diagramme en bâtons pour la classe des billets de trains du jeu de données Renfe.
 </p>
 </div>
 <p>Puisque les variables continues peuvent prendre autant de valeurs distinctes qu’il y a d’observations, on ne peut simplement compter le nombre d’occurrence par valeur unique. On regroupera plutôt dans un certain nombre d’intervalle, en discrétisant l’ensemble des valeurs en classes pour obtenir un histogramme. Le nombre de classes dépendra du nombre d’observations si on veut que l’estimation ne soit pas impactée par le faible nombre d’observations par classe: règle générale, le nombre de classes ne devrait pas dépasser <span class="math inline">\(\sqrt{n}\)</span>, où <span class="math inline">\(n\)</span> est le nombre d’observations de l’échantillon. On obtiendra la fréquence de chaque classe, mais si on normalise l’histogramme (de façon à ce que l’aire sous les bandes verticales égale un), on obtient une approximation discrète de la fonction de densité. Faire varier le nombre de classes permet parfois de faire apparaître des caractéristiques de la variable (notamment la multimodalité, l’asymmétrie et les arrondis).</p>
@@ -511,7 +519,7 @@ Figure 1.6: Diagramme en bâtons pour la classe des billets de trains du jeu de 
 <div class="figure" style="text-align: center"><span id="fig:histrenfe"></span>
 <img src="MATH60604_Modelisation_statistique_files/figure-html/histrenfe-1.png" alt="Histogramme du prix des billets au tarif Promo de trains du jeu de données Renfe" width="70%" />
 <p class="caption">
-Figure 1.7: Histogramme du prix des billets au tarif Promo de trains du jeu de données Renfe
+Figure 1.8: Histogramme du prix des billets au tarif Promo de trains du jeu de données Renfe
 </p>
 </div>
 <p>Une boîte à moustaches(<em>boxplot</em>) représente graphiquement cinq statistiques descriptives.</p>
@@ -523,28 +531,28 @@ Figure 1.7: Histogramme du prix des billets au tarif Promo de trains du jeu de d
 <div class="figure" style="text-align: center"><span id="fig:boiteamoustache"></span>
 <img src="images/01-intro-boiteamoustache.png" alt="Boîte à moustache." width="70%" />
 <p class="caption">
-Figure 1.8: Boîte à moustache.
+Figure 1.9: Boîte à moustache.
 </p>
 </div>
-<p>On peut représenter la distribution d’une variable réponse continue en fonction d’une variable catégorielle en traçant une boîte à moustaches pour chaque catégorie et en les disposant côte-à-côte. Une troisième variable catégorielle peut être ajoutée par le biais de couleurs, comme dans la Figure <a href="intro.html#fig:histboxplot">1.9</a>.</p>
+<p>On peut représenter la distribution d’une variable réponse continue en fonction d’une variable catégorielle en traçant une boîte à moustaches pour chaque catégorie et en les disposant côte-à-côte. Une troisième variable catégorielle peut être ajoutée par le biais de couleurs, comme dans la Figure <a href="intro.html#fig:histboxplot">1.10</a>.</p>
 <div class="figure" style="text-align: center"><span id="fig:histboxplot"></span>
 <img src="MATH60604_Modelisation_statistique_files/figure-html/histboxplot-1.png" alt="Boîte à moustaches du prix des billets au tarif Promo en fonction de la classe pour le jeu de données Renfe." width="70%" />
 <p class="caption">
-Figure 1.9: Boîte à moustaches du prix des billets au tarif Promo en fonction de la classe pour le jeu de données Renfe.
+Figure 1.10: Boîte à moustaches du prix des billets au tarif Promo en fonction de la classe pour le jeu de données Renfe.
 </p>
 </div>
-<p>Si on veut représenter la covariabilité de deux variables continues, on utilise un nuage de points où chaque variable est représentée sur un axe et chaque observation donne la coordonnée des points. Si la représentation graphique est dominée par quelques valeurs très grandes, une transformation des données peut être utile: vous verrez souvent des données positives à l’échelle logarithmique. Avec des données massives, les points seront superposés et le diagramme risque d’être illisible. Parmi les solutions envisagées, l’utilisation de la transparence, qui permet de voir où les points sont plus fréquents, ou encore un diagramme avec des classes hexagonale, l’équivalent d’un histogramme bidimensionnel où on remplace les classes par des hexagones. Le panneau de gauche de la Figure <a href="intro.html#fig:nuagedepoints">1.10</a> représente ainsi 100 observations simulées à l’aide d’un nuage de points 100 observations, tandis simulées. Dans le panneau de droite, on utilise plutôt un diagramme hexagonal pour représenter les 10 000 points, ce qui donne un aperçu de la densité conjointe des deux variables.</p>
+<p>Si on veut représenter la covariabilité de deux variables continues, on utilise un nuage de points où chaque variable est représentée sur un axe et chaque observation donne la coordonnée des points. Si la représentation graphique est dominée par quelques valeurs très grandes, une transformation des données peut être utile: vous verrez souvent des données positives à l’échelle logarithmique. Avec des données massives, les points seront superposés et le diagramme risque d’être illisible. Parmi les solutions envisagées, l’utilisation de la transparence, qui permet de voir où les points sont plus fréquents, ou encore un diagramme avec des classes hexagonale, l’équivalent d’un histogramme bidimensionnel où on remplace les classes par des hexagones. Le panneau de gauche de la Figure <a href="intro.html#fig:nuagedepoints">1.11</a> représente ainsi 100 observations simulées à l’aide d’un nuage de points 100 observations, tandis simulées. Dans le panneau de droite, on utilise plutôt un diagramme hexagonal pour représenter les 10 000 points, ce qui donne un aperçu de la densité conjointe des deux variables.</p>
 <div class="figure" style="text-align: center"><span id="fig:nuagedepoints"></span>
 <img src="MATH60604_Modelisation_statistique_files/figure-html/nuagedepoints-1.png" alt="Nuage de points (gauche) et diagramme hexagonal (droite) pour des données simulées." width="70%" />
 <p class="caption">
-Figure 1.10: Nuage de points (gauche) et diagramme hexagonal (droite) pour des données simulées.
+Figure 1.11: Nuage de points (gauche) et diagramme hexagonal (droite) pour des données simulées.
 </p>
 </div>
 <p>Certaines données ont une structure particulière: pensons aux séries chronologiques, aussi appelées séries temporelles, qui comportent des observations ordonnées dans le temps. On représente chaque variable d’une série chronologique (sur l’axe des <span class="math inline">\(y\)</span>) en fonction du temps (sur l’axe des <span class="math inline">\(x\)</span>). Il est d’usage de relier les observations, bien que cet aperçu soit parfois trompeur.</p>
 <div class="figure" style="text-align: center"><span id="fig:seriechrono"></span>
 <img src="MATH60604_Modelisation_statistique_files/figure-html/seriechrono-1.png" alt="Représentation graphique d'une série chronologique." width="70%" />
 <p class="caption">
-Figure 1.11: Représentation graphique d’une série chronologique.
+Figure 1.12: Représentation graphique d’une série chronologique.
 </p>
 </div>
 <p>Plutôt que de décrire plus en détail le processus de l’analyse exploratoire, on présente un exemple qui illustre le cheminement habitue sur les données de trains de la Renfe introduites précédemment.</p>
@@ -561,7 +569,7 @@ Figure 1.11: Représentation graphique d’une série chronologique.
 <li><code>duree</code>: longueur annoncée du trajet (en minutes);</li>
 <li><code>jour</code> entier indiquant le jour de la semaine du départ allant de dimanche (<code>1</code>) à samedi (<code>7</code>).</li>
 </ul>
-<p>Il n’y a pas de valeurs manquantes et un aperçu des données (<code>head(renfe)</code>) montre qu’elles sont en format large, ce qui veut dire que chaque ligne correspond à un billet de train. On entame l’analyse exploratoire avec des questions plutôt vagues, par exemple</p>
+<p>Il n’y a pas de valeurs manquantes et un aperçu des données (<code>head(renfe)</code>) montre qu’elles sont en format long, ce qui veut dire que chaque ligne contient une seule valeur pour la variable réponse, ici le prix d’un billet de train. On entame l’analyse exploratoire avec des questions plutôt vagues, par exemple</p>
 <ol style="list-style-type: decimal">
 <li>Quels sont les facteurs déterminant le prix et le temps de parcours?</li>
 <li>Est-ce que le temps de parcours est le même peut importe le type de train?</li>
@@ -610,7 +618,7 @@ Figure 1.11: Représentation graphique d’une série chronologique.
 <div class="figure" style="text-align: center"><span id="fig:renfe-aed4"></span>
 <img src="MATH60604_Modelisation_statistique_files/figure-html/renfe-aed4-1.png" alt="Boîte à moustaches du prix de billets de train de Renfe en fonction de la destination et du type de train." width="70%" />
 <p class="caption">
-Figure 1.12: Boîte à moustaches du prix de billets de train de Renfe en fonction de la destination et du type de train.
+Figure 1.13: Boîte à moustaches du prix de billets de train de Renfe en fonction de la destination et du type de train.
 </p>
 </div>
 <p>On pourrait soupçonner que les trains étiquetés <code>AVE</code> soient plus rapides, sachant que c’est l’acronyme de <em>Alta Velocidad Española</em>, littéralement haute vitesse espagnole. Qu’en est-il des distinctions entre les deux types de trains étiquetés AVE? Selon <a href="https://www.renfe-sncf.com/rw-en/services/a-unique-experience/Pages/services.aspx">le site de la SNCF</a>, les trains AVE-TGV sont des partenariats entre la Renfe et la SNCF et effectuent des liaisons entre la France et l’Espagne.</p>
@@ -627,7 +635,7 @@ Figure 1.12: Boîte à moustaches du prix de billets de train de Renfe en foncti
 ## 3 AVE-TGV Barcelone-Madrid           175        0.0       87.0       16.8
 ## 4 AVE-TGV Madrid-Barcelone           179        0.0       90.6       20.2</code></pre>
 <p>Les prix sont beaucoup plus élevés, en moyenne plus de deux fois plus que les trains régionaux. Les écarts de prix importants (l’écart type est de 20 euros) indique qu’il y a peut-être d’autres sources d’hétérogénéité, mais on pourrait soupçonner que la Renfe pratique la tarification dynamique. Il y un seul temps de parcours prévu pour les trains AVE-TGV. On ne note pas de différence de prix notable selon la direction ou le type de train grande vitesse, mais peut-être que les tarifs ou la classe disponibles diffèrent selon que le train ou non est en partenariat avec la compagnie française.</p>
-<p>On a pas encore considéré le tarif et la classe des billets, hormis pour les trains RegioExpress. On voit dans la Figure <a href="intro.html#fig:renfe-aed7">1.14</a> une forte différente dans l’hétérogénéité des prix selon le tarif; le tarif Promo prend plusieurs valeurs distinctes, tandis que les tarifs AdultoIda et Flexible semblent ne prendre que quelques valeurs. La première classe (<code>Preferente</code>) est plus chère et il y a moins d’observations dans ce groupe. La classe Turista est la classe la moins dispendieuse et la plus populaire. <a href="http://web.archive.org/web/20161111134241/http://www.renfe.com/viajeros/tarifas/billete_promo.html"><code>TuristaPlus</code></a> offre plus de confort, tandis que <code>TuristaSolo</code> permet d’obtenir un siège individuel.</p>
+<p>On a pas encore considéré le tarif et la classe des billets, hormis pour les trains RegioExpress. On voit dans la Figure <a href="intro.html#fig:renfe-aed7">1.15</a> une forte différente dans l’hétérogénéité des prix selon le tarif; le tarif Promo prend plusieurs valeurs distinctes, tandis que les tarifs AdultoIda et Flexible semblent ne prendre que quelques valeurs. La première classe (<code>Preferente</code>) est plus chère et il y a moins d’observations dans ce groupe. La classe Turista est la classe la moins dispendieuse et la plus populaire. <a href="http://web.archive.org/web/20161111134241/http://www.renfe.com/viajeros/tarifas/billete_promo.html"><code>TuristaPlus</code></a> offre plus de confort, tandis que <code>TuristaSolo</code> permet d’obtenir un siège individuel.</p>
 <p>Côté tarif, <a href="http://web.archive.org/web/20161111134241/http://www.renfe.com/viajeros/tarifas/billete_promo.html">Promo</a> et <a href="http://web.archive.org/web/20161110220249/http://www.renfe.com/viajeros/tarifas/billete_promoplus.html">PromoPlus</a> permette d’obtenir des rabais pouvant aller jusqu’à respectivement 70% et 65%. Les annulations et changements ne sont pas possibles avec Promo, mais disponibles avec PromoPlus moyennant une pénalité équivalent à 30-20% du prix du billet. Le tarif <a href="http://web.archive.org/web/20161108192609/http://www.renfe.com/viajeros/tarifas/billete_flexible.html">Flexible</a> est disponible au même prix que les billets réguliers, avec des bénéfices additionnels.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="intro.html#cb17-1" aria-hidden="true"></a>renfe <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">subset</span>(tarif  <span class="op">!=</span><span class="st"> &quot;AdultoIda&quot;</span>) <span class="op">%&gt;%</span></span>
 <span id="cb17-2"><a href="intro.html#cb17-2" aria-hidden="true"></a><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">y =</span> prix, <span class="dt">x =</span> classe, <span class="dt">col =</span> tarif)) <span class="op">+</span><span class="st"> </span></span>
@@ -639,7 +647,7 @@ Figure 1.12: Boîte à moustaches du prix de billets de train de Renfe en foncti
 <div class="figure" style="text-align: center"><span id="fig:renfe-aed6"></span>
 <img src="MATH60604_Modelisation_statistique_files/figure-html/renfe-aed6-1.png" alt="Boîte à moustaches du prix en fonction du tarif et de la classe de billets de trains à haute vitesse de la Renfe." width="70%" />
 <p class="caption">
-Figure 1.13: Boîte à moustaches du prix en fonction du tarif et de la classe de billets de trains à haute vitesse de la Renfe.
+Figure 1.14: Boîte à moustaches du prix en fonction du tarif et de la classe de billets de trains à haute vitesse de la Renfe.
 </p>
 </div>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="intro.html#cb18-1" aria-hidden="true"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> renfe, <span class="kw">aes</span>(<span class="dt">x =</span> prix, <span class="dt">y=</span>..density.., <span class="dt">fill =</span> tarif)) <span class="op">+</span></span>
@@ -649,7 +657,7 @@ Figure 1.13: Boîte à moustaches du prix en fonction du tarif et de la classe d
 <div class="figure" style="text-align: center"><span id="fig:renfe-aed7"></span>
 <img src="MATH60604_Modelisation_statistique_files/figure-html/renfe-aed7-1.png" alt="Histogrammes du prix en fonction du tarif de billets de trains de la Renfe." width="70%" />
 <p class="caption">
-Figure 1.14: Histogrammes du prix en fonction du tarif de billets de trains de la Renfe.
+Figure 1.15: Histogrammes du prix en fonction du tarif de billets de trains de la Renfe.
 </p>
 </div>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="intro.html#cb19-1" aria-hidden="true"></a><span class="co"># Vérifier la répartition des billets Flexible</span></span>

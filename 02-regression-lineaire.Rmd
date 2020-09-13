@@ -1,10 +1,30 @@
 # Régression linéaire {#regression-lineaire}
 
-La régression linéaire est un modèle pour l'espérance conditionnelle d'une variable continue. Le modèle linéaire est sans conteste le modèle statistique le plus courant. Son nom est trompeur: une grande panoplie de tests statistiques (tests-*t*, analyse de variance, test de Wilcoxon ou de Kruskal--Wallis) [peut être calculée à l'aide d'un modèle linéaire](https://lindeloev.github.io/tests-as-linear/linear_tests_cheat_sheet.pdf), tandis que [des modèles aussi divers que les arbres aléatoires, la régression en composantes principales et les réseaux de neurones multicouches ne sont en réalité que de bêtes modèles linéaires](https://threadreaderapp.com/thread/1286420597505892352.html). La flexibilité du modèle linéaire vient de sa formulation comme **combinaison linéaire de variables explicatives**: ces dernières sont essentiellement arbitraires. Ce qui change d'un modèle à l'autre est simplement la méthode d'optimisation (moindres carrés ordinaires, optimisation sous contrainte ou par descente de gradient stochastique), de même que le choix des variables explicatives (bases de spline pour la régression nonparamétrique, variables indicatrices pour les arbres, fonctions d'activations pour les réseaux de neurones). Ce chapitre porte sur la formulation de modèles linéaires, l'interprétation des coefficients et les tests usuels reliés à ces modèles. Certains modèles bien connus, comme l'analyse de variance, seront présentés comme cas spéciaux du modèle de régression linéaire. Les objectifs principaux de la régression linéaire sont:
+
+On entend par régression linéaire un modèle pour l'espérance conditionnelle d'une variable réponse $Y$ (ou régressande) en fonction de $p$ variables explicatives (appelées parfois régresseurs ou covariables) à l'aide d'une équation de la forme 
+\begin{align*}
+\mathsf{E}(Y \mid \mathbf{X})=\beta_0 + \beta_1\mathrm{X}_{1} + \cdots + \beta_p \mathrm{X}_{p}.
+\end{align*}
+Le fait que la moyenne est conditionnelle aux valeurs de $\mathbf{X}$  implique simplement que l'on considère les régresseurs comme constant, ou connus à l'avance.
+
+En pratique, tout modèle est une approximation de la réalité, aussi on ajoute un terme d'erreur qui sert à tenir compte du fait qu'aucune relation linéaire exacte ne lie $\mathbf{X}$ et $Y$, ou que les mesures de $Y$ contiennent des erreurs. Ce terme d'erreur aléatoire $\varepsilon$ servira de base à l'inférence car il permettra de quantifier l'adéquation entre notre modèle et les données. 
+
+On peut réécrire le modèle linéaire en terme de l'erreur pour un échantillon aléatoire de taille $n$: dénotons par $Y_i$ la valeur de $Y$ pour le sujet $i$, et $\mathrm{X}_{ij}$ la valeur de la $j$e variable explicative du sujet $i$. Le modèle de régression linéaire est 
+\begin{align}
+Y_i = \beta_0 + \beta_1 \mathrm{X}_{i1} + \ldots + \beta_p \mathrm{X}_{ip} +\varepsilon_{i}, \qquad i =1, \ldots, n, (\#eq:olsmean)
+\end{align}
+où $\varepsilon_i$ est le terme d'erreur additive. Si aucune hypothèse sur la loi aléatoire de l'erreur n'est spécifiée, on fixe néanmoins l'espérance du terme d'erreur à zéro car on postule qu'il n'y a pas d'erreur systématique, c'est-à-dire que $\mathsf{E}(\varepsilon_i \mid \boldsymbol{X}_i)=0$ $(i=1, \ldots, n)$.
+
+La flexibilité du modèle linéaire vient de sa formulation: on spécifie l'espérance conditionnelle d'une variable continue comme **combinaison linéaire de variables explicatives**, dont le choix est arbitraire.
+Il est important de remarquer que ce modèle est linéaire dans les coefficients $\boldsymbol{\beta}\in \mathbb{R}_{p+1}$, pas dans les variables explicatives! les covariables sont quelconques et peuvent être des fonctions (non)-linéaires d'autres variables explicatives, par exemple $\mathrm{X}=\log(\texttt{annees})$, $\mathrm{X}=\texttt{puissance}^2$ ou $\mathrm{X}= \mathsf{I}_{\texttt{homme}}\cdot\mathsf{I}_{\texttt{titulaire}}$. C'est ce qui fait la flexibilité du modèle linéaire: ce dernier est principalement employé aux fins suivantes:
 
 1.  Comprendre comment et dans quelle mesure les variables explicatives $\mathbf{X}$ influencent la moyenne de la réponse $Y$ (description).
 2.  Quantifier l'influence des variables explicatives $\mathbf{X}$ sur la régressande $Y$ et tester leur significativité.
 3.  Prédire les valeurs de $Y$ pour de nouveaux ensembles de covariables $\mathbf{X}$.
+
+## Introduction
+
+Le modèle linéaire est sans conteste le modèle statistique le plus couramment employé. Le terme « modèle linéaire » est trompeur: une grande panoplie de tests statistiques (tests-*t*, analyse de variance, test de Wilcoxon ou de Kruskal--Wallis) [peut être calculée à l'aide d'un modèle linéaire](https://lindeloev.github.io/tests-as-linear/linear_tests_cheat_sheet.pdf), tandis que [des modèles aussi divers que les arbres aléatoires, la régression en composantes principales et les réseaux de neurones multicouches ne sont en réalité que de bêtes modèles linéaires](https://threadreaderapp.com/thread/1286420597505892352.html). Ce qui change d'un modèle à l'autre est simplement la méthode d'optimisation (moindres carrés ordinaires, optimisation sous contrainte ou par descente de gradient stochastique), de même que le choix des variables explicatives (bases de spline pour la régression nonparamétrique, variables indicatrices pour les arbres, fonctions d'activations pour les réseaux de neurones). Ce chapitre porte sur la formulation de modèles linéaires, l'interprétation des coefficients et les tests usuels reliés à ces modèles. Certains modèles bien connus, comme l'analyse de variance, seront présentés comme cas spéciaux du modèle de régression linéaire. 
 
 
 Afin de rendre plus tangible le concept et les notions qui touchent aux modèles linéaires, on présentera ces notions dans le cadre d'un exemple. On s'intéresse à la discrimination salariale dans un collège américain, au sein duquel une étude a été réalisée pour investiguer s'il existait des inégalités salariales entre hommes et femmes. Le jeu de données contient les variables suivantes
@@ -14,7 +34,7 @@ Afin de rendre plus tangible le concept et les notions qui touchent aux modèles
 -   `domaine`: variable catégorielle indiquant le champ d'expertise du professeur, soit appliqué (`applique`) ou théorique (`theorique`).
 -   `sexe`: indicateur binaire pour le sexe, `homme` ou `femme`.
 -   `service`: nombre d'années de service.
--   `annees`: nombre d'années de service au sein de l'échelon académique (rang).
+-   `annees`: nombre d'années depuis l'obtention du doctorat.
 
 Une analyse exploratoire des données est de mise avant d'ébaucher un modèle. Si le salaire augmente au fil des ans, on voit que l'hétérogénéité change en fonction de l'échelon et qu'il y a une relation claire entre ce dernier et le nombre d'années de service (les professeurs n'étant éligibles à des promotions qu'après un certain nombre d'années). Les professeurs adjoints qui ne sont pas promus sont généralement mis à la porte, aussi il y a moins d'occasions pour que les salaires varient sur cette échelle.
 
@@ -39,10 +59,7 @@ knitr::kable(table(college$sexe, college$echelon),
              booktabs = TRUE)
 ```
 
-
-## Introduction
-
-Le modèle de régression linéaire simple, qui n'inclut qu'une variable explicative, consiste en une droite qui passe à travers un nuage de points et capture la corrélation linéaire entre deux variables $\mathrm{X}$ et $Y$ à l'aide d'une équation de la forme $y=a+bx$? En deux dimensions, le problème de la régression linéaire revient à ajuster la meilleure droite (selon un critère donné) à travers un nuage de points comme celui de la Figure \@ref(fig:droitenuage).
+Le modèle linéaire simple n'inclut qu'une variable explicative et consiste en une droite d'équation $y=\beta_0 + \beta_1 \mathrm{X}$ qui passe à travers un nuage de points. La Figure \@ref(fig:droitenuage) montre la droite de régression dans le nuage de points formé par les couples $\{\mathrm{X}_i, y_i\}$, où $y_i$ est le `salaire` et $\mathrm{X}$ est `service`.
 
 
 ```{r droitenuage, eval =TRUE, echo = FALSE, fig.cap = "Régression linéaire simple pour le salaire en fonction des années de service; la droite satisfait le critère des moindres carrés."}
@@ -55,24 +72,8 @@ ggplot(data = college, aes(x = service, y = salaire)) +
        y = "salaire (en milliers USD)")
 ```
 
+Une infinité de droites pourraient passer dans le nuage de points; il faut donc choisir la meilleure droite (selon un critère donné). La section aborde le choix de ce critère et l'estimation des paramètres de l'équation de la droite.
 
-<!-- Ajouter l'enfilade de gazouillis de Daniela Witten - https://threadreaderapp.com/thread/1286420597505892352.html-->
-
-Plus généralement, on entend par régression linéaire un modèle pour l'espérance conditionnelle d'une variable réponse $Y$ (ou régressande) en fonction de $p$ variables explicatives (appelées parfois régresseurs ou covariables) à l'aide d'une équation de la forme 
-\begin{align*}
-\mathsf{E}(Y \mid \mathbf{X})=\beta_0 + \beta_1\mathrm{X}_{1} + \cdots + \beta_p \mathrm{X}_{p}.
-\end{align*}
-Le fait que la moyenne est conditionnelle aux valeurs de $\mathbf{X}$  implique simplement que l'on considère les régresseurs comme constant, ou connus à l'avance.
-
-En pratique, tout modèle est une approximation de la réalité, aussi on ajoute un terme d'erreur qui sert à tenir compte du fait qu'aucune relation linéaire exacte ne lie $\mathbf{X}$ et $Y$, ou que les mesures de $Y$ contiennent des erreurs. Ce terme d'erreur aléatoire $\varepsilon$ servira de base à l'inférence car il permettra de quantifier l'adéquation entre notre modèle et les données. 
-
-On peut réécrire le modèle linéaire en terme de l'erreur pour un échantillon aléatoire de taille $n$: dénotons par $Y_i$ la valeur de $Y$ pour le sujet $i$, et $\mathrm{X}_{ij}$ la valeur de la $j$e variable explicative du sujet $i$. Le modèle de régression linéaire est 
-\begin{align}
-Y_i = \beta_0 + \beta_1 \mathrm{X}_{i1} + \ldots + \beta_p \mathrm{X}_{ip} +\varepsilon_{i}, \qquad i =1, \ldots, n, (\#eq:olsmean)
-\end{align}
-où $\varepsilon_i$ est le terme d'erreur additive. Si aucune hypothèse sur la loi aléatoire de l'erreur n'est spécifiée, on fixe néanmoins l'espérance du terme d'erreur à zéro car on postule qu'il n'y a pas d'erreur systématique, c'est-à-dire que $\mathsf{E}(\varepsilon_i \mid \boldsymbol{X}_i)=0$ $(i=1, \ldots, n)$.
-
-Il est important de remarquer que ce modèle est linéaire dans les coefficients $\boldsymbol{\beta}\in \mathbb{R}_{p+1}$, pas dans les variables explicatives! les covariables sont quelconques et peuvent être des fonctions (non)-linéaires d'autres variables explicatives, par exemple $\mathrm{X}=\log(\texttt{annees})$, $\mathrm{X}=\texttt{puissance}^2$ ou $\mathrm{X}= \mathsf{I}_{\texttt{homme}}\cdot\mathsf{I}_{\texttt{titulaire}}$. C'est ce qui fait la flexibilité du modèle linéaire.
 
 <!-- ### Géométrie du modèle linéaire -->
 
@@ -92,10 +93,7 @@ En d'autres mots, les estimateurs des moindres carrés sont la solution du probl
 \begin{align*}
 \widehat{\boldsymbol{\beta}} &=\min_{\boldsymbol{\beta} \in \mathbb{R}^{p+1}}\sum_{i=1}^n (Y_i-\widehat{Y}_i)^2= \min_{\boldsymbol{\beta}} \|\boldsymbol{Y}-\mathbf{X}\boldsymbol{\beta}\|^2
 \end{align*}
-Ce système d'équation a une solution unique et explicite qui est plus facilement exprimée en notation matricielle: cela revient à exprimer le système linéaire de l'équation \@ref(eq:olsmean) avec une observation par ligne. 
-
-
-Soit les matrices et vecteurs 
+Ce système d'équation a une solution  explicite qui est plus facilement exprimée en notation matricielle. Soit les matrices et vecteurs 
 \begin{align*}
 \boldsymbol{Y} =
  \begin{pmatrix}
@@ -128,28 +126,20 @@ Soit les matrices et vecteurs
  \end{pmatrix}
 \end{align*}
  Le modèle en notation matricielle s'écrit de manière compacte, \begin{align*}
-\boldsymbol{Y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\varepsilon}.
+\boldsymbol{Y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\varepsilon};
 \end{align*}
+chaque ligne de la matrice correspond à l'équation \@ref(eq:olsmean) avec une observation par ligne.
 L'estimateur des moindres carrés ordinaires résoud le problème d'optimisation non-contraint
 \begin{align*}
 \widehat{\boldsymbol{\beta}}=\min_{\boldsymbol{\beta} \in \mathbb{R}^{p+1}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}).
 \end{align*}
-On peut calculer la dérivée première par rapport à $\boldsymbol{\beta}$, égaler à zéro et isoler le maximum pour obtenir une formule explicite pour $\widehat{\boldsymbol{\beta}}$,  
-\begin{align*}
-\mathbf{0}_n&=\frac{\partial}{\partial\boldsymbol{\beta}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\\
-\\&=\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial \boldsymbol{\beta}}\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}\\
- \\&=\mathbf{X}^\top (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})
-\end{align*}
-en utilisant la règle de dérivation en chaîne; on peut ainsi distribuer les termes pour obtenir l'*équation normale*
-\begin{align*}
- \mathbf{X}^\top \mathbf{X}\boldsymbol{\beta}&=\mathbf{X}^\top \boldsymbol{y}.
-\end{align*}
-Si $\mathbf{X}$ est une matrice de rang $p$, alors la forme quadratique $\mathbf{X}^\top \mathbf{X}$ est inversible et on obtient ainsi une formule explicite pour l'estimateur des moindres carrés,
-\begin{align*}
-\widehat{\boldsymbol{\beta}} = (\mathbf{X}^{\top} \mathbf{X})^{-1} \mathbf{X}^{\top} \boldsymbol{Y}.
-\end{align*}
+Une preuve est fournie [dans l'Annexe](#ols). Si le rang de la matrice $\mathbf{X}$ est dimension $n \times (p+1)$ est de rang $p+1$, l'unique solution du problème d'optimisation est
+\begin{align}
+\widehat{\boldsymbol{\beta}} = (\mathbf{X}^{\top} \mathbf{X})^{-1} \mathbf{X}^{\top} \boldsymbol{Y}. (\#eq:ols)
+\end{align}
 
-Que représente les moindres carrés en deux dimensions? L'estimateur est celui qui minimise la somme du carré des résidus ordinaires. Le $i$e \textbf{résidu} ordinaire $e_i = y_i -\widehat{y}_i$ est la distance \textbf{verticale} entre un point $y_i$ et la valeur ajustée $\widehat{y}_i$, soit les traits bleus de la Figure \@ref(fig:distancevert).
+
+Que représente les moindres carrés en deux dimensions? L'estimateur est celui qui minimise la somme du carré des résidus ordinaires. Le $i$e **résidu ordinaire** $e_i = y_i -\widehat{y}_i$ est la distance *verticale* entre un point $y_i$ et la valeur ajustée $\widehat{y}_i$, soit les traits bleus de la Figure \@ref(fig:distancevert).
 
 ```{r distancevert, eval = TRUE, echo = FALSE, fig.cap = "Illustration des résidus ordinaires ajoutés à la droite de régression."}
 ols <- lm(salaire ~ service, data = college)
@@ -171,7 +161,7 @@ Une conséquence directe est que la corrélation linéaire entre $\boldsymbol{e}
 ```
 
 ```{remark, label = "remarque-coutMCO", name = "Complexité du calcul des moindres carrés ordinaires"}
-Tangente: en apprentissage automatique, on utilise souvent un algorithme du gradient (stochastique) pour estimer les estimés des moindres carrés ordinaires. Or, à moins d'avoir des tailles d'échantillons $n$ ou un nombre de covariables $p$ subséquent (pensez échelle Google), une solution approximative ne devrait pas être préférée à la solution exacte! D'un point de vue numérique, l'opération la plus coûteuse est le calcul de l'inverse de la matrice $\mathbf{X}^\top\mathbf{X}$, qui de dimension $p \times p$. Règle générale, on n'inverse pas directement cette matrice car ce n'est pas la façon la plus numériquement stable d'obtenir la solution. **R** utilise la décomposition QR qui a une complexité de $\mathrm{O}(np^2)$ (l'ordre du nombre de flops ou d'opérations pour le calcul). Une alternative plus coûteuse, mais plus stable numériquement, est la décomposition en valeurs singulières (même ordre en terme de calculs). 
+Tangente: en apprentissage automatique, on utilise souvent un algorithme du gradient (stochastique) pour estimer les estimés des moindres carrés ordinaires. Or, à moins d'avoir des tailles d'échantillons $n$ ou un nombre de covariables $p$ subséquent (pensez échelle Google), une solution approximative ne devrait pas être préférée à la solution exacte! D'un point de vue numérique, l'opération la plus coûteuse est le calcul de l'inverse de la matrice $\mathbf{X}^\top\mathbf{X}$, qui de dimension $(p+1) \times (p+1)$. Règle générale, on n'inverse pas directement cette matrice car ce n'est pas la façon la plus numériquement stable d'obtenir la solution. **R** utilise la décomposition QR qui a une complexité de $\mathrm{O}(np^2)$ (l'ordre du nombre de flops ou d'opérations pour le calcul). Une alternative plus coûteuse, mais plus stable numériquement, est la décomposition en valeurs singulières (même ordre en terme de calculs). 
 ```
 
 Mais trève de disgression mathématique: tout bon logiciel calculera pour vous les estimés des moindres carrés. Retenez que l'on minimise une forme quadratique qui admet une solution explicite et unique pour autant que les colonnes de $\mathbf{X}$ ne soient pas colinéaires. Si vous avez plus d'une variable explicative, les valeurs ajustées seront situées sur un hyperplan (peu commode à représenter graphiquement). Maîtriser le langage associé à la régression (notamment les résidus ordinaires, les valeurs ajustées, etc.) est nécessaire pour la continuation.
@@ -180,16 +170,16 @@ Mais trève de disgression mathématique: tout bon logiciel calculera pour vous 
 ## Interprétation des paramètres du modèles
 
 
-Que représentent les paramètres $\boldsymbol{\beta}$ du modèle linéaire? Dans le cas simple présenté dans la Figure \@ref(fig:droitenuage) où l'équation de la droite est de la forme $Y = \beta_0 + \beta_1\mathrm{X}_1 + \varepsilon$, $\beta_0$ est l'ordonnée à l'origine (la valeur moyenne de $Y$ quand $\mathrm{X}_1=0$) et $\beta_1$ est la pente, soit l'augmentation moyenne de $Y$ quand $\mathrm{X}_1$ augmente d'une unité.
-
-
-
-Si les colonnes de $\mathbf{X}$ sont arbitraires, il est d'usage d'inclure une constante: cela revient à inclure $\mathbf{1}_n$ comme colonne de la matrice de plan d'expérience $\mathbf{X}$. Parce que les résidus sont orthogonaux aux colonnes de $\mathbf{X}$, leur moyenne est zéro, $\bar{\boldsymbol{e}}=0$. En général, on peut obtenir des résidus centrés en incluant comme régresseurs dans la matrice $\mathbf{X}$  des vecteurs colonnes qui sont collinéaires avec $\mathbf{1}_n$.
+Que représentent les paramètres $\boldsymbol{\beta}$ du modèle linéaire? Dans le cas simple présenté dans la Figure \@ref(fig:droitenuage) où l'équation de la droite est de la forme $\widehat{Y} = \widehat{\beta}_0 + \widehat{\beta}_1\mathrm{X}_1$, $\beta_0$ est l'ordonnée à l'origine (la valeur moyenne de $Y$ quand $\mathrm{X}_1=0$) et $\beta_1$ est la pente, soit l'augmentation moyenne de $Y$ quand $\mathrm{X}_1$ augmente d'une unité.
 
 
 Dans certains cas, l'interprétation de l'ordonnée à l'origine n'est pas valide car c'est un **non-sens**: la valeur $\mathrm{X}_1=0$ n'est pas plausible (par exemple, si $\mathrm{X}_1$ est la taille d'un humain). De même, il peut arriver qu'il n'y ait pas d'observations dans le voisinage de $\mathrm{X}_1=0$, même si cette valeur est plausible; on parle alors d'extrapolation.
 
-Dans le contexte de notre exemple, l'équation de la droite ajustée de la Figure \@ref(fig:droitenuage) est \[\widehat{\texttt{salaire}} = `r coef(lmprof)[1]` + `r coef(lmprof)[2]`\texttt{service}.\]
+Si les colonnes de $\mathbf{X}$ sont arbitraires, il est d'usage d'inclure une constante: cela revient à inclure $\mathbf{1}_n$ comme colonne de la matrice de plan d'expérience $\mathbf{X}$. Parce que les résidus sont orthogonaux aux colonnes de $\mathbf{X}$, leur moyenne est zéro, $n^{-1}\mathbf{1}_n^\top\boldsymbol{e}=\bar{\boldsymbol{e}}=0$. En général, on peut obtenir des résidus centrés en incluant comme régresseurs dans la matrice $\mathbf{X}$  des vecteurs colonnes qui sont collinéaires avec $\mathbf{1}_n$.
+
+
+
+Dans notre exemple, l'équation de la droite ajustée de la Figure \@ref(fig:droitenuage) est \[\widehat{\texttt{salaire}} = `r coef(lmprof)[1]` + `r coef(lmprof)[2]`\texttt{service}.\]
 Ainsi, le salaire moyen d'un nouveau professeur serait `r 1000*coef(lmprof)[1]` dollars, tandis que l'augmentation moyenne annuelle du salaire est `r 1000*coef(lmprof)[2]` dollars.
 
 Si la variable réponse $Y$ doit être *continue*, il n'y a aucune restriction pour les variables explicatives. Le cas des variables explicatives binaires est illustratif: ces variables sont encodées numériquement à l'aide de 0/1. Considérons par exemple le sexe des professeurs de l'étude, par exemple
@@ -204,7 +194,7 @@ L'équation du modèle linéaire simple qui n'inclut que cette variable catégor
 \beta_0 + \beta_1 & \texttt{sexe}=1 \text{ (femme)}.
 \end{cases}
 \end{align*}
-Un modèle linéaire qui contient uniquement une variable binaire $\mathrm{X}$ comme régresseur équivaut à spécifier une moyenne différente pour deux groupes; la moyenne des femmes est $\mathsf{}(\texttt{salaire} \mid \texttt{sexe}=1) = \beta_0 + \beta_1 = \mu_1$ et $\beta_1=\mu_1-\mu_0$ représente la différence entre la moyenne des hommes et celles des femmes. L'estimateur des moindres carrés $\widehat{\beta}_0$ est la moyenne du salaire des hommes de l'échantillon et $\widehat{\beta}_1$ est la différence des moyennes empiriques entre femmes et hommes. Cette paramétrisation en terme d'**effets différentiels**  est particulièrement utile si on veut tester s'il y a une différence moyenne de salaire entre les deux sexe car cela revient à tester $\mathscr{H}_0: \beta_1=0$. Si on voulait obtenir directement la moyenne, il faudrait remplacer la matrice de plan d'expérience $[\mathbf{1}_n, \texttt{sexe}]$ par $[\mathbf{1}_n- \texttt{sexe},  \texttt{sexe}]$ pour obtenir un modèle équivalent. Règle générale, il n'est pas recommandé de retirer l'ordonnée à l'origine même si l'espace linéaire engendré par les colonnes de $\mathbf{X}$ contient $\mathbf{1}_n$.
+Un modèle linéaire qui contient uniquement une variable binaire $\mathrm{X}$ comme régresseur équivaut à spécifier une moyenne différente pour deux groupes; la moyenne des femmes est $\mathsf{E}(\texttt{salaire} \mid \texttt{sexe}=1) = \beta_0 + \beta_1 = \mu_1$ et $\beta_1=\mu_1-\mu_0$ représente la différence entre la moyenne des hommes et celles des femmes. L'estimateur des moindres carrés $\widehat{\beta}_0$ est la moyenne du salaire des hommes de l'échantillon et $\widehat{\beta}_1$ est la différence des moyennes empiriques entre femmes et hommes. Cette paramétrisation en terme d'**effets différentiels**  est particulièrement utile si on veut tester s'il y a une différence moyenne de salaire entre les deux sexe car cela revient à tester $\mathscr{H}_0: \beta_1=0$. Si on voulait obtenir directement la moyenne, il faudrait remplacer la matrice de plan d'expérience $[\mathbf{1}_n, \texttt{sexe}]$ par $[\mathbf{1}_n- \texttt{sexe},  \texttt{sexe}]$ pour obtenir un modèle équivalent. Règle générale, il n'est pas recommandé de retirer l'ordonnée à l'origine même si l'espace linéaire engendré par les colonnes de $\mathbf{X}$ contient $\mathbf{1}_n$.
 
 ```{r graphcollegesexe, eval = TRUE, echo = FALSE, fig.cap = "Modèle linéaire simple pour les données $\\texttt{college}$ en fonction de la variable binaire sexe: bien que le modèle définisse une ligne, seule la valeur en $0/1$ est réalisable."}
 college$sexebin <- as.integer(relevel(college$sexe, ref = "homme")) - 1L
@@ -216,7 +206,9 @@ ggplot(data = college, aes(x = sexebin, y = salaire, group = sexe)) +
     legend.justification = c("right", "top")) + 
   labs(x = "sexe", y = "salaire (en milliers USD)") + 
   stat_summary(fun = mean, aes(col = sexe)) + 
-  xlim(c(-0.1,1.5))
+   scale_x_continuous(breaks = 0:1,
+                     limits = c(-0.1,1.5),
+                     labels = 0:1) 
 ```
 
 
@@ -226,7 +218,7 @@ Même si le modèle linéaire simple définit une droite, cette dernière n'a de
 <!-- http://easysas.blogspot.com/2011/10/sas-how-to-draw-added-variable-plot.html 
 : certains logiciels, **R** en tête, modifient les sorties et ne présentent plus le coefficient de détermination car il n'est pas donné que les résidus soient centrés. -->
 
-Plus généralement, il est possible de consider une variable catégorielle à $k$ niveaux. Comme pour la variable binaire, on ajoute au modèle $k-1$ variables indicatrices en plus de l'ordonnée à l'origine: si on veut modéliser $k$ moyennes, il est logique de n'inclure que $k$ paramètres. On choisira comme dans l'exemple avec le sexe une **catégorie de référence** dont la moyenne sera encodée par l'ordonnée à l'origine $\beta_0$. Les autres paramètres seront des effets différentiels relatifs à cette catégorie. Prenons pour exemple l'échelon académique, une variable catégorielle ordinale à trois niveaux (adjoint, aggrégé, titulaire). On ajoute deux variables binaires $\mathrm{X}_1 = \mathsf{I}(\texttt{echelon}=\texttt{aggrege})$ et $\mathrm{X}_2 = \mathsf{I}(\texttt{echelon}=\texttt{titulaire})$; l'élément $i$ de la colonne $\mathrm{X}_1$ vaut 1 si le professeur est aggrégé et zéro autrement. Le modèle linéaire 
+Plus généralement, il est possible de considérer une variable catégorielle à $k$ niveaux. Comme pour la variable binaire, on ajoute au modèle $k-1$ variables indicatrices en plus de l'ordonnée à l'origine: si on veut modéliser $k$ moyennes, il est logique de n'inclure que $k$ paramètres. On choisira comme dans l'exemple avec le sexe une **catégorie de référence** dont la moyenne sera encodée par l'ordonnée à l'origine $\beta_0$. Les autres paramètres seront des effets différentiels relatifs à cette catégorie. Prenons pour exemple l'échelon académique, une variable catégorielle ordinale à trois niveaux (adjoint, aggrégé, titulaire). On ajoute deux variables binaires $\mathrm{X}_1 = \mathsf{I}(\texttt{echelon}=\texttt{aggrege})$ et $\mathrm{X}_2 = \mathsf{I}(\texttt{echelon}=\texttt{titulaire})$; l'élément $i$ de la colonne $\mathrm{X}_1$ vaut 1 si le professeur est aggrégé et zéro autrement. Le modèle linéaire 
 \begin{align*}
 \texttt{salaire} \mid \texttt{echelon}=\beta_0 + \beta_1 \mathrm{X}_1+\beta_2\mathrm{X}_2 + \varepsilon,
 \end{align*}
@@ -242,7 +234,7 @@ Ainsi, $\beta_1$ (respectivement $\beta_2$) est la différence de salaire moyenn
 Le choix de la catégorie de référence est arbitraire et le modèle ajusté est le même: seule l'interprétation des coefficients change. Pour une variable ordinale, il vaut mieux choisir la plus petite ou la plus grande des modalités pour faciliter les comparaisons.
 
 
-Les modèles que nous avons ajusté jusqu'à maintenant ne sont pas adéquats parce qu'ils ignorent des variables qui sont importantes pour expliquer le modèle: la Figure \@ref(fig:edacollege) illustre en effet que l'échelon est une composante essentielle pour expliquer les variations de salaire au sein du collège. On peut (et on doit) donc inclure plusieurs variables simultanément pour avoir un modèle adéquat.
+Les modèles que nous avons ajusté jusqu'à maintenant ne sont pas adéquats parce qu'ils ignorent des variables qui sont importantes pour expliquer le modèle: la Figure \@ref(fig:edacollege) illustre en effet que l'échelon est une composante essentielle pour expliquer les variations de salaire au sein du collège. On peut (et on doit) donc inclure plusieurs variables simultanément pour avoir un modèle adéquat. Avant de procéder, on considère l'interprétation des paramètres quand on utilise plus d'une variable explicative dans le modèle.
 
 Soit le modèle $Y= \beta_0 + \beta_1 \mathrm{X}_1 + \cdots + \beta_p\mathrm{X}_p + \varepsilon$.  L'ordonnée à l'origine $\beta_0$ représente la valeur moyenne de $Y$ quand *toutes* les covariables du modèle sont égales à zéro,
 \begin{align*}
@@ -292,7 +284,7 @@ La représentation graphique du modèle polynomial de degré 2 présenté dans l
 knitr::knit_hooks$set(webgl = hook_webgl)
 ```
 
-```{r hyperplan, echo = FALSE, fig.cap = "Représentation graphique 3D du modèle de régression linéaire pour les données automobile"}
+```{r hyperplan, echo = FALSE, fig.cap = "Représentation graphique 3D du modèle de régression linéaire pour les données $\texttt{automobile}$."}
 out_type <- knitr::opts_knit$get("rmarkdown.pandoc.to")
 if(out_type == 'html'){
 library(rgl)
@@ -328,7 +320,7 @@ On considère les données `college` et un modèle de régression qui inclut le 
 
 Si on multiplie le salaire par mille, le modèle linéaire postulé s'écrit
 \begin{align*}
-\texttt{salaire} &= \beta_0 + \beta_1 \texttt{sexe}_{\texttt{femme}} +\beta_2 \texttt{domaine}_{\texttt{theorique}} \\&\quad +\beta_3 \texttt{echelon}_{\texttt{aggrege}}
+\texttt{salaire} \times 1000 &= \beta_0 + \beta_1 \texttt{sexe}_{\texttt{femme}} +\beta_2 \texttt{domaine}_{\texttt{theorique}} \\&\quad +\beta_3 \texttt{echelon}_{\texttt{aggrege}}
 +\beta_4 \texttt{echelon}_{\texttt{titulaire}}  +\beta_5 \texttt{service} + \varepsilon.
 \end{align*}
 ```{r collegecoefs, eval = TRUE, echo = FALSE}

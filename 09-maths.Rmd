@@ -1,0 +1,25 @@
+# Dérivations mathématiques {#math}
+
+Cette section regroupe les dérivations mathématiques optionnelles qui sont fournies par souci de complétude.
+
+## Dérivation de l'estimateur des moindres carrés ordinaires {#ols}
+
+
+L'estimateur des moindres carrés ordinaires résoud le problème d'optimisation non-contraint
+\begin{align*}
+\widehat{\boldsymbol{\beta}}=\min_{\boldsymbol{\beta} \in \mathbb{R}^{p+1}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}).
+\end{align*}
+On peut calculer la dérivée première par rapport à $\boldsymbol{\beta}$, égaler à zéro et isoler le maximum pour obtenir une formule explicite pour $\widehat{\boldsymbol{\beta}}$,  
+\begin{align*}
+\mathbf{0}_n&=\frac{\partial}{\partial\boldsymbol{\beta}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\\
+\\&=\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial \boldsymbol{\beta}}\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}\\
+ \\&=\mathbf{X}^\top (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})
+\end{align*}
+en utilisant la [règle de dérivation en chaîne](http://www.stat.rice.edu/~dobelman/notes_papers/math/Matrix.Calculus.AppD.pdf); on peut ainsi distribuer les termes pour obtenir l'*équation normale*
+\begin{align*}
+ \mathbf{X}^\top \mathbf{X}\boldsymbol{\beta}&=\mathbf{X}^\top \boldsymbol{y}.
+\end{align*}
+Si $\mathbf{X}$ est une matrice de rang $p$, alors la forme quadratique $\mathbf{X}^\top \mathbf{X}$ est inversible et l'unique solution du problème d'optimisation est celle fournie dans l'équation \@ref(eq:ols).
+\begin{align*}
+\widehat{\boldsymbol{\beta}} = (\mathbf{X}^{\top} \mathbf{X})^{-1} \mathbf{X}^{\top} \boldsymbol{Y}.
+\end{align*}

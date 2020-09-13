@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>6 Modèles linéaires mixtes | Modélisation statistique</title>
+  <title>B Dérivations mathématiques | Modélisation statistique</title>
   <meta name="description" content="Ces notes forment un complément web du cours MATH 60604 (Modélisation statistique) offert à la M.Sc. en gestion (science des données et analytique d’affaires) à HEC Montréal." />
   <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="6 Modèles linéaires mixtes | Modélisation statistique" />
+  <meta property="og:title" content="B Dérivations mathématiques | Modélisation statistique" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="lbelzile/math60604" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="6 Modèles linéaires mixtes | Modélisation statistique" />
+  <meta name="twitter:title" content="B Dérivations mathématiques | Modélisation statistique" />
   
   <meta name="twitter:description" content="Ces notes forment un complément web du cours MATH 60604 (Modélisation statistique) offert à la M.Sc. en gestion (science des données et analytique d’affaires) à HEC Montréal." />
   
@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="donnees-correlees-longitudinales.html"/>
-<link rel="next" href="survie.html"/>
+<link rel="prev" href="complement.html"/>
+<link rel="next" href="r.html"/>
 <script src="libs/header-attrs-2.3/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -170,17 +170,39 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="modeles-lineaires-mixtes" class="section level1" number="6">
-<h1><span class="header-section-number">6</span> Modèles linéaires mixtes</h1>
+<div id="math" class="section level1" number="9">
+<h1><span class="header-section-number">B</span> Dérivations mathématiques</h1>
+<p>Cette section regroupe les dérivations mathématiques optionnelles qui sont fournies par souci de complétude.</p>
+<div id="ols" class="section level2" number="9.1">
+<h2><span class="header-section-number">B.1</span> Dérivation de l’estimateur des moindres carrés ordinaires</h2>
+<p>L’estimateur des moindres carrés ordinaires résoud le problème d’optimisation non-contraint
+<span class="math display">\[\begin{align*}
+\widehat{\boldsymbol{\beta}}=\min_{\boldsymbol{\beta} \in \mathbb{R}^{p+1}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}).
+\end{align*}\]</span>
+On peut calculer la dérivée première par rapport à <span class="math inline">\(\boldsymbol{\beta}\)</span>, égaler à zéro et isoler le maximum pour obtenir une formule explicite pour <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span>,<br />
+<span class="math display">\[\begin{align*}
+\mathbf{0}_n&amp;=\frac{\partial}{\partial\boldsymbol{\beta}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\\
+\\&amp;=\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial \boldsymbol{\beta}}\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}\\
+ \\&amp;=\mathbf{X}^\top (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})
+\end{align*}\]</span>
+en utilisant la <a href="http://www.stat.rice.edu/~dobelman/notes_papers/math/Matrix.Calculus.AppD.pdf">règle de dérivation en chaîne</a>; on peut ainsi distribuer les termes pour obtenir l’<em>équation normale</em>
+<span class="math display">\[\begin{align*}
+ \mathbf{X}^\top \mathbf{X}\boldsymbol{\beta}&amp;=\mathbf{X}^\top \boldsymbol{y}.
+\end{align*}\]</span>
+Si <span class="math inline">\(\mathbf{X}\)</span> est une matrice de rang <span class="math inline">\(p\)</span>, alors la forme quadratique <span class="math inline">\(\mathbf{X}^\top \mathbf{X}\)</span> est inversible et l’unique solution du problème d’optimisation est celle fournie dans l’équation <a href="regression-lineaire.html#eq:ols">(2.2)</a>.
+<span class="math display">\[\begin{align*}
+\widehat{\boldsymbol{\beta}} = (\mathbf{X}^{\top} \mathbf{X})^{-1} \mathbf{X}^{\top} \boldsymbol{Y}.
+\end{align*}\]</span></p>
 
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="donnees-correlees-longitudinales.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="survie.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="complement.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="r.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

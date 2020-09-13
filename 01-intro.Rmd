@@ -368,7 +368,16 @@ Si vous incluez un graphique (ou un tableau), il est important d'ajouter une lé
 
 ### Types de variables
 
-Commençons par les données: celles que l'on manipulera dans ce cours sont stockées sous forme tabulaire. Dans une base de donnée en format court, chaque ligne correspond à une observation et chaque colonne à une variable; les entrées de la base de données contiennent les valeurs.
+Commençons par parler des données: celles que l'on manipulera dans ce cours sont stockées sous forme tabulaire. Dans une base de donnée en format long, chaque ligne correspond à une observation et chaque colonne à une variable; les entrées de la base de données contiennent les valeurs.
+
+L'alternative au format long est le format court/large, où les colonnes représentent les modalités de variables catégorielles et il peut y avoir plusieurs valeurs par ligne qui contiennent des valeurs de la variable réponse. Le schéma de la Figure \@ref(fig:longvswide) permet de mieux comprendre la distinction entre les deux formats: on supposera que nos données sont toujours en format long, ce dernier étant assumé par défaut par le logiciel pour procéder à l'ajustement d'un modèle..
+
+```{r longvswide, fig.cap = "Format long versus format large (_wide_) (dessin de Garrick Aden-Buie).", echo = FALSE}
+knitr::include_graphics(path = "images/original-dfs-tidy.png")
+```
+
+
+
 
 - Une **variable** représente une caractéristique de la population d'intérêt, par exemple le sexe d'un individu, le prix d'un article, etc. 
 - une **observation**, parfois appelée donnée, est un ensemble de mesures collectées sous des conditions identiques, par exemple pour un individu ou à un instant donné.
@@ -486,7 +495,7 @@ La première étape consisterait à lire la description de la base de données. 
 -  `duree`: longueur annoncée du trajet (en minutes);
 -  `jour` entier indiquant le jour de la semaine du départ allant de dimanche (`1`) à samedi (`7`).
 
-Il n'y a pas de valeurs manquantes et un aperçu des données (`head(renfe)`) montre qu'elles sont en format large, ce qui veut dire que chaque ligne correspond à un billet de train. On entame l'analyse exploratoire avec des questions plutôt vagues, par exemple 
+Il n'y a pas de valeurs manquantes et un aperçu des données (`head(renfe)`) montre qu'elles sont en format long, ce qui veut dire que chaque ligne contient une seule valeur pour la variable réponse, ici le prix d'un billet de train. On entame l'analyse exploratoire avec des questions plutôt vagues, par exemple 
 
 1. Quels sont les facteurs déterminant le prix et le temps de parcours?
 2. Est-ce que le temps de parcours est le même peut importe le type de train?
