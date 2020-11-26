@@ -1,4 +1,4 @@
-bookdown::gitbook:
+bookdown::htmlbook:
   css: css/style.css
   highlight: tango
   toc_depth: 1

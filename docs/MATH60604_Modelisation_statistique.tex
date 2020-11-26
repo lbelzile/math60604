@@ -91,7 +91,7 @@
 % Allow footnotes in longtable head/foot
 \IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
 \makesavenoteenv{longtable}
-\usepackage{graphicx}
+\usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
 \def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
@@ -213,9 +213,6 @@
   {\begin{rmdblock}{tangente}}
   {\end{rmdblock}}
 \newcommand{\bs}[1]{\boldsymbol{#1}} \newcommand{\Hmat}{\mathbf{H}} \newcommand{\Mmat}{\mathbf{M}} \newcommand{\mX}{\mathbf{X}} \newcommand{\bX}{{\mathbf{X}}} \newcommand{\bx}{{\mathbf{x}}} \newcommand{\by}{{\boldsymbol{y}}} \newcommand{\bY}{{\boldsymbol{Y}}} \newcommand{\eps}{\varepsilon} \newcommand{\beps}{\boldsymbol{\varepsilon}} \newcommand{\bbeta}{\boldsymbol{\beta}} \newcommand{\hbb}{\widehat{\boldsymbol{\beta}}} \newcommand{\limni}{\lim_{n \ra \infty}} \newcommand{\pr}{{\mathsf Pr}{}} \renewcommand{\P}[2][]{{\mathsf P}_{#1}\left(#2\right)} \newcommand{\E}[2][]{{\mathsf E}_{#1}\left(#2\right)} \newcommand{\Va}[2][]{{\mathsf{Var}_{#1}}\left(#2\right)} \newcommand{\I}[1]{{\mathbf 1}_{#1}} \renewcommand{\d}{\mathrm{d}}
-\ifluatex
-  \usepackage{selnolig}  % disable illegal ligatures
-\fi
 \usepackage[]{natbib}
 \bibliographystyle{apalike2}
 
@@ -251,7 +248,7 @@
 \section*{Remarques}\label{remarques}}
 \addcontentsline{toc}{section}{Remarques}
 
-Ces notes sont l'oeuvre de Léo Belzile (HEC Montréal) et sont mises à disposition sous la \href{https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.fr}{Licence publique Creative Commons Attribution - Utilisation non commerciale - Partage dans les mêmes conditions 4.0 International}. Cette version est celle du 03 septembre 2020.
+Ces notes sont l'oeuvre de Léo Belzile (HEC Montréal) et sont mises à disposition sous la \href{https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.fr}{Licence publique Creative Commons Attribution - Utilisation non commerciale - Partage dans les mêmes conditions 4.0 International}. Cette version est celle du 26 novembre 2020.
 
 Bien que les diapositives illustrent l'implémentation des techniques statistiques et des modèles à l'aide de \textbf{SAS}, ces notes présentent le pendant \textbf{R}: visitez \href{https://cran.r-project.org/}{le site web du projet \textbf{R}} pour télécharger le logiciel. L'interface graphique la plus populaire (et celle que je vous recommande) est \href{https://www.rstudio.com/products/rstudio/download/}{RStudio Desktop}.
 
@@ -564,9 +561,9 @@ La dernière étape consiste à obtenir une valeur-\emph{p}, soit la probabilit�
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Manipulation de données, incluant \%\textgreater{}\%}
+\CommentTok{# Manipulation de données, incluant %>%}
 \KeywordTok{library}\NormalTok{(poorman)}
-\CommentTok{\# Charger les données}
+\CommentTok{# Charger les données}
 \KeywordTok{data}\NormalTok{(renfe, }\DataTypeTok{package =} \StringTok{"hecmodstat"}\NormalTok{)}
 \KeywordTok{head}\NormalTok{(renfe, }\DataTypeTok{n =} \DecValTok{5}\NormalTok{)}
 \end{Highlighting}
@@ -585,17 +582,17 @@ La dernière étape consiste à obtenir une valeur-\emph{p}, soit la probabilit�
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Sous{-}échantillon avec uniquement les données au tarif promotionnel}
-\NormalTok{renfe\_promo \textless{}{-}}\StringTok{ }\NormalTok{renfe }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{subset}\NormalTok{(tarif }\OperatorTok{==}\StringTok{ "Promo"}\NormalTok{)}
-\CommentTok{\# Test{-}t et différence de moyenne}
-\NormalTok{ttest \textless{}{-}}\StringTok{ }\KeywordTok{t.test}\NormalTok{(prix}\OperatorTok{\textasciitilde{}}\NormalTok{dest, }\DataTypeTok{data =}\NormalTok{ renfe\_promo)}
-\NormalTok{ttest }\CommentTok{\#imprimer le résultat}
+\CommentTok{# Sous-échantillon avec uniquement les données au tarif promotionnel}
+\NormalTok{renfe_promo <-}\StringTok{ }\NormalTok{renfe }\OperatorTok{%>%}\StringTok{ }\KeywordTok{subset}\NormalTok{(tarif }\OperatorTok{==}\StringTok{ "Promo"}\NormalTok{)}
+\CommentTok{# Test-t et différence de moyenne}
+\NormalTok{ttest <-}\StringTok{ }\KeywordTok{t.test}\NormalTok{(prix}\OperatorTok{~}\NormalTok{dest, }\DataTypeTok{data =}\NormalTok{ renfe_promo)}
+\NormalTok{ttest }\CommentTok{#imprimer le résultat}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ## 
-## 	Welch Two Sample t-test
+##  Welch Two Sample t-test
 ## 
 ## data:  prix by dest
 ## t = -1, df = 8040, p-value = 0.2
@@ -611,27 +608,27 @@ Plutôt que d'utiliser la loi asymptotique (qui est valide pour de grands échan
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Valeur{-}p par permutation}
-\NormalTok{n \textless{}{-}}\StringTok{ }\KeywordTok{nrow}\NormalTok{(renfe\_promo)}
-\NormalTok{B \textless{}{-}}\StringTok{ }\FloatTok{1e4}
-\NormalTok{ttest\_stats \textless{}{-}}\StringTok{ }\KeywordTok{numeric}\NormalTok{(B) }
-\NormalTok{ttest\_stats[}\DecValTok{1}\NormalTok{] \textless{}{-}}\StringTok{ }\NormalTok{ttest}\OperatorTok{$}\NormalTok{statistic}
-\KeywordTok{set.seed}\NormalTok{(}\DecValTok{20200608}\NormalTok{) }\CommentTok{\# germe pour nombres pseudo{-}aléatoires}
+\CommentTok{# Valeur-p par permutation}
+\NormalTok{n <-}\StringTok{ }\KeywordTok{nrow}\NormalTok{(renfe_promo)}
+\NormalTok{B <-}\StringTok{ }\FloatTok{1e4}
+\NormalTok{ttest_stats <-}\StringTok{ }\KeywordTok{numeric}\NormalTok{(B) }
+\NormalTok{ttest_stats[}\DecValTok{1}\NormalTok{] <-}\StringTok{ }\NormalTok{ttest}\OperatorTok{$}\NormalTok{statistic}
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{20200608}\NormalTok{) }\CommentTok{# germe pour nombres pseudo-aléatoires}
 \ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{2}\OperatorTok{:}\NormalTok{B)\{}
-  \CommentTok{\# Recalculer la statistique de test, mais permuter les étiquettes}
-\NormalTok{  ttest\_stats[i] \textless{}{-}}\StringTok{ }\KeywordTok{t.test}\NormalTok{(prix }\OperatorTok{\textasciitilde{}}\StringTok{ }\NormalTok{dest[}\KeywordTok{sample.int}\NormalTok{(}\DataTypeTok{n =}\NormalTok{ n)], }
-                           \DataTypeTok{data =}\NormalTok{ renfe\_promo)}\OperatorTok{$}\NormalTok{statistic}
+  \CommentTok{# Recalculer la statistique de test, mais permuter les étiquettes}
+\NormalTok{  ttest_stats[i] <-}\StringTok{ }\KeywordTok{t.test}\NormalTok{(prix }\OperatorTok{~}\StringTok{ }\NormalTok{dest[}\KeywordTok{sample.int}\NormalTok{(}\DataTypeTok{n =}\NormalTok{ n)], }
+                           \DataTypeTok{data =}\NormalTok{ renfe_promo)}\OperatorTok{$}\NormalTok{statistic}
 \NormalTok{\}}
-\CommentTok{\# Bibliothèque graphique}
+\CommentTok{# Bibliothèque graphique}
 \KeywordTok{library}\NormalTok{(ggplot2)}
-\CommentTok{\# Tracer un graphique de la distribution empirique obtenue par permutation}
-\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =} \KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{statistique =}\NormalTok{ ttest\_stats), }
+\CommentTok{# Tracer un graphique de la distribution empirique obtenue par permutation}
+\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =} \KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{statistique =}\NormalTok{ ttest_stats), }
        \KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{statistique)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom\_histogram}\NormalTok{(}\DataTypeTok{bins =} \DecValTok{30}\NormalTok{, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y=}\NormalTok{..density..), }\DataTypeTok{alpha =} \FloatTok{0.2}\NormalTok{) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{geom\_density}\NormalTok{() }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{geom\_vline}\NormalTok{(}\DataTypeTok{xintercept =}\NormalTok{ ttest\_stats[}\DecValTok{1}\NormalTok{]) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{geom_histogram}\NormalTok{(}\DataTypeTok{bins =} \DecValTok{30}\NormalTok{, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y=}\NormalTok{..density..), }\DataTypeTok{alpha =} \FloatTok{0.2}\NormalTok{) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{geom_density}\NormalTok{() }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{geom_vline}\NormalTok{(}\DataTypeTok{xintercept =}\NormalTok{ ttest_stats[}\DecValTok{1}\NormalTok{]) }\OperatorTok{+}\StringTok{ }
 \StringTok{  }\KeywordTok{ylab}\NormalTok{(}\StringTok{"densité"}\NormalTok{) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{stat\_function}\NormalTok{(}\DataTypeTok{fun =}\NormalTok{ dnorm, }\DataTypeTok{col =} \StringTok{"blue"}\NormalTok{)}
+\StringTok{  }\KeywordTok{stat_function}\NormalTok{(}\DataTypeTok{fun =}\NormalTok{ dnorm, }\DataTypeTok{col =} \StringTok{"blue"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -687,7 +684,18 @@ Si vous incluez un graphique (ou un tableau), il est important d'ajouter une lé
 \hypertarget{types-de-variables}{%
 \subsubsection{Types de variables}\label{types-de-variables}}
 
-Commençons par les données: celles que l'on manipulera dans ce cours sont stockées sous forme tabulaire. Dans une base de donnée en format court, chaque ligne correspond à une observation et chaque colonne à une variable; les entrées de la base de données contiennent les valeurs.
+Commençons par parler des données: celles que l'on manipulera dans ce cours sont stockées sous forme tabulaire. Dans une base de donnée en format long, chaque ligne correspond à une observation et chaque colonne à une variable; les entrées de la base de données contiennent les valeurs.
+
+L'alternative au format long est le format court/large, où les colonnes représentent les modalités de variables catégorielles et il peut y avoir plusieurs valeurs par ligne qui contiennent des valeurs de la variable réponse. Le schéma de la Figure \ref{fig:longvswide} permet de mieux comprendre la distinction entre les deux formats: on supposera que nos données sont toujours en format long, ce dernier étant assumé par défaut par le logiciel pour procéder à l'ajustement d'un modèle..
+
+\textbackslash begin\{figure\}
+
+\{\centering \includegraphics[width=0.7\linewidth]{images/original-dfs-tidy}
+
+\}
+
+\textbackslash caption\{Format long versus format large (\emph{wide}) (dessin de Garrick Aden-Buie).\}\label{fig:longvswide}
+\textbackslash end\{figure\}
 
 \begin{itemize}
 \tightlist
@@ -816,7 +824,7 @@ Plutôt que de décrire plus en détail le processus de l'analyse exploratoire, 
   \texttt{jour} entier indiquant le jour de la semaine du départ allant de dimanche (\texttt{1}) à samedi (\texttt{7}).
 \end{itemize}
 
-Il n'y a pas de valeurs manquantes et un aperçu des données (\texttt{head(renfe)}) montre qu'elles sont en format large, ce qui veut dire que chaque ligne correspond à un billet de train. On entame l'analyse exploratoire avec des questions plutôt vagues, par exemple
+Il n'y a pas de valeurs manquantes et un aperçu des données (\texttt{head(renfe)}) montre qu'elles sont en format long, ce qui veut dire que chaque ligne contient une seule valeur pour la variable réponse, ici le prix d'un billet de train. On entame l'analyse exploratoire avec des questions plutôt vagues, par exemple
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -839,7 +847,7 @@ La manipulation de variables dans des bases de données est parfois loin d'être
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{renfe }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{count}\NormalTok{(classe)}
+\NormalTok{renfe }\OperatorTok{%>%}\StringTok{ }\KeywordTok{count}\NormalTok{(classe)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -853,8 +861,8 @@ La manipulation de variables dans des bases de données est parfois loin d'être
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# un raccourci pour la même syntaxe}
-\NormalTok{renfe }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{group\_by}\NormalTok{(type) }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{tally}\NormalTok{()}
+\CommentTok{# un raccourci pour la même syntaxe}
+\NormalTok{renfe }\OperatorTok{%>%}\StringTok{ }\KeywordTok{group_by}\NormalTok{(type) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{tally}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -867,7 +875,7 @@ La manipulation de variables dans des bases de données est parfois loin d'être
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{renfe }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{group\_by}\NormalTok{(tarif) }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{tally}\NormalTok{()}
+\NormalTok{renfe }\OperatorTok{%>%}\StringTok{ }\KeywordTok{group_by}\NormalTok{(tarif) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{tally}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -893,13 +901,13 @@ On remarque également que seulement 17 temps de parcours sont affichés sur les
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{renfe }\OperatorTok{\%\textgreater{}\%}\StringTok{ }
-\StringTok{  }\KeywordTok{subset}\NormalTok{(duree }\OperatorTok{\textgreater{}}\StringTok{ }\DecValTok{200}\NormalTok{) }\OperatorTok{\%\textgreater{}\%}\StringTok{ }
-\StringTok{  }\KeywordTok{group\_by}\NormalTok{(type, dest) }\OperatorTok{\%\textgreater{}\%}\StringTok{ }
+\NormalTok{renfe }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{subset}\NormalTok{(duree }\OperatorTok{>}\StringTok{ }\DecValTok{200}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(type, dest) }\OperatorTok{%>%}\StringTok{ }
 \StringTok{  }\KeywordTok{summarise}\NormalTok{(}\StringTok{"durée moyenne"}\NormalTok{ =}\StringTok{ }\KeywordTok{mean}\NormalTok{(duree), }
-            \StringTok{"écart{-}type"}\NormalTok{ =}\StringTok{ }\KeywordTok{sd}\NormalTok{(duree),}
+            \StringTok{"écart-type"}\NormalTok{ =}\StringTok{ }\KeywordTok{sd}\NormalTok{(duree),}
             \StringTok{"prix moyen"}\NormalTok{ =}\StringTok{ }\KeywordTok{mean}\NormalTok{(prix), }
-            \StringTok{"écart{-}type"}\NormalTok{ =}\StringTok{ }\KeywordTok{sd}\NormalTok{(prix)) }
+            \StringTok{"écart-type"}\NormalTok{ =}\StringTok{ }\KeywordTok{sd}\NormalTok{(prix)) }
 \end{Highlighting}
 \end{Shaded}
 
@@ -924,13 +932,13 @@ On pourrait soupçonner que les trains étiquetés \texttt{AVE} soient plus rapi
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{renfe }\OperatorTok{\%\textgreater{}\%}\StringTok{ }
-\StringTok{  }\KeywordTok{subset}\NormalTok{(type }\OperatorTok{\%in\%}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"AVE"}\NormalTok{,}\StringTok{"AVE{-}TGV"}\NormalTok{)) }\OperatorTok{\%\textgreater{}\%}\StringTok{ }
-\StringTok{  }\KeywordTok{group\_by}\NormalTok{(type, dest) }\OperatorTok{\%\textgreater{}\%}\StringTok{ }
+\NormalTok{renfe }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{subset}\NormalTok{(type }\OperatorTok{%in%}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"AVE"}\NormalTok{,}\StringTok{"AVE-TGV"}\NormalTok{)) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(type, dest) }\OperatorTok{%>%}\StringTok{ }
 \StringTok{  }\KeywordTok{summarise}\NormalTok{(}\StringTok{"durée moyenne"}\NormalTok{ =}\StringTok{ }\KeywordTok{mean}\NormalTok{(duree), }
-            \StringTok{"écart{-}type"}\NormalTok{ =}\StringTok{ }\KeywordTok{sd}\NormalTok{(duree),}
+            \StringTok{"écart-type"}\NormalTok{ =}\StringTok{ }\KeywordTok{sd}\NormalTok{(duree),}
             \StringTok{"prix moyen"}\NormalTok{ =}\StringTok{ }\KeywordTok{mean}\NormalTok{(prix),}
-            \StringTok{"écart{-}type"}\NormalTok{ =}\StringTok{ }\KeywordTok{sd}\NormalTok{(prix))}
+            \StringTok{"écart-type"}\NormalTok{ =}\StringTok{ }\KeywordTok{sd}\NormalTok{(prix))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -950,9 +958,9 @@ Côté tarif, \href{http://web.archive.org/web/20161111134241/http://www.renfe.c
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{renfe }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{subset}\NormalTok{(tarif  }\OperatorTok{!=}\StringTok{ "AdultoIda"}\NormalTok{) }\OperatorTok{\%\textgreater{}\%}
+\NormalTok{renfe }\OperatorTok{%>%}\StringTok{ }\KeywordTok{subset}\NormalTok{(tarif  }\OperatorTok{!=}\StringTok{ "AdultoIda"}\NormalTok{) }\OperatorTok{%>%}
 \KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ prix, }\DataTypeTok{x =}\NormalTok{ classe, }\DataTypeTok{col =}\NormalTok{ tarif)) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{geom\_boxplot}\NormalTok{() }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{geom_boxplot}\NormalTok{() }\OperatorTok{+}\StringTok{ }
 \StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{y =} \StringTok{"prix (en euros)"}\NormalTok{,}
        \DataTypeTok{x =} \StringTok{"classe"}\NormalTok{,}
        \DataTypeTok{color =} \StringTok{"tarif"}\NormalTok{) }\OperatorTok{+}
@@ -972,7 +980,7 @@ Côté tarif, \href{http://web.archive.org/web/20161111134241/http://www.renfe.c
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ renfe, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ prix, }\DataTypeTok{y=}\NormalTok{..density.., }\DataTypeTok{fill =}\NormalTok{ tarif)) }\OperatorTok{+}
-\StringTok{    }\KeywordTok{geom\_histogram}\NormalTok{(}\DataTypeTok{binwidth =} \DecValTok{5}\NormalTok{) }\OperatorTok{+}
+\StringTok{    }\KeywordTok{geom_histogram}\NormalTok{(}\DataTypeTok{binwidth =} \DecValTok{5}\NormalTok{) }\OperatorTok{+}
 \StringTok{    }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \StringTok{"prix (en euros)"}\NormalTok{, }\DataTypeTok{y =} \StringTok{"densité"}\NormalTok{) }\OperatorTok{+}\StringTok{ }
 \StringTok{    }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"bottom"}\NormalTok{)}
 \end{Highlighting}
@@ -989,8 +997,8 @@ Côté tarif, \href{http://web.archive.org/web/20161111134241/http://www.renfe.c
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Vérifier la répartition des billets Flexible}
-\NormalTok{renfe }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{subset}\NormalTok{(tarif  }\OperatorTok{==}\StringTok{ "Flexible"}\NormalTok{) }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{count}\NormalTok{(prix, classe)}
+\CommentTok{# Vérifier la répartition des billets Flexible}
+\NormalTok{renfe }\OperatorTok{%>%}\StringTok{ }\KeywordTok{subset}\NormalTok{(tarif  }\OperatorTok{==}\StringTok{ "Flexible"}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{count}\NormalTok{(prix, classe)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1036,7 +1044,22 @@ On peut résumer notre brève analyse exploratoire:
 \hypertarget{regression-lineaire}{%
 \section{Régression linéaire}\label{regression-lineaire}}
 
-La régression linéaire est un modèle pour l'espérance conditionnelle d'une variable continue. Le modèle linéaire est sans conteste le modèle statistique le plus courant. Son nom est trompeur: une grande panoplie de tests statistiques (tests-\emph{t}, analyse de variance, test de Wilcoxon ou de Kruskal--Wallis) \href{https://lindeloev.github.io/tests-as-linear/linear_tests_cheat_sheet.pdf}{peut être calculée à l'aide d'un modèle linéaire}, tandis que \href{https://threadreaderapp.com/thread/1286420597505892352.html}{des modèles aussi divers que les arbres aléatoires, la régression en composantes principales et les réseaux de neurones multicouches ne sont en réalité que de bêtes modèles linéaires}. La flexibilité du modèle linéaire vient de sa formulation comme \textbf{combinaison linéaire de variables explicatives}: ces dernières sont essentiellement arbitraires. Ce qui change d'un modèle à l'autre est simplement la méthode d'optimisation (moindres carrés ordinaires, optimisation sous contrainte ou par descente de gradient stochastique), de même que le choix des variables explicatives (bases de spline pour la régression nonparamétrique, variables indicatrices pour les arbres, fonctions d'activations pour les réseaux de neurones). Ce chapitre porte sur la formulation de modèles linéaires, l'interprétation des coefficients et les tests usuels reliés à ces modèles. Certains modèles bien connus, comme l'analyse de variance, seront présentés comme cas spéciaux du modèle de régression linéaire. Les objectifs principaux de la régression linéaire sont:
+On entend par régression linéaire un modèle pour l'espérance conditionnelle d'une variable réponse \(Y\) (ou régressande) en fonction de \(p\) variables explicatives (appelées parfois régresseurs ou covariables) à l'aide d'une équation de la forme
+\begin{align*}
+\mathsf{E}(Y \mid \mathbf{X})=\beta_0 + \beta_1\mathrm{X}_{1} + \cdots + \beta_p \mathrm{X}_{p}.
+\end{align*}
+Le fait que la moyenne est conditionnelle aux valeurs de \(\mathbf{X}\) implique simplement que l'on considère les régresseurs comme constant, ou connus à l'avance.
+
+En pratique, tout modèle est une approximation de la réalité, aussi on ajoute un terme d'erreur qui sert à tenir compte du fait qu'aucune relation linéaire exacte ne lie \(\mathbf{X}\) et \(Y\), ou que les mesures de \(Y\) contiennent des erreurs. Ce terme d'erreur aléatoire \(\varepsilon\) servira de base à l'inférence car il permettra de quantifier l'adéquation entre notre modèle et les données.
+
+On peut réécrire le modèle linéaire en terme de l'erreur pour un échantillon aléatoire de taille \(n\): dénotons par \(Y_i\) la valeur de \(Y\) pour le sujet \(i\), et \(\mathrm{X}_{ij}\) la valeur de la \(j\)e variable explicative du sujet \(i\). Le modèle de régression linéaire est
+\begin{align}
+Y_i = \beta_0 + \beta_1 \mathrm{X}_{i1} + \ldots + \beta_p \mathrm{X}_{ip} +\varepsilon_{i}, \qquad i =1, \ldots, n, \label{eq:olsmean}
+\end{align}
+où \(\varepsilon_i\) est le terme d'erreur additive. Si aucune hypothèse sur la loi aléatoire de l'erreur n'est spécifiée, on fixe néanmoins l'espérance du terme d'erreur à zéro car on postule qu'il n'y a pas d'erreur systématique, c'est-à-dire que \(\mathsf{E}(\varepsilon_i \mid \boldsymbol{X}_i)=0\) \((i=1, \ldots, n)\).
+
+La flexibilité du modèle linéaire vient de sa formulation: on spécifie l'espérance conditionnelle d'une variable continue comme \textbf{combinaison linéaire de variables explicatives}, dont le choix est arbitraire.
+Il est important de remarquer que ce modèle est linéaire dans les coefficients \(\boldsymbol{\beta}\in \mathbb{R}_{p+1}\), pas dans les variables explicatives! les covariables sont quelconques et peuvent être des fonctions (non)-linéaires d'autres variables explicatives, par exemple \(\mathrm{X}=\log(\texttt{annees})\), \(\mathrm{X}=\texttt{puissance}^2\) ou \(\mathrm{X}= \mathsf{I}_{\texttt{homme}}\cdot\mathsf{I}_{\texttt{titulaire}}\). C'est ce qui fait la flexibilité du modèle linéaire: ce dernier est principalement employé aux fins suivantes:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -1048,6 +1071,11 @@ La régression linéaire est un modèle pour l'espérance conditionnelle d'une v
 \item
   Prédire les valeurs de \(Y\) pour de nouveaux ensembles de covariables \(\mathbf{X}\).
 \end{enumerate}
+
+\hypertarget{introduction}{%
+\subsection{Introduction}\label{introduction}}
+
+Le modèle linéaire est sans conteste le modèle statistique le plus couramment employé. Le terme « modèle linéaire » est trompeur: une grande panoplie de tests statistiques (tests-\emph{t}, analyse de variance, test de Wilcoxon ou de Kruskal--Wallis) \href{https://lindeloev.github.io/tests-as-linear/linear_tests_cheat_sheet.pdf}{peut être calculée à l'aide d'un modèle linéaire}, tandis que \href{https://threadreaderapp.com/thread/1286420597505892352.html}{des modèles aussi divers que les arbres aléatoires, la régression en composantes principales et les réseaux de neurones multicouches ne sont en réalité que de bêtes modèles linéaires}. Ce qui change d'un modèle à l'autre est simplement la méthode d'optimisation (moindres carrés ordinaires, optimisation sous contrainte ou par descente de gradient stochastique), de même que le choix des variables explicatives (bases de spline pour la régression nonparamétrique, variables indicatrices pour les arbres, fonctions d'activations pour les réseaux de neurones). Ce chapitre porte sur la formulation de modèles linéaires, l'interprétation des coefficients et les tests usuels reliés à ces modèles. Certains modèles bien connus, comme l'analyse de variance, seront présentés comme cas spéciaux du modèle de régression linéaire.
 
 Afin de rendre plus tangible le concept et les notions qui touchent aux modèles linéaires, on présentera ces notions dans le cadre d'un exemple. On s'intéresse à la discrimination salariale dans un collège américain, au sein duquel une étude a été réalisée pour investiguer s'il existait des inégalités salariales entre hommes et femmes. Le jeu de données contient les variables suivantes
 
@@ -1064,7 +1092,7 @@ Afin de rendre plus tangible le concept et les notions qui touchent aux modèles
 \item
   \texttt{service}: nombre d'années de service.
 \item
-  \texttt{annees}: nombre d'années de service au sein de l'échelon académique (rang).
+  \texttt{annees}: nombre d'années depuis l'obtention du doctorat.
 \end{itemize}
 
 Une analyse exploratoire des données est de mise avant d'ébaucher un modèle. Si le salaire augmente au fil des ans, on voit que l'hétérogénéité change en fonction de l'échelon et qu'il y a une relation claire entre ce dernier et le nombre d'années de service (les professeurs n'étant éligibles à des promotions qu'après un certain nombre d'années). Les professeurs adjoints qui ne sont pas promus sont généralement mis à la porte, aussi il y a moins d'occasions pour que les salaires varient sur cette échelle.
@@ -1094,10 +1122,7 @@ homme & 56 & 54 & 248\\
 \end{tabular}
 \end{table}
 
-\hypertarget{introduction}{%
-\subsection{Introduction}\label{introduction}}
-
-Le modèle de régression linéaire simple, qui n'inclut qu'une variable explicative, consiste en une droite qui passe à travers un nuage de points et capture la corrélation linéaire entre deux variables \(\mathrm{X}\) et \(Y\) à l'aide d'une équation de la forme \(y=a+bx\)? En deux dimensions, le problème de la régression linéaire revient à ajuster la meilleure droite (selon un critère donné) à travers un nuage de points comme celui de la Figure \ref{fig:droitenuage}.
+Le modèle linéaire simple n'inclut qu'une variable explicative et consiste en une droite d'équation \(y=\beta_0 + \beta_1 \mathrm{X}\) qui passe à travers un nuage de points. La Figure \ref{fig:droitenuage} montre la droite de régression dans le nuage de points formé par les couples \(\{\mathrm{X}_i, y_i\}\), où \(y_i\) est le \texttt{salaire} et \(\mathrm{X}\) est \texttt{service}.
 
 \begin{figure}
 
@@ -1108,21 +1133,7 @@ Le modèle de régression linéaire simple, qui n'inclut qu'une variable explica
 \caption{Régression linéaire simple pour le salaire en fonction des années de service; la droite satisfait le critère des moindres carrés.}\label{fig:droitenuage}
 \end{figure}
 
-Plus généralement, on entend par régression linéaire un modèle pour l'espérance conditionnelle d'une variable réponse \(Y\) (ou régressande) en fonction de \(p\) variables explicatives (appelées parfois régresseurs ou covariables) à l'aide d'une équation de la forme
-\begin{align*}
-\mathsf{E}(Y \mid \mathbf{X})=\beta_0 + \beta_1\mathrm{X}_{1} + \cdots + \beta_p \mathrm{X}_{p}.
-\end{align*}
-Le fait que la moyenne est conditionnelle aux valeurs de \(\mathbf{X}\) implique simplement que l'on considère les régresseurs comme constant, ou connus à l'avance.
-
-En pratique, tout modèle est une approximation de la réalité, aussi on ajoute un terme d'erreur qui sert à tenir compte du fait qu'aucune relation linéaire exacte ne lie \(\mathbf{X}\) et \(Y\), ou que les mesures de \(Y\) contiennent des erreurs. Ce terme d'erreur aléatoire \(\varepsilon\) servira de base à l'inférence car il permettra de quantifier l'adéquation entre notre modèle et les données.
-
-On peut réécrire le modèle linéaire en terme de l'erreur pour un échantillon aléatoire de taille \(n\): dénotons par \(Y_i\) la valeur de \(Y\) pour le sujet \(i\), et \(\mathrm{X}_{ij}\) la valeur de la \(j\)e variable explicative du sujet \(i\). Le modèle de régression linéaire est
-\begin{align}
-Y_i = \beta_0 + \beta_1 \mathrm{X}_{i1} + \ldots + \beta_p \mathrm{X}_{ip} +\varepsilon_{i}, \qquad i =1, \ldots, n, \label{eq:olsmean}
-\end{align}
-où \(\varepsilon_i\) est le terme d'erreur additive. Si aucune hypothèse sur la loi aléatoire de l'erreur n'est spécifiée, on fixe néanmoins l'espérance du terme d'erreur à zéro car on postule qu'il n'y a pas d'erreur systématique, c'est-à-dire que \(\mathsf{E}(\varepsilon_i \mid \boldsymbol{X}_i)=0\) \((i=1, \ldots, n)\).
-
-Il est important de remarquer que ce modèle est linéaire dans les coefficients \(\boldsymbol{\beta}\in \mathbb{R}_{p+1}\), pas dans les variables explicatives! les covariables sont quelconques et peuvent être des fonctions (non)-linéaires d'autres variables explicatives, par exemple \(\mathrm{X}=\log(\texttt{annees})\), \(\mathrm{X}=\texttt{puissance}^2\) ou \(\mathrm{X}= \mathsf{I}_{\texttt{homme}}\cdot\mathsf{I}_{\texttt{titulaire}}\). C'est ce qui fait la flexibilité du modèle linéaire.
+Une infinité de droites pourraient passer dans le nuage de points; il faut donc choisir la meilleure droite (selon un critère donné). La section aborde le choix de ce critère et l'estimation des paramètres de l'équation de la droite.
 
 \hypertarget{moindres-carruxe9s-ordinaires}{%
 \subsection{Moindres carrés ordinaires}\label{moindres-carruxe9s-ordinaires}}
@@ -1135,9 +1146,7 @@ En d'autres mots, les estimateurs des moindres carrés sont la solution du probl
 \begin{align*}
 \widehat{\boldsymbol{\beta}} &=\min_{\boldsymbol{\beta} \in \mathbb{R}^{p+1}}\sum_{i=1}^n (Y_i-\widehat{Y}_i)^2= \min_{\boldsymbol{\beta}} \|\boldsymbol{Y}-\mathbf{X}\boldsymbol{\beta}\|^2
 \end{align*}
-Ce système d'équation a une solution unique et explicite qui est plus facilement exprimée en notation matricielle: cela revient à exprimer le système linéaire de l'équation \eqref{eq:olsmean} avec une observation par ligne.
-
-Soit les matrices et vecteurs
+Ce système d'équation a une solution explicite qui est plus facilement exprimée en notation matricielle. Soit les matrices et vecteurs
 \begin{align*}
 \boldsymbol{Y} =
  \begin{pmatrix}
@@ -1170,28 +1179,19 @@ Soit les matrices et vecteurs
  \end{pmatrix}
 \end{align*}
 Le modèle en notation matricielle s'écrit de manière compacte, \begin{align*}
-\boldsymbol{Y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\varepsilon}.
+\boldsymbol{Y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\varepsilon};
 \end{align*}
+chaque ligne de la matrice correspond à l'équation \eqref{eq:olsmean} avec une observation par ligne.
 L'estimateur des moindres carrés ordinaires résoud le problème d'optimisation non-contraint
 \begin{align*}
 \widehat{\boldsymbol{\beta}}=\min_{\boldsymbol{\beta} \in \mathbb{R}^{p+1}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}).
 \end{align*}
-On peut calculer la dérivée première par rapport à \(\boldsymbol{\beta}\), égaler à zéro et isoler le maximum pour obtenir une formule explicite pour \(\widehat{\boldsymbol{\beta}}\),\\
-\begin{align*}
-\mathbf{0}_n&=\frac{\partial}{\partial\boldsymbol{\beta}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\\
-\\&=\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial \boldsymbol{\beta}}\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}\\
- \\&=\mathbf{X}^\top (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})
-\end{align*}
-en utilisant la règle de dérivation en chaîne; on peut ainsi distribuer les termes pour obtenir l'\emph{équation normale}
-\begin{align*}
- \mathbf{X}^\top \mathbf{X}\boldsymbol{\beta}&=\mathbf{X}^\top \boldsymbol{y}.
-\end{align*}
-Si \(\mathbf{X}\) est une matrice de rang \(p\), alors la forme quadratique \(\mathbf{X}^\top \mathbf{X}\) est inversible et on obtient ainsi une formule explicite pour l'estimateur des moindres carrés,
-\begin{align*}
-\widehat{\boldsymbol{\beta}} = (\mathbf{X}^{\top} \mathbf{X})^{-1} \mathbf{X}^{\top} \boldsymbol{Y}.
-\end{align*}
+Une preuve est fournie \protect\hyperlink{ols}{dans l'Annexe}. Si le rang de la matrice \(\mathbf{X}\) est dimension \(n \times (p+1)\) est de rang \(p+1\), l'unique solution du problème d'optimisation est
+\begin{align}
+\widehat{\boldsymbol{\beta}} = (\mathbf{X}^{\top} \mathbf{X})^{-1} \mathbf{X}^{\top} \boldsymbol{Y}. \label{eq:ols}
+\end{align}
 
-Que représente les moindres carrés en deux dimensions? L'estimateur est celui qui minimise la somme du carré des résidus ordinaires. Le \(i\)e \textbf{résidu} ordinaire \(e_i = y_i -\widehat{y}_i\) est la distance \textbf{verticale} entre un point \(y_i\) et la valeur ajustée \(\widehat{y}_i\), soit les traits bleus de la Figure \ref{fig:distancevert}.
+Que représente les moindres carrés en deux dimensions? L'estimateur est celui qui minimise la somme du carré des résidus ordinaires. Le \(i\)e \textbf{résidu ordinaire} \(e_i = y_i -\widehat{y}_i\) est la distance \emph{verticale} entre un point \(y_i\) et la valeur ajustée \(\widehat{y}_i\), soit les traits bleus de la Figure \ref{fig:distancevert}.
 
 \begin{figure}
 
@@ -1208,7 +1208,7 @@ Une conséquence directe est que la corrélation linéaire entre \(\boldsymbol{e
 \end{remark}
 
 \begin{remark}[Complexité du calcul des moindres carrés ordinaires]
-\iffalse{} {Remarque (Complexité du calcul des moindres carrés ordinaires). } \fi{}Tangente: en apprentissage automatique, on utilise souvent un algorithme du gradient (stochastique) pour estimer les estimés des moindres carrés ordinaires. Or, à moins d'avoir des tailles d'échantillons \(n\) ou un nombre de covariables \(p\) subséquent (pensez échelle Google), une solution approximative ne devrait pas être préférée à la solution exacte! D'un point de vue numérique, l'opération la plus coûteuse est le calcul de l'inverse de la matrice \(\mathbf{X}^\top\mathbf{X}\), qui de dimension \(p \times p\). Règle générale, on n'inverse pas directement cette matrice car ce n'est pas la façon la plus numériquement stable d'obtenir la solution. \textbf{R} utilise la décomposition QR qui a une complexité de \(\mathrm{O}(np^2)\) (l'ordre du nombre de flops ou d'opérations pour le calcul). Une alternative plus coûteuse, mais plus stable numériquement, est la décomposition en valeurs singulières (même ordre en terme de calculs).
+\iffalse{} {Remarque (Complexité du calcul des moindres carrés ordinaires). } \fi{}Tangente: en apprentissage automatique, on utilise souvent un algorithme du gradient (stochastique) pour estimer les estimés des moindres carrés ordinaires. Or, à moins d'avoir des tailles d'échantillons \(n\) ou un nombre de covariables \(p\) subséquent (pensez échelle Google), une solution approximative ne devrait pas être préférée à la solution exacte! D'un point de vue numérique, l'opération la plus coûteuse est le calcul de l'inverse de la matrice \(\mathbf{X}^\top\mathbf{X}\), qui de dimension \((p+1) \times (p+1)\). Règle générale, on n'inverse pas directement cette matrice car ce n'est pas la façon la plus numériquement stable d'obtenir la solution. \textbf{R} utilise la décomposition QR qui a une complexité de \(\mathrm{O}(np^2)\) (l'ordre du nombre de flops ou d'opérations pour le calcul). Une alternative plus coûteuse, mais plus stable numériquement, est la décomposition en valeurs singulières (même ordre en terme de calculs).
 \end{remark}
 
 Mais trève de disgression mathématique: tout bon logiciel calculera pour vous les estimés des moindres carrés. Retenez que l'on minimise une forme quadratique qui admet une solution explicite et unique pour autant que les colonnes de \(\mathbf{X}\) ne soient pas colinéaires. Si vous avez plus d'une variable explicative, les valeurs ajustées seront situées sur un hyperplan (peu commode à représenter graphiquement). Maîtriser le langage associé à la régression (notamment les résidus ordinaires, les valeurs ajustées, etc.) est nécessaire pour la continuation.
@@ -1216,13 +1216,13 @@ Mais trève de disgression mathématique: tout bon logiciel calculera pour vous 
 \hypertarget{interpruxe9tation-des-paramuxe8tres-du-moduxe8les}{%
 \subsection{Interprétation des paramètres du modèles}\label{interpruxe9tation-des-paramuxe8tres-du-moduxe8les}}
 
-Que représentent les paramètres \(\boldsymbol{\beta}\) du modèle linéaire? Dans le cas simple présenté dans la Figure \ref{fig:droitenuage} où l'équation de la droite est de la forme \(Y = \beta_0 + \beta_1\mathrm{X}_1 + \varepsilon\), \(\beta_0\) est l'ordonnée à l'origine (la valeur moyenne de \(Y\) quand \(\mathrm{X}_1=0\)) et \(\beta_1\) est la pente, soit l'augmentation moyenne de \(Y\) quand \(\mathrm{X}_1\) augmente d'une unité.
-
-Si les colonnes de \(\mathbf{X}\) sont arbitraires, il est d'usage d'inclure une constante: cela revient à inclure \(\mathbf{1}_n\) comme colonne de la matrice de plan d'expérience \(\mathbf{X}\). Parce que les résidus sont orthogonaux aux colonnes de \(\mathbf{X}\), leur moyenne est zéro, \(\bar{\boldsymbol{e}}=0\). En général, on peut obtenir des résidus centrés en incluant comme régresseurs dans la matrice \(\mathbf{X}\) des vecteurs colonnes qui sont collinéaires avec \(\mathbf{1}_n\).
+Que représentent les paramètres \(\boldsymbol{\beta}\) du modèle linéaire? Dans le cas simple présenté dans la Figure \ref{fig:droitenuage} où l'équation de la droite est de la forme \(\widehat{Y} = \widehat{\beta}_0 + \widehat{\beta}_1\mathrm{X}_1\), \(\beta_0\) est l'ordonnée à l'origine (la valeur moyenne de \(Y\) quand \(\mathrm{X}_1=0\)) et \(\beta_1\) est la pente, soit l'augmentation moyenne de \(Y\) quand \(\mathrm{X}_1\) augmente d'une unité.
 
 Dans certains cas, l'interprétation de l'ordonnée à l'origine n'est pas valide car c'est un \textbf{non-sens}: la valeur \(\mathrm{X}_1=0\) n'est pas plausible (par exemple, si \(\mathrm{X}_1\) est la taille d'un humain). De même, il peut arriver qu'il n'y ait pas d'observations dans le voisinage de \(\mathrm{X}_1=0\), même si cette valeur est plausible; on parle alors d'extrapolation.
 
-Dans le contexte de notre exemple, l'équation de la droite ajustée de la Figure \ref{fig:droitenuage} est \[\widehat{\texttt{salaire}} = 99.975 + 0.78\texttt{service}.\]
+Si les colonnes de \(\mathbf{X}\) sont arbitraires, il est d'usage d'inclure une constante: cela revient à inclure \(\mathbf{1}_n\) comme colonne de la matrice de plan d'expérience \(\mathbf{X}\). Parce que les résidus sont orthogonaux aux colonnes de \(\mathbf{X}\), leur moyenne est zéro, \(n^{-1}\mathbf{1}_n^\top\boldsymbol{e}=\bar{\boldsymbol{e}}=0\). En général, on peut obtenir des résidus centrés en incluant comme régresseurs dans la matrice \(\mathbf{X}\) des vecteurs colonnes qui sont collinéaires avec \(\mathbf{1}_n\).
+
+Dans notre exemple, l'équation de la droite ajustée de la Figure \ref{fig:droitenuage} est \[\widehat{\texttt{salaire}} = 99.975 + 0.78\texttt{service}.\]
 Ainsi, le salaire moyen d'un nouveau professeur serait 99974.653 dollars, tandis que l'augmentation moyenne annuelle du salaire est 779.569 dollars.
 
 Si la variable réponse \(Y\) doit être \emph{continue}, il n'y a aucune restriction pour les variables explicatives. Le cas des variables explicatives binaires est illustratif: ces variables sont encodées numériquement à l'aide de 0/1. Considérons par exemple le sexe des professeurs de l'étude, par exemple
@@ -1237,7 +1237,7 @@ L'équation du modèle linéaire simple qui n'inclut que cette variable catégor
 \beta_0 + \beta_1 & \texttt{sexe}=1 \text{ (femme)}.
 \end{cases}
 \end{align*}
-Un modèle linéaire qui contient uniquement une variable binaire \(\mathrm{X}\) comme régresseur équivaut à spécifier une moyenne différente pour deux groupes; la moyenne des femmes est \(\mathsf{}(\texttt{salaire} \mid \texttt{sexe}=1) = \beta_0 + \beta_1 = \mu_1\) et \(\beta_1=\mu_1-\mu_0\) représente la différence entre la moyenne des hommes et celles des femmes. L'estimateur des moindres carrés \(\widehat{\beta}_0\) est la moyenne du salaire des hommes de l'échantillon et \(\widehat{\beta}_1\) est la différence des moyennes empiriques entre femmes et hommes. Cette paramétrisation en terme d'\textbf{effets différentiels} est particulièrement utile si on veut tester s'il y a une différence moyenne de salaire entre les deux sexe car cela revient à tester \(\mathscr{H}_0: \beta_1=0\). Si on voulait obtenir directement la moyenne, il faudrait remplacer la matrice de plan d'expérience \([\mathbf{1}_n, \texttt{sexe}]\) par \([\mathbf{1}_n- \texttt{sexe}, \texttt{sexe}]\) pour obtenir un modèle équivalent. Règle générale, il n'est pas recommandé de retirer l'ordonnée à l'origine même si l'espace linéaire engendré par les colonnes de \(\mathbf{X}\) contient \(\mathbf{1}_n\).
+Un modèle linéaire qui contient uniquement une variable binaire \(\mathrm{X}\) comme régresseur équivaut à spécifier une moyenne différente pour deux groupes; la moyenne des femmes est \(\mathsf{E}(\texttt{salaire} \mid \texttt{sexe}=1) = \beta_0 + \beta_1 = \mu_1\) et \(\beta_1=\mu_1-\mu_0\) représente la différence entre la moyenne des hommes et celles des femmes. L'estimateur des moindres carrés \(\widehat{\beta}_0\) est la moyenne du salaire des hommes de l'échantillon et \(\widehat{\beta}_1\) est la différence des moyennes empiriques entre femmes et hommes. Cette paramétrisation en terme d'\textbf{effets différentiels} est particulièrement utile si on veut tester s'il y a une différence moyenne de salaire entre les deux sexe car cela revient à tester \(\mathscr{H}_0: \beta_1=0\). Si on voulait obtenir directement la moyenne, il faudrait remplacer la matrice de plan d'expérience \([\mathbf{1}_n, \texttt{sexe}]\) par \([\mathbf{1}_n- \texttt{sexe}, \texttt{sexe}]\) pour obtenir un modèle équivalent. Règle générale, il n'est pas recommandé de retirer l'ordonnée à l'origine même si l'espace linéaire engendré par les colonnes de \(\mathbf{X}\) contient \(\mathbf{1}_n\).
 
 \begin{figure}
 
@@ -1252,7 +1252,7 @@ Si on ajuste un modèle de régression linéaire pour les données \texttt{colle
 
 Même si le modèle linéaire simple définit une droite, cette dernière n'a de sens qu'en \(0\) ou \(1\); la Figure \ref{fig:graphcollegesexe} montre un estimé de la densité et la répartition des points (décalés) dans l'échantillon selon le sexe, avec la moyenne de chacun. On voit bien que la droite passe par la moyenne de chaque groupe.
 
-Plus généralement, il est possible de consider une variable catégorielle à \(k\) niveaux. Comme pour la variable binaire, on ajoute au modèle \(k-1\) variables indicatrices en plus de l'ordonnée à l'origine: si on veut modéliser \(k\) moyennes, il est logique de n'inclure que \(k\) paramètres. On choisira comme dans l'exemple avec le sexe une \textbf{catégorie de référence} dont la moyenne sera encodée par l'ordonnée à l'origine \(\beta_0\). Les autres paramètres seront des effets différentiels relatifs à cette catégorie. Prenons pour exemple l'échelon académique, une variable catégorielle ordinale à trois niveaux (adjoint, aggrégé, titulaire). On ajoute deux variables binaires \(\mathrm{X}_1 = \mathsf{I}(\texttt{echelon}=\texttt{aggrege})\) et \(\mathrm{X}_2 = \mathsf{I}(\texttt{echelon}=\texttt{titulaire})\); l'élément \(i\) de la colonne \(\mathrm{X}_1\) vaut 1 si le professeur est aggrégé et zéro autrement. Le modèle linéaire
+Plus généralement, il est possible de considérer une variable catégorielle à \(k\) niveaux. Comme pour la variable binaire, on ajoute au modèle \(k-1\) variables indicatrices en plus de l'ordonnée à l'origine: si on veut modéliser \(k\) moyennes, il est logique de n'inclure que \(k\) paramètres. On choisira comme dans l'exemple avec le sexe une \textbf{catégorie de référence} dont la moyenne sera encodée par l'ordonnée à l'origine \(\beta_0\). Les autres paramètres seront des effets différentiels relatifs à cette catégorie. Prenons pour exemple l'échelon académique, une variable catégorielle ordinale à trois niveaux (adjoint, aggrégé, titulaire). On ajoute deux variables binaires \(\mathrm{X}_1 = \mathsf{I}(\texttt{echelon}=\texttt{aggrege})\) et \(\mathrm{X}_2 = \mathsf{I}(\texttt{echelon}=\texttt{titulaire})\); l'élément \(i\) de la colonne \(\mathrm{X}_1\) vaut 1 si le professeur est aggrégé et zéro autrement. Le modèle linéaire
 \begin{align*}
 \texttt{salaire} \mid \texttt{echelon}=\beta_0 + \beta_1 \mathrm{X}_1+\beta_2\mathrm{X}_2 + \varepsilon,
 \end{align*}
@@ -1267,7 +1267,7 @@ et l'espérance conditionnelle du salaire s'écrit
 Ainsi, \(\beta_1\) (respectivement \(\beta_2\)) est la différence de salaire moyenne entre professeurs titulaires (respectivement aggrégés) et professeurs adjoints.
 Le choix de la catégorie de référence est arbitraire et le modèle ajusté est le même: seule l'interprétation des coefficients change. Pour une variable ordinale, il vaut mieux choisir la plus petite ou la plus grande des modalités pour faciliter les comparaisons.
 
-Les modèles que nous avons ajusté jusqu'à maintenant ne sont pas adéquats parce qu'ils ignorent des variables qui sont importantes pour expliquer le modèle: la Figure \ref{fig:edacollege} illustre en effet que l'échelon est une composante essentielle pour expliquer les variations de salaire au sein du collège. On peut (et on doit) donc inclure plusieurs variables simultanément pour avoir un modèle adéquat.
+Les modèles que nous avons ajusté jusqu'à maintenant ne sont pas adéquats parce qu'ils ignorent des variables qui sont importantes pour expliquer le modèle: la Figure \ref{fig:edacollege} illustre en effet que l'échelon est une composante essentielle pour expliquer les variations de salaire au sein du collège. On peut (et on doit) donc inclure plusieurs variables simultanément pour avoir un modèle adéquat. Avant de procéder, on considère l'interprétation des paramètres quand on utilise plus d'une variable explicative dans le modèle.
 
 Soit le modèle \(Y= \beta_0 + \beta_1 \mathrm{X}_1 + \cdots + \beta_p\mathrm{X}_p + \varepsilon\). L'ordonnée à l'origine \(\beta_0\) représente la valeur moyenne de \(Y\) quand \emph{toutes} les covariables du modèle sont égales à zéro,
 \begin{align*}
@@ -1315,7 +1315,7 @@ La représentation graphique du modèle polynomial de degré 2 présenté dans l
 
 }
 
-\caption{Représentation graphique 3D du modèle de régression linéaire pour les données automobile}\label{fig:hyperplan}
+\caption{Représentation graphique 3D du modèle de régression linéaire pour les données $    exttt{automobile}$.}\label{fig:hyperplan}
 \end{figure}
 
 \begin{remark}[Utilisation de bases polynomiales pour les effets nonlinéaires]
@@ -1331,7 +1331,7 @@ Le coefficient \(\beta_j\) est la contribution
 
 Si on multiplie le salaire par mille, le modèle linéaire postulé s'écrit
 \begin{align*}
-\texttt{salaire} &= \beta_0 + \beta_1 \texttt{sexe}_{\texttt{femme}} +\beta_2 \texttt{domaine}_{\texttt{theorique}} \\&\quad +\beta_3 \texttt{echelon}_{\texttt{aggrege}}
+\texttt{salaire} \times 1000 &= \beta_0 + \beta_1 \texttt{sexe}_{\texttt{femme}} +\beta_2 \texttt{domaine}_{\texttt{theorique}} \\&\quad +\beta_3 \texttt{echelon}_{\texttt{aggrege}}
 +\beta_4 \texttt{echelon}_{\texttt{titulaire}}  +\beta_5 \texttt{service} + \varepsilon.
 \end{align*}
 
@@ -1649,6 +1649,33 @@ Supposons qu'on tire \(B=1000\) échantillons différents, chacun de taille \(n=
 On a considéré une seule loi aléatoire inspirée de l'exemple, mais vous pouvez vous amuser à regarder l'effet de la distribution sous-jacent et de la taille de l'échantillon nécessaire pour que l'effet du théorème central limite prenne effet: il suffit pour cela de simulant des observations d'une loi quelconque de variance finie, en utilisant par exemple cette \href{http://195.134.76.37/applets/AppletCentralLimit/Appl_CentralLimit2.html}{applette}.
 
 Les statistiques de test qui découlent d'une moyenne centrée-réduite (ou d'une quantité équivalente pour laquelle un théorème central limite s'applique) ont souvent une loi nulle standard normale, du moins asymptotiquement (quand \(n\) est grand, typiquement \(n>30\) est suffisant). C'est ce qui garantie la validité de notre inférence!
+
+\hypertarget{math}{%
+\section{Dérivations mathématiques}\label{math}}
+
+Cette section regroupe les dérivations mathématiques optionnelles qui sont fournies par souci de complétude.
+
+\hypertarget{ols}{%
+\subsection{Dérivation de l'estimateur des moindres carrés ordinaires}\label{ols}}
+
+L'estimateur des moindres carrés ordinaires résoud le problème d'optimisation non-contraint
+\begin{align*}
+\widehat{\boldsymbol{\beta}}=\min_{\boldsymbol{\beta} \in \mathbb{R}^{p+1}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}).
+\end{align*}
+On peut calculer la dérivée première par rapport à \(\boldsymbol{\beta}\), égaler à zéro et isoler le maximum pour obtenir une formule explicite pour \(\widehat{\boldsymbol{\beta}}\),\\
+\begin{align*}
+\mathbf{0}_n&=\frac{\partial}{\partial\boldsymbol{\beta}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\\
+\\&=\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial \boldsymbol{\beta}}\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}\\
+ \\&=\mathbf{X}^\top (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})
+\end{align*}
+en utilisant la \href{http://www.stat.rice.edu/~dobelman/notes_papers/math/Matrix.Calculus.AppD.pdf}{règle de dérivation en chaîne}; on peut ainsi distribuer les termes pour obtenir l'\emph{équation normale}
+\begin{align*}
+ \mathbf{X}^\top \mathbf{X}\boldsymbol{\beta}&=\mathbf{X}^\top \boldsymbol{y}.
+\end{align*}
+Si \(\mathbf{X}\) est une matrice de rang \(p\), alors la forme quadratique \(\mathbf{X}^\top \mathbf{X}\) est inversible et l'unique solution du problème d'optimisation est celle fournie dans l'équation \eqref{eq:ols}.
+\begin{align*}
+\widehat{\boldsymbol{\beta}} = (\mathbf{X}^{\top} \mathbf{X})^{-1} \mathbf{X}^{\top} \boldsymbol{Y}.
+\end{align*}
 
 \hypertarget{r}{%
 \section*{\texorpdfstring{\textbf{R}}{R}}\label{r}}
