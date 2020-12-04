@@ -1,1 +1,22 @@
 # Modèles linéaires mixtes {#modeles-lineaires-mixtes}
+
+
+## Comparaison de modèles
+
+Cette brève discussion traite de méthodes de comparaisons de modèles selon différents scénarios d'intérêt. 
+En particulier, puisque la plupart des logiciels promeuvent l'utilisation du critère de vraisemblance restreinte (REML) par défaut pour l'ajustement de modèles mixtes, il convient de porter une attention spéciale aux tests que l'on réalise.
+
+En ajustant un modèle avec la méthode REML, on élimine la contribution de la moyenne de la vraisemblance. Cela permet d'obtenir des estimateurs des paramètres de variance $\boldsymbol{\psi}$ qui sont moins biaisés, mais cette fonction objective ne permet pas de comparer des modèles qui ont une matrice de modèle $\mathbf{X}$ différente.
+
+On préfère si possible les tests d'hypothèse (rapport de vraisemblance) aux critères d'informations pour la sélection de modèle. Les tests d'hypothèse requièrent la comparaison de deux modèles **emboîtés**: c'est le cas si on peut obtenir en imposant des contraintes sur **un** des modèles le second.
+
+- Test du rapport de vraisemblance, méthode du maximum de vraisemblance restreint (REML): modèles emboîtés, même modèle pour la moyenne. Par exemple, tester si le modèle d'équicorrélation $\mathsf{CS}$ est une simplification adéquate du modèle non-structure $\mathsf{UN}$.
+- Test du rapport de vraisemblance, méthode du maximum de vraisemblance:  modèles emboîtés (pas d'autre contrainte). Par exemple, dans un modèle linéaire avec erreurs autorégressives, tester si l'effet de la variable $\mathrm{X}_j$ est nul sachant le reste et si les erreurs sont indépendantes, soit  $\mathscr{H}_0: \beta_j=0$,  $\mathscr{H}_0: \rho=0$, ou encore $\mathscr{H}_0: \beta_j=\rho=0$.
+
+Si on veut comparer des modèles non-emboîtés, on doit se rabattre sur la performance prédictive ou les critères d'information. Dans ce dernier cas, il faut que les deux modèles aient les même variables réponse. Si on utilise des fonctions de vraisemblance différentes, il faut aussi s'assurer que notre logiciel calcule les constantes de normalisation pour s'assurer que la comparaison soit valide.
+
+- Par exemple, comparer un modèle linéaire avec erreurs autorégressives $\mathsf{AR}(1)$ versus un modèle avec un effet aléatoire sur la pente.
+
+La seule comparaison de modèle emboîtés que je vous déconseille de faire à l'aide de tests d'hypothèse est celle dans lequel la comparaison entre les deux modèles implique de contraindre des paramètres positifs à zéro (éliminer un effet aléatoire revient à fixer sa variance à zéro). Ce faisant, on se trouve avec un cas où la valeur du paramètre est sur la bordure de l'espace des valeurs admissible. Ce cas limite donne une loi nulle différente de la loi $\chi^2$ usuelle. Bien que la statistique de test soit calculable et correcte, l'approximation de la loi de référence est compliquée à dériver et de mauvaise qualité.
+
+- Exemple de scénarios: regarder dans un modèle avec $\boldsymbol{b} \sim \mathsf{No}_2(\boldsymbol{0}_2, \boldsymbol{\Omega})$, où $b_1$ est une ordonnée à l'origine aléatoire et $b_2$ une pente aléatoire. Tester si la pente aléatoire est nécessaire revient à tester $\mathscr{H}_0: \omega_{22}=0$, et comme le paramètre de variance est positif, ce test n'est pas régulier.

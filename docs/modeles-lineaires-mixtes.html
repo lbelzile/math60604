@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>6 Modèles linéaires mixtes | Modélisation statistique</title>
   <meta name="description" content="Ces notes forment un complément web du cours MATH 60604 (Modélisation statistique) offert à la M.Sc. en gestion (science des données et analytique d’affaires) à HEC Montréal." />
-  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="6 Modèles linéaires mixtes | Modélisation statistique" />
   <meta property="og:type" content="book" />
@@ -31,7 +31,7 @@
   
 <link rel="prev" href="donnees-correlees-longitudinales.html"/>
 <link rel="next" href="survie.html"/>
-<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -49,7 +49,9 @@
 
 
 
-<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
 <link href="libs/rglwidgetClass-2/rgl.css" rel="stylesheet" />
 <script src="libs/rglwidgetClass-2/rglClass.src.js"></script>
 <script src="libs/CanvasMatrix4-2016/CanvasMatrix.src.js"></script>
@@ -172,7 +174,26 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="modeles-lineaires-mixtes" class="section level1" number="6">
 <h1><span class="header-section-number">6</span> Modèles linéaires mixtes</h1>
+<div id="comparaison-de-modèles" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> Comparaison de modèles</h2>
+<p>Cette brève discussion traite de méthodes de comparaisons de modèles selon différents scénarios d’intérêt.
+En particulier, puisque la plupart des logiciels promeuvent l’utilisation du critère de vraisemblance restreinte (REML) par défaut pour l’ajustement de modèles mixtes, il convient de porter une attention spéciale aux tests que l’on réalise.</p>
+<p>En ajustant un modèle avec la méthode REML, on élimine la contribution de la moyenne de la vraisemblance. Cela permet d’obtenir des estimateurs des paramètres de variance <span class="math inline">\(\boldsymbol{\psi}\)</span> qui sont moins biaisés, mais cette fonction objective ne permet pas de comparer des modèles qui ont une matrice de modèle <span class="math inline">\(\mathbf{X}\)</span> différente.</p>
+<p>On préfère si possible les tests d’hypothèse (rapport de vraisemblance) aux critères d’informations pour la sélection de modèle. Les tests d’hypothèse requièrent la comparaison de deux modèles <strong>emboîtés</strong>: c’est le cas si on peut obtenir en imposant des contraintes sur <strong>un</strong> des modèles le second.</p>
+<ul>
+<li>Test du rapport de vraisemblance, méthode du maximum de vraisemblance restreint (REML): modèles emboîtés, même modèle pour la moyenne. Par exemple, tester si le modèle d’équicorrélation <span class="math inline">\(\mathsf{CS}\)</span> est une simplification adéquate du modèle non-structure <span class="math inline">\(\mathsf{UN}\)</span>.</li>
+<li>Test du rapport de vraisemblance, méthode du maximum de vraisemblance: modèles emboîtés (pas d’autre contrainte). Par exemple, dans un modèle linéaire avec erreurs autorégressives, tester si l’effet de la variable <span class="math inline">\(\mathrm{X}_j\)</span> est nul sachant le reste et si les erreurs sont indépendantes, soit <span class="math inline">\(\mathscr{H}_0: \beta_j=0\)</span>, <span class="math inline">\(\mathscr{H}_0: \rho=0\)</span>, ou encore <span class="math inline">\(\mathscr{H}_0: \beta_j=\rho=0\)</span>.</li>
+</ul>
+<p>Si on veut comparer des modèles non-emboîtés, on doit se rabattre sur la performance prédictive ou les critères d’information. Dans ce dernier cas, il faut que les deux modèles aient les même variables réponse. Si on utilise des fonctions de vraisemblance différentes, il faut aussi s’assurer que notre logiciel calcule les constantes de normalisation pour s’assurer que la comparaison soit valide.</p>
+<ul>
+<li>Par exemple, comparer un modèle linéaire avec erreurs autorégressives <span class="math inline">\(\mathsf{AR}(1)\)</span> versus un modèle avec un effet aléatoire sur la pente.</li>
+</ul>
+<p>La seule comparaison de modèle emboîtés que je vous déconseille de faire à l’aide de tests d’hypothèse est celle dans lequel la comparaison entre les deux modèles implique de contraindre des paramètres positifs à zéro (éliminer un effet aléatoire revient à fixer sa variance à zéro). Ce faisant, on se trouve avec un cas où la valeur du paramètre est sur la bordure de l’espace des valeurs admissible. Ce cas limite donne une loi nulle différente de la loi <span class="math inline">\(\chi^2\)</span> usuelle. Bien que la statistique de test soit calculable et correcte, l’approximation de la loi de référence est compliquée à dériver et de mauvaise qualité.</p>
+<ul>
+<li>Exemple de scénarios: regarder dans un modèle avec <span class="math inline">\(\boldsymbol{b} \sim \mathsf{No}_2(\boldsymbol{0}_2, \boldsymbol{\Omega})\)</span>, où <span class="math inline">\(b_1\)</span> est une ordonnée à l’origine aléatoire et <span class="math inline">\(b_2\)</span> une pente aléatoire. Tester si la pente aléatoire est nécessaire revient à tester <span class="math inline">\(\mathscr{H}_0: \omega_{22}=0\)</span>, et comme le paramètre de variance est positif, ce test n’est pas régulier.</li>
+</ul>
 
+</div>
 </div>
             </section>
 

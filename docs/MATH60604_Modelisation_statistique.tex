@@ -7,12 +7,13 @@
   letterpaper,
 ]{article}
 \usepackage{lmodern}
-\usepackage{amssymb,amsmath}
+\usepackage{amsmath}
 \usepackage{ifxetex,ifluatex}
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
+  \usepackage{amssymb}
 \else % if luatex or xetex
   \usepackage{unicode-math}
   \defaultfontfeatures{Scale=MatchLowercase}
@@ -83,6 +84,7 @@
 \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{longtable,booktabs}
+\usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
 \usepackage{etoolbox}
 \makeatletter
@@ -91,7 +93,7 @@
 % Allow footnotes in longtable head/foot
 \IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
 \makesavenoteenv{longtable}
-\usepackage{graphicx,grffile}
+\usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
 \def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
@@ -213,6 +215,9 @@
   {\begin{rmdblock}{tangente}}
   {\end{rmdblock}}
 \newcommand{\bs}[1]{\boldsymbol{#1}} \newcommand{\Hmat}{\mathbf{H}} \newcommand{\Mmat}{\mathbf{M}} \newcommand{\mX}{\mathbf{X}} \newcommand{\bX}{{\mathbf{X}}} \newcommand{\bx}{{\mathbf{x}}} \newcommand{\by}{{\boldsymbol{y}}} \newcommand{\bY}{{\boldsymbol{Y}}} \newcommand{\eps}{\varepsilon} \newcommand{\beps}{\boldsymbol{\varepsilon}} \newcommand{\bbeta}{\boldsymbol{\beta}} \newcommand{\hbb}{\widehat{\boldsymbol{\beta}}} \newcommand{\limni}{\lim_{n \ra \infty}} \newcommand{\pr}{{\mathsf Pr}{}} \renewcommand{\P}[2][]{{\mathsf P}_{#1}\left(#2\right)} \newcommand{\E}[2][]{{\mathsf E}_{#1}\left(#2\right)} \newcommand{\Va}[2][]{{\mathsf{Var}_{#1}}\left(#2\right)} \newcommand{\I}[1]{{\mathbf 1}_{#1}} \renewcommand{\d}{\mathrm{d}}
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
 \usepackage[]{natbib}
 \bibliographystyle{apalike2}
 
@@ -248,7 +253,7 @@
 \section*{Remarques}\label{remarques}}
 \addcontentsline{toc}{section}{Remarques}
 
-Ces notes sont l'oeuvre de Léo Belzile (HEC Montréal) et sont mises à disposition sous la \href{https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.fr}{Licence publique Creative Commons Attribution - Utilisation non commerciale - Partage dans les mêmes conditions 4.0 International}. Cette version est celle du 26 novembre 2020.
+Ces notes sont l'oeuvre de Léo Belzile (HEC Montréal) et sont mises à disposition sous la \href{https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.fr}{Licence publique Creative Commons Attribution - Utilisation non commerciale - Partage dans les mêmes conditions 4.0 International}. Cette version est celle du 03 décembre 2020.
 
 Bien que les diapositives illustrent l'implémentation des techniques statistiques et des modèles à l'aide de \textbf{SAS}, ces notes présentent le pendant \textbf{R}: visitez \href{https://cran.r-project.org/}{le site web du projet \textbf{R}} pour télécharger le logiciel. L'interface graphique la plus populaire (et celle que je vous recommande) est \href{https://www.rstudio.com/products/rstudio/download/}{RStudio Desktop}.
 
@@ -561,11 +566,11 @@ La dernière étape consiste à obtenir une valeur-\emph{p}, soit la probabilit�
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{# Manipulation de données, incluant %>%}
-\KeywordTok{library}\NormalTok{(poorman)}
-\CommentTok{# Charger les données}
-\KeywordTok{data}\NormalTok{(renfe, }\DataTypeTok{package =} \StringTok{"hecmodstat"}\NormalTok{)}
-\KeywordTok{head}\NormalTok{(renfe, }\DataTypeTok{n =} \DecValTok{5}\NormalTok{)}
+\CommentTok{\# Manipulation de données, incluant \%\textgreater{}\%}
+\FunctionTok{library}\NormalTok{(poorman)}
+\CommentTok{\# Charger les données}
+\FunctionTok{data}\NormalTok{(renfe, }\AttributeTok{package =} \StringTok{"hecmodstat"}\NormalTok{)}
+\FunctionTok{head}\NormalTok{(renfe, }\AttributeTok{n =} \DecValTok{5}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -582,11 +587,11 @@ La dernière étape consiste à obtenir une valeur-\emph{p}, soit la probabilit�
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{# Sous-échantillon avec uniquement les données au tarif promotionnel}
-\NormalTok{renfe_promo <-}\StringTok{ }\NormalTok{renfe }\OperatorTok{%>%}\StringTok{ }\KeywordTok{subset}\NormalTok{(tarif }\OperatorTok{==}\StringTok{ "Promo"}\NormalTok{)}
-\CommentTok{# Test-t et différence de moyenne}
-\NormalTok{ttest <-}\StringTok{ }\KeywordTok{t.test}\NormalTok{(prix}\OperatorTok{~}\NormalTok{dest, }\DataTypeTok{data =}\NormalTok{ renfe_promo)}
-\NormalTok{ttest }\CommentTok{#imprimer le résultat}
+\CommentTok{\# Sous{-}échantillon avec uniquement les données au tarif promotionnel}
+\NormalTok{renfe\_promo }\OtherTok{\textless{}{-}}\NormalTok{ renfe }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{subset}\NormalTok{(tarif }\SpecialCharTok{==} \StringTok{"Promo"}\NormalTok{)}
+\CommentTok{\# Test{-}t et différence de moyenne}
+\NormalTok{ttest }\OtherTok{\textless{}{-}} \FunctionTok{t.test}\NormalTok{(prix}\SpecialCharTok{\textasciitilde{}}\NormalTok{dest, }\AttributeTok{data =}\NormalTok{ renfe\_promo)}
+\NormalTok{ttest }\CommentTok{\#imprimer le résultat}
 \end{Highlighting}
 \end{Shaded}
 
@@ -608,27 +613,27 @@ Plutôt que d'utiliser la loi asymptotique (qui est valide pour de grands échan
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{# Valeur-p par permutation}
-\NormalTok{n <-}\StringTok{ }\KeywordTok{nrow}\NormalTok{(renfe_promo)}
-\NormalTok{B <-}\StringTok{ }\FloatTok{1e4}
-\NormalTok{ttest_stats <-}\StringTok{ }\KeywordTok{numeric}\NormalTok{(B) }
-\NormalTok{ttest_stats[}\DecValTok{1}\NormalTok{] <-}\StringTok{ }\NormalTok{ttest}\OperatorTok{$}\NormalTok{statistic}
-\KeywordTok{set.seed}\NormalTok{(}\DecValTok{20200608}\NormalTok{) }\CommentTok{# germe pour nombres pseudo-aléatoires}
-\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{2}\OperatorTok{:}\NormalTok{B)\{}
-  \CommentTok{# Recalculer la statistique de test, mais permuter les étiquettes}
-\NormalTok{  ttest_stats[i] <-}\StringTok{ }\KeywordTok{t.test}\NormalTok{(prix }\OperatorTok{~}\StringTok{ }\NormalTok{dest[}\KeywordTok{sample.int}\NormalTok{(}\DataTypeTok{n =}\NormalTok{ n)], }
-                           \DataTypeTok{data =}\NormalTok{ renfe_promo)}\OperatorTok{$}\NormalTok{statistic}
+\CommentTok{\# Valeur{-}p par permutation}
+\NormalTok{n }\OtherTok{\textless{}{-}} \FunctionTok{nrow}\NormalTok{(renfe\_promo)}
+\NormalTok{B }\OtherTok{\textless{}{-}} \FloatTok{1e4}
+\NormalTok{ttest\_stats }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(B) }
+\NormalTok{ttest\_stats[}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ ttest}\SpecialCharTok{$}\NormalTok{statistic}
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{20200608}\NormalTok{) }\CommentTok{\# germe pour nombres pseudo{-}aléatoires}
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{2}\SpecialCharTok{:}\NormalTok{B)\{}
+  \CommentTok{\# Recalculer la statistique de test, mais permuter les étiquettes}
+\NormalTok{  ttest\_stats[i] }\OtherTok{\textless{}{-}} \FunctionTok{t.test}\NormalTok{(prix }\SpecialCharTok{\textasciitilde{}}\NormalTok{ dest[}\FunctionTok{sample.int}\NormalTok{(}\AttributeTok{n =}\NormalTok{ n)], }
+                           \AttributeTok{data =}\NormalTok{ renfe\_promo)}\SpecialCharTok{$}\NormalTok{statistic}
 \NormalTok{\}}
-\CommentTok{# Bibliothèque graphique}
-\KeywordTok{library}\NormalTok{(ggplot2)}
-\CommentTok{# Tracer un graphique de la distribution empirique obtenue par permutation}
-\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =} \KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{statistique =}\NormalTok{ ttest_stats), }
-       \KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{statistique)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_histogram}\NormalTok{(}\DataTypeTok{bins =} \DecValTok{30}\NormalTok{, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y=}\NormalTok{..density..), }\DataTypeTok{alpha =} \FloatTok{0.2}\NormalTok{) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{geom_density}\NormalTok{() }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{geom_vline}\NormalTok{(}\DataTypeTok{xintercept =}\NormalTok{ ttest_stats[}\DecValTok{1}\NormalTok{]) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{ylab}\NormalTok{(}\StringTok{"densité"}\NormalTok{) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{stat_function}\NormalTok{(}\DataTypeTok{fun =}\NormalTok{ dnorm, }\DataTypeTok{col =} \StringTok{"blue"}\NormalTok{)}
+\CommentTok{\# Bibliothèque graphique}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\CommentTok{\# Tracer un graphique de la distribution empirique obtenue par permutation}
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{statistique =}\NormalTok{ ttest\_stats), }
+       \FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{statistique)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{bins =} \DecValTok{30}\NormalTok{, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{y=}\NormalTok{..density..), }\AttributeTok{alpha =} \FloatTok{0.2}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_density}\NormalTok{() }\SpecialCharTok{+} 
+  \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =}\NormalTok{ ttest\_stats[}\DecValTok{1}\NormalTok{]) }\SpecialCharTok{+} 
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"densité"}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{stat\_function}\NormalTok{(}\AttributeTok{fun =}\NormalTok{ dnorm, }\AttributeTok{col =} \StringTok{"blue"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -847,7 +852,7 @@ La manipulation de variables dans des bases de données est parfois loin d'être
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{renfe }\OperatorTok{%>%}\StringTok{ }\KeywordTok{count}\NormalTok{(classe)}
+\NormalTok{renfe }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{count}\NormalTok{(classe)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -861,8 +866,8 @@ La manipulation de variables dans des bases de données est parfois loin d'être
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{# un raccourci pour la même syntaxe}
-\NormalTok{renfe }\OperatorTok{%>%}\StringTok{ }\KeywordTok{group_by}\NormalTok{(type) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{tally}\NormalTok{()}
+\CommentTok{\# un raccourci pour la même syntaxe}
+\NormalTok{renfe }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{group\_by}\NormalTok{(type) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{tally}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -875,7 +880,7 @@ La manipulation de variables dans des bases de données est parfois loin d'être
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{renfe }\OperatorTok{%>%}\StringTok{ }\KeywordTok{group_by}\NormalTok{(tarif) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{tally}\NormalTok{()}
+\NormalTok{renfe }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{group\_by}\NormalTok{(tarif) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{tally}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -901,13 +906,13 @@ On remarque également que seulement 17 temps de parcours sont affichés sur les
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{renfe }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{subset}\NormalTok{(duree }\OperatorTok{>}\StringTok{ }\DecValTok{200}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{group_by}\NormalTok{(type, dest) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{summarise}\NormalTok{(}\StringTok{"durée moyenne"}\NormalTok{ =}\StringTok{ }\KeywordTok{mean}\NormalTok{(duree), }
-            \StringTok{"écart-type"}\NormalTok{ =}\StringTok{ }\KeywordTok{sd}\NormalTok{(duree),}
-            \StringTok{"prix moyen"}\NormalTok{ =}\StringTok{ }\KeywordTok{mean}\NormalTok{(prix), }
-            \StringTok{"écart-type"}\NormalTok{ =}\StringTok{ }\KeywordTok{sd}\NormalTok{(prix)) }
+\NormalTok{renfe }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{subset}\NormalTok{(duree }\SpecialCharTok{\textgreater{}} \DecValTok{200}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{group\_by}\NormalTok{(type, dest) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{summarise}\NormalTok{(}\StringTok{"durée moyenne"} \OtherTok{=} \FunctionTok{mean}\NormalTok{(duree), }
+            \StringTok{"écart{-}type"} \OtherTok{=} \FunctionTok{sd}\NormalTok{(duree),}
+            \StringTok{"prix moyen"} \OtherTok{=} \FunctionTok{mean}\NormalTok{(prix), }
+            \StringTok{"écart{-}type"} \OtherTok{=} \FunctionTok{sd}\NormalTok{(prix)) }
 \end{Highlighting}
 \end{Shaded}
 
@@ -932,13 +937,13 @@ On pourrait soupçonner que les trains étiquetés \texttt{AVE} soient plus rapi
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{renfe }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{subset}\NormalTok{(type }\OperatorTok{%in%}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"AVE"}\NormalTok{,}\StringTok{"AVE-TGV"}\NormalTok{)) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{group_by}\NormalTok{(type, dest) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{summarise}\NormalTok{(}\StringTok{"durée moyenne"}\NormalTok{ =}\StringTok{ }\KeywordTok{mean}\NormalTok{(duree), }
-            \StringTok{"écart-type"}\NormalTok{ =}\StringTok{ }\KeywordTok{sd}\NormalTok{(duree),}
-            \StringTok{"prix moyen"}\NormalTok{ =}\StringTok{ }\KeywordTok{mean}\NormalTok{(prix),}
-            \StringTok{"écart-type"}\NormalTok{ =}\StringTok{ }\KeywordTok{sd}\NormalTok{(prix))}
+\NormalTok{renfe }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{subset}\NormalTok{(type }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{"AVE"}\NormalTok{,}\StringTok{"AVE{-}TGV"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{group\_by}\NormalTok{(type, dest) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{summarise}\NormalTok{(}\StringTok{"durée moyenne"} \OtherTok{=} \FunctionTok{mean}\NormalTok{(duree), }
+            \StringTok{"écart{-}type"} \OtherTok{=} \FunctionTok{sd}\NormalTok{(duree),}
+            \StringTok{"prix moyen"} \OtherTok{=} \FunctionTok{mean}\NormalTok{(prix),}
+            \StringTok{"écart{-}type"} \OtherTok{=} \FunctionTok{sd}\NormalTok{(prix))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -958,13 +963,13 @@ Côté tarif, \href{http://web.archive.org/web/20161111134241/http://www.renfe.c
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{renfe }\OperatorTok{%>%}\StringTok{ }\KeywordTok{subset}\NormalTok{(tarif  }\OperatorTok{!=}\StringTok{ "AdultoIda"}\NormalTok{) }\OperatorTok{%>%}
-\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ prix, }\DataTypeTok{x =}\NormalTok{ classe, }\DataTypeTok{col =}\NormalTok{ tarif)) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{geom_boxplot}\NormalTok{() }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{y =} \StringTok{"prix (en euros)"}\NormalTok{,}
-       \DataTypeTok{x =} \StringTok{"classe"}\NormalTok{,}
-       \DataTypeTok{color =} \StringTok{"tarif"}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"bottom"}\NormalTok{)}
+\NormalTok{renfe }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{subset}\NormalTok{(tarif  }\SpecialCharTok{!=} \StringTok{"AdultoIda"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+\FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ prix, }\AttributeTok{x =}\NormalTok{ classe, }\AttributeTok{col =}\NormalTok{ tarif)) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_boxplot}\NormalTok{() }\SpecialCharTok{+} 
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{y =} \StringTok{"prix (en euros)"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"classe"}\NormalTok{,}
+       \AttributeTok{color =} \StringTok{"tarif"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"bottom"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -979,10 +984,10 @@ Côté tarif, \href{http://web.archive.org/web/20161111134241/http://www.renfe.c
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ renfe, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ prix, }\DataTypeTok{y=}\NormalTok{..density.., }\DataTypeTok{fill =}\NormalTok{ tarif)) }\OperatorTok{+}
-\StringTok{    }\KeywordTok{geom_histogram}\NormalTok{(}\DataTypeTok{binwidth =} \DecValTok{5}\NormalTok{) }\OperatorTok{+}
-\StringTok{    }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \StringTok{"prix (en euros)"}\NormalTok{, }\DataTypeTok{y =} \StringTok{"densité"}\NormalTok{) }\OperatorTok{+}\StringTok{ }
-\StringTok{    }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"bottom"}\NormalTok{)}
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ renfe, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ prix, }\AttributeTok{y=}\NormalTok{..density.., }\AttributeTok{fill =}\NormalTok{ tarif)) }\SpecialCharTok{+}
+    \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{binwidth =} \DecValTok{5}\NormalTok{) }\SpecialCharTok{+}
+    \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"prix (en euros)"}\NormalTok{, }\AttributeTok{y =} \StringTok{"densité"}\NormalTok{) }\SpecialCharTok{+} 
+    \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"bottom"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -997,8 +1002,8 @@ Côté tarif, \href{http://web.archive.org/web/20161111134241/http://www.renfe.c
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{# Vérifier la répartition des billets Flexible}
-\NormalTok{renfe }\OperatorTok{%>%}\StringTok{ }\KeywordTok{subset}\NormalTok{(tarif  }\OperatorTok{==}\StringTok{ "Flexible"}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{count}\NormalTok{(prix, classe)}
+\CommentTok{\# Vérifier la répartition des billets Flexible}
+\NormalTok{renfe }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{subset}\NormalTok{(tarif  }\SpecialCharTok{==} \StringTok{"Flexible"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{count}\NormalTok{(prix, classe)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1388,6 +1393,40 @@ On voit que les femmes sont moins payées que les hommes: reste à savoir si cet
 
 \hypertarget{modeles-lineaires-mixtes}{%
 \section{Modèles linéaires mixtes}\label{modeles-lineaires-mixtes}}
+
+\hypertarget{comparaison-de-moduxe8les}{%
+\subsection{Comparaison de modèles}\label{comparaison-de-moduxe8les}}
+
+Cette brève discussion traite de méthodes de comparaisons de modèles selon différents scénarios d'intérêt.
+En particulier, puisque la plupart des logiciels promeuvent l'utilisation du critère de vraisemblance restreinte (REML) par défaut pour l'ajustement de modèles mixtes, il convient de porter une attention spéciale aux tests que l'on réalise.
+
+En ajustant un modèle avec la méthode REML, on élimine la contribution de la moyenne de la vraisemblance. Cela permet d'obtenir des estimateurs des paramètres de variance \(\boldsymbol{\psi}\) qui sont moins biaisés, mais cette fonction objective ne permet pas de comparer des modèles qui ont une matrice de modèle \(\mathbf{X}\) différente.
+
+On préfère si possible les tests d'hypothèse (rapport de vraisemblance) aux critères d'informations pour la sélection de modèle. Les tests d'hypothèse requièrent la comparaison de deux modèles \textbf{emboîtés}: c'est le cas si on peut obtenir en imposant des contraintes sur \textbf{un} des modèles le second.
+
+\begin{itemize}
+\tightlist
+\item
+  Test du rapport de vraisemblance, méthode du maximum de vraisemblance restreint (REML): modèles emboîtés, même modèle pour la moyenne. Par exemple, tester si le modèle d'équicorrélation \(\mathsf{CS}\) est une simplification adéquate du modèle non-structure \(\mathsf{UN}\).
+\item
+  Test du rapport de vraisemblance, méthode du maximum de vraisemblance: modèles emboîtés (pas d'autre contrainte). Par exemple, dans un modèle linéaire avec erreurs autorégressives, tester si l'effet de la variable \(\mathrm{X}_j\) est nul sachant le reste et si les erreurs sont indépendantes, soit \(\mathscr{H}_0: \beta_j=0\), \(\mathscr{H}_0: \rho=0\), ou encore \(\mathscr{H}_0: \beta_j=\rho=0\).
+\end{itemize}
+
+Si on veut comparer des modèles non-emboîtés, on doit se rabattre sur la performance prédictive ou les critères d'information. Dans ce dernier cas, il faut que les deux modèles aient les même variables réponse. Si on utilise des fonctions de vraisemblance différentes, il faut aussi s'assurer que notre logiciel calcule les constantes de normalisation pour s'assurer que la comparaison soit valide.
+
+\begin{itemize}
+\tightlist
+\item
+  Par exemple, comparer un modèle linéaire avec erreurs autorégressives \(\mathsf{AR}(1)\) versus un modèle avec un effet aléatoire sur la pente.
+\end{itemize}
+
+La seule comparaison de modèle emboîtés que je vous déconseille de faire à l'aide de tests d'hypothèse est celle dans lequel la comparaison entre les deux modèles implique de contraindre des paramètres positifs à zéro (éliminer un effet aléatoire revient à fixer sa variance à zéro). Ce faisant, on se trouve avec un cas où la valeur du paramètre est sur la bordure de l'espace des valeurs admissible. Ce cas limite donne une loi nulle différente de la loi \(\chi^2\) usuelle. Bien que la statistique de test soit calculable et correcte, l'approximation de la loi de référence est compliquée à dériver et de mauvaise qualité.
+
+\begin{itemize}
+\tightlist
+\item
+  Exemple de scénarios: regarder dans un modèle avec \(\boldsymbol{b} \sim \mathsf{No}_2(\boldsymbol{0}_2, \boldsymbol{\Omega})\), où \(b_1\) est une ordonnée à l'origine aléatoire et \(b_2\) une pente aléatoire. Tester si la pente aléatoire est nécessaire revient à tester \(\mathscr{H}_0: \omega_{22}=0\), et comme le paramètre de variance est positif, ce test n'est pas régulier.
+\end{itemize}
 
 \hypertarget{survie}{%
 \section{Analyse de survie}\label{survie}}
