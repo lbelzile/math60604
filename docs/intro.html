@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>1 Introduction à l’inférence statistique | Modélisation statistique</title>
   <meta name="description" content="Ces notes forment un complément web du cours MATH 60604 (Modélisation statistique) offert à la M.Sc. en gestion (science des données et analytique d’affaires) à HEC Montréal." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21.6 and GitBook 2.6.7" />
 
   <meta property="og:title" content="1 Introduction à l’inférence statistique | Modélisation statistique" />
   <meta property="og:type" content="book" />
@@ -31,8 +31,8 @@
   
 <link rel="prev" href="index.html"/>
 <link rel="next" href="regression-lineaire.html"/>
-<script src="libs/header-attrs-2.5/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="libs/jquery-3.5.1/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,21 +49,34 @@
 
 
 
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
-<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
-<link href="libs/rglwidgetClass-2/rgl.css" rel="stylesheet" />
-<script src="libs/rglwidgetClass-2/rglClass.src.js"></script>
-<script src="libs/CanvasMatrix4-2016/CanvasMatrix.src.js"></script>
-<script src="libs/rglWebGL-binding-0.100.54/rglWebGL.js"></script>
-<link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<script src="libs/rglWebGL-binding-0.104.16/rglWebGL.js"></script>
+<link href="libs/rglwidgetClass-0.104.16/rgl.css" rel="stylesheet" />
+<script src="libs/rglwidgetClass-0.104.16/rglClass.src.js"></script>
+<script src="libs/rglwidgetClass-0.104.16/utils.src.js"></script>
+<script src="libs/rglwidgetClass-0.104.16/subscenes.src.js"></script>
+<script src="libs/rglwidgetClass-0.104.16/shaders.src.js"></script>
+<script src="libs/rglwidgetClass-0.104.16/textures.src.js"></script>
+<script src="libs/rglwidgetClass-0.104.16/projection.src.js"></script>
+<script src="libs/rglwidgetClass-0.104.16/mouse.src.js"></script>
+<script src="libs/rglwidgetClass-0.104.16/init.src.js"></script>
+<script src="libs/rglwidgetClass-0.104.16/pieces.src.js"></script>
+<script src="libs/rglwidgetClass-0.104.16/draw.src.js"></script>
+<script src="libs/rglwidgetClass-0.104.16/controls.src.js"></script>
+<script src="libs/rglwidgetClass-0.104.16/selection.src.js"></script>
+<script src="libs/rglwidgetClass-0.104.16/rglTimer.src.js"></script>
+<script src="libs/CanvasMatrix4-0.104.16/CanvasMatrix.src.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
 
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -121,6 +134,29 @@ code span.st { color: #4e9a06; } /* String */
 code span.va { color: #000000; } /* Variable */
 code span.vs { color: #4e9a06; } /* VerbatimString */
 code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <link rel="stylesheet" href="css/style.css" type="text/css" />
@@ -198,15 +234,15 @@ ces variables (modèle explicatif). Ces deux objectifs ne sont pas mutuellement 
 <li>Études supérieures: <a href="https://www.theglobeandmail.com/report-on-business/is-the-university-experience-worth-the-cost/article31703109/">est-ce que le prix en vaut la chandelle?</a>.</li>
 <li>Quels sont les critères médicaux qui impactent les primes d’assurance maladies?</li>
 <li>Qu’est-ce qui explique que les prix de l’essence soient plus élevés en Gaspésie qu’ailleurs au Québec? <a href="http://www.regie-energie.qc.ca/energie/rapports/Rapport_PrixGasp%C3%A9sie_20191219.pdf">Un rapport de surveillance des prix de l’essence en Gaspésie par la Régie de l’énergie se penche sur la question.</a></li>
-<li>Est-ce que les examens pratiques de conduite sont plus faciles en régions en Grande-Bretagne? <a href="https://www.theguardian.com/world/2019/aug/23/an-easy-ride-scottish-village-fuels-debate-driving-test-pass-rates">Une analyse du journal britannique <em>The Guardian</em></a> laisse penser que c’est le cas.</li>
+<li>Est-ce que les examens pratiques de conduite en Grande-Bretagne sont plus faciles dans les régions à faible densité? <a href="https://www.theguardian.com/world/2019/aug/23/an-easy-ride-scottish-village-fuels-debate-driving-test-pass-rates">Une analyse du journal britannique <em>The Guardian</em></a> laisse penser que c’est le cas.</li>
 <li>Est-ce le risque de transmission de la Covid augmente en fonction de la distanciation? <a href="https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(20)31142-9/fulltext">Une (mauvaise) méta-analyse dit que oui</a> (ou l’art de tirer des conclusions erronées à partir d’une étude bancale).</li>
 </ul>
 <div id="tests" class="section level2" number="1.1">
 <h2><span class="header-section-number">1.1</span> Tests d’hypothèse</h2>
 <p>Un test d’hypothèse statistique est une façon d’évaluer la preuve statistique provenant d’un échantillon afin de faire une décision quant à la population sous-jacente. Les étapes principales sont:</p>
 <ul>
-<li>définir les paramètres du modèles,</li>
-<li>formuler les hypothèses alternatives et nulles,</li>
+<li>définir les paramètres du modèle,</li>
+<li>formuler les hypothèses alternative et nulle,</li>
 <li>choisir et calculer la statistique de test,</li>
 <li>déterminer son comportement sous <span class="math inline">\(\mathscr{H}_0\)</span> (loi nulle),</li>
 <li>calculer la valeur-<em>p</em>,</li>
@@ -637,7 +673,7 @@ Figure 1.13: Boîte à moustaches du prix de billets de train de Renfe en foncti
 ## 3 AVE-TGV Barcelone-Madrid           175        0.0       87.0       16.8
 ## 4 AVE-TGV Madrid-Barcelone           179        0.0       90.6       20.2</code></pre>
 <p>Les prix sont beaucoup plus élevés, en moyenne plus de deux fois plus que les trains régionaux. Les écarts de prix importants (l’écart type est de 20 euros) indique qu’il y a peut-être d’autres sources d’hétérogénéité, mais on pourrait soupçonner que la Renfe pratique la tarification dynamique. Il y un seul temps de parcours prévu pour les trains AVE-TGV. On ne note pas de différence de prix notable selon la direction ou le type de train grande vitesse, mais peut-être que les tarifs ou la classe disponibles diffèrent selon que le train ou non est en partenariat avec la compagnie française.</p>
-<p>On a pas encore considéré le tarif et la classe des billets, hormis pour les trains RegioExpress. On voit dans la Figure <a href="intro.html#fig:renfe-aed7">1.15</a> une forte différente dans l’hétérogénéité des prix selon le tarif; le tarif Promo prend plusieurs valeurs distinctes, tandis que les tarifs AdultoIda et Flexible semblent ne prendre que quelques valeurs. La première classe (<code>Preferente</code>) est plus chère et il y a moins d’observations dans ce groupe. La classe Turista est la classe la moins dispendieuse et la plus populaire. <a href="http://web.archive.org/web/20161111134241/http://www.renfe.com/viajeros/tarifas/billete_promo.html"><code>TuristaPlus</code></a> offre plus de confort, tandis que <code>TuristaSolo</code> permet d’obtenir un siège individuel.</p>
+<p>On n’a pas encore considéré le tarif et la classe des billets, hormis pour les trains RegioExpress. On voit dans la Figure <a href="intro.html#fig:renfe-aed7">1.15</a> une forte différente dans l’hétérogénéité des prix selon le tarif; le tarif Promo prend plusieurs valeurs distinctes, tandis que les tarifs AdultoIda et Flexible semblent ne prendre que quelques valeurs. La première classe (<code>Preferente</code>) est plus chère et il y a moins d’observations dans ce groupe. La classe Turista est la classe la moins dispendieuse et la plus populaire. <a href="http://web.archive.org/web/20161111134241/http://www.renfe.com/viajeros/tarifas/billete_promo.html"><code>TuristaPlus</code></a> offre plus de confort, tandis que <code>TuristaSolo</code> permet d’obtenir un siège individuel.</p>
 <p>Côté tarif, <a href="http://web.archive.org/web/20161111134241/http://www.renfe.com/viajeros/tarifas/billete_promo.html">Promo</a> et <a href="http://web.archive.org/web/20161110220249/http://www.renfe.com/viajeros/tarifas/billete_promoplus.html">PromoPlus</a> permette d’obtenir des rabais pouvant aller jusqu’à respectivement 70% et 65%. Les annulations et changements ne sont pas possibles avec Promo, mais disponibles avec PromoPlus moyennant une pénalité équivalent à 30-20% du prix du billet. Le tarif <a href="http://web.archive.org/web/20161108192609/http://www.renfe.com/viajeros/tarifas/billete_flexible.html">Flexible</a> est disponible au même prix que les billets réguliers, avec des bénéfices additionnels.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="intro.html#cb17-1" aria-hidden="true" tabindex="-1"></a>renfe <span class="sc">%&gt;%</span> <span class="fu">subset</span>(tarif  <span class="sc">!=</span> <span class="st">&quot;AdultoIda&quot;</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb17-2"><a href="intro.html#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> prix, <span class="at">x =</span> classe, <span class="at">col =</span> tarif)) <span class="sc">+</span> </span>

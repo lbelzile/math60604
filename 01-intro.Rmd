@@ -35,7 +35,7 @@ Par contraste, les modèles explicatifs sont souvent simples et interprétables;
 - Études supérieures: [est-ce que le prix en vaut la chandelle?](https://www.theglobeandmail.com/report-on-business/is-the-university-experience-worth-the-cost/article31703109/).
 - Quels sont les critères médicaux qui impactent les primes d'assurance maladies?
 - Qu'est-ce qui explique que les prix de l'essence soient plus élevés en Gaspésie qu'ailleurs au Québec? [Un rapport de surveillance des prix de l'essence en Gaspésie par la Régie de l'énergie se penche sur la question.](http://www.regie-energie.qc.ca/energie/rapports/Rapport_PrixGasp%C3%A9sie_20191219.pdf)
-- Est-ce que les examens pratiques de conduite sont plus faciles en régions en Grande-Bretagne? [Une analyse du journal britannique _The Guardian_ ](https://www.theguardian.com/world/2019/aug/23/an-easy-ride-scottish-village-fuels-debate-driving-test-pass-rates) laisse penser que c'est le cas.
+- Est-ce que les examens pratiques de conduite en Grande-Bretagne sont plus faciles dans les régions à faible densité? [Une analyse du journal britannique _The Guardian_ ](https://www.theguardian.com/world/2019/aug/23/an-easy-ride-scottish-village-fuels-debate-driving-test-pass-rates) laisse penser que c'est le cas.
 - Est-ce le risque de transmission de la Covid augmente en fonction de la distanciation? [Une (mauvaise) méta-analyse dit que oui](https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(20)31142-9/fulltext) (ou l'art de tirer des conclusions erronées à partir d'une étude bancale).
 
 
@@ -45,8 +45,8 @@ Par contraste, les modèles explicatifs sont souvent simples et interprétables;
 
 Un test d'hypothèse statistique est une façon d'évaluer la preuve statistique provenant d'un échantillon afin de faire une décision quant à la population sous-jacente. Les étapes principales sont:
 
-- définir les paramètres du modèles,
-- formuler les hypothèses alternatives et nulles,
+- définir les paramètres du modèle,
+- formuler les hypothèses alternative et nulle,
 - choisir et calculer la statistique de test, 
 - déterminer son comportement sous $\mathscr{H}_0$ (loi nulle), 
 - calculer la valeur-*p*, 
@@ -560,7 +560,7 @@ renfe %>%
 
 Les prix sont beaucoup plus élevés, en moyenne plus de deux fois plus que les trains régionaux. Les écarts de prix importants (l'écart type est de 20 euros) indique qu'il y a peut-être d'autres sources d'hétérogénéité, mais on pourrait soupçonner que la Renfe pratique la tarification dynamique. Il y un seul temps de parcours prévu pour les trains AVE-TGV. On ne note pas de différence de prix notable selon la direction ou le type de train grande vitesse, mais peut-être que les tarifs ou la classe disponibles diffèrent selon que le train ou non est en partenariat avec la compagnie française.
 
-On a pas encore considéré le tarif et la classe des billets, hormis pour les trains RegioExpress. On voit dans la Figure \@ref(fig:renfe-aed7) une forte différente dans l'hétérogénéité des prix selon le tarif; le tarif Promo prend plusieurs valeurs distinctes, tandis que les tarifs AdultoIda et Flexible semblent ne prendre que quelques valeurs. La première classe (`Preferente`) est plus chère et il y a moins d'observations dans ce groupe. La classe Turista est la classe la moins dispendieuse et la plus populaire. [`TuristaPlus`](http://web.archive.org/web/20161111134241/http://www.renfe.com/viajeros/tarifas/billete_promo.html) offre plus de confort, tandis que `TuristaSolo` permet d'obtenir un siège individuel. 
+On n'a pas encore considéré le tarif et la classe des billets, hormis pour les trains RegioExpress. On voit dans la Figure \@ref(fig:renfe-aed7) une forte différente dans l'hétérogénéité des prix selon le tarif; le tarif Promo prend plusieurs valeurs distinctes, tandis que les tarifs AdultoIda et Flexible semblent ne prendre que quelques valeurs. La première classe (`Preferente`) est plus chère et il y a moins d'observations dans ce groupe. La classe Turista est la classe la moins dispendieuse et la plus populaire. [`TuristaPlus`](http://web.archive.org/web/20161111134241/http://www.renfe.com/viajeros/tarifas/billete_promo.html) offre plus de confort, tandis que `TuristaSolo` permet d'obtenir un siège individuel. 
 
 Côté tarif, [Promo](http://web.archive.org/web/20161111134241/http://www.renfe.com/viajeros/tarifas/billete_promo.html) et [PromoPlus](http://web.archive.org/web/20161110220249/http://www.renfe.com/viajeros/tarifas/billete_promoplus.html) permette d'obtenir des rabais pouvant aller jusqu'à respectivement 70\% et 65\%. Les annulations et changements ne sont pas possibles avec Promo, mais disponibles avec PromoPlus moyennant une pénalité équivalent à 30-20\% du prix du billet. Le tarif [Flexible](http://web.archive.org/web/20161108192609/http://www.renfe.com/viajeros/tarifas/billete_flexible.html) est disponible au même prix que les billets réguliers, avec des bénéfices additionnels.
 
