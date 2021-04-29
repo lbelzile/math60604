@@ -6,14 +6,13 @@
   11pt,
   letterpaper,
 ]{article}
+\usepackage{amsmath,amssymb}
 \usepackage{lmodern}
-\usepackage{amsmath}
-\usepackage{ifxetex,ifluatex}
-\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+\usepackage{iftex}
+\ifPDFTeX
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
-  \usepackage{amssymb}
 \else % if luatex or xetex
   \usepackage{unicode-math}
   \defaultfontfeatures{Scale=MatchLowercase}
@@ -43,47 +42,7 @@
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 \urlstyle{same} % disable monospaced font for URLs
-\usepackage{color}
-\usepackage{fancyvrb}
-\newcommand{\VerbBar}{|}
-\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
-\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
-% Add ',fontsize=\small' for more characters per line
-\usepackage{framed}
-\definecolor{shadecolor}{RGB}{248,248,248}
-\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
-\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
-\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
-\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\BuiltInTok}[1]{#1}
-\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
-\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
-\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
-\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
-\newcommand{\ExtensionTok}[1]{#1}
-\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\ImportTok}[1]{#1}
-\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
-\newcommand{\NormalTok}[1]{#1}
-\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
-\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
-\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
-\newcommand{\RegionMarkerTok}[1]{#1}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\usepackage{longtable,booktabs}
+\usepackage{longtable,booktabs,array}
 \usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
 \usepackage{etoolbox}
@@ -215,7 +174,21 @@
   {\begin{rmdblock}{tangente}}
   {\end{rmdblock}}
 \newcommand{\bs}[1]{\boldsymbol{#1}} \newcommand{\Hmat}{\mathbf{H}} \newcommand{\Mmat}{\mathbf{M}} \newcommand{\mX}{\mathbf{X}} \newcommand{\bX}{{\mathbf{X}}} \newcommand{\bx}{{\mathbf{x}}} \newcommand{\by}{{\boldsymbol{y}}} \newcommand{\bY}{{\boldsymbol{Y}}} \newcommand{\eps}{\varepsilon} \newcommand{\beps}{\boldsymbol{\varepsilon}} \newcommand{\bbeta}{\boldsymbol{\beta}} \newcommand{\hbb}{\widehat{\boldsymbol{\beta}}} \newcommand{\limni}{\lim_{n \ra \infty}} \newcommand{\pr}{{\mathsf Pr}{}} \renewcommand{\P}[2][]{{\mathsf P}_{#1}\left(#2\right)} \newcommand{\E}[2][]{{\mathsf E}_{#1}\left(#2\right)} \newcommand{\Va}[2][]{{\mathsf{Var}_{#1}}\left(#2\right)} \newcommand{\I}[1]{{\mathbf 1}_{#1}} \renewcommand{\d}{\mathrm{d}}
-\ifluatex
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+\ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
 \usepackage[]{natbib}
@@ -237,6 +210,8 @@
 \newtheorem{example}{Exemple}[section]
 \theoremstyle{definition}
 \newtheorem{exercise}{Exercice}[section]
+\theoremstyle{definition}
+\newtheorem{hypothesis}{Hypothesis}[section]
 \theoremstyle{remark}
 \newtheorem*{remark}{Remarque}
 \newtheorem*{solution}{Solution}
@@ -253,7 +228,7 @@
 \section*{Remarques}\label{remarques}}
 \addcontentsline{toc}{section}{Remarques}
 
-Ces notes sont l'oeuvre de Léo Belzile (HEC Montréal) et sont mises à disposition sous la \href{https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.fr}{Licence publique Creative Commons Attribution - Utilisation non commerciale - Partage dans les mêmes conditions 4.0 International}. Cette version est celle du 03 décembre 2020.
+Ces notes sont l'oeuvre de Léo Belzile (HEC Montréal) et sont mises à disposition sous la \href{https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.fr}{Licence publique Creative Commons Attribution - Utilisation non commerciale - Partage dans les mêmes conditions 4.0 International}. Cette version est celle du 29 avril 2021.
 
 Bien que les diapositives illustrent l'implémentation des techniques statistiques et des modèles à l'aide de \textbf{SAS}, ces notes présentent le pendant \textbf{R}: visitez \href{https://cran.r-project.org/}{le site web du projet \textbf{R}} pour télécharger le logiciel. L'interface graphique la plus populaire (et celle que je vous recommande) est \href{https://www.rstudio.com/products/rstudio/download/}{RStudio Desktop}.
 
@@ -298,7 +273,7 @@ Par contraste, les modèles explicatifs sont souvent simples et interprétables;
 \item
   Qu'est-ce qui explique que les prix de l'essence soient plus élevés en Gaspésie qu'ailleurs au Québec? \href{http://www.regie-energie.qc.ca/energie/rapports/Rapport_PrixGasp\%C3\%A9sie_20191219.pdf}{Un rapport de surveillance des prix de l'essence en Gaspésie par la Régie de l'énergie se penche sur la question.}
 \item
-  Est-ce que les examens pratiques de conduite sont plus faciles en régions en Grande-Bretagne? \href{https://www.theguardian.com/world/2019/aug/23/an-easy-ride-scottish-village-fuels-debate-driving-test-pass-rates}{Une analyse du journal britannique \emph{The Guardian}} laisse penser que c'est le cas.
+  Est-ce que les examens pratiques de conduite en Grande-Bretagne sont plus faciles dans les régions à faible densité? \href{https://www.theguardian.com/world/2019/aug/23/an-easy-ride-scottish-village-fuels-debate-driving-test-pass-rates}{Une analyse du journal britannique \emph{The Guardian}} laisse penser que c'est le cas.
 \item
   Est-ce le risque de transmission de la Covid augmente en fonction de la distanciation? \href{https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(20)31142-9/fulltext}{Une (mauvaise) méta-analyse dit que oui} (ou l'art de tirer des conclusions erronées à partir d'une étude bancale).
 \end{itemize}
@@ -311,9 +286,9 @@ Un test d'hypothèse statistique est une façon d'évaluer la preuve statistique
 \begin{itemize}
 \tightlist
 \item
-  définir les paramètres du modèles,
+  définir les paramètres du modèle,
 \item
-  formuler les hypothèses alternatives et nulles,
+  formuler les hypothèses alternative et nulle,
 \item
   choisir et calculer la statistique de test,
 \item
@@ -353,7 +328,7 @@ Ces hypothèses permettent de tester si \(\theta\) est égal à une valeur numé
 
 Par exemple, pour un test bilatéral concernant le paramètre d'un modèle de régression \(\beta_j\) associé à une variable explicative d'intérêt \(\mathrm{X}_j\), les hypothèses sont
 \begin{align*}
-\mathscr{H}_0: \beta_j=\beta_j^0 \qquad \text{versus} \qquad \mathscr{H}_a:\beta_j \neq \beta_j^0, 
+\mathscr{H}_0: \beta_j=\beta_j^0 \qquad \text{versus} \qquad \mathscr{H}_a:\beta_j \neq \beta_j^0,
 \end{align*}
 où \(\beta_j^0\) est une valeur précise qui est reliée à la question de recherche. Par exemple, si \(\beta_j^0=0\) la question de recherche sous-jacente est: est-ce que la covariable \(\mathrm{X}_j\) impacte la variable réponse d'intérêt \(Y\) une fois l'effet des autres variables pris en compte?
 
@@ -364,13 +339,13 @@ Remarque: il est possible d'imposer une direction dans les tests en considérant
 
 Une statistique de test \(T\) est un fonctionnel des données qui résume l'information contenue dans les données pour \(\theta\). La forme de la statistique de test est choisie de façon à ce que son comportement sous \(\mathscr{H}_0\), c'est-à-dire l'ensemble des valeurs que prend \(T\) si \(\mathscr{H}_0\) est vraie et leur probabilité relative, soit connu. En effet, \(T\) est une variable aléatoire et sa valeur va changer selon l'échantillon. La \textbf{loi nulle} de la statistique de test nous permet de déterminer quelles valeurs de \(T\) sont plausibles si \(\mathscr{H}_0\) est vraie. Plusieurs statistiques que l'on couvrira dans ce cours sont des \textbf{statistiques de Wald}, de la forme
 \begin{align*}
-T = \frac{\widehat{\theta} - \theta_0}{\mathrm{se}(\widehat{\theta})} 
+T = \frac{\widehat{\theta} - \theta_0}{\mathrm{se}(\widehat{\theta})}
 \end{align*}
 où \(\widehat{\theta}\) est l'estimateur du paramètre \(\theta\), \(\theta_0\) la valeur numérique postulée (par ex., zéro) et \(\mathrm{se}(\widehat{\theta})\) est l'estimateur de l'écart-type de \(\widehat{\theta}\).
 
 Par exemple, pour une hypothèse sur la moyenne d'une population de la forme
 \begin{align*}
-\mathscr{H}_0: \mu=0, \qquad  \mathscr{H}_a:\mu \neq 0, 
+\mathscr{H}_0: \mu=0, \qquad  \mathscr{H}_a:\mu \neq 0,
 \end{align*}
 la statistique de test de Wald est
 \begin{align*}
@@ -408,7 +383,7 @@ Prenons l'exemple d'un test d'hypothèse bilatéral pour la moyenne au populatio
 \begin{align*}
 T = \frac{\overline{X}}{S/\sqrt{n}}
 \end{align*}
-suit une loi de Student-\(t\) avec \(n-1\) degrés de liberté, dénotée \(\mathsf{St}_{n-1}\). À partir de cette loi nulle, on peut calculer la valeur-\emph{p} (ou bien à partir d'une table ou d'un logiciel statistique). Puisque la distribution Student-\(t\) est symétrique autour de \(0\), on peut calculer la valeur-\emph{p} comme \(P = 2\times\mathsf{Pr}(T > |t|)\), où \(T \sim \sim \mathsf{St}_{n-1}\).
+suit une loi de Student-\(t\) avec \(n-1\) degrés de liberté, dénotée \(\mathsf{St}_{n-1}\). À partir de cette loi nulle, on peut calculer la valeur-\emph{p} (ou bien à partir d'une table ou d'un logiciel statistique). Puisque la distribution Student-\(t\) est symétrique autour de \(0\), on peut calculer la valeur-\emph{p} comme \(P = 2\times\mathsf{Pr}(T > |t|)\), où \(T \sim \mathsf{St}_{n-1}\).
 
 \hypertarget{conclusion}{%
 \subsubsection{Conclusion}\label{conclusion}}
@@ -434,11 +409,11 @@ Le choix du statu quo (typiquement \(\mathscr{H}_0\)) s'explique plus facilement
 
 \begin{longtable}[]{@{}lcc@{}}
 \toprule
-\textbf{Décision} \textbackslash{} \textbf{vrai modèle} & \(\mathscr{H}_0\) & \(\mathscr{H}_a\)\tabularnewline
+\textbf{Décision} \textbackslash{} \textbf{vrai modèle} & \(\mathscr{H}_0\) & \(\mathscr{H}_a\) \\
 \midrule
 \endhead
-ne pas rejeter \(\mathscr{H}_0\) & \(\checkmark\) & erreur de type II\tabularnewline
-rejeter \(\mathscr{H}_0\) & erreur de type I & \(\checkmark\)\tabularnewline
+ne pas rejeter \(\mathscr{H}_0\) & \(\checkmark\) & erreur de type II \\
+rejeter \(\mathscr{H}_0\) & erreur de type I & \(\checkmark\) \\
 \bottomrule
 \end{longtable}
 
@@ -561,81 +536,33 @@ La troisième étape est l'obtention d'un étalon de mesure pour déterminer si 
 La dernière étape consiste à obtenir une valeur-\emph{p}, soit la probabilité d'observer un résultat aussi extrême sous \(\mathscr{H}_0\): l'avantage de la valeur-\emph{p} est que cette valeur est une probabilité (dans \([0, 1]\)) et qu'elle suit une loi uniforme sous \(\mathscr{H}_0\). Puisque nous avons une hypothèse alternative unilatérale, on regarde la probabilité sous \(\mathscr{H}_0\) que \(\mathsf{Pr}(T > t)\). La valeur-\emph{p} vaut \(0.0031\) et donc, à niveau 5\%, on rejette l'hypothèse nulle pour conclure que la génération Y dépense davantage en ligne que les générations antérieures.
 
 \begin{example}[Prix de billets de trains à grande vitesse espagnols]
-\protect\hypertarget{exm:prix-trains-tests}{}{\label{exm:prix-trains-tests} \iffalse (Prix de billets de trains à grande vitesse espagnols) \fi{} }La compagnie nationale de chemin de fer \href{https://www.renfe.com/}{Renfe} gère les trains régionaux et les trains à haute vitesse dans toute l'Espagne. Les prix des billets vendus par Renfe sont \href{https://www.kaggle.com/thegurusteam/spanish-high-speed-rail-system-ticket-pricing}{aggrégés} par une compagnie. On s'intéresse ici à une seule ligne, Madrid--Barcelone. Notre question scientifique est la suivante: est-ce que le prix des billets pour un aller (une direction) est plus chère pour un retour? Pour ce faire, on considère un échantillon de 10000 billets entre les deux plus grandes villes espagnoles. On s'intéresse au billets de TGV vendus (AVE) au tarif Promotionnel. Notre statistique de test sera simplement la différence de moyenne entre les deux échantillons: la différence entre le prix en euros d'un train Madrid--Barcelone (\(\mu_1\)) et le prix d'un billet Barcelone--Madrid (\(\mu_2\)) est \(\mu_1-\mu_2\) et notre hypothèse nulle est qu'il n'y a aucune différence de prix, soit \(\mathscr{H}_0: \mu_1-\mu_2=0\). On utilise de nouveau le test de Welch pour deux échantillons.
+\protect\hypertarget{exm:prix-trains-tests}{}{\label{exm:prix-trains-tests} \iffalse (Prix de billets de trains à grande vitesse espagnols) \fi{} }La compagnie nationale de chemin de fer \href{https://www.renfe.com/}{Renfe} gère les trains régionaux et les trains à haute vitesse dans toute l'Espagne. Les prix des billets vendus par Renfe sont \href{https://www.kaggle.com/thegurusteam/spanish-high-speed-rail-system-ticket-pricing}{aggrégés} par une compagnie. On s'intéresse ici à une seule ligne, Madrid--Barcelone. Notre question scientifique est la suivante: est-ce que le prix des billets pour un aller (une direction) est plus chère pour un retour? Pour ce faire, on considère un échantillon de 10000 billets entre les deux plus grandes villes espagnoles. On s'intéresse au billets de TGV vendus (AVE) au tarif Promotionnel. Notre statistique de test sera simplement la différence de moyenne entre les deux échantillons: la différence entre le prix en euros d'un train Madrid--Barcelone (\(\mu_1\)) et le prix d'un billet Barcelone--Madrid (\(\mu_2\)) est \(\mu_1-\mu_2\) et notre hypothèse nulle est qu'il n'y a aucune différence de prix, soit \(\mathscr{H}_0: \mu_1-\mu_2=0\).
 \end{example}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Manipulation de données, incluant \%\textgreater{}\%}
-\FunctionTok{library}\NormalTok{(poorman)}
-\CommentTok{\# Charger les données}
-\FunctionTok{data}\NormalTok{(renfe, }\AttributeTok{package =} \StringTok{"hecmodstat"}\NormalTok{)}
-\FunctionTok{head}\NormalTok{(renfe, }\AttributeTok{n =} \DecValTok{5}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
+\begin{table}
 
-\begin{verbatim}
-## # A tibble: 5 x 7
-##    prix type    classe     tarif    dest             duree jour 
-##   <dbl> <fct>   <fct>      <fct>    <fct>            <dbl> <fct>
-## 1 143.  AVE     Preferente Promo    Barcelone-Madrid   190 6    
-## 2 182.  AVE     Preferente Flexible Barcelone-Madrid   190 2    
-## 3  86.8 AVE     Preferente Promo    Barcelone-Madrid   165 7    
-## 4  86.8 AVE     Preferente Promo    Barcelone-Madrid   190 7    
-## 5  69.0 AVE-TGV Preferente Promo    Barcelone-Madrid   175 4
-\end{verbatim}
+\caption{\label{tab:renfetest}Aperçu des données $\texttt{renfe}$.}
+\centering
+\begin{tabular}[t]{r|l|l|l|l|r|l}
+\hline
+prix & type & classe & tarif & dest & duree & jour\\
+\hline
+143.4 & AVE & Preferente & Promo & Barcelone-Madrid & 190 & 6\\
+\hline
+181.5 & AVE & Preferente & Flexible & Barcelone-Madrid & 190 & 2\\
+\hline
+86.8 & AVE & Preferente & Promo & Barcelone-Madrid & 165 & 7\\
+\hline
+86.8 & AVE & Preferente & Promo & Barcelone-Madrid & 190 & 7\\
+\hline
+69.0 & AVE-TGV & Preferente & Promo & Barcelone-Madrid & 175 & 4\\
+\hline
+\end{tabular}
+\end{table}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Sous{-}échantillon avec uniquement les données au tarif promotionnel}
-\NormalTok{renfe\_promo }\OtherTok{\textless{}{-}}\NormalTok{ renfe }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{subset}\NormalTok{(tarif }\SpecialCharTok{==} \StringTok{"Promo"}\NormalTok{)}
-\CommentTok{\# Test{-}t et différence de moyenne}
-\NormalTok{ttest }\OtherTok{\textless{}{-}} \FunctionTok{t.test}\NormalTok{(prix}\SpecialCharTok{\textasciitilde{}}\NormalTok{dest, }\AttributeTok{data =}\NormalTok{ renfe\_promo)}
-\NormalTok{ttest }\CommentTok{\#imprimer le résultat}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## 
-##  Welch Two Sample t-test
-## 
-## data:  prix by dest
-## t = -1, df = 8040, p-value = 0.2
-## alternative hypothesis: true difference in means is not equal to 0
-## 95 percent confidence interval:
-##  -1.100  0.209
-## sample estimates:
-## mean in group Barcelone-Madrid mean in group Madrid-Barcelone 
-##                           82.1                           82.6
-\end{verbatim}
+On utilise de nouveau le test de Welch pour deux échantillons en filtrant les données pour ne conserver que les billets au tarif Promo: la moyenne des billets Barcelone-Madrid est 82.11 euros, ceux pour Madrid-Barcelone 82.56 et la valeur de la statistique de Welch est -1.33. Si on utilise l'approximation normale, on obtient une valeur-\emph{p} de 0.18.
 
 Plutôt que d'utiliser la loi asymptotique (qui est valide pour de grands échantillons à cause du théorème central limite), on peut considérer une approximation sous une hypothèse moins restrictive en supposant que les données sont échangeables. Sous l'hypothèse nulle, il n'y aucune différence entre les deux destinations et les étiquettes pour la destination (une variable catégorielle binaire) sont arbitraires. On pourrait considérer les mêmes données, mais avec une permutation des variables explicatives: c'est ce qu'on appelle un \href{https://www.jwilber.me/permutationtest/}{test de permutation}. On va recréer deux groupes de taille identique à notre échantillon original, mais en changeant les observations. On recalcule la statistique de test sur ces nouvelle données (si on a une poignée d'observations, il est possible de lister toutes les permutations possibles; typiquement, il suffit de considérer un grand nombre de telles permutations, disons 9999). Pour chaque nouveau jeu de données, on calculera la statistique de test et on calculera le rang de notre statistique par rapport à cette référence. Si la valeur de notre statistique observée sur l'échantillon original est extrême en comparaison, c'est autant de preuves contre l'hypothèse nulle.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Valeur{-}p par permutation}
-\NormalTok{n }\OtherTok{\textless{}{-}} \FunctionTok{nrow}\NormalTok{(renfe\_promo)}
-\NormalTok{B }\OtherTok{\textless{}{-}} \FloatTok{1e4}
-\NormalTok{ttest\_stats }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(B) }
-\NormalTok{ttest\_stats[}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ ttest}\SpecialCharTok{$}\NormalTok{statistic}
-\FunctionTok{set.seed}\NormalTok{(}\DecValTok{20200608}\NormalTok{) }\CommentTok{\# germe pour nombres pseudo{-}aléatoires}
-\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{2}\SpecialCharTok{:}\NormalTok{B)\{}
-  \CommentTok{\# Recalculer la statistique de test, mais permuter les étiquettes}
-\NormalTok{  ttest\_stats[i] }\OtherTok{\textless{}{-}} \FunctionTok{t.test}\NormalTok{(prix }\SpecialCharTok{\textasciitilde{}}\NormalTok{ dest[}\FunctionTok{sample.int}\NormalTok{(}\AttributeTok{n =}\NormalTok{ n)], }
-                           \AttributeTok{data =}\NormalTok{ renfe\_promo)}\SpecialCharTok{$}\NormalTok{statistic}
-\NormalTok{\}}
-\CommentTok{\# Bibliothèque graphique}
-\FunctionTok{library}\NormalTok{(ggplot2)}
-\CommentTok{\# Tracer un graphique de la distribution empirique obtenue par permutation}
-\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{statistique =}\NormalTok{ ttest\_stats), }
-       \FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{statistique)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{bins =} \DecValTok{30}\NormalTok{, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{y=}\NormalTok{..density..), }\AttributeTok{alpha =} \FloatTok{0.2}\NormalTok{) }\SpecialCharTok{+} 
-  \FunctionTok{geom\_density}\NormalTok{() }\SpecialCharTok{+} 
-  \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =}\NormalTok{ ttest\_stats[}\DecValTok{1}\NormalTok{]) }\SpecialCharTok{+} 
-  \FunctionTok{ylab}\NormalTok{(}\StringTok{"densité"}\NormalTok{) }\SpecialCharTok{+} 
-  \FunctionTok{stat\_function}\NormalTok{(}\AttributeTok{fun =}\NormalTok{ dnorm, }\AttributeTok{col =} \StringTok{"blue"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{figure}
 
@@ -688,19 +615,6 @@ Si vous incluez un graphique (ou un tableau), il est important d'ajouter une lé
 
 \hypertarget{types-de-variables}{%
 \subsubsection{Types de variables}\label{types-de-variables}}
-
-Commençons par parler des données: celles que l'on manipulera dans ce cours sont stockées sous forme tabulaire. Dans une base de donnée en format long, chaque ligne correspond à une observation et chaque colonne à une variable; les entrées de la base de données contiennent les valeurs.
-
-L'alternative au format long est le format court/large, où les colonnes représentent les modalités de variables catégorielles et il peut y avoir plusieurs valeurs par ligne qui contiennent des valeurs de la variable réponse. Le schéma de la Figure \ref{fig:longvswide} permet de mieux comprendre la distinction entre les deux formats: on supposera que nos données sont toujours en format long, ce dernier étant assumé par défaut par le logiciel pour procéder à l'ajustement d'un modèle..
-
-\textbackslash begin\{figure\}
-
-\{\centering \includegraphics[width=0.7\linewidth]{images/original-dfs-tidy}
-
-\}
-
-\textbackslash caption\{Format long versus format large (\emph{wide}) (dessin de Garrick Aden-Buie).\}\label{fig:longvswide}
-\textbackslash end\{figure\}
 
 \begin{itemize}
 \tightlist
@@ -783,32 +697,12 @@ On peut représenter la distribution d'une variable réponse continue en fonctio
 \caption{Boîte à moustaches du prix des billets au tarif Promo en fonction de la classe pour le jeu de données Renfe.}\label{fig:histboxplot}
 \end{figure}
 
-Si on veut représenter la covariabilité de deux variables continues, on utilise un nuage de points où chaque variable est représentée sur un axe et chaque observation donne la coordonnée des points. Si la représentation graphique est dominée par quelques valeurs très grandes, une transformation des données peut être utile: vous verrez souvent des données positives à l'échelle logarithmique. Avec des données massives, les points seront superposés et le diagramme risque d'être illisible. Parmi les solutions envisagées, l'utilisation de la transparence, qui permet de voir où les points sont plus fréquents, ou encore un diagramme avec des classes hexagonale, l'équivalent d'un histogramme bidimensionnel où on remplace les classes par des hexagones. Le panneau de gauche de la Figure \ref{fig:nuagedepoints} représente ainsi 100 observations simulées à l'aide d'un nuage de points 100 observations, tandis simulées. Dans le panneau de droite, on utilise plutôt un diagramme hexagonal pour représenter les 10 000 points, ce qui donne un aperçu de la densité conjointe des deux variables.
-
-\begin{figure}
-
-{\centering \includegraphics[width=0.7\linewidth]{MATH60604_Modelisation_statistique_files/figure-latex/nuagedepoints-1} 
-
-}
-
-\caption{Nuage de points (gauche) et diagramme hexagonal (droite) pour des données simulées.}\label{fig:nuagedepoints}
-\end{figure}
-
-Certaines données ont une structure particulière: pensons aux séries chronologiques, aussi appelées séries temporelles, qui comportent des observations ordonnées dans le temps. On représente chaque variable d'une série chronologique (sur l'axe des \(y\)) en fonction du temps (sur l'axe des \(x\)). Il est d'usage de relier les observations, bien que cet aperçu soit parfois trompeur.
-
-\begin{figure}
-
-{\centering \includegraphics[width=0.7\linewidth]{MATH60604_Modelisation_statistique_files/figure-latex/seriechrono-1} 
-
-}
-
-\caption{Représentation graphique d'une série chronologique.}\label{fig:seriechrono}
-\end{figure}
+Si on veut représenter la covariabilité de deux variables continues, on utilise un nuage de points où chaque variable est représentée sur un axe et chaque observation donne la coordonnée des points. Si la représentation graphique est dominée par quelques valeurs très grandes, une transformation des données peut être utile: vous verrez souvent des données positives à l'échelle logarithmique.
 
 Plutôt que de décrire plus en détail le processus de l'analyse exploratoire, on présente un exemple qui illustre le cheminement habitue sur les données de trains de la Renfe introduites précédemment.
 
 \begin{example}[Analyse exploratoire des trains Renfe]
-\protect\hypertarget{exm:renfe-aed}{}{\label{exm:renfe-aed} \iffalse (Analyse exploratoire des trains Renfe) \fi{} }La première étape consisterait à lire la description de la base de données. Le jeu de données \texttt{renfe} contient les variables suivantes
+\protect\hypertarget{exm:renfe-aed}{}{\label{exm:renfe-aed} \iffalse (Analyse exploratoire des trains Renfe) \fi{} }La première étape consisterait à lire la description de la base de données. Le jeu de données \(\\texttt{renfe}\) contient les variables suivantes
 \end{example}
 
 \begin{itemize}
@@ -844,83 +738,100 @@ Il n'y a pas de valeurs manquantes et un aperçu des données (\texttt{head(renf
   Quelles sont les principales différences entre les tarifs?
 \end{enumerate}
 
-À l'exception de \texttt{prix} et de \texttt{duree}, toutes les variables explicatives sont catégorielles et stockées sous forme de facteur (\texttt{factor}). S'il faut déclarer chacune de ces variables, on porte une attention particulière à \texttt{jour} pour éviter les mauvaises surprises ultérieures.
+À l'exception de \texttt{prix} et de \texttt{duree}, toutes les variables explicatives sont catégorielles. On porte une attention particulière à \texttt{jour} pour éviter les mauvaises surprises ultérieures.
 
-On peut utiliser \texttt{str} pour obtenir un aperçu des données; la fonction \texttt{summary} permet d'obtenir des statistiques descriptives selon que les variables sont continues (minimum, maximum, moyenne, quartiles) ou catégoriells (fréquence); la fonction rapport aussi le nombre de valeurs manquantes (\texttt{NA}) par variable.
+\begin{table}
 
-La manipulation de variables dans des bases de données est parfois loin d'être toujours élégante en \textbf{R}: on accès aux variables avec \texttt{\$}, par exemple \texttt{renfe\$prix}. Une alternative plus lisible et modulaire est d'utiliser l'opérateur tuyau (\texttt{\%\textgreater{}\%}), qui permet de créer une chaîne logique de commandes; la fonction \texttt{count} sert à compter le nombre d'instance de chaque modalité (ces fonctionnalités ne sont pas disponibles dans \textbf{R} par défaut, mais avec les paquetages \texttt{tidyverse} ou l'alternative minimale \texttt{poorman}, préalablement chargée).
+\caption{\label{tab:renfe-aed1a}Nombre d'observations du jeu de données $\texttt{renfe}$ par classe.}
+\centering
+\begin{tabular}[t]{l|r}
+\hline
+classe & n\\
+\hline
+Preferente & 809\\
+\hline
+Turista & 7197\\
+\hline
+TuristaPlus & 1916\\
+\hline
+TuristaSolo & 78\\
+\hline
+\end{tabular}
+\end{table}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{renfe }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{count}\NormalTok{(classe)}
-\end{Highlighting}
-\end{Shaded}
+\begin{table}
 
-\begin{verbatim}
-##        classe    n
-## 1  Preferente  809
-## 2     Turista 7197
-## 3 TuristaPlus 1916
-## 4 TuristaSolo   78
-\end{verbatim}
+\caption{\label{tab:renfe-aed1b}Nombre d'observations du jeu de données $\texttt{renfe}$ par type de billets.}
+\centering
+\begin{tabular}[t]{l|r}
+\hline
+type & n\\
+\hline
+AVE & 9174\\
+\hline
+AVE-TGV & 429\\
+\hline
+REXPRESS & 397\\
+\hline
+\end{tabular}
+\end{table}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# un raccourci pour la même syntaxe}
-\NormalTok{renfe }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{group\_by}\NormalTok{(type) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{tally}\NormalTok{()}
-\end{Highlighting}
-\end{Shaded}
+\begin{table}
 
-\begin{verbatim}
-##       type    n
-## 1      AVE 9174
-## 2  AVE-TGV  429
-## 3 REXPRESS  397
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{renfe }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{group\_by}\NormalTok{(tarif) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{tally}\NormalTok{()}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##       tarif    n
-## 1 AdultoIda  397
-## 2  Flexible 1544
-## 3     Promo 8059
-\end{verbatim}
+\caption{\label{tab:renfe-aed1c}Nombre d'observations du jeu de données $\texttt{renfe}$ par tarif.}
+\centering
+\begin{tabular}[t]{l|r}
+\hline
+tarif & n\\
+\hline
+AdultoIda & 397\\
+\hline
+Flexible & 1544\\
+\hline
+Promo & 8059\\
+\hline
+\end{tabular}
+\end{table}
 
 En analysant le nombre de trains dans les catégories, on remarque qu'il y a autant de billets de type \texttt{REXPRESS} que le nombre de billets au tarif \texttt{AdultoIda}. On peut faire le décompte par catégorie avec un tableau de contingence, qui compte le nombre respectif dans chaque sous-catégorie. Dans la base de données Renfe, tous les billets pour les RegioExpress sont vendus au tarif \texttt{AdultoIda} en classe \texttt{Turista}. Le nombre de billets est minime, à peine 397 sur 10000. Cela suggère une nouvelle question: pourquoi ces trains sont-ils si peu populaires?
 
-\begin{verbatim}
-##       tarif     type    n
-## 1 AdultoIda REXPRESS  397
-## 2  Flexible      AVE 1446
-## 3  Flexible  AVE-TGV   98
-## 4     Promo      AVE 7728
-## 5     Promo  AVE-TGV  331
-\end{verbatim}
+\begin{table}
+
+\caption{\label{tab:renfe-aed2}Tableau croisé du décompte par tarif et type de billets du jeu de données $\texttt{renfe}$.}
+\centering
+\begin{tabular}[t]{l|l|r}
+\hline
+tarif & type & n\\
+\hline
+AdultoIda & REXPRESS & 397\\
+\hline
+Flexible & AVE & 1446\\
+\hline
+Flexible & AVE-TGV & 98\\
+\hline
+Promo & AVE & 7728\\
+\hline
+Promo & AVE-TGV & 331\\
+\hline
+\end{tabular}
+\end{table}
 
 On remarque également que seulement 17 temps de parcours sont affichés sur les billets (\texttt{renfe\ \%\textgreater{}\%\ distinct(duree)} ou \texttt{unique(renfe\$duree)}). On peut donc penser que la durée affichée sur le billet (en minutes) est le temps de trajet annoncé. La majeure partie (15 sur 17) des temps de parcours sont sous la barre des 3h15, hormis deux qui dépassent les 9h! Selon Google Maps, les deux villes sont distantes de 615km par la route, 500km à vol d'oiseau. Cela implique que, vraisemblablement, certains trains dépassent les 200km/h, tandis que d'autres vont plutôt à 70km/h. Quels sont ces trains plus lent? La variable \texttt{type} codifie probablement ce fait, et permet de voir que ce sont les trains RegioExpress qui sont dans cette catégorie.
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{renfe }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{subset}\NormalTok{(duree }\SpecialCharTok{\textgreater{}} \DecValTok{200}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{group\_by}\NormalTok{(type, dest) }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{summarise}\NormalTok{(}\StringTok{"durée moyenne"} \OtherTok{=} \FunctionTok{mean}\NormalTok{(duree), }
-            \StringTok{"écart{-}type"} \OtherTok{=} \FunctionTok{sd}\NormalTok{(duree),}
-            \StringTok{"prix moyen"} \OtherTok{=} \FunctionTok{mean}\NormalTok{(prix), }
-            \StringTok{"écart{-}type"} \OtherTok{=} \FunctionTok{sd}\NormalTok{(prix)) }
-\end{Highlighting}
-\end{Shaded}
+\begin{table}
 
-\begin{verbatim}
-##       type             dest durée moyenne écart-type prix moyen écart-type
-## 1 REXPRESS Barcelone-Madrid           544          0       43.2          0
-## 2 REXPRESS Madrid-Barcelone           562          0       43.2          0
-\end{verbatim}
+\caption{\label{tab:renfe-aed3}Statistiques descriptives de la durée de trajet et du prix du billet par type de billet et destination pour le jeu de données $\texttt{renfe}$.}
+\centering
+\begin{tabular}[t]{l|l|r|r|r}
+\hline
+type & dest & durée moyenne & écart-type & prix moyen\\
+\hline
+REXPRESS & Barcelone-Madrid & 544 & 0 & 43.2\\
+\hline
+REXPRESS & Madrid-Barcelone & 562 & 0 & 43.2\\
+\hline
+\end{tabular}
+\end{table}
 
 Aller de Madrid à Barcelone à l'aide d'un train régulier prend 18 minutes de plus. Avec plus de 9h de trajet, pas étonnant donc que ces billets soient peu courus. Encore plus frappant, on note que le prix des billets est fixe: 43.25 euros peu importe que le trajet soit aller ou retour. C'est probablement la trouvaille la plus importante jusqu'à maintenant, car les billets de train de type RegioExpress ne forment pas un échantillon: il n'y a aucune variabilité! On aurait pu également découvrir cette anomalie en traçant une boîte à moustaches du prix en fonction du type de train.
 
@@ -935,43 +846,30 @@ Aller de Madrid à Barcelone à l'aide d'un train régulier prend 18 minutes de 
 
 On pourrait soupçonner que les trains étiquetés \texttt{AVE} soient plus rapides, sachant que c'est l'acronyme de \emph{Alta Velocidad Española}, littéralement haute vitesse espagnole. Qu'en est-il des distinctions entre les deux types de trains étiquetés AVE? Selon \href{https://www.renfe-sncf.com/rw-en/services/a-unique-experience/Pages/services.aspx}{le site de la SNCF}, les trains AVE-TGV sont des partenariats entre la Renfe et la SNCF et effectuent des liaisons entre la France et l'Espagne.
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{renfe }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{subset}\NormalTok{(type }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{"AVE"}\NormalTok{,}\StringTok{"AVE{-}TGV"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{group\_by}\NormalTok{(type, dest) }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{summarise}\NormalTok{(}\StringTok{"durée moyenne"} \OtherTok{=} \FunctionTok{mean}\NormalTok{(duree), }
-            \StringTok{"écart{-}type"} \OtherTok{=} \FunctionTok{sd}\NormalTok{(duree),}
-            \StringTok{"prix moyen"} \OtherTok{=} \FunctionTok{mean}\NormalTok{(prix),}
-            \StringTok{"écart{-}type"} \OtherTok{=} \FunctionTok{sd}\NormalTok{(prix))}
-\end{Highlighting}
-\end{Shaded}
+\begin{table}
 
-\begin{verbatim}
-##      type             dest durée moyenne écart-type prix moyen écart-type
-## 1     AVE Barcelone-Madrid           171       15.9       87.4       19.8
-## 2     AVE Madrid-Barcelone           170       16.6       88.2       20.8
-## 3 AVE-TGV Barcelone-Madrid           175        0.0       87.0       16.8
-## 4 AVE-TGV Madrid-Barcelone           179        0.0       90.6       20.2
-\end{verbatim}
+\caption{\label{tab:renfe-aed5}Statistiques descriptives de la durée de trajet et du prix du billet par type de billet et destination pour les trains grande vitesse du jeu de données $\texttt{renfe}$.}
+\centering
+\begin{tabular}[t]{l|l|r|r|r}
+\hline
+type & dest & durée moyenne & écart-type & prix moyen\\
+\hline
+AVE & Barcelone-Madrid & 171 & 19.8 & 87.4\\
+\hline
+AVE & Madrid-Barcelone & 170 & 20.8 & 88.2\\
+\hline
+AVE-TGV & Barcelone-Madrid & 175 & 16.8 & 87.0\\
+\hline
+AVE-TGV & Madrid-Barcelone & 179 & 20.2 & 90.6\\
+\hline
+\end{tabular}
+\end{table}
 
 Les prix sont beaucoup plus élevés, en moyenne plus de deux fois plus que les trains régionaux. Les écarts de prix importants (l'écart type est de 20 euros) indique qu'il y a peut-être d'autres sources d'hétérogénéité, mais on pourrait soupçonner que la Renfe pratique la tarification dynamique. Il y un seul temps de parcours prévu pour les trains AVE-TGV. On ne note pas de différence de prix notable selon la direction ou le type de train grande vitesse, mais peut-être que les tarifs ou la classe disponibles diffèrent selon que le train ou non est en partenariat avec la compagnie française.
 
-On a pas encore considéré le tarif et la classe des billets, hormis pour les trains RegioExpress. On voit dans la Figure \ref{fig:renfe-aed7} une forte différente dans l'hétérogénéité des prix selon le tarif; le tarif Promo prend plusieurs valeurs distinctes, tandis que les tarifs AdultoIda et Flexible semblent ne prendre que quelques valeurs. La première classe (\texttt{Preferente}) est plus chère et il y a moins d'observations dans ce groupe. La classe Turista est la classe la moins dispendieuse et la plus populaire. \href{http://web.archive.org/web/20161111134241/http://www.renfe.com/viajeros/tarifas/billete_promo.html}{\texttt{TuristaPlus}} offre plus de confort, tandis que \texttt{TuristaSolo} permet d'obtenir un siège individuel.
+On n'a pas encore considéré le tarif et la classe des billets, hormis pour les trains RegioExpress. On voit dans la Figure \ref{fig:renfe-aed7} une forte différente dans l'hétérogénéité des prix selon le tarif; le tarif Promo prend plusieurs valeurs distinctes, tandis que les tarifs AdultoIda et Flexible semblent ne prendre que quelques valeurs. La première classe (\texttt{Preferente}) est plus chère et il y a moins d'observations dans ce groupe. La classe Turista est la classe la moins dispendieuse et la plus populaire. \href{http://web.archive.org/web/20161111134241/http://www.renfe.com/viajeros/tarifas/billete_promo.html}{\texttt{TuristaPlus}} offre plus de confort, tandis que \texttt{TuristaSolo} permet d'obtenir un siège individuel.
 
 Côté tarif, \href{http://web.archive.org/web/20161111134241/http://www.renfe.com/viajeros/tarifas/billete_promo.html}{Promo} et \href{http://web.archive.org/web/20161110220249/http://www.renfe.com/viajeros/tarifas/billete_promoplus.html}{PromoPlus} permette d'obtenir des rabais pouvant aller jusqu'à respectivement 70\% et 65\%. Les annulations et changements ne sont pas possibles avec Promo, mais disponibles avec PromoPlus moyennant une pénalité équivalent à 30-20\% du prix du billet. Le tarif \href{http://web.archive.org/web/20161108192609/http://www.renfe.com/viajeros/tarifas/billete_flexible.html}{Flexible} est disponible au même prix que les billets réguliers, avec des bénéfices additionnels.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{renfe }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{subset}\NormalTok{(tarif  }\SpecialCharTok{!=} \StringTok{"AdultoIda"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
-\FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ prix, }\AttributeTok{x =}\NormalTok{ classe, }\AttributeTok{col =}\NormalTok{ tarif)) }\SpecialCharTok{+} 
-  \FunctionTok{geom\_boxplot}\NormalTok{() }\SpecialCharTok{+} 
-  \FunctionTok{labs}\NormalTok{(}\AttributeTok{y =} \StringTok{"prix (en euros)"}\NormalTok{,}
-       \AttributeTok{x =} \StringTok{"classe"}\NormalTok{,}
-       \AttributeTok{color =} \StringTok{"tarif"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"bottom"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{figure}
 
@@ -982,15 +880,6 @@ Côté tarif, \href{http://web.archive.org/web/20161111134241/http://www.renfe.c
 \caption{Boîte à moustaches du prix en fonction du tarif et de la classe de billets de trains à haute vitesse de la Renfe.}\label{fig:renfe-aed6}
 \end{figure}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ renfe, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ prix, }\AttributeTok{y=}\NormalTok{..density.., }\AttributeTok{fill =}\NormalTok{ tarif)) }\SpecialCharTok{+}
-    \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{binwidth =} \DecValTok{5}\NormalTok{) }\SpecialCharTok{+}
-    \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"prix (en euros)"}\NormalTok{, }\AttributeTok{y =} \StringTok{"densité"}\NormalTok{) }\SpecialCharTok{+} 
-    \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"bottom"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
 \begin{figure}
 
 {\centering \includegraphics[width=0.7\linewidth]{MATH60604_Modelisation_statistique_files/figure-latex/renfe-aed7-1} 
@@ -999,26 +888,34 @@ Côté tarif, \href{http://web.archive.org/web/20161111134241/http://www.renfe.c
 
 \caption{Histogrammes du prix en fonction du tarif de billets de trains de la Renfe.}\label{fig:renfe-aed7}
 \end{figure}
+\begin{table}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Vérifier la répartition des billets Flexible}
-\NormalTok{renfe }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{subset}\NormalTok{(tarif  }\SpecialCharTok{==} \StringTok{"Flexible"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{count}\NormalTok{(prix, classe)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##   prix      classe    n
-## 1  108     Turista 1050
-## 2  108 TuristaSolo   67
-## 3  127     Turista  285
-## 4  127 TuristaSolo    9
-## 5  129 TuristaPlus   31
-## 6  140  Preferente    2
-## 7  152 TuristaPlus   10
-## 8  182  Preferente   78
-## 9  214  Preferente   12
-\end{verbatim}
+\caption{\label{tab:renfe-aed7}Décompte des billets au tarif Flexible par prix et classe pour le jeu de données $\texttt{renfe}$.}
+\centering
+\begin{tabular}[t]{r|l|r}
+\hline
+prix & classe & n\\
+\hline
+108 & Turista & 1050\\
+\hline
+108 & TuristaSolo & 67\\
+\hline
+127 & Turista & 285\\
+\hline
+127 & TuristaSolo & 9\\
+\hline
+129 & TuristaPlus & 31\\
+\hline
+140 & Preferente & 2\\
+\hline
+152 & TuristaPlus & 10\\
+\hline
+182 & Preferente & 78\\
+\hline
+214 & Preferente & 12\\
+\hline
+\end{tabular}
+\end{table}
 
 On note que la répartition des prix pour les billets de classe Flexible est inhabituelle: notre boîte à moustachesest écrasée et l'écart interquartile semble nul, même si quelques valeurs inexpliquées sont aussi présentes. L'écrasante majorité des billets Flexibles sont en classe Turista, donc ça pourrait être dû à un (trop) faible nombre de billets dans chaque catégorie. On peut rejeter cette hypothèse en calculant le nombre de trains au tarif Flexible pour les différents types de billets. Ni la durée, ni le type de train, ni la destination n'expliquent pas pourquoi le prix de certains billets Flexibles est plus faible ou élevés. Le prix des billets Promo est plus faible, et les billets au tarif Preferente (la première classe) sont plus élevés.
 
@@ -1158,7 +1055,7 @@ Ce système d'équation a une solution explicite qui est plus facilement exprim�
   Y_1 \\
   Y_2 \\
   \vdots \\
-  Y_n 
+  Y_n
  \end{pmatrix} ,
  \;
  \boldsymbol{\varepsilon} =
@@ -1166,21 +1063,21 @@ Ce système d'équation a une solution explicite qui est plus facilement exprim�
   \varepsilon_1 \\
   \varepsilon_2 \\
   \vdots \\
-  \varepsilon_n 
+  \varepsilon_n
  \end{pmatrix} ,
  \;
 \mathbf{X} = \begin{pmatrix}
 \mathrm{X}_{11} & \mathrm{X}_{12} & \cdots & \mathrm{X}_{1p} \\
 \mathrm{X}_{21} & \mathrm{X}_{22} & \cdots & \mathrm{X}_{2p} \\
 \vdots & \vdots & \ddots & \vdots \\
-\mathrm{X}_{n1} & \mathrm{X}_{n2} & \cdots & \mathrm{X}_{np} 
+\mathrm{X}_{n1} & \mathrm{X}_{n2} & \cdots & \mathrm{X}_{np}
 \end{pmatrix} , \;
 \boldsymbol{\beta} =
  \begin{pmatrix}
   \beta_1 \\
   \beta_2 \\
   \vdots \\
-  \beta_p 
+  \beta_p
  \end{pmatrix}
 \end{align*}
 Le modèle en notation matricielle s'écrit de manière compacte, \begin{align*}
@@ -1283,7 +1180,7 @@ De nouveau, cette interprétation peut ne pas être sensée ou logique selon le 
 \beta_1 &= \mathsf{E}(Y \mid \mathrm{X}_1=x_1+1,\mathrm{X}_2=x_2,\ldots,\mathrm{X}_p=x_p) \\
 & \qquad \qquad - \mathsf{E}(Y \mid \mathrm{X}_1=x_1,\mathrm{X}_2=x_2,\ldots,\mathrm{X}_p=x_p) \\
 &= \left\{\beta_0 + \beta_1 (x_1+1) + \beta_2 x_2 + \cdots +\beta_p \mathrm{X}_p \right\} \\
-& \qquad \qquad -\left\{\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots +\beta_p \mathrm{X}_p \right\} 
+& \qquad \qquad -\left\{\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots +\beta_p \mathrm{X}_p \right\}
 \end{align*}
 Il n'est pas toujours possible de fixer la valeur des autres colonnes de \(\mathbf{X}\) si plusieurs colonnes contiennent des transformations ou des fonctions d'une même variable explicative. Par exemple, on pourrait par exemple considérer un polynôme d'ordre \(k\) (normalement, \(k\leq 3\) en pratique),
 \begin{align*}
@@ -1320,7 +1217,7 @@ La représentation graphique du modèle polynomial de degré 2 présenté dans l
 
 }
 
-\caption{Représentation graphique 3D du modèle de régression linéaire pour les données $    exttt{automobile}$.}\label{fig:hyperplan}
+\caption{Représentation graphique 3D du modèle de régression linéaire pour les données $\texttt{automobile}$.}\label{fig:hyperplan}
 \end{figure}
 
 \begin{remark}[Utilisation de bases polynomiales pour les effets nonlinéaires]
@@ -1388,8 +1285,318 @@ On voit que les femmes sont moins payées que les hommes: reste à savoir si cet
 \hypertarget{modeles-lineaires-generalises}{%
 \section{Modèles linéaires généralisés}\label{modeles-lineaires-generalises}}
 
+Dans certains scénarios, on aimerait bâtir un modèle de régression avec une variable \(Y\) qui ne sera pas forcément continue: cela inclut des exemples de variable réponse binaire, entière ou non-négative. La régression linéaire et l'estimation par le biais des moindres carrés n'est dans cette optique pas idéale puisque notre droite ajusté ne respectera pas nécessairement ces contraintes.
+
+Ce chapitre est une introduction aux modèles linéaire généralisés, une extension de la régression linéaire. On s'intéresse tout particulièrement à la modélisation de données binaires, de proportions et de données de dénombrement. On considère la régression de Poisson et la régression logistique en se concentrant sur le cas où les observations sont indépendantes: les
+\emph{modèles linéaires généralisés mixtes}, qui servent à l'analyse de données corrélées ou longitudinales, sont traités dans le cours MATH 80621.
+
+\hypertarget{principes-de-base}{%
+\subsection{Principes de base}\label{principes-de-base}}
+
+Le point de départ est le même que pour la régression linéaire: on a un échantillon
+aléatoire simple d'observations postulées indépendantes,
+\((\boldsymbol{Y}, \mathbf{X})\), où \(Y\) est notre variable réponse et
+\(\mathrm{X}_1, \ldots, \mathrm{X}_p\) sont les \(p\) variables explicatives qu'on suppose
+fixe (non-stochastiques). Une fois de plus, on cherche à
+construire un modèle pour la moyenne de la variable réponse à l'aide d'une combinaison linéaire des variables explicatives.
+
+Soit \(\mu_i=\mathsf{E}(Y_i \mid \mathbf{X}_i)\) l'espérance ou moyenne conditionnelle de
+\(Y_i\) sachant la valeur des variables explicatives. On dénote par \(\eta_i\) la combinaison linéaire
+de ces variables qui servira à modéliser la moyenne de la réponse,
+\begin{align*}
+\eta_i=\beta_0 + \beta_1 \mathrm{X}_{i1} + \cdots + \beta_p \mathrm{X}_{ip}.
+\end{align*}
+Nos outils de base dans la constructions d'un modèle linéaire généralisé sont les suivants:
+
+\begin{itemize}
+\tightlist
+\item
+  Une loi de probabilité pour la variable aléatoire \(Y\) qui appartienne à la famille de lois exponentielles de dispersion (normale, binomiale, Poisson, gamma, \(\ldots\)).
+\item
+  Une composante déterministique, le \textbf{prédicteur linéaire} \(\boldsymbol{\eta}=\mathbf{X} \boldsymbol{\beta}\), où \(\mathbf{X}\) est une matrice \(n\times (p+1)\) avec colonnes \(\mathbf{1}_n, \mathbf{X}_1, \ldots, \mathbf{X}_p\) qui représentent l'ordonnée à l'origine et chacune des variables explicatives pour les \(n\) observations, de même que les coefficients \(\boldsymbol{\beta} \in \mathbb{R}^{p+1}\) .
+\item
+  Une fonction monotone \(g\), appelée \textbf{fonction de liaison}, qui relie la moyenne de \(Y_i\) au prédicteur linéaire, \(g(\mu_i)=\eta_i\).
+\end{itemize}
+
 \hypertarget{donnees-correlees-longitudinales}{%
 \section{Données corrélées et longitudinales}\label{donnees-correlees-longitudinales}}
+
+On couvrira dans ce chapitre une extension du modèle linéaire afin de relaxer le postulat d'indépendance entre observations. Ce dernier ne tient en effet pas la route si la base de données contient des mesures répétées sur une unité. On s'intéressera en particulier à l'analyse de données longitudinales, pour lesquelles on a à disposition de brèves séries chronologiques. La clé pour incorporer la dépendance entre mesures est la modélisation parsimonieuse de la structure de covariance, laquelle nous permettra également de traiter les données groupées et de traiter un cas particulier d'hétéroscédasticité pour ces mêmes données.
+
+\hypertarget{donnuxe9es-longitudinales}{%
+\subsection{Données longitudinales}\label{donnuxe9es-longitudinales}}
+
+Dans les \textbf{données longitudinales}, aussi appelées données de panel ou mesures répétées, on a des mesures répétées sur la même variables réponse pour \(m\) unités ou individus, typiquement à différents temps. Dans ce cadre, il est logique de supposer que les observations de différents individus sont indépendantes, mais pas les mesures pour un même individu. Voici quelques exemples de données longitudinales:
+
+\begin{itemize}
+\tightlist
+\item
+  Un sondage sur la satisfaction face au service à clientèle est envoyé aux clients d'une compagnie suite à un appel de leur part: la variable réponse est la moyenne d'échelles de Likert.
+\item
+  On prend trois mesures de circonférence d'arbres à différentes hauteurs pour estimer le volume de bois d'une forêt.
+\item
+  une étude suit une cohorte pour évaluer l'attitude de jeunes adolescents et leur attitudes envers la consommation de drogues et de stupéfiants, avec un suivi annuel.
+\end{itemize}
+
+Règle générale, on s'intéresse à la modélisation de la moyenne de la réponse en fonction d'autres variables explicatives. Si les mesures sont collectées dans le temps, on peut aussi représenter graphiquement l'évolution temporelle en identifiant la variable représentant le temps et en dessinant un diagramme à ligne brisé par individu: ce type de graphique est appelé \textbf{diagramme spaghetti}.
+
+Dans ce qui suit, on s'intéresse plus en détail à deux exemples.
+
+\begin{example}[Étude longitudinale sur l'effet de la pollution atmosphérique sur la mortalité dans six villes américaines.]
+\protect\hypertarget{exm:sixvilles}{}{\label{exm:sixvilles} \iffalse (Étude longitudinale sur l'effet de la pollution atmosphérique sur la mortalité dans six villes américaines.) \fi{} }L'article \emph{An Association Between Air Pollution And Mortality In Six U.S. Cities} est le fruit du travail de chercheurs de l'Université de Harvard \href{https://www.nejm.org/doi/full/10.1056/NEJM199312093292401}{paru dans la revue \emph{The New England Journal of Medicine}} en 1993. L'étude se penchait sur le lien entre la pollution atmosphérique, en particulier l'effet des particules fines, et la mortalité en milieu urbain en suivant une cohorte de 8111 adultes de six villes américains pendant une période allant de 14 à 16 ans. Cette étude longitudinale avait démarrée en 1979. La base de données \texttt{fev1} contient 300 filles parmi les 13 379 enfants nés en 1967 ou ultérieurement dans six villes. La plupart des enfants ont été enrollés dans l'étude en première ou deuxième année primaire, soit vers l'âge de six ou sept ans. À chaque examen annuel, on a mesuré le volume d'air évacué durant la premier seconde d'une expiration, appelé volume expiratoire maximal ou VEM1.
+\end{example}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604_Modelisation_statistique_files/figure-latex/diagrammespagh1-1} 
+
+}
+
+\caption{Diagramme spaghetti des données de spirométrie de l'étude *Six Cities Study of Air Pollution and Health*.}\label{fig:diagrammespagh1}
+\end{figure}
+
+Outre la variable réponse VEM1, on a également à disposition la taille, l'âge et l'identifiant de l'enfant. La Figure \ref{fig:diagrammespagh1} montre les courbes de croissance du volume expiratoire maximal en fonction de l'âge de la personne. On peut remarquer que la croissance est presque linéaire, avec une diminution de la pente à partir de 14 ans. Si les profils semblent suivre la même tendance, on voit une forte fluctuation autour de la moyenne. Toutes les courbes ne démarrent ni ne finissent au même âge: une analyse exploratoire des identifiants des enfants nous indique qu'on a entre 1 et 12 mesures par enfant, pour un total de 1994 mesures. Les données sont stockées en format long: chaque ligne correspond à une mesure de VEM1, tandis qu'on recense plusieurs mesures par identifiant (\texttt{id}). L'âge de la fille (\texttt{age}) représente la variable temps, et sa taille (en mètres) évolue au fil des années. L'âge et la taille initiale lors de la première collecte de données sont fixes et identiques pour toutes les mesures d'une même personne.
+
+Conceptuellement, on pourrait envisager que chaque fille a une courbe de croissance spécifique de sa capacité respiratoire et qui est mesurée avec une erreur à cause de la variabilité de la prise de mesure. On peut également envisager une moyenne théorique due à des facteurs biologique, autour duquelle les courbes de croissance des différentes filles fluctuent.
+
+Notre modèle statistique devra prendre en compte que les mesures sur un même sujet sont corrélées: par exemple, si une courbe de croissance est plus élevée que la moyenne globale, elle aura tendance à rester au dessus de cette moyenne peu importe l'âge de la personne. On pourrait également postuler que les fluctuations sont corrélées dans le temps: une fois la moyenne globale soustraite, les mesures d'une même personnes sont plus semblables quand elles sont rapprochées. En revanche, on peut raisonnablement supposer que les observations de filles différentes sont indépendantes. Ainsi, si on s'intéressait uniquement au comportement à un âge donné, on pourrait faire l'analyse d'une coupe transversale des données en calculant la moyenne empirique.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604_Modelisation_statistique_files/figure-latex/diagrammespagh2-1} 
+
+}
+
+\caption{Diagramme spaghetti  pour les données de l'étude clinique sur la dépression et du programme comportemental *Beating the Blues*.}\label{fig:diagrammespagh2}
+\end{figure}
+
+\begin{example}[Programme thérapeutique *Beating the Blues*.]
+\protect\hypertarget{exm:beatingtheblues}{}{\label{exm:beatingtheblues} \iffalse (Programme thérapeutique \emph{Beating the Blues}.) \fi{} }
+\href{https://www.beatingtheblues.co.uk/}{\emph{Beating the Blues}} est un programme clinique qui vise à traiter les personnes atteintes d'anxiété et de dépression clinique légère ou modéré. Comparativement aux autres thérapies cognitivo-comportementales, les rencontres avec un(e) thérapeute sont remplacées par des capsules vidéos et une prise en charge en ligne pour amener les patients à prendre en charge leur guérison. Les personnes qui se sont joints à l'étude ont été assignés de manière aléatoire à deux traitements, soit \emph{Beating the Blues} ou le traitement usuel. L'objectif dans ce exemple est de comparer l'efficacité relative des traitements, mais puisque les individus ne sont assignés qu'à l'un ou l'autre des traitements, on ne pourra que comparer les différences moyennes de traitement. Le diagramme spaghetti de la Figure \ref{fig:diagrammespagh2} illustre le comportement erratique de l'évolution de la santé mentale des individus telle que mesurée à l'aide de l'inventaire de dépression de Beck, un questionnaire de 21 items. Si la décroissance semble en moyenne plus grande pour \emph{Beating the Blues}, c'est loin d'être certain: il y a beaucoup de pertes de suivi et la variabilité inter-individus est énorme puisque le point de départ des individus est différent; on pourrait penser à standardiser la courbe par la mesure initiale pour faciliter la comparaison. On remarque que tous les patients sont suivis à intervalle réguliers de deux mois et que les données sont strictement positives.
+\end{example}
+
+Les données longitudinales ne sont pas toujours stockées dans un format qui soit convenable pour l'analyse. En effet, il est commun d'enregistrer ces données en \textbf{format large}, auquel cas chaque ligne représente un individu différent et les colonnes contiennent à la fois des variables explicatives et les différentes répétitions de la variables réponse \(y_1, \ldots, y_{n_i}\).
+
+Une base de données en \textbf{format long} contient une seule valeur de la variable réponse par ligne, avec une colonne additionnelle indiquant l'identifiant (temporel) de l'observation. On peut passer de format large en format long en transformant les noms de colonnes en étiquettes de la variables d'identification. De même, on suppposera par la suite que les données sont ordonnées par individu, puis chronologiquement.
+
+En format long, les variables explicatives qui sont fixes au sein d'une unité pour toutes les répétitions seront copiées sur chaque ligne. Il faut faire attention au calcul des statistiques descriptives: ces dernières ne seront pas correctes sauf si on ne conserve qu'une copie pour chaque unité. En particulier, l'estimé de l'écart-type de la variable explicative sera sous-estimé parce qu'on gonfle artificiellement la taille de l'échantillon lors de la duplication.
+
+Des données longitudinales ou mesures répétées comprennent plusieurs mesures pour une même unité, ce qui engendre de la corrélation entre les réponses d'une même unité.
+
+Un diagramme spaghetti (ligne brisée en fonction du temps pour chaque unité) permet de visualiser l'évolution chronologique de la variable réponse.
+
+Lorsqu'on analyse des données longitudinales, on doit identifier par le biais d'une analyse exploratoire plusieurs facteurs qui impacteront nos analyses. Il faut notamment déterminer
+
+\begin{itemize}
+\tightlist
+\item
+  si les données sont enregistrées en format long;
+\item
+  si les données sont mesurées à des intervalles réguliers;
+\item
+  s'il y a autant de mesures répétées pour chaque individu (échantillon balancé);
+\item
+  lesquelles des variables explicatives varient dans le temps et lesquelles sont fixes.
+\end{itemize}
+
+\hypertarget{moduxe9lisation-de-la-matrice-de-covariance}{%
+\subsection{Modélisation de la matrice de covariance}\label{moduxe9lisation-de-la-matrice-de-covariance}}
+
+Pour un vecteur aléatoire \(\boldsymbol{Y}\),
+on définit la matrice de covariance comme étant la matrice symétrique \(n\times n\)
+\[
+\mathsf{Co}(\boldsymbol{Y})=
+ \begin{pmatrix}
+   \sigma_{1}^2 & \sigma_{12} & \sigma_{13} & \cdots & \sigma_{1n} \\
+    \sigma_{21} & \sigma_{2}^2 & \sigma_{23} & \cdots & \sigma_{2n} \\
+     \sigma_{31} & \sigma_{32} & \sigma_{3}^2 & \ddots & \sigma_{3n} \\
+   \vdots &  \vdots &  \ddots & \ddots &  \vdots \\
+       \sigma_{n1} & \sigma_{n2} & \sigma_{n3} & \cdots & \sigma_{n}^2 \\
+ \end{pmatrix}.
+\]
+Le \(i\)e élément de la diagonale de \(\mathsf{Co}(\boldsymbol{Y})\) est la variance de \(Y_i\) et \(\boldsymbol{\Sigma}\) est symmétrique, donc \(\sigma_{ij}=\sigma_{ji}\). Une matrice de covariance est positive définie, d'où \(\mathbf{v}^\top\boldsymbol{\Sigma}\mathbf{v}\) pour tout \(n\) vecteur \(\mathbf{v}\) non-nul.
+
+Le point de départ de notre analyse est la dérivation de l'estimateur des moindres carrés ordinaires du modèle de régression linéaire sous l'hypothèse que les valeurs de la variable réponses sont conditionnellement indépendantes, normales et homoscédastiques avec \(Y_i \mid \mathbf{x}_i \sim \mathsf{No}(\mathbf{x}_i\boldsymbol{\beta}, \sigma^2)\).
+
+Si les données sont conditionnellement normales, la matrice de covariance \(\boldsymbol{\Sigma}\) encode la structure de dépendance entre les observations: les éléments hors-diagonale sont nuls si les observations sont indépendantes, tandis que les éléments de la diagonale encodent la variance de chaque mesure. Si les données sont homoscédastiques, alors tous les éléments de la diagonale sont identiques et de la même mesure tous les éléments hors-diagonale valent zéro si les données sont indépendantes.
+
+Une façon alternative d'écrire la vraisemblance d'un échantillon de taille \(n\) du modèle linéaire classique est de considérer qu'il s'agit d'une seule réalisation d'un vecteur aléatoire de dimension \(n\), avec \(\boldsymbol{Y} \sim \mathsf{No}_n(\mathbf{X}\boldsymbol{\beta}, \sigma^2, \mathbf{I}_n)\) où \(\mathbf{I}_n\) est la matrice identité \(n \times n\). À partir de là, on peut logiquement déduire qu'il suffit de modifier la matrice de covariance \(\boldsymbol{\Sigma}\) pour relaxer les postulats d'indépendance et d'homoscédasticité.
+
+Un problème demeure: sans contrainte aucune, la matrice de covariance \(\boldsymbol{\Sigma}\) possèdera \(n(n+1)/2\) éléments uniques puisqu'elle doit être symmétrique: c'est davantage que le nombre d'observations à disposition! Cette réalité nous contraint donc à paramétriser \(\boldsymbol{\Sigma}\) à l'aide d'un modèle doté de quelques paramètres \(\boldsymbol{\psi}\) qui pourront être estimés conjointement avec les paramètres de la moyenne \(\boldsymbol{\beta}\) par le biais de la méthode du maximum de vraisemblance (et des variantes de cette dernière).
+
+En résumé, la généralisation du modèle linéaire pour prendre en compte la dépendance entre observation passe par la modélisation de la matrice de covariance \(\boldsymbol{\Sigma}\) et nous verrons plusieurs modèles possibles pour cette dernière.
+
+La première supposition qui nous permettra de réduire le nombre de paramètres au sein de la matrice de covariance est l'hypothèse que les observations de différentes unités sont\textbf{indépendantes}. La deuxième supposition sera le postulat que la structure de covariance intra-unité sera identique pour toutes les unités.
+
+Plus précisément, si les données sont ordonnées par unité et qu'on a \(m\) groupes, alors la matrice de covariance \(\boldsymbol{\Sigma}\) sera diagonale en bloc,
+\begin{align*}
+ \mathsf{Co}(\boldsymbol{Y}) = \begin{pmatrix}
+                \boldsymbol{\Sigma}_1 & \mathbf{O} & \cdots & \mathbf{O}\\
+                 \mathbf{O} &\boldsymbol{\Sigma}_2 & \cdots & \mathbf{O} \\
+                 \vdots & \ddots & \ddots & \vdots \\
+                  \mathbf{O} & \mathbf{O} & \cdots & \boldsymbol{\Sigma}_m
+               \end{pmatrix}.
+\end{align*}
+où \(\mathbf{O}\) dénote une matrice de zéro. La covariance inter-groupe est nulle parce qu'on suppose que les données d'unités différentes sont indépendantes les unes des autres.
+
+Si on paramétrise les sous-blocs \(\boldsymbol{\Sigma}_1, \ldots, \boldsymbol{\Sigma}_m\) qui représentent la covariance au sein d'une unité, on supposera que la structure (et les paramètres) seront identiques, en gardant en tête que ces matrices ne sont pas de la même taille si le nombre de réplications temporelles n'est pas identique pour toutes les unités. En particulier, si \(n_i\) dénote le nombre de réplications (temporelles) pour l'unité \(i\) avec \(\sum_{i=1}^m n_i=n\) et que \(T=n_1 = \cdots = n_m\), alors chaque matrice bloc sera identique et \(\boldsymbol{\Sigma}_1 = \cdots =\boldsymbol{\Sigma}_m\). Les paramètres \(\boldsymbol{\psi}\) de la matrice de covariance seront estimables parce qu'on aura \(m\) réplications de la matrice.
+
+Souvent, on ne s'intéresse pas aux paramètres de la matrice de covariance, \(\boldsymbol{\psi}\): ces derniers ne servent qu'à guarantir la validité de l'inférence pour les paramètres de la moyenne, \(\boldsymbol{\beta}\).
+
+\hypertarget{covariance-non-structuruxe9e}{%
+\subsubsection{Covariance non structurée}\label{covariance-non-structuruxe9e}}
+
+Le modèle le plus général pour la dépendance intra-individu est une matrice \textbf{non structurée} de taille \(n_{\max} \times n_{\max}\) où \(n_{\max} = \max\{n_1, \ldots, n_m\}\), avec
+\begin{align*}
+\boldsymbol{\Sigma}_i = \begin{pmatrix}
+\sigma_{11} & \sigma_{12} &\cdots \sigma_{1n_{\max}} \\
+\sigma_{21} & \ddots & \ddots & \vdots \\
+\vdots &  \ddots & \ddots & \vdots \\
+\sigma_{n_{\max}1} & \cdots & \cdots & \sigma_{n_{\max}n_{\max}}
+\end{pmatrix}.
+\end{align*}
+
+Le modèle non structuré présenté prend en compte à la fois la corrélation entre observations d'une même unité et l'hétéroscédasticité, en postulant en revanche que cette dernière est la même pour toutes les unités pour une répétition donnée. On pourrait aisément contraindre le modèle de manière à spécifier une variance égale pour toutes les observations en fixant \(\sigma_{11} = \cdots = \sigma_{n_{\max}n_{\max}}\).
+
+Ce modèle ne sera logique que si les mesures sur chaque unités sont comparables: par exemple, si le temps de réponse à chaque vague d'un sondage est différent, il serait illogique d'associer la réponse d'individus pour des temps différents. Par contre, si on modélise la circonférence d'arbres et que l'on obtient des mesures pour ces derniers à des hauteurs régulières (un mètre, deux mètres et cinq mètres du sol), alors on pourra associer chaque mesure à un paramètre.
+
+Ainsi, il faut savoir si les données sont mesurées à des intervalles réguliers ou sont comparables. Le nombre de paramètres à estimer, \(n_{\max} (n_{\max} − 1)/2\), restreint son utilisation aux cas
+où le nombre maximum d'observations par unité est petit et le nombre d'unités \(m\) est grand. On va considérer deux autres modèles plus simples.
+
+\hypertarget{moduxe8les-de-covariance-autoruxe9gressif}{%
+\subsubsection{Modèles de covariance autorégressif}\label{moduxe8les-de-covariance-autoruxe9gressif}}
+
+La dépendance entre observations consécutives est plus forte qu'entre deux observations plus distantes. Un modèle simple issu de la litérature des séries chronologiques postule que la corrélation entre deux observations ne dépend pas du temps de la mesure, mais uniquement de la distance \(h>0\) entre deux observations. Le modèle de corrélation autorégressive d'ordre 1, pour deux mesures à temps \(t\) et \(t+h\), est
+\begin{align*}
+\mathsf{Cov}(Y_{t}, Y_{t+h}) = \sigma^2\rho^h, \qquad  |\rho| < 1.
+\end{align*}
+Ainsi, on postule que la corrélation entre deux observations à distance \(h\) décroît comme une série géométrique: plus la distance est grande entre les observations, plus la corrélation est faible.
+
+Ce modèle n'inclut qu'un seul paramètre de corrélation supplémentaire, \(\rho\), en plus de la variance commune des mesures \(\sigma^2\). Le modèle autorégressif d'ordre 1, dénoté \(\mathsf{AR}(1)\), est ainsi parcimonieux comparativement au modèle de covariance non structurée. On peut aussi garder la même structure de corrélation en ajoutant une variance différente pour chaque temps donné: le modèle résultant est alors dit hétérogène.
+
+Si les pas de temps sont réguliers et chaque observation est mesurée au temps \(t=0,1,2,\ldots\), on peut écrire la matrice de covariance intra-groupe de l'unité \(i\), \(\boldsymbol{Y}_i\), sous la forme
+\begin{align*}
+\boldsymbol{\Sigma}_i = \sigma^2   \begin{pmatrix}
+   1 & \rho & \rho^2 & \cdots & \rho^{n_i}\\
+    \rho & 1 & \rho & \cdots & \rho^{n_i-1}\\
+    \rho^2 & \rho & 1 & \cdots & \rho^{n_i-2}\\
+  \vdots & \ddots & \ddots & \ddots &  \vdots\\
+ \rho^{n_i} &\rho^{n_i-1} & \cdots & \rho & 1
+  \end{pmatrix}.
+\end{align*}
+
+Sans s'attarder pour l'instant à l'estimation de la structure de covariance, on présente la matrice de corrélation estimée les données \emph{Beating the Blues} avec comme modèle pour la moyenne les variables explicatives \texttt{mois} (traitée comme une variable catégorielle), un indicateur binaire pour \texttt{medicaments} qui indique si la personne a une prescription et finalement un indicateur pour le traitement.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{MATH60604_Modelisation_statistique_files/figure-latex/covmodelsBtB-1} 
+
+}
+
+\caption{Estimés de la matrice de corrélation pour l'individu 6 avec les données *Beating the Blues*, avec modèle de covariance non structurée (gauche) et modèle autorégressif hétérogène d'ordre 1 (droite).}\label{fig:covmodelsBtB}
+\end{figure}
+
+Les estimés de la corrélation pour \textbf{Beating the blues} sont présentés dans la Figure \ref{fig:covmodelsBtB}: on voit que
+les estimés de la corrélation sont très élevés et presque constant pour toutes les observations entre 4 et 10 mois, mais la corrélation est plus faible entre la mesure à 2 mois et les autres estimés. Par construction, la matrice de corrélation autorégressive d'ordre 1 assume que la corrélation est décroissante; or, au vu du panneau de gauche, ce modèle ne semble pas adéquat. Cela n'est pas surprenant dans la mesure où les courbes sont systématiquement au dessus ou en dessous de la courbe moyenne; nous verrons dans le prochain chapitre comment prendre en compte ce décalage individuel de chaque courbe.
+Pour le modèle non structuré, les estimés de l'écart type ne sont pas très variables: l'estimé va de 12 au temps \(t=6\) mois jusqu'à 9 au temps \(t=10\) mois, mais presque constants pour les premiers 8 mois (4 premières mesures).
+
+Quel est l'impact de la modélisation de la covariance sur l'inférence? Reportons-nous à nos données \emph{Beating the Blues}. Ici, on s'intéresse à l'efficacité du traitement par rapport au groupe contrôle (traitement usuel): plus le score pour l'inventaire de dépression de Beck (\texttt{idb}) est faible, plus le traitement est efficace. Comme l'évolution chronologique du traitement est très différente, on spécifie un terme différent pour chaque tranche de deux mois en incluant \texttt{mois} comme variables catégorielle au modèle pour la moyenne. Outre \texttt{mois}, on inclut la variable contrôle \texttt{medicaments}, une variable binaire qui indique si la personne prend des médicaments.
+
+Règle générale, les estimés des coefficients ne varient que très peu lorsqu'on met toutes les informations des 100 individus en commun. En revanche, comme l'échantillon est débalancé et que plusieurs personnes arrêtent avant 10 mois, la prise en compte de la corrélation intra-individu a un impact important sur les estimés. Le Tableau \ref{tab:coefbeattheblues} montre les coefficients estimés avec leurs erreurs-types et les intervalles de confiance asymptotique symmétrique: si on ignore
+
+\begin{table}
+
+\caption{\label{tab:coefbeattheblues}Coefficients (erreurs-types) et intervalles de confiance à 95\% pour le modèle de régression linéaire classique (Modèle 1) et modèles avec corrélation intra-individu avec covariance non structurée (Modèle 2).}
+\centering
+
+\begin{tabular}[t]{lcc}
+\toprule
+  & Modèle 1 & Modèle 2\\
+\midrule
+ordonnée à l'origine & 21.944 (1.624) & 20.769 (1.850)\\
+ & {}[18.762, 25.127] & {}[17.143, 24.396]\\
+2 mois (B) & -7.827 (2.094) & -7.827 (1.299)\\
+ & {}[-11.931, -3.722] & {}[-10.373, -5.281]\\
+4 mois (B) & -10.530 (2.297) & -8.948 (1.523)\\
+ & {}[-15.031, -6.028] & {}[-11.933, -5.962]\\
+6 mois (B) & -13.307 (2.475) & -9.601 (1.597)\\
+ & {}[-18.157, -8.456] & {}[-12.731, -6.470]\\
+8 mois (B) & -13.703 (2.533) & -10.986 (1.640)\\
+ & {}[-18.667, -8.738] & {}[-14.199, -7.772]\\
+traitement (usuel) & 1.943 (2.163) & 2.524 (2.207)\\
+ & {}[-2.296, 6.181] & {}[-1.802, 6.850]\\
+médicaments (oui) & 1.030 (1.155) & 3.066 (1.922)\\
+ & {}[-1.234, 3.294] & {}[-0.700, 6.833]\\
+2 mois (U) & 3.132 (3.049) & 3.334 (1.901)\\
+ & {}[-2.844, 9.108] & {}[-0.392, 7.060]\\
+4 mois (U) & 4.023 (3.289) & 2.900 (2.194)\\
+ & {}[-2.424, 10.470] & {}[-1.401, 7.200]\\
+6 mois (U) & 5.376 (3.526) & 1.954 (2.294)\\
+ & {}[-1.535, 12.286] & {}[-2.541, 6.449]\\
+8 mois (U) & 3.086 (3.654) & 0.673 (2.367)\\
+ & {}[-4.076, 10.248] & {}[-3.966, 5.312]\\
+\midrule
+AIC & 2859.4 & 2644.7\\
+BIC & 2906.3 & 2746.3\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Ainsi, la prise en compte de la corrélation entraîne une augmentation des coefficient pour \emph{Beating the blues} (B), possiblement parce que plus de personnes traitées avec \emph{Beating the blues} ont quitté l'étude prématurément et on ignore la structure individuelle. L'information fournie par un individu est partiellement redondante: on a 100 individus, mais 380 inventaires à cause des mesures répétées.
+
+Si notre but est de comparer l'évolution de la maladie, alors cette approche ferait une meilleur utilisation des données que la différence entre la réponse au temps \(t=0\) mois et celle au temps \(t=k\) mois pour \(k \in \{2, \ldots, 8\}\) mois parce qu'on estimerait la trajectoire avec chacune des personnes même lorsque certaines courbes sont incomplètes. Ici, le modèle est paramétrisé en termes de contrastes: concentrons-nous sur l'effet du traitement pour une personne qui ne prend pas de médicaments (la réponse sera la même pour ces individus). La moyenne modélisée comprends une interaction entre l'indicateur de \texttt{traitement} et le mois, ce qui revient à spécifier une moyenne pour chacune de ces instances une fois l'effet de médicaments pris en compte. Pour une personne assignée à \emph{Beating the blues}, la différence d'inventaire après 2 mois est \(\beta_1\), tandis que celle pour une personne assignée au traitement usuel est \(\beta_1 + \beta_6\). L'hypothèse nulle que la différence de différences de traitements entre usuel et \emph{Beating the blues} est nulle revient donc \(\mathscr{H}_0: \beta_6=0\) (ou \texttt{2\ mois\ (U)} dans le tableau) et notre modèle est paramétrisé de telle sorte que cette information est directement disponible dans la sortie. Comparativement au modèle linéaire classique qui regroupe toutes les mesures de la variable réponse sans égard pour la structure de groupe, nos intervalles de confiance pour l'effet de traitement pour \emph{Beating the blues} sont fortement décalés. Dans ce cas de figure, l'incertitude des estimés qui prennent en compte la corrélation est moindre. Cet exemple illustre que pour les cas de figure où les données sont débalancées (nombre de réponse différent par individu), la conclusion et les estimés sont fortement affectés. Plus généralement, on verra un changement important pour les erreurs-types des coefficients, mais dans une moindre mesure pour les estimés ponctuels de ces derniers.
+
+\hypertarget{donnuxe9es-groupuxe9es-et-moduxe8le-duxe9quicorruxe9lation}{%
+\subsubsection{Données groupées et modèle d'équicorrélation}\label{donnuxe9es-groupuxe9es-et-moduxe8le-duxe9quicorruxe9lation}}
+
+Dans certains contextes, il n'y aura pas de structure logique pour les données: dans l'exemple précédent, le modèle AR(1) se base sur le nombre de mois séparant les questionnaires, mais qu'en serait-il si on interrogait les employés de différents départements au sein de l'école sur leur expérience durant la pandémie? Selon la pression de leur responsables d'unités, ils ou elles ont pu avoir une expérience très différente. Quelquefois, la dépendance proviendra non pas de mesures répétées, mais plutôt de regroupements logiques.
+
+Un exemple nous est fourni par le sondage \href{https://www.gov.uk/government/collections/workplace-employment-relations-study-wers}{\emph{Workplace Employee Relations Survey}}, une étude du gouvernement britannique qui a été conduite en 1980, 1984, 1990, 1998, 2004 et 2011. L'étude est multi-niveaux: des entrevues détaillées sont conduites le ou la gestionnaire senior en charge des relations de travail, une personne syndiquée et non-syndiquée oeuvrant au sein de l'entreprise ainsi qu'un questionnaire administré à au plus 25 personnes dans chaque lieu de travail. Les milieux de travail sont sélectionnés par le biais d'un échantillon stratifié et certaines sont suivies d'une vague à l'autre; \href{https://www.wers2011.info/methodology}{voir la méthodologie pour plus de détails à ce sujet}.
+
+Ainsi, il serait logique de croire que les réponses des membres d'une même entreprise, qui partagent des politiques communes (convention collective, milieu de travail), etc. sont corrélées. Contrairement aux données longitudinales, le regroupement se fera par milieu de travail et il n'y a pas de relation logique entre les individus qui sont échangeables car l'ordre dans lequel ils apparaissent dans la base de données est arbitraire.
+
+Dans ce contexte, une matrice de covariance non structurée ou une structure autorégressive est illogique, puisque chaque individu est différent d'une entreprise à l'autre. Un modèle simple qui peut être adéquat est le modèle d'équicorrélation, dans lequel la corrélation entre deux réponses au sein d'une unité a une corrélation constante de \(\rho\).
+
+Le modèle d'équicorrélation est d'ordinaire paramétrisé sous la forme
+\begin{align*}
+\boldsymbol{\Sigma}_i =
+\begin{pmatrix}
+  \sigma^2+\tau & \tau &\cdots  & \tau\\
+  \tau & \sigma^2+\tau &\ddots& \vdots\\
+  \vdots & \ddots & \ddots & \vdots \\
+    \tau & \tau & \cdots &\sigma^2+\tau
+\end{pmatrix}.
+\end{align*}
+et la corrélation intra-groupe pour deux observations est \(\rho=\tau/(\sigma^2+\tau)\) avec \(|\rho| < 1\); ce modèle est valide si et seulement si \(1+(n_{\max}-1)\rho > 0\) en dimension \(n_{\max}\) et cette inégalité se traduit par la contrainte \(\tau > -\sigma^2/n_{\max}\). On recouvre le modèle avec données non corrélées et homoscédastiques si \(\tau=0\): ce constat servira lorsque nous considérerons les tests d'hypothèse.
+
+On peut modéliser la covariance des unités intra-groupes dans le cas de données longitudinales ou groupées si le postulat d'indépendance ne tient pas la route.
+
+\begin{itemize}
+\item
+  En prenant en compte la corrélation intra-unité, on obtient typiquement des estimés des erreurs-types plus élevés pour les coefficients.
+\item
+  On suppose que les observations au sein d'une même unité sont corrélées, mais que les observations d'unités différentes sont indépendantes.
+\end{itemize}
+
+On a considéré trois principaux modèles de covariance:
+
+\begin{itemize}
+\tightlist
+\item
+  Le modèle de corrélation \(\mathsf{AR}(1)\) suppose que la corrélation décroît exponentiellement dans le temps et ne dépend que de la distance (temporelle) entre deux observations au sein d'une même unité.
+\item
+  Le modèle d'équicorrélation suppose que les données sont échangeable et que leur corrélation \(\rho\) est identique pour toutes les unités de groupe. Cette structure est plus logique pour les données groupées.
+\item
+  Le modèle non structuré permet modéliser de manière générale la matrice de corrélation intra-unité. Le modèle a un nombre élévé de paramètres et n'est logique ou utile que si nous avons suffisamment de réplications à chaque temps donné pour estimer les paramètres.
+\item
+  Des versions hétérogènes de ces trois modèles existent et impliquent des variances différents à chaque temps \(t\), mais égales pour tous les individus.
+\end{itemize}
+
+\hypertarget{comparaisons-de-moduxe8les}{%
+\subsection{Comparaisons de modèles}\label{comparaisons-de-moduxe8les}}
+
+\hypertarget{huxe9tuxe9roscuxe9dasticituxe9-de-groupe}{%
+\subsection{Hétéroscédasticité de groupe}\label{huxe9tuxe9roscuxe9dasticituxe9-de-groupe}}
 
 \hypertarget{modeles-lineaires-mixtes}{%
 \section{Modèles linéaires mixtes}\label{modeles-lineaires-mixtes}}
@@ -1601,7 +1808,7 @@ Les paramètres de la loi \(F\) sont inconnus, mais on peut obtenir un estimateu
   sur l'axe des ordonnées, les quantiles empiriques \(Y_i\)
 \end{itemize}
 
-Si le modèle est adéquat, les valeurs ordonnées devraient suivre une droite de pente unitaire qui passe par l'origine. L'oeil humain a de la difficulté à juger de la qualité de l'adéquation en regardant une droite, aussi est-il préférable de soustraire cette pente pour faciliter l'interprétation (une méthode proposée par Tukey, mais faire attention à l'échelle!) Les données de la Figure \ref{fig:diagrammeqq2} montrent ces deux représentations sur des mêmes données simulées d'une loi normale standard.
+Si le modèle est adéquat, les valeurs ordonnées devraient suivre une droite de pente unitaire qui passe par l'origine. L'oeil humain a de la difficulté à juger de la qualité de l'adéquation en regardant une droite, aussi est-il préférable de soustraire cette pente pour faciliter l'interprétation (une méthode proposée par Tukey, mais faire attention à l'échelle!) Le diagramme des différences moyennes prend les positions du diagramme quantile-quantile, (\(x_i, y_i\)), et représente graphiquement la moyenne des coordonnées sur l'axe des abcisses versus la différence(\(\{x_i + y_i\}/2, y_i - x_i\)) sur l'axe des ordonnées. Les données de la Figure \ref{fig:diagrammeqq2} montrent ces deux représentations sur des mêmes données simulées d'une loi normale standard.
 
 \begin{figure}
 
@@ -1701,7 +1908,7 @@ L'estimateur des moindres carrés ordinaires résoud le problème d'optimisation
 \begin{align*}
 \widehat{\boldsymbol{\beta}}=\min_{\boldsymbol{\beta} \in \mathbb{R}^{p+1}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}).
 \end{align*}
-On peut calculer la dérivée première par rapport à \(\boldsymbol{\beta}\), égaler à zéro et isoler le maximum pour obtenir une formule explicite pour \(\widehat{\boldsymbol{\beta}}\),\\
+On peut calculer la dérivée première par rapport à \(\boldsymbol{\beta}\), égaler à zéro et isoler le maximum pour obtenir une formule explicite pour \(\widehat{\boldsymbol{\beta}}\),
 \begin{align*}
 \mathbf{0}_n&=\frac{\partial}{\partial\boldsymbol{\beta}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\\
 \\&=\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial \boldsymbol{\beta}}\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}\\
@@ -1715,6 +1922,59 @@ Si \(\mathbf{X}\) est une matrice de rang \(p\), alors la forme quadratique \(\m
 \begin{align*}
 \widehat{\boldsymbol{\beta}} = (\mathbf{X}^{\top} \mathbf{X})^{-1} \mathbf{X}^{\top} \boldsymbol{Y}.
 \end{align*}
+
+\hypertarget{derivationR2}{%
+\subsection{Dérivation du coefficient de détermination}\label{derivationR2}}
+
+Le point de départ de cette dérivation est la décomposition orthogonale entre le vecteur de valeurs ajustées et de résidus, \(\boldsymbol{y}=\widehat{\boldsymbol{y}} + \boldsymbol{e}\). Pourvu que la matrice du modèle \(\mathbf{X}\) contienne l'équivalent de l'ordonnée à l'origine \(\mathbf{1}_n \in \mathcal{S}(\mathbf{X})\), alors la moyenne des résidus ordinaires est nulle, \(\overline{\boldsymbol{e}}=0\) et il en découle que la moyenne empirique des réponses est égale à la moyenne empirique des valeurs ajustées. Puisque \(n^{-1}\sum_{i=1}^n \widehat{y}_i = n^{-1}\sum_{i=1}^n ({y}_i-e_i)=\overline{y}\),
+\begin{align*}
+\widehat{\mathsf{Cor}}\left(\widehat{\boldsymbol{y}}, \boldsymbol{y}\right)
+&= \frac{(\boldsymbol{y} - \overline{y}\mathbf{1}_n)^\top(\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n)}
+{\|\boldsymbol{y} - \overline{y}\mathbf{1}_n\|\|\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n\|}
+\\&= \frac{(\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n)^\top(\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n) +
+\boldsymbol{e}^\top(\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n)}
+{\|\boldsymbol{y} - \overline{y}\mathbf{1}_n\|\|\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n\|}
+\\&= \frac{\|\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n\|}
+{\|\boldsymbol{y} - \overline{y}\mathbf{1}_n\|}
+\\&= \frac{\|\boldsymbol{y} - \overline{y}\mathbf{1}_n\| - \|\boldsymbol{e}\|}
+{\|\boldsymbol{y} - \overline{y}\mathbf{1}_n\|}
+\\&= \sqrt{\frac{\mathsf{SC}_c-\mathsf{SC}_e}{\mathsf{SC}_c}}= \mathrm{R}.
+\end{align*}
+Cela justifie la proposition de la \protect\hyperlink{coefR2}{Section 2.5} voulant que le carré de la corrélation entre les valeurs ajustées et la variable réponse est égal à \(R^2\).
+
+\hypertarget{optimisation-pour-les-moduxe8les-linuxe9aires-guxe9nuxe9ralisuxe9s}{%
+\subsubsection{Optimisation pour les modèles linéaires généralisés}\label{optimisation-pour-les-moduxe8les-linuxe9aires-guxe9nuxe9ralisuxe9s}}
+
+Il n'existe règle générale pas de solution explicite pour l'estimateur du maximum de vraisemblance \(\widehat{\boldsymbol{\beta}}\) pour les modèles linéaires généralisés; l'équation du score étant typiquement nonlinéaire en \(\boldsymbol{\beta}\), on doit obtenir les estimateurs du maximum de vraisemblance par le biais d'algorithmes d'optimisation numérique.
+
+On dérive la log vraisemblance \(\ell = \sum_{i=1}^n \log f(y_i; \theta, \phi)\) par rapport à
+\(\boldsymbol{\beta}\). Pour simplifier, on considère chaque terme et coefficient à tour de rôle. Par la règle du produit,
+\begin{align*}
+\frac{\partial \ell_i}{\partial \beta_j} = \frac{\partial
+\eta_i}{\partial \beta_j} \frac{\partial \mu_i}{\partial \eta_i}
+\frac{\partial \theta_i}{\partial \mu_i}\frac{\partial
+\ell_i}{\partial \theta_i}
+\end{align*}
+et les dérivations antérieures nous donnent \(\partial \ell_i/\partial \theta_i = (y_j-\mu_i)/a_i(\phi)\) et \(\partial \mu_i / \partial \theta_i = b''(\theta_i) = \mathsf{Va}(Y_i)/a_i(\phi)\).
+La dérivée du prédicteur linéaire est \(\partial \eta_i / \partial \beta_j = \mathrm{X}_{ij}\). La seule dérivée partielle manquante, \(\partial \mu_i/\partial \eta_i\), dépend de la fonction de liaison puisque \(\eta_i = g(\mu_i)\); cette dérivée vaut un pour la fonction de liaison canonique.
+
+Soit l'équation de score et la fonction d'information
+\begin{align*}
+U(\boldsymbol{\beta}) = \frac{\partial \ell}{\partial \boldsymbol{\beta}}, \qquad j(\boldsymbol{\beta}) = - \frac{\partial^2 \ell}{\partial \boldsymbol{\beta} \partial \boldsymbol{\beta}^\top},
+\end{align*}
+qui sont le gradient et la hessienne de la fonction de log vraisemblance; en prenant la somme de tous les termes individuels, le \(j\)e élément du vecteur de score \(\boldsymbol{U}\) est
+\begin{align*}
+\frac{\partial \ell}{\partial \beta_j} = \sum_{i=1}^n \frac{(y_i-\mu_i)\mathrm{X}_{ij}}{g'(\mu_i)V(\mu_i)a_i(\phi)}, \qquad j=0, \ldots, p.
+\end{align*}
+Puisque le maximum de vraisemblance \(\widehat{\boldsymbol{\beta}}\) résoud l'équation du score \(U(\widehat{\boldsymbol{\beta}})=\boldsymbol{0}_{p+1}\), on peut construire un algorithme de Newton--Raphson pour obtenir ce dernier. Si on fait un développement limité de Taylor du score \(U(\widehat{\boldsymbol{\beta}})\) autour de \(\boldsymbol{\beta}\),
+\begin{align*}
+\boldsymbol{0}_{p+1} = U(\widehat{\boldsymbol{\beta}}) \stackrel{\cdot}{=} U(\beta) - j(\boldsymbol{\beta}) (\widehat{\boldsymbol{\beta}}-\boldsymbol{\beta}).
+\end{align*}
+Pour autant que la matrice \((p+1)\) \(j(\boldsymbol{\beta}^{(t)})\) soit invertible, on peut utiliser la procédure itérative suivante: en partant d'une valeur initiale \(\boldsymbol{\beta}^{(0)}\), on calcule à l'étape \(t+1\)
+\begin{align*}
+\boldsymbol{\beta}^{(t+1)} = \boldsymbol{\beta}^{(t)} + j^{-1}(\boldsymbol{\beta}^{(t)})U(\boldsymbol{\beta}^{(t)}).
+\end{align*}
+et on itère la formule jusqu'à convergence. La plupart des logiciels implémente une version de cet algorithme, dans lequel le négatif de la hessienne \(j(\boldsymbol{\beta})\) est parfois remplacée par son espérance, \(i(\boldsymbol{\beta})\): l'algorithme résultant est dénommé score de Fisher. Pour les modèles linéaire généralisés, ces récursions peuvent être effectuées à l'aide d'une variante des moindres carrés connue sous le nom de moindres carrés itérativement pondérés.
 
 \hypertarget{r}{%
 \section*{\texorpdfstring{\textbf{R}}{R}}\label{r}}

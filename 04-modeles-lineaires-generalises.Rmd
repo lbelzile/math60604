@@ -1,1 +1,28 @@
 # Modèles linéaires généralisés {#modeles-lineaires-generalises}
+
+Dans certains scénarios, on aimerait bâtir un modèle de régression avec une variable $Y$ qui ne sera pas forcément continue: cela inclut des exemples de variable réponse binaire, entière ou non-négative. La régression linéaire et l'estimation par le biais des moindres carrés n'est dans cette optique pas idéale puisque notre droite ajusté ne respectera pas nécessairement ces contraintes.
+
+
+Ce chapitre est une introduction aux modèles linéaire généralisés, une extension de la régression linéaire. On s'intéresse tout particulièrement à la modélisation de données binaires, de proportions et de données de dénombrement. On considère la régression de Poisson et la régression logistique en se concentrant sur le cas où les observations sont indépendantes: les
+*modèles linéaires généralisés mixtes*, qui servent à l'analyse de données corrélées ou longitudinales, sont traités dans le cours MATH 80621.
+
+## Principes de base
+
+Le point de départ est le même que pour la régression linéaire: on a un échantillon
+aléatoire simple d'observations postulées indépendantes,
+$(\boldsymbol{Y}, \mathbf{X})$, où $Y$ est notre variable réponse et
+$\mathrm{X}_1, \ldots, \mathrm{X}_p$ sont les $p$ variables explicatives qu'on suppose
+fixe (non-stochastiques). Une fois de plus, on cherche à
+construire un modèle pour la moyenne de la variable réponse à l'aide d'une combinaison linéaire des variables explicatives.
+
+Soit $\mu_i=\mathsf{E}(Y_i \mid \mathbf{X}_i)$ l'espérance ou moyenne conditionnelle de
+$Y_i$ sachant la valeur des variables explicatives. On dénote par $\eta_i$ la combinaison linéaire
+de ces variables qui servira à modéliser la moyenne de la réponse,
+\begin{align*}
+\eta_i=\beta_0 + \beta_1 \mathrm{X}_{i1} + \cdots + \beta_p \mathrm{X}_{ip}.
+\end{align*}
+Nos outils de base dans la constructions d'un modèle linéaire généralisé sont les suivants:
+
+- Une loi de probabilité pour la variable aléatoire $Y$ qui appartienne à la famille de lois exponentielles de dispersion (normale, binomiale, Poisson, gamma, $\ldots$).
+- Une composante déterministique, le **prédicteur linéaire** $\boldsymbol{\eta}=\mathbf{X} \boldsymbol{\beta}$, où $\mathbf{X}$ est une matrice $n\times (p+1)$ avec colonnes  $\mathbf{1}_n, \mathbf{X}_1, \ldots, \mathbf{X}_p$ qui représentent l'ordonnée à l'origine et chacune des variables explicatives pour les $n$ observations, de même que les coefficients $\boldsymbol{\beta} \in \mathbb{R}^{p+1}$ .
+- Une fonction monotone $g$, appelée **fonction de liaison**, qui relie la moyenne de $Y_i$ au prédicteur linéaire, $g(\mu_i)=\eta_i$.

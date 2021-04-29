@@ -148,7 +148,7 @@ Les paramètres de la loi $F$ sont inconnus, mais on peut obtenir un estimateur 
 - sur l'axe des abscisses, les quantiles théoriques $\widehat{F}^{-1}\{\mathrm{rang}(Y_i)/(n+1)\}$
 - sur l'axe des ordonnées, les quantiles empiriques $Y_i$
 
-Si le modèle est adéquat, les valeurs ordonnées devraient suivre une droite de pente unitaire qui passe par l'origine. L'oeil humain a de la difficulté à juger de la qualité de l'adéquation en regardant une droite, aussi est-il préférable de soustraire cette pente pour faciliter l'interprétation (une méthode proposée par Tukey, mais faire attention à l'échelle!) Les données de la Figure \@ref(fig:diagrammeqq2) montrent ces deux représentations sur des mêmes données simulées d'une loi normale standard.
+Si le modèle est adéquat, les valeurs ordonnées devraient suivre une droite de pente unitaire qui passe par l'origine. L'oeil humain a de la difficulté à juger de la qualité de l'adéquation en regardant une droite, aussi est-il préférable de soustraire cette pente pour faciliter l'interprétation (une méthode proposée par Tukey, mais faire attention à l'échelle!) Le diagramme des différences moyennes prend les positions du diagramme quantile-quantile, ($x_i, y_i$), et représente graphiquement la moyenne des coordonnées sur l'axe des abcisses versus la différence($\{x_i + y_i\}/2, y_i - x_i$) sur l'axe des ordonnées. Les données de la Figure \@ref(fig:diagrammeqq2) montrent ces deux représentations sur des mêmes données simulées d'une loi normale standard.
 
 ```{r diagrammeqq2, cache = TRUE, eval = TRUE, echo = FALSE, fig.cap = "Diagramme quantile-quantile normal (gauche) et représentation de Tukey du même diagramme (en soustrayant la traîne)"}
 library(qqplotr, warn.conflicts = FALSE)

@@ -17,18 +17,18 @@ Ce chapitre porte sur deux concepts fondamentaux pour la modélisation, à savoi
 
 <!-- Ces notions sont d'ordinaire traitées dans un cours d'introduction à la statistique au niveau baccalauréat/licence, voir même au collégial. -->
 
-L'inférence statistique a pour but de tirer des conclusions formelles à partir de données. Dans le cadre de la recherche scientifique, le chercheur formule une hypothèse, collecte des données et conclut quant à la plausibilité de son hypothèse. 
+L'inférence statistique a pour but de tirer des conclusions formelles à partir de données. Dans le cadre de la recherche scientifique, le chercheur formule une hypothèse, collecte des données et conclut quant à la plausibilité de son hypothèse.
 
 On distingue deux types de jeux de données: les données **expérimentales** sont typiquement collectées en milieu contrôlé suivant un protocole d'enquête et un plan d'expérience: elles servent à répondre à une question prédéterminée. L'approche expérimentale est désirable pour éviter le «jardin des embranchements» (une [allégorie signifiant qu'un chercheur peut raffiner son hypothèse à la lumière des données, sans ajustement pour des variables confondantes](http://www.stat.columbia.edu/~gelman/research/unpublished/p_hacking.pdf)), mais elle n'est pas toujours réalisable: par exemple, un économiste ne peut pas modifier les taux d'intérêts pour observer les impacts sur le taux d'épargne des consommateurs. Lorsque les données ont été collectées préalablement à d'autres fins, on parle de données **observationnelles**.
 
 
 Par modèle, on entendra la spécification d'une loi aléatoire pour les données et une équation reliant les paramètres ou l'espérance conditionnelle d'une variable réponse $Y$ à un ensemble de variables explicatives $\mathbf{X}$. Ce modèle peut servir  à des fins de prédiction (modèle prédictif) ou pour tester des hypothèses de recherche concernant les effets de
-ces variables (modèle explicatif). Ces deux objectifs ne sont pas mutuellement exclusifs même si on fait parfois une distinction entre inférence et prédiction. 
+ces variables (modèle explicatif). Ces deux objectifs ne sont pas mutuellement exclusifs même si on fait parfois une distinction entre inférence et prédiction.
 
 Un modèle prédictif permet d’obtenir des prédictions de la valeur de $Y$ pour d'autres combinaisons de variables explicatives ou des données futures. Par exemple, on peut chercher à prédire la consommation énergétique d’une maison en fonction de la météo, du nombre d’habitants de la maison et de sa taille. La plupart des boîtes noires utilisées en apprentissage automatique tombent dans la catégorie des modèles prédictifs: ces modèles ne sont pas interprétables et ignorent parfois la structure inhérente aux données.
 
 
-Par contraste, les modèles explicatifs sont souvent simples et interprétables; les modèles de régressions sont fréquemment utilisés pour l’inférence. On se concentrera dans ce cours sur les modèles explicatifs. Par exemple, on peut chercher à déterminer 
+Par contraste, les modèles explicatifs sont souvent simples et interprétables; les modèles de régressions sont fréquemment utilisés pour l’inférence. On se concentrera dans ce cours sur les modèles explicatifs. Par exemple, on peut chercher à déterminer
 
 - Est-ce que les consommateurs sont prêts à dépenser davantage lorsqu'ils paient par crédit qu'en argent comptant?
 - Est-ce qu'il y a de la discrimination salariale envers les femmes professeurs d'un collège américain?
@@ -47,17 +47,17 @@ Un test d'hypothèse statistique est une façon d'évaluer la preuve statistique
 
 - définir les paramètres du modèle,
 - formuler les hypothèses alternative et nulle,
-- choisir et calculer la statistique de test, 
-- déterminer son comportement sous $\mathscr{H}_0$ (loi nulle), 
-- calculer la valeur-*p*, 
+- choisir et calculer la statistique de test,
+- déterminer son comportement sous $\mathscr{H}_0$ (loi nulle),
+- calculer la valeur-*p*,
 - conclure dans le contexte du problème (rejeter ou ne pas rejeter $\mathscr{H}_0$).
 
 Mon approche privilégiée pour présenter les tests d'hypothèse est de faire un parallèle avec un procès pour meurtre où vous êtes nommé juré.
 
-- Le juge vous demande de choisir entre deux hypothèses mutuellement exclusives, coupable ou non-coupable, sur la base des preuves présentées. 
+- Le juge vous demande de choisir entre deux hypothèses mutuellement exclusives, coupable ou non-coupable, sur la base des preuves présentées.
 - Votre postulat de départ repose sur la présomption d'innocence: vous condamnerez uniquement le suspect si la preuve est accablante. Cela permet d'éviter les erreurs judiciaires. L'hypothèse nulle $\mathscr{H}_0$ est donc *non-coupable*, et l'hypothèse alternative $\mathscr{H}_a$ est coupable. En cas de doute raisonnable, vous émettrez un verdict de non-culpabilité.
 - La choix de la statistique de test représente la preuve. Plus la preuve est accablante, plus grande est la chance d'un verdict de culpabilité --- le procureur a donc tout intérêt à bien choisir les faits présentés en cour. Le choix de la statistique devrait donc idéalement maximiser la preuve pour appuyer le postulat de culpabilité le mieux possible (ce choix reflète la **puissance** du test).
-- En qualité de juré, vous analysez la preuve à partir de la jurisprudence et de l'avis d'expert pour vous assurer que les faits ne relèvent pas du hasard. Pour le test d'hypothèse, ce rôle est tenu par la loi sous $\mathscr{H}_0$: si la personne était innocente, est-ce que les preuves présentées tiendraient la route? des traces d'ADN auront davantage de poids que des ouï-dire (la pièce de théâtre _Douze hommes en colère_ de Reginald Rose présente un bel exemple de procès où un des juré émet un doute raisonnable et convainc un à un les autres membres du jury de prononcer un verdict de non-culpabilité). 
+- En qualité de juré, vous analysez la preuve à partir de la jurisprudence et de l'avis d'expert pour vous assurer que les faits ne relèvent pas du hasard. Pour le test d'hypothèse, ce rôle est tenu par la loi sous $\mathscr{H}_0$: si la personne était innocente, est-ce que les preuves présentées tiendraient la route? des traces d'ADN auront davantage de poids que des ouï-dire (la pièce de théâtre _Douze hommes en colère_ de Reginald Rose présente un bel exemple de procès où un des juré émet un doute raisonnable et convainc un à un les autres membres du jury de prononcer un verdict de non-culpabilité).
 - Vous émettez un verdict, à savoir une décision binaire, où l'accusé est déclaré soit non-coupable, soit coupable. Si vous avez une valeur-*p*, disons $P$, pour votre statistique de test et que vous effectuez ce dernier à niveau $\alpha$, la règle de décision revient à rejeter $\mathscr{H}_0$ si $P < \alpha$.
 
 On s'attarde davantage sur ces définitions heuristiques et le vocabulaire employé pour parler de tests d'hypothèse. Le matériel de la section suivante a été préparé par Juliana Schulz.
@@ -68,11 +68,11 @@ Dans les test statistique il y a toujours deux hypothèse: l'hypothèse nulle ($
 \begin{align*}
 \mathscr{H}_0: \theta=\theta_0 \qquad \text{versus} \qquad \mathscr{H}_a:\theta \neq \theta_0.
 \end{align*}
-Ces hypothèses permettent de tester si $\theta$ est égal à une valeur numérique précise $\theta_0$. 
+Ces hypothèses permettent de tester si $\theta$ est égal à une valeur numérique précise $\theta_0$.
 
 Par exemple, pour un test bilatéral concernant le paramètre d'un modèle de régression $\beta_j$ associé à une variable explicative d'intérêt $\mathrm{X}_j$, les hypothèses sont
 \begin{align*}
-\mathscr{H}_0: \beta_j=\beta_j^0 \qquad \text{versus} \qquad \mathscr{H}_a:\beta_j \neq \beta_j^0, 
+\mathscr{H}_0: \beta_j=\beta_j^0 \qquad \text{versus} \qquad \mathscr{H}_a:\beta_j \neq \beta_j^0,
 \end{align*}
 où $\beta_j^0$ est une valeur précise qui est reliée à la question de recherche. Par exemple, si $\beta_j^0=0$ la question de recherche sous-jacente est: est-ce que la covariable $\mathrm{X}_j$ impacte la variable réponse d'intérêt $Y$ une fois l'effet des autres variables pris en compte?
 
@@ -82,19 +82,19 @@ Remarque: il est possible d'imposer une direction dans les tests en considérant
 
 Une statistique de test $T$ est un fonctionnel des données qui résume l'information contenue dans les données pour $\theta$. La forme de la statistique de test est choisie de façon à ce que son comportement sous $\mathscr{H}_0$, c'est-à-dire l'ensemble des valeurs que prend $T$ si $\mathscr{H}_0$ est vraie et leur probabilité relative, soit connu. En effet, $T$ est une variable aléatoire et sa valeur va changer selon l'échantillon. La **loi nulle** de la statistique de test nous permet de déterminer quelles valeurs de $T$ sont plausibles si $\mathscr{H}_0$ est vraie. Plusieurs statistiques que l'on couvrira dans ce cours sont des **statistiques de Wald**, de la forme
 \begin{align*}
-T = \frac{\widehat{\theta} - \theta_0}{\mathrm{se}(\widehat{\theta})} 
+T = \frac{\widehat{\theta} - \theta_0}{\mathrm{se}(\widehat{\theta})}
 \end{align*}
-où $\widehat{\theta}$ est l'estimateur du paramètre $\theta$, $\theta_0$ la valeur numérique postulée (par ex., zéro) et $\mathrm{se}(\widehat{\theta})$ est l'estimateur de l'écart-type de $\widehat{\theta}$. 
+où $\widehat{\theta}$ est l'estimateur du paramètre $\theta$, $\theta_0$ la valeur numérique postulée (par ex., zéro) et $\mathrm{se}(\widehat{\theta})$ est l'estimateur de l'écart-type de $\widehat{\theta}$.
 
 Par exemple, pour une hypothèse sur la moyenne d'une population de la forme
 \begin{align*}
-\mathscr{H}_0: \mu=0, \qquad  \mathscr{H}_a:\mu \neq 0, 
+\mathscr{H}_0: \mu=0, \qquad  \mathscr{H}_a:\mu \neq 0,
 \end{align*}
-la statistique de test de Wald est 
+la statistique de test de Wald est
 \begin{align*}
 T &= \frac{\overline{X}-0}{S_n/\sqrt{n}}
 \end{align*}
-où $\overline{X}$ est la moyenne de l'échantillon $X_1, \ldots, X_n$, 
+où $\overline{X}$ est la moyenne de l'échantillon $X_1, \ldots, X_n$,
 \begin{align*}
 \overline{X} &= \frac{1}{n} \sum_{i=1}^n X_i = \frac{X_1+ \cdots + X_n}{n}
 \end{align*}
@@ -103,29 +103,29 @@ et l'erreur-type de la moyenne $\overline{X}$ est $S_n/\sqrt{n}$; l'écart-type 
 S^2_n &= \frac{1}{n-1} \sum_{i=1}^n (X_i-\overline{X})^2.
 \end{align*}
 
-Il convient de faire la différence entre procédures/formules et valeurs numériques. Un **estimateur** est une règle ou une formule utilisée pour calculer l'estimation d'un paramètre ou quantité d'intérêt selon des données observées. Par exemple, la moyenne d'échantillon $\overline{X}$ est un estimateur de la moyenne dans la population $\mu$. Une fois qu'on a des données observées, on peut calculer un estimé de la moyenne empirique $\overline{x},$ c'est-à-dire, on obtient une valeur numérique. Autrement dit, 
+Il convient de faire la différence entre procédures/formules et valeurs numériques. Un **estimateur** est une règle ou une formule utilisée pour calculer l'estimation d'un paramètre ou quantité d'intérêt selon des données observées. Par exemple, la moyenne d'échantillon $\overline{X}$ est un estimateur de la moyenne dans la population $\mu$. Une fois qu'on a des données observées, on peut calculer un estimé de la moyenne empirique $\overline{x},$ c'est-à-dire, on obtient une valeur numérique. Autrement dit,
 
-- un estimateur est une fonction de variables aléatoires et donc c'est aussi une variable aléatoire car sa valeur fluctue d'un échantillon à l'autre. 
+- un estimateur est une fonction de variables aléatoires et donc c'est aussi une variable aléatoire car sa valeur fluctue d'un échantillon à l'autre.
 - l'estimé est la valeur numérique calculée sur un échantillon donné.
 
 
 ### Loi nulle et valeur-*p*
 
-La **valeur-*p*** nous permet de déterminer si la valeur observée de la statistique de test $T$ est plausible sous $\mathscr{H}_0$. Plus précisément, la valeur-*p* est la probabilité, si $\mathscr{H}_0$ est vraie, que la statistique de test soit égale or plus extrême à ce qu'on observe. Supposons qu'on a un échantillon $X_1, \ldots, X_n$ et qu'on observe une valeur de la statistique de test de $T=t$. Pour un test d'hypothèse bilatéral $\mathscr{H}_0:\theta=\theta_0$ vs. $\mathscr{H}_a:\theta \neq \theta_0$, la valeur-*p* est 
+La **valeur-*p*** nous permet de déterminer si la valeur observée de la statistique de test $T$ est plausible sous $\mathscr{H}_0$. Plus précisément, la valeur-*p* est la probabilité, si $\mathscr{H}_0$ est vraie, que la statistique de test soit égale or plus extrême à ce qu'on observe. Supposons qu'on a un échantillon $X_1, \ldots, X_n$ et qu'on observe une valeur de la statistique de test de $T=t$. Pour un test d'hypothèse bilatéral $\mathscr{H}_0:\theta=\theta_0$ vs. $\mathscr{H}_a:\theta \neq \theta_0$, la valeur-*p* est
  $\mathsf{Pr}_0(|T| \geq |t|)$. Si la distribution de $T$ est symétrique autour de zéro, la valeur-*p* vaut
 \begin{align*}
 p = 2 \times \mathsf{Pr}_0(T \geq |t|).
 \end{align*}
 
-Prenons l'exemple d'un test d'hypothèse bilatéral pour la moyenne au population $\mathscr{H}_0:\mu=0$ contre $\mathscr{H}_a:\mu \neq 0$. Si l'échantillon provient d'une (population de) loi normale $\mathsf{No}(\mu, \sigma^2)$, on peut démontrer que, si $\mathscr{H}_0$ est vraie et donc $\mu=0$), la statistique de test 
+Prenons l'exemple d'un test d'hypothèse bilatéral pour la moyenne au population $\mathscr{H}_0:\mu=0$ contre $\mathscr{H}_a:\mu \neq 0$. Si l'échantillon provient d'une (population de) loi normale $\mathsf{No}(\mu, \sigma^2)$, on peut démontrer que, si $\mathscr{H}_0$ est vraie et donc $\mu=0$), la statistique de test
 \begin{align*}
 T = \frac{\overline{X}}{S/\sqrt{n}}
 \end{align*}
-suit une loi de Student-$t$ avec $n-1$ degrés de liberté, dénotée $\mathsf{St}_{n-1}$. À partir de cette loi nulle, on peut calculer la valeur-*p* (ou bien à partir d'une table ou d'un logiciel statistique). Puisque la distribution Student-$t$ est symétrique autour de $0$, on peut calculer la valeur-*p* comme $P = 2\times\mathsf{Pr}(T > |t|)$, où $T \sim \sim \mathsf{St}_{n-1}$.
+suit une loi de Student-$t$ avec $n-1$ degrés de liberté, dénotée $\mathsf{St}_{n-1}$. À partir de cette loi nulle, on peut calculer la valeur-*p* (ou bien à partir d'une table ou d'un logiciel statistique). Puisque la distribution Student-$t$ est symétrique autour de $0$, on peut calculer la valeur-*p* comme $P = 2\times\mathsf{Pr}(T > |t|)$, où $T \sim \mathsf{St}_{n-1}$.
 
 ### Conclusion
 
-La valeur-*p* nous permet de faire une décision quant aux hypothèses du test. Si $\mathscr{H}_0$ est vraie, la valeur-*p* suit une loi uniforme. [Si la valeur-*p* est petite](https://xkcd.com/1478/), ça veut dire que le fait d'observer une statistique de test égal ou encore plus extrême que $T=t$ est peu probable, et donc nous aurons tendance de croire que $\mathscr{H}_0$ n'est pas vraie. Il y a pourtant toujours un risque sous-jacent de commettre un erreur quand on prend une décision. En statistique, il y a [deux types d'erreurs](https://xkcd.com/2303/): 
+La valeur-*p* nous permet de faire une décision quant aux hypothèses du test. Si $\mathscr{H}_0$ est vraie, la valeur-*p* suit une loi uniforme. [Si la valeur-*p* est petite](https://xkcd.com/1478/), ça veut dire que le fait d'observer une statistique de test égal ou encore plus extrême que $T=t$ est peu probable, et donc nous aurons tendance de croire que $\mathscr{H}_0$ n'est pas vraie. Il y a pourtant toujours un risque sous-jacent de commettre un erreur quand on prend une décision. En statistique, il y a [deux types d'erreurs](https://xkcd.com/2303/):
 
 
 - erreur de type I: on rejette $\mathscr{H}_0$ alors que $\mathscr{H}_0$ est vraie
@@ -133,23 +133,23 @@ La valeur-*p* nous permet de faire une décision quant aux hypothèses du test. 
 
 
 Ces deux erreurs ne sont pas égales: on cherche souvent à contrôler l'erreur de type I (une erreur judiciaire, condamner un innocent). Pour se prémunir face à ce risque, on fixe préalablement un niveau de tolérance. Plus notre seuil de tolérance $\alpha$ est grand, plus on rejette souvent l'hypothèse nulle même si cette dernière est vraie.
-La valeur de $\alpha \in (0, 1)$ est la probabilité qu'on rejette $\mathscr{H}_0$ quand $\mathscr{H}_0$ est en fait vraie. 
+La valeur de $\alpha \in (0, 1)$ est la probabilité qu'on rejette $\mathscr{H}_0$ quand $\mathscr{H}_0$ est en fait vraie.
 \begin{align*}
 \alpha = \mathsf{Pr}_0\left(\text{ rejeter } \mathscr{H}_0\right).
 \end{align*}
 Comme chercheur, on choisit ce niveau $\alpha$; habituellement $1$\%, $5$\% ou $10$\%. La probabilité de commettre une erreur de type I est $\alpha$ seulement si le modèle nul postulé pour $\mathscr{H}_0$ est correctement spécifié (sic) et correspond au modèle générateur des données.
 
-Le choix du statu quo (typiquement $\mathscr{H}_0$) s'explique plus facilement avec un exemple médical. Si vous voulez prouver qu'un nouveau traitement est meilleur que l'actuel (ou l'absence de traitement), vous devez démontrer hors de tout doute raisonnable que ce dernier ne cause pas de torts aux patients et offre une nette amélioration (pensez à Didier Raoult et ses allégations non-étayées voulant que l'hydrochloroquine, un antipaludique, soit efficace face au virus de la Covid19). 
+Le choix du statu quo (typiquement $\mathscr{H}_0$) s'explique plus facilement avec un exemple médical. Si vous voulez prouver qu'un nouveau traitement est meilleur que l'actuel (ou l'absence de traitement), vous devez démontrer hors de tout doute raisonnable que ce dernier ne cause pas de torts aux patients et offre une nette amélioration (pensez à Didier Raoult et ses allégations non-étayées voulant que l'hydrochloroquine, un antipaludique, soit efficace face au virus de la Covid19).
 
 
 | **Décision** \\ **vrai modèle**   | $\mathscr{H}_0$ | $\mathscr{H}_a$ |
 | :-- | :-: | :-: |
 | ne pas rejeter $\mathscr{H}_0$ | $\checkmark$ | erreur de type II |
-| rejeter $\mathscr{H}_0$ | erreur de type I | $\checkmark$| 
+| rejeter $\mathscr{H}_0$ | erreur de type I | $\checkmark$|
 
  Pour prendre une décision, on doit comparer la valeur-*p* $P$ avec le niveau du test $\alpha$:
 
-- si $P < \alpha$ on rejette $\mathscr{H}_0$, 
+- si $P < \alpha$ on rejette $\mathscr{H}_0$,
 - si $P \geq \alpha$ on ne rejette pas $\mathscr{H}_0$.
 
 Attention à ne pas confondre niveau du test (probabilité fixée au préalable par l'expérimentateur) et la valeur-*p* (qui dépend de l'échantillon). Si vous faites un test à un niveau 5\% la
@@ -161,59 +161,59 @@ la statistique de test égale ou même plus grande que celle qu'on a observée d
 ### Puissance statistique
 
 Le but du test d'hypothèse est de prouver (hors de tout doute raisonnable) qu'une différence ou un effet est significatif:: par exemple, si une nouvelle configuration d'un site web (hypothèse alternative) permet d'augmenter les ventes par rapport au statu quo. Notre capacité à détecter cette amélioration dépend de la puissance du test: plus cette dernière est élevée, plus grande est notre capacité à rejeter $\mathscr{H}_0$ quand ce dernier est faux.
-Quand on ne rejette pas $\mathscr{H}_0$ et que $\mathscr{H}_a$ est en fait vraie, on commet une erreur de type II: cette dernière survient avec probabilité $1-\gamma$. La **puissance statistique** d'un test est la probabilité que le test rejette $\mathscr{H}_0$ alors que $\mathscr{H}_0$ est fausse, soit 
+Quand on ne rejette pas $\mathscr{H}_0$ et que $\mathscr{H}_a$ est en fait vraie, on commet une erreur de type II: cette dernière survient avec probabilité $1-\gamma$. La **puissance statistique** d'un test est la probabilité que le test rejette $\mathscr{H}_0$ alors que $\mathscr{H}_0$ est fausse, soit
 \begin{align*}
 \gamma = \mathsf{Pr}_a(\text{rejeter } \mathscr{H}_0)
 \end{align*}
-Selon le choix de l'alternative, il est plus ou moins facile de rejeter l'hypothèse nulle en faveur de l'alternative. 
+Selon le choix de l'alternative, il est plus ou moins facile de rejeter l'hypothèse nulle en faveur de l'alternative.
 
 ```{r puissance1, cache = TRUE, echo = FALSE, fig.width=7, fig.height = 5, fig.cap="Comparaison de la loi nulle (ligne pleine) et d'une alternative spécifique pour un test-$t$ (ligne traitillée). La puissance correspond à l'aire sous la courbe de la densité de la loi alternative qui est dans la zone de rejet du test (en blanc)."}
-region <- data.frame(start = c(-Inf, qt(0.025, df = 10), qt(0.975, df = 10)), 
+region <- data.frame(start = c(-Inf, qt(0.025, df = 10), qt(0.975, df = 10)),
                      end = c(qt(0.025, df = 10), qt(0.975, df = 10), Inf),
                      région = factor(c("rejeter","ne pas rejeter","rejeter")))
-ggplot(region) + 
-  geom_rect(aes(xmin = start, xmax = end, fill = région), 
+ggplot(region) +
+  geom_rect(aes(xmin = start, xmax = end, fill = région),
     ymin = -Inf, ymax = Inf, alpha = 0.2, data = region) +
-  scale_fill_manual(values = c("blue","orange")) + 
+  scale_fill_manual(values = c("blue","orange")) +
   coord_cartesian(xlim = c(-3.5,6), ylim = c(0, 0.5), expand = FALSE) +
-  theme_classic() + theme(legend.position = "bottom") + 
+  theme_classic() + theme(legend.position = "bottom") +
   stat_function(fun = dt, args = list(ncp = 1.5, df=10), xlim = c(qt(0.975, df = 10), 10),
                 geom = "area", fill = "white") +
-  stat_function(fun = dt, n = 1000, args = list(df= 10), xlim = c(-5,6)) + 
+  stat_function(fun = dt, n = 1000, args = list(df= 10), xlim = c(-5,6)) +
   stat_function(fun = dt, n = 1000, args = list(ncp = 1.5, df=10), lty = 2, xlim = c(-5,6)) +
   ylab("f(x)")
 ```
 
 ```{r puissance2, cache = TRUE, echo = FALSE, fig.width=7, fig.height = 5, fig.cap="Augmentation de la puissance suite à une augmentation de la différence de moyenne sous l'hypothèse alternative. La puissance est l'aire sous la courbe (blanc) de la loi alternative (ligne traitillée); cette dernière est plus décalée vers la droite par rapport à la loi nulle postulée (ligne pleine)."}
-region1 <- data.frame(start = c(-Inf, qnorm(0.025), qnorm(0.975)), 
+region1 <- data.frame(start = c(-Inf, qnorm(0.025), qnorm(0.975)),
                      end = c(qnorm(0.025), qnorm(0.975), Inf),
                      région = factor(c("rejeter","ne pas rejeter","rejeter")))
-p1 <- ggplot(region1) + 
-  geom_rect(aes(xmin = start, xmax = end, fill = région), 
+p1 <- ggplot(region1) +
+  geom_rect(aes(xmin = start, xmax = end, fill = région),
     ymin = -Inf, ymax = Inf, alpha = 0.2, data = region1) +
-  scale_fill_manual(values = c("blue","orange")) + 
+  scale_fill_manual(values = c("blue","orange")) +
   coord_cartesian(xlim = c(-3.5,5), ylim = c(0, 0.5), expand = FALSE) +
-  theme_classic() + theme(legend.position = "bottom") + 
+  theme_classic() + theme(legend.position = "bottom") +
   stat_function(fun = dnorm, args = list(mean = 3, sd = 1), xlim = c(qnorm(0.975),10),
                 geom = "area", fill = "white") +
-  ylab("f(x)") + 
-  stat_function(fun = dnorm, args = list(mean = 0, sd = 1), xlim = c(-5,5)) + 
+  ylab("f(x)") +
+  stat_function(fun = dnorm, args = list(mean = 0, sd = 1), xlim = c(-5,5)) +
   stat_function(fun = dnorm, n = 1000, args = list(mean = 3, sd = 1), lty = 2, xlim = c(-5,5))
 p1
 ```
 
 ```{r puissance3, cache = TRUE, echo = FALSE, fig.width=7, fig.height = 5, fig.cap="Augmentation de la puissance suite à une augmentation de la taille de l'échantillon ou une diminution de l'écart-type de la population: la loi nulle (ligne pleine) est plus concentrée et la taille de la région de rejet diminue. La puissance est l'aire sous la courbe (blanc) de la loi alternative (ligne traitillée). Règle générale, la loi nulle change selon la taille de l'échantillon."}
-region2 <- data.frame(start = c(-Inf, qnorm(0.025, sd = 0.5), qnorm(0.975, sd = 0.5)), 
+region2 <- data.frame(start = c(-Inf, qnorm(0.025, sd = 0.5), qnorm(0.975, sd = 0.5)),
                      end = c(qnorm(0.025, sd = 0.5), qnorm(0.975, sd = 0.5), Inf),
                      région = factor(c("rejeter","ne pas rejeter","rejeter")))
-p2 <- ggplot(region) + 
-  geom_rect(aes(xmin = start, xmax = end, fill = région), 
+p2 <- ggplot(region) +
+  geom_rect(aes(xmin = start, xmax = end, fill = région),
     ymin = -Inf, ymax = Inf, alpha = 0.2, data = region2) +
-  scale_fill_manual(values = c("blue","orange")) + 
+  scale_fill_manual(values = c("blue","orange")) +
   coord_cartesian(xlim = c(-3.5,5), ylim = c(0, 1), expand = FALSE) +
-  theme_classic() + theme(legend.position = "bottom") + 
+  theme_classic() + theme(legend.position = "bottom") +
   stat_function(fun = dnorm, args = list(mean = 1.5, sd = 0.5), xlim = c(qnorm(0.975, sd = 0.5),10), geom = "area", fill = "white") +
-  stat_function(fun = dnorm, n = 1000, args = list(mean = 0, sd = 0.5), xlim = c(-5,5)) + 
+  stat_function(fun = dnorm, n = 1000, args = list(mean = 0, sd = 0.5), xlim = c(-5,5)) +
   stat_function(fun = dnorm, n = 1000, args = list(mean = 1.5, sd = 0.5), lty = 2, xlim = c(-5,5)) +
   ylab("f(x)")
 p2
@@ -239,13 +239,13 @@ où $\mathfrak{q}_{\alpha/2}$ est le quantile d'ordre $1-\alpha/2$ de la loi nul
 \begin{align*}
 T =\frac{\widehat{\theta}-\theta}{\mathrm{se}(\widehat{\theta})},
 \end{align*}
-et où $\theta$ représente la valeur du paramètre $\theta$ (supposé fixe, mais inconnu) de la population. Les bornes de l'intervalle de confiance sont aléatoires puisque $\widehat{\theta}$ et $\mathrm{se}(\widehat{\theta})$ sont des variable aléatoires: leurs valeurs observées changent d'un échantillon à un autre. 
+et où $\theta$ représente la valeur du paramètre $\theta$ (supposé fixe, mais inconnu) de la population. Les bornes de l'intervalle de confiance sont aléatoires puisque $\widehat{\theta}$ et $\mathrm{se}(\widehat{\theta})$ sont des variable aléatoires: leurs valeurs observées changent d'un échantillon à un autre.
 
 Par exemple, pour un échantillon aléatoire $X_1, \ldots, X_n$ provenant d'une loi normale $\mathsf{No}(\mu, \sigma)$, l'intervalle de confiance à $(1-\alpha)$ pour la moyenne (dans la population) $\mu$ est
 \begin{align*}
 \overline{X} \pm t_{n-1, \alpha/2} \frac{S}{\sqrt{n}}
 \end{align*}
-où $t_{n-1, \alpha/2}$ est le quantile d'ordre $1-\alpha/2$ de la loi Student-$t$ avec $n-1$ degrés de libertés. 
+où $t_{n-1, \alpha/2}$ est le quantile d'ordre $1-\alpha/2$ de la loi Student-$t$ avec $n-1$ degrés de libertés.
 
 Avant qu'on calcule l'intervalle de confiance, il y a une probabilité de $1-\alpha$ que $\theta$ soit contenu dans l'intervalle **aléatoire** symmétrique $(\widehat{\theta} - \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta}), \widehat{\theta} + \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta}))$, où $\widehat{\theta}$ dénote l'estimateur de $\theta$. Une fois qu'on obtient un échantillon et qu'on calcule les bornes de l'intervalle de confiance, il n'y a plus de notion de probabilité: la vraie valeur du paramètre $\theta$ (inconnue) est soit contenue dans l'intervalle de confiance, soit pas. La seule interprétation de l'intervalle de confiance qui soit valable alors est la suivante: si on répète l'expérience plusieurs fois et qu'à chaque fois on calcule un intervalle de confiance à $1-\alpha$, alors une proportion de $(1-\alpha)$ de ces intervalles devraient contenir la vraie valeur de $\theta$ (de la même manière, si vous lancez une pièce de monnaie équilibrée, vous devriez obtenir grosso modo une fréquence de 50\% de pile et 50\% de face, mais chaque lancer donnera un ou l'autre de ces choix). Notre « confiance » est dans la procédure et non pas dans les valeurs numériques obtenues pour un échantillon donné.
 
@@ -255,16 +255,16 @@ set.seed(1234)
 interv <- t(sapply(1:100, function(i){t.test(rnorm(1000), mu=0)$conf.int}))
 # interv <- interv[order(interv[,1]),]
 par(mar = c(4,1,0.1,0.1))
-plot(NA, xlim = c(-0.2,0.2), ylim = c(1,100), ylab = "", 
+plot(NA, xlim = c(-0.2,0.2), ylim = c(1,100), ylab = "",
      xlab = "", type = "n", yaxt = "n", bty = "n")
 for(i in 1:100){
-   segments(y0 = i, x0 = interv[i,1], x1 = interv[i,2], 
+   segments(y0 = i, x0 = interv[i,1], x1 = interv[i,2],
             col = ifelse(all(interv[i,1] < 0, interv[i,2] > 0), 1,2), lwd = 2)
 }
 abline(v = 0, col = "white", lwd= 2)
 ```
 
-Si on s'intéresse seulement à la décision rejeter/ne pas rejeter $\mathscr{H}_0$, l'intervalle de confiance est équivalent à la valeur-*p* en ce sens qu'il mène à la même décision. L'intervalle de confiance donne en revanche l'ensemble des valeurs pour lesquelles la statistique de test ne fournit pas assez de preuves pour rejeter $\mathscr{H}_0$: pour un test à niveau $\alpha$, on ne rejetterait aucune des valeurs contenues dans l'intervalle de confiance de niveau $1-\alpha$. Si la valeur-*p* est inférieure à $\alpha$, la valeur postulée pour $\theta$ est donc hors de l'intervalle de confiance calculé. À l'inverse, la valeur-*p* ne donne la probabilité d'obtenir un résultat aussi extrême sous l'hypothèse nulle que pour une seule valeur numérique, mais permet de quantifier  précisément à quel point le résultat est extrême. 
+Si on s'intéresse seulement à la décision rejeter/ne pas rejeter $\mathscr{H}_0$, l'intervalle de confiance est équivalent à la valeur-*p* en ce sens qu'il mène à la même décision. L'intervalle de confiance donne en revanche l'ensemble des valeurs pour lesquelles la statistique de test ne fournit pas assez de preuves pour rejeter $\mathscr{H}_0$: pour un test à niveau $\alpha$, on ne rejetterait aucune des valeurs contenues dans l'intervalle de confiance de niveau $1-\alpha$. Si la valeur-*p* est inférieure à $\alpha$, la valeur postulée pour $\theta$ est donc hors de l'intervalle de confiance calculé. À l'inverse, la valeur-*p* ne donne la probabilité d'obtenir un résultat aussi extrême sous l'hypothèse nulle que pour une seule valeur numérique, mais permet de quantifier  précisément à quel point le résultat est extrême.
 
 
 ```{example, label = "achats-milleniaux", name = "Achat en ligne de milléniaux"}
@@ -274,15 +274,15 @@ Supposons qu'une chercheuse veut faire une étude sur l'évolution des ventes en
 
 ```{r generate_sales, echo = FALSE}
 set.seed(20200623)
-enligne <- data.frame(depenses = round(c(rexp(n=160, rate = 1/72), 
-                                    rlnorm(n = 340, meanlog = log(45), sdlog = log(2))), 0), 
+enligne <- data.frame(depenses = round(c(rexp(n=160, rate = 1/72),
+                                    rlnorm(n = 340, meanlog = log(45), sdlog = log(2))), 0),
                        id = factor(c(rep("milleniaux", 160), rep("autre", 340))))
 Welch_test <- t.test(depenses~id, data = enligne, alternative = "less")
 ```
 
-Dans cet exemple, on s'intéresse à la différence entre le montant moyen des Y et celui des générations antérieures: la différence de moyenne observée dans l'échantillon est de `r round(as.numeric(diff(Welch_test$estimate)), 2)` dollars et donc les milléniaux ont dépensé davantage. En revanche, notre échantillon est aléatoire et le montant d'achat en ligne varie d'un individu à l'autre (et d'un mois à l'autre): ce n'est donc pas suffisant pour dire que la différence est significative. 
+Dans cet exemple, on s'intéresse à la différence entre le montant moyen des Y et celui des générations antérieures: la différence de moyenne observée dans l'échantillon est de `r round(as.numeric(diff(Welch_test$estimate)), 2)` dollars et donc les milléniaux ont dépensé davantage. En revanche, notre échantillon est aléatoire et le montant d'achat en ligne varie d'un individu à l'autre (et d'un mois à l'autre): ce n'est donc pas suffisant pour dire que la différence est significative.
 
-La première étape de notre analyse consiste à définir les quantités d'intérêt et à formuler nos hypothèse en fonction de paramètres du modèle; il convient également de définir ces derniers en fonction des variables en présence dans l'exemple. Ici, on considère un test pour la différence de moyenne dans les populations postulées $\mu_1$ (pour la génération Y) et $\mu_2$ (pour les générations antérieures) d'écart-type respectif $\sigma_1$ et $\sigma_2$. Comment déterminer quelle hypothèse on considère? Comme statisticien, on se fait l'avocat du Diable: l'hypothèse d'intérêt du chercheur est l'hypothèse alternative et ici, $\mathscr{H}_a: \mu_1 > \mu_2$, où $\mu_1$ représente la moyenne des achats mensuels des milléniaux. L'hypothèse nulle comprend toutes les autres valeurs pour la différence de moyenne, soit $\mathscr{H}_0: \mu_1 \leq \mu_2$. Il suffit néanmoins de considérer le cas $\mu_1=\mu_2$ (pourquoi?) 
+La première étape de notre analyse consiste à définir les quantités d'intérêt et à formuler nos hypothèse en fonction de paramètres du modèle; il convient également de définir ces derniers en fonction des variables en présence dans l'exemple. Ici, on considère un test pour la différence de moyenne dans les populations postulées $\mu_1$ (pour la génération Y) et $\mu_2$ (pour les générations antérieures) d'écart-type respectif $\sigma_1$ et $\sigma_2$. Comment déterminer quelle hypothèse on considère? Comme statisticien, on se fait l'avocat du Diable: l'hypothèse d'intérêt du chercheur est l'hypothèse alternative et ici, $\mathscr{H}_a: \mu_1 > \mu_2$, où $\mu_1$ représente la moyenne des achats mensuels des milléniaux. L'hypothèse nulle comprend toutes les autres valeurs pour la différence de moyenne, soit $\mathscr{H}_0: \mu_1 \leq \mu_2$. Il suffit néanmoins de considérer le cas $\mu_1=\mu_2$ (pourquoi?)
 
 La deuxième étape consiste à choisir une statistique de test. S'il n'y a aucune différence de moyenne entre les groupes, alors $\overline{X}_1-\overline{X}_2$ a moyenne zéro et la différence de moyenne a une variance de $\sigma^2_1/n_1+\sigma^2_2/n_2$. Ici, on considère la statistique de @Welch1947 pour une différence de moyenne entre deux échantillons:
 \begin{align*}
@@ -290,52 +290,53 @@ T = \frac{\overline{X}_1 - \overline{X}_2}{\left(\frac{S_1^2}{n_1}+\frac{S_2^2}{
 où $\overline{X}_i$ est la moyenne empirique dans l'échantillon $i$ ($i=1, 2$) et $S_i^2$ est la variance empirique et $n_i$ la taille de l'échantillon du groupe $i$. La statistique est utilisée pour calculer la différence de moyennes de deux échantillons de variance potentiellement différente. La valeur de la statistique dans l'échantillon est $T=`r round(-Welch_test$statistic, 2)`$, mais on obtiendrait une valeur différente avec un autre échantillon. Il convient donc de déterminer si cette valeur est compatible avec notre hypothèse nulle en la comparant à la loi nulle sous $\mathscr{H}_0$ de $T$. On effectuera le test à niveau $\alpha=0.05$.
 
 
-La troisième étape est l'obtention d'un étalon de mesure pour déterminer si notre résultat est extrême ou inattendu. Vous remarquerez que la statistique de Welch a moyenne zéro et variance un sous l'hypothèse nulle que $\mu_1=\mu_2$: standardiser une statistique permet d'obtenir un objet dont on connaît le comportement pour de grands échantillons et obtenir une quantité sans unité de mesure. La dérivation de la loi nulle est hors objectifs du cours, aussi cette dernière vous sera donnée dans tous les cas qu'on considère. Asymptotiquement, $T$ suit une loi normale $\mathsf{No}(0, 1)$, mais il existe une meilleure approximation pour $n$ petit; on compare le comportement de $T$ à l'aide d'une loi de Student (à l'aide de l'approximation de @Satterthwaite1946). 
+La troisième étape est l'obtention d'un étalon de mesure pour déterminer si notre résultat est extrême ou inattendu. Vous remarquerez que la statistique de Welch a moyenne zéro et variance un sous l'hypothèse nulle que $\mu_1=\mu_2$: standardiser une statistique permet d'obtenir un objet dont on connaît le comportement pour de grands échantillons et obtenir une quantité sans unité de mesure. La dérivation de la loi nulle est hors objectifs du cours, aussi cette dernière vous sera donnée dans tous les cas qu'on considère. Asymptotiquement, $T$ suit une loi normale $\mathsf{No}(0, 1)$, mais il existe une meilleure approximation pour $n$ petit; on compare le comportement de $T$ à l'aide d'une loi de Student (à l'aide de l'approximation de @Satterthwaite1946).
 
 La dernière étape consiste à obtenir une valeur-*p*, soit la probabilité d'observer un résultat aussi extrême sous $\mathscr{H}_0$: l'avantage de la valeur-*p* est que cette valeur est une probabilité (dans $[0, 1]$) et qu'elle suit une loi uniforme sous $\mathscr{H}_0$. Puisque nous avons une hypothèse alternative unilatérale, on regarde la probabilité sous $\mathscr{H}_0$ que $\mathsf{Pr}(T > t)$. La valeur-*p* vaut $`r format(Welch_test$p.value, digits=2)`$ et donc, à niveau 5\%, on rejette l'hypothèse nulle pour conclure que la génération Y dépense davantage en ligne que les générations antérieures.
 
 
 ```{example, label="prix-trains-tests", name = "Prix de billets de trains à grande vitesse espagnols"}
-La compagnie nationale de chemin de fer [Renfe](https://www.renfe.com/) gère les trains régionaux et les trains à haute vitesse dans toute l'Espagne. Les prix des billets vendus par Renfe sont [aggrégés](https://www.kaggle.com/thegurusteam/spanish-high-speed-rail-system-ticket-pricing) par une compagnie. On s'intéresse ici à une seule ligne, Madrid--Barcelone. Notre question scientifique est la suivante: est-ce que le prix des billets pour un aller (une direction) est plus chère pour un retour? Pour ce faire, on considère un échantillon de 10000 billets entre les deux plus grandes villes espagnoles. On s'intéresse au billets de TGV vendus (AVE) au tarif Promotionnel. Notre statistique de test sera simplement la différence de moyenne entre les deux échantillons: la différence entre le prix en euros d'un train Madrid--Barcelone ($\mu_1$) et le prix d'un billet Barcelone--Madrid ($\mu_2$) est $\mu_1-\mu_2$ et notre hypothèse nulle est qu'il n'y a aucune différence de prix, soit $\mathscr{H}_0: \mu_1-\mu_2=0$. On utilise de nouveau le test de Welch pour deux échantillons.
+La compagnie nationale de chemin de fer [Renfe](https://www.renfe.com/) gère les trains régionaux et les trains à haute vitesse dans toute l'Espagne. Les prix des billets vendus par Renfe sont [aggrégés](https://www.kaggle.com/thegurusteam/spanish-high-speed-rail-system-ticket-pricing) par une compagnie. On s'intéresse ici à une seule ligne, Madrid--Barcelone. Notre question scientifique est la suivante: est-ce que le prix des billets pour un aller (une direction) est plus chère pour un retour? Pour ce faire, on considère un échantillon de 10000 billets entre les deux plus grandes villes espagnoles. On s'intéresse au billets de TGV vendus (AVE) au tarif Promotionnel. Notre statistique de test sera simplement la différence de moyenne entre les deux échantillons: la différence entre le prix en euros d'un train Madrid--Barcelone ($\mu_1$) et le prix d'un billet Barcelone--Madrid ($\mu_2$) est $\mu_1-\mu_2$ et notre hypothèse nulle est qu'il n'y a aucune différence de prix, soit $\mathscr{H}_0: \mu_1-\mu_2=0$.
 ```
 
-```{r renfetest, cache = TRUE, eval = TRUE, echo = TRUE}
+```{r renfetest, cache = TRUE, eval = TRUE, echo = FALSE}
 # Manipulation de données, incluant %>%
-library(poorman)
+# library(tidyverse)
 # Charger les données
 data(renfe, package = "hecmodstat")
-head(renfe, n = 5)
+head(renfe, n = 5)  %>% kbl(caption = "Aperçu des données $\\texttt{renfe}$.") %>% kable_styling()
 
 # Sous-échantillon avec uniquement les données au tarif promotionnel
 renfe_promo <- renfe %>% subset(tarif == "Promo")
 # Test-t et différence de moyenne
 ttest <- t.test(prix~dest, data = renfe_promo)
-ttest #imprimer le résultat
+#ttest #imprimer le résultat
 ```
+On utilise de nouveau le test de Welch pour deux échantillons en filtrant les données pour ne conserver que les billets au tarif Promo: la moyenne des billets Barcelone-Madrid est `r round(as.numeric(ttest$estimate[1]),2)` euros, ceux pour Madrid-Barcelone `r round(as.numeric(ttest$estimate[2]),2)` et la valeur de la statistique de Welch est `r round(ttest$statistic,2)`. Si on utilise l'approximation normale, on obtient une valeur-_p_ de `r round(as.numeric(ttest$p.value), 2)`.
 
 Plutôt que d'utiliser la loi asymptotique (qui est valide pour de grands échantillons à cause du théorème central limite), on peut considérer une approximation sous une hypothèse moins restrictive en supposant que les données sont échangeables. Sous l'hypothèse nulle, il n'y aucune différence entre les deux destinations et les étiquettes pour la destination (une variable catégorielle binaire) sont arbitraires. On pourrait considérer les mêmes données, mais avec une permutation des variables explicatives: c'est ce qu'on appelle un [test de permutation](https://www.jwilber.me/permutationtest/). On va recréer deux groupes de taille identique à notre échantillon original, mais en changeant les observations. On recalcule la statistique de test sur ces nouvelle données (si on a une poignée d'observations, il est possible de lister toutes les permutations possibles; typiquement, il suffit de considérer un grand nombre de telles permutations, disons 9999). Pour chaque nouveau jeu de données, on calculera la statistique de test et on calculera le rang de notre statistique par rapport à cette référence. Si la valeur de notre statistique observée sur l'échantillon original est extrême en comparaison, c'est autant de preuves contre l'hypothèse nulle.
- 
-```{r renfepermut, cache = TRUE, fig.cap="Approximation par permutation de la loi nulle de la statistique de test de Welch (histogramme et trait noir) et loi asymptotique normale standard (trait bleu) pour le prix de billets de trains AVE au tarif promotionnel entre Madrid et Barcelone. La valeur de la statistique de test de l'échantillon original est représentée par un trait vertical.", fig.width = 6, fit.height = 5}
+
+```{r renfepermut, cache = TRUE, echo = FALSE, fig.cap="Approximation par permutation de la loi nulle de la statistique de test de Welch (histogramme et trait noir) et loi asymptotique normale standard (trait bleu) pour le prix de billets de trains AVE au tarif promotionnel entre Madrid et Barcelone. La valeur de la statistique de test de l'échantillon original est représentée par un trait vertical.", fig.width = 6, fig.height = 5}
 # Valeur-p par permutation
 n <- nrow(renfe_promo)
 B <- 1e4
-ttest_stats <- numeric(B) 
+ttest_stats <- numeric(B)
 ttest_stats[1] <- ttest$statistic
 set.seed(20200608) # germe pour nombres pseudo-aléatoires
 for(i in 2:B){
   # Recalculer la statistique de test, mais permuter les étiquettes
-  ttest_stats[i] <- t.test(prix ~ dest[sample.int(n = n)], 
+  ttest_stats[i] <- t.test(prix ~ dest[sample.int(n = n)],
                            data = renfe_promo)$statistic
 }
 # Bibliothèque graphique
-library(ggplot2)
+# library(ggplot2)
 # Tracer un graphique de la distribution empirique obtenue par permutation
-ggplot(data = data.frame(statistique = ttest_stats), 
+ggplot(data = data.frame(statistique = ttest_stats),
        aes(x=statistique)) +
-  geom_histogram(bins = 30, aes(y=..density..), alpha = 0.2) + 
-  geom_density() + 
-  geom_vline(xintercept = ttest_stats[1]) + 
-  ylab("densité") + 
+  geom_histogram(bins = 30, aes(y=..density..), alpha = 0.2) +
+  geom_density() +
+  geom_vline(xintercept = ttest_stats[1]) +
+  ylab("densité") +
   stat_function(fun = dnorm, col = "blue")
 ```
 
@@ -344,11 +345,11 @@ La valeur-*p* du test de permutation, $`r mean(abs(ttest_stats)> abs(ttest_stats
 
 ## Analyse exploratoire de données {#analyse-exploratoire}
 
-L'analyse exploratoire, comme son nom l'indique, est une étape préliminaire à la modélisation servant à l'acquisition d'une meilleure compréhension des données. 
+L'analyse exploratoire, comme son nom l'indique, est une étape préliminaire à la modélisation servant à l'acquisition d'une meilleure compréhension des données.
 Une connaissance rudimentaire des graphiques est nécessaire et on s'attardera aux [rudiments de la visualisation graphique](https://rstudio.cloud/learn/primers/1.1). Plusieurs ouvrages abordent ces notions (en anglais) .
 
 - [Chapitre 3 de _**R** for Data Science_ par Garrett Grolemund et Hadley Wickham](https://r4ds.had.co.nz/exploratory-data-analysis.html)
-- [Section 1.6 du livre *Introductory Statistics with Randomization and Simulation* d'OpenIntro](https://www.openintro.org/book/isrs/) 
+- [Section 1.6 du livre *Introductory Statistics with Randomization and Simulation* d'OpenIntro](https://www.openintro.org/book/isrs/)
 - [*Fundamentals of Data Visualization* par Claus O. Wilke](https://clauswilke.com/dataviz/)
 - [Chapitre 1 de *Data Visualization: A practical introduction* par Kieran Healy](https://socviz.co/lookatdata.html#lookatdata)
 
@@ -360,7 +361,7 @@ Si l'analyse exploratoire est souvent négligée dans les cours de statistique (
 2. Chercher des réponses à ces questions à l'aide de statistiques descriptives, de tableaux de fréquence ou de contingence et de graphiques.
 3. Raffiner nos questions, et utiliser les trouvailles pour peaufiner notre analyse
 
-Dans un rapport, un résumé des caractéristiques les plus importantes devrait être inclut pour que le lecteur ou la lectrice puisse valider son interprétation des données.  
+Dans un rapport, un résumé des caractéristiques les plus importantes devrait être inclut pour que le lecteur ou la lectrice puisse valider son interprétation des données.
 
 ### Soignez votre travail
 
@@ -368,21 +369,10 @@ Si vous incluez un graphique (ou un tableau), il est important d'ajouter une lé
 
 ### Types de variables
 
-Commençons par parler des données: celles que l'on manipulera dans ce cours sont stockées sous forme tabulaire. Dans une base de donnée en format long, chaque ligne correspond à une observation et chaque colonne à une variable; les entrées de la base de données contiennent les valeurs.
-
-L'alternative au format long est le format court/large, où les colonnes représentent les modalités de variables catégorielles et il peut y avoir plusieurs valeurs par ligne qui contiennent des valeurs de la variable réponse. Le schéma de la Figure \@ref(fig:longvswide) permet de mieux comprendre la distinction entre les deux formats: on supposera que nos données sont toujours en format long, ce dernier étant assumé par défaut par le logiciel pour procéder à l'ajustement d'un modèle..
-
-```{r longvswide, fig.cap = "Format long versus format large (_wide_) (dessin de Garrick Aden-Buie).", echo = FALSE}
-knitr::include_graphics(path = "images/original-dfs-tidy.png")
-```
-
-
-
-
-- Une **variable** représente une caractéristique de la population d'intérêt, par exemple le sexe d'un individu, le prix d'un article, etc. 
+- Une **variable** représente une caractéristique de la population d'intérêt, par exemple le sexe d'un individu, le prix d'un article, etc.
 - une **observation**, parfois appelée donnée, est un ensemble de mesures collectées sous des conditions identiques, par exemple pour un individu ou à un instant donné.
 
-Le choix de modèle statistique ou de test dépend souvent du type de variables collectées. Les variables peuvent être de plusieurs types: quantitatives (discrètes ou continues) si elles prennent des valeurs numériques, qualitatives (binaires, nominales ou ordinales) si elles sont décrites par un adjectif; je préfère le terme catégorielle, plus évocateur.  
+Le choix de modèle statistique ou de test dépend souvent du type de variables collectées. Les variables peuvent être de plusieurs types: quantitatives (discrètes ou continues) si elles prennent des valeurs numériques, qualitatives (binaires, nominales ou ordinales) si elles sont décrites par un adjectif; je préfère le terme catégorielle, plus évocateur.
 
 <!-- ```{r variablesquanti, fig.cap = "Illustration par Allison Horst de variables continues (gauche) et discrètes (droite).", echo = FALSE} -->
 <!-- knitr::include_graphics('images/continuous_discrete.png') -->
@@ -404,26 +394,26 @@ Les variables catégorielles représentent un ensemble fini de possibilités. On
 Le principal type de graphique pour représenter la distribution d'une variable catégorielle est le diagramme en bâtons, dans lequel la fréquence de chaque catégorie est présentée sur l'axe des ordonnées ($y$) en fonction de la modalité, sur l'axe des abscisses ($x$), et ordonnées pour des variables ordinales. Cette représentation est en tout point supérieur au [diagramme en camembert](http://www.perceptualedge.com/articles/08-21-07.pdf), une engeance répandu qui devrait être honnie (notamment parce que l'humain juge mal les différences d'aires, qu'une simple rotation change la perception du graphique et qu'il est difficile de mesurer les proportions) --- ce n'est pas de la tarte!
 
 ```{r barplotrenfe, cache = TRUE, echo = FALSE, fig.cap = "Diagramme en bâtons pour la classe des billets de trains du jeu de données Renfe."}
-g1 <- ggplot(data = renfe, aes(x = classe)) + 
-  geom_bar() + 
+g1 <- ggplot(data = renfe, aes(x = classe)) +
+  geom_bar() +
   labs(x = "classe", y = "dénombrement")
-g2 <- ggplot(data = renfe, aes(x = type)) + 
-  geom_bar() + 
+g2 <- ggplot(data = renfe, aes(x = type)) +
+  geom_bar() +
   labs(x = "type de train", y = "dénombrement")
 gridExtra::grid.arrange(g1, g2, ncol=2)
 ```
 
 
-Puisque les variables continues peuvent prendre autant de valeurs distinctes qu'il y a d'observations, on ne peut simplement compter le nombre d'occurrence par valeur unique. On regroupera plutôt dans un certain nombre d'intervalle, en discrétisant l'ensemble des valeurs en classes pour obtenir un histogramme. Le nombre de classes dépendra du nombre d'observations si on veut que l'estimation ne soit pas impactée par le faible nombre d'observations par classe: règle générale, le nombre de classes ne devrait pas dépasser $\sqrt{n}$, où $n$ est le nombre d'observations de l'échantillon. On obtiendra la fréquence de chaque classe, mais si on normalise l'histogramme (de façon à ce que l'aire sous les bandes verticales égale un), on obtient une approximation discrète de la fonction de densité. Faire varier le nombre de classes permet parfois de faire apparaître des caractéristiques de la variable (notamment la  multimodalité, l'asymmétrie et les arrondis). 
+Puisque les variables continues peuvent prendre autant de valeurs distinctes qu'il y a d'observations, on ne peut simplement compter le nombre d'occurrence par valeur unique. On regroupera plutôt dans un certain nombre d'intervalle, en discrétisant l'ensemble des valeurs en classes pour obtenir un histogramme. Le nombre de classes dépendra du nombre d'observations si on veut que l'estimation ne soit pas impactée par le faible nombre d'observations par classe: règle générale, le nombre de classes ne devrait pas dépasser $\sqrt{n}$, où $n$ est le nombre d'observations de l'échantillon. On obtiendra la fréquence de chaque classe, mais si on normalise l'histogramme (de façon à ce que l'aire sous les bandes verticales égale un), on obtient une approximation discrète de la fonction de densité. Faire varier le nombre de classes permet parfois de faire apparaître des caractéristiques de la variable (notamment la  multimodalité, l'asymmétrie et les arrondis).
 
 Puisque qu'on groupe les observations en classe pour tracer l'histogramme, il est difficile de voir l'étendue des valeurs que prenne la variable: on peut rajouter des traits sous l'histogramme pour représenter les valeurs uniques prises par la variable, tandis que la hauteur de l'histogramme nous renseigne sur leur fréquence relative.
 
 ```{r histrenfe, cache = TRUE, echo = FALSE, fig.cap = "Histogramme du prix des billets au tarif Promo de trains du jeu de données Renfe"}
 renfe %>% subset(tarif == "Promo") %>%
-  ggplot(aes(x = prix)) + 
+  ggplot(aes(x = prix)) +
     geom_histogram(aes(y = ..density..), bins = 30) +
-    geom_rug(sides = "b") + 
-    labs(x = "prix de billets au tarif Promo (en euros)", y = "densité") 
+    geom_rug(sides = "b") +
+    labs(x = "prix de billets au tarif Promo (en euros)", y = "densité")
 ```
 
 Une boîte à moustaches(*boxplot*) représente graphiquement cinq statistiques descriptives.
@@ -440,33 +430,34 @@ On peut représenter la distribution d'une variable réponse continue en fonctio
 
 ```{r histboxplot, cache = TRUE, echo = FALSE, fig.cap = "Boîte à moustaches du prix des billets au tarif Promo en fonction de la classe pour le jeu de données Renfe."}
 renfe %>% subset(tarif == "Promo") %>%
-    ggplot(aes(y = prix, x = classe, col = type)) + 
-    geom_boxplot() + 
-    labs(y = "prix (en euros)", col = "type de train") + 
+    ggplot(aes(y = prix, x = classe, col = type)) +
+    geom_boxplot() +
+    labs(y = "prix (en euros)", col = "type de train") +
     theme(legend.position = "bottom")
 ```
 
-Si on veut représenter la covariabilité de deux variables continues, on utilise un nuage de points où chaque variable est représentée sur un axe et chaque observation donne la coordonnée des points. Si la représentation graphique est dominée par quelques valeurs très grandes, une transformation des données peut être utile: vous verrez souvent des données positives à l'échelle logarithmique. Avec des données massives, les points seront superposés et le diagramme risque d'être illisible. Parmi les solutions envisagées, l'utilisation de la transparence, qui permet de voir où les points sont plus fréquents, ou encore un diagramme avec des classes hexagonale, l'équivalent d'un histogramme bidimensionnel où on remplace les classes par des hexagones. Le panneau de gauche de la Figure \@ref(fig:nuagedepoints) représente ainsi 100 observations simulées à l'aide d'un nuage de points 100 observations, tandis simulées. Dans le panneau de droite, on utilise plutôt un diagramme hexagonal pour représenter les 10 000 points, ce qui donne un aperçu de la densité conjointe des deux variables.
+Si on veut représenter la covariabilité de deux variables continues, on utilise un nuage de points où chaque variable est représentée sur un axe et chaque observation donne la coordonnée des points. Si la représentation graphique est dominée par quelques valeurs très grandes, une transformation des données peut être utile: vous verrez souvent des données positives à l'échelle logarithmique.
+<!--Avec des données massives, les points seront superposés et le diagramme risque d'être illisible. Parmi les solutions envisagées, l'utilisation de la transparence, qui permet de voir où les points sont plus fréquents, ou encore un diagramme avec des classes hexagonale, l'équivalent d'un histogramme bidimensionnel où on remplace les classes par des hexagones. Le panneau de gauche de la Figure \@ref(fig:nuagedepoints) représente ainsi 100 observations simulées à l'aide d'un nuage de points 100 observations. Dans le panneau de droite, on utilise plutôt un diagramme hexagonal pour représenter les 10 000 points, ce qui donne un aperçu de la densité conjointe des deux variables.
+-->
 
-
-```{r nuagedepoints, cache = TRUE, echo = FALSE, fig.cap="Nuage de points (gauche) et diagramme hexagonal (droite) pour des données simulées.", fig.width = 8}
+```{r nuagedepoints, cache = TRUE, eval = FALSE, echo = FALSE, fig.cap="Nuage de points (gauche) et diagramme hexagonal (droite) pour des données simulées.", fig.width = 8}
 set.seed(1234)
 datsim <- TruncatedNormal::rtmvnorm(n = 100, lb = c(0,1), sigma = cbind(c(1,0.5), c(0.5,1)))
-g1 <- ggplot(data = data.frame(x = datsim[,1], y = datsim[,2]), 
-             aes(x = x, y = y)) + 
-  geom_point() 
-datsim <- TruncatedNormal::rtmvnorm(n = 10000, 
+g1 <- ggplot(data = data.frame(x = datsim[,1], y = datsim[,2]),
+             aes(x = x, y = y)) +
+  geom_point()
+datsim <- TruncatedNormal::rtmvnorm(n = 10000,
                                     lb = c(0,0), sigma = cbind(c(1,0.5), c(0.5,1)))
-g2 <- ggplot(data = data.frame(x = datsim[,1], y = datsim[,2]), 
-             aes(x = x, y = y)) + 
-  geom_hex()  + 
+g2 <- ggplot(data = data.frame(x = datsim[,1], y = datsim[,2]),
+             aes(x = x, y = y)) +
+  geom_hex()  +
   labs(fill = "décompte")
 gridExtra::grid.arrange(g1, g2, ncol=2)
 ```
-
+<!--
 Certaines données ont une structure particulière: pensons aux séries chronologiques, aussi appelées séries temporelles, qui comportent des observations ordonnées dans le temps. On représente chaque variable d'une série chronologique (sur l'axe des $y$) en fonction du temps (sur l'axe des $x$). Il est d'usage de relier les observations, bien que cet aperçu soit parfois trompeur.
-
-```{r seriechrono, cache = TRUE, fig.cap = "Représentation graphique d'une série chronologique.", echo = FALSE}
+-->
+```{r seriechrono, cache = TRUE, eval = FALSE, fig.cap = "Représentation graphique d'une série chronologique.", echo = FALSE}
 set.seed(1234)
 # Dummy data
 data <- data.frame(
@@ -474,17 +465,17 @@ data <- data.frame(
   value = rnorm(365) + exp(seq(-140, 224) / 100)
 )
 ggplot(data, aes(x=day, y=value)) +
-  geom_line() + 
-  xlab("temps (en mois)") + 
+  geom_line() +
+  xlab("temps (en mois)") +
   ylab("valeur")
 
 ```
 
 
-Plutôt que de décrire plus en détail le processus de l'analyse exploratoire, on présente un exemple qui illustre le cheminement habitue sur les données de trains de la Renfe introduites précédemment. 
+Plutôt que de décrire plus en détail le processus de l'analyse exploratoire, on présente un exemple qui illustre le cheminement habitue sur les données de trains de la Renfe introduites précédemment.
 
 ```{example, label="renfe-aed", name = "Analyse exploratoire des trains Renfe"}
-La première étape consisterait à lire la description de la base de données. Le jeu de données `renfe` contient les variables suivantes
+La première étape consisterait à lire la description de la base de données. Le jeu de données $\\texttt{renfe}$ contient les variables suivantes
 ```
 
 -  `prix`: prix du billet (en euros);
@@ -495,107 +486,121 @@ La première étape consisterait à lire la description de la base de données. 
 -  `duree`: longueur annoncée du trajet (en minutes);
 -  `jour` entier indiquant le jour de la semaine du départ allant de dimanche (`1`) à samedi (`7`).
 
-Il n'y a pas de valeurs manquantes et un aperçu des données (`head(renfe)`) montre qu'elles sont en format long, ce qui veut dire que chaque ligne contient une seule valeur pour la variable réponse, ici le prix d'un billet de train. On entame l'analyse exploratoire avec des questions plutôt vagues, par exemple 
+Il n'y a pas de valeurs manquantes et un aperçu des données (`head(renfe)`) montre qu'elles sont en format long, ce qui veut dire que chaque ligne contient une seule valeur pour la variable réponse, ici le prix d'un billet de train. On entame l'analyse exploratoire avec des questions plutôt vagues, par exemple
 
 1. Quels sont les facteurs déterminant le prix et le temps de parcours?
 2. Est-ce que le temps de parcours est le même peut importe le type de train?
 3. Quelles sont les caractéristiques distinctives des types de train?
 4. Quelles sont les principales différences entre les tarifs?
 
-À l'exception de `prix` et de `duree`, toutes les variables explicatives sont catégorielles et stockées sous forme de facteur (`factor`). S'il faut déclarer chacune de ces variables, on porte une attention particulière à `jour` pour éviter les mauvaises surprises ultérieures.
+À l'exception de `prix` et de `duree`, toutes les variables explicatives sont catégorielles. On porte une attention particulière à `jour` pour éviter les mauvaises surprises ultérieures.
 
-On peut utiliser `str` pour obtenir un aperçu des données; la fonction `summary` permet d'obtenir des statistiques descriptives selon que les variables sont continues (minimum, maximum, moyenne, quartiles) ou catégoriells (fréquence); la fonction rapport aussi le nombre de valeurs manquantes (`NA`) par variable. 
+<!--
+On peut utiliser `str` pour obtenir un aperçu des données; la fonction `summary` permet d'obtenir des statistiques descriptives selon que les variables sont continues (minimum, maximum, moyenne, quartiles) ou catégoriells (fréquence); la fonction rapport aussi le nombre de valeurs manquantes (`NA`) par variable.
+-->
 
+<!--
 La manipulation de variables dans des bases de données est parfois loin d'être toujours élégante en **R**: on accès aux variables avec `$`, par exemple `renfe$prix`. Une alternative plus lisible et modulaire est d'utiliser l'opérateur tuyau (`%>%`), qui permet de créer une chaîne logique de commandes; la fonction `count` sert à compter le nombre d'instance de chaque modalité (ces fonctionnalités ne sont pas disponibles dans **R** par défaut, mais avec les paquetages `tidyverse` ou l'alternative minimale `poorman`, préalablement chargée).
+-->
 
-```{r renfe-aed1}
-renfe %>% count(classe)
+
+
+```{r renfe-aed1a, echo = FALSE}
+renfe %>% count(classe) %>% kbl(caption = "Nombre d'observations du jeu de données $\\texttt{renfe}$ par classe.") %>% kable_styling()
+```
+
+```{r renfe-aed1b, echo = FALSE}
 # un raccourci pour la même syntaxe
-renfe %>% group_by(type) %>% tally()
-renfe %>% group_by(tarif) %>% tally()
+renfe %>% group_by(type) %>% tally()  %>% kbl(caption = "Nombre d'observations du jeu de données $\\texttt{renfe}$ par type de billets.") %>% kable_styling()
+```
+
+```{r renfe-aed1c, echo = FALSE}
+renfe %>% group_by(tarif) %>% tally()  %>% kbl(caption = "Nombre d'observations du jeu de données $\\texttt{renfe}$ par tarif.") %>% kable_styling()
 ```
 
 En analysant le nombre de trains dans les catégories, on remarque qu'il y a autant de billets de type `REXPRESS` que le nombre de billets au tarif `AdultoIda`. On peut faire le décompte par catégorie avec un tableau de contingence, qui compte le nombre respectif dans chaque sous-catégorie. Dans la base de données Renfe, tous les billets pour les RegioExpress sont vendus au tarif `AdultoIda` en classe `Turista`. Le nombre de billets est minime, à peine 397 sur 10000. Cela suggère une nouvelle question: pourquoi ces trains sont-ils si peu populaires?
 
 ```{r renfe-aed2, echo = FALSE}
-renfe %>% count(tarif, type)
+renfe %>% count(tarif, type)  %>% kbl(caption = "Tableau croisé du décompte par tarif et type de billets du jeu de données $\\texttt{renfe}$.") %>% kable_styling()
 ```
 
 On remarque également que seulement 17 temps de parcours sont affichés sur les billets (`renfe %>% distinct(duree)` ou `unique(renfe$duree)`). On peut donc penser que la durée affichée sur le billet (en minutes) est le temps de trajet annoncé. La majeure partie (15 sur 17) des temps de parcours sont sous la barre des 3h15, hormis deux qui dépassent les 9h! Selon Google Maps, les deux villes sont distantes de 615km par la route, 500km à vol d'oiseau. Cela implique que, vraisemblablement, certains trains dépassent les 200km/h, tandis que d'autres vont plutôt à 70km/h. Quels sont ces trains plus lent? La variable `type` codifie probablement ce fait, et permet de voir que ce sont les trains RegioExpress qui sont dans cette catégorie.
 
-```{r renfe-aed3, eval = TRUE}
-renfe %>% 
-  subset(duree > 200) %>% 
-  group_by(type, dest) %>% 
-  summarise("durée moyenne" = mean(duree), 
+```{r renfe-aed3, eval = TRUE, echo = FALSE}
+renfe %>%
+  subset(duree > 200) %>%
+  group_by(type, dest) %>%
+  summarise("durée moyenne" = mean(duree),
             "écart-type" = sd(duree),
-            "prix moyen" = mean(prix), 
-            "écart-type" = sd(prix)) 
+            "prix moyen" = mean(prix),
+            "écart-type" = sd(prix)) %>%
+            kbl(caption = "Statistiques descriptives de la durée de trajet et du prix du billet par type de billet et destination pour le jeu de données $\\texttt{renfe}$.") %>% kable_styling()
 ```
 
 Aller de Madrid à Barcelone à l'aide d'un train régulier prend 18 minutes de plus. Avec plus de 9h de trajet, pas étonnant donc que ces billets soient peu courus. Encore plus frappant, on note que le prix des billets est fixe: 43.25 euros peu importe que le trajet soit aller ou retour. C'est probablement la trouvaille la plus importante jusqu'à maintenant, car les billets de train de type RegioExpress ne forment pas un échantillon: il n'y a aucune variabilité! On aurait pu également découvrir cette anomalie en traçant une boîte à moustaches du prix en fonction du type de train.
 
 ```{r renfe-aed4, cache = TRUE,echo = FALSE, fig.cap = "Boîte à moustaches du prix de billets de train de Renfe en fonction de la destination et du type de train."}
-ggplot(data = renfe, aes(x = type, y = prix, col = dest)) + 
-  geom_boxplot() + 
+ggplot(data = renfe, aes(x = type, y = prix, col = dest)) +
+  geom_boxplot() +
   labs(y = "prix (en euros)",
        x = "type de train",
        color = "destination") +
   theme(legend.position = "bottom")
 ```
 
-On pourrait soupçonner que les trains étiquetés `AVE` soient plus rapides, sachant que c'est l'acronyme de *Alta Velocidad Española*, littéralement haute vitesse espagnole. Qu'en est-il des distinctions entre les deux types de trains étiquetés AVE? Selon [le site de la SNCF](https://www.renfe-sncf.com/rw-en/services/a-unique-experience/Pages/services.aspx), les trains AVE-TGV sont des partenariats entre la Renfe et la SNCF et effectuent des liaisons entre la France et l'Espagne. 
+On pourrait soupçonner que les trains étiquetés `AVE` soient plus rapides, sachant que c'est l'acronyme de *Alta Velocidad Española*, littéralement haute vitesse espagnole. Qu'en est-il des distinctions entre les deux types de trains étiquetés AVE? Selon [le site de la SNCF](https://www.renfe-sncf.com/rw-en/services/a-unique-experience/Pages/services.aspx), les trains AVE-TGV sont des partenariats entre la Renfe et la SNCF et effectuent des liaisons entre la France et l'Espagne.
 
 
 
-```{r renfe-aed5}
-renfe %>% 
-  subset(type %in% c("AVE","AVE-TGV")) %>% 
-  group_by(type, dest) %>% 
-  summarise("durée moyenne" = mean(duree), 
+```{r renfe-aed5, echo = FALSE}
+renfe %>%
+  subset(type %in% c("AVE","AVE-TGV")) %>%
+  group_by(type, dest) %>%
+  summarise("durée moyenne" = mean(duree),
             "écart-type" = sd(duree),
             "prix moyen" = mean(prix),
-            "écart-type" = sd(prix))
+            "écart-type" = sd(prix)) %>%
+  kbl(caption = "Statistiques descriptives de la durée de trajet et du prix du billet par type de billet et destination pour les trains grande vitesse du jeu de données $\\texttt{renfe}$.") %>% kable_styling()
 ```
 
 Les prix sont beaucoup plus élevés, en moyenne plus de deux fois plus que les trains régionaux. Les écarts de prix importants (l'écart type est de 20 euros) indique qu'il y a peut-être d'autres sources d'hétérogénéité, mais on pourrait soupçonner que la Renfe pratique la tarification dynamique. Il y un seul temps de parcours prévu pour les trains AVE-TGV. On ne note pas de différence de prix notable selon la direction ou le type de train grande vitesse, mais peut-être que les tarifs ou la classe disponibles diffèrent selon que le train ou non est en partenariat avec la compagnie française.
 
-On n'a pas encore considéré le tarif et la classe des billets, hormis pour les trains RegioExpress. On voit dans la Figure \@ref(fig:renfe-aed7) une forte différente dans l'hétérogénéité des prix selon le tarif; le tarif Promo prend plusieurs valeurs distinctes, tandis que les tarifs AdultoIda et Flexible semblent ne prendre que quelques valeurs. La première classe (`Preferente`) est plus chère et il y a moins d'observations dans ce groupe. La classe Turista est la classe la moins dispendieuse et la plus populaire. [`TuristaPlus`](http://web.archive.org/web/20161111134241/http://www.renfe.com/viajeros/tarifas/billete_promo.html) offre plus de confort, tandis que `TuristaSolo` permet d'obtenir un siège individuel. 
+On n'a pas encore considéré le tarif et la classe des billets, hormis pour les trains RegioExpress. On voit dans la Figure \@ref(fig:renfe-aed7) une forte différente dans l'hétérogénéité des prix selon le tarif; le tarif Promo prend plusieurs valeurs distinctes, tandis que les tarifs AdultoIda et Flexible semblent ne prendre que quelques valeurs. La première classe (`Preferente`) est plus chère et il y a moins d'observations dans ce groupe. La classe Turista est la classe la moins dispendieuse et la plus populaire. [`TuristaPlus`](http://web.archive.org/web/20161111134241/http://www.renfe.com/viajeros/tarifas/billete_promo.html) offre plus de confort, tandis que `TuristaSolo` permet d'obtenir un siège individuel.
 
 Côté tarif, [Promo](http://web.archive.org/web/20161111134241/http://www.renfe.com/viajeros/tarifas/billete_promo.html) et [PromoPlus](http://web.archive.org/web/20161110220249/http://www.renfe.com/viajeros/tarifas/billete_promoplus.html) permette d'obtenir des rabais pouvant aller jusqu'à respectivement 70\% et 65\%. Les annulations et changements ne sont pas possibles avec Promo, mais disponibles avec PromoPlus moyennant une pénalité équivalent à 30-20\% du prix du billet. Le tarif [Flexible](http://web.archive.org/web/20161108192609/http://www.renfe.com/viajeros/tarifas/billete_flexible.html) est disponible au même prix que les billets réguliers, avec des bénéfices additionnels.
 
-```{r renfe-aed6, cache = TRUE, echo = TRUE, fig.cap = "Boîte à moustaches du prix en fonction du tarif et de la classe de billets de trains à haute vitesse de la Renfe."}
+```{r renfe-aed6, cache = TRUE, echo = FALSE, fig.cap = "Boîte à moustaches du prix en fonction du tarif et de la classe de billets de trains à haute vitesse de la Renfe."}
 renfe %>% subset(tarif  != "AdultoIda") %>%
-ggplot(aes(y = prix, x = classe, col = tarif)) + 
-  geom_boxplot() + 
+ggplot(aes(y = prix, x = classe, col = tarif)) +
+  geom_boxplot() +
   labs(y = "prix (en euros)",
        x = "classe",
        color = "tarif") +
   theme(legend.position = "bottom")
 ```
 
-```{r renfe-aed7, cache = TRUE,echo = TRUE, fig.cap = "Histogrammes du prix en fonction du tarif de billets de trains de la Renfe."}
+```{r renfe-aed7, cache = TRUE, echo = FALSE, fig.cap = "Histogrammes du prix en fonction du tarif de billets de trains de la Renfe."}
 ggplot(data = renfe, aes(x = prix, y=..density.., fill = tarif)) +
     geom_histogram(binwidth = 5) +
-    labs(x = "prix (en euros)", y = "densité") + 
+    labs(x = "prix (en euros)", y = "densité") +
     theme(legend.position = "bottom")
 # Vérifier la répartition des billets Flexible
-renfe %>% subset(tarif  == "Flexible") %>% count(prix, classe)
+renfe %>% subset(tarif  == "Flexible") %>% count(prix, classe)  %>% kbl(caption = "Décompte des billets au tarif Flexible par prix et classe pour le jeu de données $\\texttt{renfe}$.") %>% kable_styling()
 ```
 
-On note que la répartition des prix pour les billets de classe Flexible est inhabituelle: notre boîte à moustachesest écrasée et l'écart interquartile semble nul, même si quelques valeurs inexpliquées sont aussi présentes. L'écrasante majorité des billets Flexibles sont en classe Turista, donc ça pourrait être dû à un (trop) faible nombre de billets dans chaque catégorie. On peut rejeter cette hypothèse en calculant le nombre de trains au tarif Flexible pour les différents types de billets.  Ni la durée, ni le type de train, ni la destination n'expliquent pas pourquoi le prix de certains billets Flexibles est plus faible ou élevés. Le prix des billets Promo est plus faible, et les billets au tarif Preferente (la première classe) sont plus élevés. 
+On note que la répartition des prix pour les billets de classe Flexible est inhabituelle: notre boîte à moustachesest écrasée et l'écart interquartile semble nul, même si quelques valeurs inexpliquées sont aussi présentes. L'écrasante majorité des billets Flexibles sont en classe Turista, donc ça pourrait être dû à un (trop) faible nombre de billets dans chaque catégorie. On peut rejeter cette hypothèse en calculant le nombre de trains au tarif Flexible pour les différents types de billets.  Ni la durée, ni le type de train, ni la destination n'expliquent pas pourquoi le prix de certains billets Flexibles est plus faible ou élevés. Le prix des billets Promo est plus faible, et les billets au tarif Preferente (la première classe) sont plus élevés.
 
 
 On peut résumer notre brève analyse exploratoire:
 
-- plus de 91\% des trains sont des trains à grande vitesse AVE. 
-- le temps de trajet dépend du type de train: les trains à grande vitesse mettent 3h20 au maximum pour relier Madrid et Barcelone. 
+- plus de 91\% des trains sont des trains à grande vitesse AVE.
+- le temps de trajet dépend du type de train: les trains à grande vitesse mettent 3h20 au maximum pour relier Madrid et Barcelone.
 - les temps de trajets sont ceux annoncés (variable discrète avec 17 valeurs uniques, dont 13 pour les trains AVE)
 - le prix de trains RegioExpress est fixe (43.25€); tous ces billets sont dans la classe Turista et au tarif Adulto Ida. 57\% de ces trains vont de Barcelone à Madrid. La durée du trajet pour les RegioExpress est de 9h22 de Barcelona à Madrid, 18 minutes de plus que dans l'autre direction.
-- les billets en classe`Preferente` sont plus chers et moins fréquents. La classe `Turista` est la classe la moins dispendieuse et la plus populaire. `TuristaPlus` offre plus de confort, tandis que `TuristaSolo` permet d'obtenir un siège individuel. 
-- selon le [site web de la Renfe](https://www.renfe.com/es/es/viajar/tarifas/billetes.html), les billets au tarif `Flexible` « viennent avec des offres additionnelles qui permettent au passagers d'échanger leurs billets ou annuler s'ils manquent leurs trains. »; en contrepartie, ces billets sont plus chers et leur tarif est fixe sauf une poignée de billets dont le prix reste inexpliqué. 
-- la distribution des prix des billets de TGV au tarif `Promo` est plus ou moins symmétrique, tandis que les billets au tarif `Flexible` apparaissent tronqués à gauche (le prix minimum pour ces billets est 107.7€ dans l'échantillon). 
-- la Renfe pratique la tarification dynamique pour les billets au tarif promotionnel `Promo`: ces derniers peuvent être jusqu'à 70\% moins chers que les billets à prix régulier lorsqu'achetés via l'agence officielle ou le site de Renfe. Ces billets ne peuvent être ni remboursés, ni échangés. 
+- les billets en classe`Preferente` sont plus chers et moins fréquents. La classe `Turista` est la classe la moins dispendieuse et la plus populaire. `TuristaPlus` offre plus de confort, tandis que `TuristaSolo` permet d'obtenir un siège individuel.
+- selon le [site web de la Renfe](https://www.renfe.com/es/es/viajar/tarifas/billetes.html), les billets au tarif `Flexible` « viennent avec des offres additionnelles qui permettent au passagers d'échanger leurs billets ou annuler s'ils manquent leurs trains. »; en contrepartie, ces billets sont plus chers et leur tarif est fixe sauf une poignée de billets dont le prix reste inexpliqué.
+- la distribution des prix des billets de TGV au tarif `Promo` est plus ou moins symmétrique, tandis que les billets au tarif `Flexible` apparaissent tronqués à gauche (le prix minimum pour ces billets est 107.7€ dans l'échantillon).
+- la Renfe pratique la tarification dynamique pour les billets au tarif promotionnel `Promo`: ces derniers peuvent être jusqu'à 70\% moins chers que les billets à prix régulier lorsqu'achetés via l'agence officielle ou le site de Renfe. Ces billets ne peuvent être ni remboursés, ni échangés.
 - il n'y a pas d'indication à effet de quoi les prix varient selon la direction du trajet.
 
 

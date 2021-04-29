@@ -9,7 +9,7 @@ L'estimateur des moindres carrés ordinaires résoud le problème d'optimisation
 \begin{align*}
 \widehat{\boldsymbol{\beta}}=\min_{\boldsymbol{\beta} \in \mathbb{R}^{p+1}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}).
 \end{align*}
-On peut calculer la dérivée première par rapport à $\boldsymbol{\beta}$, égaler à zéro et isoler le maximum pour obtenir une formule explicite pour $\widehat{\boldsymbol{\beta}}$,  
+On peut calculer la dérivée première par rapport à $\boldsymbol{\beta}$, égaler à zéro et isoler le maximum pour obtenir une formule explicite pour $\widehat{\boldsymbol{\beta}}$,
 \begin{align*}
 \mathbf{0}_n&=\frac{\partial}{\partial\boldsymbol{\beta}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\\
 \\&=\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial \boldsymbol{\beta}}\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}\\
@@ -23,3 +23,56 @@ Si $\mathbf{X}$ est une matrice de rang $p$, alors la forme quadratique $\mathbf
 \begin{align*}
 \widehat{\boldsymbol{\beta}} = (\mathbf{X}^{\top} \mathbf{X})^{-1} \mathbf{X}^{\top} \boldsymbol{Y}.
 \end{align*}
+
+
+## Dérivation du coefficient de détermination {#derivationR2}
+
+Le point de départ de cette dérivation est la décomposition orthogonale entre le vecteur de valeurs ajustées et de résidus,  $\boldsymbol{y}=\widehat{\boldsymbol{y}} + \boldsymbol{e}$. Pourvu que la matrice du modèle $\mathbf{X}$ contienne l'équivalent de l'ordonnée à l'origine $\mathbf{1}_n \in \mathcal{S}(\mathbf{X})$, alors la moyenne des résidus ordinaires est nulle, $\overline{\boldsymbol{e}}=0$ et il en découle que la moyenne empirique des réponses est égale à la moyenne empirique des valeurs ajustées. Puisque $n^{-1}\sum_{i=1}^n \widehat{y}_i = n^{-1}\sum_{i=1}^n ({y}_i-e_i)=\overline{y}$,
+\begin{align*}
+\widehat{\mathsf{Cor}}\left(\widehat{\boldsymbol{y}}, \boldsymbol{y}\right)
+&= \frac{(\boldsymbol{y} - \overline{y}\mathbf{1}_n)^\top(\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n)}
+{\|\boldsymbol{y} - \overline{y}\mathbf{1}_n\|\|\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n\|}
+\\&= \frac{(\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n)^\top(\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n) +
+\boldsymbol{e}^\top(\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n)}
+{\|\boldsymbol{y} - \overline{y}\mathbf{1}_n\|\|\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n\|}
+\\&= \frac{\|\widehat{\boldsymbol{y}} - \overline{y}\mathbf{1}_n\|}
+{\|\boldsymbol{y} - \overline{y}\mathbf{1}_n\|}
+\\&= \frac{\|\boldsymbol{y} - \overline{y}\mathbf{1}_n\| - \|\boldsymbol{e}\|}
+{\|\boldsymbol{y} - \overline{y}\mathbf{1}_n\|}
+\\&= \sqrt{\frac{\mathsf{SC}_c-\mathsf{SC}_e}{\mathsf{SC}_c}}= \mathrm{R}.
+\end{align*}
+Cela justifie la proposition de la [Section 2.5](#coefR2) voulant que le carré de la corrélation entre les valeurs ajustées et la variable réponse est égal à $R^2$.
+
+
+### Optimisation pour les modèles linéaires généralisés
+
+Il n'existe règle générale pas de solution explicite pour l'estimateur du maximum de vraisemblance $\widehat{\boldsymbol{\beta}}$ pour les modèles linéaires généralisés; l'équation du score étant typiquement nonlinéaire en $\boldsymbol{\beta}$, on doit obtenir  les estimateurs du maximum de vraisemblance par le biais d'algorithmes d'optimisation numérique.
+
+On dérive la log vraisemblance $\ell = \sum_{i=1}^n \log f(y_i; \theta, \phi)$ par rapport à
+$\boldsymbol{\beta}$. Pour simplifier, on considère chaque terme et coefficient à tour de rôle. Par la règle du produit,
+\begin{align*}
+\frac{\partial \ell_i}{\partial \beta_j} = \frac{\partial
+\eta_i}{\partial \beta_j} \frac{\partial \mu_i}{\partial \eta_i}
+\frac{\partial \theta_i}{\partial \mu_i}\frac{\partial
+\ell_i}{\partial \theta_i}
+\end{align*}
+et les dérivations antérieures nous donnent $\partial \ell_i/\partial \theta_i = (y_j-\mu_i)/a_i(\phi)$ et $\partial \mu_i / \partial \theta_i = b''(\theta_i) = \mathsf{Va}(Y_i)/a_i(\phi)$.
+La dérivée du prédicteur linéaire est $\partial \eta_i / \partial \beta_j = \mathrm{X}_{ij}$. La seule dérivée partielle manquante, $\partial \mu_i/\partial \eta_i$, dépend de la fonction de liaison puisque $\eta_i = g(\mu_i)$; cette dérivée vaut un pour la fonction de liaison canonique.
+
+Soit l'équation de score et la fonction d'information
+\begin{align*}
+U(\boldsymbol{\beta}) = \frac{\partial \ell}{\partial \boldsymbol{\beta}}, \qquad j(\boldsymbol{\beta}) = - \frac{\partial^2 \ell}{\partial \boldsymbol{\beta} \partial \boldsymbol{\beta}^\top},
+\end{align*}
+qui sont le gradient et la hessienne de la fonction de log vraisemblance; en prenant la somme de tous les termes individuels, le $j$e élément du vecteur de score $\boldsymbol{U}$ est
+\begin{align*}
+\frac{\partial \ell}{\partial \beta_j} = \sum_{i=1}^n \frac{(y_i-\mu_i)\mathrm{X}_{ij}}{g'(\mu_i)V(\mu_i)a_i(\phi)}, \qquad j=0, \ldots, p.
+\end{align*}
+Puisque le maximum de vraisemblance  $\widehat{\boldsymbol{\beta}}$ résoud l'équation du score $U(\widehat{\boldsymbol{\beta}})=\boldsymbol{0}_{p+1}$, on peut construire un algorithme de Newton--Raphson pour obtenir ce dernier. Si on fait un développement limité de Taylor du score $U(\widehat{\boldsymbol{\beta}})$ autour de $\boldsymbol{\beta}$,
+\begin{align*}
+\boldsymbol{0}_{p+1} = U(\widehat{\boldsymbol{\beta}}) \stackrel{\cdot}{=} U(\beta) - j(\boldsymbol{\beta}) (\widehat{\boldsymbol{\beta}}-\boldsymbol{\beta}).
+\end{align*}
+Pour autant que la matrice $(p+1)$  $j(\boldsymbol{\beta}^{(t)})$ soit invertible, on peut  utiliser la procédure itérative suivante: en partant d'une valeur initiale $\boldsymbol{\beta}^{(0)}$, on calcule à l'étape $t+1$
+\begin{align*}
+\boldsymbol{\beta}^{(t+1)} = \boldsymbol{\beta}^{(t)} + j^{-1}(\boldsymbol{\beta}^{(t)})U(\boldsymbol{\beta}^{(t)}).
+\end{align*}
+et on itère la formule jusqu'à convergence. La plupart des logiciels implémente une version de cet algorithme, dans lequel le négatif de la hessienne $j(\boldsymbol{\beta})$ est parfois remplacée par son espérance, $i(\boldsymbol{\beta})$: l'algorithme résultant est dénommé score de Fisher. Pour les modèles linéaire généralisés, ces récursions peuvent être effectuées à l'aide d'une variante des moindres carrés connue sous le nom de moindres carrés itérativement pondérés.

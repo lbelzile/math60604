@@ -1,15 +1,15 @@
 # Régression linéaire {#regression-lineaire}
 
 
-On entend par régression linéaire un modèle pour l'espérance conditionnelle d'une variable réponse $Y$ (ou régressande) en fonction de $p$ variables explicatives (appelées parfois régresseurs ou covariables) à l'aide d'une équation de la forme 
+On entend par régression linéaire un modèle pour l'espérance conditionnelle d'une variable réponse $Y$ (ou régressande) en fonction de $p$ variables explicatives (appelées parfois régresseurs ou covariables) à l'aide d'une équation de la forme
 \begin{align*}
 \mathsf{E}(Y \mid \mathbf{X})=\beta_0 + \beta_1\mathrm{X}_{1} + \cdots + \beta_p \mathrm{X}_{p}.
 \end{align*}
 Le fait que la moyenne est conditionnelle aux valeurs de $\mathbf{X}$  implique simplement que l'on considère les régresseurs comme constant, ou connus à l'avance.
 
-En pratique, tout modèle est une approximation de la réalité, aussi on ajoute un terme d'erreur qui sert à tenir compte du fait qu'aucune relation linéaire exacte ne lie $\mathbf{X}$ et $Y$, ou que les mesures de $Y$ contiennent des erreurs. Ce terme d'erreur aléatoire $\varepsilon$ servira de base à l'inférence car il permettra de quantifier l'adéquation entre notre modèle et les données. 
+En pratique, tout modèle est une approximation de la réalité, aussi on ajoute un terme d'erreur qui sert à tenir compte du fait qu'aucune relation linéaire exacte ne lie $\mathbf{X}$ et $Y$, ou que les mesures de $Y$ contiennent des erreurs. Ce terme d'erreur aléatoire $\varepsilon$ servira de base à l'inférence car il permettra de quantifier l'adéquation entre notre modèle et les données.
 
-On peut réécrire le modèle linéaire en terme de l'erreur pour un échantillon aléatoire de taille $n$: dénotons par $Y_i$ la valeur de $Y$ pour le sujet $i$, et $\mathrm{X}_{ij}$ la valeur de la $j$e variable explicative du sujet $i$. Le modèle de régression linéaire est 
+On peut réécrire le modèle linéaire en terme de l'erreur pour un échantillon aléatoire de taille $n$: dénotons par $Y_i$ la valeur de $Y$ pour le sujet $i$, et $\mathrm{X}_{ij}$ la valeur de la $j$e variable explicative du sujet $i$. Le modèle de régression linéaire est
 \begin{align}
 Y_i = \beta_0 + \beta_1 \mathrm{X}_{i1} + \ldots + \beta_p \mathrm{X}_{ip} +\varepsilon_{i}, \qquad i =1, \ldots, n, (\#eq:olsmean)
 \end{align}
@@ -24,7 +24,7 @@ Il est important de remarquer que ce modèle est linéaire dans les coefficients
 
 ## Introduction
 
-Le modèle linéaire est sans conteste le modèle statistique le plus couramment employé. Le terme « modèle linéaire » est trompeur: une grande panoplie de tests statistiques (tests-*t*, analyse de variance, test de Wilcoxon ou de Kruskal--Wallis) [peut être calculée à l'aide d'un modèle linéaire](https://lindeloev.github.io/tests-as-linear/linear_tests_cheat_sheet.pdf), tandis que [des modèles aussi divers que les arbres aléatoires, la régression en composantes principales et les réseaux de neurones multicouches ne sont en réalité que de bêtes modèles linéaires](https://threadreaderapp.com/thread/1286420597505892352.html). Ce qui change d'un modèle à l'autre est simplement la méthode d'optimisation (moindres carrés ordinaires, optimisation sous contrainte ou par descente de gradient stochastique), de même que le choix des variables explicatives (bases de spline pour la régression nonparamétrique, variables indicatrices pour les arbres, fonctions d'activations pour les réseaux de neurones). Ce chapitre porte sur la formulation de modèles linéaires, l'interprétation des coefficients et les tests usuels reliés à ces modèles. Certains modèles bien connus, comme l'analyse de variance, seront présentés comme cas spéciaux du modèle de régression linéaire. 
+Le modèle linéaire est sans conteste le modèle statistique le plus couramment employé. Le terme « modèle linéaire » est trompeur: une grande panoplie de tests statistiques (tests-*t*, analyse de variance, test de Wilcoxon ou de Kruskal--Wallis) [peut être calculée à l'aide d'un modèle linéaire](https://lindeloev.github.io/tests-as-linear/linear_tests_cheat_sheet.pdf), tandis que [des modèles aussi divers que les arbres aléatoires, la régression en composantes principales et les réseaux de neurones multicouches ne sont en réalité que de bêtes modèles linéaires](https://threadreaderapp.com/thread/1286420597505892352.html). Ce qui change d'un modèle à l'autre est simplement la méthode d'optimisation (moindres carrés ordinaires, optimisation sous contrainte ou par descente de gradient stochastique), de même que le choix des variables explicatives (bases de spline pour la régression nonparamétrique, variables indicatrices pour les arbres, fonctions d'activations pour les réseaux de neurones). Ce chapitre porte sur la formulation de modèles linéaires, l'interprétation des coefficients et les tests usuels reliés à ces modèles. Certains modèles bien connus, comme l'analyse de variance, seront présentés comme cas spéciaux du modèle de régression linéaire.
 
 
 Afin de rendre plus tangible le concept et les notions qui touchent aux modèles linéaires, on présentera ces notions dans le cadre d'un exemple. On s'intéresse à la discrimination salariale dans un collège américain, au sein duquel une étude a été réalisée pour investiguer s'il existait des inégalités salariales entre hommes et femmes. Le jeu de données contient les variables suivantes
@@ -38,14 +38,14 @@ Afin de rendre plus tangible le concept et les notions qui touchent aux modèles
 
 Une analyse exploratoire des données est de mise avant d'ébaucher un modèle. Si le salaire augmente au fil des ans, on voit que l'hétérogénéité change en fonction de l'échelon et qu'il y a une relation claire entre ce dernier et le nombre d'années de service (les professeurs n'étant éligibles à des promotions qu'après un certain nombre d'années). Les professeurs adjoints qui ne sont pas promus sont généralement mis à la porte, aussi il y a moins d'occasions pour que les salaires varient sur cette échelle.
 
-```{r edacollege, eval = TRUE, echo = FALSE, fig.cap = "Analyse exploratoire des données $\\texttt{college}$: répartition des salaires en fonction de l'échelon et du nombre d'années de service"}
+```{r edacollege, eval = TRUE, echo = FALSE, cache = TRUE, fig.cap = "Analyse exploratoire des données $\\texttt{college}$: répartition des salaires en fonction de l'échelon et du nombre d'années de service"}
 data(college, package = "hecmodstat")
-p1 <- ggplot(college, aes(y = salaire, x = echelon)) + 
+p1 <- ggplot(college, aes(y = salaire, x = echelon)) +
   geom_boxplot() +
   xlab("échelon académique") +
   ylab("salaire (en milliers de dollars USD)")
-p2 <- ggplot(college, aes(x = service, y = salaire, col = sexe)) + 
-  geom_point() + 
+p2 <- ggplot(college, aes(x = service, y = salaire, col = sexe)) +
+  geom_point() +
   facet_wrap(~ echelon, scales = "free") +
   xlab("années de service") +
   ylab("salaire (en milliers de dollars USD)") + theme(legend.position = "bottom")
@@ -54,7 +54,7 @@ p1 + p2 + plot_layout(width = c(1,3))
 ```
 Ainsi, le salaire augmente avec les années, mais la variabilité croît également. Il y a peu de femmes dans l'échantillon: moins d'information signifie moins de puissance pour détecter de petites différences de salaire. Si on fait un tableau de contingence de l'échelon et du sexe, on peut calculer la proportion relative homme/femme dans chaque échelon: `r round(100*11/(56+11),0)`\% des profs adjoints, `r round(100*10/(54+10),0)`\% pour les aggrégés, mais seulement `r round(100*18/(248+18),0)`\% des titulaires alors que ces derniers sont mieux payés en moyenne.
 ```{r tableaucontingence, eval = TRUE, echo = FALSE, fig.align = "center"}
-knitr::kable(table(college$sexe, college$echelon), 
+knitr::kable(table(college$sexe, college$echelon),
              caption = "Tableau de contingence donnant le nombre de professeurs du collège par sexe et par échelon académique.",
              booktabs = TRUE)
 ```
@@ -65,10 +65,10 @@ Le modèle linéaire simple n'inclut qu'une variable explicative et consiste en 
 ```{r droitenuage, eval =TRUE, echo = FALSE, fig.cap = "Régression linéaire simple pour le salaire en fonction des années de service; la droite satisfait le critère des moindres carrés."}
 library(hecmodstat)
 lmprof <- lm(salaire ~ service, data = college)
-ggplot(data = college, aes(x = service, y = salaire)) + 
+ggplot(data = college, aes(x = service, y = salaire)) +
   geom_point() +
-  geom_smooth(method = "lm", formula = "y ~ x",  se = FALSE, col = "black") + 
-  labs(x = "années de service", 
+  geom_smooth(method = "lm", formula = "y ~ x",  se = FALSE, col = "black") +
+  labs(x = "années de service",
        y = "salaire (en milliers USD)")
 ```
 
@@ -85,22 +85,22 @@ Une infinité de droites pourraient passer dans le nuage de points; il faut donc
 
 ## Moindres carrés ordinaires
 
-Les estimateurs des moindres carrés ordinaires $\widehat{\boldsymbol{\beta}}=(\widehat{\beta}_0, \ldots, \widehat{\beta}_p)$ sont les paramètres qui minimisent simultanément la distance euclidienne entre les observations $Y_i$ et les **valeurs ajustées** 
+Les estimateurs des moindres carrés ordinaires $\widehat{\boldsymbol{\beta}}=(\widehat{\beta}_0, \ldots, \widehat{\beta}_p)$ sont les paramètres qui minimisent simultanément la distance euclidienne entre les observations $Y_i$ et les **valeurs ajustées**
 \begin{align*}
  \widehat{Y}_i &= \widehat{\beta}_0 + \widehat{\beta}_1 \mathrm{X}_{i1} + \cdots + \widehat{\beta}_p \mathrm{X}_{ip}, \qquad i =1, \ldots, n.
 \end{align*}
-En d'autres mots, les estimateurs des moindres carrés sont la solution du problème d'optimization convexe 
+En d'autres mots, les estimateurs des moindres carrés sont la solution du problème d'optimization convexe
 \begin{align*}
 \widehat{\boldsymbol{\beta}} &=\min_{\boldsymbol{\beta} \in \mathbb{R}^{p+1}}\sum_{i=1}^n (Y_i-\widehat{Y}_i)^2= \min_{\boldsymbol{\beta}} \|\boldsymbol{Y}-\mathbf{X}\boldsymbol{\beta}\|^2
 \end{align*}
-Ce système d'équation a une solution  explicite qui est plus facilement exprimée en notation matricielle. Soit les matrices et vecteurs 
+Ce système d'équation a une solution  explicite qui est plus facilement exprimée en notation matricielle. Soit les matrices et vecteurs
 \begin{align*}
 \boldsymbol{Y} =
  \begin{pmatrix}
   Y_1 \\
   Y_2 \\
   \vdots \\
-  Y_n 
+  Y_n
  \end{pmatrix} ,
  \;
  \boldsymbol{\varepsilon} =
@@ -108,21 +108,21 @@ Ce système d'équation a une solution  explicite qui est plus facilement exprim
   \varepsilon_1 \\
   \varepsilon_2 \\
   \vdots \\
-  \varepsilon_n 
+  \varepsilon_n
  \end{pmatrix} ,
  \;
 \mathbf{X} = \begin{pmatrix}
 \mathrm{X}_{11} & \mathrm{X}_{12} & \cdots & \mathrm{X}_{1p} \\
 \mathrm{X}_{21} & \mathrm{X}_{22} & \cdots & \mathrm{X}_{2p} \\
 \vdots & \vdots & \ddots & \vdots \\
-\mathrm{X}_{n1} & \mathrm{X}_{n2} & \cdots & \mathrm{X}_{np} 
+\mathrm{X}_{n1} & \mathrm{X}_{n2} & \cdots & \mathrm{X}_{np}
 \end{pmatrix} , \;
 \boldsymbol{\beta} =
  \begin{pmatrix}
   \beta_1 \\
   \beta_2 \\
   \vdots \\
-  \beta_p 
+  \beta_p
  \end{pmatrix}
 \end{align*}
  Le modèle en notation matricielle s'écrit de manière compacte, \begin{align*}
@@ -145,23 +145,23 @@ Que représente les moindres carrés en deux dimensions? L'estimateur est celui 
 ols <- lm(salaire ~ service, data = college)
 res <- resid(ols)
 vlines <- data.frame(x1 = college$service, y1 = fitted(ols), y2 = fitted(ols)+ res)
-ggg <- ggplot2::ggplot(data = college, aes(x = service, y = salaire)) + 
-        geom_point() +  
+ggg <- ggplot2::ggplot(data = college, aes(x = service, y = salaire)) +
+        geom_point() +
   geom_smooth(method = "lm", se = FALSE, col ="black") +
-   labs(x = "années de service", 
+   labs(x = "années de service",
        y = "salaire (en milliers USD)") +
-        geom_segment(aes(x = x1, y = y1, xend = x1, yend = y2), color = hecblue, 
-                     data = vlines, show.legend = FALSE) 
+        geom_segment(aes(x = x1, y = y1, xend = x1, yend = y2), color = hecblue,
+                     data = vlines, show.legend = FALSE)
 print(ggg)
 ```
 
 ```{remark, label = "remarque-projection", name = "Géométrie des moindres carrés"}
-Si on considère les $n$ observations comme un vecteur (colonne), le terme $\mathbf{X} \widehat{\boldsymbol{\beta}}$ correspond à la projection sur l'espace linéaire engendré par les colonnes de la matrice $\mathbf{X}$, $\mathscr{S}_{\mathbf{X}}$ du vecteur de réponse $\boldsymbol{y}$. Les résidus ordinaires sont donc orthogonaux à $\mathscr{S}_{\mathbf{X}}$ par construction et les résidus sont orthogonaux aux valeurs ajustées, $\boldsymbol{e}^\top\widehat{\boldsymbol{y}}=0$. 
+Si on considère les $n$ observations comme un vecteur (colonne), le terme $\mathbf{X} \widehat{\boldsymbol{\beta}}$ correspond à la projection sur l'espace linéaire engendré par les colonnes de la matrice $\mathbf{X}$, $\mathscr{S}_{\mathbf{X}}$ du vecteur de réponse $\boldsymbol{y}$. Les résidus ordinaires sont donc orthogonaux à $\mathscr{S}_{\mathbf{X}}$ par construction et les résidus sont orthogonaux aux valeurs ajustées, $\boldsymbol{e}^\top\widehat{\boldsymbol{y}}=0$.
 Une conséquence directe est que la corrélation linéaire entre $\boldsymbol{e}$ et $\widehat{\boldsymbol{y}}$ est zéro; cette propriété nous servira dans les diagnostics graphiques.
 ```
 
 ```{remark, label = "remarque-coutMCO", name = "Complexité du calcul des moindres carrés ordinaires"}
-Tangente: en apprentissage automatique, on utilise souvent un algorithme du gradient (stochastique) pour estimer les estimés des moindres carrés ordinaires. Or, à moins d'avoir des tailles d'échantillons $n$ ou un nombre de covariables $p$ subséquent (pensez échelle Google), une solution approximative ne devrait pas être préférée à la solution exacte! D'un point de vue numérique, l'opération la plus coûteuse est le calcul de l'inverse de la matrice $\mathbf{X}^\top\mathbf{X}$, qui de dimension $(p+1) \times (p+1)$. Règle générale, on n'inverse pas directement cette matrice car ce n'est pas la façon la plus numériquement stable d'obtenir la solution. **R** utilise la décomposition QR qui a une complexité de $\mathrm{O}(np^2)$ (l'ordre du nombre de flops ou d'opérations pour le calcul). Une alternative plus coûteuse, mais plus stable numériquement, est la décomposition en valeurs singulières (même ordre en terme de calculs). 
+Tangente: en apprentissage automatique, on utilise souvent un algorithme du gradient (stochastique) pour estimer les estimés des moindres carrés ordinaires. Or, à moins d'avoir des tailles d'échantillons $n$ ou un nombre de covariables $p$ subséquent (pensez échelle Google), une solution approximative ne devrait pas être préférée à la solution exacte! D'un point de vue numérique, l'opération la plus coûteuse est le calcul de l'inverse de la matrice $\mathbf{X}^\top\mathbf{X}$, qui de dimension $(p+1) \times (p+1)$. Règle générale, on n'inverse pas directement cette matrice car ce n'est pas la façon la plus numériquement stable d'obtenir la solution. **R** utilise la décomposition QR qui a une complexité de $\mathrm{O}(np^2)$ (l'ordre du nombre de flops ou d'opérations pour le calcul). Une alternative plus coûteuse, mais plus stable numériquement, est la décomposition en valeurs singulières (même ordre en terme de calculs).
 ```
 
 Mais trève de disgression mathématique: tout bon logiciel calculera pour vous les estimés des moindres carrés. Retenez que l'on minimise une forme quadratique qui admet une solution explicite et unique pour autant que les colonnes de $\mathbf{X}$ ne soient pas colinéaires. Si vous avez plus d'une variable explicative, les valeurs ajustées seront situées sur un hyperplan (peu commode à représenter graphiquement). Maîtriser le langage associé à la régression (notamment les résidus ordinaires, les valeurs ajustées, etc.) est nécessaire pour la continuation.
@@ -196,33 +196,33 @@ L'équation du modèle linéaire simple qui n'inclut que cette variable catégor
 \end{align*}
 Un modèle linéaire qui contient uniquement une variable binaire $\mathrm{X}$ comme régresseur équivaut à spécifier une moyenne différente pour deux groupes; la moyenne des femmes est $\mathsf{E}(\texttt{salaire} \mid \texttt{sexe}=1) = \beta_0 + \beta_1 = \mu_1$ et $\beta_1=\mu_1-\mu_0$ représente la différence entre la moyenne des hommes et celles des femmes. L'estimateur des moindres carrés $\widehat{\beta}_0$ est la moyenne du salaire des hommes de l'échantillon et $\widehat{\beta}_1$ est la différence des moyennes empiriques entre femmes et hommes. Cette paramétrisation en terme d'**effets différentiels**  est particulièrement utile si on veut tester s'il y a une différence moyenne de salaire entre les deux sexe car cela revient à tester $\mathscr{H}_0: \beta_1=0$. Si on voulait obtenir directement la moyenne, il faudrait remplacer la matrice de plan d'expérience $[\mathbf{1}_n, \texttt{sexe}]$ par $[\mathbf{1}_n- \texttt{sexe},  \texttt{sexe}]$ pour obtenir un modèle équivalent. Règle générale, il n'est pas recommandé de retirer l'ordonnée à l'origine même si l'espace linéaire engendré par les colonnes de $\mathbf{X}$ contient $\mathbf{1}_n$.
 
-```{r graphcollegesexe, eval = TRUE, echo = FALSE, fig.cap = "Modèle linéaire simple pour les données $\\texttt{college}$ en fonction de la variable binaire sexe: bien que le modèle définisse une ligne, seule la valeur en $0/1$ est réalisable."}
+```{r graphcollegesexe, eval = TRUE, echo = FALSE, cache = TRUE, fig.cap = "Modèle linéaire simple pour les données $\\texttt{college}$ en fonction de la variable binaire sexe: bien que le modèle définisse une ligne, seule la valeur en $0/1$ est réalisable."}
 college$sexebin <- as.integer(relevel(college$sexe, ref = "homme")) - 1L
 coefs <- coef(lm(data = college, salaire ~ sexebin))
-ggplot(data = college, aes(x = sexebin, y = salaire, group = sexe)) + 
+ggplot(data = college, aes(x = sexebin, y = salaire, group = sexe)) +
   see::geom_violindot(aes(col = sexe), position_dots = position_jitter(width = 0.05)) +
-  geom_abline(intercept = coefs[1], slope = coefs[2]) + 
+  geom_abline(intercept = coefs[1], slope = coefs[2]) +
   theme(legend.position = c(.95, .95),
-    legend.justification = c("right", "top")) + 
-  labs(x = "sexe", y = "salaire (en milliers USD)") + 
-  stat_summary(fun = mean, aes(col = sexe)) + 
+    legend.justification = c("right", "top")) +
+  labs(x = "sexe", y = "salaire (en milliers USD)") +
+  stat_summary(fun = mean, aes(col = sexe)) +
    scale_x_continuous(breaks = 0:1,
                      limits = c(-0.1,1.5),
-                     labels = 0:1) 
+                     labels = 0:1)
 ```
 
 
 Si on ajuste un modèle de régression linéaire pour les données `college`, on obtient un salaire moyen de $\widehat{\beta}_0=`r mean(college$salaire[college$sexe == "homme"])`$ milliers de dollars USD pour les hommes et une différence moyenne de salaire entre femmes et hommes de $\widehat{\beta}_1=`r (mean(college$salaire[college$sexe == "homme"])-mean(college$salaire[college$sexe == "femme"]))`$ milliers de dollars. Puisque l'estimé est négatif, les femmes sont moins payés: ce modèle n'est en revanche pas suffisant pour déterminer s'il y a inéquité salariale: la Figure \@ref(fig:droitenuage) montre que le nombre d'années de service et l'échelon académique impactent fortement le salaire, or il n'est pas dit que la répartition des sexes au sein des échelons est comparable (et ce n'est pas le cas).
 
 Même si le modèle linéaire simple définit une droite, cette dernière n'a de sens qu'en $0$ ou $1$; la Figure \@ref(fig:graphcollegesexe) montre un estimé de la densité et la répartition des points (décalés) dans l'échantillon selon le sexe, avec la moyenne de chacun. On voit bien que la droite passe par la moyenne de chaque groupe.
-<!-- http://easysas.blogspot.com/2011/10/sas-how-to-draw-added-variable-plot.html 
+<!-- http://easysas.blogspot.com/2011/10/sas-how-to-draw-added-variable-plot.html
 : certains logiciels, **R** en tête, modifient les sorties et ne présentent plus le coefficient de détermination car il n'est pas donné que les résidus soient centrés. -->
 
-Plus généralement, il est possible de considérer une variable catégorielle à $k$ niveaux. Comme pour la variable binaire, on ajoute au modèle $k-1$ variables indicatrices en plus de l'ordonnée à l'origine: si on veut modéliser $k$ moyennes, il est logique de n'inclure que $k$ paramètres. On choisira comme dans l'exemple avec le sexe une **catégorie de référence** dont la moyenne sera encodée par l'ordonnée à l'origine $\beta_0$. Les autres paramètres seront des effets différentiels relatifs à cette catégorie. Prenons pour exemple l'échelon académique, une variable catégorielle ordinale à trois niveaux (adjoint, aggrégé, titulaire). On ajoute deux variables binaires $\mathrm{X}_1 = \mathsf{I}(\texttt{echelon}=\texttt{aggrege})$ et $\mathrm{X}_2 = \mathsf{I}(\texttt{echelon}=\texttt{titulaire})$; l'élément $i$ de la colonne $\mathrm{X}_1$ vaut 1 si le professeur est aggrégé et zéro autrement. Le modèle linéaire 
+Plus généralement, il est possible de considérer une variable catégorielle à $k$ niveaux. Comme pour la variable binaire, on ajoute au modèle $k-1$ variables indicatrices en plus de l'ordonnée à l'origine: si on veut modéliser $k$ moyennes, il est logique de n'inclure que $k$ paramètres. On choisira comme dans l'exemple avec le sexe une **catégorie de référence** dont la moyenne sera encodée par l'ordonnée à l'origine $\beta_0$. Les autres paramètres seront des effets différentiels relatifs à cette catégorie. Prenons pour exemple l'échelon académique, une variable catégorielle ordinale à trois niveaux (adjoint, aggrégé, titulaire). On ajoute deux variables binaires $\mathrm{X}_1 = \mathsf{I}(\texttt{echelon}=\texttt{aggrege})$ et $\mathrm{X}_2 = \mathsf{I}(\texttt{echelon}=\texttt{titulaire})$; l'élément $i$ de la colonne $\mathrm{X}_1$ vaut 1 si le professeur est aggrégé et zéro autrement. Le modèle linéaire
 \begin{align*}
 \texttt{salaire} \mid \texttt{echelon}=\beta_0 + \beta_1 \mathrm{X}_1+\beta_2\mathrm{X}_2 + \varepsilon,
 \end{align*}
-et l'espérance conditionnelle du salaire s'écrit 
+et l'espérance conditionnelle du salaire s'écrit
 \begin{align*}
 \mathsf{E}(\texttt{salaire} \mid \texttt{echelon})= \begin{cases}
 \beta_0, & \texttt{echelon}=\texttt{adjoint},\\
@@ -240,21 +240,21 @@ Soit le modèle $Y= \beta_0 + \beta_1 \mathrm{X}_1 + \cdots + \beta_p\mathrm{X}_
 \begin{align*}
 \beta_0 &= \mathsf{E}(Y \mid \mathrm{X}_1=0,\mathrm{X}_2=0,\ldots,\mathrm{X}_p=0).
 \end{align*}
-De nouveau, cette interprétation peut ne pas être sensée ou logique selon le contexte de l'étude. Le coefficient $\beta_j$ $(j \geq 1)$ peut quant à lui être interprété comme l'augmentation moyenne de l'espérance de la variable réponse $Y$ quand $\mathrm{X}_j$ augmente d'une unité, toutes choses étant égales par ailleurs (*ceteris paribus*). Par exemple, l'interprétation de $\beta_1$ est 
+De nouveau, cette interprétation peut ne pas être sensée ou logique selon le contexte de l'étude. Le coefficient $\beta_j$ $(j \geq 1)$ peut quant à lui être interprété comme l'augmentation moyenne de l'espérance de la variable réponse $Y$ quand $\mathrm{X}_j$ augmente d'une unité, toutes choses étant égales par ailleurs (*ceteris paribus*). Par exemple, l'interprétation de $\beta_1$ est
 \begin{align*}
 \beta_1 &= \mathsf{E}(Y \mid \mathrm{X}_1=x_1+1,\mathrm{X}_2=x_2,\ldots,\mathrm{X}_p=x_p) \\
 & \qquad \qquad - \mathsf{E}(Y \mid \mathrm{X}_1=x_1,\mathrm{X}_2=x_2,\ldots,\mathrm{X}_p=x_p) \\
 &= \left\{\beta_0 + \beta_1 (x_1+1) + \beta_2 x_2 + \cdots +\beta_p \mathrm{X}_p \right\} \\
-& \qquad \qquad -\left\{\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots +\beta_p \mathrm{X}_p \right\} 
+& \qquad \qquad -\left\{\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots +\beta_p \mathrm{X}_p \right\}
 \end{align*}
 Il n'est pas toujours possible de fixer la valeur des autres colonnes de $\mathbf{X}$ si plusieurs colonnes contiennent des transformations ou des fonctions d'une même variable explicative. Par exemple, on pourrait par exemple considérer un polynôme d'ordre $k$ (normalement, $k\leq 3$ en pratique),
 \begin{align*}
 Y=\beta_0+ \beta_1 \mathrm{X}+ \beta_2 \mathrm{X}^2 + \ldots +\beta_k \mathrm{X}^k + \varepsilon.
 \end{align*}
-Si l'on inclut un terme d'ordre $k$, $\mathrm{X}^k$, il faut **toujours** inclure les termes d'ordre inférieur $1, \mathrm{X}, \ldots, \mathrm{X}^{k-1}$ pour l'interprétabilité du modèle résultant (autrement, cela revient à choisir un polynôme en imposant que certains coefficients soient zéros). L'interprétation des effets des covariables nonlinéaires (même polynomiaux) est complexe parce qu'on ne peut pas « fixer la valeur des autres variables »: l'effet d'une augmentation d'une unité de $\mathrm{X}$ *dépend de la valeur de cette dernière*. 
+Si l'on inclut un terme d'ordre $k$, $\mathrm{X}^k$, il faut **toujours** inclure les termes d'ordre inférieur $1, \mathrm{X}, \ldots, \mathrm{X}^{k-1}$ pour l'interprétabilité du modèle résultant (autrement, cela revient à choisir un polynôme en imposant que certains coefficients soient zéros). L'interprétation des effets des covariables nonlinéaires (même polynomiaux) est complexe parce qu'on ne peut pas « fixer la valeur des autres variables »: l'effet d'une augmentation d'une unité de $\mathrm{X}$ *dépend de la valeur de cette dernière*.
 
 ```{example, label="automobile", name = "Données automobile"}
-Considérons un modèle de régression linéaire pour l'autonomie d'essence en fonction de la puissance du moteur pour différentes voitures dont les caractéristiques sont données dans le jeu de données `automobiles`. Le modèle postulé incluant un terme quadratique est 
+Considérons un modèle de régression linéaire pour l'autonomie d'essence en fonction de la puissance du moteur pour différentes voitures dont les caractéristiques sont données dans le jeu de données `automobiles`. Le modèle postulé incluant un terme quadratique est
 \[
 \texttt{autonomie}_i = \beta_0 + \beta_1 \texttt{puissance}_i + \beta_2 \texttt{puissance}_i^2 + \varepsilon_i
 \]
@@ -265,18 +265,18 @@ Afin de comparer l'ajustement du modèle quadratique, on peut inclure également
 ```{r autoquad2d, echo = FALSE, fig.cap = "Modèle de régression avec terme quadratique pour la puissance"}
 data(automobile, package = "hecmodstat")
 mod <- lm(autonomie ~ puissance + I(puissance^2),  data = automobile)
-ggplot(data = automobile, aes(x = puissance, y = autonomie)) + 
-  geom_point() + 
-  geom_smooth(method = "lm", formula = "y ~ x", se = FALSE, col = heccyan) + 
+ggplot(data = automobile, aes(x = puissance, y = autonomie)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = "y ~ x", se = FALSE, col = heccyan) +
   labs(#title = "Caractéristiques d'automobiles, circa 1983",
-       x = "puissance du moteur (en chevaux-vapeurs)", 
+       x = "puissance du moteur (en chevaux-vapeurs)",
              y = "autonomie d'essence\n (en miles/US gallon)") +
       geom_line(data = data.frame(puissance = automobile$puissance, fitted = mod$fitted),
                 aes(puissance, fitted, col = hecblue), show.legend = FALSE)
 ```
 
-À vue d'oeil, l'ajustement est meilleur pour le modèle quadratique: nous verrons plus tard à l'aide de test si cette observation est vérifiée statistiquement. 
-On voit aussi dans la Figure \@ref(fig:autoquad2d) que l'autonomie d'essence décroît rapidement quand la puissance croît entre $0$ et $189.35$, mais semble remonter légèrement par la suite pour les voitures qui un moteur de plus de 200 chevaux-vapeurs, ce que le modèle quadratique capture.  Prenez garde en revanche à l'extrapolation là où vous n'avez pas de données (comme l'illustre remarquablement bien [le modèle cubique de Hassett pour le nombre de cas quotidiens de coronavirus](https://livefreeordichotomize.com/2020/05/05/model-detective/)). 
+À vue d'oeil, l'ajustement est meilleur pour le modèle quadratique: nous verrons plus tard à l'aide de test si cette observation est vérifiée statistiquement.
+On voit aussi dans la Figure \@ref(fig:autoquad2d) que l'autonomie d'essence décroît rapidement quand la puissance croît entre $0$ et $189.35$, mais semble remonter légèrement par la suite pour les voitures qui un moteur de plus de 200 chevaux-vapeurs, ce que le modèle quadratique capture.  Prenez garde en revanche à l'extrapolation là où vous n'avez pas de données (comme l'illustre remarquablement bien [le modèle cubique de Hassett pour le nombre de cas quotidiens de coronavirus](https://livefreeordichotomize.com/2020/05/05/model-detective/)).
 
 La représentation graphique du modèle polynomial de degré 2 présenté dans la Figure \@ref(fig:autoquad2d) peut sembler contre-intuitive, mais c'est une projection en 2D d'un plan 3D de coordonnées $\beta_0 + \beta_1x-y +\beta_2z =0$, où $x=\texttt{puissance}$, $z=\texttt{puissance}^2$ et $y=\texttt{autonomie}$. La physique et le bon-sens imposent la contrainte $z = x^2$, et donc les valeurs ajustées vivent sur une courbe dans un sous-espace du plan ajusté, représenté en gris dans la Figure \@ref(fig:hyperplan).
 
@@ -284,13 +284,13 @@ La représentation graphique du modèle polynomial de degré 2 présenté dans l
 knitr::knit_hooks$set(webgl = hook_webgl)
 ```
 
-```{r hyperplan, echo = FALSE, fig.cap = "Représentation graphique 3D du modèle de régression linéaire pour les données $\texttt{automobile}$."}
+```{r hyperplan, echo = FALSE, fig.cap = "Représentation graphique 3D du modèle de régression linéaire pour les données $\\texttt{automobile}$."}
 out_type <- knitr::opts_knit$get("rmarkdown.pandoc.to")
 if(out_type == 'html'){
 library(rgl)
 plot3d(y = automobile$autonomie, x = automobile$puissance, z = I(automobile$puissance^2),
-          xlab = expression("puissance"), 
-          ylab = expression("autonomie"), 
+          xlab = expression("puissance"),
+          ylab = expression("autonomie"),
           zlab = expression(paste("puissance"^{2})),
           axis.col = rep("black", 3))
 ols <- coef(mod)
@@ -336,7 +336,7 @@ knitr::kable(t(coefs_college_lm), caption = "Estimés des coefficients du modèl
 L'interprétation des coefficients est la suivante:
 
 - L'ordonnée à l'origine $\beta_0$ correspond au salaire moyen d'un professeur adjoint (un homme) qui vient de compléter ses études et qui travaille dans un domaine appliqué: on estime ce salaire à $\widehat{\beta}_0=`r coefs_college_lm[1]`$ dollars.
-- toutes choses étant égales par ailleurs (même domaine, échelon et années depuis le dernier diplôme), l'écart de salaire entre un homme et un femme est estimé à  $\widehat{\beta}_1=`r coefs_college_lm[2]`$ dollars. 
+- toutes choses étant égales par ailleurs (même domaine, échelon et années depuis le dernier diplôme), l'écart de salaire entre un homme et un femme est estimé à  $\widehat{\beta}_1=`r coefs_college_lm[2]`$ dollars.
 - *ceteris paribus*, un(e) professeur(e) qui oeuvre dans un domaine théorique gagne $\beta_2$ dollars de plus qu'une personne du même sexe dans un domaine appliqué; on estime cette différence à $`r coefs_college_lm[3]`$ dollars.
 - *ceteris paribus*, la différence moyenne de salaire entre professeurs adjoints et aggrégés est estimée à  $\widehat{\beta}_3=`r coefs_college_lm[4]`$ dollars.
 - *ceteris paribus*, la différence moyenne de salaire entre professeurs adjoints et titulaires est de $\widehat{\beta}_4=`r coefs_college_lm[5]`$ dollars.
