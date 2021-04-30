@@ -304,7 +304,7 @@ La compagnie nationale de chemin de fer [Renfe](https://www.renfe.com/) gère le
 # library(tidyverse)
 # Charger les données
 data(renfe, package = "hecmodstat")
-head(renfe, n = 5)  %>% kbl(caption = "Aperçu des données $\\texttt{renfe}$.") %>% kable_styling()
+head(renfe, n = 5)  %>% kbl(booktabs = TRUE, caption = "Aperçu des données $\\texttt{renfe}$.") %>% kable_styling()
 
 # Sous-échantillon avec uniquement les données au tarif promotionnel
 renfe_promo <- renfe %>% subset(tarif == "Promo")
@@ -506,22 +506,22 @@ La manipulation de variables dans des bases de données est parfois loin d'être
 
 
 ```{r renfe-aed1a, echo = FALSE}
-renfe %>% count(classe) %>% kbl(caption = "Nombre d'observations du jeu de données $\\texttt{renfe}$ par classe.") %>% kable_styling()
+renfe %>% count(classe) %>% kbl(booktabs = TRUE, caption = "Nombre d'observations du jeu de données $\\texttt{renfe}$ par classe.") %>% kable_styling()
 ```
 
 ```{r renfe-aed1b, echo = FALSE}
 # un raccourci pour la même syntaxe
-renfe %>% group_by(type) %>% tally()  %>% kbl(caption = "Nombre d'observations du jeu de données $\\texttt{renfe}$ par type de billets.") %>% kable_styling()
+renfe %>% group_by(type) %>% tally()  %>% kbl(booktabs = TRUE, caption = "Nombre d'observations du jeu de données $\\texttt{renfe}$ par type de billets.") %>% kable_styling()
 ```
 
 ```{r renfe-aed1c, echo = FALSE}
-renfe %>% group_by(tarif) %>% tally()  %>% kbl(caption = "Nombre d'observations du jeu de données $\\texttt{renfe}$ par tarif.") %>% kable_styling()
+renfe %>% group_by(tarif) %>% tally()  %>% kbl(booktabs = TRUE, caption = "Nombre d'observations du jeu de données $\\texttt{renfe}$ par tarif.") %>% kable_styling()
 ```
 
 En analysant le nombre de trains dans les catégories, on remarque qu'il y a autant de billets de type `REXPRESS` que le nombre de billets au tarif `AdultoIda`. On peut faire le décompte par catégorie avec un tableau de contingence, qui compte le nombre respectif dans chaque sous-catégorie. Dans la base de données Renfe, tous les billets pour les RegioExpress sont vendus au tarif `AdultoIda` en classe `Turista`. Le nombre de billets est minime, à peine 397 sur 10000. Cela suggère une nouvelle question: pourquoi ces trains sont-ils si peu populaires?
 
 ```{r renfe-aed2, echo = FALSE}
-renfe %>% count(tarif, type)  %>% kbl(caption = "Tableau croisé du décompte par tarif et type de billets du jeu de données $\\texttt{renfe}$.") %>% kable_styling()
+renfe %>% count(tarif, type)  %>% kbl(booktabs = TRUE, caption = "Tableau croisé du décompte par tarif et type de billets du jeu de données $\\texttt{renfe}$.") %>% kable_styling()
 ```
 
 On remarque également que seulement 17 temps de parcours sont affichés sur les billets (`renfe %>% distinct(duree)` ou `unique(renfe$duree)`). On peut donc penser que la durée affichée sur le billet (en minutes) est le temps de trajet annoncé. La majeure partie (15 sur 17) des temps de parcours sont sous la barre des 3h15, hormis deux qui dépassent les 9h! Selon Google Maps, les deux villes sont distantes de 615km par la route, 500km à vol d'oiseau. Cela implique que, vraisemblablement, certains trains dépassent les 200km/h, tandis que d'autres vont plutôt à 70km/h. Quels sont ces trains plus lent? La variable `type` codifie probablement ce fait, et permet de voir que ce sont les trains RegioExpress qui sont dans cette catégorie.
@@ -534,7 +534,7 @@ renfe %>%
             "écart-type" = sd(duree),
             "prix moyen" = mean(prix),
             "écart-type" = sd(prix)) %>%
-            kbl(caption = "Statistiques descriptives de la durée de trajet et du prix du billet par type de billet et destination pour le jeu de données $\\texttt{renfe}$.") %>% kable_styling()
+            kbl(booktabs = TRUE, caption = "Statistiques descriptives de la durée de trajet et du prix du billet par type de billet et destination pour le jeu de données $\\texttt{renfe}$.") %>% kable_styling()
 ```
 
 Aller de Madrid à Barcelone à l'aide d'un train régulier prend 18 minutes de plus. Avec plus de 9h de trajet, pas étonnant donc que ces billets soient peu courus. Encore plus frappant, on note que le prix des billets est fixe: 43.25 euros peu importe que le trajet soit aller ou retour. C'est probablement la trouvaille la plus importante jusqu'à maintenant, car les billets de train de type RegioExpress ne forment pas un échantillon: il n'y a aucune variabilité! On aurait pu également découvrir cette anomalie en traçant une boîte à moustaches du prix en fonction du type de train.
@@ -560,7 +560,7 @@ renfe %>%
             "écart-type" = sd(duree),
             "prix moyen" = mean(prix),
             "écart-type" = sd(prix)) %>%
-  kbl(caption = "Statistiques descriptives de la durée de trajet et du prix du billet par type de billet et destination pour les trains grande vitesse du jeu de données $\\texttt{renfe}$.") %>% kable_styling()
+  kbl(booktabs = TRUE, caption = "Statistiques descriptives de la durée de trajet et du prix du billet par type de billet et destination pour les trains grande vitesse du jeu de données $\\texttt{renfe}$.") %>% kable_styling()
 ```
 
 Les prix sont beaucoup plus élevés, en moyenne plus de deux fois plus que les trains régionaux. Les écarts de prix importants (l'écart type est de 20 euros) indique qu'il y a peut-être d'autres sources d'hétérogénéité, mais on pourrait soupçonner que la Renfe pratique la tarification dynamique. Il y un seul temps de parcours prévu pour les trains AVE-TGV. On ne note pas de différence de prix notable selon la direction ou le type de train grande vitesse, mais peut-être que les tarifs ou la classe disponibles diffèrent selon que le train ou non est en partenariat avec la compagnie française.
@@ -585,7 +585,7 @@ ggplot(data = renfe, aes(x = prix, y=..density.., fill = tarif)) +
     labs(x = "prix (en euros)", y = "densité") +
     theme(legend.position = "bottom")
 # Vérifier la répartition des billets Flexible
-renfe %>% subset(tarif  == "Flexible") %>% count(prix, classe)  %>% kbl(caption = "Décompte des billets au tarif Flexible par prix et classe pour le jeu de données $\\texttt{renfe}$.") %>% kable_styling()
+renfe %>% subset(tarif  == "Flexible") %>% count(prix, classe)  %>% kbl(booktabs = TRUE, caption = "Décompte des billets au tarif Flexible par prix et classe pour le jeu de données $\\texttt{renfe}$.") %>% kable_styling()
 ```
 
 On note que la répartition des prix pour les billets de classe Flexible est inhabituelle: notre boîte à moustachesest écrasée et l'écart interquartile semble nul, même si quelques valeurs inexpliquées sont aussi présentes. L'écrasante majorité des billets Flexibles sont en classe Turista, donc ça pourrait être dû à un (trop) faible nombre de billets dans chaque catégorie. On peut rejeter cette hypothèse en calculant le nombre de trains au tarif Flexible pour les différents types de billets.  Ni la durée, ni le type de train, ni la destination n'expliquent pas pourquoi le prix de certains billets Flexibles est plus faible ou élevés. Le prix des billets Promo est plus faible, et les billets au tarif Preferente (la première classe) sont plus élevés.

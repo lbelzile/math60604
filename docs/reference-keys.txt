@@ -23,6 +23,7 @@ fig:renfe-aed7
 tab:renfe-aed7
 eq:olsmean
 fig:edacollege
+tab:tableaucontingence
 fig:droitenuage
 eq:ols
 fig:distancevert
@@ -31,6 +32,7 @@ exm:automobile
 fig:autoquad2d
 fig:hyperplan
 exm:inequite-salariale
+tab:collegecoefs
 fig:avplotcollege
 exm:sixvilles
 fig:diagrammespagh1
@@ -38,6 +40,12 @@ fig:diagrammespagh2
 exm:beatingtheblues
 fig:covmodelsBtB
 tab:coefbeattheblues
+eq:mixedmod
+eq:margmodmixed
+exm:chickcurve
+fig:partialpool1
+fig:partpooldf
+fig:topomap
 exm:Galluppoll
 fig:distributions
 exm:loibern
@@ -76,6 +84,7 @@ données-groupées-et-modèle-déquicorrélation
 comparaisons-de-modèles
 hétéroscédasticité-de-groupe
 modeles-lineaires-mixtes
+effet-de-rétrécissement-partiel.
 comparaison-de-modèles
 survie
 complement

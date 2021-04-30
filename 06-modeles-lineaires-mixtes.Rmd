@@ -1,22 +1,302 @@
 # Modèles linéaires mixtes {#modeles-lineaires-mixtes}
 
+Un modèle linéaire mixte est un modèle combinant des effets fixes, les coefficients $\boldsymbol{\beta}$ pour la moyenne, et des effets aléatoires $\boldsymbol{b}$, des variables aléatoires communes à chaque observation d'une unité  hiérarchique à deux niveaux. Ainsi, par rapport au modèle linéaire classique, on estimera un paramètre de variance $\sigma^2_b$ pour chacune de ces variables. L'inclusion d'effets aléatoire permettra d'engender de la corrélation entre observations et de modéliser un effet groupe.
 
+Le modèle linéaire mixte peut être représenté comme un modèle hiérarchique à deux niveaux de la forme
+\begin{align}
+\mathcal{B}_i &\sim \mathsf{No}_q(\boldsymbol{0}_q, \boldsymbol{\Omega}) \nonumber\\
+\boldsymbol{Y}_i \mid \mathcal{B}_i=\boldsymbol{b}_i &\sim \mathsf{No}_{n_i}(\mathbf{X}_i\boldsymbol{\beta} + \mathbf{Z}_i\boldsymbol{b}_i, \mathbf{R}_i) (\#eq:mixedmod)
+\end{align}
+où $i$ est l'indentifiant de l'unité, soit le regroupement pour les données groupées ou l'individu pour les données longitudinales.
+
+La matrice $n_i \times q$  du modèle pour les effets aléatoires, $\mathbf{Z}_i$, contient un sous-ensemble des colonnes de $\mathbf{X}_i$. On nomme $\mathbf{X}_i\boldsymbol{\beta}$ **effets fixes** et $\mathbf{Z}_i\boldsymbol{b}$ **effets aléatoires**.
+La spécification de \@ref(eq:mixedmod) permet aisément de voir comment simuler du modèle: d'abord, échantilonner un vecteur d'effets aléatoire $\boldsymbol{b}_i$ communs à chaque observations d'une unité, puis simuler une nouvelle variable réponse décalée de $\mathbf{Z}_i\boldsymbol{b}_i$ du modèle linéaire. La matrice de covariance des aléas, $\mathbf{R}_i$, est règle générale proportionnelle à la matrice identité, avec $\sigma^2\mathbf{I}_{n_i}$, mais on pourrait dans certains case de figure inclure des erreurs autorégressives.
+
+À cause du postulat de loi multinormale, on peut montrer que la distribution conjointe de  $(\boldsymbol{Y}, \mathcal{B})$ est aussi normale, et donc que la loi marginale de $\boldsymbol{Y}_i$ est normale: en intégrant l'effet aléatoire, on obtient
+\begin{align}
+\boldsymbol{Y}_i \sim \mathsf{No}_{n_i}( \mathbf{X}_i \boldsymbol{\beta}, \mathbf{Z}_i\boldsymbol{\Omega}\mathbf{Z}_i^\top + \mathbf{R}_i)  (\#eq:margmodmixed)
+\end{align}
+
+En pratique, on n'observe pas l'effet aléatoire $\boldsymbol{b}_i$, donc l'inclusion de l'effet aléatoire dans la vraisemblance marginale se traduit uniquement par une structure de covariance additive plus complexe: une composante,  $\mathbf{R}_i$, représente la matrice de covariance des aléas, tandis que la matrice de covariance  $\mathbf{Z}_i\boldsymbol{\Omega}\mathbf{Z}_i^\top$ est la variabilité due à l'ajout des effets aléatoires. On dénotera par $\boldsymbol{\psi}$ les paramètres de covariance de $\boldsymbol{\Sigma}_i= \mathbf{Z}_i\boldsymbol{\Omega}\mathbf{Z}_i^\top + \mathbf{R}_i$ et les paramètres pour la moyenne (effets fixes) par $\boldsymbol{\beta}$ comme à l'accoutumée.
+
+Les estimations des paramètres sont obtenues par la vraisemblance \@ref(eq:margmixedmod) et estimées à l'aide du maximum de vraisemblance contraint (REML) ou par le biais du maximum de vraisemblance. Dans les deux cas, le problème d'optimisation se réduit à une recherche de l'estimé de $\boldsymbol{\psi}$ puisqu'on a
+\begin{align*}
+\widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}} = (\mathbf{X}^\top\boldsymbol{\Sigma}^{-1}\mathbf{X})^{-1}\mathbf{X}^\top\boldsymbol{\Sigma}^{-1}\boldsymbol{Y}
+\end{align*}
+qui est la solution des moindres carrés généralisés.
+
+
+## Effet de rétrécissement partiel.
+
+L'ajout d'effets aléatoires induit naturellement de la corrélation entre observations et la moynne conditionnelle de $\boldsymbol{Y}_i \mid \mathcal{B}_i$ inclut un effet groupe. Considérons un exemple avec une ordonnée à l'origine et une pente  pour l'effet temporelle. Si on avait voulu ajouter un effet groupe et obtenir des pentes et des ordonnées à l'origine différentes pour chaque unité, on aurait pu modéliser l'effet groupe en incluant une variable indicatrice de groupe, $g_i$, et une interaction entre la variable temps et l'indicateur de groupe, soit $g_i\cdot \texttt{temps}$. Il y a plusieurs désavantages à inclure ces effets groupes par le biais d'effets fixes: il faut suffisamment de réplications pour chaque individu pour estimer de façon fiable ces paramètres, et on risque d'avoir un modèle surparamétrisé. Ainsi, on ne pourra pas non plus estimer les paramètres de manière fiable si on n'a qu'une poignée d'observations pour une unité et on ne pourra pas estimer de coefficient pour les variables explicatives qui sont identiques au sein d'un groupe. Logiquement, on pourrait transposer notre connaissance de l'ordonnée à l'origine et de la pente pour les autres individus aux unités pour lesquelles on a moins d'information.
+
+[Tristan Mahr a illustré dans un article de blogue](https://www.tjmahr.com/plotting-partial-pooling-in-mixed-effects-models/) l'effet de rétrécissement des effets aléatoires. La section qui suit, adaptée de son code.
+
+```{example, name = "Courbes de croissance de poussins", label='chickcurve'}
+On considère une étude expérimentale sur l'administration de quatre régimes pour favoriser la croissance de poussins: l'objectif de l'étude était de déterminer quelle régime était le plus susceptible d'augmenter rapidement la masse des poussins.
+
+```
+
+
+```{r partialpool1, echo = FALSE, eval = TRUE, fig.cap = "Courbes de croissance, ordonnées par masse. Chaque ligne correspond à un régime différent.", cache = TRUE}
+library(lme4)
+# library(ggplot2)
+data(ChickWeight)
+xlab <- "jours depuis la naissance"
+ylab <- "masse du poussin (en grammes)"
+sub <- ChickWeight$Chick %in%
+  c(18, 16, 15, 9, 11,
+  24, 30, 25, 29, 21,
+  33, 37, 31, 32, 40,
+  44, 43, 41, 48, 50)
+CWsub <- ChickWeight[sub,]
+colnames(CWsub) <- c("weight","time","chick","diet")
+# CWsub$chick <- factor(CWsub$chick, ordered = FALSE)
+ggplot(data = CWsub) +
+  aes(x = time, y = weight) +
+  stat_smooth(method = "lm", se = FALSE,
+              aes(col=diet),
+              formula = 'y ~ x',
+              fullrange = TRUE) +
+  # Put the points on top of lines
+  geom_point() +
+  facet_wrap("chick") +
+  labs(x = xlab, y = ylab, col = "régime")
+
+```
+
+Le diagramme spaghetti de la Figure \@ref(fig:partialpool1) montre une poignée d'individus sélectionnés, ordonnées par masse initiale. On voit qu'on perd le suivi de poussins, possiblement morts, pour le premier régime. Bien que cette information soit potentiellement un cas de censure informative, on l'ignore pour les besoins de l'illustration. Globalement, les pentes semblent plus prononcées pour les régimes 3--4. On ne considère pas le régime plus que mesure, mais l'inclusion d'une interaction entre âge et régime, en plus des effets principaux, semble une bonne façon de capturer ces différents. Il y a de la variabilité aussi au sein des régimes, puisque l'augmentation de masse quotidienne des poussins n'est pas identique.
+
+```{r partialpool2, eval = TRUE, echo = FALSE,cache = TRUE}
+df_no_pooling <- nlme::lmList(weight ~ time | chick, data = CWsub) %>%
+  coef() %>%
+  # Subject IDs are stored as row-names. Make them an explicit column
+  tibble::rownames_to_column("chick") %>%
+  dplyr::rename("intercept" = `(Intercept)`,
+                "slope"= time) %>%
+  tibble::add_column(model = "aucune")
+m_pooled <- lm(weight ~ time, data = CWsub)
+
+# Repeat the intercept and slope terms for each participant
+df_pooled <- tibble::tibble(
+  model = "complète",
+  chick = unique(CWsub$chick),
+  intercept = coef(m_pooled)[1],
+  slope = coef(m_pooled)[2])
+
+df_models <- dplyr::bind_rows(df_pooled, df_no_pooling) %>%
+  dplyr::left_join(CWsub, by = "chick")
+
+p_model_comparison <- ggplot(df_models) +
+  aes(x = time, y = weight) +
+  # Set the color mapping in this layer so the points don't get a color
+  geom_abline(aes(intercept = intercept,
+                  slope = slope,
+                  color = model),
+              size = .75) +
+  geom_point() +
+  facet_wrap("chick") +
+  labs(x = xlab, y = ylab, col = "mise en commun") +
+  scale_x_continuous(breaks = 0:4 * 5) +
+  theme(legend.position = "top")
+
+# p_model_comparison
+
+```
+
+On peut comparer l'effet groupe du modèle linéaire qui ne prend nullement en compte les différentes individuelles dues au poussin et qui ont une pente et une ordonnée à l'origine commune dans la matrice du modèle $\mathbf{X}$, sans effet aléatoire. Ce scénario correspond une mise en commun complète, ou solution "taille unique". Cette solution diffère du modèle mixte parce que, contrairement à ce dernier, on met en commun toutes les informations à un temps donné sans égard pour les différences entre poussin.
+
+On peut considérer deux modèles pour l'effet groupe: un modèle mixte avec un effet aléatoire pour l'ordonnée à l'origine (qui inclut trois paramètres de covariance additionnels) et la pente, ou un modèle surparamétrisé où on inclut ces différences avec les effets fixes en ajoutant des indicateurs binaires pour avoir une ordonnée à l'origine et une pente différente pour chaque pousin (d'où l'ajout de $2(m-1)$ paramètres additionnels de moyenne au modèle avec mise en commun complète).
+
+Pour le modèle mixte, les courbes individuelles des poussins sont obtenues en regardant les prédictions conditionnelles. Il s'avère que le modèle mixte avec l'effet aléatoire **rétrécit** les prédictions des effets aléatoires vers zéro. Ces prédictions sont très près de celles du modèle linéaire sans effet aléatoire qui inclut un effet groupe, tant et si bien qu'on a peine à les distinguer dans le graphique de la  Figure \@ref(fig:partpooldf). La seule fois où cette différence est notable, c'est lorsqu'on a peu d'observations par poussin: dans ces cas de figure, on ne peut estimer la courbe (ou alors elle interpole les observations), tandis que les prédictions conditionnelles du modèle mixte se rapprochent de la moyenne globale.
+
+Les prédictions conditionnelles du modèle mixtes représentent un entre-deux entre la moyenne globale de l'ordonnée à l'origine et la pente (mise en commun complète) et les courbes individuelles.
+
+```{r partpooldf, echo = FALSE, fig.cap = "Rétrécissement partiel des coefficients pour les données de masse de poussins; sont représentées les droites de régression avec une ordonnée à l'origine et une pente commune (mise en commun complète), et les droites de régression individuelles ajustées avec uniquement les données d'un poussin (aucune mise en commun). Les prédictions conditionnelles sont très près de ces dernières, sauf quand le nombre d'observations est très petit.", cache = TRUE}
+
+m <- lme4::lmer(weight ~ time + (1+time | chick), data = CWsub)
+df_partial_pooling <- coef(m)[["chick"]] %>%
+  tibble::rownames_to_column("chick") %>%
+  tibble::as_tibble() %>%
+  rename(intercept = `(Intercept)`, slope = time) %>%
+  tibble::add_column(model = "partielle")
+
+df_models <- bind_rows(df_pooled, df_no_pooling, df_partial_pooling) %>%
+  left_join(CWsub, by = "chick")
+
+# Replace the data-set of the last plot
+p_model_comparison %+% df_models
+```
+
+Pour mieux visualiser cet effet, on peut regarder les niveaux de contour de la distribution binormale pour les effets aléatoires. Cela permet de bien voir la différence entre effet aléatoires indépendants (courbes de niveaux circulaires) et corrélés (courbes de niveau elliptiques). Les flèches de la Figure \@ref(fig:topomap) montrent l'effet de rétrécissement: les points se déplacent vers des régions où la densité des effets aléatoires est plus élevée; le milieu correspond à la moyenne globale d'ordonnée à l'origine et pente, où une moyenne nulle pour l'effet aléatoire.
+
+```{r topomap, echo = FALSE, fig.cap = "Graphique de la prédiction conditionnelle des effets aléatoires, ordonnée à l'origine et pente, avec des effets aléatoires corrélés (gauche) et indépendants (droite) pour les données de masse de poussin. La prédiction conditionnelle, qui inclut un terme aléatoire propre à chaque poussin, est rétrécit vers l'effet fixe, situé dans une région de densité plus élevée. La spécification normale des erreurs aléatoires induit une pénalité pour les estimés, ce qui explique cet effet de rétrécissement ou mise en commun partielle. L'ajout de corrélation entre les effets aléatoires change la forme de la pénalité (ellipsoïdale versus circulaire) et change les contraintes et les prédictions. Les effets aléatoires pour les séries chronologiques plus courtes (moins d'observations par poussin) sont davantage rétrécies vers la moyenne globale que celles des séries plus longues.", cache = TRUE}
+df_fixef <- tibble::tibble(
+  model = "aucune",
+  intercept = fixef(m)[1],
+  slope = fixef(m)[2])
+
+# Complete pooling / fixed effects are center of gravity in the plot
+df_gravity <-
+  # df_pooled %>%
+  # dplyr::distinct(model, intercept, slope) %>%
+  dplyr::bind_rows(df_fixef)
+
+df_pulled <- dplyr::bind_rows(df_no_pooling, df_partial_pooling)
+cov_mat <- VarCorr(m)[["chick"]]
+# Helper function to make a data-frame of ellipse points that
+# includes the level as a column
+make_ellipse <- function(cov_mat, center, level) {
+  ellipse::ellipse(cov_mat, centre = center, level = level) %>%
+    as.data.frame() %>%
+    tibble::add_column(level = level) %>%
+    tibble::as_tibble()
+}
+
+make_circ <- function(var, center, level) {
+  ellipse::ellipse(x=0, scale = var, centre = center, level = level) %>%
+    as.data.frame() %>%
+    tibble::add_column(level = level) %>%
+    tibble::as_tibble()
+}
+
+center <- fixef(m)
+levels <- c(.25, .5, .75)
+
+# Create an ellipse dataframe for each of the levels defined
+# above and combine them
+df_ellipse <- levels %>%
+  purrr::map_df(~ make_ellipse(cov_mat, center, level = .x)) %>%
+  rename(intercept = `(Intercept)`, slope = time)
+
+contour_dist <- function(xs, ys, center_x, center_y) {
+  x_diff <- (center_x - xs) ^ 2
+  y_diff <- (center_y - ys) ^ 2
+  sqrt(x_diff + y_diff)
+}
+
+# Find the point to label in each ellipse.
+df_label_locations <- df_ellipse %>%
+  group_by(level) %>%
+  filter(intercept < quantile(intercept, .5),
+         slope < quantile(slope, .5)) %>%
+  # Compute distance from center.
+  mutate(dist = contour_dist(intercept, slope,
+                             fixef(m)[1], fixef(m)[2])) %>%
+  # Keep smallest values.
+  dplyr::top_n(-1, wt = dist) %>%
+  dplyr::ungroup()
+
+# Tweak the last plot one more time!
+g1 <- ggplot(df_pulled) +
+  aes(x = intercept, y = slope, color = model) +
+  # Draw contour lines from the distribution of effects
+  geom_path(aes(group = level, color = NULL), data = df_ellipse,
+            linetype = "dashed", color = "grey40") +
+  geom_point(data = df_gravity, size = 3, pch = 4, col = "black") +
+  geom_point(size = 2) +
+  geom_path(aes(group = chick, color = NULL),
+            arrow = arrow(length = unit(.02, "npc"))) +
+  theme(legend.position = "bottom") +
+  labs(x = "ordonnée à l'origine",
+       y = "pente",
+       col = "mise en commun") +
+  coord_cartesian(
+    xlim = range(df_pulled$intercept),
+    ylim = range(df_pulled$slope),
+    expand = TRUE) +
+  geom_text(aes(label = level, color = NULL), data = df_label_locations,
+            nudge_x = .5, nudge_y = .8, size = 3.5, color = "grey40")
+
+
+
+
+m2 <- lme4::lmer(weight ~ time + (1 | chick ) + (time - 1| chick), data = CWsub)
+df_partial_pooling2 <- coef(m2)[["chick"]] %>%
+  tibble::rownames_to_column("chick") %>%
+  tibble::as_tibble() %>%
+  rename(intercept = `(Intercept)`, slope = time) %>%
+  tibble::add_column(model = "partielle")
+
+df_models <- bind_rows(df_pooled, df_no_pooling, df_partial_pooling2) %>%
+  left_join(CWsub, by = "chick")
+
+df_fixef <- tibble::tibble(
+  model = "aucune",
+  intercept = fixef(m2)[1],
+  slope = fixef(m2)[2])
+
+# Complete pooling / fixed effects are center of gravity in the plot
+df_gravity <-
+  # df_pooled %>%
+  # dplyr::distinct(model, intercept, slope) %>%
+  dplyr::bind_rows(df_fixef)
+
+df_pulled <- dplyr::bind_rows(df_no_pooling, df_partial_pooling2)
+cov_mat2 <- VarCorr(m2)
+# Helper function to make a data-frame of ellipse points that
+# includes the level as a column
+
+center <- fixef(m2)
+# Create an ellipse dataframe for each of the levels defined
+# above and combine them
+df_ellipse <- levels %>%
+  purrr::map_df(~ make_circ(as.data.frame(cov_mat2)$sdcor[1:2], center, level = .x)) %>%
+  rename(intercept = x, slope = y)
+
+
+# Find the point to label in each ellipse.
+df_label_locations <- df_ellipse %>%
+  group_by(level) %>%
+  filter(intercept < quantile(intercept, .5),
+         slope < quantile(slope, .5)) %>%
+  # Compute distance from center.
+  mutate(dist = contour_dist(intercept, slope,
+                             fixef(m)[1], fixef(m)[2])) %>%
+  # Keep smallest values.
+  dplyr::top_n(-1, wt = dist) %>%
+  dplyr::ungroup()
+
+# Tweak the last plot one more time!
+g2 <- ggplot(df_pulled) +
+  aes(x = intercept, y = slope, color = model) +
+  # Draw contour lines from the distribution of effects
+  geom_path(aes(group = level, color = NULL), data = df_ellipse,
+            linetype = "dashed", color = "grey40") +
+  geom_point(data = df_gravity, size = 3, pch = 4, col = "black") +
+  geom_point(size = 2) +
+  geom_path(aes(group = chick, color = NULL),
+            arrow = arrow(length = unit(.02, "npc"))) +
+  theme(legend.position = "bottom") +
+  labs(x = "ordonnée à l'origine",
+       y = "pente",
+       col = "mise en commun") +
+  coord_cartesian(
+    xlim = range(df_pulled$intercept),
+    ylim = range(df_pulled$slope),
+    expand = TRUE) +
+  geom_text(aes(label = level, color = NULL), data = df_label_locations,
+            nudge_x = .5, nudge_y = .8, size = 3.5, color = "grey40")
+
+g1 + g2 + patchwork::plot_annotation(title = "Carte topographique des prédictions conditionnelles") + patchwork::plot_layout(guides= 'collect') &  theme(legend.position = 'bottom')
+
+```
 ## Comparaison de modèles
 
-Cette brève discussion traite de méthodes de comparaisons de modèles selon différents scénarios d'intérêt. 
+Cette brève discussion traite de méthodes de comparaisons de modèles selon différents scénarios d'intérêt.
 En particulier, puisque la plupart des logiciels promeuvent l'utilisation du critère de vraisemblance restreinte (REML) par défaut pour l'ajustement de modèles mixtes, il convient de porter une attention spéciale aux tests que l'on réalise.
 
 En ajustant un modèle avec la méthode REML, on élimine la contribution de la moyenne de la vraisemblance. Cela permet d'obtenir des estimateurs des paramètres de variance $\boldsymbol{\psi}$ qui sont moins biaisés, mais cette fonction objective ne permet pas de comparer des modèles qui ont une matrice de modèle $\mathbf{X}$ différente.
 
-On préfère si possible les tests d'hypothèse (rapport de vraisemblance) aux critères d'informations pour la sélection de modèle. Les tests d'hypothèse requièrent la comparaison de deux modèles **emboîtés**: c'est le cas si on peut obtenir en imposant des contraintes sur **un** des modèles le second.
+On préfère si possible les tests d'hypothèse (rapport de vraisemblance) aux critères d'informations pour la sélection de modèle. Les tests d'hypothèse requièrent la comparaison de deux modèles **emboîtés**: c'est le cas si on peut obtenir le second en imposant des contraintes sur l'autre modèle. Selon la méthode, on a pour les cas de figure suivante
 
-- Test du rapport de vraisemblance, méthode du maximum de vraisemblance restreint (REML): modèles emboîtés, même modèle pour la moyenne. Par exemple, tester si le modèle d'équicorrélation $\mathsf{CS}$ est une simplification adéquate du modèle non-structure $\mathsf{UN}$.
-- Test du rapport de vraisemblance, méthode du maximum de vraisemblance:  modèles emboîtés (pas d'autre contrainte). Par exemple, dans un modèle linéaire avec erreurs autorégressives, tester si l'effet de la variable $\mathrm{X}_j$ est nul sachant le reste et si les erreurs sont indépendantes, soit  $\mathscr{H}_0: \beta_j=0$,  $\mathscr{H}_0: \rho=0$, ou encore $\mathscr{H}_0: \beta_j=\rho=0$.
+- méthode du maximum de vraisemblance restreint (REML): modèles emboîtés, même modèle pour la moyenne. Par exemple, tester si le modèle d'équicorrélation $\mathsf{CS}$ est une simplification adéquate du modèle non-structure $\mathsf{UN}$.
+- méthode du maximum de vraisemblance:  modèles emboîtés (pas d'autre contrainte). Par exemple, dans un modèle linéaire avec erreurs autorégressives, tester si l'effet de la variable $\mathrm{X}_j$ est nul sachant le reste et si les erreurs sont indépendantes, soit  $\mathscr{H}_0: \beta_j=0$,  $\mathscr{H}_0: \rho=0$, ou encore $\mathscr{H}_0: \beta_j=\rho=0$.
 
 Si on veut comparer des modèles non-emboîtés, on doit se rabattre sur la performance prédictive ou les critères d'information. Dans ce dernier cas, il faut que les deux modèles aient les même variables réponse. Si on utilise des fonctions de vraisemblance différentes, il faut aussi s'assurer que notre logiciel calcule les constantes de normalisation pour s'assurer que la comparaison soit valide.
 
 - Par exemple, comparer un modèle linéaire avec erreurs autorégressives $\mathsf{AR}(1)$ versus un modèle avec un effet aléatoire sur la pente.
 
-La seule comparaison de modèle emboîtés que je vous déconseille de faire à l'aide de tests d'hypothèse est celle dans lequel la comparaison entre les deux modèles implique de contraindre des paramètres positifs à zéro (éliminer un effet aléatoire revient à fixer sa variance à zéro). Ce faisant, on se trouve avec un cas où la valeur du paramètre est sur la bordure de l'espace des valeurs admissible. Ce cas limite donne une loi nulle différente de la loi $\chi^2$ usuelle. Bien que la statistique de test soit calculable et correcte, l'approximation de la loi de référence est compliquée à dériver et de mauvaise qualité.
+La seule comparaison de modèle emboîtés que je vous déconseille de faire à l'aide de tests d'hypothèse est celle dans lequel la comparaison entre les deux modèles implique de contraindre des paramètres positifs à zéro (éliminer un effet aléatoire revient à fixer sa variance à zéro). Ce faisant, on se trouve avec un cas où la valeur du paramètre est sur la bordure de l'espace des valeurs admissible. Ce cas limite donne une loi nulle différente de la loi $\chi^2$ usuelle. Bien que la statistique de test soit calculable et correcte, l'approximation de la loi de référence est compliquée à dériver dans les cas plus complexes et de mauvaise qualité.
 
 - Exemple de scénarios: regarder dans un modèle avec $\boldsymbol{b} \sim \mathsf{No}_2(\boldsymbol{0}_2, \boldsymbol{\Omega})$, où $b_1$ est une ordonnée à l'origine aléatoire et $b_2$ une pente aléatoire. Tester si la pente aléatoire est nécessaire revient à tester $\mathscr{H}_0: \omega_{22}=0$, et comme le paramètre de variance est positif, ce test n'est pas régulier.
