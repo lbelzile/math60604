@@ -508,7 +508,7 @@ Barcelone-Madrid
 </tr>
 </tbody>
 </table>
-<p>On utilise de nouveau le test de Welch pour deux échantillons en filtrant les données pour ne conserver que les billets au tarif Promo: la moyenne des billets Barcelone-Madrid est 82.11 euros, ceux pour Madrid-Barcelone 82.56 et la valeur de la statistique de Welch est -1.33. Si on utilise l’approximation normale, on obtient une valeur-<em>p</em> de 0.18.</p>
+<p>On utilise de nouveau le test de Welch pour deux échantillons en filtrant les données pour ne conserver que les billets au tarif Promo: la moyenne des billets Barcelone-Madrid est 82.11 euros, ceux pour Madrid-Barcelone 82.56 euros et la valeur de la statistique de Welch est -1.33. Si on utilise l’approximation normale, on obtient une valeur-<em>p</em> de 0.18.</p>
 <p>Plutôt que d’utiliser la loi asymptotique (qui est valide pour de grands échantillons à cause du théorème central limite), on peut considérer une approximation sous une hypothèse moins restrictive en supposant que les données sont échangeables. Sous l’hypothèse nulle, il n’y aucune différence entre les deux destinations et les étiquettes pour la destination (une variable catégorielle binaire) sont arbitraires. On pourrait considérer les mêmes données, mais avec une permutation des variables explicatives: c’est ce qu’on appelle un <a href="https://www.jwilber.me/permutationtest/">test de permutation</a>. On va recréer deux groupes de taille identique à notre échantillon original, mais en changeant les observations. On recalcule la statistique de test sur ces nouvelle données (si on a une poignée d’observations, il est possible de lister toutes les permutations possibles; typiquement, il suffit de considérer un grand nombre de telles permutations, disons 9999). Pour chaque nouveau jeu de données, on calculera la statistique de test et on calculera le rang de notre statistique par rapport à cette référence. Si la valeur de notre statistique observée sur l’échantillon original est extrême en comparaison, c’est autant de preuves contre l’hypothèse nulle.</p>
 <div class="figure" style="text-align: center"><span id="fig:renfepermut"></span>
 <img src="MATH60604_Modelisation_statistique_files/figure-html/renfepermut-1.png" alt="Approximation par permutation de la loi nulle de la statistique de test de Welch (histogramme et trait noir) et loi asymptotique normale standard (trait bleu) pour le prix de billets de trains AVE au tarif promotionnel entre Madrid et Barcelone. La valeur de la statistique de test de l'échantillon original est représentée par un trait vertical." width="70%" />
@@ -602,6 +602,9 @@ Figure 1.9: Boîte à moustaches du prix des billets au tarif Promo en fonction 
 <!--
 Certaines données ont une structure particulière: pensons aux séries chronologiques, aussi appelées séries temporelles, qui comportent des observations ordonnées dans le temps. On représente chaque variable d'une série chronologique (sur l'axe des $y$) en fonction du temps (sur l'axe des $x$). Il est d'usage de relier les observations, bien que cet aperçu soit parfois trompeur.
 -->
+</div>
+<div id="analyse-exploratoire-1" class="section level3" number="1.2.4">
+<h3><span class="header-section-number">1.2.4</span> Analyse exploratoire</h3>
 <p>Plutôt que de décrire plus en détail le processus de l’analyse exploratoire, on présente un exemple qui illustre le cheminement habitue sur les données de trains de la Renfe introduites précédemment.</p>
 
 <div class="example">
@@ -908,7 +911,7 @@ Figure 1.10: Boîte à moustaches du prix de billets de train de Renfe en foncti
 <p>On pourrait soupçonner que les trains étiquetés <code>AVE</code> soient plus rapides, sachant que c’est l’acronyme de <em>Alta Velocidad Española</em>, littéralement haute vitesse espagnole. Qu’en est-il des distinctions entre les deux types de trains étiquetés AVE? Selon <a href="https://www.renfe-sncf.com/rw-en/services/a-unique-experience/Pages/services.aspx">le site de la SNCF</a>, les trains AVE-TGV sont des partenariats entre la Renfe et la SNCF et effectuent des liaisons entre la France et l’Espagne.</p>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:renfe-aed5">Tableau 1.7: </span>Statistiques descriptives de la durée de trajet et du prix du billet par type de billet et destination pour les trains grande vitesse du jeu de données <span class="math inline">\(\texttt{renfe}\)</span>.
+<span id="tab:renfe-aed5">Tableau 1.7: </span>Statistiques descriptives de la durée de trajet et du prix du billet par type de billet et destination pour les trains à grande vitesse du jeu de données <span class="math inline">\(\texttt{renfe}\)</span>.
 </caption>
 <thead>
 <tr>

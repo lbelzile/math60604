@@ -312,7 +312,7 @@ renfe_promo <- renfe %>% subset(tarif == "Promo")
 ttest <- t.test(prix~dest, data = renfe_promo)
 #ttest #imprimer le résultat
 ```
-On utilise de nouveau le test de Welch pour deux échantillons en filtrant les données pour ne conserver que les billets au tarif Promo: la moyenne des billets Barcelone-Madrid est `r round(as.numeric(ttest$estimate[1]),2)` euros, ceux pour Madrid-Barcelone `r round(as.numeric(ttest$estimate[2]),2)` et la valeur de la statistique de Welch est `r round(ttest$statistic,2)`. Si on utilise l'approximation normale, on obtient une valeur-_p_ de `r round(as.numeric(ttest$p.value), 2)`.
+On utilise de nouveau le test de Welch pour deux échantillons en filtrant les données pour ne conserver que les billets au tarif Promo: la moyenne des billets Barcelone-Madrid est `r round(as.numeric(ttest$estimate[1]),2)` euros, ceux pour Madrid-Barcelone `r round(as.numeric(ttest$estimate[2]),2)` euros et la valeur de la statistique de Welch est `r round(ttest$statistic,2)`. Si on utilise l'approximation normale, on obtient une valeur-_p_ de `r round(as.numeric(ttest$p.value), 2)`.
 
 Plutôt que d'utiliser la loi asymptotique (qui est valide pour de grands échantillons à cause du théorème central limite), on peut considérer une approximation sous une hypothèse moins restrictive en supposant que les données sont échangeables. Sous l'hypothèse nulle, il n'y aucune différence entre les deux destinations et les étiquettes pour la destination (une variable catégorielle binaire) sont arbitraires. On pourrait considérer les mêmes données, mais avec une permutation des variables explicatives: c'est ce qu'on appelle un [test de permutation](https://www.jwilber.me/permutationtest/). On va recréer deux groupes de taille identique à notre échantillon original, mais en changeant les observations. On recalcule la statistique de test sur ces nouvelle données (si on a une poignée d'observations, il est possible de lister toutes les permutations possibles; typiquement, il suffit de considérer un grand nombre de telles permutations, disons 9999). Pour chaque nouveau jeu de données, on calculera la statistique de test et on calculera le rang de notre statistique par rapport à cette référence. Si la valeur de notre statistique observée sur l'échantillon original est extrême en comparaison, c'est autant de preuves contre l'hypothèse nulle.
 
@@ -471,6 +471,7 @@ ggplot(data, aes(x=day, y=value)) +
 
 ```
 
+### Analyse exploratoire
 
 Plutôt que de décrire plus en détail le processus de l'analyse exploratoire, on présente un exemple qui illustre le cheminement habitue sur les données de trains de la Renfe introduites précédemment.
 
@@ -560,7 +561,7 @@ renfe %>%
             "écart-type" = sd(duree),
             "prix moyen" = mean(prix),
             "écart-type" = sd(prix)) %>%
-  kbl(booktabs = TRUE, caption = "Statistiques descriptives de la durée de trajet et du prix du billet par type de billet et destination pour les trains grande vitesse du jeu de données $\\texttt{renfe}$.") %>% kable_styling()
+  kbl(booktabs = TRUE, caption = "Statistiques descriptives de la durée de trajet et du prix du billet par type de billet et destination pour les trains à grande vitesse du jeu de données $\\texttt{renfe}$.") %>% kable_styling()
 ```
 
 Les prix sont beaucoup plus élevés, en moyenne plus de deux fois plus que les trains régionaux. Les écarts de prix importants (l'écart type est de 20 euros) indique qu'il y a peut-être d'autres sources d'hétérogénéité, mais on pourrait soupçonner que la Renfe pratique la tarification dynamique. Il y un seul temps de parcours prévu pour les trains AVE-TGV. On ne note pas de différence de prix notable selon la direction ou le type de train grande vitesse, mais peut-être que les tarifs ou la classe disponibles diffèrent selon que le train ou non est en partenariat avec la compagnie française.

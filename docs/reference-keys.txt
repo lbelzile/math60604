@@ -38,6 +38,8 @@ exm:sixvilles
 fig:diagrammespagh1
 fig:diagrammespagh2
 exm:beatingtheblues
+fig:longvswide
+fig:matricebloc
 fig:covmodelsBtB
 tab:coefbeattheblues
 eq:mixedmod
@@ -68,6 +70,7 @@ analyse-exploratoire
 soignez-votre-travail
 types-de-variables
 graphiques
+analyse-exploratoire-1
 regression-lineaire
 introduction
 moindres-carrés-ordinaires

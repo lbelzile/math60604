@@ -8,11 +8,11 @@ On couvrira dans ce chapitre une extension du modèle linéaire afin de relaxer 
 
 ## Données longitudinales
 
-Dans les **données longitudinales**, aussi appelées données de panel ou mesures répétées, on a des mesures répétées sur la même variables réponse pour $m$ unités ou individus, typiquement à différents temps. Dans ce cadre, il est logique de supposer que les observations de différents individus sont indépendantes, mais pas les mesures pour un même individu. Voici quelques exemples de données longitudinales:
+Dans les **données longitudinales**, aussi appelées données de panel ou mesures répétées, on a des mesures répétées sur la même variables réponse pour $m$ unités ou individus, typiquement à différents temps. Dans ce cadre, il est logique de supposer que les observations de différents individus sont indépendantes, mais pas les mesures pour un même individu. Voici quelques exemples de données à mesures répétées:
 
 - Un sondage sur la satisfaction face au service à clientèle est envoyé aux clients d'une compagnie suite à un appel de leur part: la variable réponse est la moyenne d'échelles de Likert.
-- On prend trois mesures de circonférence d'arbres à différentes hauteurs pour estimer le volume de bois d'une forêt.
-- une étude suit une cohorte pour évaluer l'attitude de jeunes adolescents et leur attitudes envers la consommation de drogues et de stupéfiants, avec un suivi annuel.
+- On mesure la circonférence d'arbres à différentes hauteurs pour estimer le volume de bois d'une forêt.
+- Une étude suit une cohorte pour évaluer l'attitude de jeunes adolescents et leur attitudes envers la consommation de drogues et de stupéfiants, avec un suivi annuel.
 
 
 Règle générale, on s'intéresse à la modélisation de la moyenne de la réponse en fonction d'autres variables explicatives. Si les mesures sont collectées dans le temps, on peut aussi représenter graphiquement l'évolution temporelle en identifiant la variable représentant le temps et en dessinant un diagramme à ligne brisé par individu: ce type de graphique est appelé **diagramme spaghetti**.
@@ -20,7 +20,7 @@ Règle générale, on s'intéresse à la modélisation de la moyenne de la répo
 Dans ce qui suit, on s'intéresse plus en détail à deux exemples.
 
 ```{example, label ="sixvilles", name = "Étude longitudinale sur l'effet de la pollution atmosphérique sur la mortalité dans six villes américaines."}
-L'article *An Association Between Air Pollution And Mortality In Six U.S. Cities* est le fruit du travail de chercheurs de l'Université de Harvard [paru dans la revue *The New England Journal of Medicine*](https://www.nejm.org/doi/full/10.1056/NEJM199312093292401) en 1993. L'étude se penchait sur le lien entre la pollution atmosphérique, en particulier l'effet des particules fines, et la mortalité en milieu urbain en suivant une cohorte de 8111 adultes de six villes américains pendant une période allant de 14 à 16 ans. Cette étude longitudinale avait démarrée en 1979. La base de données `fev1` contient 300 filles parmi les 13 379 enfants nés en 1967 ou ultérieurement dans six villes. La plupart des enfants ont été enrollés dans l'étude en première ou deuxième année primaire, soit vers l'âge de six ou sept ans. À chaque examen annuel, on a mesuré le volume d'air évacué durant la premier seconde d'une expiration, appelé volume expiratoire maximal ou VEM1.
+L'article *An Association Between Air Pollution And Mortality In Six U.S. Cities* est le fruit du travail de chercheurs de l'Université de Harvard [paru dans la revue *The New England Journal of Medicine*](https://www.nejm.org/doi/full/10.1056/NEJM199312093292401) en 1993. L'étude se penchait sur le lien entre la pollution atmosphérique, en particulier l'effet des particules fines, et la mortalité en milieu urbain en suivant une cohorte de 8111 adultes de six villes américains pendant une période allant de 14 à 16 ans. Cette étude longitudinale avait démarrée en 1979. La base de données `fev1` contient les données pour 300 filles parmi les 13 379 enfants nés en 1967 ou ultérieurement dans six villes de l'étude. La plupart des enfants ont été enrollés dans l'étude en première ou deuxième année primaire, soit vers l'âge de six ou sept ans. À chaque examen annuel, on a mesuré le volume d'air évacué durant la premier seconde d'une expiration, appelé volume expiratoire maximal ou VEM1.
 ```
 
 
@@ -83,8 +83,13 @@ g2
 ```
 
 Les données longitudinales ne sont pas toujours stockées dans un format qui soit convenable pour l'analyse. En effet, il est commun d'enregistrer ces données en **format large**, auquel cas chaque ligne représente un individu différent et les colonnes contiennent à la fois des variables explicatives et les différentes répétitions de la variables réponse $y_1, \ldots, y_{n_i}$.
+Une base de données en **format long** contient une seule valeur de la variable réponse par ligne, avec une colonne additionnelle indiquant l'identifiant (temporel) de l'observation. On peut passer de format large en format long en transformant les noms de colonnes en étiquettes de la variables d'identification et la Figure \@ref(fig:longvswide) illustrate cette transposition. On supposera par la suite que les données sont ordonnées par individu, puis chronologiquement.
 
-Une base de données en **format long** contient une seule valeur de la variable réponse par ligne, avec une colonne additionnelle indiquant l'identifiant (temporel) de l'observation. On peut passer de format large en format long en transformant les noms de colonnes en étiquettes de la variables d'identification. De même, on suppposera par la suite que les données sont ordonnées par individu, puis chronologiquement.
+
+```{r longvswide, fig.cap = "Format large versus format long pour tableaux (illustration de Garrick Aden-Buie).", echo = FALSE}
+knitr::include_graphics(path = "images/original-dfs-tidy.png")
+```
+
 
 En format long, les variables explicatives qui sont fixes au sein d'une unité pour toutes les répétitions seront copiées sur chaque ligne. Il faut faire attention au calcul des statistiques descriptives: ces dernières ne seront pas correctes sauf si on ne conserve qu'une copie pour chaque unité. En particulier, l'estimé de l'écart-type de la variable explicative sera sous-estimé parce qu'on gonfle artificiellement la taille de l'échantillon lors de la duplication.
 
@@ -146,6 +151,34 @@ Plus précisément, si les données sont ordonnées par unité et qu'on a $m$ gr
                \end{pmatrix}.
 \end{align*}
 où $\mathbf{O}$ dénote une matrice de zéro. La covariance inter-groupe est nulle parce qu’on suppose que les données d’unités différentes sont indépendantes les unes des autres.
+
+```{r matricebloc, echo = FALSE, eval = TRUE, cache = TRUE, fig.cap = "Matrice de covariance des 100 premières mesures de l'étude sur la capacité respiratoire pour un modèle donné. Chaque bloc représente une fille différente."}
+data(fev1, package = "hecmodstat")
+mod1 <- lme4::lmer(data= fev1,
+                   formula = exp(logvem1) ~ taille + (1 + age | id))
+a <- hecmodstat::rescov(mod1)
+#image(a$var_y[1:100,1:100], xlab = "", ylab="", sub = "")
+df <- data.frame(x = rep(100:1, length.out = 1e4),
+                 y = rep(1:100, each = 100),
+                 z = as.vector(a$var_y[1:100,1:100]))
+ggplot(data = df,
+       aes(x = x, y = y, fill = z)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "blue",
+                       mid = "white",
+                       high = "red",
+                       midpoint = 0
+                       # limit = c(-1,1)*max(abs(df$z))
+                       ) +
+  scale_y_continuous(expand = c(0,0),
+                     breaks = seq(0L, 75L, by = 25L),
+                     labels = seq(100L, 25L, by = -25L)) +
+  scale_x_continuous(expand = c(0,0)) +
+  theme_light() +
+  theme(legend.position = "none") +
+  coord_fixed() +
+  labs(x = element_blank(), y = element_blank())
+```
 
 Si on paramétrise les sous-blocs $\boldsymbol{\Sigma}_1, \ldots, \boldsymbol{\Sigma}_m$ qui représentent la covariance au sein d'une unité, on supposera que la structure (et les paramètres) seront identiques, en gardant en tête que ces matrices ne sont pas de la même taille si le nombre de réplications temporelles n'est pas identique pour toutes les unités. En particulier, si $n_i$ dénote le nombre de réplications (temporelles) pour l'unité $i$ avec $\sum_{i=1}^m n_i=n$ et que $T=n_1 = \cdots = n_m$, alors chaque matrice bloc sera identique et $\boldsymbol{\Sigma}_1 = \cdots =\boldsymbol{\Sigma}_m$. Les paramètres $\boldsymbol{\psi}$ de la matrice de covariance seront estimables parce qu'on aura $m$ réplications de la matrice.
 
