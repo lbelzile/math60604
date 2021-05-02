@@ -284,24 +284,60 @@ La représentation graphique du modèle polynomial de degré 2 présenté dans l
 knitr::knit_hooks$set(webgl = hook_webgl)
 ```
 
-```{r hyperplan, echo = FALSE, fig.cap = "Représentation graphique 3D du modèle de régression linéaire pour les données $\\texttt{automobile}$."}
+```{r hyperplan, echo = FALSE, fig.cap = "Représentation graphique 3D du modèle de régression linéaire pour les données $\\texttt{automobile}$.", warning = FALSE, message = FALSE}
 out_type <- knitr::opts_knit$get("rmarkdown.pandoc.to")
 if(out_type == 'html'){
-library(rgl)
-plot3d(y = automobile$autonomie, x = automobile$puissance, z = I(automobile$puissance^2),
-          xlab = expression("puissance"),
-          ylab = expression("autonomie"),
-          zlab = expression(paste("puissance"^{2})),
-          axis.col = rep("black", 3))
-ols <- coef(mod)
-ran <- range(automobile$puissance)
-hor_seq <- seq(from = ran[1], to = ran[2], length = 1000)
-hor2_seq <- hor_seq^2
-mpg_seq <- ols[1] + ols[2]*hor_seq + ols[3]*hor2_seq
+  data(automobile, package = "hecmodstat")
+  automobile$puissance2 <- with(automobile, I(puissance^2))
+  mod <- lm(autonomie ~ puissance + puissance2,  data = automobile)
+  to_plot_x <- with(automobile, range(puissance))
+  to_plot_y <- with(automobile, range(puissance2))
+  df <- data.frame(puissance = rep(to_plot_x, 2),
+                   puissance2 = rep(to_plot_y, each = 2))
+  df["pred"] <- predict.lm(mod, df, se.fit = FALSE)
+  surf <- reshape2::acast(df, puissance2 ~ puissance)
+  color <- rep(0, length(df))
+  automobile$pred <- predict(mod)
+  df2 <- data.frame(x = (0:250),
+                    y = (0:250)^2,
+                    z = predict(mod, data.frame(puissance = 0:250, puissance2 = (0:250)^2))
+  )
+  scene <- list(
+    xaxis = list(title = "puissance (chevaux vapeurs)"),
+    yaxis = list(title = "puissance carré"),
+    zaxis = list(title = "autonomie d'essence (miles au gallon)"))
+  automobile %>%
+    plotly::plot_ly(colors = "grey") %>%
+    plotly::add_markers(x = ~puissance, y = ~puissance2, z = ~autonomie,
+                name = "data",
+                opacity = .8,
+                marker=list(color = 'black', size = 4, hoverinfo="skip", opacity = 0.8)) %>%
+     plotly::add_surface(x = to_plot_x, y = to_plot_y, z = ~surf,
+                         inherit = FALSE,
+                         name = "Relation entre puissance et autonomie",
+                         opacity = .75, cauto = FALSE, surfacecolor = color) %>%
+    plotly::add_trace(data = df2,
+                      x=~x, y = ~y, z = ~z,
+                      type = 'scatter3d', mode = 'lines', color = I(hecblue)) %>%
+    plotly::layout(scene = scene) %>%
+    plotly::hide_guides()
 
-points3d(x = hor_seq, z = hor2_seq, y = mpg_seq, col = hecblue)
-planes3d(a = ols[2], c = ols[3], b = -1, d = ols[1], alpha = 0.1)
-rglwidget()
+
+#library(rgl)
+#plot3d(y = automobile$autonomie, x = automobile$puissance, z = I(automobile$puissance^2),
+#          xlab = expression("puissance"),
+#          ylab = expression("autonomie"),
+#          zlab = expression(paste("puissance"^{2})),
+#          axis.col = rep("black", 3))
+#ols <- coef(mod)
+#ran <- range(automobile$puissance)
+#hor_seq <- seq(from = ran[1], to = ran[2], length = 1000)
+#hor2_seq <- hor_seq^2
+#mpg_seq <- ols[1] + ols[2]*hor_seq + ols[3]*hor2_seq
+
+#points3d(x = hor_seq, z = hor2_seq, y = mpg_seq, col = hecblue)
+#planes3d(a = ols[2], c = ols[3], b = -1, d = ols[1], alpha = 0.1)
+#rglwidget()
 } else{
   knitr::include_graphics('images/hyperplan_auto.png')
 }
