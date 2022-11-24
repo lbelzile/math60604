@@ -333,7 +333,7 @@ for(i in 2:B){
 # Tracer un graphique de la distribution empirique obtenue par permutation
 ggplot(data = data.frame(statistique = ttest_stats),
        aes(x=statistique)) +
-  geom_histogram(bins = 30, aes(y=..density..), alpha = 0.2) +
+  geom_histogram(bins = 30, aes(y=after_stat(density)), alpha = 0.2) +
   geom_density() +
   geom_vline(xintercept = ttest_stats[1]) +
   ylab("densité") +
@@ -411,7 +411,7 @@ Puisque qu'on groupe les observations en classe pour tracer l'histogramme, il es
 ```{r histrenfe, cache = TRUE, echo = FALSE, fig.cap = "Histogramme du prix des billets au tarif Promo de trains du jeu de données Renfe"}
 renfe %>% subset(tarif == "Promo") %>%
   ggplot(aes(x = prix)) +
-    geom_histogram(aes(y = ..density..), bins = 30) +
+    geom_histogram(aes(y = after_stat(density)), bins = 30) +
     geom_rug(sides = "b") +
     labs(x = "prix de billets au tarif Promo (en euros)", y = "densité")
 ```
@@ -581,7 +581,7 @@ ggplot(aes(y = prix, x = classe, col = tarif)) +
 ```
 
 ```{r renfe-aed7, cache = TRUE, echo = FALSE, fig.cap = "Histogrammes du prix en fonction du tarif de billets de trains de la Renfe."}
-ggplot(data = renfe, aes(x = prix, y=..density.., fill = tarif)) +
+ggplot(data = renfe, aes(x = prix, y=after_stat(density), fill = tarif)) +
     geom_histogram(binwidth = 5) +
     labs(x = "prix (en euros)", y = "densité") +
     theme(legend.position = "bottom")
