@@ -1,1 +1,1023 @@
 # Analyse de survie {#survie}
+
+
+Dans le cadre de l'analyse de survie, on s'intéresse au temps jusqu'à ce qu'un événement survienne. On considère une variable réponse positive $T_i$, qui représente le temps de survie avant que l'événement d'intérêt survienne pour le sujet $i$ ($i=1, \ldots, n$). Le temps de survie $T_i$ est aussi appelé temps de défaillance et est généralement mesuré à des moments précis: ainsi, si la variable est continue (le temps exact en secondes), les données sont généralement discrètes (arrondies à la journée ou au mois près). 
+Parmi les exemples de phénomènes de survie hors contexte médical, on peut penser à
+ 
+- le temps avant qu'une personne au chômage ne retrouve un emploi ou ne quitte le marché du travail
+- le temps d'attente avant qu'un client soit servi lors d'un appel téléphonique
+- le temps précédant l'annulation d'un abonnement à un gym
+
+Afin de bien définir le temps de survie $T_i$, il faut avoir une notion du {temps d'entrée} (ou de départ) qui marque le début de la mesure (quand on démarre le chronomètre). Le temps d'entrée peut être le même pour tous les sujets (étude longitudinale), par exemple si on mesure la durée des études d'une cohorte d'étudiants pour compléter leurs études. Il peut également être différent d'un sujet à un autre, comme par exemple si une personne patiente au téléphone pour être servie.
+
+
+
+{Censure}
+
+%  - La variable d'intérêt est le temps $T_i$ avant que l'événement survienne.
+% - Cependant, au cours de la période d'étude, l'événement ne survient pas nécessairement pour chaque sujet.
+Une des plus grandes difficultés avec l'analyse de survie est qu'\textbf{on n'observe pas nécessairement tous les événements}.
+Cela pourrait être parce que
+
+ 
+- le sujet survit après la fin de la période d'étude,
+ - $T$ représente le temps de survie d'un individu après avoir été diagnostiqué avec un cancer
+ 
+- il se peut que le sujet soit toujours vivant à la fin de l'étude.
+
+
+- le sujet quitte l'étude avant la fin,
+
+- $T$ représente le temps que ça prend à un étudiant pour compléter leur programme 
+ -
+il se peut que certains étudiants abandonnent leur programme.
+
+
+- un événement concurrentse produit, ce qui rend l'événement d'intérêt impossible. 
+- $T$ représente le nombre d'années de service avant la retraite pour des employées d'un entreprise 
+ - il se peut qu'un sujet décède avant de prendre sa retraite. 
+
+
+
+
+
+
+
+% 
+% 
+% 
+% - Cela est appelée la {censure}.
+% 
+%  
+% - Quand un observation est censurée, c'est comme si nous avons que de l'information partielle sur le sujet.
+% 
+% 
+% 
+% 
+% 
+% 
+% {Exemples de censure à droite}
+%  Le type de censure le plus commun est la {censure à droite}:
+% 
+% 
+%  
+% 
+% 
+% 
+% 
+
+
+
+{Censure}
+
+- Il existe plusieurs types de censure
+
+ 
+- \textbf{censure à droite}:  on sait que l'événement se produit après un certain temps $t$, c'est-à-dire $T_i \geq t$.
+- \textbf{censure à gauche}: l'événement d'intérêt survient avant qu'on observe l'individu. C'est-à-dire, tout ce qu'on sait est que $T<t$.
+- \textbf{censure par intervalle}: l'événement d'intérêt survient à un point inconnu dans un intervalle de temps, mais on ne sait pas quand exactement. C'est-à-dire, tout ce qu'on sait est que $T \in [t_1,t_2]$
+
+- Avec la censure, l'idée générale est qu'on ne sait la valeur précise de $T$, mais on a tout de même de l'information concernant un intervalle dans laquelle $T$ peut tomber.
+
+ 
+- par ex: $T>t$, ou $T<t$, ou $T \in [t_1,t_2]$
+
+
+
+
+
+{Examples de censure}
+ - Supposons qu'un chercheur s'intéresse à l'âge à partir duquel les enfants sont capables d'écrire leur prénom. 
+- $T$ est le temps (en années) jusqu'à ce qu'un enfant puisse écrire son nom. 
+- Le chercheur suit un groupe d'enfants dans une classe de maternelle tout au long de l'année scolaire. 
+ - Lorsque le chercheur arrive, certains enfants sont déjà capables d'écrire leur nom: $T$ est \emph{censuré à gauche}. 
+- Certains enfants apprennent à écrire leur prénom pendant les vacances de Noël: $T$ est \emph{censuré par intervalle}. - Certains enfants ne savent toujours pas comment écrire leur nom rendu à la fin de l'année scolaire:  $T$ est \emph{censuré à droite}.
+
+
+
+
+
+
+{Censure non-informative}
+
+- Nous supposons généralement que la censure est {non-informative}. 
+
+ 
+- C'est-à-dire, la censure est non-informative de l'événement; le temps de censure est indépendant du temps de survie.
+- Autrement dit, le temps de censure ne nous donne aucune information sur ce que pourrait être le temps de survie.
+
+- Un exemple de censure \emph{informative}:
+
+ 
+- Supposons qu'un groupe de patients en phase terminale d'une maladie suit un traitement expérimental, et que ce traitement peut avoir des effets secondaires nocifs. Donc, pour des raisons éthiques, les patients qui deviennent très malades sont retirés de l'étude. Les patients qui sont retirés de l'étude auront un temps $T$ qui est censuré à droite. Cependant, ces patients qui abandonnent l'étude sont probablement en moins bonne santé et risquent davantage de mourir plus tôt.
+
+
+
+
+{Type de censure à droite non-informative}
+ On distingue entre plusieurs formes de censure à droite qui est non-informative:
+  - censure de type 1: la collecte de donnée prend fin au temps $C$; toute observation résiduelle est censurée à droite.
+ - censure de type 2: on collecte des données jusqu'à un nombre prédéterminé $k$ d'événements.
+ - \textbf{censure aléatoire}: le temps de survie observé est $T_i = \min\{T_i^0, C_i\}$, où la durée de survie $T_i^0$ et le temps de censure $C_i$ sont des variables aléatoires \textbf{indépendantes}. 
+ 
+
+
+
+
+ {Troncation}
+ Dans certaines études, on collecte les données seulement pendant un créneau prédéterminé $[a, b]$. 
+  - La trajectoire du temps est \textbf{tronquée à gauche} si le temps de survie excède zéro au temps $a$
+
+Par exemple, lors d'une enquête sur le chômage, on considère toutes les personnes qui sont inscrites au chômage entre janvier et mars. 
+ - Certaines personnes ont perdu leur emploi depuis plusieurs mois lors du début de l'enquête (troncation à gauche). 
+ - Si la personne est toujours en recherche d'emploi à $b$, elle sera censurée à droite (censure à droite de type 1).
+
+
+
+
+{Diagramme de Lexis}
+ \begin{center}
+  \includegraphics[width = 0.8\textwidth]{img/c7/07-lexis_fr.pdf}
+ \end{center}
+{ \footnotesize Diagramme de Lexis représentant les trajectoires temporelles. Les $\mathrm{x}$ dénotent les temps de défaillance observés, tandis que les $\circ$ indiquent les valeurs censurées. Les temps de survie résiduels au temps $5$ sont censurés. La trajectoire en rouge dénote un individu dont le temps de survie est tronqué à gauche.
+
+
+
+
+{Fonctions de survie et de risque} 
+
+Soit $T$ la variable aléatoire représentant le temps de survie 
+ %- On dénote la fonction de répartition $F(t) = \P{T \leq t}$ et la fonction de densité $f(t) = \d F(t) / \d t$. 
+-  La {fonction de survie}, $S(t) = \P{T>t}$, caractérise complètement la loi de $T$.
+- On veut souvent savoir quelles périodes présentent un plus fort taux de défaillance.
+La {fonction de risque} (taux de défaillance, taux de risque) de $T$ est 
+\begin{align*}
+h(t) &= \lim_{\delta \to 0} \frac{\P{t < T<t + \delta \mid T>t}}{\delta} 
+\\&= \lim_{\delta \to 0} \frac{1}{\delta}\frac{\P{t < T < t + \delta}}{\P{T>t}} \\&= \frac{f(t)}{S(t)}
+\end{align*}
+On peut interpréter la fonction de risque comme étant la probabilité instantanée de ``mourir'' au temps $t$, compte tenu de la survie jusqu'au temps $t$.
+
+
+
+{Fonctions de survie et de risque}
+\begin{center}
+\includegraphics[width = 0.8\textwidth]{img/c7/07-survival-hazard-fr.pdf}
+\end{center}
+{\footnotesize
+
+La fonction de survie décroît de $S(0)=1$ de manière monotone. Plus le risque $h(t)$ est élevé, plus la survie décroît rapidement.
+
+}
+
+
+
+
+{Fonction de risque en forme de bain}
+\begin{center}
+\includegraphics[width = 0.8\textwidth]{img/c7/07-bathtub-hazard-fr.pdf}
+\end{center}
+{\footnotesize
+
+Le risque initial est fort (mortalité infantile, défaut de fabrication) initialement, puis décroît et se stabilise. Au fil du temps, le risque augmente de nouveau (défaillance accrue avec l'âge).
+
+}
+
+
+
+{Censure aléatoire et vraisemblance}
+On observe $T_i = \min\{T_i^0, C_i\}$. Si une observation est censurée à droite au temps $c$, on sait que $S(c)=\P{T_i^0 > c}$
+ - en d'autres mots, le temps de survie excède $c$.
+
+
+Si on a de la censure aléatoire, la base de données contient un indicateur $\delta_i$ où
+\begin{align*}
+T_i = 
+\begin{cases}
+T_i^0, & \delta_i=1 \text{ (événement observé)}\\
+C_i, & \delta_i=0 \text{ (censure à droite)}
+\end{cases}
+\end{align*}
+
+
+
+
+{Contribution à la vraisemblance}
+Soit $S(t; \bs{\theta}) = \P{T_{i}^0 > t}$ la fonction de survie de $T_i^0$. Avec $T_i^0$ indépendant de $C_i$, chaque observation contribue 
+\begin{align*}
+L_i(\bs{\theta}) = 
+\begin{cases} 
+f(t_i; \bs{\theta}), & \delta_i=1 \text{ (événement observé)}\\
+S(t_i; \bs{\theta}), & \delta_i=0 \text{ (censure à droite)}
+\end{cases}
+\end{align*}
+à la vraisemblance. La log vraisemblance s'écrit 
+\begin{align*}
+\ell(\bs{\theta}) \equiv \sum_{i: \delta_i=1} \ln f(t_i; \bs{\theta}) + \sum_{i: \delta_i=0} \ln S(t_i; \bs{\theta})
+\end{align*}
+
+
+
+{Approches pour l'inférence}
+
+Plusieurs approches s'offrent à nous pour estimer la fonction de survie (ou la fonction de risque).
+ - paramétrique: choisir une famille de lois (Weibull, log normale, Gompertz, exponentielle) pour $T$.
+
+-[$+$] permet d'incorporer des variables explicatives aisément
+-[$+$] estimés continus, permet d'extrapoler la courbe
+-[$-$] notre modèle peut être mal spécifié
+-[$-$] peu flexible: la loi peut mal s'ajuster aux données
+
+- nonparamétrique: aucune distribution assumée. 
+ 
+-[$-$] pas de variables explicatives
+-[$+$] hypothèse minimales, garanties théoriques quand la taille de l'échantillon $n$ est grande.
+-[$+$] flexible.
+-[$-$] estimés discontinus,
+-[$-$] on ne peux extrapoler au delà du plus grand temps de défaillance observé.
+
+
+
+
+
+
+{Modèles paramétriques pour la survie: loi exponentielle}
+Soit  $T_i \simiid \mathsf{E}(\lambda)$ des variables exponentielles d'espérance $\lambda^{-1}$.
+ - 
+La fonction de survie de $T$ est $S(T) = \exp(-\lambda t)$ et 
+- la fonction de risque $h(t)=\lambda$ est \textbf{constante}.
+
+
+La log vraisemblance pour un échantillon aléatoire de taille $n$ s'écrit
+\begin{align*}
+\ell(\lambda) =\sum_{i=1}^n \{\delta_i \ln \lambda - \lambda T_i\}.
+\end{align*}
+Le maximum de vraisemblance est $\widehat{\lambda} =\sum_{i=1}^n \delta_i/ \sum_{i=1}^n T_i $. 
+
+ - L'estimé du temps de survie est infini si aucune défaillance n'est observée.
+- On obtient les erreurs-types à l'aide de la matrice d'information observée $j(\widehat{\lambda}) = \sum_{i=1}^n \delta_i/\widehat{\lambda}^2$; les données censurées ne contribuent pas d'information.
+
+
+
+
+% 
+% {Régression probit}
+%  - On peut utiliser l'inférence basée sur la vraisemblance plus généralement pour d'autres scénarios de survie.
+% - 
+% On considère une variable latente $Z_i \sim \mathsf{No}(\mathbf{x}_i \bs{\beta}, 1)$, mais on observe
+% \begin{align*}
+%  Y_i = \begin{cases}
+%         0 & Z_i \leq 0, \text{ (censure à gauche)}\\
+%         1 & Z_i > 0  \text{ (censure à droite)}.
+%        \end{cases}
+% \end{align*}
+% -  On a $\P{Y_i = 0} = \P{Z_i \leq 0} = %1-\P{Z_i-\mathbf{x}_i\bs{\beta} \leq -\mathbf{x}_i\bs{\beta}}=
+% \Phi(-\mathbf{x}_i\bs{\beta})=1-\Phi(\mathbf{x}_i\bs{\beta})$.
+% - Cela revient à ajuster un modèle linéaire généralisé pour des données binaires avec fonction de liaison $g(x)=\Phi^{-1}(x)$.
+% 
+% 
+
+
+
+{Notation}
+On considère $T$ une variable aléatoire continue et un échantillon de taille $n$.
+
+%- Suppose we have $n$ subjects, for which we either observe the time until the event, or a (right) censored time.
+- Supposons qu'il y a $D$ temps distincts de défaillance. 
+- Soit $0 \leq t_1 < t_2 < \cdots < t_D$ ces $D$ temps en ordre croissant. 
+- Soit $r_j$ le nombre d'individus \emph{à risque} d'expérimenter l'événement au temps $t_j$. 
+
+- C'est-à-dire, ces individus n'ont toujours pas expérimenté l'événement (et n'ont pas été censuré) avant le temps $t_j$. 
+- Donc, $r_j$ est le nombre de survivants juste avant le temps $t_j$ qui sont à risques d'expérimenter l'événement au temps $t_j$.
+
+- Soit $d_j \in \{0, \ldots, r_j\}$ le nombre d'individus qui expérimentent l'événement au temps $t_j$ (par exemple, il y a $d_j$ décès au temps $t_j$). 
+
+
+
+{Dérivation de l'estimateur de Kaplan--Meier}
+ La probabilité de mourir dans l'intervalle $(t_j, t_{j+1}]$ étant donné que l'individu a survécu jusqu'à $t_j$ est 
+ \begin{align*}
+  h_j = \P{t_j < T \leq t_{j+1} \mid T > t_j} 
+%   \\& = \frac{\P{t_j < T \leq t_{j+1}}}{\P{T > t_j} }
+%   \\& 
+  = \frac{S(t_j) - S(t_{j+1})}{S(t_j)}.
+ \end{align*}
+d'où une récursion qui donne \begin{align*}
+S(t) = \prod_{j: t_j < t} (1-h_j).
+\end{align*}
+L'estimateur de Kaplan--Meier  est {non-paramétrique}, 
+ - on ne fait pas d'hypothèse sur la loi de probabilité de  $T_i$.
+- on considère plutôt les $\{h_j\}_{j=1}^D$ comme des paramètres du modèle.
+
+
+
+
+{Vraisemblance pour données discrètes}
+ - Chacun des décès au temps $t_j$ contribue $h_j$ à la vraisemblance 
+ - la probabilité de défaillance à $t_j$ sachant qu'un individu a survécu jusque là.  
+- 
+Les survivants au temps $t_j$ contributent $1-h_j$.
+- 
+On peut donc écrire la log vraisemblance comme
+\begin{align*}
+ \ell(\bs{h}) = \sum_{j=1}^D \{ d_j \ln(h_j) + (r_j-d_j)\ln(1-h_j)\},
+\end{align*}
+soit la somme des contributions de variables binomiales du risque au temps $t_j$.
+
+
+
+{Optimisation des différents probabilité de survie}
+
+- Si on différencie $\ell(\bs{h})$ par rapport à $h_j$, on trouve $\widehat{h}_j = d_j/r_j$.
+- L'estimateur de Kaplan--Meier pour la fonction de survie est
+\begin{align*}
+\widehat{S}(t) = \prod_{t_j < t} \left( 1 - \frac{d_j}{r_j} \right)
+\end{align*}
+- 
+Intuition: $d_j/r_j$ représente la probabilité conditionnelle de survivre jusqu'avant le temps $t_j$ et d'expérimenter l'événement au temps $t_j$. 
+
+
+
+
+{\footnotesize Le maximum de vraisemblance est indépendant de la valeur de $S(\cdot)$ à $t_j$; on définit généralement que la fonction de survie est continue à gauche.}
+
+
+
+{Exemple}
+ Les données \code{cancersein} tirées de Sedmak \textsl{et al.} (1989) traitent de survie de patients atteints du cancer du sein et contiennent les variables suivantes:
+
+ 
+- \code{temps}: temps de survie ou temps écoulé à la fin de l'étude (en mois)
+- \code{mort}: variable indicatrice pour la mort, \code{0} pour censure, \code{1} pour décès
+- \code{repimmuno}: réaction à un examen immunohistochimique, soit négative (\code{0}) ou positive (\code{1})
+
+%    
+% 
+% -[] \tiny{
+% Ces données proviennent de (), comme l'illustre le livre \emph{Survival Analysis: Techniques for Censored and Truncated Data} par John P. Klein \& Melvin L. Moeschberger}
+% 
+
+
+
+
+{Statistiques descriptives pour \code{cancersein}}
+\begin{center}
+\includegraphics[width = 0.5\textwidth]{img/c7/diapos7e01}
+\includegraphics[width = 0.5\textwidth]{img/c7/diapos7e02}
+\end{center}
+{
+\footnotesize En pratique, l'utilisation de l'estimateur de Kaplan--Meier avec si peu de données est déconseillée. La qualité de l'approximation dépend fortement du nombre d'observations (correct si $n \gg 1000$).
+
+Les observations censurées fournissent beaucoup moins d'information que les temps de défaillance observés.
+
+}
+
+
+
+
+{Estimation de la fonction de survie }
+
+\begin{tcolorbox}[colback=white,colframe=hecblue,title=Code \SASlang{} pour ajuster l'estimateur de Kaplan--Meier]
+{\footnotesize 
+\begin{verbatim}
+proc lifetest data=modstat.cancersein method=km plots=(s(cl));
+time temps*mort(0);
+run;
+\end{verbatim}
+}
+\end{tcolorbox}
+{ \footnotesize 
+L'argument \code{time} indique la variable de temps $T_i$ (\code{temps}) et l'indicateur de censure $\delta_i$,  incluant la valeur de référence pour les observations censurées à droite (\code{mort=0})
+
+}
+
+
+
+{Estimé de la fonction de survie}
+\begin{center}
+\includegraphics[width = 0.6\textwidth]{img/c7/diapos7e03}
+\begin{align*}
+ \vdots
+\end{align*}
+\includegraphics[width = 0.6\textwidth]{img/c7/diapos7e04}
+\end{center}
+
+
+
+{Graphique de la fonction de survie}
+\begin{center}
+\includegraphics[width = 0.8\textwidth]{img/c7/diapos7e05}
+\end{center}
+{ \footnotesize 
+
+La courbe de survie estimée est déficiente: $\widehat{S}(t)$ ne descend jamais à $0$ parce que le temps de survie le plus long dans les données est censuré à droite.
+
+
+}
+
+% 
+%  
+% - On voit que la dernière observation de temps à $t=189$ est représenté par une coche dans le graphique car l'observation est censurée. 
+% - La dernière baisse de $\widehat{S}(t)$ sera à $t_D$: le plus grand temps de décès observé.  
+% 
+% \begin{center}
+% \includegraphics[scale=0.6]{img/c7/btrial_plateau.png}
+% \end{center}
+% 
+% 
+% 
+% 
+
+
+{Durée de l'allaitement}
+La base de données \code{allaitement} contient des données provenant de l'Enquête longitudinale nationale sur les jeunes sur la durée de la période d'allaitement de mères depuis la naissance de leur bébé. On se concentre sur les variables suivantes:
+
+- \code{duree}: durée de l'allaitement (en semaines)
+- \code{delta}: variable indicatrice de la fin de l'allaitement, 
+ - soit observée (\code{1}) 
+- soit censurée (\code{0})
+
+%- \code{race}: race of mother (1=white, 2=black, 3=other)
+%- \code{poverty}: poverty status of mother (1=yes, 0=no)
+%- \code{smoke}: smoking status of mother at birth of child (1=yes, 0=no)
+%- \code{alcohol}: alcohol-drinking status of mother at birth of child (1=yes, 0=no)
+%- \code{agemth} age of mother at birth of child
+%- \code{ybirth} year of child's birth
+%- \code{yschool}: education level of mother (years of school)
+%- \code{pc3mth}: lack of prenatal care status (1= mother did not seek within first 3 months, 0=mother sought prenatal care in first three months of pregnancy)
+
+
+\begin{center}
+\includegraphics[width = 0.5\textwidth]{img/c7/diapos7e09}
+\end{center}
+% 
+% -[] \tiny{Ces données proviennent de l'Enquête longitudinale nationale sur les jeunes, tels qu'illustrés dans le livre \emph{Survival Analysis: Techniques for Censored and Truncated Data} par John P. Klein \& Melvin L. Moeschberger}
+% 
+
+
+
+{Courbe de survie pour les données \code{allaitement}}
+
+\begin{center}
+\includegraphics[width = 0.8\textwidth]{img/c7/diapos7e08}
+\end{center}
+{\footnotesize $\widehat{S}(t)$ atteindra zéro puisque le plus grand temps de survie est observé.
+
+}
+
+% 
+% 
+% {Exemple}
+% 
+% - Dans cet exemple, la courbe de survie estimée atteint $0$. 
+% - C'est parce que le temps de survie le plus grand dans les données n'est pas censuré:
+% 
+%     
+% 
+% %\begin{center}
+% \begin{tabular}{c c}
+% %\begin{footnotesize}
+% \code{duration} & \code{delta} \\
+% 192 &  1
+% %\end{footnotesize}
+% \end{tabular}
+% %\end{center}
+% 
+% - La dernière baisse dans $\widehat{S}(t)$ atteindra zéro puisque le plus grand temps de survie observé dans les données est en fait le dernier temps d'événement $t_D$.  
+% 
+% \begin{center}
+% \includegraphics[scale=0.6]{img/c7/bfeed_plateau.png}
+% \end{center}
+% 
+% 
+% 
+
+
+{La médiane de survie}
+ La médiane du temps de survie est le temps $t_M$ auquel $S(t_M)=0.5$. 
+
+ - C'est-à-dire, le temps médian $t_M$ est tel que $50\%$ des individus survivent jusqu'au temps $t_M$. 
+
+ On peut facilement trouver la médiane du temps de survie en cherchant le temps $t$ o\`u la ligne horizontale $\widehat{S}(t) = 0.5$ croise la courbe de survie. 
+\begin{center}
+\includegraphics[width = 0.7\textwidth]{img/c7/diapos7e07}
+\end{center}
+
+
+
+% 
+% {La médiane de survie}
+% 
+% - SAS va automatiquement calculer la médiane du temps de survie. 
+% - Dans les données sur les patients avec le cancer du sein, on obtient un temps de survie médian de $89$
+%   
+% \begin{center}
+% \includegraphics[scale=0.4]{img/c7/btrial_km_median.png}
+% \end{center}
+% - Notez que si le temps observé le plus long est {censuré} et que la courbe de survie estimée atteint un plateau qui est plus {élevé} que la ligne horizontale de $0.5$, alors nous ne pourrons pas estimer la médiane du temps de survie. 
+% \begin{center}
+% \includegraphics[scale=0.35]{img/c7/km_ex_no_med.png}
+% \end{center}
+% 
+% 
+
+
+
+{Moyenne de la survie}
+Pour une variable aléatoire positive, $T>0$, on peut démontrer que 
+\begin{align*}
+\E{T} = \int_0^{\infty} S(t) \d t
+\end{align*}
+On peut estimer l'espérance du temps de survie $\E{T}$ en calculant l'aire sous la courbe de survie estimée $\widehat{S}(t)$. 
+
+- Par exemple, le temps de survie moyen pour les données d'allaitement est $16.89$ semaines avec erreur-type $0.614$ semaines.
+- Si le temps observé le plus long est {censuré}, la courbe de survie estimée $\widehat{S}(t)$ va atteindre un plateau et ne descendra jamais à $0$. L'aire sous la courbe est infinie.
+- Dans ce cas, on peut plutôt estimer le temps de survie moyen limité: $\E{\min\{T,\tau\}}$ pour une valeur choisie $\tau$. C'est-à-dire, nous calculerons le temps de survie moyen comme si la courbe descendait à $0$ au temps $\tau$ (option \code{rmst} dans \SASlang{}).
+ 
+
+
+
+
+{Motivation}
+
+- L'estimateur de Kaplan--Meier permet d'estimer de manière nonparamétrique la fonction de survie.
+- Qu'est-ce qu'on ferait si on voulait mesurer l'effet de variables explicatives $\mathrm{X}_1, \ldots, \mathrm{X}_p$ sur la survie?
+ 
+- avec des variables catégorielles (et beaucoup de données), on pourra estimer la fonction pour chaque sous-groupe à l'aide de l'estimateur de Kaplan--Meier.
+- cette approche ne fonctionne pas si $\mathrm{X}_j$ est continue ou le nombre d'observations par groupe est petite.
+
+
+
+% 
+% 
+% {Modèle à risques proportionnels de Cox}
+% 
+% - Le modèle de Cox à risques proportionnels est un modèle {semi-paramétrique} pour la fonction de risque $h(t)$. 
+% 
+%  
+% - C'est un modèle semi-paramétrique car il comprend à la fois une partie paramétrique et une partie non-paramétrique.
+% - La partie paramétrique du modèle est paramétrisée en terme de coefficients de régression $\beta_1, \ldots, \beta_p$, qui mesure les effets des variables explicatives sur la survie. 
+% 
+% 
+% 
+
+
+{Fonction de risque cumulative}
+
+Pour $T$ continue${}^*$, la fonction de risque cumulative est
+\begin{align*}
+H(t) = \int_{0}^{t} h(u) \d u = \int_0^t \frac{f(u)}{S(u)}\d u = -\ln\{S(t)\}
+\end{align*}
+et donc on peut écrire la fonction de survie  
+\begin{align*}
+S(t) = \exp\{-H(t)\}.
+\end{align*}
+
+
+On peut aussi écrire la log vraisemblance en terme de la fonction de risque (cumulative)
+\begin{align*}
+\ell(\bs{\theta}) = \sum_{i=1}^n \{\delta_i \ln h(t_i; \bs{\theta}) - H(t_i; \bs{\theta})\}
+\end{align*}
+
+
+
+% 
+% {Fonction de risque}
+% 
+% - Pour un temps de survie $T$, la {fonction de survie} est $S(t) = \P{T>t}$
+% -[] et la {fonction de répartition} est $F(t) = \P{T\leq t}$
+% 
+% - Rappel: on peut écrire la fonction de survie en terme de la fonction de répartition:
+% \begin{align*}
+% S(t) = 1 - F(t)
+% \end{align*}
+% - La {fonction de risque} (ou {taux de défaillance} ou {taux de risque}) est définie comme 
+% \begin{align*}
+% h(t) = \lim_{\delta \to 0} \frac{\P{t < T<t + \delta \mid T>t}}{\delta} = \lim_{\delta \to 0} \frac{1}{\delta}\frac{\P{t<T<t + \delta}}{\P{T>t}}
+% \end{align*}
+% - On peut interpréter la fonction de risque comme étant la probabilité instantanée de ``mourir'' au temps $t$, compte tenu de la survie jusqu'au temps $t$.
+% %- \emph{We can think of the hazard rate as being the instantaneous probability of ``dying'' at temps $t$, given survival to temps $t$. }
+% 
+% 
+
+% 
+% {Fonction de risque}
+% 
+% - Quand $T$ est continue, on peut montrer que la fonction de risque est en fait
+% \begin{align*}
+% h(t) = \frac{-\d \ln S(t) }{\d t}
+% \end{align*}
+% - On peut donc écrire la {fonction de survie} en terme de la {fonction de risque}:
+% \begin{align*}
+% S(t) = \exp\left\{ - \int_0^t h(u) \d u \right\}
+% \end{align*}
+% - Alors, si on connait la fonction de survie, on peut établir la fonction de risque, et vice versa. 
+% - Connexion entre la courbe de survie et la fonction de risque:
+% 
+%  
+% - un taux de risque plus faible à $t$ implique une probabilité plus faible que l'événement (ex. la mort) survienne; la courbe de survie a une pente moins prononcée à $t$
+% - un taux de risque plus élevé implique une plus grande probabilité que l'événement (ex. la mort) survienne; la pente de la courbe de survie est plus abrupte à $t$.
+% 
+% 
+% 
+
+
+{Postulat de risques proportionnels}
+Dans le modèle à risques proportionnels, la fonction de risque est
+\begin{align*}
+ h(t; \mathbf{x}_i) = h_0(t)\exp(\mathbf{x}_i\bs{\beta})
+\end{align*}
+où
+ - la fonction de risque de base, $h_0(t)$ est le seul terme de droite qui varie dans le temps.
+- l'hypothèse dite de {risques proportionnels} est que le rapport $h(t; \mathbf{x}_i)/h(t; \mathbf{x}_j)$ est constant peut importe la valeur de $t$.
+- l'interprétation des effets des variables explicatives est simplifiée, parce que ces effets ne varient pas avec le temps.
+- ce postulat est très restrictif et doit être validé en pratique, mais il est particulièrement commode pour les dérivations.
+
+
+\textbf{Note:} il n'y a pas d'ordonnée à l'origine dans le modèle de Cox: cette dernière est incorporée dans $h_0(t)$.
+% Avec l'hypothèse de risque proportionnels, la fonction de survie devient
+% \[
+% S(t; \mathbf{x}_i) = \exp\left\{H_0(t_j)\right\}^{\exp(\mathbf{x}_i\bs{\beta})}
+% \] 
+% et la fonction de densité 
+% \begin{align*}
+% f(t; \mathbf{x}_i) = \exp(\bs{\beta}\mathbf{x}_i) h_0(t) S_0(t)^{\exp(\bs{\beta}\mathbf{x}_i)}. 
+% \end{align*}
+
+
+ {Dérivation du modèle à risques proportionnels}
+ 
+On considère les temps de défaillance observés $0 \leq t_1 < \cdots < t_D$, supposés uniques (pas de doublons) pour simplifier la dérivation.
+
+
+La fonction de risque cumulative de base,
+\[
+H_0(t) = \sum_{j: t_j \leq t} h_0(t_j),
+\] est une fonction escalier avec des sauts uniquement aux temps de défaillance observés.
+
+On considère 
+ 
+- $\mathcal{R}_j$, l'ensemble des individus à risques au temps $t_j$
+- $\delta_i$, un indicateur binaire qui vaut $1$ en cas de défaillance observée, et $0$ si l'observation est censurée à droite.
+
+
+
+
+ {Fonction de vraisemblance du modèle de Cox}
+ Soit $h_j = h_0(t_j)$ et $g_i=\exp(\mathbf{x}_i \bs{\beta})$. La log vraisemblance est
+ \begin{align*}
+  \ell(\bs{h}, \bs{\beta}) &= \sum_{i=1}^n \left[ \delta_i \ln \{\exp(\mathbf{x}_i \bs{\beta})h_i\}-\exp(\mathbf{x}_i \bs{\beta})H_0(t_j)\right]
+  \\& =  \sum_{i=1}^n \left\{ \delta_i \mathbf{x}_i \bs{\beta} + \delta_i \ln h_i -h_i \sum_{j \in \mathcal{R}_i}\exp(\mathbf{x}_j \bs{\beta})\right\} 
+ \end{align*}
+ 
+- Puisqu'on s'intéresse principalement aux effets des variables explicatives $\mathbf{X}$, on considère les paramètres $h_1,\ldots, h_D$ comme des paramètres de nuisance.
+- Si $\bs{\beta}$ est fixe, le maximum de vraisemblance de $h_i$ est $\widehat{h}_i = \delta_i/\sum_{j \in \mathcal{R}_i} \exp(\mathbf{x}_j \bs{\beta})$.
+- Ce estimé est positif seulement si $\delta_i=1$ (temps de défaillance observé).
+ 
+
+
+ {Vraisemblance profilée du modèle de Cox}
+ On peut dériver la log vraisemblance profilée pour $\bs{\beta}$, 
+ \begin{align*}
+  \ell_{\mathrm{p}}(\bs{\beta}) = \max_{\bs{h}}  \ell(\bs{h}, \bs{\beta})  = \sum_{i=1}^n \delta_i \ln \left( \frac{\exp(\mathbf{x}_i\bs{\beta})}{\sum_{j \in \mathcal{R}_i}\exp(\mathbf{x}_j\bs{\beta})}\right)
+ \end{align*}
+ Il suffit alors de maximiser $\ell_{\mathrm{p}}(\bs{\beta})$. 
+Même si ce modèle a un nombre de paramètres qui excède le nombre d'observations (!), $\ell_{\mathrm{p}}(\bs{\beta})$ se comporte à toute fin pratique comme une vraisemblance ordinaire. 
+  - Erreurs-type via l'information observée.
+ - Tests de rapport de vraisemblance, du score ou de Wald pour les paramètres $\bs{\beta}$.
+  
+ 
+ 
+ {\footnotesize 
+La situation est plus complexe s'il y a des doublons, mais les ajustements sont faits automatiquement par les logiciels (plusieurs options disponibles, certaines meilleurs et plus coûteuses que d'autres).
+
+
+}
+
+
+
+ Une fois les estimateurs du maximum de vraisemblance $\widehat{\bs{\beta}}$ recouvrés, on obtient la fonction de risque cumulative estimée
+ \begin{align*}
+  \widehat{H}_0(t) &= \sum_{i: t_i \leq t} \frac{\delta_i}{\sum_{j \in \mathcal{R}_i} \exp(\mathbf{x}_j\widehat{\bs{\beta}})},
+  \intertext{d'où l'estimé de la fonction de survie avec covariables $\mathbf{x}$,}
+  \widehat{S}(t; \mathbf{x}) &= \exp\left\{-\exp(\mathbf{x}\widehat{\bs{\beta}})\widehat{H}_0(t)\right\}.
+ \end{align*}
+
+
+
+% 
+% 
+% 
+% - Le modèle de Cox à risques proportionnels spécifie la fonction de risque comme étant une fonction des variables explicatives. 
+% - Pour un sujet $i$ avec des variables explicatives $\mathrm{X}_{i1}, \ldots, \mathrm{X}_{ip}$, la fonction de risque $h_i(t)$ est écrit comme
+% \begin{align*}
+% h_i(t) = h_0(t) \exp(\beta_1 \mathrm{X}_{i1} + \cdots + \beta_p \mathrm{X}_{ip})
+% \end{align*}
+% - Dans ce modèle, $h_0(t)$ est la fonction de risque de base (``baseline hazards'').
+% 
+%  
+% - Il s'agit du taux de risque quand toutes les variables explicatives sont $0$.
+% - Notez qu'il n'y a pas de paramètre $\beta_0$ pour l'ordonnée à l'origine --- cette dernière est absorbée dans la fonction de risque de base $h_0(t)$. 
+% - Le modèle de Cox à risques proportionnels n'estemps pas le risque de base $h_0(t)$, il est simplement inclus dans le modèle implicitement\ldots
+% 
+% - Remarquez que la partie régression du modèle, $\beta_1\mathrm{X}_{i1} + \cdots + \beta_p \mathrm{X}_{ip}$, ne dépend pas sur le temps $t$! Seul le risque de base $h_0(t)$ dépend sur le temps $t$. 
+% 
+% 
+% 
+% 
+% {Modèle de Cox à risques proportionnels}
+% \begin{align*}
+% h_i(t) = h_0(t) \exp(\beta_1 \mathrm{X}_{i1} + \cdots + \beta_p \mathrm{X}_{ip})
+% \end{align*}
+% 
+% - Pour les modèles de régression on est principalement intéressé à mesurer les effets des variables $\mathrm{X}_1, \ldots, \mathrm{X}_p$ sur la variable réponse $T$.
+% - Dans le cadre du modèle de Cox à risques proportionnels, ça veut dire qu'on n'est pas vraiment intéressé par le risque de base $h_0(t)$, et on est plutôt intéressé à la partie régression $\exp(\beta_1 \mathrm{X}_1 + \cdots + \beta_p \mathrm{X}_p)$. 
+% - Le fait que la partie régression du modèle ne dépend pas sur le temps $t$ permet pour une interprétation simplifiée des effets des variables explicatives, parce que ces effets ne varient pas avec le temps!
+% - Comme on a vu plus tôt, il y a une relation entre la fonction de risque et la fonction de survie. Alors, le modèle de Cox à risques proportionnels permet de mesurer les effets des variables explicatives sur la fonction de risque et aussi sur la fonction de survie.  
+% 
+% 
+
+
+{Interprétations des paramètres}
+
+- Pour interpréter les paramètres du modèle de Cox à risques proportionnels, on peut comparer les taux de risques (modèle multiplicatif). 
+- Prenons deux individus qui sont presque identiques, sauf que leurs valeurs pour la variable $\mathrm{X}_j$ diffère par une unité. 
+
+ 
+- Pour l'individu $i$ avec $\mathrm{X}_{ij}=\mathrm{x}_j$, la fonction de risque est
+\begin{align*}
+h(t; \mathbf{x}_i) = h_0(t) \exp(\beta_1 \mathrm{x}_1 + \cdots + \beta_j \mathrm{x}_j+\cdots + \beta_p \mathrm{x}_p)
+\end{align*}
+- Pour l'individu $k$ avec $\mathrm{X}_{kj}=\mathrm{x}_j+1$, la fonction de risque est
+\begin{align*}
+h(t; \mathbf{x}_k) = h_0(t) \exp(\beta_1 \mathrm{x}_1 + \cdots + \beta_j (\mathrm{x}_j+1)+\cdots + \beta_p \mathrm{x}_p)
+\end{align*}
+
+- Le {rapport} des fonctions de risque  est
+\begin{align*}
+\frac{h(t; \mathbf{x}_k)}{h(t; \mathbf{x}_i)} &= 
+% \frac{h_0(t) \exp(\beta_1 \mathbf{x}_1 + \ldots + \beta_j (\mathbf{x}_j+1)+\ldots + \beta_p \mathbf{x}_p)}{h_0(t) \exp( \beta_1 \mathbf{x}_1 + \ldots + \beta_j \mathbf{x}_j+\ldots + \beta_p \mathbf{x}_p)} \\
+% &= \frac{\exp(\beta_j(\mathbf{x}_j+1)}{\exp(\beta_j \mathbf{x}_j)} \\ &=
+ \exp(\beta_j)
+\end{align*}
+
+
+
+
+{Rapport de risque}
+
+- Pour chaque augmentation d'une unité pour la variable $\mathrm{X}_j$, la fonction de risque sera {multipliée} par un facteur $\exp(\beta_j)$, \textit{ceteris paribus}.
+% - La quantité $\exp(\beta_j)$ est appelée le {rapport de risques}.
+% (``hazard ratio'' ou HR), car elle représente le rapport des taux de risques. 
+
+ 
+- Si $\exp(\beta_j)=1$,  $\mathrm{X}_j$ n'a pas d'effet sur la fonction de risque.
+- Si $\exp(\beta_j)>1$, le taux de risque \textbf{augmente} quand $\mathrm{X}_j$ augmente. 
+
+ 
+- Des valeurs plus élevées de $\mathrm{X}_j$ correspondent à un risque plus élevé que l'événement survienne, et donc un temps de survie plus court.
+
+- Si $\exp(\beta_j)<1$, le taux de risque \textbf{diminue} quand $\mathrm{X}_j$ augmente. 
+
+ 
+- Des valeurs plus élevées de $\mathrm{X}_j$ correspondent à un risque moins élevé que l'événement survienne, et donc un temps de survie plus long.
+
+
+
+
+
+
+% 
+% {Interprétations des paramètres}
+% 
+% - Alors, pour chaque augmentation d'une unité pour la variable $\mathrm{X}_j$, la fonction de risque sera {multipliée} par un facteur de $\exp(\beta_j)$, lorsque {toutes les autres variables restent inchangées.}
+% - La quantité $\exp(\beta_j)$ est appelée le {ratio de risque} (``hazard ratio'' ou HR), car elle représente le rapport des taux de risques. 
+% 
+%  
+% - Si $\exp(\beta_j)=HR=1$, ça veut dire que le ratio ${h_i(t)}/{h_k(t)}=1$, et donc  $\mathrm{X}_j$ n'a pas d'effet sur la fonction de risque.
+% - Si $\exp(\beta_j)=HR>1$, le ratio ${h_i(t)}/{h_k(t)}>1$, et donc le taux de risque {augmente} quand $\mathrm{X}_j$ augmente. 
+% 
+%  
+% - Cela signifie que des valeurs plus élevées de $\mathrm{X}_j$ correspondent à un risque plus élevé que l'événement survienne, et donc des prévisions de temps de survie plus courts.
+% 
+% - Si $\exp(\beta_j)=HR<1$, le ratio ${h_i(t)}/{h_k(t)}<1$, et donc le taux de risque {diminue} quand $\mathrm{X}_j$ augmente. 
+% 
+%  
+% - Cela signifie que des valeurs plus élevées de $\mathrm{X}_j$ correspondent à un risque moins élevé que l'événement survienne, et donc des prévisions de temps de survie plus longs.
+% 
+% 
+% 
+% 
+
+
+{Exemple avec données \code{melanome}}
+Le fichier \texttt{melanome} contient des données de survie pour des patients atteints d'une tumeur maligne, un mélanome qui a été enlevé lors d'une opération chirurgicale. La base de données contient les variables suivantes:
+
+
+{ \footnotesize
+
+-sep0em 
+- \code{temps}: temps de survie (en jours) depuis l'opération 
+- \code{statut}: \code{1} si le patient est mort, \code{0} si le temps est censuré
+- \code{sexe}: sexe du patient, soit \code{1} pour les hommes et \code{0} pour les femmes
+- \code{age}: l'âge (an années) au moment de l'opération
+% - \code{annee}: l'année de l'opération
+- \code{epaisseur}: l'épaisseur (en mm) de la tumeur
+- \code{ulcere}: variable indicatrice, \code{1} en cas d'ulcération, \code{0} sinon.
+
+}
+
+
+
+
+{Statistiques descriptives pour données \code{melanome}}
+\begin{center}
+\includegraphics[width = 0.7\textwidth]{img/c7/diapos7e10}
+\includegraphics[width = 0.5\textwidth]{img/c7/diapos7e11}
+\end{center}
+
+
+
+{Modèle de Cox pour données \code{melanome}}
+ Le modèle de Cox à risques proportionnels est 
+\begin{align*}
+h(t) = h_0(t) \exp( \beta_1 \code{sexe} + \beta_2 \code{age} + \beta_3 \code{epaisseur} + \beta_4 \code{ulcere})
+\end{align*}
+ On peut ajuster ce modèle dans \SASlang{} avec la procédure \code{phreg}:
+ 
+\begin{tcolorbox}[colback=white,colframe=hecblue,title=Code \SASlang{} pour le modèle à risque proportionnel]
+{\footnotesize 
+\begin{verbatim}
+proc phreg data=modstat.melanome;
+model temps*statut(0) = sexe age epaisseur ulcere / ties=exact;
+run;
+\end{verbatim}
+}
+\end{tcolorbox}
+
+
+
+{Tests basés sur la vraisemblance}
+ 
+\begin{center}
+\includegraphics[width = 0.5\textwidth]{img/c7/diapos7e12}
+\includegraphics[width = 0.5\textwidth]{img/c7/diapos7e13}
+\end{center}
+{\footnotesize
+La sortie inclut la valeur de la log vraisemblance avec et sans variables explicatives, et les tests usuels pour $\Hy_0: \bs{\beta}=\bs{0}_p$ versus $\Hy_a: \bs{\beta} \neq \bs{0}_p$.
+
+}
+
+
+
+{Coefficients estimés du modèle de Cox}
+ 
+\begin{center}
+\includegraphics[width = 0.9\textwidth]{img/c7/diapos7e14}
+\end{center}
+% 
+
+
+
+
+{Interprétation}
+
+- Pour la variable \code{sexe}, $\exp(\widehat{\beta}_1)=1.542$ représente le rapport de risque entre un homme et une femme du même âge, avec la même épaisseur de tumeur et le même état d'ulcération. Ainsi, le taux de risque pour les hommes est $1.542$ fois celui pour les femmes, lorsque toutes les autres variables restent inchangées.
+- Pour la variable \code{epaisseur}, $\exp(\widehat{\beta}_3)=1.115$. Pour chaque augmentation de $1$mm de l'épaisseur de la tumeur, le taux de risque augmente d'un facteur de $1.115$ (ou $11.5$\%), lorsque toutes les autres variables restent inchangées. 
+
+
+% 
+
+{Comparaison de courbes de survie}
+ Les données \code{cancersein} contiennent les résultats d'une étude sur la survie de femmes atteintes du cancer du sein.
+
+ 
+- \code{temps}: temps avant la mort, ou la fin de l'étude, en mois.
+- \code{mort}: variable indicatrice pour la mort, \code{0} pour les survivantes et \code{1} pour les décédées
+- \code{repimmuno}: réponse immunohistochimique, soit négative (\code{0}) ou positive (\code{1})
+
+ On s'intéresse à la question suivante:
+
+ 
+- Est-ce que les femmes qui répondent positivement à l'examen immunohistochimique ont tendance à survivre moins longtemps que celles qui répondent négativement?
+
+
+
+
+
+{Comparaison de courbes de survie}
+On peut ajuster des courbes de survie différentes par groupe avec l'option \code{strata}.
+ 
+\begin{tcolorbox}[colback=white,colframe=hecblue,title=Code \SASlang{} pour le modèle de Kaplan--Meier]
+\begin{verbatim}
+proc lifetest data=modstat.cancersein method=km;
+time temps*mort(0);
+strata repimmuno;
+run;
+\end{verbatim}
+\end{tcolorbox}
+{\footnotesize 
+
+\SASlang{} va estimer la courbe de survie pour les individus avec une réaction négative (groupe \code{repimmuno=0}) séparément de ceux qui ont une réaction positive (groupe \code{repimmuno=1}).
+
+
+}
+
+
+{Courbes de survie (Kaplan--Meier)}
+\begin{center}
+\includegraphics[width = 0.7\textwidth]{img/c7/diapos7e15}
+ \end{center}
+
+
+
+{Comparaison de courbes de survie}
+Il semble que les femmes ayant une réaction négative à l'examen (\code{repimmuno=0}) ont un {meilleur} taux de survie que celles qui ont une réaction positive (\code{repimmuno=1}).
+
+%  
+% - On peut dire ceci puisque la courbe estimée pour le groupe \code{repimmuno=0}, $\widehat{S}_1(t)$, se situe principalement au-dessus de la courbe estimée pour le groupe \code{repimmuno=1}, $\widehat{S}_2(t)$.
+- Pour la majorité des temps $t$, $\widehat{S}_1(t) > \widehat{S}_2(t)$ et donc ceux avec \code{repimmuno=0} ont une probabilité de survie supérieure à ceux avec \code{repimmuno=1}
+
+% - Mais est-ce que ces courbes sont \emph{significativement} différentes?
+% 
+%  
+Est-ce que la fonction de survie est significativement différente dans les deux groupes \code{repimmuno=0} et \code{repimmuno=1}?
+% 
+%  
+% -[] $\Hy_0$: les courbes de survie sont les mêmes dans les deux groupes 
+% -[] $\Hy_1$: les courbes de survie sont différentes dans les deux groupes
+% 
+% 
+% - De façon plus formelle, on est intéressé à tester
+
+ 
+-[] $\Hy_0: S_0(t) = S_1(t)$ pour tout $t$,
+-[] $\Hy_1: S_0(t) \neq S_1(t)$ pour au moins une valeur de $t$.
+
+% 
+
+
+
+{Test du log rang}
+ Considérons un modèle à risques proportionnels de Cox avec fonction de risque
+ \begin{align} 
+  h(t) = h_0(t)\exp(\beta \code{repimmuno}). \tag{$\star$} \label{lograngtest}
+ \end{align}
+ 
+- 
+L'hypothèse nulle pour l'égalité des fonctions de survie est équivalente à $\Hy_0: \beta=0$. 
+- La statistique du score permet de tester cette hypothèse sans ajuster le modèle.
+ - On recouvre l'estimateur de Kaplan--Meier de la fonction de survie si $\beta=0$.
+
+- Il suffit de calculer le gradient et la hessienne du modèle décrit par \eqref{lograngtest} et l'évaluer en $\beta=0$. 
+
+- Ce sont des fonctions simples du nombre de personnes à risque dans chaque groupe aux temps $t_i$.
+ 
+
+
+% 
+%  {Statistique du log rang}
+%  
+%  
+%  
+%  Pour deux groupes, s'il n'y a pas de doublons, on obtient
+%  \begin{align*}
+% \left.U(\beta)\right|_{\beta=0}& = \sum_{i: \delta_i=1} \left(f_i - \frac{m_{i1}}{m_{i0}+m_{i1}}\right), 
+% \\\left.j(\beta)\right|_{\beta=0}&= \sum_{i: \delta_i=1} \frac{m_{i0}m_{i1}}{(m_{i0} + m_{i1})^2}
+%  \end{align*}
+% où 
+%  - $f_j$ vaut un si l'individu $i$ expérience l'événement au temps $t_i$ et 
+% - $m_{ij}$ est le nombre d'individus à risque au temps $t_i$ pour le groupe $j$.
+% 
+% 
+
+{Ajustement du modèle à risques proportionnels}
+\begin{tcolorbox}[colback=white,colframe=hecblue, title=Code \SASlang{} pour le modèle de risques proportionnels]
+\begin{verbatim}
+proc phreg data=modstat.cancersein;
+model temps*mort(0) = repimmuno;
+run;
+\end{verbatim}
+\end{tcolorbox}
+\begin{center}
+\includegraphics[width = 0.5\textwidth]{img/c7/diapos7e16}
+\includegraphics[width = 0.45\textwidth]{img/c7/diapos7e17}
+\end{center}
+{\footnotesize 
+
+Le test du log rang est aussi présenté par défaut dans la sortie \SASlang{} de la procédure \code{lifetest} (gauche).
+
+}
+
+
+
+{Test du log rang}
+ 
+- Sous $\Hy_0: \beta=0$, la loi nulle de la statistique de score est approximativement $\chi^2_1$.
+- La valeur-$p$  est $0.0191$: on rejette $\Hy_0$ à niveau $5\%$ et on conclut que les fonctions de survie sont significativement différentes pour les femmes avec des réactions négatives / positives à l'examen immunohistochimique. 
+- On peut généraliser le test du log rang en utilisant un modèle de Cox qui n'inclut qu'une variable catégorielle à $k$ niveaux
+ - la loi nulle de la statistique du test de score sera $\chi^2_{k-1}$.
+
+ 
+
+
+

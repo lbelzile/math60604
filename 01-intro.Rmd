@@ -501,7 +501,7 @@ On peut utiliser `str` pour obtenir un aperçu des données; la fonction `summar
 -->
 
 <!--
-La manipulation de variables dans des bases de données est parfois loin d'être toujours élégante en **R**: on accès aux variables avec `$`, par exemple `renfe$prix`. Une alternative plus lisible et modulaire est d'utiliser l'opérateur tuyau (`%>%`), qui permet de créer une chaîne logique de commandes; la fonction `count` sert à compter le nombre d'instance de chaque modalité (ces fonctionnalités ne sont pas disponibles dans **R** par défaut, mais avec les paquetages `tidyverse` ou l'alternative minimale `poorman`, préalablement chargée).
+La manipulation de variables dans des bases de données est parfois loin d'être toujours élégante en **R**: on accès aux variables avec `$`, par exemple `renfe$prix`. Une alternative plus lisible et modulaire est d'utiliser l'opérateur tuyau (`%>%`), qui permet de créer une chaîne logique de commandes; la fonction `count` sert à compter le nombre d'instance de chaque modalité (ces fonctionnalités ne sont pas disponibles dans **R** par défaut, mais avec les paquets `tidyverse` ou l'alternative minimale `poorman`, préalablement chargée).
 -->
 
 
