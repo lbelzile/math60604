@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>5 Données corrélées et longitudinales | Modélisation statistique</title>
   <meta name="description" content="Ces notes forment un complément web du cours MATH 60604 (Modélisation statistique) offert à la M.Sc. en gestion (science des données et analytique d’affaires) à HEC Montréal." />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.30 and GitBook 2.6.7" />
 
   <meta property="og:title" content="5 Données corrélées et longitudinales | Modélisation statistique" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="Ces notes forment un complément web du cours MATH 60604 (Modélisation statistique) offert à la M.Sc. en gestion (science des données et analytique d’affaires) à HEC Montréal." />
   <meta name="github-repo" content="lbelzile/math60604" />
@@ -31,8 +30,8 @@
   
 <link rel="prev" href="modeles-lineaires-generalises.html"/>
 <link rel="next" href="modeles-lineaires-mixtes.html"/>
-<script src="libs/header-attrs-2.7/header-attrs.js"></script>
-<script src="libs/jquery-3.5.1/jquery.min.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -48,18 +47,18 @@
 
 
 
-
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
-<script src="libs/plotly-binding-4.9.3/plotly.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.1/plotly.js"></script>
 <script src="libs/typedarray-0.1/typedarray.min.js"></script>
-<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
-<link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
-<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
 
 
 
@@ -110,10 +109,8 @@ div.csl-indent {
 <li class="chapter" data-level="5" data-path="donnees-correlees-longitudinales.html"><a href="donnees-correlees-longitudinales.html"><i class="fa fa-check"></i><b>5</b> Données corrélées et longitudinales</a></li>
 <li class="chapter" data-level="6" data-path="modeles-lineaires-mixtes.html"><a href="modeles-lineaires-mixtes.html"><i class="fa fa-check"></i><b>6</b> Modèles linéaires mixtes</a></li>
 <li class="chapter" data-level="7" data-path="survie.html"><a href="survie.html"><i class="fa fa-check"></i><b>7</b> Analyse de survie</a></li>
-<li class="appendix"><span><b>Annexe</b></span></li>
-<li class="chapter" data-level="A" data-path="complement.html"><a href="complement.html"><i class="fa fa-check"></i><b>A</b> Compléments mathématiques</a></li>
-<li class="chapter" data-level="B" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>B</b> Dérivations mathématiques</a></li>
-<li><a href="r.html#r"><strong>R</strong></a></li>
+<li class="chapter" data-level="8" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>8</b> Dérivations mathématiques</a></li>
+<li class="chapter" data-level="" data-path="r.html"><a href="r.html"><i class="fa fa-check"></i><strong>R</strong></a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Publié avec bookdown</a></li>
@@ -135,11 +132,11 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="donnees-correlees-longitudinales" class="section level1" number="5">
-<h1><span class="header-section-number">5</span> Données corrélées et longitudinales</h1>
+<div id="donnees-correlees-longitudinales" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">5</span> Données corrélées et longitudinales<a href="donnees-correlees-longitudinales.html#donnees-correlees-longitudinales" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>On couvrira dans ce chapitre une extension du modèle linéaire afin de relaxer le postulat d’indépendance entre observations. Ce dernier ne tient en effet pas la route si la base de données contient des mesures répétées sur une unité. On s’intéressera en particulier à l’analyse de données longitudinales, pour lesquelles on a à disposition de brèves séries chronologiques. La clé pour incorporer la dépendance entre mesures est la modélisation parsimonieuse de la structure de covariance, laquelle nous permettra également de traiter les données groupées et de traiter un cas particulier d’hétéroscédasticité pour ces mêmes données.</p>
-<div id="données-longitudinales" class="section level2" number="5.1">
-<h2><span class="header-section-number">5.1</span> Données longitudinales</h2>
+<div id="données-longitudinales" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Données longitudinales<a href="donnees-correlees-longitudinales.html#données-longitudinales" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Dans les <strong>données longitudinales</strong>, aussi appelées données de panel ou mesures répétées, on a des mesures répétées sur la même variables réponse pour <span class="math inline">\(m\)</span> unités ou individus, typiquement à différents temps. Dans ce cadre, il est logique de supposer que les observations de différents individus sont indépendantes, mais pas les mesures pour un même individu. Voici quelques exemples de données à mesures répétées:</p>
 <ul>
 <li>Un sondage sur la satisfaction face au service à clientèle est envoyé aux clients d’une compagnie suite à un appel de leur part: la variable réponse est la moyenne d’échelles de Likert.</li>
@@ -148,11 +145,10 @@ div.csl-indent {
 </ul>
 <p>Règle générale, on s’intéresse à la modélisation de la moyenne de la réponse en fonction d’autres variables explicatives. Si les mesures sont collectées dans le temps, on peut aussi représenter graphiquement l’évolution temporelle en identifiant la variable représentant le temps et en dessinant un diagramme à ligne brisé par individu: ce type de graphique est appelé <strong>diagramme spaghetti</strong>.</p>
 <p>Dans ce qui suit, on s’intéresse plus en détail à deux exemples.</p>
-
 <div class="example">
-<span id="exm:sixvilles" class="example"><strong>Exemple 5.1  (Étude longitudinale sur l’effet de la pollution atmosphérique sur la mortalité dans six villes américaines.)  </strong></span>L’article <em>An Association Between Air Pollution And Mortality In Six U.S. Cities</em> est le fruit du travail de chercheurs de l’Université de Harvard <a href="https://www.nejm.org/doi/full/10.1056/NEJM199312093292401">paru dans la revue <em>The New England Journal of Medicine</em></a> en 1993. L’étude se penchait sur le lien entre la pollution atmosphérique, en particulier l’effet des particules fines, et la mortalité en milieu urbain en suivant une cohorte de 8111 adultes de six villes américains pendant une période allant de 14 à 16 ans. Cette étude longitudinale avait démarrée en 1979. La base de données <code>fev1</code> contient les données pour 300 filles parmi les 13 379 enfants nés en 1967 ou ultérieurement dans six villes de l’étude. La plupart des enfants ont été enrollés dans l’étude en première ou deuxième année primaire, soit vers l’âge de six ou sept ans. À chaque examen annuel, on a mesuré le volume d’air évacué durant la premier seconde d’une expiration, appelé volume expiratoire maximal ou VEM1.
+<p><span id="exm:sixvilles" class="example"><strong>Exemple 5.1  (Étude longitudinale sur l'effet de la pollution atmosphérique sur la mortalité dans six villes américaines.) </strong></span>L’article <em>An Association Between Air Pollution And Mortality In Six U.S. Cities</em> est le fruit du travail de chercheurs de l’Université de Harvard <a href="https://www.nejm.org/doi/full/10.1056/NEJM199312093292401">paru dans la revue <em>The New England Journal of Medicine</em></a> en 1993. L’étude se penchait sur le lien entre la pollution atmosphérique, en particulier l’effet des particules fines, et la mortalité en milieu urbain en suivant une cohorte de 8111 adultes de six villes américains pendant une période allant de 14 à 16 ans. Cette étude longitudinale avait démarrée en 1979. La base de données <code>fev1</code> contient les données pour 300 filles parmi les 13 379 enfants nés en 1967 ou ultérieurement dans six villes de l’étude. La plupart des enfants ont été enrollés dans l’étude en première ou deuxième année primaire, soit vers l’âge de six ou sept ans. À chaque examen annuel, on a mesuré le volume d’air évacué durant la premier seconde d’une expiration, appelé volume expiratoire maximal ou VEM1.</p>
 </div>
-<div class="figure" style="text-align: center"><span id="fig:diagrammespagh1"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:diagrammespagh1"></span>
 <img src="MATH60604_Modelisation_statistique_files/figure-html/diagrammespagh1-1.png" alt="Diagramme spaghetti des données de spirométrie de l'étude *Six Cities Study of Air Pollution and Health*." width="70%" />
 <p class="caption">
 Figure 5.1: Diagramme spaghetti des données de spirométrie de l’étude <em>Six Cities Study of Air Pollution and Health</em>.
@@ -161,20 +157,18 @@ Figure 5.1: Diagramme spaghetti des données de spirométrie de l’étude <em>S
 <p>Outre la variable réponse VEM1, on a également à disposition la taille, l’âge et l’identifiant de l’enfant. La Figure <a href="donnees-correlees-longitudinales.html#fig:diagrammespagh1">5.1</a> montre les courbes de croissance du volume expiratoire maximal en fonction de l’âge de la personne. On peut remarquer que la croissance est presque linéaire, avec une diminution de la pente à partir de 14 ans. Si les profils semblent suivre la même tendance, on voit une forte fluctuation autour de la moyenne. Toutes les courbes ne démarrent ni ne finissent au même âge: une analyse exploratoire des identifiants des enfants nous indique qu’on a entre 1 et 12 mesures par enfant, pour un total de 1994 mesures. Les données sont stockées en format long: chaque ligne correspond à une mesure de VEM1, tandis qu’on recense plusieurs mesures par identifiant (<code>id</code>). L’âge de la fille (<code>age</code>) représente la variable temps, et sa taille (en mètres) évolue au fil des années. L’âge et la taille initiale lors de la première collecte de données sont fixes et identiques pour toutes les mesures d’une même personne.</p>
 <p>Conceptuellement, on pourrait envisager que chaque fille a une courbe de croissance spécifique de sa capacité respiratoire et qui est mesurée avec une erreur à cause de la variabilité de la prise de mesure. On peut également envisager une moyenne théorique due à des facteurs biologique, autour duquelle les courbes de croissance des différentes filles fluctuent.</p>
 <p>Notre modèle statistique devra prendre en compte que les mesures sur un même sujet sont corrélées: par exemple, si une courbe de croissance est plus élevée que la moyenne globale, elle aura tendance à rester au dessus de cette moyenne peu importe l’âge de la personne. On pourrait également postuler que les fluctuations sont corrélées dans le temps: une fois la moyenne globale soustraite, les mesures d’une même personnes sont plus semblables quand elles sont rapprochées. En revanche, on peut raisonnablement supposer que les observations de filles différentes sont indépendantes. Ainsi, si on s’intéressait uniquement au comportement à un âge donné, on pourrait faire l’analyse d’une coupe transversale des données en calculant la moyenne empirique.</p>
-<div class="figure" style="text-align: center"><span id="fig:diagrammespagh2"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:diagrammespagh2"></span>
 <img src="MATH60604_Modelisation_statistique_files/figure-html/diagrammespagh2-1.png" alt="Diagramme spaghetti  pour les données de l'étude clinique sur la dépression et du programme comportemental *Beating the Blues*." width="70%" />
 <p class="caption">
 Figure 5.2: Diagramme spaghetti pour les données de l’étude clinique sur la dépression et du programme comportemental <em>Beating the Blues</em>.
 </p>
 </div>
-
 <div class="example">
-<span id="exm:beatingtheblues" class="example"><strong>Exemple 5.2  (Programme thérapeutique <em>Beating the Blues</em>.)  </strong></span>
-<a href="https://www.beatingtheblues.co.uk/"><em>Beating the Blues</em></a> est un programme clinique qui vise à traiter les personnes atteintes d’anxiété et de dépression clinique légère ou modéré. Comparativement aux autres thérapies cognitivo-comportementales, les rencontres avec un(e) thérapeute sont remplacées par des capsules vidéos et une prise en charge en ligne pour amener les patients à prendre en charge leur guérison. Les personnes qui se sont joints à l’étude ont été assignés de manière aléatoire à deux traitements, soit <em>Beating the Blues</em> ou le traitement usuel. L’objectif dans ce exemple est de comparer l’efficacité relative des traitements, mais puisque les individus ne sont assignés qu’à l’un ou l’autre des traitements, on ne pourra que comparer les différences moyennes de traitement. Le diagramme spaghetti de la Figure <a href="donnees-correlees-longitudinales.html#fig:diagrammespagh2">5.2</a> illustre le comportement erratique de l’évolution de la santé mentale des individus telle que mesurée à l’aide de l’inventaire de dépression de Beck, un questionnaire de 21 items. Si la décroissance semble en moyenne plus grande pour <em>Beating the Blues</em>, c’est loin d’être certain: il y a beaucoup de pertes de suivi et la variabilité inter-individus est énorme puisque le point de départ des individus est différent; on pourrait penser à standardiser la courbe par la mesure initiale pour faciliter la comparaison. On remarque que tous les patients sont suivis à intervalle réguliers de deux mois et que les données sont strictement positives.
+<p><span id="exm:beatingtheblues" class="example"><strong>Exemple 5.2  (Programme thérapeutique *Beating the Blues*.) </strong></span><a href="https://www.beatingtheblues.co.uk/"><em>Beating the Blues</em></a> est un programme clinique qui vise à traiter les personnes atteintes d’anxiété et de dépression clinique légère ou modéré. Comparativement aux autres thérapies cognitivo-comportementales, les rencontres avec un(e) thérapeute sont remplacées par des capsules vidéos et une prise en charge en ligne pour amener les patients à prendre en charge leur guérison. Les personnes qui se sont joints à l’étude ont été assignés de manière aléatoire à deux traitements, soit <em>Beating the Blues</em> ou le traitement usuel. L’objectif dans ce exemple est de comparer l’efficacité relative des traitements, mais puisque les individus ne sont assignés qu’à l’un ou l’autre des traitements, on ne pourra que comparer les différences moyennes de traitement. Le diagramme spaghetti de la Figure <a href="donnees-correlees-longitudinales.html#fig:diagrammespagh2">5.2</a> illustre le comportement erratique de l’évolution de la santé mentale des individus telle que mesurée à l’aide de l’inventaire de dépression de Beck, un questionnaire de 21 items. Si la décroissance semble en moyenne plus grande pour <em>Beating the Blues</em>, c’est loin d’être certain: il y a beaucoup de pertes de suivi et la variabilité inter-individus est énorme puisque le point de départ des individus est différent; on pourrait penser à standardiser la courbe par la mesure initiale pour faciliter la comparaison. On remarque que tous les patients sont suivis à intervalle réguliers de deux mois et que les données sont strictement positives.</p>
 </div>
 <p>Les données longitudinales ne sont pas toujours stockées dans un format qui soit convenable pour l’analyse. En effet, il est commun d’enregistrer ces données en <strong>format large</strong>, auquel cas chaque ligne représente un individu différent et les colonnes contiennent à la fois des variables explicatives et les différentes répétitions de la variables réponse <span class="math inline">\(y_1, \ldots, y_{n_i}\)</span>.
 Une base de données en <strong>format long</strong> contient une seule valeur de la variable réponse par ligne, avec une colonne additionnelle indiquant l’identifiant (temporel) de l’observation. On peut passer de format large en format long en transformant les noms de colonnes en étiquettes de la variables d’identification et la Figure <a href="donnees-correlees-longitudinales.html#fig:longvswide">5.3</a> illustrate cette transposition. On supposera par la suite que les données sont ordonnées par individu, puis chronologiquement.</p>
-<div class="figure" style="text-align: center"><span id="fig:longvswide"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:longvswide"></span>
 <img src="images/original-dfs-tidy.png" alt="Format large versus format long pour tableaux (illustration de Garrick Aden-Buie)." width="70%" />
 <p class="caption">
 Figure 5.3: Format large versus format long pour tableaux (illustration de Garrick Aden-Buie).
@@ -193,19 +187,19 @@ Figure 5.3: Format large versus format long pour tableaux (illustration de Garri
 </ul>
 </div>
 </div>
-<div id="modélisation-de-la-matrice-de-covariance" class="section level2" number="5.2">
-<h2><span class="header-section-number">5.2</span> Modélisation de la matrice de covariance</h2>
+<div id="modélisation-de-la-matrice-de-covariance" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Modélisation de la matrice de covariance<a href="donnees-correlees-longitudinales.html#modélisation-de-la-matrice-de-covariance" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Pour un vecteur aléatoire <span class="math inline">\(\boldsymbol{Y}\)</span>,
 on définit la matrice de covariance comme étant la matrice symétrique <span class="math inline">\(n\times n\)</span>
 <span class="math display">\[
 \mathsf{Co}(\boldsymbol{Y})=
- \begin{pmatrix}
+\begin{pmatrix}
    \sigma_{1}^2 &amp; \sigma_{12} &amp; \sigma_{13} &amp; \cdots &amp; \sigma_{1n} \\
     \sigma_{21} &amp; \sigma_{2}^2 &amp; \sigma_{23} &amp; \cdots &amp; \sigma_{2n} \\
      \sigma_{31} &amp; \sigma_{32} &amp; \sigma_{3}^2 &amp; \ddots &amp; \sigma_{3n} \\
    \vdots &amp;  \vdots &amp;  \ddots &amp; \ddots &amp;  \vdots \\
        \sigma_{n1} &amp; \sigma_{n2} &amp; \sigma_{n3} &amp; \cdots &amp; \sigma_{n}^2 \\
- \end{pmatrix}.
+\end{pmatrix}.
 \]</span>
 Le <span class="math inline">\(i\)</span>e élément de la diagonale de <span class="math inline">\(\mathsf{Co}(\boldsymbol{Y})\)</span> est la variance de <span class="math inline">\(Y_i\)</span> et <span class="math inline">\(\boldsymbol{\Sigma}\)</span> est symmétrique, donc <span class="math inline">\(\sigma_{ij}=\sigma_{ji}\)</span>. Une matrice de covariance est positive définie, d’où <span class="math inline">\(\mathbf{v}^\top\boldsymbol{\Sigma}\mathbf{v}\)</span> pour tout <span class="math inline">\(n\)</span> vecteur <span class="math inline">\(\mathbf{v}\)</span> non-nul.</p>
 <p>Le point de départ de notre analyse est la dérivation de l’estimateur des moindres carrés ordinaires du modèle de régression linéaire sous l’hypothèse que les valeurs de la variable réponses sont conditionnellement indépendantes, normales et homoscédastiques avec <span class="math inline">\(Y_i \mid \mathbf{x}_i \sim \mathsf{No}(\mathbf{x}_i\boldsymbol{\beta}, \sigma^2)\)</span>.</p>
@@ -216,7 +210,7 @@ Le <span class="math inline">\(i\)</span>e élément de la diagonale de <span cl
 <p>La première supposition qui nous permettra de réduire le nombre de paramètres au sein de la matrice de covariance est l’hypothèse que les observations de différentes unités sont<strong>indépendantes</strong>. La deuxième supposition sera le postulat que la structure de covariance intra-unité sera identique pour toutes les unités.</p>
 <p>Plus précisément, si les données sont ordonnées par unité et qu’on a <span class="math inline">\(m\)</span> groupes, alors la matrice de covariance <span class="math inline">\(\boldsymbol{\Sigma}\)</span> sera diagonale en bloc,
 <span class="math display">\[\begin{align*}
- \mathsf{Co}(\boldsymbol{Y}) = \begin{pmatrix}
+\mathsf{Co}(\boldsymbol{Y}) = \begin{pmatrix}
                 \boldsymbol{\Sigma}_1 &amp; \mathbf{O} &amp; \cdots &amp; \mathbf{O}\\
                  \mathbf{O} &amp;\boldsymbol{\Sigma}_2 &amp; \cdots &amp; \mathbf{O} \\
                  \vdots &amp; \ddots &amp; \ddots &amp; \vdots \\
@@ -224,7 +218,7 @@ Le <span class="math inline">\(i\)</span>e élément de la diagonale de <span cl
                \end{pmatrix}.
 \end{align*}\]</span>
 où <span class="math inline">\(\mathbf{O}\)</span> dénote une matrice de zéro. La covariance inter-groupe est nulle parce qu’on suppose que les données d’unités différentes sont indépendantes les unes des autres.</p>
-<div class="figure" style="text-align: center"><span id="fig:matricebloc"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:matricebloc"></span>
 <img src="MATH60604_Modelisation_statistique_files/figure-html/matricebloc-1.png" alt="Matrice de covariance des 100 premières mesures de l'étude sur la capacité respiratoire pour un modèle donné. Chaque bloc représente une fille différente." width="70%" />
 <p class="caption">
 Figure 5.4: Matrice de covariance des 100 premières mesures de l’étude sur la capacité respiratoire pour un modèle donné. Chaque bloc représente une fille différente.
@@ -232,8 +226,8 @@ Figure 5.4: Matrice de covariance des 100 premières mesures de l’étude sur l
 </div>
 <p>Si on paramétrise les sous-blocs <span class="math inline">\(\boldsymbol{\Sigma}_1, \ldots, \boldsymbol{\Sigma}_m\)</span> qui représentent la covariance au sein d’une unité, on supposera que la structure (et les paramètres) seront identiques, en gardant en tête que ces matrices ne sont pas de la même taille si le nombre de réplications temporelles n’est pas identique pour toutes les unités. En particulier, si <span class="math inline">\(n_i\)</span> dénote le nombre de réplications (temporelles) pour l’unité <span class="math inline">\(i\)</span> avec <span class="math inline">\(\sum_{i=1}^m n_i=n\)</span> et que <span class="math inline">\(T=n_1 = \cdots = n_m\)</span>, alors chaque matrice bloc sera identique et <span class="math inline">\(\boldsymbol{\Sigma}_1 = \cdots =\boldsymbol{\Sigma}_m\)</span>. Les paramètres <span class="math inline">\(\boldsymbol{\psi}\)</span> de la matrice de covariance seront estimables parce qu’on aura <span class="math inline">\(m\)</span> réplications de la matrice.</p>
 <p>Souvent, on ne s’intéresse pas aux paramètres de la matrice de covariance, <span class="math inline">\(\boldsymbol{\psi}\)</span>: ces derniers ne servent qu’à guarantir la validité de l’inférence pour les paramètres de la moyenne, <span class="math inline">\(\boldsymbol{\beta}\)</span>.</p>
-<div id="covariance-non-structurée" class="section level3" number="5.2.1">
-<h3><span class="header-section-number">5.2.1</span> Covariance non structurée</h3>
+<div id="covariance-non-structurée" class="section level3 hasAnchor" number="5.2.1">
+<h3><span class="header-section-number">5.2.1</span> Covariance non structurée<a href="donnees-correlees-longitudinales.html#covariance-non-structurée" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Le modèle le plus général pour la dépendance intra-individu est une matrice <strong>non structurée</strong> de taille <span class="math inline">\(n_{\max} \times n_{\max}\)</span> où <span class="math inline">\(n_{\max} = \max\{n_1, \ldots, n_m\}\)</span>, avec
 <span class="math display">\[\begin{align*}
 \boldsymbol{\Sigma}_i = \begin{pmatrix}
@@ -248,8 +242,8 @@ Figure 5.4: Matrice de covariance des 100 premières mesures de l’étude sur l
 <p>Ainsi, il faut savoir si les données sont mesurées à des intervalles réguliers ou sont comparables. Le nombre de paramètres à estimer, <span class="math inline">\(n_{\max} (n_{\max} − 1)/2\)</span>, restreint son utilisation aux cas
 où le nombre maximum d’observations par unité est petit et le nombre d’unités <span class="math inline">\(m\)</span> est grand. On va considérer deux autres modèles plus simples.</p>
 </div>
-<div id="modèles-de-covariance-autorégressif" class="section level3" number="5.2.2">
-<h3><span class="header-section-number">5.2.2</span> Modèles de covariance autorégressif</h3>
+<div id="modèles-de-covariance-autorégressif" class="section level3 hasAnchor" number="5.2.2">
+<h3><span class="header-section-number">5.2.2</span> Modèles de covariance autorégressif<a href="donnees-correlees-longitudinales.html#modèles-de-covariance-autorégressif" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>La dépendance entre observations consécutives est plus forte qu’entre deux observations plus distantes. Un modèle simple issu de la litérature des séries chronologiques postule que la corrélation entre deux observations ne dépend pas du temps de la mesure, mais uniquement de la distance <span class="math inline">\(h&gt;0\)</span> entre deux observations. Le modèle de corrélation autorégressive d’ordre 1, pour deux mesures à temps <span class="math inline">\(t\)</span> et <span class="math inline">\(t+h\)</span>, est
 <span class="math display">\[\begin{align*}
 \mathsf{Cov}(Y_{t}, Y_{t+h}) = \sigma^2\rho^h, \qquad  |\rho| &lt; 1.
@@ -263,11 +257,11 @@ Ainsi, on postule que la corrélation entre deux observations à distance <span 
     \rho &amp; 1 &amp; \rho &amp; \cdots &amp; \rho^{n_i-1}\\
     \rho^2 &amp; \rho &amp; 1 &amp; \cdots &amp; \rho^{n_i-2}\\
   \vdots &amp; \ddots &amp; \ddots &amp; \ddots &amp;  \vdots\\
- \rho^{n_i} &amp;\rho^{n_i-1} &amp; \cdots &amp; \rho &amp; 1
+\rho^{n_i} &amp;\rho^{n_i-1} &amp; \cdots &amp; \rho &amp; 1
   \end{pmatrix}.
 \end{align*}\]</span></p>
 <p>Sans s’attarder pour l’instant à l’estimation de la structure de covariance, on présente la matrice de corrélation estimée les données <em>Beating the Blues</em> avec comme modèle pour la moyenne les variables explicatives <code>mois</code> (traitée comme une variable catégorielle), un indicateur binaire pour <code>medicaments</code> qui indique si la personne a une prescription et finalement un indicateur pour le traitement.</p>
-<div class="figure" style="text-align: center"><span id="fig:covmodelsBtB"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:covmodelsBtB"></span>
 <img src="MATH60604_Modelisation_statistique_files/figure-html/covmodelsBtB-1.png" alt="Estimés de la matrice de corrélation pour l'individu 6 avec les données *Beating the Blues*, avec modèle de covariance non structurée (gauche) et modèle autorégressif hétérogène d'ordre 1 (droite)." width="70%" />
 <p class="caption">
 Figure 5.5: Estimés de la matrice de corrélation pour l’individu 6 avec les données <em>Beating the Blues</em>, avec modèle de covariance non structurée (gauche) et modèle autorégressif hétérogène d’ordre 1 (droite).
@@ -310,10 +304,10 @@ ordonnée à l’origine
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-[18.762, 25.127]
+[18.751, 25.137]
 </td>
 <td style="text-align:center;">
-[17.143, 24.396]
+[17.131, 24.408]
 </td>
 </tr>
 <tr>
@@ -321,20 +315,20 @@ ordonnée à l’origine
 2 mois (B)
 </td>
 <td style="text-align:center;">
--7.827 (2.094)
+−7.827 (2.094)
 </td>
 <td style="text-align:center;">
--7.827 (1.299)
+−7.827 (1.299)
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-[-11.931, -3.722]
+[−11.945, −3.709]
 </td>
 <td style="text-align:center;">
-[-10.373, -5.281]
+[−10.381, −5.273]
 </td>
 </tr>
 <tr>
@@ -342,20 +336,20 @@ ordonnée à l’origine
 4 mois (B)
 </td>
 <td style="text-align:center;">
--10.530 (2.297)
+−10.530 (2.297)
 </td>
 <td style="text-align:center;">
--8.948 (1.523)
+−8.948 (1.523)
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-[-15.031, -6.028]
+[−15.046, −6.013]
 </td>
 <td style="text-align:center;">
-[-11.933, -5.962]
+[−11.943, −5.953]
 </td>
 </tr>
 <tr>
@@ -363,20 +357,20 @@ ordonnée à l’origine
 6 mois (B)
 </td>
 <td style="text-align:center;">
--13.307 (2.475)
+−13.307 (2.475)
 </td>
 <td style="text-align:center;">
--9.601 (1.597)
+−9.601 (1.597)
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-[-18.157, -8.456]
+[−18.173, −8.440]
 </td>
 <td style="text-align:center;">
-[-12.731, -6.470]
+[−12.742, −6.460]
 </td>
 </tr>
 <tr>
@@ -384,20 +378,20 @@ ordonnée à l’origine
 8 mois (B)
 </td>
 <td style="text-align:center;">
--13.703 (2.533)
+−13.703 (2.533)
 </td>
 <td style="text-align:center;">
--10.986 (1.640)
+−10.986 (1.640)
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-[-18.667, -8.738]
+[−18.684, −8.722]
 </td>
 <td style="text-align:center;">
-[-14.199, -7.772]
+[−14.210, −7.761]
 </td>
 </tr>
 <tr>
@@ -415,10 +409,10 @@ traitement (usuel)
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-[-2.296, 6.181]
+[−2.310, 6.195]
 </td>
 <td style="text-align:center;">
-[-1.802, 6.850]
+[−1.816, 6.864]
 </td>
 </tr>
 <tr>
@@ -436,10 +430,10 @@ médicaments (oui)
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-[-1.234, 3.294]
+[−1.242, 3.302]
 </td>
 <td style="text-align:center;">
-[-0.700, 6.833]
+[−0.713, 6.846]
 </td>
 </tr>
 <tr>
@@ -457,10 +451,10 @@ médicaments (oui)
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-[-2.844, 9.108]
+[−2.864, 9.127]
 </td>
 <td style="text-align:center;">
-[-0.392, 7.060]
+[−0.404, 7.073]
 </td>
 </tr>
 <tr>
@@ -478,10 +472,10 @@ médicaments (oui)
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-[-2.424, 10.470]
+[−2.445, 10.491]
 </td>
 <td style="text-align:center;">
-[-1.401, 7.200]
+[−1.415, 7.214]
 </td>
 </tr>
 <tr>
@@ -499,10 +493,10 @@ médicaments (oui)
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-[-1.535, 12.286]
+[−1.558, 12.309]
 </td>
 <td style="text-align:center;">
-[-2.541, 6.449]
+[−2.556, 6.464]
 </td>
 </tr>
 <tr>
@@ -520,10 +514,21 @@ médicaments (oui)
 <td style="text-align:left;box-shadow: 0px 1px">
 </td>
 <td style="text-align:center;box-shadow: 0px 1px">
-[-4.076, 10.248]
+[−4.099, 10.272]
 </td>
 <td style="text-align:center;box-shadow: 0px 1px">
-[-3.966, 5.312]
+[−3.981, 5.327]
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+R2
+</td>
+<td style="text-align:center;">
+0.184
+</td>
+<td style="text-align:center;">
+0.163
 </td>
 </tr>
 <tr>
@@ -531,10 +536,10 @@ médicaments (oui)
 AIC
 </td>
 <td style="text-align:center;">
-2859.4
+2891.1
 </td>
 <td style="text-align:center;">
-2644.7
+2669.5
 </td>
 </tr>
 <tr>
@@ -542,10 +547,10 @@ AIC
 BIC
 </td>
 <td style="text-align:center;">
-2906.3
+2938.3
 </td>
 <td style="text-align:center;">
-2746.3
+2772.0
 </td>
 </tr>
 </tbody>
@@ -553,8 +558,8 @@ BIC
 <p>Ainsi, la prise en compte de la corrélation entraîne une augmentation des coefficient pour <em>Beating the blues</em> (B), possiblement parce que plus de personnes traitées avec <em>Beating the blues</em> ont quitté l’étude prématurément et on ignore la structure individuelle. L’information fournie par un individu est partiellement redondante: on a 100 individus, mais 380 inventaires à cause des mesures répétées.</p>
 <p>Si notre but est de comparer l’évolution de la maladie, alors cette approche ferait une meilleur utilisation des données que la différence entre la réponse au temps <span class="math inline">\(t=0\)</span> mois et celle au temps <span class="math inline">\(t=k\)</span> mois pour <span class="math inline">\(k \in \{2, \ldots, 8\}\)</span> mois parce qu’on estimerait la trajectoire avec chacune des personnes même lorsque certaines courbes sont incomplètes. Ici, le modèle est paramétrisé en termes de contrastes: concentrons-nous sur l’effet du traitement pour une personne qui ne prend pas de médicaments (la réponse sera la même pour ces individus). La moyenne modélisée comprends une interaction entre l’indicateur de <code>traitement</code> et le mois, ce qui revient à spécifier une moyenne pour chacune de ces instances une fois l’effet de médicaments pris en compte. Pour une personne assignée à <em>Beating the blues</em>, la différence d’inventaire après 2 mois est <span class="math inline">\(\beta_1\)</span>, tandis que celle pour une personne assignée au traitement usuel est <span class="math inline">\(\beta_1 + \beta_6\)</span>. L’hypothèse nulle que la différence de différences de traitements entre usuel et <em>Beating the blues</em> est nulle revient donc <span class="math inline">\(\mathscr{H}_0: \beta_6=0\)</span> (ou <code>2 mois (U)</code> dans le tableau) et notre modèle est paramétrisé de telle sorte que cette information est directement disponible dans la sortie. Comparativement au modèle linéaire classique qui regroupe toutes les mesures de la variable réponse sans égard pour la structure de groupe, nos intervalles de confiance pour l’effet de traitement pour <em>Beating the blues</em> sont fortement décalés. Dans ce cas de figure, l’incertitude des estimés qui prennent en compte la corrélation est moindre. Cet exemple illustre que pour les cas de figure où les données sont débalancées (nombre de réponse différent par individu), la conclusion et les estimés sont fortement affectés. Plus généralement, on verra un changement important pour les erreurs-types des coefficients, mais dans une moindre mesure pour les estimés ponctuels de ces derniers.</p>
 </div>
-<div id="données-groupées-et-modèle-déquicorrélation" class="section level3" number="5.2.3">
-<h3><span class="header-section-number">5.2.3</span> Données groupées et modèle d’équicorrélation</h3>
+<div id="données-groupées-et-modèle-déquicorrélation" class="section level3 hasAnchor" number="5.2.3">
+<h3><span class="header-section-number">5.2.3</span> Données groupées et modèle d’équicorrélation<a href="donnees-correlees-longitudinales.html#données-groupées-et-modèle-déquicorrélation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Dans certains contextes, il n’y aura pas de structure logique pour les données: dans l’exemple précédent, le modèle AR(1) se base sur le nombre de mois séparant les questionnaires, mais qu’en serait-il si on interrogait les employés de différents départements au sein de l’école sur leur expérience durant la pandémie? Selon la pression de leur responsables d’unités, ils ou elles ont pu avoir une expérience très différente. Quelquefois, la dépendance proviendra non pas de mesures répétées, mais plutôt de regroupements logiques.</p>
 <p>Un exemple nous est fourni par le sondage <a href="https://www.gov.uk/government/collections/workplace-employment-relations-study-wers"><em>Workplace Employee Relations Survey</em></a>, une étude du gouvernement britannique qui a été conduite en 1980, 1984, 1990, 1998, 2004 et 2011. L’étude est multi-niveaux: des entrevues détaillées sont conduites le ou la gestionnaire senior en charge des relations de travail, une personne syndiquée et non-syndiquée oeuvrant au sein de l’entreprise ainsi qu’un questionnaire administré à au plus 25 personnes dans chaque lieu de travail. Les milieux de travail sont sélectionnés par le biais d’un échantillon stratifié et certaines sont suivies d’une vague à l’autre; <a href="https://www.wers2011.info/methodology">voir la méthodologie pour plus de détails à ce sujet</a>.</p>
 <p>Ainsi, il serait logique de croire que les réponses des membres d’une même entreprise, qui partagent des politiques communes (convention collective, milieu de travail), etc. sont corrélées. Contrairement aux données longitudinales, le regroupement se fera par milieu de travail et il n’y a pas de relation logique entre les individus qui sont échangeables car l’ordre dans lequel ils apparaissent dans la base de données est arbitraire.</p>
@@ -586,11 +591,11 @@ et la corrélation intra-groupe pour deux observations est <span class="math inl
 </div>
 </div>
 </div>
-<div id="comparaisons-de-modèles" class="section level2" number="5.3">
-<h2><span class="header-section-number">5.3</span> Comparaisons de modèles</h2>
+<div id="comparaisons-de-modèles" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> Comparaisons de modèles<a href="donnees-correlees-longitudinales.html#comparaisons-de-modèles" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 </div>
-<div id="hétéroscédasticité-de-groupe" class="section level2" number="5.4">
-<h2><span class="header-section-number">5.4</span> Hétéroscédasticité de groupe</h2>
+<div id="hétéroscédasticité-de-groupe" class="section level2 hasAnchor" number="5.4">
+<h2><span class="header-section-number">5.4</span> Hétéroscédasticité de groupe<a href="donnees-correlees-longitudinales.html#hétéroscédasticité-de-groupe" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 
 </div>
 </div>
@@ -604,7 +609,6 @@ et la corrélation intra-groupe pour deux observations est <span class="math inl
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -634,6 +638,10 @@ gitbook.start({
 "text": null
 },
 "download": ["MATH60604_Modelisation_statistique.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section",
 "scroll_highlight": true
@@ -648,7 +656,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

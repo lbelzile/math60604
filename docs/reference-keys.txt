@@ -48,9 +48,6 @@ exm:chickcurve
 fig:partialpool1
 fig:partpooldf
 fig:topomap
-exm:Galluppoll
-fig:distributions
-exm:loibern
 exm:loibinom
 exm:loigeom
 exm:loipoisson
@@ -90,11 +87,6 @@ modeles-lineaires-mixtes
 effet-de-rétrécissement-partiel.
 comparaison-de-modèles
 survie
-complement
-population-echantillon
-variable-aleatoire
-moments
-distributions
 diagramme-qq
 loi-grands-nombres
 TCL
