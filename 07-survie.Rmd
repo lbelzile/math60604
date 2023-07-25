@@ -8,9 +8,9 @@ Parmi les exemples de phénomènes de survie hors contexte médical, on peut pen
 - le temps d'attente avant qu'un client soit servi lors d'un appel téléphonique
 - le temps précédant l'annulation d'un abonnement à un gym
 
-Afin de bien définir le temps de survie $T_i$, il faut avoir une notion du {temps d'entrée} (ou de départ) qui marque le début de la mesure (quand on démarre le chronomètre). Le temps d'entrée peut être le même pour tous les sujets (étude longitudinale), par exemple si on mesure la durée des études d'une cohorte d'étudiants pour compléter leurs études. Il peut également être différent d'un sujet à un autre, comme par exemple si une personne patiente au téléphone pour être servie.
+Afin de bien définir le temps de survie $T_i$, il faut avoir une notion du temps d'entrée (ou de départ) qui marque le début de la mesure (quand on démarre le chronomètre). Le temps d'entrée peut être le même pour tous les sujets (étude longitudinale), par exemple si on mesure la durée des études d'une cohorte d'étudiants pour compléter leurs études. Il peut également être différent d'un sujet à un autre, comme par exemple si une personne patiente au téléphone pour être servie.
 
-
+<!--
 
 {Censure}
 
@@ -1017,7 +1017,7 @@ Le test du log rang est aussi présenté par défaut dans la sortie \SASlang{} d
 - On peut généraliser le test du log rang en utilisant un modèle de Cox qui n'inclut qu'une variable catégorielle à $k$ niveaux
  - la loi nulle de la statistique du test de score sera $\chi^2_{k-1}$.
 
- 
+-->
 
 
 

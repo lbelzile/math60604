@@ -19,7 +19,7 @@ La spécification de \@ref(eq:mixedmod) permet aisément de voir comment simuler
 
 En pratique, on n'observe pas l'effet aléatoire $\boldsymbol{b}_i$, donc l'inclusion de l'effet aléatoire dans la vraisemblance marginale se traduit uniquement par une structure de covariance additive plus complexe: une composante,  $\mathbf{R}_i$, représente la matrice de covariance des aléas, tandis que la matrice de covariance  $\mathbf{Z}_i\boldsymbol{\Omega}\mathbf{Z}_i^\top$ est la variabilité due à l'ajout des effets aléatoires. On dénotera par $\boldsymbol{\psi}$ les paramètres de covariance de $\boldsymbol{\Sigma}_i= \mathbf{Z}_i\boldsymbol{\Omega}\mathbf{Z}_i^\top + \mathbf{R}_i$ et les paramètres pour la moyenne (effets fixes) par $\boldsymbol{\beta}$ comme à l'accoutumée.
 
-Les estimations des paramètres sont obtenues par la vraisemblance \@ref(eq:margmixedmod) et estimées à l'aide du maximum de vraisemblance contraint (REML) ou par le biais du maximum de vraisemblance. Dans les deux cas, le problème d'optimisation se réduit à une recherche de l'estimé de $\boldsymbol{\psi}$ puisqu'on a
+Les estimations des paramètres sont obtenues par la vraisemblance \@ref(eq:margmodmixed) et estimées à l'aide du maximum de vraisemblance contraint (REML) ou par le biais du maximum de vraisemblance. Dans les deux cas, le problème d'optimisation se réduit à une recherche de l'estimé de $\boldsymbol{\psi}$ puisqu'on a
 \begin{align*}
 \widehat{\boldsymbol{\beta}}_{\boldsymbol{\psi}} = (\mathbf{X}^\top\boldsymbol{\Sigma}^{-1}\mathbf{X})^{-1}\mathbf{X}^\top\boldsymbol{\Sigma}^{-1}\boldsymbol{Y}
 \end{align*}

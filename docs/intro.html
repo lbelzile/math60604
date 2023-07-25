@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>1 Introduction à l’inférence statistique | Modélisation statistique</title>
   <meta name="description" content="Ces notes forment un complément web du cours MATH 60604 (Modélisation statistique) offert à la M.Sc. en gestion (science des données et analytique d’affaires) à HEC Montréal." />
-  <meta name="generator" content="bookdown 0.30 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="1 Introduction à l’inférence statistique | Modélisation statistique" />
   <meta property="og:type" content="book" />
@@ -52,8 +52,10 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
-<script src="libs/plotly-binding-4.10.1/plotly.js"></script>
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+<script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.2/plotly.js"></script>
 <script src="libs/typedarray-0.1/typedarray.min.js"></script>
 <link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
 <script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
@@ -62,6 +64,10 @@
 
 
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 <style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
 div.csl-bib-body { }
@@ -109,7 +115,9 @@ div.csl-indent {
 <li class="chapter" data-level="5" data-path="donnees-correlees-longitudinales.html"><a href="donnees-correlees-longitudinales.html"><i class="fa fa-check"></i><b>5</b> Données corrélées et longitudinales</a></li>
 <li class="chapter" data-level="6" data-path="modeles-lineaires-mixtes.html"><a href="modeles-lineaires-mixtes.html"><i class="fa fa-check"></i><b>6</b> Modèles linéaires mixtes</a></li>
 <li class="chapter" data-level="7" data-path="survie.html"><a href="survie.html"><i class="fa fa-check"></i><b>7</b> Analyse de survie</a></li>
-<li class="chapter" data-level="8" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>8</b> Dérivations mathématiques</a></li>
+<li class="appendix"><span><b>Annexe</b></span></li>
+<li class="chapter" data-level="A" data-path="complement.html"><a href="complement.html"><i class="fa fa-check"></i><b>A</b> Compléments mathématiques</a></li>
+<li class="chapter" data-level="B" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>B</b> Dérivations mathématiques</a></li>
 <li class="chapter" data-level="" data-path="r.html"><a href="r.html"><i class="fa fa-check"></i><strong>R</strong></a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -351,11 +359,11 @@ Figure 1.4: Intervalles de confiance à 95% pour la moyenne d’une population n
 </div>
 <p>Dans cet exemple, on s’intéresse à la différence entre le montant moyen des Y et celui des générations antérieures: la différence de moyenne observée dans l’échantillon est de 16.49 dollars et donc les milléniaux ont dépensé davantage. En revanche, notre échantillon est aléatoire et le montant d’achat en ligne varie d’un individu à l’autre (et d’un mois à l’autre): ce n’est donc pas suffisant pour dire que la différence est significative.</p>
 <p>La première étape de notre analyse consiste à définir les quantités d’intérêt et à formuler nos hypothèse en fonction de paramètres du modèle; il convient également de définir ces derniers en fonction des variables en présence dans l’exemple. Ici, on considère un test pour la différence de moyenne dans les populations postulées <span class="math inline">\(\mu_1\)</span> (pour la génération Y) et <span class="math inline">\(\mu_2\)</span> (pour les générations antérieures) d’écart-type respectif <span class="math inline">\(\sigma_1\)</span> et <span class="math inline">\(\sigma_2\)</span>. Comment déterminer quelle hypothèse on considère? Comme statisticien, on se fait l’avocat du Diable: l’hypothèse d’intérêt du chercheur est l’hypothèse alternative et ici, <span class="math inline">\(\mathscr{H}_a: \mu_1 &gt; \mu_2\)</span>, où <span class="math inline">\(\mu_1\)</span> représente la moyenne des achats mensuels des milléniaux. L’hypothèse nulle comprend toutes les autres valeurs pour la différence de moyenne, soit <span class="math inline">\(\mathscr{H}_0: \mu_1 \leq \mu_2\)</span>. Il suffit néanmoins de considérer le cas <span class="math inline">\(\mu_1=\mu_2\)</span> (pourquoi?)</p>
-<p>La deuxième étape consiste à choisir une statistique de test. S’il n’y a aucune différence de moyenne entre les groupes, alors <span class="math inline">\(\overline{X}_1-\overline{X}_2\)</span> a moyenne zéro et la différence de moyenne a une variance de <span class="math inline">\(\sigma^2_1/n_1+\sigma^2_2/n_2\)</span>. Ici, on considère la statistique de <span class="citation">Welch (<a href="references.html#ref-Welch1947" role="doc-biblioref">1947</a>)</span> pour une différence de moyenne entre deux échantillons:
+<p>La deuxième étape consiste à choisir une statistique de test. S’il n’y a aucune différence de moyenne entre les groupes, alors <span class="math inline">\(\overline{X}_1-\overline{X}_2\)</span> a moyenne zéro et la différence de moyenne a une variance de <span class="math inline">\(\sigma^2_1/n_1+\sigma^2_2/n_2\)</span>. Ici, on considère la statistique de <span class="citation">Welch (<a href="references.html#ref-Welch1947">1947</a>)</span> pour une différence de moyenne entre deux échantillons:
 <span class="math display">\[\begin{align*}
 T = \frac{\overline{X}_1 - \overline{X}_2}{\left(\frac{S_1^2}{n_1}+\frac{S_2^2}{n_2} \right)^{1/2}}, \end{align*}\]</span>
 où <span class="math inline">\(\overline{X}_i\)</span> est la moyenne empirique dans l’échantillon <span class="math inline">\(i\)</span> (<span class="math inline">\(i=1, 2\)</span>) et <span class="math inline">\(S_i^2\)</span> est la variance empirique et <span class="math inline">\(n_i\)</span> la taille de l’échantillon du groupe <span class="math inline">\(i\)</span>. La statistique est utilisée pour calculer la différence de moyennes de deux échantillons de variance potentiellement différente. La valeur de la statistique dans l’échantillon est <span class="math inline">\(T=2.76\)</span>, mais on obtiendrait une valeur différente avec un autre échantillon. Il convient donc de déterminer si cette valeur est compatible avec notre hypothèse nulle en la comparant à la loi nulle sous <span class="math inline">\(\mathscr{H}_0\)</span> de <span class="math inline">\(T\)</span>. On effectuera le test à niveau <span class="math inline">\(\alpha=0.05\)</span>.</p>
-<p>La troisième étape est l’obtention d’un étalon de mesure pour déterminer si notre résultat est extrême ou inattendu. Vous remarquerez que la statistique de Welch a moyenne zéro et variance un sous l’hypothèse nulle que <span class="math inline">\(\mu_1=\mu_2\)</span>: standardiser une statistique permet d’obtenir un objet dont on connaît le comportement pour de grands échantillons et obtenir une quantité sans unité de mesure. La dérivation de la loi nulle est hors objectifs du cours, aussi cette dernière vous sera donnée dans tous les cas qu’on considère. Asymptotiquement, <span class="math inline">\(T\)</span> suit une loi normale <span class="math inline">\(\mathsf{No}(0, 1)\)</span>, mais il existe une meilleure approximation pour <span class="math inline">\(n\)</span> petit; on compare le comportement de <span class="math inline">\(T\)</span> à l’aide d’une loi de Student (à l’aide de l’approximation de <span class="citation">Satterthwaite (<a href="references.html#ref-Satterthwaite1946" role="doc-biblioref">1946</a>)</span>).</p>
+<p>La troisième étape est l’obtention d’un étalon de mesure pour déterminer si notre résultat est extrême ou inattendu. Vous remarquerez que la statistique de Welch a moyenne zéro et variance un sous l’hypothèse nulle que <span class="math inline">\(\mu_1=\mu_2\)</span>: standardiser une statistique permet d’obtenir un objet dont on connaît le comportement pour de grands échantillons et obtenir une quantité sans unité de mesure. La dérivation de la loi nulle est hors objectifs du cours, aussi cette dernière vous sera donnée dans tous les cas qu’on considère. Asymptotiquement, <span class="math inline">\(T\)</span> suit une loi normale <span class="math inline">\(\mathsf{No}(0, 1)\)</span>, mais il existe une meilleure approximation pour <span class="math inline">\(n\)</span> petit; on compare le comportement de <span class="math inline">\(T\)</span> à l’aide d’une loi de Student (à l’aide de l’approximation de <span class="citation">Satterthwaite (<a href="references.html#ref-Satterthwaite1946">1946</a>)</span>).</p>
 <p>La dernière étape consiste à obtenir une valeur-<em>p</em>, soit la probabilité d’observer un résultat aussi extrême sous <span class="math inline">\(\mathscr{H}_0\)</span>: l’avantage de la valeur-<em>p</em> est que cette valeur est une probabilité (dans <span class="math inline">\([0, 1]\)</span>) et qu’elle suit une loi uniforme sous <span class="math inline">\(\mathscr{H}_0\)</span>. Puisque nous avons une hypothèse alternative unilatérale, on regarde la probabilité sous <span class="math inline">\(\mathscr{H}_0\)</span> que <span class="math inline">\(\mathsf{Pr}(T &gt; t)\)</span>. La valeur-<em>p</em> vaut <span class="math inline">\(0.0031\)</span> et donc, à niveau 5%, on rejette l’hypothèse nulle pour conclure que la génération Y dépense davantage en ligne que les générations antérieures.</p>
 <div class="example">
 <p><span id="exm:prix-trains-tests" class="example"><strong>Exemple 1.2  (Prix de billets de trains à grande vitesse espagnols) </strong></span>La compagnie nationale de chemin de fer <a href="https://www.renfe.com/">Renfe</a> gère les trains régionaux et les trains à haute vitesse dans toute l’Espagne. Les prix des billets vendus par Renfe sont <a href="https://www.kaggle.com/thegurusteam/spanish-high-speed-rail-system-ticket-pricing">aggrégés</a> par une compagnie. On s’intéresse ici à une seule ligne, Madrid–Barcelone. Notre question scientifique est la suivante: est-ce que le prix des billets pour un aller (une direction) est plus chère pour un retour? Pour ce faire, on considère un échantillon de 10000 billets entre les deux plus grandes villes espagnoles. On s’intéresse au billets de TGV vendus (AVE) au tarif Promotionnel. Notre statistique de test sera simplement la différence de moyenne entre les deux échantillons: la différence entre le prix en euros d’un train Madrid–Barcelone (<span class="math inline">\(\mu_1\)</span>) et le prix d’un billet Barcelone–Madrid (<span class="math inline">\(\mu_2\)</span>) est <span class="math inline">\(\mu_1-\mu_2\)</span> et notre hypothèse nulle est qu’il n’y a aucune différence de prix, soit <span class="math inline">\(\mathscr{H}_0: \mu_1-\mu_2=0\)</span>.</p>

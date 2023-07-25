@@ -200,7 +200,7 @@ Le modèle non structuré présenté prend en compte à la fois la corrélation 
 
  Ce modèle ne sera logique que si les mesures sur chaque unités sont comparables: par exemple, si le temps de réponse à chaque vague d'un sondage est différent, il serait illogique d'associer la réponse d'individus pour des temps différents. Par contre, si on modélise la circonférence d'arbres et que l'on obtient des mesures pour ces derniers à des hauteurs régulières (un mètre, deux mètres et cinq mètres du sol), alors on pourra associer chaque mesure à un paramètre.
 
-Ainsi, il faut savoir si les données sont mesurées à des intervalles réguliers ou sont comparables. Le nombre de paramètres à estimer, $n_{\max} (n_{\max} − 1)/2$, restreint son utilisation aux cas
+Ainsi, il faut savoir si les données sont mesurées à des intervalles réguliers ou sont comparables. Le nombre de paramètres à estimer, $n_{\max} (n_{\max} - 1)/2$, restreint son utilisation aux cas
 où le nombre maximum d’observations par unité est petit et le nombre d'unités $m$ est grand. On va considérer deux autres modèles plus simples.
 
 

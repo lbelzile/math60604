@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Modélisation statistique</title>
   <meta name="description" content="Ces notes forment un complément web du cours MATH 60604 (Modélisation statistique) offert à la M.Sc. en gestion (science des données et analytique d’affaires) à HEC Montréal." />
-  <meta name="generator" content="bookdown 0.30 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Modélisation statistique" />
   <meta property="og:type" content="book" />
@@ -52,8 +52,10 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
-<script src="libs/plotly-binding-4.10.1/plotly.js"></script>
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+<script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.2/plotly.js"></script>
 <script src="libs/typedarray-0.1/typedarray.min.js"></script>
 <link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
 <script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
@@ -62,6 +64,10 @@
 
 
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 <style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
 div.csl-bib-body { }
@@ -109,7 +115,9 @@ div.csl-indent {
 <li class="chapter" data-level="5" data-path="donnees-correlees-longitudinales.html"><a href="donnees-correlees-longitudinales.html"><i class="fa fa-check"></i><b>5</b> Données corrélées et longitudinales</a></li>
 <li class="chapter" data-level="6" data-path="modeles-lineaires-mixtes.html"><a href="modeles-lineaires-mixtes.html"><i class="fa fa-check"></i><b>6</b> Modèles linéaires mixtes</a></li>
 <li class="chapter" data-level="7" data-path="survie.html"><a href="survie.html"><i class="fa fa-check"></i><b>7</b> Analyse de survie</a></li>
-<li class="chapter" data-level="8" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>8</b> Dérivations mathématiques</a></li>
+<li class="appendix"><span><b>Annexe</b></span></li>
+<li class="chapter" data-level="A" data-path="complement.html"><a href="complement.html"><i class="fa fa-check"></i><b>A</b> Compléments mathématiques</a></li>
+<li class="chapter" data-level="B" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>B</b> Dérivations mathématiques</a></li>
 <li class="chapter" data-level="" data-path="r.html"><a href="r.html"><i class="fa fa-check"></i><strong>R</strong></a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -137,9 +145,13 @@ div.csl-indent {
 </div>
 <div id="remarques" class="section level1 unnumbered hasAnchor">
 <h1>Remarques<a href="index.html#remarques" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Ces notes sont l’oeuvre de Léo Belzile (HEC Montréal) et sont mises à disposition sous la <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.fr">Licence publique Creative Commons Attribution - Utilisation non commerciale - Partage dans les mêmes conditions 4.0 International</a>. Cette version est celle du 23 novembre 2022.</p>
+<p>Ces notes sont l’oeuvre de Léo Belzile (HEC Montréal) et sont mises à disposition sous la <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.fr">Licence publique Creative Commons Attribution - Utilisation non commerciale - Partage dans les mêmes conditions 4.0 International</a>. Cette version est celle du 25 July 2023.</p>
 <p>Bien que les diapositives illustrent l’implémentation des techniques statistiques et des modèles à l’aide de <strong>SAS</strong>, ces notes présentent le pendant <strong>R</strong>: visitez <a href="https://cran.r-project.org/">le site web du projet <strong>R</strong></a> pour télécharger le logiciel. L’interface graphique la plus populaire (et celle que je vous recommande) est <a href="https://www.rstudio.com/products/rstudio/download/">RStudio Desktop</a>.</p>
-<p>Ce cours traite de modélisation des données et une citation célèbre de George Box dit que « tous les modèles sont faux, mais certains sont utiles ». Ce point de vue est réducteur; Peter McCullagh et John Nelder (traduction libre) expliquent dans le préambule de leur livre</p>
+<p>Ce cours traite de modélisation des données et une citation célèbre de George Box dit que</p>
+<blockquote>
+<p>tous les modèles sont faux, mais certains sont utiles.</p>
+</blockquote>
+<p>Ce point de vue est réducteur; Peter McCullagh et John Nelder (traduction libre) expliquent dans le préambule de leur livre</p>
 <blockquote>
 <p>La modélisation en science demeure, du moins partiellement, un art. Certains principes existent, en revanche, pour guider le modélisateur. Le premier est que tous les modèles sont faux; mais que <strong>certains sont meilleurs</strong> et <strong>le modélisateur doit chercher le meilleur à sa portée</strong>. En même temps, il est sage de reconnaître que la quête perpétuelle de la vérité n’est pas envisageable.</p>
 </blockquote>

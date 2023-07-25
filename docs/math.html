@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>8 Dérivations mathématiques | Modélisation statistique</title>
+  <title>B Dérivations mathématiques | Modélisation statistique</title>
   <meta name="description" content="Ces notes forment un complément web du cours MATH 60604 (Modélisation statistique) offert à la M.Sc. en gestion (science des données et analytique d’affaires) à HEC Montréal." />
-  <meta name="generator" content="bookdown 0.30 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="8 Dérivations mathématiques | Modélisation statistique" />
+  <meta property="og:title" content="B Dérivations mathématiques | Modélisation statistique" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="Ces notes forment un complément web du cours MATH 60604 (Modélisation statistique) offert à la M.Sc. en gestion (science des données et analytique d’affaires) à HEC Montréal." />
   <meta name="github-repo" content="lbelzile/math60604" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="8 Dérivations mathématiques | Modélisation statistique" />
+  <meta name="twitter:title" content="B Dérivations mathématiques | Modélisation statistique" />
   
   <meta name="twitter:description" content="Ces notes forment un complément web du cours MATH 60604 (Modélisation statistique) offert à la M.Sc. en gestion (science des données et analytique d’affaires) à HEC Montréal." />
   
@@ -28,7 +28,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="survie.html"/>
+<link rel="prev" href="complement.html"/>
 <link rel="next" href="r.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -52,8 +52,10 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
-<script src="libs/plotly-binding-4.10.1/plotly.js"></script>
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+<script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.2/plotly.js"></script>
 <script src="libs/typedarray-0.1/typedarray.min.js"></script>
 <link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
 <script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
@@ -62,6 +64,10 @@
 
 
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 <style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
 div.csl-bib-body { }
@@ -109,7 +115,9 @@ div.csl-indent {
 <li class="chapter" data-level="5" data-path="donnees-correlees-longitudinales.html"><a href="donnees-correlees-longitudinales.html"><i class="fa fa-check"></i><b>5</b> Données corrélées et longitudinales</a></li>
 <li class="chapter" data-level="6" data-path="modeles-lineaires-mixtes.html"><a href="modeles-lineaires-mixtes.html"><i class="fa fa-check"></i><b>6</b> Modèles linéaires mixtes</a></li>
 <li class="chapter" data-level="7" data-path="survie.html"><a href="survie.html"><i class="fa fa-check"></i><b>7</b> Analyse de survie</a></li>
-<li class="chapter" data-level="8" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>8</b> Dérivations mathématiques</a></li>
+<li class="appendix"><span><b>Annexe</b></span></li>
+<li class="chapter" data-level="A" data-path="complement.html"><a href="complement.html"><i class="fa fa-check"></i><b>A</b> Compléments mathématiques</a></li>
+<li class="chapter" data-level="B" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>B</b> Dérivations mathématiques</a></li>
 <li class="chapter" data-level="" data-path="r.html"><a href="r.html"><i class="fa fa-check"></i><strong>R</strong></a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -132,11 +140,11 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="math" class="section level1 hasAnchor" number="8">
-<h1><span class="header-section-number">8</span> Dérivations mathématiques<a href="math.html#math" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="math" class="section level1 hasAnchor" number="9">
+<h1><span class="header-section-number">B</span> Dérivations mathématiques<a href="math.html#math" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Cette section regroupe les dérivations mathématiques optionnelles qui sont fournies par souci de complétude.</p>
-<div id="ols" class="section level2 hasAnchor" number="8.1">
-<h2><span class="header-section-number">8.1</span> Dérivation de l’estimateur des moindres carrés ordinaires<a href="math.html#ols" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="ols" class="section level2 hasAnchor" number="9.1">
+<h2><span class="header-section-number">B.1</span> Dérivation de l’estimateur des moindres carrés ordinaires<a href="math.html#ols" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>L’estimateur des moindres carrés ordinaires résoud le problème d’optimisation non-contraint
 <span class="math display">\[\begin{align*}
 \widehat{\boldsymbol{\beta}}=\min_{\boldsymbol{\beta} \in \mathbb{R}^{p+1}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}).
@@ -156,8 +164,8 @@ Si <span class="math inline">\(\mathbf{X}\)</span> est une matrice de rang <span
 \widehat{\boldsymbol{\beta}} = (\mathbf{X}^{\top} \mathbf{X})^{-1} \mathbf{X}^{\top} \boldsymbol{Y}.
 \end{align*}\]</span></p>
 </div>
-<div id="derivationR2" class="section level2 hasAnchor" number="8.2">
-<h2><span class="header-section-number">8.2</span> Dérivation du coefficient de détermination<a href="math.html#derivationR2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="derivationR2" class="section level2 hasAnchor" number="9.2">
+<h2><span class="header-section-number">B.2</span> Dérivation du coefficient de détermination<a href="math.html#derivationR2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Le point de départ de cette dérivation est la décomposition orthogonale entre le vecteur de valeurs ajustées et de résidus, <span class="math inline">\(\boldsymbol{y}=\widehat{\boldsymbol{y}} + \boldsymbol{e}\)</span>. Pourvu que la matrice du modèle <span class="math inline">\(\mathbf{X}\)</span> contienne l’équivalent de l’ordonnée à l’origine <span class="math inline">\(\mathbf{1}_n \in \mathcal{S}(\mathbf{X})\)</span>, alors la moyenne des résidus ordinaires est nulle, <span class="math inline">\(\overline{\boldsymbol{e}}=0\)</span> et il en découle que la moyenne empirique des réponses est égale à la moyenne empirique des valeurs ajustées. Puisque <span class="math inline">\(n^{-1}\sum_{i=1}^n \widehat{y}_i = n^{-1}\sum_{i=1}^n ({y}_i-e_i)=\overline{y}\)</span>,
 <span class="math display">\[\begin{align*}
 \widehat{\mathsf{Cor}}\left(\widehat{\boldsymbol{y}}, \boldsymbol{y}\right)
@@ -173,8 +181,8 @@ Si <span class="math inline">\(\mathbf{X}\)</span> est une matrice de rang <span
 \\&amp;= \sqrt{\frac{\mathsf{SC}_c-\mathsf{SC}_e}{\mathsf{SC}_c}}= \mathrm{R}.
 \end{align*}\]</span>
 Cela justifie la proposition de la <a href="#coefR2">Section 2.5</a> voulant que le carré de la corrélation entre les valeurs ajustées et la variable réponse est égal à <span class="math inline">\(R^2\)</span>.</p>
-<div id="optimisation-pour-les-modèles-linéaires-généralisés" class="section level3 hasAnchor" number="8.2.1">
-<h3><span class="header-section-number">8.2.1</span> Optimisation pour les modèles linéaires généralisés<a href="math.html#optimisation-pour-les-modèles-linéaires-généralisés" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="optimisation-pour-les-modèles-linéaires-généralisés" class="section level3 hasAnchor" number="9.2.1">
+<h3><span class="header-section-number">B.2.1</span> Optimisation pour les modèles linéaires généralisés<a href="math.html#optimisation-pour-les-modèles-linéaires-généralisés" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Il n’existe règle générale pas de solution explicite pour l’estimateur du maximum de vraisemblance <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span> pour les modèles linéaires généralisés; l’équation du score étant typiquement nonlinéaire en <span class="math inline">\(\boldsymbol{\beta}\)</span>, on doit obtenir les estimateurs du maximum de vraisemblance par le biais d’algorithmes d’optimisation numérique.</p>
 <p>On dérive la log vraisemblance <span class="math inline">\(\ell = \sum_{i=1}^n \log f(y_i; \theta, \phi)\)</span> par rapport à
 <span class="math inline">\(\boldsymbol{\beta}\)</span>. Pour simplifier, on considère chaque terme et coefficient à tour de rôle. Par la règle du produit,
@@ -212,7 +220,7 @@ et on itère la formule jusqu’à convergence. La plupart des logiciels implém
           </div>
         </div>
       </div>
-<a href="survie.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="complement.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="r.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

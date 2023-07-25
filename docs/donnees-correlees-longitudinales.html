@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>5 Données corrélées et longitudinales | Modélisation statistique</title>
   <meta name="description" content="Ces notes forment un complément web du cours MATH 60604 (Modélisation statistique) offert à la M.Sc. en gestion (science des données et analytique d’affaires) à HEC Montréal." />
-  <meta name="generator" content="bookdown 0.30 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="5 Données corrélées et longitudinales | Modélisation statistique" />
   <meta property="og:type" content="book" />
@@ -52,8 +52,10 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
-<script src="libs/plotly-binding-4.10.1/plotly.js"></script>
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+<script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.2/plotly.js"></script>
 <script src="libs/typedarray-0.1/typedarray.min.js"></script>
 <link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
 <script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
@@ -62,6 +64,10 @@
 
 
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 <style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
 div.csl-bib-body { }
@@ -109,7 +115,9 @@ div.csl-indent {
 <li class="chapter" data-level="5" data-path="donnees-correlees-longitudinales.html"><a href="donnees-correlees-longitudinales.html"><i class="fa fa-check"></i><b>5</b> Données corrélées et longitudinales</a></li>
 <li class="chapter" data-level="6" data-path="modeles-lineaires-mixtes.html"><a href="modeles-lineaires-mixtes.html"><i class="fa fa-check"></i><b>6</b> Modèles linéaires mixtes</a></li>
 <li class="chapter" data-level="7" data-path="survie.html"><a href="survie.html"><i class="fa fa-check"></i><b>7</b> Analyse de survie</a></li>
-<li class="chapter" data-level="8" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>8</b> Dérivations mathématiques</a></li>
+<li class="appendix"><span><b>Annexe</b></span></li>
+<li class="chapter" data-level="A" data-path="complement.html"><a href="complement.html"><i class="fa fa-check"></i><b>A</b> Compléments mathématiques</a></li>
+<li class="chapter" data-level="B" data-path="math.html"><a href="math.html"><i class="fa fa-check"></i><b>B</b> Dérivations mathématiques</a></li>
 <li class="chapter" data-level="" data-path="r.html"><a href="r.html"><i class="fa fa-check"></i><strong>R</strong></a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -239,7 +247,7 @@ Figure 5.4: Matrice de covariance des 100 premières mesures de l’étude sur l
 \end{align*}\]</span></p>
 <p>Le modèle non structuré présenté prend en compte à la fois la corrélation entre observations d’une même unité et l’hétéroscédasticité, en postulant en revanche que cette dernière est la même pour toutes les unités pour une répétition donnée. On pourrait aisément contraindre le modèle de manière à spécifier une variance égale pour toutes les observations en fixant <span class="math inline">\(\sigma_{11} = \cdots = \sigma_{n_{\max}n_{\max}}\)</span>.</p>
 <p>Ce modèle ne sera logique que si les mesures sur chaque unités sont comparables: par exemple, si le temps de réponse à chaque vague d’un sondage est différent, il serait illogique d’associer la réponse d’individus pour des temps différents. Par contre, si on modélise la circonférence d’arbres et que l’on obtient des mesures pour ces derniers à des hauteurs régulières (un mètre, deux mètres et cinq mètres du sol), alors on pourra associer chaque mesure à un paramètre.</p>
-<p>Ainsi, il faut savoir si les données sont mesurées à des intervalles réguliers ou sont comparables. Le nombre de paramètres à estimer, <span class="math inline">\(n_{\max} (n_{\max} − 1)/2\)</span>, restreint son utilisation aux cas
+<p>Ainsi, il faut savoir si les données sont mesurées à des intervalles réguliers ou sont comparables. Le nombre de paramètres à estimer, <span class="math inline">\(n_{\max} (n_{\max} - 1)/2\)</span>, restreint son utilisation aux cas
 où le nombre maximum d’observations par unité est petit et le nombre d’unités <span class="math inline">\(m\)</span> est grand. On va considérer deux autres modèles plus simples.</p>
 </div>
 <div id="modèles-de-covariance-autorégressif" class="section level3 hasAnchor" number="5.2.2">
@@ -284,7 +292,7 @@ Pour le modèle non structuré, les estimés de l’écart type ne sont pas trè
 Modèle 1
 </th>
 <th style="text-align:center;">
-Modèle 2
+ Modèle 2
 </th>
 </tr>
 </thead>
@@ -511,12 +519,12 @@ médicaments (oui)
 </td>
 </tr>
 <tr>
-<td style="text-align:left;box-shadow: 0px 1px">
+<td style="text-align:left;box-shadow: 0px 1.5px">
 </td>
-<td style="text-align:center;box-shadow: 0px 1px">
+<td style="text-align:center;box-shadow: 0px 1.5px">
 [−4.099, 10.272]
 </td>
-<td style="text-align:center;box-shadow: 0px 1px">
+<td style="text-align:center;box-shadow: 0px 1.5px">
 [−3.981, 5.327]
 </td>
 </tr>
