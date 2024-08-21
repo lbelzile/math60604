@@ -1,25 +1,17 @@
-\usepackage{mathtools}
+% \usepackage{amsmath,amssymb,mathtools}
 \usepackage{enumerate}
 \usepackage{geometry}
-\usepackage[french]{babel}
 \geometry{hmargin=1.2in}
-\usepackage{fourier}
-\usepackage[mathscr]{eucal}
-% \usepackage{fontspec}
-% \setmainfont[Scale=0.925]{heuristica}
-% \usepackage[scr=rsfs]{mathalpha}
-% \DeclareMathAlphabet{\mathcrl}{U}{rsfs}{m}{n}
-% \DeclareMathAlphabet{\mathcal}{OMS}{cmsy}{m}{n}
-% \usepackage{booktabs} % already loaded
-\usepackage{amsthm}
-\usepackage{hyperref}
-\usepackage{siunitx}
+
+\usepackage{booktabs}
+\usepackage{amssymb}
 \makeatletter
 \def\thm@space@setup{%
   \thm@preskip=8pt plus 2pt minus 4pt
   \thm@postskip=\thm@preskip
 }
 \makeatother
+
 \usepackage{framed,color}
 \definecolor{shadecolor}{RGB}{248,248,248}
 
@@ -28,8 +20,8 @@
 \renewcommand{\bottomfraction}{0.8}
 \renewcommand{\floatpagefraction}{0.75}
 
-\let\oldhref\href
-\renewcommand{\href}[2]{#2\footnote{\url{#1}}}
+%\let\oldhref\href
+%\renewcommand{\href}[2]{#2\footnote{\url{#1}}}
 
 \ifxetex
   \usepackage{letltxmacro}
@@ -101,6 +93,8 @@
 \newenvironment{rmdwarning}
   {\begin{rmdblock}{warning}}
   {\end{rmdblock}}
-\newenvironment{rmdmathtan}
-  {\begin{rmdblock}{tangente}}
-  {\end{rmdblock}}
+\usepackage{mathrsfs}
+\DeclareMathAlphabet{\mathcrl}{U}{rsfs}{m}{n}
+\usepackage{utopia}
+\DeclareMathAlphabet{\mathcal}{OMS}{cmsy}{m}{n}
+\usepackage{pdfpages}

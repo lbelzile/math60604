@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.1">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Ces notes forment un complément web du cours MATH 60604 (Modélisation statistique) offert à la M.Sc. en gestion (science des données et analytique d’affaires) à HEC Montréal.">
+
+<title>2&nbsp; Inférence statistique – MATH 60604 - Modélisation statistique</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./references.html" rel="next">
+<link href="./introduction.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./inference.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Inférence statistique</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">MATH 60604 - Modélisation statistique</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/lbelzile/math60604/" title="Code source" class="quarto-navigation-tool px-1" aria-label="Code source"><i class="bi bi-github"></i></a>
+    <a href="./MATH60604.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bienvenue</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./inference.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Inférence statistique</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bibliographie</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table des matières</h2>
+   
+  <ul>
+  <li><a href="#tests" id="toc-tests" class="nav-link active" data-scroll-target="#tests"><span class="header-section-number">2.0.1</span> Tests d’hypothèse</a></li>
+  <li><a href="#hypothèse" id="toc-hypothèse" class="nav-link" data-scroll-target="#hypothèse"><span class="header-section-number">2.0.2</span> Hypothèse</a></li>
+  <li><a href="#statistique-de-test" id="toc-statistique-de-test" class="nav-link" data-scroll-target="#statistique-de-test"><span class="header-section-number">2.0.3</span> Statistique de test</a></li>
+  <li><a href="#loi-nulle-et-valeur-p" id="toc-loi-nulle-et-valeur-p" class="nav-link" data-scroll-target="#loi-nulle-et-valeur-p"><span class="header-section-number">2.0.4</span> Loi nulle et valeur-<em>p</em></a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">2.0.5</span> Conclusion</a></li>
+  <li><a href="#puissance-statistique" id="toc-puissance-statistique" class="nav-link" data-scroll-target="#puissance-statistique"><span class="header-section-number">2.0.6</span> Puissance statistique</a></li>
+  <li><a href="#intervalle-de-confiance" id="toc-intervalle-de-confiance" class="nav-link" data-scroll-target="#intervalle-de-confiance"><span class="header-section-number">2.0.7</span> Intervalle de confiance</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/lbelzile/math60604/edit/master/inference.qmd" class="toc-action"><i class="bi bi-github"></i>Éditer cette page</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="inference" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Inférence statistique</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="tests" class="level3" data-number="2.0.1">
+<h3 data-number="2.0.1" class="anchored" data-anchor-id="tests"><span class="header-section-number">2.0.1</span> Tests d’hypothèse</h3>
+<p>Un test d’hypothèse statistique est une façon d’évaluer la preuve statistique provenant d’un échantillon afin de faire une décision quant à la population sous-jacente. Les étapes principales sont:</p>
+<ul>
+<li>définir les paramètres du modèle,</li>
+<li>formuler les hypothèses alternative et nulle,</li>
+<li>choisir et calculer la statistique de test,</li>
+<li>déterminer son comportement sous <span class="math inline">\(\mathscr{H}_0\)</span> (loi nulle),</li>
+<li>calculer la valeur-<em>p</em>,</li>
+<li>conclure dans le contexte du problème (rejeter ou ne pas rejeter <span class="math inline">\(\mathscr{H}_0\)</span>).</li>
+</ul>
+<p>Mon approche privilégiée pour présenter les tests d’hypothèse est de faire un parallèle avec un procès pour meurtre où vous êtes nommé juré.</p>
+<ul>
+<li>Le juge vous demande de choisir entre deux hypothèses mutuellement exclusives, coupable ou non-coupable, sur la base des preuves présentées.</li>
+<li>Votre postulat de départ repose sur la présomption d’innocence: vous condamnerez uniquement le suspect si la preuve est accablante. Cela permet d’éviter les erreurs judiciaires. L’hypothèse nulle <span class="math inline">\(\mathscr{H}_0\)</span> est donc <em>non-coupable</em>, et l’hypothèse alternative <span class="math inline">\(\mathscr{H}_a\)</span> est coupable. En cas de doute raisonnable, vous émettrez un verdict de non-culpabilité.</li>
+<li>La choix de la statistique de test représente la preuve. Plus la preuve est accablante, plus grande est la chance d’un verdict de culpabilité — le procureur a donc tout intérêt à bien choisir les faits présentés en cour. Le choix de la statistique devrait donc idéalement maximiser la preuve pour appuyer le postulat de culpabilité le mieux possible (ce choix reflète la <strong>puissance</strong> du test).</li>
+<li>En qualité de juré, vous analysez la preuve à partir de la jurisprudence et de l’avis d’expert pour vous assurer que les faits ne relèvent pas du hasard. Pour le test d’hypothèse, ce rôle est tenu par la loi sous <span class="math inline">\(\mathscr{H}_0\)</span>: si la personne était innocente, est-ce que les preuves présentées tiendraient la route? des traces d’ADN auront davantage de poids que des ouï-dire (la pièce de théâtre <em>Douze hommes en colère</em> de Reginald Rose présente un bel exemple de procès où un des juré émet un doute raisonnable et convainc un à un les autres membres du jury de prononcer un verdict de non-culpabilité).</li>
+<li>Vous émettez un verdict, à savoir une décision binaire, où l’accusé est déclaré soit non-coupable, soit coupable. Si vous avez une valeur-<em>p</em>, disons <span class="math inline">\(P\)</span>, pour votre statistique de test et que vous effectuez ce dernier à niveau <span class="math inline">\(\alpha\)</span>, la règle de décision revient à rejeter <span class="math inline">\(\mathscr{H}_0\)</span> si <span class="math inline">\(P &lt; \alpha\)</span>.</li>
+</ul>
+<p>On s’attarde davantage sur ces définitions heuristiques et le vocabulaire employé pour parler de tests d’hypothèse. Le matériel de la section suivante a été préparé par Juliana Schulz.</p>
+</section>
+<section id="hypothèse" class="level3" data-number="2.0.2">
+<h3 data-number="2.0.2" class="anchored" data-anchor-id="hypothèse"><span class="header-section-number">2.0.2</span> Hypothèse</h3>
+<p>Dans les test statistique il y a toujours deux hypothèse: l’hypothèse nulle (<span class="math inline">\(\mathscr{H}_{0}\)</span>) et l’hypothèse alternative (<span class="math inline">\(\mathscr{H}_a\)</span>). Habituellement, l’hypothèse nulle est le « statu quo » et l’alternative est l’hypothèse que l’on cherche à démontrer. On se fait l’avocat du Diable en défendant l’hypothèse nulle et en analysant toutes les preuves sous l’angle: « est-ce que les données entrent en contradiction avec <span class="math inline">\(\mathscr{H}_0\)</span>? ». Un test d’hypothèse statistique nous permet de décider si nos données nous fournissent assez de preuves pour rejeter <span class="math inline">\(\mathscr{H}_0\)</span> en faveur de <span class="math inline">\(\mathscr{H}_a\)</span>, selon un risque d’erreur spécifié.</p>
+<p>Généralement, les tests d’hypothèses sont exprimés en fonction de paramètres (de valeurs inconnues) du modèle sous-jacent, par ex. <span class="math inline">\(\theta\)</span>. Un test d’hypothèse bilatéral concernant un paramètre scalaire <span class="math inline">\(\theta\)</span> s’exprimerait la forme suivante: <span class="math display">\[\begin{align*}
+\mathscr{H}_0: \theta=\theta_0 \qquad \text{versus} \qquad \mathscr{H}_a:\theta \neq \theta_0.
+\end{align*}\]</span> Ces hypothèses permettent de tester si <span class="math inline">\(\theta\)</span> est égal à une valeur numérique précise <span class="math inline">\(\theta_0\)</span>.</p>
+<p>Par exemple, pour un test bilatéral concernant le paramètre d’un modèle de régression <span class="math inline">\(\beta_j\)</span> associé à une variable explicative d’intérêt <span class="math inline">\(\mathrm{X}_j\)</span>, les hypothèses sont <span class="math display">\[\begin{align*}
+\mathscr{H}_0: \beta_j=\beta_j^0 \qquad \text{versus} \qquad \mathscr{H}_a:\beta_j \neq \beta_j^0,
+\end{align*}\]</span> où <span class="math inline">\(\beta_j^0\)</span> est une valeur précise qui est reliée à la question de recherche. Par exemple, si <span class="math inline">\(\beta_j^0=0\)</span> la question de recherche sous-jacente est: est-ce que la covariable <span class="math inline">\(\mathrm{X}_j\)</span> impacte la variable réponse d’intérêt <span class="math inline">\(Y\)</span> une fois l’effet des autres variables pris en compte?</p>
+<p>Remarque: il est possible d’imposer une direction dans les tests en considérant une hypothèse alternative de la forme <span class="math inline">\(\mathscr{H}_a: \theta &gt; \theta_0\)</span> ou <span class="math inline">\(\mathscr{H}_a: \theta &lt; \theta_0\)</span>.</p>
+</section>
+<section id="statistique-de-test" class="level3" data-number="2.0.3">
+<h3 data-number="2.0.3" class="anchored" data-anchor-id="statistique-de-test"><span class="header-section-number">2.0.3</span> Statistique de test</h3>
+<p>Une statistique de test <span class="math inline">\(T\)</span> est un fonctionnel des données qui résume l’information contenue dans les données pour <span class="math inline">\(\theta\)</span>. La forme de la statistique de test est choisie de façon à ce que son comportement sous <span class="math inline">\(\mathscr{H}_0\)</span>, c’est-à-dire l’ensemble des valeurs que prend <span class="math inline">\(T\)</span> si <span class="math inline">\(\mathscr{H}_0\)</span> est vraie et leur probabilité relative, soit connu. En effet, <span class="math inline">\(T\)</span> est une variable aléatoire et sa valeur va changer selon l’échantillon. La <strong>loi nulle</strong> de la statistique de test nous permet de déterminer quelles valeurs de <span class="math inline">\(T\)</span> sont plausibles si <span class="math inline">\(\mathscr{H}_0\)</span> est vraie. Plusieurs statistiques que l’on couvrira dans ce cours sont des <strong>statistiques de Wald</strong>, de la forme <span class="math display">\[\begin{align*}
+T = \frac{\widehat{\theta} - \theta_0}{\mathrm{se}(\widehat{\theta})}
+\end{align*}\]</span> où <span class="math inline">\(\widehat{\theta}\)</span> est l’estimateur du paramètre <span class="math inline">\(\theta\)</span>, <span class="math inline">\(\theta_0\)</span> la valeur numérique postulée (par ex., zéro) et <span class="math inline">\(\mathrm{se}(\widehat{\theta})\)</span> est l’estimateur de l’écart-type de <span class="math inline">\(\widehat{\theta}\)</span>.</p>
+<p>Par exemple, pour une hypothèse sur la moyenne d’une population de la forme <span class="math display">\[\begin{align*}
+\mathscr{H}_0: \mu=0, \qquad  \mathscr{H}_a:\mu \neq 0,
+\end{align*}\]</span> la statistique de test de Wald est <span class="math display">\[\begin{align*}
+T &amp;= \frac{\overline{X}-0}{S_n/\sqrt{n}}
+\end{align*}\]</span> où <span class="math inline">\(\overline{X}\)</span> est la moyenne de l’échantillon <span class="math inline">\(X_1, \ldots, X_n\)</span>, <span class="math display">\[\begin{align*}
+\overline{X} &amp;= \frac{1}{n} \sum_{i=1}^n X_i = \frac{X_1+ \cdots + X_n}{n}
+\end{align*}\]</span> et l’erreur-type de la moyenne <span class="math inline">\(\overline{X}\)</span> est <span class="math inline">\(S_n/\sqrt{n}\)</span>; l’écart-type <span class="math inline">\(S_n\)</span> est un estimateur de <span class="math inline">\(\sigma\)</span>, où <span class="math display">\[\begin{align*}
+S^2_n &amp;= \frac{1}{n-1} \sum_{i=1}^n (X_i-\overline{X})^2.
+\end{align*}\]</span></p>
+<p>Il convient de faire la différence entre procédures/formules et valeurs numériques. Un <strong>estimateur</strong> est une règle ou une formule utilisée pour calculer l’estimation d’un paramètre ou quantité d’intérêt selon des données observées. Par exemple, la moyenne d’échantillon <span class="math inline">\(\overline{X}\)</span> est un estimateur de la moyenne dans la population <span class="math inline">\(\mu\)</span>. Une fois qu’on a des données observées, on peut calculer un estimé de la moyenne empirique <span class="math inline">\(\overline{x},\)</span> c’est-à-dire, on obtient une valeur numérique. Autrement dit,</p>
+<ul>
+<li>un estimateur est une fonction de variables aléatoires et donc c’est aussi une variable aléatoire car sa valeur fluctue d’un échantillon à l’autre.</li>
+<li>l’estimé est la valeur numérique calculée sur un échantillon donné.</li>
+</ul>
+</section>
+<section id="loi-nulle-et-valeur-p" class="level3" data-number="2.0.4">
+<h3 data-number="2.0.4" class="anchored" data-anchor-id="loi-nulle-et-valeur-p"><span class="header-section-number">2.0.4</span> Loi nulle et valeur-<em>p</em></h3>
+<p>La <strong>valeur-<em>p</em></strong> nous permet de déterminer si la valeur observée de la statistique de test <span class="math inline">\(T\)</span> est plausible sous <span class="math inline">\(\mathscr{H}_0\)</span>. Plus précisément, la valeur-<em>p</em> est la probabilité, si <span class="math inline">\(\mathscr{H}_0\)</span> est vraie, que la statistique de test soit égale or plus extrême à ce qu’on observe. Supposons qu’on a un échantillon <span class="math inline">\(X_1, \ldots, X_n\)</span> et qu’on observe une valeur de la statistique de test de <span class="math inline">\(T=t\)</span>. Pour un test d’hypothèse bilatéral <span class="math inline">\(\mathscr{H}_0:\theta=\theta_0\)</span> vs.&nbsp;<span class="math inline">\(\mathscr{H}_a:\theta \neq \theta_0\)</span>, la valeur-<em>p</em> est <span class="math inline">\(\mathsf{Pr}_0(|T| \geq |t|)\)</span>. Si la distribution de <span class="math inline">\(T\)</span> est symétrique autour de zéro, la valeur-<em>p</em> vaut <span class="math display">\[\begin{align*}
+p = 2 \times \mathsf{Pr}_0(T \geq |t|).
+\end{align*}\]</span></p>
+<p>Prenons l’exemple d’un test d’hypothèse bilatéral pour la moyenne au population <span class="math inline">\(\mathscr{H}_0:\mu=0\)</span> contre <span class="math inline">\(\mathscr{H}_a:\mu \neq 0\)</span>. Si l’échantillon provient d’une (population de) loi normale <span class="math inline">\(\mathsf{Norm}(\mu, \sigma^2)\)</span>, on peut démontrer que, si <span class="math inline">\(\mathscr{H}_0\)</span> est vraie et donc <span class="math inline">\(\mu=0\)</span>), la statistique de test <span class="math display">\[\begin{align*}
+T = \frac{\overline{X}}{S/\sqrt{n}}
+\end{align*}\]</span> suit une loi de Student-<span class="math inline">\(t\)</span> avec <span class="math inline">\(n-1\)</span> degrés de liberté, dénotée <span class="math inline">\(\mathsf{St}_{n-1}\)</span>. À partir de cette loi nulle, on peut calculer la valeur-<em>p</em> (ou bien à partir d’une table ou d’un logiciel statistique). Puisque la distribution Student-<span class="math inline">\(t\)</span> est symétrique autour de <span class="math inline">\(0\)</span>, on peut calculer la valeur-<em>p</em> comme <span class="math inline">\(P = 2\times\mathsf{Pr}(T &gt; |t|)\)</span>, où <span class="math inline">\(T \sim \mathsf{St}_{n-1}\)</span>.</p>
+</section>
+<section id="conclusion" class="level3" data-number="2.0.5">
+<h3 data-number="2.0.5" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">2.0.5</span> Conclusion</h3>
+<p>La valeur-<em>p</em> nous permet de faire une décision quant aux hypothèses du test. Si <span class="math inline">\(\mathscr{H}_0\)</span> est vraie, la valeur-<em>p</em> suit une loi uniforme. <a href="https://xkcd.com/1478/">Si la valeur-<em>p</em> est petite</a>, ça veut dire que le fait d’observer une statistique de test égal ou encore plus extrême que <span class="math inline">\(T=t\)</span> est peu probable, et donc nous aurons tendance de croire que <span class="math inline">\(\mathscr{H}_0\)</span> n’est pas vraie. Il y a pourtant toujours un risque sous-jacent de commettre un erreur quand on prend une décision. En statistique, il y a <a href="https://xkcd.com/2303/">deux types d’erreurs</a>:</p>
+<ul>
+<li>erreur de type I: on rejette <span class="math inline">\(\mathscr{H}_0\)</span> alors que <span class="math inline">\(\mathscr{H}_0\)</span> est vraie</li>
+<li>erreur de type II: on ne rejette pas <span class="math inline">\(\mathscr{H}_0\)</span> alors que <span class="math inline">\(\mathscr{H}_0\)</span> est fausse</li>
+</ul>
+<p>Ces deux erreurs ne sont pas égales: on cherche souvent à contrôler l’erreur de type I (une erreur judiciaire, condamner un innocent). Pour se prémunir face à ce risque, on fixe préalablement un niveau de tolérance. Plus notre seuil de tolérance <span class="math inline">\(\alpha\)</span> est grand, plus on rejette souvent l’hypothèse nulle même si cette dernière est vraie. La valeur de <span class="math inline">\(\alpha \in (0, 1)\)</span> est la probabilité qu’on rejette <span class="math inline">\(\mathscr{H}_0\)</span> quand <span class="math inline">\(\mathscr{H}_0\)</span> est en fait vraie. <span class="math display">\[\begin{align*}
+\alpha = \mathsf{Pr}_0\left(\text{ rejeter } \mathscr{H}_0\right).
+\end{align*}\]</span> Comme chercheur, on choisit ce niveau <span class="math inline">\(\alpha\)</span>; habituellement <span class="math inline">\(1\)</span>%, <span class="math inline">\(5\)</span>% ou <span class="math inline">\(10\)</span>%. La probabilité de commettre une erreur de type I est <span class="math inline">\(\alpha\)</span> seulement si le modèle nul postulé pour <span class="math inline">\(\mathscr{H}_0\)</span> est correctement spécifié (sic) et correspond au modèle générateur des données.</p>
+<p>Le choix du statu quo (typiquement <span class="math inline">\(\mathscr{H}_0\)</span>) s’explique plus facilement avec un exemple médical. Si vous voulez prouver qu’un nouveau traitement est meilleur que l’actuel (ou l’absence de traitement), vous devez démontrer hors de tout doute raisonnable que ce dernier ne cause pas de torts aux patients et offre une nette amélioration (pensez à Didier Raoult et ses allégations non-étayées voulant que l’hydrochloroquine, un antipaludique, soit efficace face au virus de la Covid19).</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>Décision</strong> \ <strong>vrai modèle</strong></th>
+<th style="text-align: center;"><span class="math inline">\(\mathscr{H}_0\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\mathscr{H}_a\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">ne pas rejeter <span class="math inline">\(\mathscr{H}_0\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\checkmark\)</span></td>
+<td style="text-align: center;">erreur de type II</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">rejeter <span class="math inline">\(\mathscr{H}_0\)</span></td>
+<td style="text-align: center;">erreur de type I</td>
+<td style="text-align: center;"><span class="math inline">\(\checkmark\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Pour prendre une décision, on doit comparer la valeur-<em>p</em> <span class="math inline">\(P\)</span> avec le niveau du test <span class="math inline">\(\alpha\)</span>:</p>
+<ul>
+<li>si <span class="math inline">\(P &lt; \alpha\)</span> on rejette <span class="math inline">\(\mathscr{H}_0\)</span>,</li>
+<li>si <span class="math inline">\(P \geq \alpha\)</span> on ne rejette pas <span class="math inline">\(\mathscr{H}_0\)</span>.</li>
+</ul>
+<p>Attention à ne pas confondre niveau du test (probabilité fixée au préalable par l’expérimentateur) et la valeur-<em>p</em> (qui dépend de l’échantillon). Si vous faites un test à un niveau 5% la probabilité de faire une erreur de type I est de 5% par définition, quelque soit la valeur de la valeur-<em>p</em>. La valeur-<em>p</em> s’interprète comme la probabilité d’obtenir une valeur de la statistique de test égale ou même plus grande que celle qu’on a observée dans l’échantillon, si <span class="math inline">\(\mathscr{H}_0\)</span> est vraie.</p>
+</section>
+<section id="puissance-statistique" class="level3" data-number="2.0.6">
+<h3 data-number="2.0.6" class="anchored" data-anchor-id="puissance-statistique"><span class="header-section-number">2.0.6</span> Puissance statistique</h3>
+<p>Le but du test d’hypothèse est de prouver (hors de tout doute raisonnable) qu’une différence ou un effet est significatif:: par exemple, si une nouvelle configuration d’un site web (hypothèse alternative) permet d’augmenter les ventes par rapport au statu quo. Notre capacité à détecter cette amélioration dépend de la puissance du test: plus cette dernière est élevée, plus grande est notre capacité à rejeter <span class="math inline">\(\mathscr{H}_0\)</span> quand ce dernier est faux. Quand on ne rejette pas <span class="math inline">\(\mathscr{H}_0\)</span> et que <span class="math inline">\(\mathscr{H}_a\)</span> est en fait vraie, on commet une erreur de type II: cette dernière survient avec probabilité <span class="math inline">\(1-\gamma\)</span>. La <strong>puissance statistique</strong> d’un test est la probabilité que le test rejette <span class="math inline">\(\mathscr{H}_0\)</span> alors que <span class="math inline">\(\mathscr{H}_0\)</span> est fausse, soit <span class="math display">\[\begin{align*}
+\gamma = \mathsf{Pr}_a(\text{rejeter } \mathscr{H}_0)
+\end{align*}\]</span> Selon le choix de l’alternative, il est plus ou moins facile de rejeter l’hypothèse nulle en faveur de l’alternative.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-puissance1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-puissance1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="inference_files/figure-html/fig-puissance1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-puissance1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.1: Comparaison de la loi nulle (ligne pleine) et d’une alternative spécifique pour un test-<span class="math inline">\(t\)</span> (ligne traitillée). La puissance correspond à l’aire sous la courbe de la densité de la loi alternative qui est dans la zone de rejet du test (en blanc).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-puissance2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-puissance2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="inference_files/figure-html/fig-puissance2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-puissance2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.2: Augmentation de la puissance suite à une augmentation de la différence de moyenne sous l’hypothèse alternative. La puissance est l’aire sous la courbe (blanc) de la loi alternative (ligne traitillée); cette dernière est plus décalée vers la droite par rapport à la loi nulle postulée (ligne pleine).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-puissance3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-puissance3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="inference_files/figure-html/fig-puissance3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-puissance3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.3: Augmentation de la puissance suite à une augmentation de la taille de l’échantillon ou une diminution de l’écart-type de la population: la loi nulle (ligne pleine) est plus concentrée et la taille de la région de rejet diminue. La puissance est l’aire sous la courbe (blanc) de la loi alternative (ligne traitillée). Règle générale, la loi nulle change selon la taille de l’échantillon.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>On veut qu’un test ait une puissance élevée, c’est-à-dire, on veut que <span class="math inline">\(\gamma\)</span> soit le plus près de 1 possible. Minimalement, la puissance du test devrait être <span class="math inline">\(\alpha\)</span> si on rejette l’hypothèse nulle une fraction <span class="math inline">\(\alpha\)</span> du temps quand cette dernière est vraie. La puissance dépend de plusieurs critères, à savoir:</p>
+<ul>
+<li>la taille de l’effet: plus la différence est grande entre la valeur du paramètre postulé <span class="math inline">\(\theta_0\)</span> sous <span class="math inline">\(\mathscr{H}_0\)</span> et le comportement observé, plus il est facile de le détecter (voir <a href="#fig-puissance3" class="quarto-xref">Figure&nbsp;<span>2.3</span></a>);</li>
+<li>la variabilité: moins les observations sont variables, plus il est facile de déterminer que la différence observée est significative (les grandes différences sont alors moins plausibles, comme l’illustre la <a href="#fig-puissance2" class="quarto-xref">Figure&nbsp;<span>2.2</span></a>);</li>
+<li>la taille de l’échantillon: plus on a d’observations, plus notre capacité à détecter une différence significative augmente parce que l’erreur-type décroît avec la taille de l’échantillon à un rythme (ordinairement) de <span class="math inline">\(n^{-1/2}\)</span>. La loi nulle devient aussi plus concentrée quand la taille de l’échantillon augmente.</li>
+<li>le choix de la statistique de test: par exemple, les statistiques basées sur les rangs n’utilisent pas les valeurs numériques qu’à travers le rang relatif. Ces tests sont donc moins puissants parce qu’ils n’utilisent pas toute l’information dans l’échantillon; en contrepartie, ils sont souvent plus robustes en présence de valeurs aberrantes et si le modèle est mal spécifié. Les statistiques de test que nous choisirons sont souvent standards et parmi les plus puissantes qui soient, aussi on ne traitera pas de ce point davantage dans le cadre du cours.</li>
+</ul>
+<p>Pour calculer la puissance d’un test, il faut choisir une alternative spécifique. Pour des exemples simples de statistiques, on peut obtenir une formule pour la puissance: par exemple, si on utilise un test-<span class="math inline">\(t\)</span> pour un échantillon, la statistique <span class="math inline">\(T=\sqrt{n}(\overline{X}-\mu_0)/S_n \sim \mathcal{T}_{n-1}\)</span> et, si la vraie moyenne est <span class="math inline">\(\Delta + \mu_0\)</span>, alors la loi alternative est Student-<span class="math inline">\(t\)</span>, mais non-centrée avec paramètre de décalage <span class="math inline">\(\Delta\)</span>. Cette dérivation est l’exception plutôt que la règle et on détermine d’ordinaire la puissance à l’aide de méthodes de Monte Carlo en simulant des observations d’une alternative donnée, en calculant la statistique de test sur le nouvel échantillon simulé et en calculant la valeur-<em>p</em> associée à notre hypothèse nulle de façon répétée. On calcule par la suite la proportion de tests qui mènent au rejet de l’hypothèse nulle à niveau <span class="math inline">\(\alpha\)</span>, ce qui correspond au pourcentage de valeurs-<span class="math inline">\(p\)</span> inférieures à <span class="math inline">\(\alpha\)</span>.</p>
+</section>
+<section id="intervalle-de-confiance" class="level3" data-number="2.0.7">
+<h3 data-number="2.0.7" class="anchored" data-anchor-id="intervalle-de-confiance"><span class="header-section-number">2.0.7</span> Intervalle de confiance</h3>
+<p>Un <strong>intervalle de confiance</strong> est une manière alternative de rapporter les conclusions d’un test, en ce sens qu’on fournit une estimation ponctuelle de <span class="math inline">\(\hat{\theta}\)</span> avec une marge d’erreur. L’intervalle de confiance donne donc une indication de la variabilité de la procédure d’estimation. Un intervalle de confiance de Wald à <span class="math inline">\((1-\alpha)\)</span> pour un paramètre <span class="math inline">\(\theta\)</span> est de la forme <span class="math display">\[\begin{align*}
+\widehat{\theta} \pm \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta})
+\end{align*}\]</span> où <span class="math inline">\(\mathfrak{q}_{\alpha/2}\)</span> est le quantile d’ordre <span class="math inline">\(1-\alpha/2\)</span> de la loi nulle de la statistique de Wald, <span class="math display">\[\begin{align*}
+T =\frac{\widehat{\theta}-\theta}{\mathrm{se}(\widehat{\theta})},
+\end{align*}\]</span> et où <span class="math inline">\(\theta\)</span> représente la valeur du paramètre <span class="math inline">\(\theta\)</span> (supposé fixe, mais inconnu) de la population. Les bornes de l’intervalle de confiance sont aléatoires puisque <span class="math inline">\(\widehat{\theta}\)</span> et <span class="math inline">\(\mathrm{se}(\widehat{\theta})\)</span> sont des variable aléatoires: leurs valeurs observées changent d’un échantillon à un autre.</p>
+<p>Par exemple, pour un échantillon aléatoire <span class="math inline">\(X_1, \ldots, X_n\)</span> provenant d’une loi normale <span class="math inline">\(\mathsf{Norm}(\mu, \sigma)\)</span>, l’intervalle de confiance à <span class="math inline">\((1-\alpha)\)</span> pour la moyenne (dans la population) <span class="math inline">\(\mu\)</span> est <span class="math display">\[\begin{align*}
+\overline{X} \pm t_{n-1, \alpha/2} \frac{S}{\sqrt{n}}
+\end{align*}\]</span> où <span class="math inline">\(t_{n-1, \alpha/2}\)</span> est le quantile d’ordre <span class="math inline">\(1-\alpha/2\)</span> de la loi Student-<span class="math inline">\(t\)</span> avec <span class="math inline">\(n-1\)</span> degrés de libertés.</p>
+<p>Avant qu’on calcule l’intervalle de confiance, il y a une probabilité de <span class="math inline">\(1-\alpha\)</span> que <span class="math inline">\(\theta\)</span> soit contenu dans l’intervalle <strong>aléatoire</strong> symmétrique <span class="math inline">\((\widehat{\theta} - \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta}), \widehat{\theta} + \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta}))\)</span>, où <span class="math inline">\(\widehat{\theta}\)</span> dénote l’estimateur de <span class="math inline">\(\theta\)</span>. Une fois qu’on obtient un échantillon et qu’on calcule les bornes de l’intervalle de confiance, il n’y a plus de notion de probabilité: la vraie valeur du paramètre <span class="math inline">\(\theta\)</span> (inconnue) est soit contenue dans l’intervalle de confiance, soit pas. La seule interprétation de l’intervalle de confiance qui soit valable alors est la suivante: si on répète l’expérience plusieurs fois et qu’à chaque fois on calcule un intervalle de confiance à <span class="math inline">\(1-\alpha\)</span>, alors une proportion de <span class="math inline">\((1-\alpha)\)</span> de ces intervalles devraient contenir la vraie valeur de <span class="math inline">\(\theta\)</span> (de la même manière, si vous lancez une pièce de monnaie équilibrée, vous devriez obtenir grosso modo une fréquence de 50% de pile et 50% de face, mais chaque lancer donnera un ou l’autre de ces choix). Notre « confiance » est dans la procédure et non pas dans les valeurs numériques obtenues pour un échantillon donné.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-intconf" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-intconf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="inference_files/figure-html/fig-intconf-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-intconf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.4: Intervalles de confiance à 95% pour la moyenne d’une population normale <span class="math inline">\(\mathsf{Norm}(0,1)\)</span> pour 100 échantillons aléatoires. En moyenne, 5% de ces intervalles (en rouge) n’incluent pas la vraie valeur de la moyenne de zéro.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Si on s’intéresse seulement à la décision rejeter/ne pas rejeter <span class="math inline">\(\mathscr{H}_0\)</span>, l’intervalle de confiance est équivalent à la valeur-<em>p</em> en ce sens qu’il mène à la même décision. L’intervalle de confiance donne en revanche l’ensemble des valeurs pour lesquelles la statistique de test ne fournit pas assez de preuves pour rejeter <span class="math inline">\(\mathscr{H}_0\)</span>: pour un test à niveau <span class="math inline">\(\alpha\)</span>, on ne rejetterait aucune des valeurs contenues dans l’intervalle de confiance de niveau <span class="math inline">\(1-\alpha\)</span>. Si la valeur-<em>p</em> est inférieure à <span class="math inline">\(\alpha\)</span>, la valeur postulée pour <span class="math inline">\(\theta\)</span> est donc hors de l’intervalle de confiance calculé. À l’inverse, la valeur-<em>p</em> ne donne la probabilité d’obtenir un résultat aussi extrême sous l’hypothèse nulle que pour une seule valeur numérique, mais permet de quantifier précisément à quel point le résultat est extrême.</p>
+<div id="exm-achats-milleniaux" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 2.1 (Achat en ligne de milléniaux)</strong></span> Supposons qu’une chercheuse veut faire une étude sur l’évolution des ventes en ligne au Canada. Elle postule que les membres de la génération Y fait plus d’achats en ligne que ceux des générations antérieures. Pour répondre à cette question, un sondage est envoyé à un échantillon aléatoire de <span class="math inline">\(n=500\)</span> individus représentatif de la population avec 160 membres de la génération Y et 340 personnes plus âgées. La variable réponse est le montant d’achat effectués en ligne dans le mois dernier (en dollars).</p>
+</div>
+<p>Dans cet exemple, on s’intéresse à la différence entre le montant moyen des Y et celui des générations antérieures: la différence de moyenne observée dans l’échantillon est de 16.49 dollars et donc les milléniaux ont dépensé davantage. En revanche, notre échantillon est aléatoire et le montant d’achat en ligne varie d’un individu à l’autre (et d’un mois à l’autre): ce n’est donc pas suffisant pour dire que la différence est significative.</p>
+<p>La première étape de notre analyse consiste à définir les quantités d’intérêt et à formuler nos hypothèse en fonction de paramètres du modèle; il convient également de définir ces derniers en fonction des variables en présence dans l’exemple. Ici, on considère un test pour la différence de moyenne dans les populations postulées <span class="math inline">\(\mu_1\)</span> (pour la génération Y) et <span class="math inline">\(\mu_2\)</span> (pour les générations antérieures) d’écart-type respectif <span class="math inline">\(\sigma_1\)</span> et <span class="math inline">\(\sigma_2\)</span>. Comment déterminer quelle hypothèse on considère? Comme statisticien, on se fait l’avocat du Diable: l’hypothèse d’intérêt du chercheur est l’hypothèse alternative et ici, <span class="math inline">\(\mathscr{H}_a: \mu_1 &gt; \mu_2\)</span>, où <span class="math inline">\(\mu_1\)</span> représente la moyenne des achats mensuels des milléniaux. L’hypothèse nulle comprend toutes les autres valeurs pour la différence de moyenne, soit <span class="math inline">\(\mathscr{H}_0: \mu_1 \leq \mu_2\)</span>. Il suffit néanmoins de considérer le cas <span class="math inline">\(\mu_1=\mu_2\)</span> (pourquoi?)</p>
+<p>La deuxième étape consiste à choisir une statistique de test. S’il n’y a aucune différence de moyenne entre les groupes, alors <span class="math inline">\(\overline{X}_1-\overline{X}_2\)</span> a moyenne zéro et la différence de moyenne a une variance de <span class="math inline">\(\sigma^2_1/n_1+\sigma^2_2/n_2\)</span>. Ici, on considère la statistique de <span class="citation" data-cites="Welch:1947">Welch (<a href="references.html#ref-Welch:1947" role="doc-biblioref">1947</a>)</span> pour une différence de moyenne entre deux échantillons: <span class="math display">\[\begin{align*}
+T = \frac{\overline{X}_1 - \overline{X}_2}{\left(\frac{S_1^2}{n_1}+\frac{S_2^2}{n_2} \right)^{1/2}}, \end{align*}\]</span> où <span class="math inline">\(\overline{X}_i\)</span> est la moyenne empirique dans l’échantillon <span class="math inline">\(i\)</span> (<span class="math inline">\(i=1, 2\)</span>) et <span class="math inline">\(S_i^2\)</span> est la variance empirique et <span class="math inline">\(n_i\)</span> la taille de l’échantillon du groupe <span class="math inline">\(i\)</span>. La statistique est utilisée pour calculer la différence de moyennes de deux échantillons de variance potentiellement différente. La valeur de la statistique dans l’échantillon est <span class="math inline">\(T=2.76\)</span>, mais on obtiendrait une valeur différente avec un autre échantillon. Il convient donc de déterminer si cette valeur est compatible avec notre hypothèse nulle en la comparant à la loi nulle sous <span class="math inline">\(\mathscr{H}_0\)</span> de <span class="math inline">\(T\)</span>. On effectuera le test à niveau <span class="math inline">\(\alpha=0.05\)</span>.</p>
+<p>La troisième étape est l’obtention d’un étalon de mesure pour déterminer si notre résultat est extrême ou inattendu. Vous remarquerez que la statistique de Welch a moyenne zéro et variance un sous l’hypothèse nulle que <span class="math inline">\(\mu_1=\mu_2\)</span>: standardiser une statistique permet d’obtenir un objet dont on connaît le comportement pour de grands échantillons et obtenir une quantité sans unité de mesure. La dérivation de la loi nulle est hors objectifs du cours, aussi cette dernière vous sera donnée dans tous les cas qu’on considère. Asymptotiquement, <span class="math inline">\(T\)</span> suit une loi normale <span class="math inline">\(\mathsf{Norm}(0, 1)\)</span>, mais il existe une meilleure approximation pour <span class="math inline">\(n\)</span> petit; on compare le comportement de <span class="math inline">\(T\)</span> à l’aide d’une loi de Student via l’approximation de <span class="citation" data-cites="Satterthwaite:1946">Satterthwaite (<a href="references.html#ref-Satterthwaite:1946" role="doc-biblioref">1946</a>)</span>.</p>
+<p>La dernière étape consiste à obtenir une valeur-<em>p</em>, soit la probabilité d’observer un résultat aussi extrême sous <span class="math inline">\(\mathscr{H}_0\)</span>: l’avantage de la valeur-<em>p</em> est que cette valeur est une probabilité (dans <span class="math inline">\([0, 1]\)</span>) et qu’elle suit une loi uniforme sous <span class="math inline">\(\mathscr{H}_0\)</span>. Puisque nous avons une hypothèse alternative unilatérale, on regarde la probabilité sous <span class="math inline">\(\mathscr{H}_0\)</span> que <span class="math inline">\(\mathsf{Pr}(T &gt; t)\)</span>. La valeur-<em>p</em> vaut <span class="math inline">\(0.0031\)</span> et donc, à niveau 5%, on rejette l’hypothèse nulle pour conclure que la génération Y dépense davantage en ligne que les générations antérieures.</p>
+<div id="exm-prix-trains-tests" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 2.2 (Prix de billets de trains à grande vitesse espagnols)</strong></span> La compagnie nationale de chemin de fer <a href="https://www.renfe.com/">Renfe</a> gère les trains régionaux et les trains à haute vitesse dans toute l’Espagne. Les prix des billets vendus par Renfe sont <a href="https://www.kaggle.com/thegurusteam/spanish-high-speed-rail-system-ticket-pricing">aggrégés</a> par une compagnie. On s’intéresse ici à une seule ligne, Madrid–Barcelone. Notre question scientifique est la suivante: est-ce que le prix des billets pour un aller (une direction) est plus chère pour un retour? Pour ce faire, on considère un échantillon de 10000 billets entre les deux plus grandes villes espagnoles. On s’intéresse au billets de TGV vendus (AVE) au tarif Promotionnel. Notre statistique de test sera simplement la différence de moyenne entre les deux échantillons: la différence entre le prix en euros d’un train Madrid–Barcelone (<span class="math inline">\(\mu_1\)</span>) et le prix d’un billet Barcelone–Madrid (<span class="math inline">\(\mu_2\)</span>) est <span class="math inline">\(\mu_1-\mu_2\)</span> et notre hypothèse nulle est qu’il n’y a aucune différence de prix, soit <span class="math inline">\(\mathscr{H}_0: \mu_1-\mu_2=0\)</span>.</p>
+</div>
+<p>On utilise de nouveau le test de Welch pour deux échantillons en filtrant les données pour ne conserver que les billets au tarif Promo: la moyenne des billets Barcelone-Madrid est 82.11 euros, ceux pour Madrid-Barcelone 82.56 euros et la valeur de la statistique de Welch est -1.33. Si on utilise l’approximation normale, on obtient une valeur-<em>p</em> de 0.18.</p>
+<p>Plutôt que d’utiliser la loi asymptotique (qui est valide pour de grands échantillons à cause du théorème central limite), on peut considérer une approximation sous une hypothèse moins restrictive en supposant que les données sont échangeables. Sous l’hypothèse nulle, il n’y aucune différence entre les deux destinations et les étiquettes pour la destination (une variable catégorielle binaire) sont arbitraires. On pourrait considérer les mêmes données, mais avec une permutation des variables explicatives: c’est ce qu’on appelle un <a href="https://www.jwilber.me/permutationtest/">test de permutation</a>. On va recréer deux groupes de taille identique à notre échantillon original, mais en changeant les observations. On recalcule la statistique de test sur ces nouvelle données (si on a une poignée d’observations, il est possible de lister toutes les permutations possibles; typiquement, il suffit de considérer un grand nombre de telles permutations, disons 9999). Pour chaque nouveau jeu de données, on calculera la statistique de test et on calculera le rang de notre statistique par rapport à cette référence. Si la valeur de notre statistique observée sur l’échantillon original est extrême en comparaison, c’est autant de preuves contre l’hypothèse nulle.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-renfepermut" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-renfepermut-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="inference_files/figure-html/fig-renfepermut-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-renfepermut-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.5: Approximation par permutation de la loi nulle de la statistique de test de Welch (histogramme et trait noir) et loi asymptotique normale standard (trait bleu) pour le prix de billets de trains AVE au tarif promotionnel entre Madrid et Barcelone. La valeur de la statistique de test de l’échantillon original est représentée par un trait vertical.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>La valeur-<em>p</em> du test de permutation, <span class="math inline">\(0.186\)</span>, est la proportion de statistiques plus extrêmes que celle observée. Cette valeur-<em>p</em> est quasi-identique à celle de l’approximation de Satterthwaite, à savoir <span class="math inline">\(0.182\)</span> (la loi Student-<span class="math inline">\(t\)</span> est numériquement équivalente à une loi standard normale avec autant de degrés de liberté), tel que représenté dans la <a href="#fig-renfepermut" class="quarto-xref">Figure&nbsp;<span>2.5</span></a>. Malgré que notre échantillon soit très grand, avec <span class="math inline">\(n=8059\)</span> observations, la différence n’est pas jugée significative. Avec un échantillon de deux millions de billets, on pourrait estimer précisément la moyenne (au centime près): la différence de prix entre les deux destinations et cette dernière deviendrait statistiquement significative. Elle n’est pas en revanche pas pertinente en partique, car une différence de <span class="math inline">\(0.28\)</span> euros sur un prix moyen de <span class="math inline">\(82.56\)</span> euros est quantité négligeable.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-Satterthwaite:1946" class="csl-entry" role="listitem">
+Satterthwaite, F. E. 1946. <span>“An Approximate Distribution of Estimates of Variance Components.”</span> <em>Biometrics Bulletin</em> 2 (6): 110–14. <a href="http://www.jstor.org/stable/3002019">http://www.jstor.org/stable/3002019</a>.
+</div>
+<div id="ref-Welch:1947" class="csl-entry" role="listitem">
+Welch, B. L. 1947. <span>“The Generalization of <span>‘Student’s’</span> Problem When Several Population Variances Are Involved.”</span> <em>Biometrika</em> 34 (1–2): 28–35. <a href="https://doi.org/10.1093/biomet/34.1-2.28">https://doi.org/10.1093/biomet/34.1-2.28</a>.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/lbelzile\.github\.io\/math60604\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./introduction.html" class="pagination-link" aria-label="Introduction">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./references.html" class="pagination-link" aria-label="Bibliographie">
+        <span class="nav-page-text">Bibliographie</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Tous droits réservés (Léo Belzile)</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/lbelzile/math60604/edit/master/inference.qmd" class="toc-action"><i class="bi bi-github"></i>Éditer cette page</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

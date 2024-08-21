@@ -1,0 +1,44 @@
+
+
+# Bienvenue {-}
+
+Ces notes sont l'oeuvre de Léo Belzile (HEC Montréal) et sont mises à disposition sous la [Licence publique Creative Commons Attribution - Utilisation non commerciale - Partage dans les mêmes conditions 4.0 International](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.fr).
+
+
+Ce cours traite de modélisation des données. Une citation célèbre attribuée à George Box dit que
+
+> tous les modèles sont faux, mais certains sont utiles.
+
+Ce point de vue est réducteur;  @McCullagh.Nelder:1989 (traduction libre) expliquent dans le préambule de leur livre
+
+> La modélisation en science demeure, du moins partiellement, un art. Certains principes existent, en revanche, pour guider le modélisateur. Le premier est que tous les modèles sont faux; mais que **certains sont meilleurs** et **le modélisateur doit chercher le meilleur à sa portée**. En même temps, il est sage de reconnaître que la quête perpétuelle de la vérité n’est pas envisageable.
+
+Et David R. Cox (traduction libre), de rajouter
+
+> ...il n’est pas utile de simplement énoncer que tout modèle est faux. L’idée même de modèle sous-tend une notion de simplification et d’idéalisation. L’idée qu’un système physique, biologique ou sociologique complexe puisse être décrit de manière exacte par quelques formules est franchement absurde. La construction de **représentations idéalisées qui capturent les aspects stables les plus importants du système** est néanmoins une partie essentielle de toute analyse scientifique et les modèles statistiques ne diffèrent pas en cela d’autres types de modèles.
+
+## Contenu du cours
+
+L'inférence statistique a pour but de tirer des conclusions formelles à partir de données. Dans le cadre de la recherche scientifique, le chercheur formule une hypothèse, collecte des données et conclut quant à la plausibilité de son hypothèse.
+
+
+On distingue deux types de jeux de données: les données **expérimentales** sont typiquement collectées en milieu contrôlé suivant un protocole d'enquête et un plan d'expérience: elles servent à répondre à une question prédéterminée. L'approche expérimentale est désirable pour éviter le «jardin des embranchements» (une [allégorie signifiant qu'un chercheur peut raffiner son hypothèse à la lumière des données, sans ajustement pour des variables confondantes](http://www.stat.columbia.edu/~gelman/research/unpublished/p_hacking.pdf)), mais elle n'est pas toujours réalisable: par exemple, un économiste ne peut pas modifier les taux d'intérêts pour observer les impacts sur le taux d'épargne des consommateurs. Lorsque les données ont été collectées préalablement à d'autres fins, on parle de données **observationnelles**.
+
+
+Par modèle, on entendra la spécification d'une loi aléatoire pour les données et une équation reliant les paramètres ou l'espérance conditionnelle d'une variable réponse $Y$ à un ensemble de variables explicatives $\mathbf{X}$. Ce modèle peut servir  à des fins de prédiction (modèle prédictif) ou pour tester des hypothèses de recherche concernant les effets de
+ces variables (modèle explicatif). Ces deux objectifs ne sont pas mutuellement exclusifs même si on fait parfois une distinction entre inférence et prédiction.
+
+Un modèle prédictif permet d’obtenir des prédictions de la valeur de $Y$ pour d'autres combinaisons de variables explicatives ou des données futures. Par exemple, on peut chercher à prédire la consommation énergétique d’une maison en fonction de la météo, du nombre d’habitants de la maison et de sa taille. La plupart des boîtes noires utilisées en apprentissage automatique tombent dans la catégorie des modèles prédictifs: ces modèles ne sont pas interprétables et ignorent parfois la structure inhérente aux données.
+
+
+Par contraste, les modèles explicatifs sont souvent simples et interprétables, et les modèles de régressions sont fréquemment utilisés pour l’inférence. On se concentrera dans ce cours sur les modèles explicatifs. Par exemple, on peut chercher à déterminer
+
+- Si les décisions intégrées (décision combinée d'achat et de quantité) sont préférables aux décisions séquentielles (décision d'acheter, puis choix de la quantité) lors de l'achat d'un produit en ligne [@Duke.Amir:2023].
+- Qu'est-ce qui est le plus distrayant pour les utilisateurs de la route: parler au cellulaire, texter en conduisant, consulter sa montre intelligente [@Brodeur:2021]? 
+- L'impact de de l'inadéquation entre l'image d'un produit et sa description [@Lee.Choi:2019]
+- Études supérieures: [est-ce que le prix en vaut la chandelle?](https://www.theglobeandmail.com/report-on-business/is-the-university-experience-worth-the-cost/article31703109/).
+- Qu'est-ce qui explique que les prix de l'essence soient plus élevés en Gaspésie qu'ailleurs au Québec? [Un rapport de surveillance des prix de l'essence en Gaspésie par la Régie de l'énergie se penche sur la question.](http://www.regie-energie.qc.ca/energie/rapports/Rapport_PrixGasp%C3%A9sie_20191219.pdf)
+- Est-ce que les examens pratiques de conduite en Grande-Bretagne sont plus faciles dans les régions à faible densité? [Une analyse du journal britannique _The Guardian_ ](https://www.theguardian.com/world/2019/aug/23/an-easy-ride-scottish-village-fuels-debate-driving-test-pass-rates) laisse penser que c'est le cas.
+- Quelle est la perception environnementale d'un emballage de carton (versus de plastique) s'il englobe un contenant en plastique [@Sokolova:2023].
+- L'impact psychologique des suggestions sur le montant de dons [@Moon.VanEpps:2023]
+- Si la visioconférence réduit le nombre d'interactions et d'idée créatives générées lors d'une réunion, par rapport à une rencontre en personne [@Brucks.Levav:2022]

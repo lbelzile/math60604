@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.1">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Ces notes forment un complément web du cours MATH 60604 (Modélisation statistique) offert à la M.Sc. en gestion (science des données et analytique d’affaires) à HEC Montréal.">
+
+<title>1&nbsp; Introduction – MATH 60604 - Modélisation statistique</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./inference.html" rel="next">
+<link href="./index.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./introduction.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">MATH 60604 - Modélisation statistique</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/lbelzile/math60604/" title="Code source" class="quarto-navigation-tool px-1" aria-label="Code source"><i class="bi bi-github"></i></a>
+    <a href="./MATH60604.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bienvenue</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./introduction.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Inférence statistique</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bibliographie</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table des matières</h2>
+   
+  <ul>
+  <li><a href="#rappels" id="toc-rappels" class="nav-link active" data-scroll-target="#rappels"><span class="header-section-number">1.1</span> Rappels</a>
+  <ul class="collapse">
+  <li><a href="#population-echantillon" id="toc-population-echantillon" class="nav-link" data-scroll-target="#population-echantillon"><span class="header-section-number">1.1.1</span> Population et échantillons</a></li>
+  <li><a href="#types-de-variables" id="toc-types-de-variables" class="nav-link" data-scroll-target="#types-de-variables"><span class="header-section-number">1.1.2</span> Types de variables</a></li>
+  <li><a href="#variable-aleatoire" id="toc-variable-aleatoire" class="nav-link" data-scroll-target="#variable-aleatoire"><span class="header-section-number">1.1.3</span> Variables aléatoires</a></li>
+  <li><a href="#loi-discrètes" id="toc-loi-discrètes" class="nav-link" data-scroll-target="#loi-discrètes"><span class="header-section-number">1.1.4</span> Loi discrètes</a></li>
+  <li><a href="#lois-continues" id="toc-lois-continues" class="nav-link" data-scroll-target="#lois-continues"><span class="header-section-number">1.1.5</span> Lois continues</a></li>
+  <li><a href="#graphiques" id="toc-graphiques" class="nav-link" data-scroll-target="#graphiques"><span class="header-section-number">1.1.6</span> Graphiques</a></li>
+  <li><a href="#loi-grands-nombres" id="toc-loi-grands-nombres" class="nav-link" data-scroll-target="#loi-grands-nombres"><span class="header-section-number">1.1.7</span> Loi des grands nombres</a></li>
+  <li><a href="#TCL" id="toc-TCL" class="nav-link" data-scroll-target="#TCL"><span class="header-section-number">1.1.8</span> Théorème central limite</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/lbelzile/math60604/edit/master/introduction.qmd" class="toc-action"><i class="bi bi-github"></i>Éditer cette page</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="intro" class="quarto-section-identifier"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="rappels" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="rappels"><span class="header-section-number">1.1</span> Rappels</h2>
+<p>Ce chapitre couvre des rappels mathématiques de probabilité et statistique d’ordinaire couverts dans un cours de niveau collégial ou préuniversitaire.</p>
+<section id="population-echantillon" class="level3" data-number="1.1.1">
+<h3 data-number="1.1.1" class="anchored" data-anchor-id="population-echantillon"><span class="header-section-number">1.1.1</span> Population et échantillons</h3>
+<p>Ce qui différencie la statistique des autres sciences est la prise en compte de l’incertitude et de la notion d’aléatoire. Règle générale, on cherche à estimer une caractéristique d’une population définie à l’aide d’un échantillon (un sous-groupe de la population) de taille restreinte.</p>
+<p>La <strong>population d’intérêt</strong> est une collection d’individus formant la matière première d’une étude statistique. Par exemple, pour l’Enquête sur la population active (EPA) de Statistique Canada, « la population cible comprend la population canadienne civile non institutionnalisée de 15 ans et plus ». Même si on faisait un recensement et qu’on interrogeait tous les membres de la population cible, la caractéristique d’intérêt peut varier selon le moment de la collecte; une personne peut trouver un emploi, quitter le marché du travail ou encore se retrouver au chômage. Cela explique la variabilité intrinsèque.</p>
+<p>En général, on se base sur un <strong>échantillon</strong> pour obtenir de l’information parce que l’acquisition de données est coûteuse. L’<strong>inférence statistique</strong> vise à tirer des conclusions, pour toute la population, en utilisant seulement l’information contenue dans l’échantillon et en tenant compte des sources de variabilité. Le sondeur George Gallup (traduction libre) a fait cette merveilleuse analogie entre échantillon et population:</p>
+<blockquote class="blockquote">
+<p>«Il n’est pas nécessaire de manger un bol complet de soupe pour savoir si elle est trop salé; pour autant qu’elle ait été bien brassée, une cuillère suffit.»</p>
+</blockquote>
+<p>Un <strong>échantillon</strong> est un sous-groupe d’individus de la population. Si on veut que ce dernier soit représentatif, il devrait être tiré aléatoirement de la population, ce qui nécessite une certaine connaissance de cette dernière. Au siècle dernier, les bottins téléphoniques pouvaient servir à créer des plans d’enquête. C’est un sujet complexe et des cours entiers d’échantillonnage y sont consacrés. Même si on ne collectera pas de données, il convient de noter la condition essentielle pour pouvoir tirer des conclusions fiables à partir d’un échantillon: ce dernier doit être représentatif de la population étudiée, en ce sens que sa composition doit être similaire à celle de la population, et aléatoire. On doit ainsi éviter les biais de sélection, notamment les échantillons de commodité qui consistent en une sélection d’amis et de connaissances.</p>
+<p>Si notre échantillon est <strong>aléatoire</strong>, notre mesure d’une caractéristique d’intérêt le sera également et la conclusion de notre procédure de test variera d’un échantillon à l’autre. Plus la taille de ce dernier est grande, plus on obtiendra une mesure précise de la quantité d’intérêt. L’exemple suivant illustre pourquoi le choix de l’échantillon est important.</p>
+<div id="exm-Gallup" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 1.1 (Gallup et l’élection présidentielle américaine de 1936)</strong></span> Désireuse de prédire le résultat de l’élection présidentielle américaine de 1936, la revue <em>Literary Digest</em> a sondé 10 millions d’électeurs par la poste, dont 2.4 millions ont répondu au sondage en donnant une nette avance au candidat républicain Alf Landon (57%) face au président sortant Franklin D. Roosevelt (43%). Ce dernier a néanmoins remporté l’élection avec 62% des suffrages, une erreur de prédiction de 19%. Le plan d’échantillonnage avait été conçu en utilisant des bottins téléphoniques, des enregistrements d’automobiles et des listes de membres de clubs privés, etc.: <a href="https://www.jstor.org/stable/2749114">la non-réponse différentielle et un échantillon biaisé</a> vers les classes supérieures sont en grande partie responsable de cette erreur.</p>
+<p>Gallup avait de son côté correctement prédit la victoire de Roosevelt en utilisant un échantillon aléatoire de (seulement) 50 000 électeurs. Vous pouvez lire l’<a href="https://ozanozbey.medium.com/two-lessons-of-sampling-bias-from-1936-us-election-e4e96bd42be">histoire complète (en anglais)</a>.</p>
+</div>
+</section>
+<section id="types-de-variables" class="level3" data-number="1.1.2">
+<h3 data-number="1.1.2" class="anchored" data-anchor-id="types-de-variables"><span class="header-section-number">1.1.2</span> Types de variables</h3>
+<p>Le résultat d’une collecte de données est un tableau, ou base de données, contenant sur chaque ligne des observations et en colonne des variables. Le <a href="#tbl-data-renfe" class="quarto-xref">Tableau&nbsp;<span>1.1</span></a> donne un exemple de structure.</p>
+<ul>
+<li>Une <strong>variable</strong> représente une caractéristique de la population d’intérêt, par exemple le sexe d’un individu, le prix d’un article, etc.</li>
+<li>une <strong>observation</strong>, parfois appelée donnée, est un ensemble de mesures collectées sous des conditions identiques, par exemple pour un individu ou à un instant donné.</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div id="tbl-data-renfe" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-data-renfe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tableau&nbsp;1.1: Premières lignes de la base de données <code>renfe</code>, qui contient les prix de 10K billets de train entre Barcelone et Madrid.
+</figcaption>
+<div aria-describedby="tbl-data-renfe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">prix</th>
+<th style="text-align: left;">type</th>
+<th style="text-align: left;">classe</th>
+<th style="text-align: left;">tarif</th>
+<th style="text-align: left;">dest</th>
+<th style="text-align: right;">duree</th>
+<th style="text-align: left;">jour</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">143.4</td>
+<td style="text-align: left;">AVE</td>
+<td style="text-align: left;">Preferente</td>
+<td style="text-align: left;">Promo</td>
+<td style="text-align: left;">Barcelone-Madrid</td>
+<td style="text-align: right;">190</td>
+<td style="text-align: left;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">181.5</td>
+<td style="text-align: left;">AVE</td>
+<td style="text-align: left;">Preferente</td>
+<td style="text-align: left;">Flexible</td>
+<td style="text-align: left;">Barcelone-Madrid</td>
+<td style="text-align: right;">190</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">86.8</td>
+<td style="text-align: left;">AVE</td>
+<td style="text-align: left;">Preferente</td>
+<td style="text-align: left;">Promo</td>
+<td style="text-align: left;">Barcelone-Madrid</td>
+<td style="text-align: right;">165</td>
+<td style="text-align: left;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">86.8</td>
+<td style="text-align: left;">AVE</td>
+<td style="text-align: left;">Preferente</td>
+<td style="text-align: left;">Promo</td>
+<td style="text-align: left;">Barcelone-Madrid</td>
+<td style="text-align: right;">190</td>
+<td style="text-align: left;">7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">69.0</td>
+<td style="text-align: left;">AVE-TGV</td>
+<td style="text-align: left;">Preferente</td>
+<td style="text-align: left;">Promo</td>
+<td style="text-align: left;">Barcelone-Madrid</td>
+<td style="text-align: right;">175</td>
+<td style="text-align: left;">4</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Le choix de modèle statistique ou de test dépend souvent du type de variables collectées. Les variables peuvent être de plusieurs types: quantitatives (discrètes ou continues) si elles prennent des valeurs numériques, qualitatives (binaires, nominales ou ordinales) si elles peuvent être décrites par un adjectif; je préfère le terme catégorielle, plus évocateur.</p>
+<p>Les modèles de régression servent à expliquer des variables quantitatives en fonction d’autres caractéristiques.</p>
+<ul>
+<li>une variable discrète prend un nombre dénombrable de valeurs; ce sont souvent des variables de dénombrement ou des variables dichotomiques.</li>
+<li>une variable continue peut prendre (en théorie) une infinité de valeurs, même si les valeurs mesurées sont arrondies ou mesurées avec une précision limitée (temps, taille, masse, vitesse, salaire). Dans bien des cas, nous pouvons considérer comme continues des variables discrètes si elles prennent un assez grand nombre de valeurs.</li>
+</ul>
+<p>Les variables catégorielles représentent un ensemble fini de possibilités. On les regroupe en deux types, pour lesquels on ne fera pas de distinction:</p>
+<ul>
+<li>nominales s’il n’y a pas d’ordre entre les modalités (sexe, couleur, pays d’origine) ou</li>
+<li>ordinale (échelle de Likert, tranche salariale).</li>
+</ul>
+<p>La codification des modalités des variables catégorielle est arbitraire; en revanche, on préservera l’ordre lorsqu’on représentera graphiquement les variables ordinales. Lors de l’estimation, chaque variable catégorielle doit est transformée en un ensemble d’indicateurs binaires 0/1: il est donc essentiel de déclarer ces dernières dans votre logiciel statistique, surtout si elles sont parfois encodées dans la base de données à l’aide de valeurs entières.</p>
+</section>
+<section id="variable-aleatoire" class="level3" data-number="1.1.3">
+<h3 data-number="1.1.3" class="anchored" data-anchor-id="variable-aleatoire"><span class="header-section-number">1.1.3</span> Variables aléatoires</h3>
+<p>Suppsons qu’on cherche à décrire le comportement d’un phénomène aléatoire. Pour ce faire, on cherche à décrire l’ensemble des valeurs possibles et leur probabilité/fréquence relative au sein de la population: ces dernières sont encodées dans la loi de la variable aléatoire.</p>
+<p>On fera la distinction entre deux cas de figure: quand le phénomène prend des valeurs finies et dénombrables, comme par exemple un événement binaire (achat/non-achat d’un produit) ou d’une variable de décompte, on parle de distribution <strong>discrète</strong>. Si l’ensemble des valeurs que prend la variable d’intérêt est dans un continuum de valeurs (par exemple, le prix d’un item, même si en pratique il y aura une sous-division finie et que le montant sera arrondi au centime près pour l’argent), on parle de variable <strong>continue</strong>. Des cas plus complexes peuvent survenir.</p>
+<p>On dénote les variables aléatoires par des lettres majuscules, et leurs réalisations par des minuscules: par exemple, <span class="math inline">\(Y \sim \mathsf{normale}(\mu, \sigma^2)\)</span> indique que <span class="math inline">\(Y\)</span> suit une loi normale de paramètres <span class="math inline">\(\mu \in \mathbb{R}\)</span> et <span class="math inline">\(\sigma &gt; 0\)</span>. On parle de famille de lois si la valeur des paramètres ne sont pas spécifiées; si on fixe plutôt ces dernière, on obtient une représentation qui encode les probabilité.</p>
+<div id="def-repartition" class="theorem definition">
+<p><span class="theorem-title"><strong>Définition 1.1 (Fonctions de répartition, de masse et de densité)</strong></span> La <strong>fonction de répartition</strong> <span class="math inline">\(F(y)\)</span> donne la probabilité cumulative qu’un événement n’excède pas une variable donnée, <span class="math inline">\(F(y) = \mathsf{Pr}(Y \leq y)\)</span>. Si la variable <span class="math inline">\(Y\)</span> prend des valeurs discrètes, alors on utilise la <strong>fonction de masse</strong> <span class="math inline">\(f(y)=\mathsf{Pr}(Y=y)\)</span> qui donne la probabilité pour chacune des valeurs de <span class="math inline">\(y\)</span>. Si la variable <span class="math inline">\(Y\)</span> est continue, aucune valeur numérique de <span class="math inline">\(y\)</span> n’a de probabilité non-nulle et <span class="math inline">\(\Pr(Y=y) = 0\)</span> pour toute valeur réelle <span class="math inline">\(y\)</span>; la <strong>densité</strong>, aussi dénotée <span class="math inline">\(f(x)\)</span>, est une fonction est non-négative et satisfait <span class="math inline">\(\int_{\mathbb{R}} f(x) \mathrm{d}x=1\)</span>: elle décrit la probabilité d’obtenir un résultat dans un ensemble donné des réels <span class="math inline">\(\mathbb{R}\)</span>, pour n’importe lequel intervalle. La densité sert à estimer la probabilité que la variable continue <span class="math inline">\(Y\)</span> appartienne à un ensemble <span class="math inline">\(B\)</span>, via <span class="math inline">\(\mathsf{Pr}(Y \in B) = \int_B f(y) \mathrm{d} y\)</span>; la fonction de répartition est ainsi définie comme <span class="math inline">\(F(y) = \int_{-\infty}^y f(x) \mathrm{d} x\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-distributions" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-distributions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/02-ttest-DF_illustration_fr.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-distributions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.1: Fonctions de répartition (panneau supérieur) et fonctions de densité et de masse (panneau inférieur) pour une loi continue (gauche) et discrète (droite).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>Un premier cours de statistique débute souvent par la présentation de statistiques descriptives comme la moyenne et l’écart-type. Ce sont des estimateurs des moments (centrés), qui caractérisent la loi du phénomène d’intérêt. Dans le cas de la loi normale unidimensionnelle, qui a deux paramètres, l’espérance et la variance caractérisent complètement le modèle.</p>
+<div id="def-moments" class="theorem definition">
+<p><span class="theorem-title"><strong>Définition 1.2 (Moments)</strong></span> Soit <span class="math inline">\(Y\)</span> une variable aléatoire de fonction de densité (ou de masse) <span class="math inline">\(f(x)\)</span>. On définit l’espérance d’une variable aléatoire <span class="math inline">\(Y\)</span> comme <span class="math display">\[\begin{align*}
+\mathsf{E}(Y)=\int_{\mathbb{R}} y f(y) \mathrm{d} y.
+\end{align*}\]</span> L’espérance est la « moyenne théorique», ou moment de premier ordre : dans le cas discret, <span class="math inline">\(\mu = \mathsf{E}(Y)=\sum_{y \in \mathcal{y}} y \mathsf{Pr}(y=y)\)</span>, où <span class="math inline">\(\mathcal{Y}\)</span> représente le support de la loi, à savoir les valeurs qui peuvent prendre <span class="math inline">\(Y\)</span>. Plus généralement, l’espérance d’une fonction <span class="math inline">\(g(y)\)</span> pour une variable aléatoire <span class="math inline">\(Y\)</span> est simplement l’intégrale de <span class="math inline">\(g(y)\)</span> pondérée par la densité <span class="math inline">\(f(y)\)</span>. De même, si l’intégrale est convergente, la <strong>variance</strong> est <span class="math display">\[\begin{align*}
+\mathsf{Va}(Y)&amp;=\int_{\mathbb{R}} (y-\mu)^2 f(y) \mathrm{d} y \\&amp;=\mathsf{E}\{Y-\mathsf{E}(Y)\}^2 \\&amp;= \mathsf{E}(Y^2) - \{\mathsf{E}(Y)\}^2.
+\end{align*}\]</span></p>
+</div>
+<div id="def-biais" class="theorem definition">
+<p><span class="theorem-title"><strong>Définition 1.3 (Biais)</strong></span> Le biais d’un estimateur <span class="math inline">\(\hat{\theta}\)</span> pour un paramètre <span class="math inline">\(\theta\)</span> est <span class="math display">\[\begin{align*}
+\mathsf{biais}(\hat{\theta})=\mathsf{E}(\hat{\theta})- \theta
+\end{align*}\]</span> L’estimateur est non biaisé si <span class="math inline">\(\mathsf{biais}(\hat{\theta})=0\)</span>.</p>
+</div>
+<div id="exm-estimateurs-non-biaises" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 1.2 (Estimateurs sans biais)</strong></span> L’estimateur sans biais de l’espérance de <span class="math inline">\(Y\)</span> pour un échantillon aléatoire simple <span class="math inline">\(Y_1, \ldots, Y_n\)</span> est la moyenne empirique <span class="math inline">\(\overline{Y}_n = n^{-1} \sum_{i=1}^n Y_i\)</span> et celui de la variance <span class="math inline">\(S_n = (n-1)^{-1} \sum_{i=1}^n (Y_i-\overline{Y})^2\)</span>. Un estimateur sans biais est souhaitable, mais pas toujours optimal. Quelquefois, il n’existe pas d’estimateur non-biaisé pour un paramètre!</p>
+</div>
+<div id="def-eqm" class="theorem definition">
+<p><span class="theorem-title"><strong>Définition 1.4 (Erreur quadratique moyenne)</strong></span> Souvent, on cherche à balancer le biais et la variance: rappelez-vous qu’un estimateur est une variable aléatoire (étant une fonction de variables aléatoires) et qu’il est lui-même variable: même s’il est sans biais, la valeur numérique obtenue fluctuera d’un échantillon à l’autre. On peut chercher un estimateur qui minimise l’erreur quadratique moyenne,</p>
+<p><span class="math display">\[\begin{align*}
+\mathsf{EQM}(\hat{\theta}) = \mathsf{E}\{(\hat{\theta}-\theta)^2\}=\mathsf{Va}(\hat{\theta}) + \{\mathsf{E}(\hat{\theta})\}^2.
+\end{align*}\]</span> C’est donc un compromis entre le carré du biais et la variance de l’estimateur.</p>
+</div>
+<p>La plupart des estimateurs que nous considérerons dans le cadre du cours sont des estimateurs du maximum de vraisemblance. Ces derniers sont asymptotiquement efficaces, c’est-à-dire qu’ils minimisent l’erreur quadratique moyenne parmi tous les estimateurs possibles quand la taille de l’échantillon est suffisamment grande. Ils ont également d’autre propriétés qui les rendent attractifs comme choix par défaut pour l’estimation. Il ne sont pas nécessairement sans biais</p>
+</section>
+<section id="loi-discrètes" class="level3" data-number="1.1.4">
+<h3 data-number="1.1.4" class="anchored" data-anchor-id="loi-discrètes"><span class="header-section-number">1.1.4</span> Loi discrètes</h3>
+<p>Plusieurs lois aléatoires décrivent des phénomènes physiques simples et ont donc une justification empirique; on revisite les distributions ou loi discrètes les plus fréquemment couvertes.</p>
+<div id="def-loibern" class="theorem definition">
+<p><span class="theorem-title"><strong>Définition 1.5 (Loi de Bernoulli)</strong></span> On considère un phénomène binaire, comme le lancer d’une pièce de monnaie (pile/face). De manière générale, on associe les deux possibilités à succès/échec et on suppose que la probabilité de ``succès’ est <span class="math inline">\(p\)</span>. Par convention, on représente les échecs (non) par des zéros et les réussites (oui) par des uns. Donc, si la variable <span class="math inline">\(Y\)</span> vaut <span class="math inline">\(0\)</span> ou <span class="math inline">\(1\)</span>, alors <span class="math inline">\(\mathsf{Pr}(Y=1)=p\)</span> et la probabilité complémentaire est <span class="math inline">\(\mathsf{Pr}(Y=0)=1-p\)</span>. La fonction de masse de la <a href="https://fr.wikipedia.org/wiki/Loi_de_Bernoulli">loi Bernoulli</a> s’écrit de façon plus compacte <span class="math display">\[\begin{align*}
+\mathsf{Pr}(Y=y) = p^y (1-p)^{1-y}, \quad y=0, 1.
+\end{align*}\]</span></p>
+</div>
+<p>Un calcul rapide montre que <span class="math inline">\(\mathsf{E}(Y)=p\)</span> et <span class="math inline">\(\mathsf{Va}(Y)=p(1-p)\)</span>. Effectivement, <span class="math display">\[\begin{align*}
+\mathsf{E}(Y) = \mathsf{E}(Y^2) = p \cdot 1 + (1-p) \cdot 0 = p.
+\end{align*}\]</span></p>
+<p>Voici quelques exemples de questions de recherches comprenant une variable réponse binaire:</p>
+<ul>
+<li>est-ce qu’un client potentiel a répondu favorablement à une offre promotionnelle?</li>
+<li>est-ce qu’un client est satisfait du service après-vente?</li>
+<li>est-ce qu’une firme va faire faillite au cours des trois prochaines années?</li>
+<li>est-ce qu’un participant à une étude réussit une tâche assignée?</li>
+</ul>
+<p>Plus généralement, on aura accès à des données aggrégées.</p>
+<div id="exm-loibinom" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 1.3 (Loi binomiale)</strong></span> Si les données représentent la somme d’événements Bernoulli indépendants, la loi du nombre de réussites <span class="math inline">\(Y\)</span> pour un nombre d’essais donné <span class="math inline">\(m\)</span> est dite <a href="https://fr.wikipedia.org/wiki/Loi_binomiale">binomiale</a>, dénotée <span class="math inline">\(\mathsf{Bin}(m, p)\)</span>; sa fonction de masse est <span class="math display">\[\begin{align*}
+\mathsf{Pr}(Y=y) = \binom{m}{y}p^y (1-p)^{1-y}, \quad y=0, 1.
+\end{align*}\]</span> La vraisemblance pour un échantillon de la loi binomiale est (à constante de normalisation près qui ne dépend pas de <span class="math inline">\(p\)</span>) la même que pour un échantillon aléatoire de <span class="math inline">\(m\)</span> variables Bernoulli indépendantes. L’espérance d’une variable binomiale est <span class="math inline">\(\mathsf{E}(Y)=mp\)</span> et la variance <span class="math inline">\(\mathsf{Va}(Y)=mp(1-p)\)</span>.</p>
+<p>On peut ainsi considérer le nombre de personnes qui ont obtenu leur permis de conduire parmi <span class="math inline">\(m\)</span> candidat(e)s ou le nombre de clients sur <span class="math inline">\(m\)</span> qui ont passé une commande de plus de 10$ dans un magasin.</p>
+</div>
+<p>Plus généralement, on peut considérer des variables de dénombrement qui prennent des valeurs entières. Parmi les exemples de questions de recherches comprenant une variable réponse de dénombrement:</p>
+<ul>
+<li>le nombre de réclamations faites par un client d’une compagnie d’assurance au cours d’une année.</li>
+<li>le nombre d’achats effectués par un client depuis un mois.</li>
+<li>le nombre de tâches réussies par un participant lors d’une étude.</li>
+</ul>
+<div id="exm-loigeom" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 1.4 (Loi géométrique)</strong></span> La <a href="https://fr.wikipedia.org/wiki/Loi_g%C3%A9om%C3%A9trique">loi géométrique</a> décrit le comportement du nombre d’essais Bernoulli de probabilité de succès <span class="math inline">\(p\)</span> nécessaires avant l’obtention d’un premier succès. La fonction de masse de <span class="math inline">\(Y \sim \mathsf{Geo}(p)\)</span> est <span class="math display">\[\begin{align*}
+\mathsf{Pr}(Y=y) = p (1-p)^{y-1}, \quad y=1,2, \ldots
+\end{align*}\]</span></p>
+<p>Par exemple, on pourrait modéliser le nombre de visites d’une maison en vente avant une première offre d’achat à l’aide d’une variable géométrique.</p>
+</div>
+<div id="exm-loipoisson" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 1.5 (Loi de Poisson)</strong></span> Si la probabilité d’un événement Bernoulli est petite et qu’il est rare d’obtenir un succès dans le sens où <span class="math inline">\(mp \to \lambda\)</span> quand le nombre d’essais <span class="math inline">\(m\)</span> augmente, alors le nombre de succès suit approximateivement une loi de Poisson de fonction de masse <span class="math display">\[\begin{align*}
+\mathsf{Pr}(Y=y) = \frac{\exp(-\lambda)\lambda^y}{\Gamma(y+1)}, \quad y=0, 1, 2, \ldots
+\end{align*}\]</span> où <span class="math inline">\(\Gamma(\cdot)\)</span> dénote la fonction gamma, et <span class="math inline">\(\Gamma(y+1) = y!\)</span> si <span class="math inline">\(y\)</span> est un entier. Le paramètre <span class="math inline">\(\lambda\)</span> de la loi de Poisson représente à la fois l’espérance et la variance de la variable, c’est-à-dire que <span class="math inline">\(\mathsf{E}(Y)=\mathsf{Va}(Y)=\lambda\)</span>.</p>
+</div>
+<div id="exm-loibinneg" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 1.6 (Loi binomiale négative)</strong></span> On considère une série d’essais Bernoulli de probabilité de succès <span class="math inline">\(p\)</span> jusqu’à l’obtention de <span class="math inline">\(m\)</span> succès. Soit <span class="math inline">\(Y\)</span>, le nombre d’échecs: puisque la dernière réalisation doit forcément être un succès, mais que l’ordre des succès/échecs précédents n’importe pas, la fonction de masse est <span class="math display">\[\begin{align*}
+\mathsf{Pr}(Y=y)= \binom{m-1+y}{y} p^m (1-p)^{y}.
+\end{align*}\]</span></p>
+<p>La loi binomiale négative apparaît également si on considère la loi non-conditionnelle du modèle hiérarchique gamma-Poisson, dans lequel on suppose que le paramètre de la moyenne de la loi Poisson est aussi aléatoire, c’est-à-dire <span class="math inline">\(Y \mid \Lambda=\lambda \sim \mathsf{Po}(\lambda)\)</span> et <span class="math inline">\(\Lambda\)</span> suit une loi gamma de paramètre de forme <span class="math inline">\(r\)</span> et de paramètre d’échelle <span class="math inline">\(\theta\)</span>, dont la densité est <span class="math display">\[\begin{align*} f(x) = \theta^{-r}x^{r-1}\exp(-x/\theta)/\Gamma(r).\end{align*}\]</span> Le nombre d’événements suit alors une loi binomiale négative.</p>
+<p>La paramétrisation la plus courante pour la modélisation est légèrement différente: pour un paramètre <span class="math inline">\(r&gt;0\)</span> (pas forcément entier), on écrit la fonction de masse <span class="math display">\[\begin{align*}
+\mathsf{Pr}(Y=y)=\frac{\Gamma(y+r)}{\Gamma(y+1)\Gamma(r)} \left(\frac{r}{r + \mu} \right)^{r} \left(\frac{\mu}{r+\mu}\right)^y,
+\end{align*}\]</span> où <span class="math inline">\(\Gamma\)</span> dénote la fonction gamma. Dans cette paramétrisation, la moyenne théorique et la variance sont <span class="math inline">\(\mathsf{E}(Y)=\mu\)</span> et <span class="math inline">\(\mathsf{Va}(Y)=\mu+k\mu^2\)</span>, où <span class="math inline">\(k=1/r\)</span>. La variance d’une variable binomiale négative est <em>supérieure</em> à sa moyenne et le modèle est utilisé comme alternative à la loi de Poisson pour modéliser la surdispersion.</p>
+</div>
+</section>
+<section id="lois-continues" class="level3" data-number="1.1.5">
+<h3 data-number="1.1.5" class="anchored" data-anchor-id="lois-continues"><span class="header-section-number">1.1.5</span> Lois continues</h3>
+<p>On considère plusieurs lois de variables aléatoires continues; certaines servent de lois pour des tests d’hypothèse et découlent du théorème central limite (notamment les lois normales, Student, Fisher ou <span class="math inline">\(F\)</span>, et khi-deux).</p>
+<div id="def-loibeta" class="theorem definition">
+<p><span class="theorem-title"><strong>Définition 1.6 (Loi beta)</strong></span> La loi beta <span class="math inline">\(\mathsf{Beta}(\alpha, \beta)\)</span> est une loi sur l’intervalle <span class="math inline">\([0,1]\)</span> avec paramètres de forme <span class="math inline">\(\alpha&gt;0\)</span> et <span class="math inline">\(\beta&gt;0\)</span>. Sa densité est <span class="math display">\[\begin{align*}
+f(x) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}x^{\alpha-1}(1-x)^{1-\beta}, \qquad x \in [0,1].
+\end{align*}\]</span> Le cas <span class="math inline">\(\alpha=\beta=1\)</span> correspond à la loi standard uniforme.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-densite-beta" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-densite-beta-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="introduction_files/figure-html/fig-densite-beta-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-densite-beta-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.2: Fonctions de densité de lois uniformes et beta(2, 3/4) sur l’intervalle [0,1].
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="def-loiexpo" class="theorem definition">
+<p><span class="theorem-title"><strong>Définition 1.7 (Loi exponentielle)</strong></span> La loi exponentielle figure de manière proéminente dans l’étude des temps d’attente pour les phénomènes Poisson et en analyse de survie. Une caractéristique clé de la loi est son absence de mémoire: <span class="math inline">\(\Pr(Y \geq y + u \mid Y &gt; u) = \Pr(Y &gt; u)\)</span> pour <span class="math inline">\(Y &gt; 0\)</span> et <span class="math inline">\(y, u&gt;0\)</span>.</p>
+<p>La fonction de répartition de la loi exponentielle <span class="math inline">\(Y \sim \mathsf{Exp}(\beta)\)</span> où <span class="math inline">\(\beta&gt;0\)</span>, est <span class="math inline">\(F(x) = 1-\exp(-\beta x)\)</span> et sa fonction de densité est <span class="math inline">\(f(x) =\beta\exp(-\beta x)\)</span> pour <span class="math inline">\(x &gt;0\)</span>. La moyenne théorique de la loi est <span class="math inline">\(\beta\)</span>.</p>
+</div>
+<div id="def-loinormale" class="theorem definition">
+<p><span class="theorem-title"><strong>Définition 1.8 (Loi normale)</strong></span> De loin la plus continue des distributions, la loi normale intervient dans le théorème central limite, qui dicte le comportement aléatoire de la moyenne de grand échantillons. La fonction de densité est symmétrique autour d’une moyenne <span class="math inline">\(\mu \in \mathbb{R}\)</span>, qui est une mesure de la tendance centrale. L’autre paramètre, l’écart-type <span class="math inline">\(\sigma&gt;0\)</span>, est un paramètre d’échelle qui mesure la dispersion. La fonction de densité, en forme de cloche, est symmétrique autour de <span class="math inline">\(\mu\)</span>, qui est aussi le mode de la distribution.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-normal-loc-echelle" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-normal-loc-echelle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="introduction_files/figure-html/fig-normal-loc-echelle-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-normal-loc-echelle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.3: Densités de loi normales avec des paramètres de moyenne différents (gauche) et des paramètres d’échelle différents (droite).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>La loi normale est une famille de localisation échelle: si <span class="math inline">\(Y \sim \mathsf{normale}(\mu, \sigma^2)\)</span>, alors <span class="math inline">\(Z = (Y-\mu)/\sigma \sim \mathsf{normale}(0,1)\)</span>. La variable standardisée est appelée cote Z. Inversement, si <span class="math inline">\(Z \sim \mathsf{normale}(0,1)\)</span>, alors <span class="math inline">\(Y = \mu + \sigma Z \sim \mathsf{normale}(\mu, \sigma^2)\)</span>.</p>
+</div>
+<p>Les trois lois suivantes ne sont pas couvertes dans les cours d’introduction, mais elles interviennent régulièrement dans les cours de mathématique statistique et serviront d’étalon de mesure pour déterminer si les statistiques de test sont extrêmes sous l’hypothèse nulle.</p>
+<div id="def-loikhideux" class="theorem definition">
+<p><span class="theorem-title"><strong>Définition 1.9 (Loi khi-deux)</strong></span> La loi de khi-deux avec <span class="math inline">\(\nu&gt;0\)</span> degrés de liberté, dénotée <span class="math inline">\(\chi^2_{\nu}\)</span> joue un rôle important en statistique car elle est la loi nulle asymptotique de nombreuses statistiques de test usuelles. Sa densité est <span class="math display">\[\begin{align*}
+f(x; \nu) = \frac{1}{2^{\nu/2}\Gamma(\nu/2)}x^{\nu/2-1}\exp(-x/2),\qquad x &gt;0.
+\end{align*}\]</span> Elle est obtenue en prenant la somme de variables normales centrées et réduites au carré: si <span class="math inline">\(Z_i \stackrel{\mathrm{iid}}{\sim}\mathsf{normale}(0,1)\)</span> pour <span class="math inline">\(i=1, \ldots, k\)</span>, alors <span class="math inline">\(\sum_{i=1}^k Z_i^2 \sim \chi^2_k\)</span>. L’espérance de la loi <span class="math inline">\(\chi^2_k\)</span> est <span class="math inline">\(k\)</span>.</p>
+</div>
+<div id="def-loistudent" class="theorem definition">
+<p><span class="theorem-title"><strong>Définition 1.10 (Loi Student-<span class="math inline">\(t\)</span>)</strong></span> La loi Student-<span class="math inline">\(t\)</span> avec <span class="math inline">\(\nu&gt;0\)</span> degrés de liberté est une famille de localisation et d’échelle de densité symmétrique. On la dénote <span class="math inline">\(\mathsf{Student}(\nu)\)</span> dans le cas centré réduit. Ses ailes sont plus lourdes que la loi normale et son <span class="math inline">\(k\)</span>e moment existe uniquement si <span class="math inline">\(\nu &gt; k\)</span>. Ainsi, la variance n’existe que si <span class="math inline">\(\nu&gt;2\)</span>. Si <span class="math inline">\(\nu \to \infty\)</span>, on recouvre une loi limite Gaussienne standard.</p>
+<p>Son nom provient d’un article de William Gosset sous le pseudonyme Student <span class="citation" data-cites="Student:1908">(<a href="references.html#ref-Student:1908" role="doc-biblioref">Gosset 1908</a>)</span>. La statistique <span class="math inline">\(T\)</span>, pour des données Gaussiennes, suit une loi Student avec <span class="math inline">\(k\)</span> degrés de liberté, puisque la moyenne est Gaussienne et la variance empirique, adéquatement repondérée, suit une loi khi-deux avec <span class="math inline">\(k\)</span> degrés de liberté.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="introduction_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<figcaption>Comparaison de la densité Student-<span class="math inline">\(t\)</span> versus normale pour différents degrés de liberté avec <span class="math inline">\(\nu=2\)</span> (pointillé), <span class="math inline">\(\nu=10\)</span> (traitillé) et la loi normale (<span class="math inline">\(\nu = \infty)\)</span>.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="def-loiF" class="theorem definition">
+<p><span class="theorem-title"><strong>Définition 1.11 (Loi de Fisher)</strong></span> Une généralisation de la loi Student-<span class="math inline">\(t\)</span> est obtenue pour le comportement en grand échantillon de statistiques de test pour la comparaison de plusieurs moyennes (analyse de variance) sous un postulat de normalité des observations.</p>
+<p>La loi <span class="math inline">\(F\)</span>, dite de Fisher et dénotée <span class="math inline">\(\mathsf{Fisher}(\nu_1, \nu_2)\)</span>, est obtenue en divisant deux variables khi-deux indépendantes de degrés de liberté <span class="math inline">\(\nu_1\)</span> et <span class="math inline">\(\nu_2\)</span>. Spécifiquement, si <span class="math inline">\(Y_1 \sim \chi^2_{\nu_1}\)</span> et <span class="math inline">\(Y_2 \sim \chi^2_{\nu_2}\)</span>, alors <span class="math display">\[\begin{align*}
+F = \frac{Y_1/\nu_1}{Y_2/\nu_2} \sim \mathsf{Fisher}(\nu_1, \nu_2)
+\end{align*}\]</span></p>
+<p>La loi de Fisher tend vers une loi <span class="math inline">\(\chi^2\)</span> quand <span class="math inline">\(\nu_2 \to \infty\)</span>.</p>
+</div>
+</section>
+<section id="graphiques" class="level3" data-number="1.1.6">
+<h3 data-number="1.1.6" class="anchored" data-anchor-id="graphiques"><span class="header-section-number">1.1.6</span> Graphiques</h3>
+<p>Le principal type de graphique pour représenter la distribution d’une variable catégorielle est le diagramme en bâtons, dans lequel la fréquence de chaque catégorie est présentée sur l’axe des ordonnées (<span class="math inline">\(y\)</span>) en fonction de la modalité, sur l’axe des abscisses (<span class="math inline">\(x\)</span>), et ordonnées pour des variables ordinales. Cette représentation est en tout point supérieur au <a href="http://www.perceptualedge.com/articles/08-21-07.pdf">diagramme en camembert</a>, une engeance répandu qui devrait être honnie (notamment parce que l’humain juge mal les différences d’aires, qu’une simple rotation change la perception du graphique et qu’il est difficile de mesurer les proportions) — ce n’est pas de la tarte!</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-barplotrenfe" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-barplotrenfe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="introduction_files/figure-html/fig-barplotrenfe-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-barplotrenfe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.4: Diagramme en bâtons pour la classe des billets de trains du jeu de données Renfe.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Puisque les variables continues peuvent prendre autant de valeurs distinctes qu’il y a d’observations, on ne peut simplement compter le nombre d’occurrence par valeur unique. On regroupera plutôt dans un certain nombre d’intervalle, en discrétisant l’ensemble des valeurs en classes pour obtenir un histogramme. Le nombre de classes dépendra du nombre d’observations si on veut que l’estimation ne soit pas impactée par le faible nombre d’observations par classe: règle générale, le nombre de classes ne devrait pas dépasser <span class="math inline">\(\sqrt{n}\)</span>, où <span class="math inline">\(n\)</span> est le nombre d’observations de l’échantillon. On obtiendra la fréquence de chaque classe, mais si on normalise l’histogramme (de façon à ce que l’aire sous les bandes verticales égale un), on obtient une approximation discrète de la fonction de densité. Faire varier le nombre de classes permet parfois de faire apparaître des caractéristiques de la variable (notamment la multimodalité, l’asymmétrie et les arrondis).</p>
+<p>Puisque qu’on groupe les observations en classe pour tracer l’histogramme, il est difficile de voir l’étendue des valeurs que prenne la variable: on peut rajouter des traits sous l’histogramme pour représenter les valeurs uniques prises par la variable, tandis que la hauteur de l’histogramme nous renseigne sur leur fréquence relative.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-histrenfe" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-histrenfe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="introduction_files/figure-html/fig-histrenfe-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-histrenfe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.5: Histogramme du prix des billets au tarif Promo de trains du jeu de données Renfe
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div id="def-boxplot" class="theorem definition">
+<p><span class="theorem-title"><strong>Définition 1.12 (Boîte à moustaches)</strong></span> Elle représente graphiquement cinq statistiques descriptives.</p>
+<ul>
+<li>La boîte donne les 1e, 2e et 3e quartiles <span class="math inline">\(q_1, q_2, q_3\)</span>. Il y a donc 50% des observations sont au-dessus/en-dessous de la médiane <span class="math inline">\(q_2\)</span> qui sépare en deux la boîte.</li>
+<li>La longueur des moustaches est moins de <span class="math inline">\(1.5\)</span> fois l’écart interquartile <span class="math inline">\(q_3-q_1\)</span> (tracée entre 3e quartile et le dernier point plus petit que <span class="math inline">\(q_3+1.5(q_3-q_1)\)</span>, etc.)</li>
+<li>Les observations au-delà des moustaches sont encerclées. Notez que plus le nombre d’observations est élevé, plus le nombres de valeurs aberrantes augmente. C’est un défaut de la boîte à moustache, qui a été conçue pour des jeux de données qui passeraient pour petits selon les standards actuels.</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/01-intro-boiteamoustache.png" class="img-fluid figure-img" style="width:85.0%"></p>
+<figcaption>Boîte à moustache.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>On peut représenter la distribution d’une variable réponse continue en fonction d’une variable catégorielle en traçant une boîte à moustaches pour chaque catégorie et en les disposant côte-à-côte. Une troisième variable catégorielle peut être ajoutée par le biais de couleurs, comme dans la <a href="#fig-histboxplot" class="quarto-xref">Figure&nbsp;<span>1.6</span></a>.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-histboxplot" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-histboxplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="introduction_files/figure-html/fig-histboxplot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-histboxplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.6: Boîte à moustaches du prix des billets au tarif Promo en fonction de la classe pour le jeu de données Renfe.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Si on veut représenter la covariabilité de deux variables continues, on utilise un nuage de points où chaque variable est représentée sur un axe et chaque observation donne la coordonnée des points. Si la représentation graphique est dominée par quelques valeurs très grandes, une transformation des données peut être utile: vous verrez souvent des données positives à l’échelle logarithmique.</p>
+<div id="def-diagramme-qq" class="theorem definition">
+<p><span class="theorem-title"><strong>Définition 1.13 (Diagrammes quantiles-quantiles)</strong></span> Si on ajuste un modèle à des données, il convient de vérifier la qualité de l’ajustement et l’adéquation du modèle, par exemple graphiquement. Le diagramme quantile-quantile sert à vérifier l’adéquation du modèle et découle du constat suivant: si <span class="math inline">\(Y\)</span> est une variable aléatoire continue et <span class="math inline">\(F\)</span> sa fonction de répartition, alors l’application <span class="math inline">\(F(Y) \sim \mathsf{Unif}(0,1)\)</span>. De la même façon, appliquer la fonction quantile à une variable uniforme permet de simuler de la loi <span class="math inline">\(F\)</span>, et donc <span class="math inline">\(F^{-1}(U)\)</span>. <!--Supposons un échantillon de taille $n$ de variables uniformes. On peut démontrer que les statistiques d'ordre $U_{(1)} \leq \cdots \leq U_{(n)}$ ont une loi marginale beta: et $U_{(k)} \sim \mathsf{Beta}(k, n+1-k)$ d'espérance $k/(n+1)$.
+--></p>
+<p>Les paramètres de la loi <span class="math inline">\(F\)</span> sont inconnus, mais on peut obtenir un estimateur <span class="math inline">\(\widehat{F}\)</span> et appliquer la transformation inverse pour obtenir une variable approximativement uniforme. Un diagramme quantile-quantile représente les données en fonction des moments des statistiques d’ordre transformées</p>
+<ul>
+<li>sur l’axe des abscisses, les quantiles théoriques <span class="math inline">\(\widehat{F}^{-1}\{\mathrm{rang}(Y_i)/(n+1)\}\)</span></li>
+<li>sur l’axe des ordonnées, les quantiles empiriques <span class="math inline">\(Y_i\)</span></li>
+</ul>
+<p>Si le modèle est adéquat, les valeurs ordonnées devraient suivre une droite de pente unitaire qui passe par l’origine. Le diagramme probabilité-probabilité représente plutôt les données à l’échelle uniforme <span class="math inline">\(\{\mathrm{rang}(Y_i)/(n+1), \widehat{F}(Y_i)\}\)</span>.</p>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-diagrammeqq2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-diagrammeqq2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="introduction_files/figure-html/fig-diagrammeqq2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-diagrammeqq2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.7: Diagramme probabilité-probabilité (gauche) et quantile-quantile normal (droite)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Même si on connaissait exactement la loi aléatoire des données, la variabilité intrinsèque à l’échantillon fait en sorte que des déviations qui semblent significatives et anormales à l’oeil de l’analyste sont en fait compatibles avec le modèle: un simple estimé ponctuel sans mesure d’incertitude ne permet donc pas facilement de voir ce qui est plausible ou pas. On va donc idéalement ajouter un intervalle de confiance (approximatif) ponctuel ou conjoint au diagramme.</p>
+<p>Pour obtenir l’intervalle de confiance approximatif, la méthode la plus simple est par simulation (autoamorçage paramétrique), en répétant <span class="math inline">\(B\)</span> fois les étapes suivantes</p>
+<ol type="1">
+<li>simuler un échantillon <span class="math inline">\(\{Y^{(b)}_{i}\} (i=1,\ldots, n)\)</span> du modèle <span class="math inline">\(\widehat{F}\)</span></li>
+<li>estimer les paramètres du modèle <span class="math inline">\(F\)</span> pour obtenir <span class="math inline">\(\widehat{F}_{(b)}\)</span></li>
+<li>calculer et stocker les positions <span class="math inline">\(\widehat{F}^{-1}_{(b)}\{i/(n+1)\}\)</span>.</li>
+</ol>
+<p>Le résultat de cette opération sera une matrice <span class="math inline">\(n \times B\)</span> de données simulées; on obtient un intervalle de confiance symmétrique en conservant le quantile <span class="math inline">\(\alpha/2\)</span> et <span class="math inline">\(1-\alpha/2\)</span> de chaque ligne. Le nombre de simulation <span class="math inline">\(B\)</span> devrait être large (typiquement 999 ou davantage) et être choisi de manière à ce que <span class="math inline">\(B/\alpha\)</span> soit un entier.</p>
+<p>Pour l’intervalle de confiance ponctuel, chaque valeur représente une statistique et donc individuellement, la probabilité qu’une statistique d’ordre sorte de l’intervalle de confiance est <span class="math inline">\(\alpha\)</span>. En revanche, les statistiques d’ordres ne sont pas indépendantes et sont qui est plus ordonnées, ce qui fait qu’un point hors de l’intervalle risque de n’être pas isolé. Les intervalles présentés dans la <a href="#fig-diagrammeqq2" class="quarto-xref">Figure&nbsp;<span>1.7</span></a> sont donc ponctuels. La variabilité des statistiques d’ordre uniformes est plus grande autour de 1/2, mais celles des variables transformées dépend de <span class="math inline">\(F\)</span>.</p>
+</section>
+<section id="loi-grands-nombres" class="level3" data-number="1.1.7">
+<h3 data-number="1.1.7" class="anchored" data-anchor-id="loi-grands-nombres"><span class="header-section-number">1.1.7</span> Loi des grands nombres</h3>
+<p>Un estimateur est dit <strong>convergent</strong> si la valeur obtenue à mesure que la taille de l’échantillon augmente s’approche de la vraie valeur que l’on cherche à estimer. Mathématiquement parlant, un estimateur est dit convergent s’il converge en probabilité, ou <span class="math inline">\(\hat{\theta} \stackrel{\mathsf{Pr}}{\to} \theta\)</span>: en langage commun, la probabilité que la différence entre <span class="math inline">\(\hat{\theta}\)</span> et <span class="math inline">\(\theta\)</span> diffèrent est négligeable quand <span class="math inline">\(n\)</span> est grand.</p>
+<p>La condition <em>a minima</em> pour le choix d’un estimateur est donc la convergence: plus on récolte d’information, plus notre estimateur devrait s’approcher de la valeur qu’on tente d’estimer.</p>
+<p>La loi des grands nombres établit que la moyenne empirique de <span class="math inline">\(n\)</span> observations indépendantes de même espérance, <span class="math inline">\(\overline{Y}_n\)</span>, tend vers l’espérance commune des variables <span class="math inline">\(\mu\)</span>, où <span class="math inline">\(\overline{Y}_n \rightarrow \mu\)</span>. En gros, ce résultat nous dit que l’on réussit à approximer de mieux en mieux la quantité d’intérêt quand la taille de l’échantillon (et donc la quantité d’information disponible sur le paramètre) augmente. La loi des grands nombres est très utile dans les expériences Monte Carlo: on peut ainsi approximer par simulation la moyenne d’une fonction <span class="math inline">\(g(x)\)</span> de variables aléatoires en simulant de façon répétée des variables <span class="math inline">\(Y\)</span> indépendantes et identiquement distribuées et en prenant la moyenne empirique <span class="math inline">\(n^{-1} \sum_{i=1}^n g(Y_i)\)</span>.</p>
+<p>Si la loi des grands nombres nous renseigne sur le comportement limite ponctuel, il ne nous donne aucune information sur la variabilité de notre estimé de la moyenne et la vitesse à laquelle on s’approche de la vraie valeur du paramètre.</p>
+</section>
+<section id="TCL" class="level3" data-number="1.1.8">
+<h3 data-number="1.1.8" class="anchored" data-anchor-id="TCL"><span class="header-section-number">1.1.8</span> Théorème central limite</h3>
+<p>Le théorème central limite dit que, pour un échantillon aléatoire de taille <span class="math inline">\(n\)</span> dont les observations sont indépendantes et tirées d’une loi quelconque d’espérance <span class="math inline">\(\mu\)</span> et de variance finie <span class="math inline">\(\sigma^2\)</span>, alors la moyenne empirique tend non seulement vers <span class="math inline">\(\mu\)</span>, mais à une vitesse précise:</p>
+<ul>
+<li>l’estimateur <span class="math inline">\(\overline{Y}\)</span> sera centré autour de <span class="math inline">\(\mu\)</span>,</li>
+<li>l’erreur-type sera de <span class="math inline">\(\sigma/\sqrt{n}\)</span>; le taux de convergence est donc de <span class="math inline">\(\sqrt{n}\)</span>. Ainsi, pour un échantillon de taille 100, l’erreur-type de la moyenne empirique sera 10 fois moindre que l’écart-type de la variable aléatoire sous-jacente.</li>
+<li>la loi approximative de la moyenne <span class="math inline">\(\overline{Y}\)</span> sera normale.</li>
+</ul>
+<p>Mathématiquement, le théorème central limite dicte que <span class="math inline">\(\sqrt{n}(\overline{Y}-\mu) \stackrel{\mathrm{d}}{\rightarrow} \mathsf{normale}(0, \sigma^2)\)</span>. Si <span class="math inline">\(n\)</span> est grand (typiquement supérieur à <span class="math inline">\(30\)</span>, mais cette règle dépend de la loi sous-jacente de <span class="math inline">\(Y\)</span>), alors <span class="math inline">\(\overline{Y} \stackrel{\cdot}{\sim} \mathsf{normale}(\mu, \sigma^2/n)\)</span>.</p>
+<p>Comment interpréter ce résultat? On considère comme exemple le temps de trajet moyen de trains à haute vitesse AVE entre Madrid et Barcelone opérés par la Renfe.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-renfeclt" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-renfeclt-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="introduction_files/figure-html/fig-renfeclt-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-renfeclt-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.8: Distribution empirique des temps de trajet en trains à grande vitesse.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Une analyse exploratoire indique que la durée du trajet de la base de données est celle affichée sur le billet (et non le temps réel du parcours). Ainsi, il n’y a ainsi que 15 valeurs possibles. Le temps affiché moyen pour le parcours, estimé sur la base de 9603 observations, est de 170 minutes et 41 secondes. La <a href="#fig-renfeclt" class="quarto-xref">Figure&nbsp;<span>1.8</span></a> montre la distribution empirique des données.</p>
+<p>Considérons maintenant des échantillons de taille <span class="math inline">\(n=10\)</span>. Dans notre premier échantillon aléatoire, la durée moyenne affichée est 170.9 minutes, elle est de 164.5 minutes dans le deuxième, de 172.3 dans le troisième, et ainsi de suite.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-renfemeanCLT" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-renfemeanCLT-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="introduction_files/figure-html/fig-renfemeanCLT-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-renfemeanCLT-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.9: Représentation graphique du théorème central limite: échantillon aléatoire de 20 observations avec leur moyenne empirique (trait vertical rouge) (en haut à gauche). Les trois autres panneaux montrent les histogrammes des moyennes empiriques d’échantillons répétés de taille 5 (en haut à droite), 20 (en bas à gauche) et les histogrammes pour <span class="math inline">\(n=5, 20, 100\)</span> (en bas à droite) avec courbe de densité de l’approximation normale fournie par le théorème central limite.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Supposons qu’on tire <span class="math inline">\(B=1000\)</span> échantillons différents, chacun de taille <span class="math inline">\(n=5\)</span>, de notre ensemble, et qu’on calcule la moyenne de chacun d’entre eux. Le graphique supérieur droit de la <a href="#fig-renfemeanCLT" class="quarto-xref">Figure&nbsp;<span>1.9</span></a> montre un de ces 1000 échantillons aléatoire de taille <span class="math inline">\(n=20\)</span> tiré de notre base de données. Les autres graphiques de la <a href="#fig-renfemeanCLT" class="quarto-xref">Figure&nbsp;<span>1.9</span></a> illustrent l’effet de l’augmentation de la taille de l’échantillon: si l’approximation normale est approximative avec <span class="math inline">\(n=5\)</span>, la distribution des moyennes est virtuellement identique à partir de <span class="math inline">\(n=20\)</span>. Plus la moyenne est calculée à partir d’un grand échantillon (c’est-à-dire, plus <span class="math inline">\(n\)</span> augmente), plus la qualité de l’approximation normale est meilleure et plus la courbe se concentre autour de la vraie moyenne; malgré le fait que nos données sont discrètes, la distribution des moyennes est approximativement normale.</p>
+<p>On a considéré une seule loi aléatoire inspirée de l’exemple, mais vous pouvez vous amuser à regarder l’effet de la distribution sous-jacent et de la taille de l’échantillon nécessaire pour que l’effet du théorème central limite prenne effet: il suffit pour cela de simulant des observations d’une loi quelconque de variance finie, en utilisant par exemple cette <a href="http://195.134.76.37/applets/AppletCentralLimit/Appl_CentralLimit2.html">applette</a>.</p>
+<p>Les statistiques de test qui découlent d’une moyenne centrée-réduite (ou d’une quantité équivalente pour laquelle un théorème central limite s’applique) ont souvent une loi nulle standard normale, du moins asymptotiquement (quand <span class="math inline">\(n\)</span> est grand, typiquement <span class="math inline">\(n&gt;30\)</span> est suffisant). C’est ce qui garantie la validité de notre inférence!</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-Student:1908" class="csl-entry" role="listitem">
+Gosset, William Sealy. 1908. <span>“The Probable Error of a Mean.”</span> <em>Biometrika</em> 6 (1): 1–25. <a href="https://doi.org/10.1093/biomet/6.1.1">https://doi.org/10.1093/biomet/6.1.1</a>.
+</div>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/lbelzile\.github\.io\/math60604\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link" aria-label="Bienvenue">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Bienvenue</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./inference.html" class="pagination-link" aria-label="Inférence statistique">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Inférence statistique</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Tous droits réservés (Léo Belzile)</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/lbelzile/math60604/edit/master/introduction.qmd" class="toc-action"><i class="bi bi-github"></i>Éditer cette page</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

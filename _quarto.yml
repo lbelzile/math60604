@@ -1,0 +1,67 @@
+project:
+  type: book
+  output-dir: docs
+execute: 
+  cache: true
+  freeze: false
+bibliography: math60604.bib
+highlight: tango
+split_bib: no
+engine: knitr
+
+book:
+  title: "MATH 60604 - Modélisation statistique"
+  output-file: "MATH60604"
+  author: 
+  - name: "Léo Belzile"
+  page-footer: "Tous droits réservés (Léo Belzile)" 
+  date: today
+  description: | 
+      Ces notes forment un complément web du cours MATH 60604 (Modélisation statistique) offert à la M.Sc. en gestion (science des données et analytique d'affaires) à HEC Montréal.
+  chapters:
+    - index.qmd
+    - introduction.qmd
+    - inference.qmd
+    - references.qmd
+   # - rappel-regressionlineaire.qmd
+  site-url: https://lbelzile.github.io/math60604/
+  repo-url: https://github.com/lbelzile/math60604/
+  repo-branch: master
+  repo-actions: [edit]
+  search: true
+  downloads: [pdf]
+format:
+  html:
+    theme: custom.scss
+    css: css/style.css
+    reader-mode: true
+    license: "Tous droits réservés"
+    fig-align: center
+    toc-location: right
+    code-fold: false
+    code-summary: "Code"
+    code-overflow: wrap
+    code-block-border-left: true
+    code-copy: true
+    default-image-extension: png
+    bibliography: math60604.bib
+  pdf:
+    documentclass: scrbook
+    latex_documents:
+       targetname: MATH60604.tex
+    fontsize: 11pt
+    fig-pos: "ht!"
+    papersize: letter
+    toc-title: "Table des matières"
+    template-partials: 
+      - before-body.tex
+    include-in-header: preamble.tex
+    include-before-body: pagecouverture.tex
+    pdf-engine: pdflatex
+    citation-package: natbib
+    keep-tex: true
+    biblio-style: apalike2
+    link-citations: true
+    default-image-extension: pdf
+
+

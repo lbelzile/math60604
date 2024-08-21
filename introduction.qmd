@@ -1,0 +1,727 @@
+# Introduction {#intro}
+
+
+```{r}
+#| label: setup
+#| file: "_common.R"
+#| include: true
+#| eval: true
+#| message: false
+#| warning: false
+#| echo: false
+#| cache: false
+```
+
+## Rappels
+
+Ce chapitre couvre des rappels mathématiques de probabilité et statistique d'ordinaire couverts dans un cours de niveau collégial ou préuniversitaire.
+
+
+
+### Population et échantillons {#population-echantillon}
+
+Ce qui différencie la statistique des autres sciences est la prise en compte de l'incertitude et de la notion d'aléatoire. Règle générale, on cherche à estimer une caractéristique d'une population définie à l'aide d'un échantillon (un sous-groupe de la population) de taille restreinte. 
+
+La **population d'intérêt** est un ensemble d'individus formant la matière première d'une étude statistique. Par exemple, pour l'Enquête sur la population active (EPA) de Statistique Canada, « la population cible comprend la population canadienne civile non institutionnalisée de 15 ans et plus ». Même si on faisait un recensement et qu'on interrogeait tous les membres de la population cible, la caractéristique d'intérêt peut varier selon le moment de la collecte; une personne peut trouver un emploi, quitter le marché du travail ou encore se retrouver au chômage. Cela explique la variabilité intrinsèque.
+
+En général, on se base sur un **échantillon**  pour obtenir de l'information parce que l'acquisition de données est coûteuse. L'**inférence statistique** vise à tirer des conclusions, pour toute la population, en utilisant seulement l'information contenue dans l'échantillon et en tenant compte des sources de variabilité. Le sondeur George Gallup (traduction libre) a fait cette merveilleuse analogie entre échantillon et population: 
+
+> «Il n'est pas nécessaire de manger un bol complet de soupe pour savoir si elle est trop salé; pour autant qu'elle ait été bien brassée, une cuillère suffit.»
+
+Un **échantillon** est un sous-groupe d'individus de la population. Si on veut que ce dernier soit représentatif, il devrait être tiré aléatoirement de la population, ce qui nécessite une certaine connaissance de cette dernière. Au siècle dernier, les bottins téléphoniques pouvaient servir à créer des plans d'enquête. C'est un sujet complexe et des cours entiers d'échantillonnage y sont consacrés. Même si on ne collectera pas de données, il convient de noter la condition essentielle pour pouvoir tirer des conclusions fiables à partir d'un échantillon: ce dernier doit être représentatif de la population étudiée, en ce sens que sa composition doit être similaire à celle de la population, et aléatoire. On doit ainsi éviter les biais de sélection, notamment les échantillons de commodité qui consistent en une sélection d'amis et de connaissances. 
+
+Si notre échantillon est **aléatoire**, notre mesure d'une caractéristique d'intérêt le sera également et la conclusion de notre procédure de test variera d'un échantillon à l'autre. Plus la taille de ce dernier est grande, plus on obtiendra une mesure précise de la quantité d'intérêt. L'exemple suivant illustre pourquoi le choix de l'échantillon est important.
+
+:::{#exm-Gallup}
+
+## Gallup et l'élection présidentielle américaine de 1936
+
+Désireuse de prédire le résultat de l'élection présidentielle américaine de 1936, la revue *Literary Digest* a sondé 10 millions d'électeurs par la poste, dont 2.4 millions ont répondu au sondage en donnant une nette avance au candidat républicain Alf Landon (57%) face au président sortant Franklin D. Roosevelt (43%). Ce dernier a néanmoins remporté l'élection avec 62% des suffrages, une erreur de prédiction de 19%.  Le plan d'échantillonnage avait été conçu en utilisant des bottins téléphoniques, des enregistrements d'automobiles et des listes de membres de clubs privés, etc.:  [la non-réponse différentielle et un échantillon biaisé](https://www.jstor.org/stable/2749114) vers les classes supérieures sont en grande partie responsable de cette erreur.
+
+Gallup avait de son côté correctement prédit la victoire de Roosevelt en utilisant un échantillon aléatoire de (seulement) 50 000 électeurs. Vous pouvez lire l'[histoire complète (en anglais)](https://ozanozbey.medium.com/two-lessons-of-sampling-bias-from-1936-us-election-e4e96bd42be).
+
+:::
+
+
+### Types de variables
+
+Le résultat d'une collecte de données est un tableau, ou base de données, contenant sur chaque ligne des observations et en colonne des variables. Le @tbl-data-renfe donne un exemple de structure.
+
+- Une **variable** représente une caractéristique de la population d'intérêt, par exemple le sexe d'un individu, le prix d'un article, etc.
+- une **observation**, parfois appelée donnée, est un ensemble de mesures collectées sous des conditions identiques, par exemple pour un individu ou à un instant donné.
+
+```{r}
+#| eval: true
+#| echo: false
+#| label: tbl-data-renfe
+#| tbl-cap: "Premières lignes de la base de données `renfe`, qui contient les prix de 10K billets de train entre Barcelone et Madrid."
+data(renfe, package = "hecmodstat")
+knitr::kable(head(renfe, 5),
+   booktabs = TRUE)
+```
+
+Le choix de modèle statistique ou de test dépend souvent du type de variables collectées. Les variables peuvent être de plusieurs types: quantitatives (discrètes ou continues) si elles prennent des valeurs numériques, qualitatives (binaires, nominales ou ordinales) si elles peuvent être décrites par un adjectif; je préfère le terme catégorielle, plus évocateur.
+
+
+Les modèles de régression servent à expliquer des variables quantitatives en fonction d'autres caractéristiques.
+
+- une variable discrète prend un nombre dénombrable de valeurs; ce sont souvent des variables de dénombrement ou des variables dichotomiques.
+- une variable continue peut prendre (en théorie) une infinité de valeurs, même si les valeurs mesurées sont arrondies ou mesurées avec une précision limitée (temps, taille, masse, vitesse, salaire). Dans bien des cas, nous pouvons considérer comme continues des variables discrètes si elles prennent un assez grand nombre de valeurs.
+
+Les variables catégorielles représentent un ensemble fini de possibilités. On les regroupe en deux types, pour lesquels on ne fera pas de distinction:
+
+- nominales s'il n'y a pas d'ordre entre les modalités (sexe, couleur, pays d'origine) ou 
+- ordinale (échelle de Likert, tranche salariale). 
+
+La codification des modalités des variables catégorielle est arbitraire; en revanche, on préservera l'ordre lorsqu'on représentera graphiquement les variables ordinales. Lors de l'estimation, chaque variable catégorielle doit est transformée en un ensemble d'indicateurs binaires 0/1: il est donc essentiel de déclarer ces dernières dans votre logiciel statistique, surtout si elles sont parfois encodées dans la base de données à l'aide de valeurs entières.
+
+
+
+### Variables aléatoires {#variable-aleatoire}
+
+Suppsons qu'on cherche à décrire le comportement d'un phénomène aléatoire. Pour ce faire, on cherche à décrire l'ensemble des valeurs possibles et leur probabilité/fréquence relative au sein de la population: ces dernières sont encodées dans la loi de la variable aléatoire. 
+
+On fera la distinction entre deux cas de figure: quand le phénomène prend des valeurs finies et dénombrables, comme par exemple un événement binaire (achat/non-achat d'un produit) ou d'une variable de décompte, on parle de distribution **discrète**. Si l'ensemble des valeurs que prend la variable d'intérêt est dans un continuum de valeurs (par exemple, le prix d'un item, même si en pratique il y aura une sous-division finie et que le montant sera arrondi au centime près pour l'argent), on parle de variable **continue**. Des cas plus complexes peuvent survenir. 
+
+
+On dénote les variables aléatoires par des lettres majuscules, et leurs réalisations par des minuscules: par exemple, $Y \sim \mathsf{normale}(\mu, \sigma^2)$ indique que $Y$ suit une loi normale de paramètres $\mu \in \mathbb{R}$ et $\sigma > 0$. On parle de famille de lois si la valeur des paramètres ne sont pas spécifiées; si on fixe plutôt ces dernière, on obtient une représentation qui encode les probabilité.
+
+::: {#def-repartition}
+
+## Fonctions de répartition, de masse et de densité
+
+La **fonction de répartition** $F(y)$ donne la probabilité cumulative qu'un événement n'excède pas une variable donnée, $F(y) = \mathsf{Pr}(Y \leq y)$. Si la variable $Y$ prend des valeurs discrètes, alors on utilise la **fonction de masse** $f(y)=\mathsf{Pr}(Y=y)$ qui donne la probabilité pour chacune des valeurs de $y$. Si la variable $Y$ est continue, aucune valeur numérique de $y$ n'a de probabilité non-nulle et $\Pr(Y=y) = 0$ pour toute valeur réelle $y$; la **densité**, aussi dénotée $f(x)$, est une fonction est non-négative et satisfait $\int_{\mathbb{R}} f(x) \mathrm{d}x=1$: elle décrit la probabilité d'obtenir un résultat dans un ensemble donné des réels $\mathbb{R}$, pour n'importe lequel intervalle. La densité sert à estimer la probabilité que la variable continue $Y$ appartienne à un ensemble $B$, via $\mathsf{Pr}(Y \in B) = \int_B f(y) \mathrm{d} y$; la fonction de répartition est ainsi définie comme $F(y) = \int_{-\infty}^y f(x) \mathrm{d} x$.
+
+
+```{r}
+#| label: fig-distributions
+#| fig-cap: "Fonctions de répartition (panneau supérieur) et fonctions de densité et de masse (panneau inférieur) pour une loi continue (gauche) et discrète (droite)."
+#| eval: true
+#| echo: false
+knitr::include_graphics('images/02-ttest-DF_illustration_fr.png')
+```
+
+
+
+:::
+
+
+Un premier cours de statistique débute souvent par la présentation de statistiques descriptives comme la moyenne et l'écart-type. Ce sont des estimateurs des moments (centrés), qui caractérisent la loi du phénomène d'intérêt. Dans le cas de la loi normale unidimensionnelle, qui a deux paramètres, l'espérance et la variance caractérisent complètement le modèle.
+
+::: {#def-moments}
+
+## Moments 
+
+
+Soit $Y$ une variable aléatoire de fonction de densité (ou de masse) $f(x)$. On définit l'espérance d'une variable aléatoire $Y$ comme \begin{align*}
+\mathsf{E}(Y)=\int_{\mathbb{R}} y f(y) \mathrm{d} y.
+\end{align*}
+L'espérance est  la « moyenne théorique», ou moment de premier ordre : dans le cas discret, $\mu = \mathsf{E}(Y)=\sum_{y \in \mathcal{y}} y \mathsf{Pr}(y=y)$, où $\mathcal{Y}$ représente le support de la loi, à savoir les valeurs qui peuvent prendre $Y$. Plus généralement, l'espérance d'une fonction $g(y)$ pour une variable aléatoire $Y$  est simplement l'intégrale de $g(y)$ pondérée par la densité $f(y)$. De même, si l'intégrale est convergente, la **variance** est
+\begin{align*}
+\mathsf{Va}(Y)&=\int_{\mathbb{R}} (y-\mu)^2 f(y) \mathrm{d} y \\&=\mathsf{E}\{Y-\mathsf{E}(Y)\}^2 \\&= \mathsf{E}(Y^2) - \{\mathsf{E}(Y)\}^2.
+\end{align*}
+
+:::
+
+:::{#def-biais}
+
+## Biais
+
+Le biais d'un estimateur $\hat{\theta}$ pour un paramètre $\theta$ est
+\begin{align*}
+\mathsf{biais}(\hat{\theta})=\mathsf{E}(\hat{\theta})- \theta
+\end{align*}
+L'estimateur est non biaisé si $\mathsf{biais}(\hat{\theta})=0$.
+
+:::
+
+:::{#exm-estimateurs-non-biaises}
+
+## Estimateurs sans biais
+
+L'estimateur sans biais de l'espérance de $Y$ pour un échantillon aléatoire simple $Y_1, \ldots, Y_n$ est la moyenne empirique $\overline{Y}_n = n^{-1} \sum_{i=1}^n Y_i$ et celui de la variance $S_n = (n-1)^{-1} \sum_{i=1}^n (Y_i-\overline{Y})^2$. Un estimateur sans biais est souhaitable, mais pas toujours optimal. Quelquefois, il n'existe pas d'estimateur non-biaisé pour un paramètre!
+
+:::
+
+
+:::{#def-eqm}
+
+## Erreur quadratique moyenne
+
+Souvent, on cherche à balancer le biais et la variance: rappelez-vous qu'un estimateur est une variable aléatoire (étant une fonction de variables aléatoires) et qu'il est lui-même variable: même s'il est sans biais, la valeur numérique obtenue fluctuera d'un échantillon à l'autre. On peut chercher un estimateur qui minimise l'erreur quadratique moyenne,
+
+\begin{align*}
+\mathsf{EQM}(\hat{\theta}) = \mathsf{E}\{(\hat{\theta}-\theta)^2\}=\mathsf{Va}(\hat{\theta}) + \{\mathsf{E}(\hat{\theta})\}^2.
+\end{align*}
+C'est donc un compromis entre le carré du biais  et la variance de l'estimateur.
+
+:::
+
+La plupart des estimateurs que nous considérerons dans le cadre du cours sont 
+des estimateurs du maximum de vraisemblance. Ces derniers sont asymptotiquement efficaces, c'est-à-dire qu'ils minimisent l'erreur quadratique moyenne parmi tous les estimateurs possibles quand la taille de l'échantillon est suffisamment grande. Ils ont également d'autre propriétés qui les rendent attractifs comme choix par défaut pour l'estimation. Il ne sont pas nécessairement sans biais
+
+### Loi discrètes
+
+Plusieurs lois aléatoires décrivent des phénomènes physiques simples et ont donc une justification empirique; on revisite les distributions ou loi discrètes les plus fréquemment couvertes.
+
+ 
+:::{#def-loibern}
+
+## Loi de Bernoulli
+
+On considère un phénomène binaire, comme le lancer d'une pièce de monnaie (pile/face). De manière générale, on associe les deux possibilités à succès/échec et on suppose que la probabilité de ``succès' est $p$. Par convention, on représente les échecs (non) par des zéros et les réussites (oui) par des uns. Donc, si la variable $Y$ vaut $0$ ou $1$, alors  $\mathsf{Pr}(Y=1)=p$ et la probabilité complémentaire est $\mathsf{Pr}(Y=0)=1-p$. La fonction de masse de la [loi Bernoulli](https://fr.wikipedia.org/wiki/Loi_de_Bernoulli) s'écrit de façon plus compacte
+\begin{align*}
+\mathsf{Pr}(Y=y) = p^y (1-p)^{1-y}, \quad y=0, 1.
+\end{align*}
+
+:::
+
+Un calcul rapide montre que $\mathsf{E}(Y)=p$ et $\mathsf{Va}(Y)=p(1-p)$. Effectivement,
+\begin{align*}
+\mathsf{E}(Y) = \mathsf{E}(Y^2) = p \cdot 1 + (1-p) \cdot 0 = p.
+\end{align*}
+
+Voici quelques exemples de questions de recherches comprenant une variable réponse binaire:
+
+- est-ce qu'un client potentiel a répondu favorablement à une offre
+promotionnelle?
+- est-ce qu'un client est satisfait du service après-vente?
+- est-ce qu'une firme va faire faillite au cours des trois prochaines années?
+- est-ce qu'un participant à une étude réussit une tâche assignée?
+  
+
+Plus généralement, on aura accès à des données aggrégées.
+
+
+:::{#exm-loibinom }
+
+## Loi binomiale
+
+Si les données représentent la somme d'événements Bernoulli indépendants, la loi du nombre de réussites $Y$ pour un nombre d'essais donné $m$ est dite [binomiale](https://fr.wikipedia.org/wiki/Loi_binomiale), dénotée $\mathsf{Bin}(m, p)$; sa fonction de masse est
+\begin{align*}
+\mathsf{Pr}(Y=y) = \binom{m}{y}p^y (1-p)^{1-y}, \quad y=0, 1.
+\end{align*}
+La vraisemblance pour un échantillon de la loi binomiale est (à constante de normalisation près qui ne dépend pas de $p$) la même que pour un échantillon aléatoire de $m$ variables Bernoulli indépendantes. L'espérance d'une variable binomiale est $\mathsf{E}(Y)=mp$ et la variance $\mathsf{Va}(Y)=mp(1-p)$. 
+
+On peut ainsi considérer le nombre de personnes qui ont obtenu leur permis de conduire parmi $m$ candidat(e)s ou le nombre de clients sur $m$ qui ont passé une commande de plus de 10\$ dans un magasin.
+
+:::
+
+
+Plus généralement, on peut considérer des variables de dénombrement qui prennent des valeurs entières. Parmi les exemples de questions de recherches comprenant une variable réponse de dénombrement: 
+
+- le nombre de réclamations faites par un client d'une compagnie d'assurance
+au cours d'une année.
+- le nombre d'achats effectués par un client depuis un mois.
+- le nombre de tâches réussies par un participant lors d'une étude.
+
+:::{#exm-loigeom}
+
+## Loi géométrique
+La [loi géométrique](https://fr.wikipedia.org/wiki/Loi_g%C3%A9om%C3%A9trique) décrit le comportement du nombre d'essais Bernoulli de probabilité de succès $p$ nécessaires avant l'obtention d'un premier succès. La fonction de masse de $Y \sim \mathsf{Geo}(p)$ est 
+\begin{align*}
+\mathsf{Pr}(Y=y) = p (1-p)^{y-1}, \quad y=1,2, \ldots
+\end{align*}
+
+Par exemple, on pourrait modéliser le nombre de visites d'une maison en vente avant une première offre d'achat à l'aide d'une variable géométrique.
+
+:::
+
+
+
+:::{#exm-loipoisson}
+
+## Loi de Poisson
+
+Si la probabilité d'un événement Bernoulli est petite et qu'il est rare d'obtenir un succès dans le sens où $mp \to \lambda$ quand le nombre d'essais $m$ augmente, alors le nombre de succès suit approximateivement une loi de Poisson de fonction de masse
+\begin{align*}
+\mathsf{Pr}(Y=y) = \frac{\exp(-\lambda)\lambda^y}{\Gamma(y+1)}, \quad y=0, 1, 2, \ldots
+\end{align*}
+où $\Gamma(\cdot)$ dénote la fonction gamma, et $\Gamma(y+1) = y!$ si $y$ est un entier. Le paramètre $\lambda$ de la loi de Poisson représente à la fois l'espérance et la variance de la variable, c'est-à-dire que $\mathsf{E}(Y)=\mathsf{Va}(Y)=\lambda$.
+
+:::
+
+
+:::{#exm-loibinneg}
+
+## Loi binomiale négative
+
+On considère une série d'essais Bernoulli de probabilité de succès $p$ jusqu'à l'obtention de $m$ succès. Soit $Y$, le nombre d'échecs: puisque la dernière réalisation doit forcément être un succès, mais que l'ordre des succès/échecs précédents n'importe pas, la fonction de masse est 
+\begin{align*}
+\mathsf{Pr}(Y=y)= \binom{m-1+y}{y} p^m (1-p)^{y}.
+\end{align*}
+
+La loi binomiale négative apparaît également si on considère la loi non-conditionnelle du modèle hiérarchique gamma-Poisson, dans lequel on suppose que le paramètre de la moyenne de la loi Poisson est aussi aléatoire, c'est-à-dire $Y \mid \Lambda=\lambda \sim \mathsf{Po}(\lambda)$ et $\Lambda$ suit une loi gamma de paramètre de forme $r$ et de paramètre d'échelle $\theta$, dont la densité est \begin{align*} f(x) = \theta^{-r}x^{r-1}\exp(-x/\theta)/\Gamma(r).\end{align*}  Le nombre d'événements suit alors une loi binomiale négative.
+
+La paramétrisation la plus courante pour la modélisation est légèrement différente: pour un paramètre $r>0$ (pas forcément entier), on écrit la fonction de masse
+\begin{align*}
+\mathsf{Pr}(Y=y)=\frac{\Gamma(y+r)}{\Gamma(y+1)\Gamma(r)} \left(\frac{r}{r + \mu} \right)^{r} \left(\frac{\mu}{r+\mu}\right)^y,
+\end{align*}
+où $\Gamma$ dénote la fonction gamma. Dans cette paramétrisation, la moyenne théorique et la variance sont
+$\mathsf{E}(Y)=\mu$ et $\mathsf{Va}(Y)=\mu+k\mu^2$, où $k=1/r$. La variance d'une variable binomiale négative est *supérieure* à sa moyenne et le modèle est utilisé comme alternative à la loi de Poisson pour modéliser la surdispersion. 
+
+:::
+
+### Lois continues
+
+On considère plusieurs lois de variables aléatoires continues; certaines servent de lois pour des tests d'hypothèse et découlent du théorème central limite (notamment les lois normales, Student, Fisher ou $F$, et khi-deux).
+
+::: {#def-loibeta}
+
+## Loi beta
+
+La loi beta $\mathsf{Beta}(\alpha, \beta)$ est une loi sur l'intervalle $[0,1]$ avec paramètres de forme $\alpha>0$ et $\beta>0$. Sa densité est
+\begin{align*}
+f(x) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}x^{\alpha-1}(1-x)^{1-\beta}, \qquad x \in [0,1].
+\end{align*}
+Le cas $\alpha=\beta=1$ correspond à la loi standard uniforme.
+
+```{r}
+#| eval: true
+#| echo: false
+#| label: fig-densite-beta
+#| fig-cap: "Fonctions de densité de lois uniformes et beta(2, 3/4) sur l'intervalle [0,1]."
+g1 <- ggplot() +
+ stat_function(
+     fun = dunif, 
+     xlim = c(-0.1, 1.1), 
+     n = 1002) +
+  labs(x = "x", 
+  y = "f(x)", subtitle = "densité uniforme") +
+  
+  scale_y_continuous(limits = c(0,1.25), 
+  expand = expansion(),
+  breaks = seq(0, 1.25, by = 0.25), labels = c("0","0.25","0.5","0.75", "1", "1.25")) + 
+theme_classic()
+g2 <- ggplot() +
+ stat_function(fun = dbeta, xlim = c(-0.1, 1.1), args = list(shape1 = 2, shape2 = 0.75), n = 1002) +
+labs(x = "x", y = "f(x)", subtitle = "densité beta(2, 0.75)") +
+theme_classic()
+g1 + g2
+```
+
+:::
+
+
+
+::: {#def-loiexpo}
+
+## Loi exponentielle
+
+La loi exponentielle figure de manière proéminente dans l'étude des temps d'attente pour les phénomènes Poisson et en analyse de survie. Une caractéristique clé de la loi est son absence de mémoire: $\Pr(Y \geq y + u \mid Y > u) = \Pr(Y > u)$ pour $Y > 0$ et $y, u>0$. 
+
+La fonction de répartition de la loi exponentielle $Y \sim \mathsf{Exp}(\beta)$ où $\beta>0$, est $F(x) = 1-\exp(-\beta x)$ et sa fonction de densité est $f(x) =\beta\exp(-\beta x)$ pour $x >0$. La moyenne théorique de la loi est $\beta$.
+
+:::
+
+::: {#def-loinormale}
+
+## Loi normale
+
+De loin la plus continue des distributions, la loi normale intervient dans le théorème central limite, qui dicte le comportement aléatoire de la moyenne de grand échantillons. La fonction de densité est symmétrique autour d'une moyenne $\mu \in \mathbb{R}$, qui est une mesure de la tendance centrale. L'autre paramètre, l'écart-type  $\sigma>0$, est un paramètre d'échelle qui mesure la dispersion. La fonction de densité, en forme de cloche, est symmétrique autour de $\mu$, qui est aussi le mode de la distribution.
+
+```{r}
+#| label: fig-normal-loc-echelle
+#| eval: true
+#| echo: false
+#| fig-cap: "Densités de loi normales avec des paramètres de moyenne différents (gauche) et des paramètres d'échelle différents (droite)."
+#| fig-align: "center"
+g1 <- ggplot() +
+ stat_function(
+     fun = dnorm, 
+     xlim = c(-4,4), 
+     n = 1002,
+  args = list(mean = 0, sd = 1),
+  col = MetBrewer::met.brewer("Hiroshige", n = 3)[1]) +
+ stat_function(
+     fun = dnorm, 
+     xlim = c(-4,4), 
+     n = 1002,
+  args = list(mean = 0, sd = 2),
+  col = MetBrewer::met.brewer("Hiroshige", n = 3)[2]) +
+ stat_function(
+     fun = dnorm, 
+     xlim = c(-4,4), 
+     n = 1002,
+  args = list(mean = 0, sd = 0.5),
+  col = MetBrewer::met.brewer("Hiroshige", n = 3)[3]) +
+  labs(x = "x", 
+  y = "f(x)") + 
+theme_classic()
+g2 <-  ggplot() +
+ stat_function(
+     fun = dnorm, 
+     xlim = c(-4,4), 
+     n = 1002,
+  args = list(mean = 0, sd = 1),
+  col = MetBrewer::met.brewer("Hiroshige", n = 3)[1]) +
+ stat_function(
+     fun = dnorm, 
+     xlim = c(-4,4), 
+     n = 1002,
+  args = list(mean = -1, sd = 1),
+  col = MetBrewer::met.brewer("Hiroshige", n = 3)[2]) +
+ stat_function(
+     fun = dnorm, 
+     xlim = c(-4,4), 
+     n = 1002,
+  args = list(mean = 1, sd = 1),
+  col = MetBrewer::met.brewer("Hiroshige", n = 3)[3]) +
+  labs(x = "x", 
+  y = "f(x)") + 
+theme_classic()
+g2 + g1
+```
+
+La loi normale est une famille de localisation échelle: si $Y \sim \mathsf{normale}(\mu, \sigma^2)$, alors $Z = (Y-\mu)/\sigma \sim \mathsf{normale}(0,1)$. La variable standardisée est appelée cote Z.
+Inversement, si $Z \sim \mathsf{normale}(0,1)$, alors $Y = \mu + \sigma Z \sim \mathsf{normale}(\mu, \sigma^2)$. 
+
+:::
+
+Les trois lois suivantes ne sont pas couvertes dans les cours d'introduction, mais elles interviennent régulièrement dans les cours de mathématique statistique et serviront d'étalon de mesure pour déterminer si les statistiques de test sont extrêmes sous l'hypothèse nulle.
+
+
+::: {#def-loikhideux}
+
+## Loi khi-deux
+
+
+La loi de khi-deux avec $\nu>0$ degrés de liberté, dénotée $\chi^2_{\nu}$ joue un rôle important en statistique car elle est la loi nulle asymptotique de nombreuses statistiques de test usuelles.
+Sa densité est 
+\begin{align*}
+f(x; \nu) = \frac{1}{2^{\nu/2}\Gamma(\nu/2)}x^{\nu/2-1}\exp(-x/2),\qquad x >0.
+\end{align*}
+Elle est obtenue en prenant la somme de variables normales centrées et réduites au carré: si $Z_i \stackrel{\mathrm{iid}}{\sim}\mathsf{normale}(0,1)$ pour $i=1, \ldots, k$, alors $\sum_{i=1}^k Z_i^2 \sim \chi^2_k$. L'espérance de la loi $\chi^2_k$ est $k$.
+
+:::
+
+::: {#def-loistudent}
+
+## Loi Student-$t$
+
+La loi Student-$t$ avec $\nu>0$ degrés de liberté est une famille de localisation et d'échelle de densité symmétrique. On la dénote $\mathsf{Student}(\nu)$ dans le cas centré réduit. Ses ailes sont plus lourdes que la loi normale et son $k$e moment existe uniquement si $\nu > k$. Ainsi, la variance n'existe que si $\nu>2$. Si $\nu \to \infty$, on recouvre une loi limite Gaussienne standard. 
+
+
+Son nom provient d'un article de William Gosset sous le pseudonyme Student [@Student:1908]. La statistique $T$, pour des données Gaussiennes, suit une loi Student avec $k$ degrés de liberté, puisque la moyenne est Gaussienne et la variance empirique, adéquatement repondérée, suit une loi khi-deux avec $k$ degrés de liberté.
+
+```{r}
+#| eval: true
+#| echo: false
+#| fig-align: 'center'
+#| out-width: '50%'
+#| fig-cap: "Comparaison de la densité Student-$t$ versus normale pour différents degrés de liberté avec $\\nu=2$ (pointillé), $\\nu=10$ (traitillé) et la loi normale ($\\nu = \\infty)$."
+
+ggplot() +
+  stat_function(  
+    fun = dt, 
+    args = list(df = 10),
+    n = 1001L, 
+    xlim = c(-5,5),
+    linetype = "dashed") +
+  stat_function(
+      fun = dt, 
+      args = list(df = 2),
+      n = 1001L, 
+      xlim = c(-5,5),
+      linetype = "dotted") +
+  stat_function(
+      fun = dnorm,
+      n = 1001L, 
+      xlim = c(-5,5)) + 
+  scale_y_continuous(
+    limits = c(0, NA),
+    expand = expansion(add = c(0, 0.1))) +
+labs(x = "x", y = "densité")
+    
+
+  
+```
+
+:::
+
+
+::: {#def-loiF}
+
+## Loi de Fisher
+
+Une généralisation de la loi Student-$t$ est obtenue pour le comportement en grand échantillon de statistiques de test pour la comparaison de plusieurs moyennes (analyse de variance) sous un postulat de normalité des observations.
+
+La loi $F$, dite de Fisher et dénotée $\mathsf{Fisher}(\nu_1, \nu_2)$, est obtenue en divisant deux variables khi-deux indépendantes de degrés de liberté $\nu_1$ et $\nu_2$. Spécifiquement, si $Y_1 \sim \chi^2_{\nu_1}$ et $Y_2 \sim \chi^2_{\nu_2}$, alors 
+\begin{align*}
+F = \frac{Y_1/\nu_1}{Y_2/\nu_2} \sim \mathsf{Fisher}(\nu_1, \nu_2)
+\end{align*}
+
+La loi de Fisher tend vers une loi $\chi^2$ quand $\nu_2 \to \infty$.
+
+:::
+
+
+
+### Graphiques
+
+Le principal type de graphique pour représenter la distribution d'une variable catégorielle est le diagramme en bâtons, dans lequel la fréquence de chaque catégorie est présentée sur l'axe des ordonnées ($y$) en fonction de la modalité, sur l'axe des abscisses ($x$), et ordonnées pour des variables ordinales. Cette représentation est en tout point supérieur au [diagramme en camembert](http://www.perceptualedge.com/articles/08-21-07.pdf), une engeance répandu qui devrait être honnie (notamment parce que l'humain juge mal les différences d'aires, qu'une simple rotation change la perception du graphique et qu'il est difficile de mesurer les proportions) --- ce n'est pas de la tarte!
+
+```{r}
+#| label: fig-barplotrenfe
+#| cache: true
+#| echo: false
+#| fig-cap: Diagramme en bâtons pour la classe des billets de trains du jeu de données
+#|   Renfe.
+data(renfe, package = "hecmodstat")
+g1 <- ggplot(data = renfe, aes(x = classe)) +
+  geom_bar() +
+  labs(x = "classe", y = "dénombrement") +
+  theme_classic()
+g2 <- ggplot(data = renfe, aes(x = type)) +
+  geom_bar() +
+  labs(x = "type de train", y = "dénombrement") +
+  theme_classic()
+g1 + g2
+```
+
+
+Puisque les variables continues peuvent prendre autant de valeurs distinctes qu'il y a d'observations, on ne peut simplement compter le nombre d'occurrence par valeur unique. On regroupera plutôt dans un certain nombre d'intervalle, en discrétisant l'ensemble des valeurs en classes pour obtenir un histogramme. Le nombre de classes dépendra du nombre d'observations si on veut que l'estimation ne soit pas impactée par le faible nombre d'observations par classe: règle générale, le nombre de classes ne devrait pas dépasser $\sqrt{n}$, où $n$ est le nombre d'observations de l'échantillon. On obtiendra la fréquence de chaque classe, mais si on normalise l'histogramme (de façon à ce que l'aire sous les bandes verticales égale un), on obtient une approximation discrète de la fonction de densité. Faire varier le nombre de classes permet parfois de faire apparaître des caractéristiques de la variable (notamment la  multimodalité, l'asymmétrie et les arrondis).
+
+Puisque qu'on groupe les observations en classe pour tracer l'histogramme, il est difficile de voir l'étendue des valeurs que prenne la variable: on peut rajouter des traits sous l'histogramme pour représenter les valeurs uniques prises par la variable, tandis que la hauteur de l'histogramme nous renseigne sur leur fréquence relative.
+
+```{r}
+#| label: fig-histrenfe
+#| cache: true
+#| echo: false
+#| fig-cap: Histogramme du prix des billets au tarif Promo de trains du jeu de données
+#|   Renfe
+renfe |> subset(tarif == "Promo") |>
+  ggplot(aes(x = prix)) +
+    geom_histogram(aes(y = after_stat(density)), bins = 30) +
+    geom_rug(sides = "b") +
+    labs(x = "prix de billets au tarif Promo (en euros)", y = "densité") +
+    theme_classic()
+```
+
+:::{#def-boxplot}
+
+## Boîte à moustaches
+
+Elle représente graphiquement cinq statistiques descriptives.
+
+- La boîte donne les 1e, 2e et 3e quartiles $q_1, q_2, q_3$. Il y a donc 50\% des observations sont au-dessus/en-dessous de la médiane $q_2$ qui sépare en deux la boîte.
+- La longueur des moustaches est moins de $1.5$ fois l'écart interquartile $q_3-q_1$ (tracée entre 3e quartile et le dernier point plus petit que $q_3+1.5(q_3-q_1)$, etc.)
+- Les observations au-delà des moustaches sont encerclées. Notez que plus le nombre d'observations est élevé, plus le nombres de valeurs aberrantes augmente. C'est un défaut de la boîte à moustache, qui a été conçue pour des jeux de données qui passeraient pour petits selon les standards actuels.
+
+```{r}
+#| label: boiteamoustache
+#| echo: false
+#| fig-cap: Boîte à moustache.
+knitr::include_graphics('images/01-intro-boiteamoustache.png')
+```
+
+:::
+
+On peut représenter la distribution d'une variable réponse continue en fonction d'une variable catégorielle en traçant une boîte à moustaches pour chaque catégorie et en les disposant côte-à-côte. Une troisième variable catégorielle peut être ajoutée par le biais de couleurs, comme dans la @fig-histboxplot.
+
+```{r}
+#| label: fig-histboxplot
+#| cache: true
+#| echo: false
+#| fig-cap: Boîte à moustaches du prix des billets au tarif Promo en fonction de la classe
+#|   pour le jeu de données Renfe.
+renfe |> subset(tarif == "Promo") |>
+    ggplot(aes(y = prix, x = classe, col = type)) +
+    geom_boxplot() +
+    labs(y = "prix (en euros)", col = "type de train") +
+    theme_classic() +
+    theme(legend.position = "bottom")
+```
+
+Si on veut représenter la covariabilité de deux variables continues, on utilise un nuage de points où chaque variable est représentée sur un axe et chaque observation donne la coordonnée des points. Si la représentation graphique est dominée par quelques valeurs très grandes, une transformation des données peut être utile: vous verrez souvent des données positives à l'échelle logarithmique.
+
+
+```{r}
+#| label: fig-nuagedepoints
+#| cache: true
+#| eval: false
+#| echo: false
+#| fig-cap: Nuage de points (gauche) et diagramme hexagonal (droite) pour des données
+#|   simulées.
+#| fig-width: 8
+set.seed(1234)
+datsim <- TruncatedNormal::rtmvnorm(n = 100, lb = c(0,1), sigma = cbind(c(1,0.5), c(0.5,1)))
+g1 <- ggplot(data = data.frame(x = datsim[,1], y = datsim[,2]),
+             aes(x = x, y = y)) +
+  geom_point() +
+  theme_classic()
+datsim <- TruncatedNormal::rtmvnorm(n = 10000,
+                                    lb = c(0,0), sigma = cbind(c(1,0.5), c(0.5,1)))
+g2 <- ggplot(data = data.frame(x = datsim[,1], y = datsim[,2]),
+             aes(x = x, y = y)) +
+  geom_hex()  +
+  labs(fill = "décompte") +
+  theme_classic()
+g1 + g2
+```
+
+
+
+:::{#def-diagramme-qq}
+
+## Diagrammes quantiles-quantiles
+
+Si on ajuste un modèle à des données, il convient de vérifier la qualité de l'ajustement et l'adéquation du modèle, par exemple graphiquement. Le diagramme quantile-quantile sert à vérifier l'adéquation du modèle et découle du constat suivant: si $Y$ est une variable aléatoire continue et $F$ sa fonction de répartition, alors l'application $F(Y) \sim \mathsf{Unif}(0,1)$. De la même façon, appliquer la fonction quantile à une variable uniforme permet de simuler de la loi $F$, et donc $F^{-1}(U)$. 
+<!--Supposons un échantillon de taille $n$ de variables uniformes. On peut démontrer que les statistiques d'ordre $U_{(1)} \leq \cdots \leq U_{(n)}$ ont une loi marginale beta: et $U_{(k)} \sim \mathsf{Beta}(k, n+1-k)$ d'espérance $k/(n+1)$.
+-->
+
+Les paramètres de la loi $F$ sont inconnus, mais on peut obtenir un estimateur $\widehat{F}$ et appliquer la transformation inverse pour obtenir une variable approximativement uniforme. Un diagramme quantile-quantile représente les données en fonction des moments des statistiques d'ordre transformées
+
+- sur l'axe des abscisses, les quantiles théoriques $\widehat{F}^{-1}\{\mathrm{rang}(Y_i)/(n+1)\}$
+- sur l'axe des ordonnées, les quantiles empiriques $Y_i$
+
+Si le modèle est adéquat, les valeurs ordonnées devraient suivre une droite de pente unitaire qui passe par l'origine. Le diagramme probabilité-probabilité représente plutôt les données à l'échelle uniforme $\{\mathrm{rang}(Y_i)/(n+1), \widehat{F}(Y_i)\}$.
+
+:::
+
+```{r}
+#| label: fig-diagrammeqq2
+#| cache: true
+#| eval: true
+#| echo: false
+#| fig-cap: "Diagramme probabilité-probabilité (gauche) et quantile-quantile normal (droite)"
+library(qqplotr, warn.conflicts = FALSE)
+# library(patchwork)
+set.seed(1234)
+data <- data.frame(sample = rnorm(100))
+di <- "norm"
+dp <- list(mean = 0, scale = 1)
+de <- FALSE
+g1 <- ggplot(data = data, mapping = aes(sample = sample)) +
+ stat_qq_band(distribution = di, detrend = de, bandType = "boot", B = 9999) +
+ stat_qq_line(distribution = di, detrend = de) +
+ stat_qq_point(distribution = di, detrend = de) +
+ labs(x = "quantiles théoriques", y = "quantiles empiriques") +
+ theme_classic()
+di <- "unif"
+g2 <- ggplot(data = data, mapping = aes(sample = pnorm(sample, mean = mean(sample), sd = sd(sample)))) +
+ stat_qq_band(distribution = di, detrend = de, bandType = "boot", B = 9999) +
+ stat_qq_line(distribution = di, detrend = de) +
+ stat_qq_point(distribution = di, detrend = de) +
+ labs(x = "quantiles théoriques", y = "quantiles empiriques") +
+ theme_classic()
+g2 + g1
+```
+
+Même si on connaissait exactement la loi aléatoire des données, la variabilité intrinsèque à l'échantillon fait en sorte que des déviations qui semblent significatives et anormales à l'oeil de l'analyste sont en fait compatibles avec le modèle: un simple estimé ponctuel sans mesure d'incertitude ne permet donc pas facilement de voir ce qui est plausible ou pas. On va donc idéalement ajouter un intervalle de confiance (approximatif) ponctuel ou conjoint au diagramme.
+
+Pour obtenir l'intervalle de confiance approximatif, la méthode la plus simple est par simulation (autoamorçage paramétrique), en répétant $B$ fois les étapes suivantes 
+
+1. simuler un échantillon $\{Y^{(b)}_{i}\} (i=1,\ldots, n)$ du modèle $\widehat{F}$
+2. estimer les paramètres du modèle $F$ pour obtenir $\widehat{F}_{(b)}$
+3. calculer et stocker les positions $\widehat{F}^{-1}_{(b)}\{i/(n+1)\}$.
+
+Le résultat de cette opération sera une matrice $n \times B$ de données simulées; on obtient un intervalle de confiance symmétrique en conservant le quantile $\alpha/2$ et $1-\alpha/2$ de chaque ligne. Le nombre de simulation $B$ devrait être large (typiquement 999 ou davantage) et être choisi de manière à ce que $B/\alpha$ soit un entier.
+
+Pour l'intervalle de confiance ponctuel, chaque valeur représente une statistique et donc individuellement, la probabilité qu'une statistique d'ordre sorte de l'intervalle de confiance est $\alpha$. En revanche, les statistiques d'ordres ne sont pas indépendantes et sont qui est plus ordonnées, ce qui fait qu'un point hors de l'intervalle risque de n'être pas isolé. Les intervalles présentés dans la @fig-diagrammeqq2 sont donc ponctuels. La variabilité des statistiques d'ordre uniformes est plus grande autour de 1/2, mais celles des variables transformées dépend de $F$.
+
+
+
+
+
+### Loi des grands nombres {#loi-grands-nombres}
+
+
+Un estimateur est dit **convergent** si la valeur obtenue à mesure que la taille de l'échantillon augmente s'approche de la vraie valeur que l'on cherche à estimer. Mathématiquement parlant, un estimateur est dit convergent s'il converge en probabilité, ou $\hat{\theta} \stackrel{\mathsf{Pr}}{\to} \theta$: en langage commun, la probabilité que la différence entre $\hat{\theta}$ et $\theta$ diffèrent est négligeable quand $n$ est grand. 
+
+La condition _a minima_ pour le choix d'un estimateur est donc la convergence: plus on récolte d'information, plus notre estimateur devrait s'approcher de la valeur qu'on tente d'estimer. 
+
+La loi des grands nombres établit que la moyenne empirique de $n$ observations indépendantes de même espérance,  $\overline{Y}_n$, tend vers l'espérance commune des variables $\mu$, où $\overline{Y}_n \rightarrow \mu$. En gros, ce résultat nous dit que l'on réussit à approximer de mieux en mieux la quantité d'intérêt quand la taille de l'échantillon (et donc la quantité d'information disponible sur le paramètre) augmente. La loi des grands nombres est très utile dans les expériences Monte Carlo: on peut ainsi approximer par simulation la moyenne d'une fonction $g(x)$ de variables aléatoires  en simulant de façon répétée des variables $Y$ indépendantes et identiquement distribuées et en prenant la moyenne empirique $n^{-1} \sum_{i=1}^n g(Y_i)$.
+
+Si la loi des grands nombres nous renseigne sur le comportement limite ponctuel, il ne nous donne aucune information sur la variabilité de notre estimé de la moyenne et la vitesse à laquelle on s'approche de la vraie valeur du paramètre.
+
+
+
+### Théorème central limite {#TCL}
+
+
+Le théorème central limite dit que, pour un échantillon aléatoire de taille $n$ dont les observations sont indépendantes et tirées d'une loi quelconque d'espérance $\mu$ et de variance finie $\sigma^2$, alors la moyenne empirique tend non seulement vers $\mu$, mais à une vitesse précise:
+
+- l'estimateur $\overline{Y}$ sera centré autour de $\mu$,
+- l'erreur-type sera de $\sigma/\sqrt{n}$; le taux de convergence est donc de $\sqrt{n}$. Ainsi, pour un échantillon de taille 100, l'erreur-type de la moyenne empirique sera 10 fois moindre que l'écart-type de la variable aléatoire sous-jacente.
+- la loi approximative de la moyenne $\overline{Y}$ sera normale.
+
+Mathématiquement, le théorème central limite dicte que $\sqrt{n}(\overline{Y}-\mu) \stackrel{\mathrm{d}}{\rightarrow} \mathsf{normale}(0, \sigma^2)$. Si $n$ est grand (typiquement supérieur à $30$, mais cette règle dépend de la loi sous-jacente de $Y$), alors $\overline{Y} \stackrel{\cdot}{\sim} \mathsf{normale}(\mu, \sigma^2/n)$.
+
+Comment interpréter ce résultat? On considère comme exemple le temps de trajet moyen de trains à haute vitesse AVE entre Madrid et Barcelone opérés par la Renfe.
+
+```{r}
+#| label: fig-renfeclt
+#| echo: false
+#| fig-cap: "Distribution empirique des temps de trajet en trains à grande vitesse."
+#| fig-width: 6
+#| fig-height: 5
+data(renfe, package = "hecmodstat")
+duree <- renfe$duree[renfe$type %in% c("AVE","AVE-TGV")]
+ggplot(data = data.frame(duree), aes(x=duree)) + 
+  geom_bar() + 
+  xlab("durée (en minutes)") +
+  ylab("fréquence") +
+  theme_classic()
+```
+
+Une analyse exploratoire indique que la durée du trajet de la base de données est celle affichée sur le billet (et non le temps réel du parcours). Ainsi, il n'y a ainsi que `r length(sort(unique(duree)))` valeurs possibles. Le temps affiché moyen pour le parcours, estimé sur la base de `r length(duree)` observations, est de `r as.integer(floor(mean(duree)))` minutes et `r as.integer(round(mean(duree)%% 1 * 60,0))` secondes. La @fig-renfeclt montre la distribution empirique des données.
+
+
+Considérons maintenant des échantillons de taille $n=10$. Dans notre premier échantillon aléatoire, la durée moyenne affichée est `r mean(sample(duree, 10L))` minutes, elle est de `r mean(sample(duree, 10L))` minutes dans le deuxième, de `r mean(sample(duree, 10L))` dans le troisième, et ainsi de suite.
+
+
+```{r}
+#| label: fig-renfemeanCLT
+#| echo: false
+#| fig-align: 'center'
+#| fig-cap: "Représentation graphique du théorème central limite: échantillon aléatoire de 20 observations avec leur moyenne empirique (trait vertical rouge) (en haut à gauche). Les trois autres panneaux montrent les histogrammes des moyennes empiriques d'échantillons répétés de taille 5 (en haut à droite), 20 (en bas à gauche) et les histogrammes pour $n=5, 20, 100$ (en bas à droite) avec courbe de densité de l'approximation normale fournie par le théorème central limite."
+#| fig-width: 8
+#| fig-height: 10
+#| out-width: '90%'
+set.seed(1234)
+moy5 <- data.frame(moy = replicate(n = 10000, expr = mean(sample(duree, size = 5, replace = FALSE))))
+moy20 <- data.frame(moy = replicate(n = 10000, expr = mean(sample(duree, size = 20, replace = FALSE))))
+moy100 <- data.frame(moy = replicate(n = 20000, expr = mean(sample(duree, size = 100, replace = FALSE))))
+
+p0 <- ggplot(data = (df20 <- data.frame(duree = sample(duree, 20))), aes(x=duree)) + 
+  geom_bar() + 
+  geom_vline(xintercept = mean(df20$duree), col = "red") + 
+  xlab("durée (en minutes)") +
+  ylab("fréquence") +
+  theme_classic()
+
+p1 <- ggplot(data = moy5) + 
+  geom_histogram(bins = 30, aes(x=moy, y=after_stat(density)), alpha = 0.2) + 
+  stat_function(fun = dnorm, col = "blue", args = list(mean = mean(duree), sd = sqrt(var(duree))/sqrt(5)), n = 1000) + 
+  xlab("durée moyenne (en minutes)") +
+  ylab("densité") +
+  theme_classic()
+
+p2 <- ggplot(data = moy20) + 
+  geom_histogram(data = moy20, bins = 30, aes(x=moy, y=after_stat(density)), alpha = 0.2) + 
+  stat_function(fun = dnorm, col = "blue", args = list(mean = mean(duree), sd = sqrt(var(duree))/sqrt(20)), n = 1000) + 
+  xlab("durée moyenne (en minutes)") +
+  ylab("densité") +
+  theme_classic()
+
+p3 <- ggplot(data = moy100) + 
+  geom_histogram(bins = 50, aes(x=moy, y=after_stat(density)), alpha = 0.2) + 
+  stat_function(fun = dnorm, col = "blue", args = list(mean = mean(duree), sd = sqrt(var(duree))/10), n = 1000)  + 
+  geom_histogram(data = moy20, bins = 30, aes(x=moy, y=after_stat(density)), alpha = 0.2) + 
+  stat_function(fun = dnorm, col = "blue", args = list(mean = mean(duree), sd = sqrt(var(duree))/sqrt(20)), n = 1000) + 
+   geom_histogram(bins = 30, aes(x=moy, y=after_stat(density)), alpha = 0.2) + 
+  stat_function(fun = dnorm, col = "blue", args = list(mean = mean(duree), sd = sqrt(var(duree))/sqrt(5)), n = 1000) + 
+  xlim(c(142,198)) + 
+  xlab("durée moyenne (en minutes)") +
+  ylab("densité") +
+  theme_classic()
+
+(p0 + p1)/(p2 + p3)
+```
+
+Supposons qu'on tire $B=1000$ échantillons différents, chacun de taille $n=5$, de notre ensemble, et qu'on calcule la moyenne de chacun d'entre eux. Le graphique supérieur droit de la @fig-renfemeanCLT montre un de ces 1000 échantillons aléatoire de taille $n=20$ tiré de notre base de données. Les autres graphiques de la @fig-renfemeanCLT illustrent l'effet de l'augmentation de la taille de l'échantillon: si l'approximation normale est approximative avec $n=5$, la distribution des moyennes est virtuellement identique à partir de $n=20$. Plus la moyenne est calculée à partir d'un grand échantillon (c'est-à-dire, plus $n$ augmente), plus la qualité de l'approximation normale est meilleure et plus la courbe se concentre autour de la vraie moyenne; malgré le fait que nos données sont discrètes, la distribution des moyennes est approximativement normale.
+
+On a considéré une seule loi aléatoire inspirée de l'exemple, mais vous pouvez vous amuser à regarder l'effet de la distribution sous-jacent et de la taille de l'échantillon nécessaire pour que l'effet du théorème central limite prenne effet: il suffit pour cela de simulant des observations d'une loi quelconque de variance finie, en utilisant par exemple cette [applette](http://195.134.76.37/applets/AppletCentralLimit/Appl_CentralLimit2.html).
+
+Les statistiques de test qui découlent d'une moyenne centrée-réduite (ou d'une quantité équivalente pour laquelle un théorème central limite s'applique) ont souvent une loi nulle standard normale, du moins asymptotiquement (quand $n$ est grand, typiquement $n>30$ est suffisant). C'est ce qui garantie la validité de notre inférence!
