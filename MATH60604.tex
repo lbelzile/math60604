@@ -295,6 +295,15 @@
 \makeatother
 
 \ifLuaTeX
+\usepackage[bidi=basic]{babel}
+\else
+\usepackage[bidi=default]{babel}
+\fi
+\babelprovide[main,import]{french}
+% get rid of language-specific shorthands (see #6817):
+\let\LanguageShortHands\languageshorthands
+\def\languageshorthands#1{}
+\ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
 \usepackage{bookmark}
@@ -304,13 +313,14 @@
 \hypersetup{
   pdftitle={MATH 60604 - Modélisation statistique},
   pdfauthor={Léo Belzile},
+  pdflang={fr},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 
 
 \title{MATH 60604 - Modélisation statistique}
 \author{Léo Belzile}
-\date{2024-08-20}
+\date{2024-08-21}
 
 \begin{document}
 
@@ -343,7 +353,7 @@ attribuée à George Box dit que
 tous les modèles sont faux, mais certains sont utiles.
 \end{quote}
 
-Ce point de vue est réducteur; McCullagh and Nelder
+Ce point de vue est réducteur; McCullagh et Nelder
 (\citeproc{ref-McCullagh.Nelder:1989}{1989}) (traduction libre)
 expliquent dans le préambule de leur livre
 
@@ -368,6 +378,21 @@ formules est franchement absurde. La construction de
 plus importants du système} est néanmoins une partie essentielle de
 toute analyse scientifique et les modèles statistiques ne diffèrent pas
 en cela d'autres types de modèles.
+\end{quote}
+
+Pourquoi utiliser des modèles?
+\href{https://krugman.blogs.nytimes.com/2010/11/18/debt-deleveraging-and-the-liquidity-trap/}{Paul
+Krugman écrivait en 2010 dans son blogue}
+
+\begin{quote}
+La réponse que je donnerais est que les modèles sont un outil énormément
+important pour clarifier ses pensées. Vous n'avez pas à avoir une foi
+aveugle en votre modèle {[}\ldots{]} pour croire qu'en mettant sur pied
+une description simplifiée, mais complète du fonctionnement du système
+{[}\ldots{]} vous permet de gagner une compréhension plus sophistiquée
+de la situation réelle. Les personnes qui n'utilisent pas de modèles
+finissent par se baser sur des slogans beaucoup plus simplistes que les
+modèles.
 \end{quote}
 
 \section*{Contenu du cours}\label{contenu-du-cours}
@@ -420,21 +445,17 @@ explicatifs. Par exemple, on peut chercher à déterminer
 \begin{itemize}
 \tightlist
 \item
-  Si les décisions intégrées (décision combinée d'achat et de quantité)
-  sont préférables aux décisions séquentielles (décision d'acheter, puis
-  choix de la quantité) lors de l'achat d'un produit en ligne
-  (\citeproc{ref-Duke.Amir:2023}{Duke and Amir 2023}).
+  Est-ce que les décisions intégrées (décision combinée d'achat et de
+  quantité) sont préférables aux décisions séquentielles (décision
+  d'acheter, puis choix de la quantité) lors de l'achat d'un produit en
+  ligne (\citeproc{ref-Duke.Amir:2023}{Duke et Amir 2023})?
 \item
   Qu'est-ce qui est le plus distrayant pour les utilisateurs de la
   route: parler au cellulaire, texter en conduisant, consulter sa montre
   intelligente (\citeproc{ref-Brodeur:2021}{Brodeur et al. 2021})?
 \item
-  L'impact de de l'inadéquation entre l'image d'un produit et sa
-  description (\citeproc{ref-Lee.Choi:2019}{Lee and Choi 2019})
-\item
-  Études supérieures:
-  \href{https://www.theglobeandmail.com/report-on-business/is-the-university-experience-worth-the-cost/article31703109/}{est-ce
-  que le prix en vaut la chandelle?}.
+  Quel est l'impact de de l'inadéquation entre l'image d'un produit et
+  sa description (\citeproc{ref-Lee.Choi:2019}{Lee et Choi 2019})?
 \item
   Qu'est-ce qui explique que les prix de l'essence soient plus élevés en
   Gaspésie qu'ailleurs au Québec?
@@ -450,14 +471,15 @@ explicatifs. Par exemple, on peut chercher à déterminer
 \item
   Quelle est la perception environnementale d'un emballage de carton
   (versus de plastique) s'il englobe un contenant en plastique
-  (\citeproc{ref-Sokolova:2023}{Sokolova, Krishna, and Döring 2023}).
+  (\citeproc{ref-Sokolova:2023}{Sokolova, Krishna, et Döring 2023}).
 \item
-  L'impact psychologique des suggestions sur le montant de dons
-  (\citeproc{ref-Moon.VanEpps:2023}{Moon and VanEpps 2023})
+  Quel est l'impact psychologique des suggestions sur le montant de dons
+  (\citeproc{ref-Moon.VanEpps:2023}{Moon et VanEpps 2023})?
 \item
-  Si la visioconférence réduit le nombre d'interactions et d'idée
-  créatives générées lors d'une réunion, par rapport à une rencontre en
-  personne (\citeproc{ref-Brucks.Levav:2022}{Brucks and Levav 2022})
+  Est-ce que la visioconférence réduit le nombre d'interactions et
+  d'idée créatives générées lors d'une réunion, par rapport à une
+  rencontre en personne (\citeproc{ref-Brucks.Levav:2022}{Brucks et
+  Levav 2022})?
 \end{itemize}
 
 \bookmarksetup{startatroot}
@@ -477,8 +499,8 @@ compte de l'incertitude et de la notion d'aléatoire. Règle générale, on
 cherche à estimer une caractéristique d'une population définie à l'aide
 d'un échantillon (un sous-groupe de la population) de taille restreinte.
 
-La \textbf{population d'intérêt} est une collection d'individus formant
-la matière première d'une étude statistique. Par exemple, pour l'Enquête
+La \textbf{population d'intérêt} est un ensemble d'individus formant la
+matière première d'une étude statistique. Par exemple, pour l'Enquête
 sur la population active (EPA) de Statistique Canada, « la population
 cible comprend la population canadienne civile non institutionnalisée de
 15 ans et plus ». Même si on faisait un recensement et qu'on
@@ -1426,7 +1448,7 @@ suffisant). C'est ce qui garantie la validité de notre inférence!
 
 \chapter{Inférence statistique}\label{inference}
 
-\subsection{Tests d'hypothèse}\label{tests}
+\section{Tests d'hypothèse}\label{tests}
 
 Un test d'hypothèse statistique est une façon d'évaluer la preuve
 statistique provenant d'un échantillon afin de faire une décision quant
@@ -1495,7 +1517,7 @@ On s'attarde davantage sur ces définitions heuristiques et le
 vocabulaire employé pour parler de tests d'hypothèse. Le matériel de la
 section suivante a été préparé par Juliana Schulz.
 
-\subsection{Hypothèse}\label{hypothuxe8se}
+\section{Hypothèse}\label{hypothuxe8se}
 
 Dans les test statistique il y a toujours deux hypothèse: l'hypothèse
 nulle (\(\mathscr{H}_{0}\)) et l'hypothèse alternative
@@ -1531,7 +1553,7 @@ considérant une hypothèse alternative de la forme
 \(\mathscr{H}_a: \theta > \theta_0\) ou
 \(\mathscr{H}_a: \theta < \theta_0\).
 
-\subsection{Statistique de test}\label{statistique-de-test}
+\section{Statistique de test}\label{statistique-de-test}
 
 Une statistique de test \(T\) est un fonctionnel des données qui résume
 l'information contenue dans les données pour \(\theta\). La forme de la
@@ -1583,7 +1605,7 @@ obtient une valeur numérique. Autrement dit,
   l'estimé est la valeur numérique calculée sur un échantillon donné.
 \end{itemize}
 
-\subsection{\texorpdfstring{Loi nulle et
+\section{\texorpdfstring{Loi nulle et
 valeur-\emph{p}}{Loi nulle et valeur-p}}\label{loi-nulle-et-valeur-p}
 
 La \textbf{valeur-\emph{p}} nous permet de déterminer si la valeur
@@ -1614,7 +1636,7 @@ logiciel statistique). Puisque la distribution Student-\(t\) est
 symétrique autour de \(0\), on peut calculer la valeur-\emph{p} comme
 \(P = 2\times\mathsf{Pr}(T > |t|)\), où \(T \sim \mathsf{St}_{n-1}\).
 
-\subsection{Conclusion}\label{conclusion}
+\section{Conclusion}\label{conclusion}
 
 La valeur-\emph{p} nous permet de faire une décision quant aux
 hypothèses du test. Si \(\mathscr{H}_0\) est vraie, la valeur-\emph{p}
@@ -1700,7 +1722,7 @@ probabilité d'obtenir une valeur de la statistique de test égale ou même
 plus grande que celle qu'on a observée dans l'échantillon, si
 \(\mathscr{H}_0\) est vraie.
 
-\subsection{Puissance statistique}\label{puissance-statistique}
+\section{Puissance statistique}\label{puissance-statistique}
 
 Le but du test d'hypothèse est de prouver (hors de tout doute
 raisonnable) qu'une différence ou un effet est significatif:: par
@@ -1819,7 +1841,7 @@ calcule par la suite la proportion de tests qui mènent au rejet de
 l'hypothèse nulle à niveau \(\alpha\), ce qui correspond au pourcentage
 de valeurs-\(p\) inférieures à \(\alpha\).
 
-\subsection{Intervalle de confiance}\label{intervalle-de-confiance}
+\section{Intervalle de confiance}\label{intervalle-de-confiance}
 
 Un \textbf{intervalle de confiance} est une manière alternative de
 rapporter les conclusions d'un test, en ce sens qu'on fournit une
@@ -2062,58 +2084,58 @@ prix moyen de \(82.56\) euros est quantité négligeable.
 \phantomsection\label{refs}
 \begin{CSLReferences}{1}{0}
 \bibitem[\citeproctext]{ref-Brodeur:2021}
-Brodeur, Mathieu, Perrine Ruer, Pierre-Majorique Léger, and Sylvain
-Sénécal. 2021. {``Smartwatches Are More Distracting Than Mobile Phones
-While Driving: Results from an Experimental Study.''} \emph{Accident
+Brodeur, Mathieu, Perrine Ruer, Pierre-Majorique Léger, et Sylvain
+Sénécal. 2021. {«~Smartwatches are more distracting than mobile phones
+while driving: Results from an experimental study~»}. \emph{Accident
 Analysis \& Prevention} 149: 105846.
 \url{https://doi.org/10.1016/j.aap.2020.105846}.
 
 \bibitem[\citeproctext]{ref-Brucks.Levav:2022}
-Brucks, Melanie S., and Jonathan Levav. 2022. {``Virtual Communication
-Curbs Creative Idea Generation.''} \emph{Nature} 605 (7908): 108--12.
+Brucks, Melanie S., et Jonathan Levav. 2022. {«~Virtual communication
+curbs creative idea generation~»}. \emph{Nature} 605 (7908): 108‑12.
 \url{https://doi.org/10.1038/s41586-022-04643-y}.
 
 \bibitem[\citeproctext]{ref-Duke.Amir:2023}
-Duke, Kristen E., and On Amir. 2023. {``The Importance of Selling
+Duke, Kristen E., et On Amir. 2023. {«~The Importance of Selling
 Formats: When Integrating Purchase and Quantity Decisions Increases
-Sales.''} \emph{Marketing Science} 42 (1): 87--109.
+Sales~»}. \emph{Marketing Science} 42 (1): 87‑109.
 \url{https://doi.org/10.1287/mksc.2022.1364}.
 
 \bibitem[\citeproctext]{ref-Student:1908}
-Gosset, William Sealy. 1908. {``The Probable Error of a Mean.''}
-\emph{Biometrika} 6 (1): 1--25.
+Gosset, William Sealy. 1908. {«~The probable error of a mean~»}.
+\emph{Biometrika} 6 (1): 1‑25.
 \url{https://doi.org/10.1093/biomet/6.1.1}.
 
 \bibitem[\citeproctext]{ref-Lee.Choi:2019}
-Lee, Kiljae, and Jungsil Choi. 2019. {``Image-Text Inconsistency Effect
-on Product Evaluation in Online Retailing.''} \emph{Journal of Retailing
-and Consumer Services} 49: 279--88.
+Lee, Kiljae, et Jungsil Choi. 2019. {«~Image-text inconsistency effect
+on product evaluation in online retailing~»}. \emph{Journal of Retailing
+and Consumer Services} 49: 279‑88.
 \url{https://doi.org/10.1016/j.jretconser.2019.03.015}.
 
 \bibitem[\citeproctext]{ref-McCullagh.Nelder:1989}
-McCullagh, P., and J. A. Nelder. 1989. \emph{Generalized Linear Models}.
+McCullagh, P., et J. A. Nelder. 1989. \emph{Generalized linear models}.
 {S}econd edition. London: Chapman \& Hall.
 
 \bibitem[\citeproctext]{ref-Moon.VanEpps:2023}
-Moon, Alice, and Eric M VanEpps. 2023. {``Giving Suggestions: Using
-Quantity Requests to Increase Donations.''} \emph{Journal of Consumer
-Research} 50 (1): 190--210. \url{https://doi.org/10.1093/jcr/ucac047}.
+Moon, Alice, et Eric M VanEpps. 2023. {«~Giving Suggestions: Using
+Quantity Requests to Increase Donations~»}. \emph{Journal of Consumer
+Research} 50 (1): 190‑210. \url{https://doi.org/10.1093/jcr/ucac047}.
 
 \bibitem[\citeproctext]{ref-Satterthwaite:1946}
-Satterthwaite, F. E. 1946. {``An Approximate Distribution of Estimates
-of Variance Components.''} \emph{Biometrics Bulletin} 2 (6): 110--14.
+Satterthwaite, F. E. 1946. {«~An Approximate Distribution of Estimates
+of Variance Components~»}. \emph{Biometrics Bulletin} 2 (6): 110‑14.
 \url{http://www.jstor.org/stable/3002019}.
 
 \bibitem[\citeproctext]{ref-Sokolova:2023}
-Sokolova, Tatiana, Aradhna Krishna, and Tim Döring. 2023. {``Paper Meets
+Sokolova, Tatiana, Aradhna Krishna, et Tim Döring. 2023. {«~Paper Meets
 Plastic: The Perceived Environmental Friendliness of Product
-Packaging.''} \emph{Journal of Consumer Research} 50 (3): 468--91.
+Packaging~»}. \emph{Journal of Consumer Research} 50 (3): 468‑91.
 \url{https://doi.org/10.1093/jcr/ucad008}.
 
 \bibitem[\citeproctext]{ref-Welch:1947}
-Welch, B. L. 1947. {``The Generalization of {`Student's'} Problem When
-Several Population Variances Are Involved.''} \emph{Biometrika} 34
-(1--2): 28--35. \url{https://doi.org/10.1093/biomet/34.1-2.28}.
+Welch, B. L. 1947. {«~The generalization of {``Student's''} problem when
+several population variances are involved.~»} \emph{Biometrika} 34
+(1--2): 28‑35. \url{https://doi.org/10.1093/biomet/34.1-2.28}.
 
 \end{CSLReferences}
 

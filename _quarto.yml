@@ -8,6 +8,7 @@ bibliography: math60604.bib
 highlight: tango
 split_bib: no
 engine: knitr
+lang: fr
 
 book:
   title: "MATH 60604 - Modélisation statistique"

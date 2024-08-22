@@ -14,7 +14,7 @@
 
 
 
-### Tests d'hypothèse {#tests}
+## Tests d'hypothèse {#tests}
 
 Un test d'hypothèse statistique est une façon d'évaluer la preuve statistique provenant d'un échantillon afin de faire une décision quant à la population sous-jacente. Les étapes principales sont:
 
@@ -35,7 +35,7 @@ Mon approche privilégiée pour présenter les tests d'hypothèse est de faire u
 
 On s'attarde davantage sur ces définitions heuristiques et le vocabulaire employé pour parler de tests d'hypothèse. Le matériel de la section suivante a été préparé par Juliana Schulz.
 
-### Hypothèse
+## Hypothèse
 
 Dans les test statistique il y a toujours deux hypothèse: l'hypothèse nulle ($\mathscr{H}_{0}$) et l'hypothèse alternative ($\mathscr{H}_a$). Habituellement, l'hypothèse nulle est le « statu quo » et l'alternative est l'hypothèse que l'on cherche à démontrer. On se fait l'avocat du Diable en défendant l'hypothèse nulle et en analysant toutes les preuves sous l'angle: « est-ce que les données entrent en contradiction avec $\mathscr{H}_0$? ». Un test d'hypothèse statistique nous permet de décider si nos données nous fournissent assez de preuves pour rejeter $\mathscr{H}_0$ en faveur de $\mathscr{H}_a$, selon un risque d'erreur spécifié. 
 
@@ -54,7 +54,7 @@ où $\beta_j^0$ est une valeur précise qui est reliée à la question de recher
 
 Remarque: il est possible d'imposer une direction dans les tests en considérant une hypothèse alternative de la forme $\mathscr{H}_a: \theta > \theta_0$ ou $\mathscr{H}_a: \theta < \theta_0$.
 
-### Statistique de test
+## Statistique de test
 
 Une statistique de test $T$ est un fonctionnel des données qui résume l'information contenue dans les données pour $\theta$. La forme de la statistique de test est choisie de façon à ce que son comportement sous $\mathscr{H}_0$, c'est-à-dire l'ensemble des valeurs que prend $T$ si $\mathscr{H}_0$ est vraie et leur probabilité relative, soit connu. En effet, $T$ est une variable aléatoire et sa valeur va changer selon l'échantillon. La **loi nulle** de la statistique de test nous permet de déterminer quelles valeurs de $T$ sont plausibles si $\mathscr{H}_0$ est vraie. Plusieurs statistiques que l'on couvrira dans ce cours sont des **statistiques de Wald**, de la forme
 \begin{align*}
@@ -85,7 +85,7 @@ Il convient de faire la différence entre procédures/formules et valeurs numér
 - l'estimé est la valeur numérique calculée sur un échantillon donné.
 
 
-### Loi nulle et valeur-*p*
+## Loi nulle et valeur-*p*
 
 La **valeur-*p*** nous permet de déterminer si la valeur observée de la statistique de test $T$ est plausible sous $\mathscr{H}_0$. Plus précisément, la valeur-*p* est la probabilité, si $\mathscr{H}_0$ est vraie, que la statistique de test soit égale or plus extrême à ce qu'on observe. Supposons qu'on a un échantillon $X_1, \ldots, X_n$ et qu'on observe une valeur de la statistique de test de $T=t$. Pour un test d'hypothèse bilatéral $\mathscr{H}_0:\theta=\theta_0$ vs. $\mathscr{H}_a:\theta \neq \theta_0$, la valeur-*p* est
  $\mathsf{Pr}_0(|T| \geq |t|)$. Si la distribution de $T$ est symétrique autour de zéro, la valeur-*p* vaut
@@ -99,7 +99,7 @@ T = \frac{\overline{X}}{S/\sqrt{n}}
 \end{align*}
 suit une loi de Student-$t$ avec $n-1$ degrés de liberté, dénotée $\mathsf{St}_{n-1}$. À partir de cette loi nulle, on peut calculer la valeur-*p* (ou bien à partir d'une table ou d'un logiciel statistique). Puisque la distribution Student-$t$ est symétrique autour de $0$, on peut calculer la valeur-*p* comme $P = 2\times\mathsf{Pr}(T > |t|)$, où $T \sim \mathsf{St}_{n-1}$.
 
-### Conclusion
+## Conclusion
 
 La valeur-*p* nous permet de faire une décision quant aux hypothèses du test. Si $\mathscr{H}_0$ est vraie, la valeur-*p* suit une loi uniforme. [Si la valeur-*p* est petite](https://xkcd.com/1478/), ça veut dire que le fait d'observer une statistique de test égal ou encore plus extrême que $T=t$ est peu probable, et donc nous aurons tendance de croire que $\mathscr{H}_0$ n'est pas vraie. Il y a pourtant toujours un risque sous-jacent de commettre un erreur quand on prend une décision. En statistique, il y a [deux types d'erreurs](https://xkcd.com/2303/):
 
@@ -134,9 +134,9 @@ valeur de la valeur-*p*. La valeur-*p* s’interprète comme la probabilité d�
 la statistique de test égale ou même plus grande que celle qu'on a observée dans l’échantillon, si $\mathscr{H}_0$ est vraie.
 
 
-### Puissance statistique
+## Puissance statistique
 
-Le but du test d'hypothèse est de prouver (hors de tout doute raisonnable) qu'une différence ou un effet est significatif:: par exemple, si une nouvelle configuration d'un site web (hypothèse alternative) permet d'augmenter les ventes par rapport au statu quo. Notre capacité à détecter cette amélioration dépend de la puissance du test: plus cette dernière est élevée, plus grande est notre capacité à rejeter $\mathscr{H}_0$ quand ce dernier est faux.
+Le but du test d'hypothèse est de prouver (hors de tout doute raisonnable) qu'une différence ou un effet est significatif: par exemple, si une nouvelle configuration d'un site web (hypothèse alternative) permet d'augmenter les ventes par rapport au statu quo. Notre capacité à détecter cette amélioration dépend de la puissance du test: plus cette dernière est élevée, plus grande est notre capacité à rejeter $\mathscr{H}_0$ quand ce dernier est faux.
 Quand on ne rejette pas $\mathscr{H}_0$ et que $\mathscr{H}_a$ est en fait vraie, on commet une erreur de type II: cette dernière survient avec probabilité $1-\gamma$. La **puissance statistique** d'un test est la probabilité que le test rejette $\mathscr{H}_0$ alors que $\mathscr{H}_0$ est fausse, soit
 \begin{align*}
 \gamma = \mathsf{Pr}_a(\text{rejeter } \mathscr{H}_0)
@@ -235,7 +235,7 @@ On veut qu'un test ait une puissance élevée, c'est-à-dire, on veut que $\gamm
 
 Pour calculer la puissance d'un test, il faut choisir une alternative spécifique. Pour des exemples simples de statistiques, on peut obtenir une formule pour la puissance: par exemple, si on utilise un test-$t$ pour un échantillon, la statistique $T=\sqrt{n}(\overline{X}-\mu_0)/S_n \sim \mathcal{T}_{n-1}$ et, si la vraie moyenne est $\Delta + \mu_0$, alors la loi alternative est Student-$t$, mais non-centrée avec paramètre de décalage $\Delta$. Cette dérivation est l'exception plutôt que la règle et on détermine d'ordinaire la puissance à l'aide de méthodes de Monte Carlo en simulant des observations d'une alternative donnée, en calculant la statistique de test sur le nouvel échantillon simulé et en calculant la valeur-*p* associée à notre hypothèse nulle de façon répétée. On calcule par la suite la proportion de tests qui mènent au rejet de l'hypothèse nulle à niveau $\alpha$, ce qui correspond au pourcentage de valeurs-$p$ inférieures à $\alpha$.
 
-### Intervalle de confiance
+## Intervalle de confiance
 
 Un **intervalle de confiance** est une manière alternative de rapporter les conclusions d'un test, en ce sens qu'on fournit une estimation ponctuelle de $\hat{\theta}$ avec une marge d'erreur. L'intervalle de confiance donne donc une indication de la variabilité de la procédure d'estimation. Un intervalle de confiance de Wald à $(1-\alpha)$ pour un paramètre $\theta$ est de la forme
 \begin{align*}

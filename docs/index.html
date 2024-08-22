@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
 
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.6.1">
@@ -7,7 +7,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Léo Belzile">
-<meta name="dcterms.date" content="2024-08-20">
 <meta name="description" content="Ces notes forment un complément web du cours MATH 60604 (Modélisation statistique) offert à la M.Sc. en gestion (science des données et analytique d’affaires) à HEC Montréal.">
 
 <title>MATH 60604 - Modélisation statistique</title>
@@ -87,7 +86,7 @@ div.csl-indent {
     "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Annuler",
     "search-submit-button-title": "Envoyer",
-    "search-label": "Search"
+    "search-label": "Recherche"
   }
 }</script>
 
@@ -130,13 +129,13 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Bienvenue</a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Recherche" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -157,7 +156,7 @@ window.Quarto = {
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Search"></div>
+        <div id="quarto-search" class="" title="Recherche"></div>
         </div>
         </div>
     <div class="sidebar-menu-container"> 
@@ -230,7 +229,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Date de publication</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">August 20, 2024</p>
+      <p class="date">21 août 2024</p>
     </div>
   </div>
   
@@ -249,13 +248,17 @@ window.Quarto = {
 <blockquote class="blockquote">
 <p>tous les modèles sont faux, mais certains sont utiles.</p>
 </blockquote>
-<p>Ce point de vue est réducteur; <span class="citation" data-cites="McCullagh.Nelder:1989">McCullagh and Nelder (<a href="references.html#ref-McCullagh.Nelder:1989" role="doc-biblioref">1989</a>)</span> (traduction libre) expliquent dans le préambule de leur livre</p>
+<p>Ce point de vue est réducteur; <span class="citation" data-cites="McCullagh.Nelder:1989">McCullagh et Nelder (<a href="references.html#ref-McCullagh.Nelder:1989" role="doc-biblioref">1989</a>)</span> (traduction libre) expliquent dans le préambule de leur livre</p>
 <blockquote class="blockquote">
 <p>La modélisation en science demeure, du moins partiellement, un art. Certains principes existent, en revanche, pour guider le modélisateur. Le premier est que tous les modèles sont faux; mais que <strong>certains sont meilleurs</strong> et <strong>le modélisateur doit chercher le meilleur à sa portée</strong>. En même temps, il est sage de reconnaître que la quête perpétuelle de la vérité n’est pas envisageable.</p>
 </blockquote>
 <p>Et David R. Cox (traduction libre), de rajouter</p>
 <blockquote class="blockquote">
 <p>…il n’est pas utile de simplement énoncer que tout modèle est faux. L’idée même de modèle sous-tend une notion de simplification et d’idéalisation. L’idée qu’un système physique, biologique ou sociologique complexe puisse être décrit de manière exacte par quelques formules est franchement absurde. La construction de <strong>représentations idéalisées qui capturent les aspects stables les plus importants du système</strong> est néanmoins une partie essentielle de toute analyse scientifique et les modèles statistiques ne diffèrent pas en cela d’autres types de modèles.</p>
+</blockquote>
+<p>Pourquoi utiliser des modèles? <a href="https://krugman.blogs.nytimes.com/2010/11/18/debt-deleveraging-and-the-liquidity-trap/">Paul Krugman écrivait en 2010 dans son blogue</a></p>
+<blockquote class="blockquote">
+<p>La réponse que je donnerais est que les modèles sont un outil énormément important pour clarifier ses pensées. Vous n’avez pas à avoir une foi aveugle en votre modèle […] pour croire qu’en mettant sur pied une description simplifiée, mais complète du fonctionnement du système […] vous permet de gagner une compréhension plus sophistiquée de la situation réelle. Les personnes qui n’utilisent pas de modèles finissent par se baser sur des slogans beaucoup plus simplistes que les modèles.</p>
 </blockquote>
 <section id="contenu-du-cours" class="level2">
 <h2 class="anchored" data-anchor-id="contenu-du-cours">Contenu du cours</h2>
@@ -265,39 +268,41 @@ window.Quarto = {
 <p>Un modèle prédictif permet d’obtenir des prédictions de la valeur de <span class="math inline">\(Y\)</span> pour d’autres combinaisons de variables explicatives ou des données futures. Par exemple, on peut chercher à prédire la consommation énergétique d’une maison en fonction de la météo, du nombre d’habitants de la maison et de sa taille. La plupart des boîtes noires utilisées en apprentissage automatique tombent dans la catégorie des modèles prédictifs: ces modèles ne sont pas interprétables et ignorent parfois la structure inhérente aux données.</p>
 <p>Par contraste, les modèles explicatifs sont souvent simples et interprétables, et les modèles de régressions sont fréquemment utilisés pour l’inférence. On se concentrera dans ce cours sur les modèles explicatifs. Par exemple, on peut chercher à déterminer</p>
 <ul>
-<li>Si les décisions intégrées (décision combinée d’achat et de quantité) sont préférables aux décisions séquentielles (décision d’acheter, puis choix de la quantité) lors de l’achat d’un produit en ligne <span class="citation" data-cites="Duke.Amir:2023">(<a href="references.html#ref-Duke.Amir:2023" role="doc-biblioref">Duke and Amir 2023</a>)</span>.</li>
+<li>Est-ce que les décisions intégrées (décision combinée d’achat et de quantité) sont préférables aux décisions séquentielles (décision d’acheter, puis choix de la quantité) lors de l’achat d’un produit en ligne <span class="citation" data-cites="Duke.Amir:2023">(<a href="references.html#ref-Duke.Amir:2023" role="doc-biblioref">Duke et Amir 2023</a>)</span>?</li>
 <li>Qu’est-ce qui est le plus distrayant pour les utilisateurs de la route: parler au cellulaire, texter en conduisant, consulter sa montre intelligente <span class="citation" data-cites="Brodeur:2021">(<a href="references.html#ref-Brodeur:2021" role="doc-biblioref">Brodeur et al. 2021</a>)</span>?</li>
-<li>L’impact de de l’inadéquation entre l’image d’un produit et sa description <span class="citation" data-cites="Lee.Choi:2019">(<a href="references.html#ref-Lee.Choi:2019" role="doc-biblioref">Lee and Choi 2019</a>)</span></li>
-<li>Études supérieures: <a href="https://www.theglobeandmail.com/report-on-business/is-the-university-experience-worth-the-cost/article31703109/">est-ce que le prix en vaut la chandelle?</a>.</li>
+<li>Quel est l’impact de de l’inadéquation entre l’image d’un produit et sa description <span class="citation" data-cites="Lee.Choi:2019">(<a href="references.html#ref-Lee.Choi:2019" role="doc-biblioref">Lee et Choi 2019</a>)</span>?</li>
 <li>Qu’est-ce qui explique que les prix de l’essence soient plus élevés en Gaspésie qu’ailleurs au Québec? <a href="http://www.regie-energie.qc.ca/energie/rapports/Rapport_PrixGasp%C3%A9sie_20191219.pdf">Un rapport de surveillance des prix de l’essence en Gaspésie par la Régie de l’énergie se penche sur la question.</a></li>
 <li>Est-ce que les examens pratiques de conduite en Grande-Bretagne sont plus faciles dans les régions à faible densité? <a href="https://www.theguardian.com/world/2019/aug/23/an-easy-ride-scottish-village-fuels-debate-driving-test-pass-rates">Une analyse du journal britannique <em>The Guardian</em></a> laisse penser que c’est le cas.</li>
-<li>Quelle est la perception environnementale d’un emballage de carton (versus de plastique) s’il englobe un contenant en plastique <span class="citation" data-cites="Sokolova:2023">(<a href="references.html#ref-Sokolova:2023" role="doc-biblioref">Sokolova, Krishna, and Döring 2023</a>)</span>.</li>
-<li>L’impact psychologique des suggestions sur le montant de dons <span class="citation" data-cites="Moon.VanEpps:2023">(<a href="references.html#ref-Moon.VanEpps:2023" role="doc-biblioref">Moon and VanEpps 2023</a>)</span></li>
-<li>Si la visioconférence réduit le nombre d’interactions et d’idée créatives générées lors d’une réunion, par rapport à une rencontre en personne <span class="citation" data-cites="Brucks.Levav:2022">(<a href="references.html#ref-Brucks.Levav:2022" role="doc-biblioref">Brucks and Levav 2022</a>)</span></li>
+<li>Quelle est la perception environnementale d’un emballage de carton (versus de plastique) s’il englobe un contenant en plastique <span class="citation" data-cites="Sokolova:2023">(<a href="references.html#ref-Sokolova:2023" role="doc-biblioref">Sokolova, Krishna, et Döring 2023</a>)</span>.</li>
+<li>Quel est l’impact psychologique des suggestions sur le montant de dons <span class="citation" data-cites="Moon.VanEpps:2023">(<a href="references.html#ref-Moon.VanEpps:2023" role="doc-biblioref">Moon et VanEpps 2023</a>)</span>?</li>
+<li>Est-ce que la visioconférence réduit le nombre d’interactions et d’idée créatives générées lors d’une réunion, par rapport à une rencontre en personne <span class="citation" data-cites="Brucks.Levav:2022">(<a href="references.html#ref-Brucks.Levav:2022" role="doc-biblioref">Brucks et Levav 2022</a>)</span>?</li>
 </ul>
+<!--
+- Études supérieures: [est-ce que le prix en vaut la chandelle?](https://www.theglobeandmail.com/report-on-business/is-the-university-experience-worth-the-cost/article31703109/).
+-->
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
 <div id="ref-Brodeur:2021" class="csl-entry" role="listitem">
-Brodeur, Mathieu, Perrine Ruer, Pierre-Majorique Léger, and Sylvain Sénécal. 2021. <span>“Smartwatches Are More Distracting Than Mobile Phones While Driving: Results from an Experimental Study.”</span> <em>Accident Analysis &amp; Prevention</em> 149: 105846. <a href="https://doi.org/10.1016/j.aap.2020.105846">https://doi.org/10.1016/j.aap.2020.105846</a>.
+Brodeur, Mathieu, Perrine Ruer, Pierre-Majorique Léger, et Sylvain Sénécal. 2021. <span>«&nbsp;Smartwatches are more distracting than mobile phones while driving: Results from an experimental study&nbsp;»</span>. <em>Accident Analysis &amp; Prevention</em> 149: 105846. <a href="https://doi.org/10.1016/j.aap.2020.105846">https://doi.org/10.1016/j.aap.2020.105846</a>.
 </div>
 <div id="ref-Brucks.Levav:2022" class="csl-entry" role="listitem">
-Brucks, Melanie S., and Jonathan Levav. 2022. <span>“Virtual Communication Curbs Creative Idea Generation.”</span> <em>Nature</em> 605 (7908): 108–12. <a href="https://doi.org/10.1038/s41586-022-04643-y">https://doi.org/10.1038/s41586-022-04643-y</a>.
+Brucks, Melanie S., et Jonathan Levav. 2022. <span>«&nbsp;Virtual communication curbs creative idea generation&nbsp;»</span>. <em>Nature</em> 605 (7908): 108‑12. <a href="https://doi.org/10.1038/s41586-022-04643-y">https://doi.org/10.1038/s41586-022-04643-y</a>.
 </div>
 <div id="ref-Duke.Amir:2023" class="csl-entry" role="listitem">
-Duke, Kristen E., and On Amir. 2023. <span>“The Importance of Selling Formats: When Integrating Purchase and Quantity Decisions Increases Sales.”</span> <em>Marketing Science</em> 42 (1): 87–109. <a href="https://doi.org/10.1287/mksc.2022.1364">https://doi.org/10.1287/mksc.2022.1364</a>.
+Duke, Kristen E., et On Amir. 2023. <span>«&nbsp;The Importance of Selling Formats: When Integrating Purchase and Quantity Decisions Increases Sales&nbsp;»</span>. <em>Marketing Science</em> 42 (1): 87‑109. <a href="https://doi.org/10.1287/mksc.2022.1364">https://doi.org/10.1287/mksc.2022.1364</a>.
 </div>
 <div id="ref-Lee.Choi:2019" class="csl-entry" role="listitem">
-Lee, Kiljae, and Jungsil Choi. 2019. <span>“Image-Text Inconsistency Effect on Product Evaluation in Online Retailing.”</span> <em>Journal of Retailing and Consumer Services</em> 49: 279–88. <a href="https://doi.org/10.1016/j.jretconser.2019.03.015">https://doi.org/10.1016/j.jretconser.2019.03.015</a>.
+Lee, Kiljae, et Jungsil Choi. 2019. <span>«&nbsp;Image-text inconsistency effect on product evaluation in online retailing&nbsp;»</span>. <em>Journal of Retailing and Consumer Services</em> 49: 279‑88. <a href="https://doi.org/10.1016/j.jretconser.2019.03.015">https://doi.org/10.1016/j.jretconser.2019.03.015</a>.
 </div>
 <div id="ref-McCullagh.Nelder:1989" class="csl-entry" role="listitem">
-McCullagh, P., and J. A. Nelder. 1989. <em>Generalized Linear Models</em>. <span>S</span>econd edition. London: Chapman &amp; Hall.
+McCullagh, P., et J. A. Nelder. 1989. <em>Generalized linear models</em>. <span>S</span>econd edition. London: Chapman &amp; Hall.
 </div>
 <div id="ref-Moon.VanEpps:2023" class="csl-entry" role="listitem">
-Moon, Alice, and Eric M VanEpps. 2023. <span>“Giving Suggestions: Using Quantity Requests to Increase Donations.”</span> <em>Journal of Consumer Research</em> 50 (1): 190–210. <a href="https://doi.org/10.1093/jcr/ucac047">https://doi.org/10.1093/jcr/ucac047</a>.
+Moon, Alice, et Eric M VanEpps. 2023. <span>«&nbsp;Giving Suggestions: Using Quantity Requests to Increase Donations&nbsp;»</span>. <em>Journal of Consumer Research</em> 50 (1): 190‑210. <a href="https://doi.org/10.1093/jcr/ucac047">https://doi.org/10.1093/jcr/ucac047</a>.
 </div>
 <div id="ref-Sokolova:2023" class="csl-entry" role="listitem">
-Sokolova, Tatiana, Aradhna Krishna, and Tim Döring. 2023. <span>“Paper Meets Plastic: The Perceived Environmental Friendliness of Product Packaging.”</span> <em>Journal of Consumer Research</em> 50 (3): 468–91. <a href="https://doi.org/10.1093/jcr/ucad008">https://doi.org/10.1093/jcr/ucad008</a>.
+Sokolova, Tatiana, Aradhna Krishna, et Tim Döring. 2023. <span>«&nbsp;Paper Meets Plastic: The Perceived Environmental Friendliness of Product Packaging&nbsp;»</span>. <em>Journal of Consumer Research</em> 50 (3): 468‑91. <a href="https://doi.org/10.1093/jcr/ucad008">https://doi.org/10.1093/jcr/ucad008</a>.
 </div>
 </div>
 </section>
@@ -347,12 +352,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // flash "checked"
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
+    button.setAttribute("title", "Copié");
     let tooltip;
     if (window.bootstrap) {
       button.setAttribute("data-bs-toggle", "tooltip");
       button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
+      button.setAttribute("data-bs-title", "Copié");
       tooltip = new bootstrap.Tooltip(button, 
         { trigger: "manual", 
           customClass: "code-copy-button-tooltip",
