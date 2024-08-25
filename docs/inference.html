@@ -89,6 +89,8 @@ div.csl-indent {
     "search-label": "Recherche"
   }
 }</script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -195,13 +197,15 @@ window.Quarto = {
     <h2 id="toc-title">Table des matières</h2>
    
   <ul>
-  <li><a href="#tests" id="toc-tests" class="nav-link active" data-scroll-target="#tests"><span class="header-section-number">2.1</span> Tests d’hypothèse</a></li>
-  <li><a href="#hypothèse" id="toc-hypothèse" class="nav-link" data-scroll-target="#hypothèse"><span class="header-section-number">2.2</span> Hypothèse</a></li>
-  <li><a href="#statistique-de-test" id="toc-statistique-de-test" class="nav-link" data-scroll-target="#statistique-de-test"><span class="header-section-number">2.3</span> Statistique de test</a></li>
-  <li><a href="#loi-nulle-et-valeur-p" id="toc-loi-nulle-et-valeur-p" class="nav-link" data-scroll-target="#loi-nulle-et-valeur-p"><span class="header-section-number">2.4</span> Loi nulle et valeur-<em>p</em></a></li>
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">2.5</span> Conclusion</a></li>
-  <li><a href="#puissance-statistique" id="toc-puissance-statistique" class="nav-link" data-scroll-target="#puissance-statistique"><span class="header-section-number">2.6</span> Puissance statistique</a></li>
-  <li><a href="#intervalle-de-confiance" id="toc-intervalle-de-confiance" class="nav-link" data-scroll-target="#intervalle-de-confiance"><span class="header-section-number">2.7</span> Intervalle de confiance</a></li>
+  <li><a href="#variabilité-échantillonale" id="toc-variabilité-échantillonale" class="nav-link active" data-scroll-target="#variabilité-échantillonale"><span class="header-section-number">2.1</span> Variabilité échantillonale</a></li>
+  <li><a href="#tests" id="toc-tests" class="nav-link" data-scroll-target="#tests"><span class="header-section-number">2.2</span> Tests d’hypothèse</a></li>
+  <li><a href="#hypothèse" id="toc-hypothèse" class="nav-link" data-scroll-target="#hypothèse"><span class="header-section-number">2.3</span> Hypothèse</a></li>
+  <li><a href="#statistique-de-test" id="toc-statistique-de-test" class="nav-link" data-scroll-target="#statistique-de-test"><span class="header-section-number">2.4</span> Statistique de test</a></li>
+  <li><a href="#loi-nulle-et-valeur-p" id="toc-loi-nulle-et-valeur-p" class="nav-link" data-scroll-target="#loi-nulle-et-valeur-p"><span class="header-section-number">2.5</span> Loi nulle et valeur-<em>p</em></a></li>
+  <li><a href="#intervalle-de-confiance" id="toc-intervalle-de-confiance" class="nav-link" data-scroll-target="#intervalle-de-confiance"><span class="header-section-number">2.6</span> Intervalle de confiance</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">2.7</span> Conclusion</a></li>
+  <li><a href="#puissance-statistique" id="toc-puissance-statistique" class="nav-link" data-scroll-target="#puissance-statistique"><span class="header-section-number">2.8</span> Puissance statistique</a></li>
+  <li><a href="#exemples" id="toc-exemples" class="nav-link" data-scroll-target="#exemples"><span class="header-section-number">2.9</span> Exemples</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/lbelzile/math60604/edit/master/inference.qmd" class="toc-action"><i class="bi bi-github"></i>Éditer cette page</a></li></ul></div></nav>
     </div>
@@ -227,8 +231,172 @@ window.Quarto = {
 </header>
 
 
-<section id="tests" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="tests"><span class="header-section-number">2.1</span> Tests d’hypothèse</h2>
+<p>Dans la plupart des domaines scientifiques, les donnéese empiriques issues d’expériences contribuent à l’édification de la science. Afin de tirer des conclusions en faveur ou à l’encontre d’une théorie, les chercheurs se tournent (souvent à contrecoeur) vers la statistique. Cela a conduit à la prédominance de l’utilisation du cadre des tests statistiques et à la prépondérance des valeurs-<span class="math inline">\(p\)</span> dans les articles scientifiques, souvent employées de manière abusive ou fautive dans les articles de journaux. La falsification d’une hypothèse nulle n’est pas suffisante pour fournir des résultats substantiels pour une théorie.</p>
+<p>Comme les cours d’introduction aux statistiques présentent généralement des tests d’hypothèses sans accorder beaucoup d’attention aux principes de construction sous-jacents de ces procédures, les utilisateurs ont souvent une vision réductrice des statistiques. Plusieurs voient les statistiques comme un catalogue de procédures pré-établies. Pour faire une analogie culinaire, les utilisateurs se concentrent sur l’apprentissage en vase clos des recettes plutôt que d’essayer de comprendre les bases de la cuisine et de faire des liens. Ce chapitre se concentre sur la compréhension des concepts-clés liées aux tests.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>**Objectifs d’apprentissage</p>
+<ul>
+<li>Comprendre le rôle de l’incertitude dans la prise de décision.</li>
+<li>Comprendre l’importance du rapport signal/bruit en tant que preuve.</li>
+<li>Connaître les ingrédients de base des tests d’hypothèse et être capable de formuler et d’identifier correctement ces composants dans un article scientifique</li>
+<li>Interpréter correctement les valeurs-<span class="math inline">\(p\)</span> et les intervalles de confiance pour un paramètre.</li>
+</ul>
+</div>
+</div>
+<p>Avant d’entamer une collecte de données pour une expérience, il est nécessaire de formuler une question de recherche. En général, cette hypothèse spécifie les différences potentielles entre les caractéristiques de la population dues à une intervention (un traitement) que le chercheur souhaite quantifier. C’est à cette étape que les chercheurs décident de la taille de l’échantillon, du choix de la variable de réponse et de la méthode de mesure, qu’ils rédigent le plan de l’étude, etc.</p>
+<p>Il est important de noter que la plupart des questions de recherche ne peuvent être résolues à l’aide d’outils simples. Les chercheurs qui souhaitent mener une recherche méthodologique innovante devraient contacter des experts et consulter des statisticien(ne)s <strong>avant</strong> de collecter leurs données afin d’obtenir des informations sur la meilleure façon de procéder pour ce qu’ils ont en tête, afin d’éviter le risque d’affirmations trompeuses basées sur une analyse ou une collecte de données incorrectes.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-xkcd2569" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-xkcd2569-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/xkcd2569_hypothesis_generation.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-xkcd2569-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.1: Bande dessinée xkcd <a href="https://xkcd.com/2569/">2569 (Hypothesis generation) par Randall Munroe</a>. Text alternatif: Frazzled scientists are requesting that everyone please stop generating hypotheses for a little bit while they work through the backlog. Bande réimprimée sous license <a href="https://creativecommons.org/licenses/by-nc/2.5/">CC BY-NC 2.5</a>.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<section id="variabilité-échantillonale" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="variabilité-échantillonale"><span class="header-section-number">2.1</span> Variabilité échantillonale</h2>
+<p>Un chercheur s’intéressera à l’estimation de certaines caractéristiques de la population à partir d’une base de données. Nous pouvons caractériser l’ensemble de toutes les valeurs potentielles que leurs mesures peuvent prendre, ainsi que leur fréquence, au moyen d’une loi d’une variable aléatoire.</p>
+<p>L’objectif de cette section est d’illustrer le fait que nous ne pouvons pas simplement utiliser les différences brutes entre les groupes pour effectuer des comparaisons significatives: en raison de la variabilité due à l’échantillonnage, les échantillons seront semblables même s’ils sont générés de la même manière, mais il y aura toujours des différences entre les statistiques récapitulatives calculées sur des échantillons différents. Ces différences ont tendance à s’atténuer (ou à augmenter) au fur et à mesure que l’on collecte davantage d’observations. Plus nous recueillons de données (et donc d’informations) sur notre cible, plus le portrait devient précis. C’est somme toute ce qui nous permet de tirer des conclusions mais, pour ce faire, nous devons d’abord déterminer ce qui est probable ou plausible et donc le fruit du hsard, de ce qui n’est pas ou peu susceptible de se produire.</p>
+<p>Nous appelons <strong>statistiques</strong> les résumés numériques des données. Il est important de faire la distinction entre les procédures ou formules et leurs valeurs numériques. Un <strong>estimateur</strong> est une règle ou une formule utilisée pour calculer une estimation d’un paramètre ou d’une quantité d’intérêt sur la base de données observées (comme une recette de gâteau). Une fois que nous disposons de données observées, nous pouvons calculer la moyenne de l’échantillon, c’est-à-dire que nous disposons d’une estimation — d’une valeur réelle (le gâteau), qui est une réalisation unique et non aléatoire. En d’autres termes,</p>
+<ul>
+<li>un estimand est notre cible conceptuelle, comme la caractéristique de la population qui nous intéresse (la moyenne de la population).</li>
+<li>un estimateur est la procédure ou la formule qui nous indique comment transformer les données de l’échantillon en un résumé numérique qui est une approximation de notre cible.</li>
+<li>une estimation (ou un estimé) est un nombre, la valeur numérique obtenue lorsque nous appliquons la formule à un échantillon en praticulier.</li>
+</ul>
+<div id="fig-cake" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cake-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-cake" style="flex-basis: 33.3%;justify-content: center;">
+<div id="fig-cake-1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-cake-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/estimand.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%" data-ref-parent="fig-cake">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-cake-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Estimand
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-cake" style="flex-basis: 33.3%;justify-content: center;">
+<div id="fig-cake-2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-cake-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/estimator.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%" data-ref-parent="fig-cake">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-cake-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Estimator
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-cake" style="flex-basis: 33.3%;justify-content: center;">
+<div id="fig-cake-3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-cake-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/estimate.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%" data-ref-parent="fig-cake">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-cake-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) Estimate
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cake-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.2: Les concepts d’<a href="https://www.flickr.com/photos/darkdwarf/16563489881">estimand</a> (gauche), estimateur (milieu) et <a href="https://www.flickr.com/photos/bensutherland/14685548773">estimaté</a> (droite), illustrés à l’aide de gâteau, une variation d’un idée originale de Simon Grund. Les photos de gâteau sont partagées sous licence <a href="https://creativecommons.org/licenses/by-nc/2.0/">CC BY-NC 2.0</a>.
+</figcaption>
+</figure>
+</div>
+<p>Par exemple, si l’estimand est l’espérance de la population <span class="math inline">\(\mu,\)</span> l’estimateur sera la moyenne arithmétique, soit la somme des éléments de l’échantillon aléatoire divisé par la taille de l’échantillon, ou, <span class="math inline">\(\overline{Y}=(Y_1 + \cdots + Y_n)/n.\)</span> L’estimé sera une valeur numérique, disons 4.3.</p>
+<p>Parce que les intrants de l’estimateur sont aléatoires, la sortie l’est également et varie d’un échantillon à l’autre. Autrement dit, même si on répète une recette, on n’obtient pas le même résultat à chaque coup, comme le montre si bien la <a href="#fig-xkcd605" class="quarto-xref">Figure&nbsp;<span>2.3</span></a>.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-xkcd605" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-xkcd605-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/xkcd2581_health_stats.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-xkcd605-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.3: Bande dessinée xkcd <a href="https://xkcd.com/2581/">2581 (Health Stats) par Randall Munroe</a>. Texte alternatif: You will live on forever in our hearts, pushing a little extra blood toward our left hands now and then to give them a squeeze. Bande réimprimée sous license <a href="https://creativecommons.org/licenses/by-nc/2.5/">CC BY-NC 2.5</a>.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Pour illustrer ce point, <a href="#fig-samplevar" class="quarto-xref">Figure&nbsp;<span>2.4</span></a> montre cinq échantillons aléatoires simples de taille <span class="math inline">\(n=10\)</span> tirés d’une population hypothétique de moyenne théorique <span class="math inline">\(\mu\)</span> et d’écart-type <span class="math inline">\(\sigma,\)</span> ainsi que leur moyenne d’échantillon <span class="math inline">\(\overline{y}.\)</span> En raison de la variabilité échantillonnale, les moyennes des sous-groupes sont différentes même si elles proviennent de la même population. Vous pouvez considérer la variabilité d’échantillonnage comme du bruit: notre objectif est d’extraire le signal (typiquement les différences de moyennes) tout en tenant compte du bruit de fond.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-samplevar" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-samplevar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="inference_files/figure-html/fig-samplevar-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-samplevar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.4: Cinq échantillons de taille <span class="math inline">\(n=10\)</span> tirés d’une population commune de moyenne <span class="math inline">\(\mu\)</span> (ligne horizontale). Les segments colorés représentent les moyennes empiriques de chaque groupe.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>L’oeil avisé pourra remarquer que les moyennes des cinq échantillons (segments horizontaux colorés) sont moins dispersées autour de la ligne horizontale noire représentant la moyenne de la population <span class="math inline">\(\mu\)</span> que ne le sont les observations. Il s’agit là d’un principe fondamental de la statistique: l’information s’accumule au fur et à mesure que l’on obtient plus de données.</p>
+<p>Les valeurs de la moyenne de l’échantillon ne donnent pas une image complète et l’étude des différences de moyenne (entre les groupes ou par rapport à une valeur de référence postulée) n’est pas suffisante pour tirer des conclusions. Dans la plupart des cas, rien ne garantit que la moyenne de l’échantillon sera égale à sa valeur réelle, car elle varie d’un échantillon à l’autre: la seule garantie que nous ayons est qu’elle sera en moyenne égale à la moyenne de la population dans des échantillons répétés. Selon le choix de la mesure et la variabilité de la population, il peut y avoir des différences considérables d’une observation à l’autre, ce qui signifie que la différence observée peut être un coup de chance.</p>
+<p>Pour avoir une idée du degré de certitude d’une chose, nous devons considérer la variabilité d’une observation <span class="math inline">\(Y_i.\)</span> Cette variance d’une observation tirée de la population est typiquement notée <span class="math inline">\(\sigma^2\)</span> et sa racine carrée, l’écart-type, par <span class="math inline">\(\sigma.\)</span></p>
+<p>L’écart-type <em>d’une statistique</em> est appelé <strong>erreur-type</strong>; il ne doit pas être confondu avec l’écart-type <span class="math inline">\(\sigma\)</span> de la population dont sont tirées les observations de l’échantillon <span class="math inline">\(Y_1, \ldots, Y_n.\)</span> L’écart-type et l’erreur-type sont exprimés dans les mêmes unités que les données et sont donc plus faciles à interpréter que la variance. L’erreur-type étant fonction de la taille de l’échantillon, il est d’usage de rapporter plutôt l’écart-type dans les rapports.</p>
+<div id="exm-samppropunif" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 2.1 (Proportion échantillonale et tirages uniformes)</strong></span> Pour illustrer le concept de variabilité échantillonnale, nous suivons l’exemple de [Matthew Crump] (https://www.crumplab.com/statistics/foundations-for-inference.html) et considérons des échantillons provenant d’une distribution uniforme sur <span class="math inline">\(\{1, 2, \ldots, 10\}\)</span>: chaque entier de cet intervalle a la même probabilité d’être tiré.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-unifsamp1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-unifsamp1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="inference_files/figure-html/fig-unifsamp1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-unifsamp1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.5: Histogrammes de 10 échantillons aléatoires de taille <span class="math inline">\(n=20\)</span> de loi uniforme discrète.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Même s’ils sont tirés de la même population, les 10 échantillons de <a href="#fig-unifsamp1" class="quarto-xref">Figure&nbsp;<span>2.5</span></a> sont très différents. La seule chose en jeu ici est la variabilité de l’échantillon: puisqu’il y a <span class="math inline">\(n=20\)</span> d’observations au total, il devrait y avoir en moyenne 10% des observations dans chacun des 10 bacs, mais certains bacs sont vides et d’autres ont plus d’effectifs que prévu. Cette fluctuation est le fruit du hasard.</p>
+<p>Comment pouvons-nous donc déterminer si ce que nous voyons est compatible avec le modèle qui, selon nous, a généré les données ? Il suffit de collecter davantage d’observations: la hauteur de la barre est la proportion de l’échantillon, une moyenne de valeurs 0/1, où la valeur ‘un’ indique que l’observation se trouve dans la case, et ‘zéro’ dans le cas contraire.</p>
+<p>Considérons maintenant ce qui se passe lorsque nous augmentons la taille de l’échantillon: le panneau supérieur de <a href="#fig-uniformsamp2" class="quarto-xref">Figure&nbsp;<span>2.6</span></a> montre des échantillons uniformes pour une taille d’échantillon croissante. Le diagramme à bande ressemble de plus en plus à la véritable distribution sous-jacente (fonction de masse constante, donc chaque case ayant la même fréquence) à mesure que la taille de l’échantillon augmente. La distribution des points de l’échantillon est presque indiscernable de la distribution théorique (ligne droite) lorsque <span class="math inline">\(n=10 000.\)</span><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. Le panneau du bas, en revanche, ne provient pas d’une distribution uniforme. Plus l’échantillon grossit, plus l’approximation de la fonction de masse se rapproche de la vraie valeur. Nous n’aurions pas pu remarquer cette différence dans les deux premiers graphiques, car la variabilité de l’échantillonnage est trop importante; là, le manque de données dans certaines cases pourrait être un obstacle à l’obtention d’une distribution uniforme.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-uniformsamp2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-uniformsamp2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="inference_files/figure-html/fig-uniformsamp2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-uniformsamp2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.6: Diagrammes à bande de données tirées d’une loi uniforme (haut) et d’une loi non-uniforme (bas) pour des tailles d’échantillons de 10, 100, 1000 and 10 000 (de gauche à droite).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="tests" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="tests"><span class="header-section-number">2.2</span> Tests d’hypothèse</h2>
 <p>Un test d’hypothèse statistique est une façon d’évaluer la preuve statistique provenant d’un échantillon afin de faire une décision quant à la population sous-jacente. Les étapes principales sont:</p>
 <ul>
 <li>définir les paramètres du modèle,</li>
@@ -244,59 +412,103 @@ window.Quarto = {
 <li>Votre postulat de départ repose sur la présomption d’innocence: vous condamnerez uniquement le suspect si la preuve est accablante. Cela permet d’éviter les erreurs judiciaires. L’hypothèse nulle <span class="math inline">\(\mathscr{H}_0\)</span> est donc <em>non-coupable</em>, et l’hypothèse alternative <span class="math inline">\(\mathscr{H}_a\)</span> est coupable. En cas de doute raisonnable, vous émettrez un verdict de non-culpabilité.</li>
 <li>La choix de la statistique de test représente la preuve. Plus la preuve est accablante, plus grande est la chance d’un verdict de culpabilité — le procureur a donc tout intérêt à bien choisir les faits présentés en cour. Le choix de la statistique devrait donc idéalement maximiser la preuve pour appuyer le postulat de culpabilité le mieux possible (ce choix reflète la <strong>puissance</strong> du test).</li>
 <li>En qualité de juré, vous analysez la preuve à partir de la jurisprudence et de l’avis d’expert pour vous assurer que les faits ne relèvent pas du hasard. Pour le test d’hypothèse, ce rôle est tenu par la loi sous <span class="math inline">\(\mathscr{H}_0\)</span>: si la personne était innocente, est-ce que les preuves présentées tiendraient la route? des traces d’ADN auront davantage de poids que des ouï-dire (la pièce de théâtre <em>Douze hommes en colère</em> de Reginald Rose présente un bel exemple de procès où un des juré émet un doute raisonnable et convainc un à un les autres membres du jury de prononcer un verdict de non-culpabilité).</li>
-<li>Vous émettez un verdict, à savoir une décision binaire, où l’accusé est déclaré soit non-coupable, soit coupable. Si vous avez une valeur-<em>p</em>, disons <span class="math inline">\(P\)</span>, pour votre statistique de test et que vous effectuez ce dernier à niveau <span class="math inline">\(\alpha\)</span>, la règle de décision revient à rejeter <span class="math inline">\(\mathscr{H}_0\)</span> si <span class="math inline">\(P &lt; \alpha\)</span>.</li>
+<li>Vous émettez un verdict, à savoir une décision binaire, où l’accusé est déclaré soit non-coupable, soit coupable. Si vous avez une valeur-<em>p</em>, disons <span class="math inline">\(P,\)</span> pour votre statistique de test et que vous effectuez ce dernier à niveau <span class="math inline">\(\alpha,\)</span> la règle de décision revient à rejeter <span class="math inline">\(\mathscr{H}_0\)</span> si <span class="math inline">\(P &lt; \alpha.\)</span></li>
 </ul>
-<p>On s’attarde davantage sur ces définitions heuristiques et le vocabulaire employé pour parler de tests d’hypothèse. Le matériel de la section suivante a été préparé par Juliana Schulz.</p>
+<p>On s’attarde davantage sur ces définitions heuristiques et le vocabulaire employé pour parler de tests d’hypothèse.</p>
 </section>
-<section id="hypothèse" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="hypothèse"><span class="header-section-number">2.2</span> Hypothèse</h2>
-<p>Dans les test statistique il y a toujours deux hypothèse: l’hypothèse nulle (<span class="math inline">\(\mathscr{H}_{0}\)</span>) et l’hypothèse alternative (<span class="math inline">\(\mathscr{H}_a\)</span>). Habituellement, l’hypothèse nulle est le « statu quo » et l’alternative est l’hypothèse que l’on cherche à démontrer. On se fait l’avocat du Diable en défendant l’hypothèse nulle et en analysant toutes les preuves sous l’angle: « est-ce que les données entrent en contradiction avec <span class="math inline">\(\mathscr{H}_0\)</span>? ». Un test d’hypothèse statistique nous permet de décider si nos données nous fournissent assez de preuves pour rejeter <span class="math inline">\(\mathscr{H}_0\)</span> en faveur de <span class="math inline">\(\mathscr{H}_a\)</span>, selon un risque d’erreur spécifié.</p>
-<p>Généralement, les tests d’hypothèses sont exprimés en fonction de paramètres (de valeurs inconnues) du modèle sous-jacent, par ex. <span class="math inline">\(\theta\)</span>. Un test d’hypothèse bilatéral concernant un paramètre scalaire <span class="math inline">\(\theta\)</span> s’exprimerait la forme suivante: <span class="math display">\[\begin{align*}
+<section id="hypothèse" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="hypothèse"><span class="header-section-number">2.3</span> Hypothèse</h2>
+<p>Dans les test statistique il y a toujours deux hypothèse: l’hypothèse nulle (<span class="math inline">\(\mathscr{H}_{0}\)</span>) et l’hypothèse alternative (<span class="math inline">\(\mathscr{H}_a\)</span>). Habituellement, l’hypothèse nulle est le « statu quo » et l’alternative est l’hypothèse que l’on cherche à démontrer. On se fait l’avocat du Diable en défendant l’hypothèse nulle et en analysant toutes les preuves sous l’angle: « est-ce que les données entrent en contradiction avec <span class="math inline">\(\mathscr{H}_0\)</span>? ». Un test d’hypothèse statistique nous permet de décider si nos données nous fournissent assez de preuves pour rejeter <span class="math inline">\(\mathscr{H}_0\)</span> en faveur de <span class="math inline">\(\mathscr{H}_a,\)</span> selon un risque d’erreur spécifié.</p>
+<p>Généralement, les tests d’hypothèses sont exprimés en fonction de paramètres (de valeurs inconnues) du modèle sous-jacent, par ex. <span class="math inline">\(\theta.\)</span> Un test d’hypothèse bilatéral concernant un paramètre scalaire <span class="math inline">\(\theta\)</span> s’exprimerait la forme suivante: <span class="math display">\[\begin{align*}
 \mathscr{H}_0: \theta=\theta_0 \qquad \text{versus} \qquad \mathscr{H}_a:\theta \neq \theta_0.
-\end{align*}\]</span> Ces hypothèses permettent de tester si <span class="math inline">\(\theta\)</span> est égal à une valeur numérique précise <span class="math inline">\(\theta_0\)</span>.</p>
-<p>Par exemple, pour un test bilatéral concernant le paramètre d’un modèle de régression <span class="math inline">\(\beta_j\)</span> associé à une variable explicative d’intérêt <span class="math inline">\(\mathrm{X}_j\)</span>, les hypothèses sont <span class="math display">\[\begin{align*}
+\end{align*}\]</span> Ces hypothèses permettent de tester si <span class="math inline">\(\theta\)</span> est égal à une valeur numérique précise <span class="math inline">\(\theta_0.\)</span></p>
+<p>Par exemple, pour un test bilatéral concernant le paramètre d’un modèle de régression <span class="math inline">\(\beta_j\)</span> associé à une variable explicative d’intérêt <span class="math inline">\(\mathrm{X}_j,\)</span> les hypothèses sont <span class="math display">\[\begin{align*}
 \mathscr{H}_0: \beta_j=\beta_j^0 \qquad \text{versus} \qquad \mathscr{H}_a:\beta_j \neq \beta_j^0,
 \end{align*}\]</span> où <span class="math inline">\(\beta_j^0\)</span> est une valeur précise qui est reliée à la question de recherche. Par exemple, si <span class="math inline">\(\beta_j^0=0\)</span> la question de recherche sous-jacente est: est-ce que la covariable <span class="math inline">\(\mathrm{X}_j\)</span> impacte la variable réponse d’intérêt <span class="math inline">\(Y\)</span> une fois l’effet des autres variables pris en compte?</p>
-<p>Remarque: il est possible d’imposer une direction dans les tests en considérant une hypothèse alternative de la forme <span class="math inline">\(\mathscr{H}_a: \theta &gt; \theta_0\)</span> ou <span class="math inline">\(\mathscr{H}_a: \theta &lt; \theta_0\)</span>.</p>
+<p>Il est possible d’imposer une direction dans les tests en considérant une hypothèse alternative de la forme <span class="math inline">\(\mathscr{H}_a: \theta &gt; \theta_0\)</span> ou <span class="math inline">\(\mathscr{H}_a: \theta &lt; \theta_0.\)</span></p>
 </section>
-<section id="statistique-de-test" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="statistique-de-test"><span class="header-section-number">2.3</span> Statistique de test</h2>
-<p>Une statistique de test <span class="math inline">\(T\)</span> est un fonctionnel des données qui résume l’information contenue dans les données pour <span class="math inline">\(\theta\)</span>. La forme de la statistique de test est choisie de façon à ce que son comportement sous <span class="math inline">\(\mathscr{H}_0\)</span>, c’est-à-dire l’ensemble des valeurs que prend <span class="math inline">\(T\)</span> si <span class="math inline">\(\mathscr{H}_0\)</span> est vraie et leur probabilité relative, soit connu. En effet, <span class="math inline">\(T\)</span> est une variable aléatoire et sa valeur va changer selon l’échantillon. La <strong>loi nulle</strong> de la statistique de test nous permet de déterminer quelles valeurs de <span class="math inline">\(T\)</span> sont plausibles si <span class="math inline">\(\mathscr{H}_0\)</span> est vraie. Plusieurs statistiques que l’on couvrira dans ce cours sont des <strong>statistiques de Wald</strong>, de la forme <span class="math display">\[\begin{align*}
+<section id="statistique-de-test" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="statistique-de-test"><span class="header-section-number">2.4</span> Statistique de test</h2>
+<p>Une statistique de test <span class="math inline">\(T\)</span> est une fonction des données qui résume l’information contenue dans les données pour <span class="math inline">\(\theta.\)</span> La forme de la statistique de test est choisie de façon à ce que son comportement sous <span class="math inline">\(\mathscr{H}_0,\)</span> c’est-à-dire l’ensemble des valeurs que prend <span class="math inline">\(T\)</span> si <span class="math inline">\(\mathscr{H}_0\)</span> est vraie et leur probabilité relative, soit connu. En effet, <span class="math inline">\(T\)</span> est une variable aléatoire et sa valeur va changer selon l’échantillon. La <strong>loi nulle</strong> de la statistique de test nous permet de déterminer quelles valeurs de <span class="math inline">\(T\)</span> sont plausibles si <span class="math inline">\(\mathscr{H}_0\)</span> est vraie. Plusieurs statistiques que l’on couvrira dans ce cours sont des <strong>statistiques de Wald</strong>, de la forme <span class="math display">\[\begin{align*}
 T = \frac{\widehat{\theta} - \theta_0}{\mathrm{se}(\widehat{\theta})}
-\end{align*}\]</span> où <span class="math inline">\(\widehat{\theta}\)</span> est l’estimateur du paramètre <span class="math inline">\(\theta\)</span>, <span class="math inline">\(\theta_0\)</span> la valeur numérique postulée (par ex., zéro) et <span class="math inline">\(\mathrm{se}(\widehat{\theta})\)</span> est l’estimateur de l’écart-type de <span class="math inline">\(\widehat{\theta}\)</span>.</p>
+\end{align*}\]</span> où <span class="math inline">\(\widehat{\theta}\)</span> est l’estimateur du paramètre <span class="math inline">\(\theta,\)</span> <span class="math inline">\(\theta_0\)</span> la valeur numérique postulée (par ex., zéro) et <span class="math inline">\(\mathrm{se}(\widehat{\theta})\)</span> est l’estimateur de l’écart-type de <span class="math inline">\(\widehat{\theta}.\)</span></p>
 <p>Par exemple, pour une hypothèse sur la moyenne d’une population de la forme <span class="math display">\[\begin{align*}
 \mathscr{H}_0: \mu=0, \qquad  \mathscr{H}_a:\mu \neq 0,
 \end{align*}\]</span> la statistique de test de Wald est <span class="math display">\[\begin{align*}
 T &amp;= \frac{\overline{X}-0}{S_n/\sqrt{n}}
-\end{align*}\]</span> où <span class="math inline">\(\overline{X}\)</span> est la moyenne de l’échantillon <span class="math inline">\(X_1, \ldots, X_n\)</span>, <span class="math display">\[\begin{align*}
+\end{align*}\]</span> où <span class="math inline">\(\overline{X}\)</span> est la moyenne de l’échantillon <span class="math inline">\(X_1, \ldots, X_n,\)</span> <span class="math display">\[\begin{align*}
 \overline{X} &amp;= \frac{1}{n} \sum_{i=1}^n X_i = \frac{X_1+ \cdots + X_n}{n}
-\end{align*}\]</span> et l’erreur-type de la moyenne <span class="math inline">\(\overline{X}\)</span> est <span class="math inline">\(S_n/\sqrt{n}\)</span>; l’écart-type <span class="math inline">\(S_n\)</span> est un estimateur de <span class="math inline">\(\sigma\)</span>, où <span class="math display">\[\begin{align*}
+\end{align*}\]</span> et l’erreur-type de la moyenne <span class="math inline">\(\overline{X}\)</span> est <span class="math inline">\(S_n/\sqrt{n}\)</span>; l’écart-type <span class="math inline">\(S_n\)</span> est un estimateur de <span class="math inline">\(\sigma,\)</span> où <span class="math display">\[\begin{align*}
 S^2_n &amp;= \frac{1}{n-1} \sum_{i=1}^n (X_i-\overline{X})^2.
 \end{align*}\]</span></p>
-<p>Il convient de faire la différence entre procédures/formules et valeurs numériques. Un <strong>estimateur</strong> est une règle ou une formule utilisée pour calculer l’estimation d’un paramètre ou quantité d’intérêt selon des données observées. Par exemple, la moyenne d’échantillon <span class="math inline">\(\overline{X}\)</span> est un estimateur de la moyenne dans la population <span class="math inline">\(\mu\)</span>. Une fois qu’on a des données observées, on peut calculer un estimé de la moyenne empirique <span class="math inline">\(\overline{x},\)</span> c’est-à-dire, on obtient une valeur numérique. Autrement dit,</p>
-<ul>
-<li>un estimateur est une fonction de variables aléatoires et donc c’est aussi une variable aléatoire car sa valeur fluctue d’un échantillon à l’autre.</li>
-<li>l’estimé est la valeur numérique calculée sur un échantillon donné.</li>
-</ul>
 </section>
-<section id="loi-nulle-et-valeur-p" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="loi-nulle-et-valeur-p"><span class="header-section-number">2.4</span> Loi nulle et valeur-<em>p</em></h2>
-<p>La <strong>valeur-<em>p</em></strong> nous permet de déterminer si la valeur observée de la statistique de test <span class="math inline">\(T\)</span> est plausible sous <span class="math inline">\(\mathscr{H}_0\)</span>. Plus précisément, la valeur-<em>p</em> est la probabilité, si <span class="math inline">\(\mathscr{H}_0\)</span> est vraie, que la statistique de test soit égale or plus extrême à ce qu’on observe. Supposons qu’on a un échantillon <span class="math inline">\(X_1, \ldots, X_n\)</span> et qu’on observe une valeur de la statistique de test de <span class="math inline">\(T=t\)</span>. Pour un test d’hypothèse bilatéral <span class="math inline">\(\mathscr{H}_0:\theta=\theta_0\)</span> vs.&nbsp;<span class="math inline">\(\mathscr{H}_a:\theta \neq \theta_0\)</span>, la valeur-<em>p</em> est <span class="math inline">\(\mathsf{Pr}_0(|T| \geq |t|)\)</span>. Si la distribution de <span class="math inline">\(T\)</span> est symétrique autour de zéro, la valeur-<em>p</em> vaut <span class="math display">\[\begin{align*}
-p = 2 \times \mathsf{Pr}_0(T \geq |t|).
+<section id="loi-nulle-et-valeur-p" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="loi-nulle-et-valeur-p"><span class="header-section-number">2.5</span> Loi nulle et valeur-<em>p</em></h2>
+<p>La <strong>valeur-<em>p</em></strong> nous permet de déterminer si la valeur observée de la statistique de test <span class="math inline">\(T\)</span> est plausible sous <span class="math inline">\(\mathscr{H}_0.\)</span> Plus précisément, la valeur-<em>p</em> est la probabilité, si <span class="math inline">\(\mathscr{H}_0\)</span> est vraie, que la statistique de test soit égale or plus extrême à ce qu’on observe. Supposons qu’on a un échantillon <span class="math inline">\(X_1, \ldots, X_n\)</span> et qu’on observe une valeur de la statistique de test de <span class="math inline">\(T=t.\)</span> Pour un test d’hypothèse bilatéral <span class="math inline">\(\mathscr{H}_0:\theta=\theta_0\)</span> vs.&nbsp;<span class="math inline">\(\mathscr{H}_a:\theta \neq \theta_0,\)</span> la valeur-<em>p</em> est <span class="math inline">\(\Pr{\!}_0(|T| \geq |t|).\)</span> Si la distribution de <span class="math inline">\(T\)</span> est symétrique autour de zéro, la valeur-<em>p</em> vaut <span class="math display">\[\begin{align*}
+p = 2 \times \Pr{\!}_0(T \geq |t|).
 \end{align*}\]</span></p>
-<p>Prenons l’exemple d’un test d’hypothèse bilatéral pour la moyenne au population <span class="math inline">\(\mathscr{H}_0:\mu=0\)</span> contre <span class="math inline">\(\mathscr{H}_a:\mu \neq 0\)</span>. Si l’échantillon provient d’une (population de) loi normale <span class="math inline">\(\mathsf{Norm}(\mu, \sigma^2)\)</span>, on peut démontrer que, si <span class="math inline">\(\mathscr{H}_0\)</span> est vraie et donc <span class="math inline">\(\mu=0\)</span>), la statistique de test <span class="math display">\[\begin{align*}
+<p>La <a href="#fig-power-plots" class="quarto-xref">Figure&nbsp;<span>2.7</span></a> montre la loi des valeurs-<span class="math inline">\(p\)</span> sous deux scénarios: à gauche, une loi nulle et à droite, une loi alternative. La probabilité de rejetter <span class="math inline">\(\mathscr{H}_0\)</span> est obtenue en calculant l’aire sous la courbe sous la courbe de densité et <span class="math inline">\(\alpha=0.1.\)</span> Sous l’hypothèse nulle, le modèle est calibré et la loi des valeurs-<span class="math inline">\(p\)</span> est uniforme (un rectangle de hauteur 1), ce qui veut dire que toutes les valeurs sont également plausibles. Sous l’alternative, l’obtention de petites valeurs<span class="math inline">\(-\)</span>p est plus plausible.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-power-plots" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-power-plots-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="inference_files/figure-html/fig-power-plots-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-power-plots-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.7: Densité des valeurs-<span class="math inline">\(p\)</span> sou l’hypothèse nulle (gauche) et une alternative avec un ratio signal-bruit de 0.5 (droite).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Il existe généralement trois façons d’obtenir des lois nulles pour évaluer le degré de preuve contre l’hypothèse nulle</p>
+<ul>
+<li>les calculs exacts (combinatoires)</li>
+<li>la théorie des grands échantillons (appelée « régime asymptotique » dans le jargon statistique)</li>
+<li>les méthodes de simulation Monte Carlo.</li>
+</ul>
+<p>Bien que souhaitable, la première méthode n’est applicable que dans des cas simples (comme le calcul de la probabilité d’obtenir deux six en lançant deux dés identiques). La deuxième méthode est la plus couramment utilisée en raison de sa généralité et de sa facilité d’utilisation (en particulier dans les temps anciens où la puissance de calcul était rare), mais elle ne donne pas de bons résultats avec des échantillons de petite taille (où la noti de « trop petit » dépend du contexte et du test). La dernière approche peut être utilisée pour approcher la distribution nulle dans de nombreux scénarios, mais elle ajoute une couche d’aléatoire et les coûts de calcul supplémentaires n’en valent parfois pas la peine.</p>
+<p>Prenons l’exemple d’un test d’hypothèse bilatéral pour la moyenne au population <span class="math inline">\(\mathscr{H}_0:\mu=0\)</span> contre <span class="math inline">\(\mathscr{H}_a:\mu \neq 0.\)</span> Si l’échantillon provient d’une (population de) loi normale <span class="math inline">\(\mathsf{normale}(\mu, \sigma^2),\)</span> on peut démontrer que, si <span class="math inline">\(\mathscr{H}_0\)</span> est vraie et donc <span class="math inline">\(\mu=0\)</span>), la statistique de test <span class="math display">\[\begin{align*}
 T = \frac{\overline{X}}{S/\sqrt{n}}
-\end{align*}\]</span> suit une loi de Student-<span class="math inline">\(t\)</span> avec <span class="math inline">\(n-1\)</span> degrés de liberté, dénotée <span class="math inline">\(\mathsf{St}_{n-1}\)</span>. À partir de cette loi nulle, on peut calculer la valeur-<em>p</em> (ou bien à partir d’une table ou d’un logiciel statistique). Puisque la distribution Student-<span class="math inline">\(t\)</span> est symétrique autour de <span class="math inline">\(0\)</span>, on peut calculer la valeur-<em>p</em> comme <span class="math inline">\(P = 2\times\mathsf{Pr}(T &gt; |t|)\)</span>, où <span class="math inline">\(T \sim \mathsf{St}_{n-1}\)</span>.</p>
+\end{align*}\]</span> suit une loi de Student-<span class="math inline">\(t\)</span> avec <span class="math inline">\(n-1\)</span> degrés de liberté, dénotée <span class="math inline">\(\mathsf{Student}_{n-1}.\)</span> À partir de cette loi nulle, on peut calculer la valeur-<em>p</em> (ou bien à partir d’une table ou d’un logiciel statistique). Puisque la distribution Student-<span class="math inline">\(t\)</span> est symétrique autour de <span class="math inline">\(0,\)</span> on peut calculer la valeur-<em>p</em> comme <span class="math inline">\(P = 2\times\Pr(T &gt; |t|),\)</span> où <span class="math inline">\(T \sim \mathsf{Student}_{n-1}.\)</span></p>
 </section>
-<section id="conclusion" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">2.5</span> Conclusion</h2>
+<section id="intervalle-de-confiance" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="intervalle-de-confiance"><span class="header-section-number">2.6</span> Intervalle de confiance</h2>
+<p>Un <strong>intervalle de confiance</strong> est une manière alternative de rapporter les conclusions d’un test, en ce sens qu’on fournit une estimation ponctuelle de <span class="math inline">\(\hat{\theta}\)</span> avec une marge d’erreur. L’intervalle de confiance donne donc une indication de la variabilité de la procédure d’estimation. Un intervalle de confiance de Wald à <span class="math inline">\((1-\alpha)\)</span> pour un paramètre <span class="math inline">\(\theta\)</span> est de la forme <span class="math display">\[\begin{align*}
+[\widehat{\theta} + \mathfrak{q}_{\alpha/2}\mathrm{se}(\widehat{\theta}, \widehat{\theta} +\mathfrak{q}_{1-\alpha/2}\times \mathrm{se}(\widehat{\theta})]
+\end{align*}\]</span> où <span class="math inline">\(\mathfrak{q}_{\alpha}\)</span> dénote le quantile d’ordre <span class="math inline">\(\alpha \in (0,1)\)</span> de la loi nulle de la statistique de Wald, <span class="math display">\[\begin{align*}
+T =\frac{\widehat{\theta}-\theta}{\mathrm{se}(\widehat{\theta})},
+\end{align*}\]</span> et où <span class="math inline">\(\theta\)</span> représente la valeur du paramètre <span class="math inline">\(\theta\)</span> (supposé fixe, mais inconnu) de la population.</p>
+<p>Par exemple, pour un échantillon aléatoire <span class="math inline">\(X_1, \ldots, X_n\)</span> provenant d’une loi <span class="math inline">\(\mathsf{normale}(\mu, \sigma),\)</span> l’intervalle de confiance à <span class="math inline">\((1-\alpha)\)</span> pour la moyenne (dans la population) <span class="math inline">\(\mu\)</span> est <span class="math display">\[\begin{align*}
+\overline{X} \pm t_{n-1, \alpha/2} \frac{S}{\sqrt{n}}
+\end{align*}\]</span> où <span class="math inline">\(t_{n-1, \alpha/2}\)</span> est le quantile d’ordre <span class="math inline">\(1-\alpha/2\)</span> de la loi Student-<span class="math inline">\(t\)</span> avec <span class="math inline">\(n-1\)</span> degrés de libertés.</p>
+<p>Les bornes de l’intervalle de confiance sont aléatoires puisque <span class="math inline">\(\widehat{\theta}\)</span> et <span class="math inline">\(\mathrm{se}(\widehat{\theta})\)</span> sont des variable aléatoires: leurs valeurs observées changent d’un échantillon à un autre. Avant qu’on calcule l’intervalle de confiance, il y a une probabilité de <span class="math inline">\(1-\alpha\)</span> que <span class="math inline">\(\theta\)</span> soit contenu dans l’intervalle <strong>aléatoire</strong> symmétrique <span class="math inline">\((\widehat{\theta} - \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta}), \widehat{\theta} + \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta})),\)</span> où <span class="math inline">\(\widehat{\theta}\)</span> dénote l’estimateur de <span class="math inline">\(\theta.\)</span> Une fois qu’on obtient un échantillon et qu’on calcule les bornes de l’intervalle de confiance, il n’y a plus de notion de probabilité: la vraie valeur du paramètre <span class="math inline">\(\theta\)</span> (inconnue) est soit contenue dans l’intervalle de confiance, soit pas. La seule interprétation de l’intervalle de confiance qui soit valable alors est la suivante: si on répète l’expérience plusieurs fois et qu’à chaque fois on calcule un intervalle de confiance à <span class="math inline">\(1-\alpha,\)</span> alors une proportion de <span class="math inline">\((1-\alpha)\)</span> de ces intervalles devraient contenir la vraie valeur de <span class="math inline">\(\theta\)</span> (de la même manière, si vous lancez une pièce de monnaie équilibrée, vous devriez obtenir grosso modo une fréquence de 50% de pile et 50% de face, mais chaque lancer donnera un ou l’autre de ces choix). Notre « confiance » est dans la procédure et non pas dans les valeurs numériques obtenues pour un échantillon donné.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-intconf" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-intconf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="inference_files/figure-html/fig-intconf-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-intconf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.8: Intervalles de confiance à 95% pour la moyenne d’une population normale <span class="math inline">\(\mathsf{normale}(0,1)\)</span> pour 100 échantillons aléatoires. En moyenne, 5% de ces intervalles (en rouge) n’incluent pas la vraie valeur de la moyenne de zéro.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Si on s’intéresse seulement à la décision rejeter/ne pas rejeter <span class="math inline">\(\mathscr{H}_0,\)</span> l’intervalle de confiance est équivalent à la valeur-<em>p</em> en ce sens qu’il mène à la même décision. L’intervalle de confiance donne en revanche l’ensemble des valeurs pour lesquelles la statistique de test ne fournit pas assez de preuves pour rejeter <span class="math inline">\(\mathscr{H}_0\)</span>: pour un test à niveau <span class="math inline">\(\alpha,\)</span> on ne rejetterait aucune des valeurs contenues dans l’intervalle de confiance de niveau <span class="math inline">\(1-\alpha.\)</span> Si la valeur-<em>p</em> est inférieure à <span class="math inline">\(\alpha,\)</span> la valeur postulée pour <span class="math inline">\(\theta\)</span> est donc hors de l’intervalle de confiance calculé. À l’inverse, la valeur-<em>p</em> ne donne la probabilité d’obtenir un résultat aussi extrême sous l’hypothèse nulle que pour une seule valeur numérique, mais permet de quantifier précisément à quel point le résultat est extrême.</p>
+</section>
+<section id="conclusion" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">2.7</span> Conclusion</h2>
 <p>La valeur-<em>p</em> nous permet de faire une décision quant aux hypothèses du test. Si <span class="math inline">\(\mathscr{H}_0\)</span> est vraie, la valeur-<em>p</em> suit une loi uniforme. <a href="https://xkcd.com/1478/">Si la valeur-<em>p</em> est petite</a>, ça veut dire que le fait d’observer une statistique de test égal ou encore plus extrême que <span class="math inline">\(T=t\)</span> est peu probable, et donc nous aurons tendance de croire que <span class="math inline">\(\mathscr{H}_0\)</span> n’est pas vraie. Il y a pourtant toujours un risque sous-jacent de commettre un erreur quand on prend une décision. En statistique, il y a <a href="https://xkcd.com/2303/">deux types d’erreurs</a>:</p>
 <ul>
 <li>erreur de type I: on rejette <span class="math inline">\(\mathscr{H}_0\)</span> alors que <span class="math inline">\(\mathscr{H}_0\)</span> est vraie</li>
 <li>erreur de type II: on ne rejette pas <span class="math inline">\(\mathscr{H}_0\)</span> alors que <span class="math inline">\(\mathscr{H}_0\)</span> est fausse</li>
 </ul>
 <p>Ces deux erreurs ne sont pas égales: on cherche souvent à contrôler l’erreur de type I (une erreur judiciaire, condamner un innocent). Pour se prémunir face à ce risque, on fixe préalablement un niveau de tolérance. Plus notre seuil de tolérance <span class="math inline">\(\alpha\)</span> est grand, plus on rejette souvent l’hypothèse nulle même si cette dernière est vraie. La valeur de <span class="math inline">\(\alpha \in (0, 1)\)</span> est la probabilité qu’on rejette <span class="math inline">\(\mathscr{H}_0\)</span> quand <span class="math inline">\(\mathscr{H}_0\)</span> est en fait vraie. <span class="math display">\[\begin{align*}
-\alpha = \mathsf{Pr}_0\left(\text{ rejeter } \mathscr{H}_0\right).
+\alpha = \Pr{\!}_0\left(\text{ rejeter } \mathscr{H}_0\right).
 \end{align*}\]</span> Comme chercheur, on choisit ce niveau <span class="math inline">\(\alpha\)</span>; habituellement <span class="math inline">\(1\)</span>%, <span class="math inline">\(5\)</span>% ou <span class="math inline">\(10\)</span>%. La probabilité de commettre une erreur de type I est <span class="math inline">\(\alpha\)</span> seulement si le modèle nul postulé pour <span class="math inline">\(\mathscr{H}_0\)</span> est correctement spécifié (sic) et correspond au modèle générateur des données.</p>
 <p>Le choix du statu quo (typiquement <span class="math inline">\(\mathscr{H}_0\)</span>) s’explique plus facilement avec un exemple médical. Si vous voulez prouver qu’un nouveau traitement est meilleur que l’actuel (ou l’absence de traitement), vous devez démontrer hors de tout doute raisonnable que ce dernier ne cause pas de torts aux patients et offre une nette amélioration (pensez à Didier Raoult et ses allégations non-étayées voulant que l’hydrochloroquine, un antipaludique, soit efficace face au virus de la Covid19).</p>
 <table class="caption-top table">
@@ -327,106 +539,319 @@ T = \frac{\overline{X}}{S/\sqrt{n}}
 </table>
 <p>Pour prendre une décision, on doit comparer la valeur-<em>p</em> <span class="math inline">\(P\)</span> avec le niveau du test <span class="math inline">\(\alpha\)</span>:</p>
 <ul>
-<li>si <span class="math inline">\(P &lt; \alpha\)</span> on rejette <span class="math inline">\(\mathscr{H}_0\)</span>,</li>
-<li>si <span class="math inline">\(P \geq \alpha\)</span> on ne rejette pas <span class="math inline">\(\mathscr{H}_0\)</span>.</li>
+<li>si <span class="math inline">\(P &lt; \alpha\)</span> on rejette <span class="math inline">\(\mathscr{H}_0,\)</span></li>
+<li>si <span class="math inline">\(P \geq \alpha\)</span> on ne rejette pas <span class="math inline">\(\mathscr{H}_0.\)</span></li>
 </ul>
 <p>Attention à ne pas confondre niveau du test (probabilité fixée au préalable par l’expérimentateur) et la valeur-<em>p</em> (qui dépend de l’échantillon). Si vous faites un test à un niveau 5% la probabilité de faire une erreur de type I est de 5% par définition, quelque soit la valeur de la valeur-<em>p</em>. La valeur-<em>p</em> s’interprète comme la probabilité d’obtenir une valeur de la statistique de test égale ou même plus grande que celle qu’on a observée dans l’échantillon, si <span class="math inline">\(\mathscr{H}_0\)</span> est vraie.</p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Mise en garde
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>L’<a href="https://doi.org/10.1080/00031305.2016.1154108"><em>American Statistical Association (ASA)</em> a publié une liste de principes</a> détaillant les principales erreurs d’interprétation des valeurs-<span class="math inline">\(p,\)</span> notamment</p>
+<blockquote class="blockquote">
+<ol start="2" type="1">
+<li>Les valeurs-<span class="math inline">\(p\)</span> ne mesurent pas la probabilité que l’hypothèse étudiée est vrai</li>
+</ol>
+</blockquote>
+<blockquote class="blockquote">
+<ol start="3" type="1">
+<li>Les décisions d’affaires et scientiques ne devraient pas seulement être basées sur le fait qu’une valeur-<span class="math inline">\(p\)</span> est inférieure à un seuil spécifié.</li>
+</ol>
+</blockquote>
+<blockquote class="blockquote">
+<ol start="4" type="1">
+<li>Les analyses statistiques et les valeurs-<span class="math inline">\(p\)</span> associées ne devraient pas être rapportées de manière sélective.</li>
+</ol>
+</blockquote>
+<blockquote class="blockquote">
+<ol start="5" type="1">
+<li>Les valeurs-<span class="math inline">\(p,\)</span> ou la significativité statistiques, ne mesurent pas la taille de l’effet ou l’importance d’un résultat.</li>
+</ol>
+</blockquote>
+</div>
+</div>
 </section>
-<section id="puissance-statistique" class="level2" data-number="2.6">
-<h2 data-number="2.6" class="anchored" data-anchor-id="puissance-statistique"><span class="header-section-number">2.6</span> Puissance statistique</h2>
-<p>Le but du test d’hypothèse est de prouver (hors de tout doute raisonnable) qu’une différence ou un effet est significatif:: par exemple, si une nouvelle configuration d’un site web (hypothèse alternative) permet d’augmenter les ventes par rapport au statu quo. Notre capacité à détecter cette amélioration dépend de la puissance du test: plus cette dernière est élevée, plus grande est notre capacité à rejeter <span class="math inline">\(\mathscr{H}_0\)</span> quand ce dernier est faux. Quand on ne rejette pas <span class="math inline">\(\mathscr{H}_0\)</span> et que <span class="math inline">\(\mathscr{H}_a\)</span> est en fait vraie, on commet une erreur de type II: cette dernière survient avec probabilité <span class="math inline">\(1-\gamma\)</span>. La <strong>puissance statistique</strong> d’un test est la probabilité que le test rejette <span class="math inline">\(\mathscr{H}_0\)</span> alors que <span class="math inline">\(\mathscr{H}_0\)</span> est fausse, soit <span class="math display">\[\begin{align*}
-\gamma = \mathsf{Pr}_a(\text{rejeter } \mathscr{H}_0)
+<section id="puissance-statistique" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="puissance-statistique"><span class="header-section-number">2.8</span> Puissance statistique</h2>
+<p>Le but du test d’hypothèse est de prouver (hors de tout doute raisonnable) qu’une différence ou un effet est significatif: par exemple, si une nouvelle configuration d’un site web (hypothèse alternative) permet d’augmenter les ventes par rapport au statu quo. Notre capacité à détecter cette amélioration dépend de la puissance du test: plus cette dernière est élevée, plus grande est notre capacité à rejeter <span class="math inline">\(\mathscr{H}_0\)</span> quand ce dernier est faux.</p>
+<p>Quand on ne rejette pas <span class="math inline">\(\mathscr{H}_0\)</span> et que <span class="math inline">\(\mathscr{H}_a\)</span> est en fait vraie, on commet une erreur de type II: cette dernière survient avec probabilité <span class="math inline">\(1-\gamma.\)</span> La <strong>puissance statistique</strong> d’un test est la probabilité que le test rejette <span class="math inline">\(\mathscr{H}_0\)</span> alors que <span class="math inline">\(\mathscr{H}_0\)</span> est fausse, soit <span class="math display">\[\begin{align*}
+\gamma = \Pr{\!}_a(\text{rejeter } \mathscr{H}_0)
 \end{align*}\]</span> Selon le choix de l’alternative, il est plus ou moins facile de rejeter l’hypothèse nulle en faveur de l’alternative.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-puissance1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<div id="fig-puissance" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-puissance1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="inference_files/figure-html/fig-puissance1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+<div aria-describedby="fig-puissance-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="inference_files/figure-html/fig-puissance-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-puissance1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.1: Comparaison de la loi nulle (ligne pleine) et d’une alternative spécifique pour un test-<span class="math inline">\(t\)</span> (ligne traitillée). La puissance correspond à l’aire sous la courbe de la densité de la loi alternative qui est dans la zone de rejet du test (en blanc).
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-puissance-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.9: Comparaison de la loi nulle (ligne pleine) et d’une alternative spécifique pour un test-<span class="math inline">\(t\)</span> (ligne traitillée). La puissance correspond à l’aire sous la courbe de la densité de la loi alternative qui est dans la zone de rejet du test (en blanc). Le panneau du milieu représente l’augmentation de la puissance suite à l’augmentation de la taille d’effet (différence moyenne entre groupes plus élevée) sous l’hypothèse alternative. Le panneau de droite correspond à un scénario alternatif avec la même taille d’effet, mais une taille d’échantillon ou une précision plus grande.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div id="fig-puissance2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-puissance2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="inference_files/figure-html/fig-puissance2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-puissance2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.2: Augmentation de la puissance suite à une augmentation de la différence de moyenne sous l’hypothèse alternative. La puissance est l’aire sous la courbe (blanc) de la loi alternative (ligne traitillée); cette dernière est plus décalée vers la droite par rapport à la loi nulle postulée (ligne pleine).
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div id="fig-puissance3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-puissance3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="inference_files/figure-html/fig-puissance3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-puissance3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.3: Augmentation de la puissance suite à une augmentation de la taille de l’échantillon ou une diminution de l’écart-type de la population: la loi nulle (ligne pleine) est plus concentrée et la taille de la région de rejet diminue. La puissance est l’aire sous la courbe (blanc) de la loi alternative (ligne traitillée). Règle générale, la loi nulle change selon la taille de l’échantillon.
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<p>On veut qu’un test ait une puissance élevée, c’est-à-dire, on veut que <span class="math inline">\(\gamma\)</span> soit le plus près de 1 possible. Minimalement, la puissance du test devrait être <span class="math inline">\(\alpha\)</span> si on rejette l’hypothèse nulle une fraction <span class="math inline">\(\alpha\)</span> du temps quand cette dernière est vraie. La puissance dépend de plusieurs critères, à savoir:</p>
+<p>On veut qu’un test ait une puissance élevée, c’est-à-dire, le plus près de 1 possible. Minimalement, la puissance du test devrait être <span class="math inline">\(\alpha\)</span> si on rejette l’hypothèse nulle une fraction <span class="math inline">\(\alpha\)</span> du temps quand cette dernière est vraie. La puissance dépend de plusieurs critères, à savoir:</p>
 <ul>
-<li>la taille de l’effet: plus la différence est grande entre la valeur du paramètre postulé <span class="math inline">\(\theta_0\)</span> sous <span class="math inline">\(\mathscr{H}_0\)</span> et le comportement observé, plus il est facile de le détecter (voir <a href="#fig-puissance3" class="quarto-xref">Figure&nbsp;<span>2.3</span></a>);</li>
-<li>la variabilité: moins les observations sont variables, plus il est facile de déterminer que la différence observée est significative (les grandes différences sont alors moins plausibles, comme l’illustre la <a href="#fig-puissance2" class="quarto-xref">Figure&nbsp;<span>2.2</span></a>);</li>
-<li>la taille de l’échantillon: plus on a d’observations, plus notre capacité à détecter une différence significative augmente parce que l’erreur-type décroît avec la taille de l’échantillon à un rythme (ordinairement) de <span class="math inline">\(n^{-1/2}\)</span>. La loi nulle devient aussi plus concentrée quand la taille de l’échantillon augmente.</li>
+<li>la taille de l’effet: plus la différence est grande entre la valeur du paramètre postulé <span class="math inline">\(\theta_0\)</span> sous <span class="math inline">\(\mathscr{H}_0\)</span> et le comportement observé, plus il est facile de le détecter (panneau du milieu de <a href="#fig-puissance" class="quarto-xref">Figure&nbsp;<span>2.9</span></a>);</li>
+<li>la variabilité: moins les observations sont variables, plus il est facile de déterminer que la différence observée est significative (les grandes différences sont alors moins plausibles, comme l’illustre le panneau de droite de <a href="#fig-puissance" class="quarto-xref">Figure&nbsp;<span>2.9</span></a>);</li>
+<li>la taille de l’échantillon: plus on a d’observations, plus notre capacité à détecter une différence significative augmente parce que l’erreur-type décroît avec la taille de l’échantillon à un rythme (ordinairement) de <span class="math inline">\(n^{-1/2}.\)</span> La loi nulle devient aussi plus concentrée quand la taille de l’échantillon augmente.</li>
 <li>le choix de la statistique de test: par exemple, les statistiques basées sur les rangs n’utilisent pas les valeurs numériques qu’à travers le rang relatif. Ces tests sont donc moins puissants parce qu’ils n’utilisent pas toute l’information dans l’échantillon; en contrepartie, ils sont souvent plus robustes en présence de valeurs aberrantes et si le modèle est mal spécifié. Les statistiques de test que nous choisirons sont souvent standards et parmi les plus puissantes qui soient, aussi on ne traitera pas de ce point davantage dans le cadre du cours.</li>
 </ul>
-<p>Pour calculer la puissance d’un test, il faut choisir une alternative spécifique. Pour des exemples simples de statistiques, on peut obtenir une formule pour la puissance: par exemple, si on utilise un test-<span class="math inline">\(t\)</span> pour un échantillon, la statistique <span class="math inline">\(T=\sqrt{n}(\overline{X}-\mu_0)/S_n \sim \mathcal{T}_{n-1}\)</span> et, si la vraie moyenne est <span class="math inline">\(\Delta + \mu_0\)</span>, alors la loi alternative est Student-<span class="math inline">\(t\)</span>, mais non-centrée avec paramètre de décalage <span class="math inline">\(\Delta\)</span>. Cette dérivation est l’exception plutôt que la règle et on détermine d’ordinaire la puissance à l’aide de méthodes de Monte Carlo en simulant des observations d’une alternative donnée, en calculant la statistique de test sur le nouvel échantillon simulé et en calculant la valeur-<em>p</em> associée à notre hypothèse nulle de façon répétée. On calcule par la suite la proportion de tests qui mènent au rejet de l’hypothèse nulle à niveau <span class="math inline">\(\alpha\)</span>, ce qui correspond au pourcentage de valeurs-<span class="math inline">\(p\)</span> inférieures à <span class="math inline">\(\alpha\)</span>.</p>
+<p>Pour calculer la puissance d’un test, il faut choisir une alternative spécifique. Pour des exemples simples de statistiques, on peut obtenir une formule explicite pour la puissance. <!--
+: par exemple, si on utilise un test-$t$ pour un échantillon, la statistique $T=\sqrt{n}(\overline{X}-\mu_0)/S_n \sim \mathsf{Student}_{n-1}$ et, si la vraie moyenne est $\Delta + \mu_0,$ alors la loi alternative est Student-$t,$ mais non-centrée avec paramètre de décalage $\Delta.$ Cette dérivation est l'exception plutôt que la règle et on
+-->Généralement, on détermine la puissance à l’aide de méthodes de Monte Carlo en simulant des observations d’une alternative donnée, en calculant la statistique de test sur le nouvel échantillon simulé et en calculant la valeur-<em>p</em> associée à notre hypothèse nulle de façon répétée. On calcule par la suite la proportion de tests qui mènent au rejet de l’hypothèse nulle à niveau <span class="math inline">\(\alpha,\)</span> ce qui correspond au pourcentage de valeurs-<span class="math inline">\(p\)</span> inférieures à <span class="math inline">\(\alpha.\)</span></p>
 </section>
-<section id="intervalle-de-confiance" class="level2" data-number="2.7">
-<h2 data-number="2.7" class="anchored" data-anchor-id="intervalle-de-confiance"><span class="header-section-number">2.7</span> Intervalle de confiance</h2>
-<p>Un <strong>intervalle de confiance</strong> est une manière alternative de rapporter les conclusions d’un test, en ce sens qu’on fournit une estimation ponctuelle de <span class="math inline">\(\hat{\theta}\)</span> avec une marge d’erreur. L’intervalle de confiance donne donc une indication de la variabilité de la procédure d’estimation. Un intervalle de confiance de Wald à <span class="math inline">\((1-\alpha)\)</span> pour un paramètre <span class="math inline">\(\theta\)</span> est de la forme <span class="math display">\[\begin{align*}
-\widehat{\theta} \pm \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta})
-\end{align*}\]</span> où <span class="math inline">\(\mathfrak{q}_{\alpha/2}\)</span> est le quantile d’ordre <span class="math inline">\(1-\alpha/2\)</span> de la loi nulle de la statistique de Wald, <span class="math display">\[\begin{align*}
-T =\frac{\widehat{\theta}-\theta}{\mathrm{se}(\widehat{\theta})},
-\end{align*}\]</span> et où <span class="math inline">\(\theta\)</span> représente la valeur du paramètre <span class="math inline">\(\theta\)</span> (supposé fixe, mais inconnu) de la population. Les bornes de l’intervalle de confiance sont aléatoires puisque <span class="math inline">\(\widehat{\theta}\)</span> et <span class="math inline">\(\mathrm{se}(\widehat{\theta})\)</span> sont des variable aléatoires: leurs valeurs observées changent d’un échantillon à un autre.</p>
-<p>Par exemple, pour un échantillon aléatoire <span class="math inline">\(X_1, \ldots, X_n\)</span> provenant d’une loi normale <span class="math inline">\(\mathsf{Norm}(\mu, \sigma)\)</span>, l’intervalle de confiance à <span class="math inline">\((1-\alpha)\)</span> pour la moyenne (dans la population) <span class="math inline">\(\mu\)</span> est <span class="math display">\[\begin{align*}
-\overline{X} \pm t_{n-1, \alpha/2} \frac{S}{\sqrt{n}}
-\end{align*}\]</span> où <span class="math inline">\(t_{n-1, \alpha/2}\)</span> est le quantile d’ordre <span class="math inline">\(1-\alpha/2\)</span> de la loi Student-<span class="math inline">\(t\)</span> avec <span class="math inline">\(n-1\)</span> degrés de libertés.</p>
-<p>Avant qu’on calcule l’intervalle de confiance, il y a une probabilité de <span class="math inline">\(1-\alpha\)</span> que <span class="math inline">\(\theta\)</span> soit contenu dans l’intervalle <strong>aléatoire</strong> symmétrique <span class="math inline">\((\widehat{\theta} - \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta}), \widehat{\theta} + \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta}))\)</span>, où <span class="math inline">\(\widehat{\theta}\)</span> dénote l’estimateur de <span class="math inline">\(\theta\)</span>. Une fois qu’on obtient un échantillon et qu’on calcule les bornes de l’intervalle de confiance, il n’y a plus de notion de probabilité: la vraie valeur du paramètre <span class="math inline">\(\theta\)</span> (inconnue) est soit contenue dans l’intervalle de confiance, soit pas. La seule interprétation de l’intervalle de confiance qui soit valable alors est la suivante: si on répète l’expérience plusieurs fois et qu’à chaque fois on calcule un intervalle de confiance à <span class="math inline">\(1-\alpha\)</span>, alors une proportion de <span class="math inline">\((1-\alpha)\)</span> de ces intervalles devraient contenir la vraie valeur de <span class="math inline">\(\theta\)</span> (de la même manière, si vous lancez une pièce de monnaie équilibrée, vous devriez obtenir grosso modo une fréquence de 50% de pile et 50% de face, mais chaque lancer donnera un ou l’autre de ces choix). Notre « confiance » est dans la procédure et non pas dans les valeurs numériques obtenues pour un échantillon donné.</p>
+<section id="exemples" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="exemples"><span class="header-section-number">2.9</span> Exemples</h2>
+<div id="exm-rosenjerdee74" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 2.2 (Inégalité de genre et tests de permutation)</strong></span> Nous examinons les données de <span class="citation" data-cites="Rosen:1974">Rosen et Jerdee (<a href="references.html#ref-Rosen:1974" role="doc-biblioref">1974</a>)</span>, qui étudie les stéréotypes de genre et leur impact sur la promotion et les opportunités pour les femmes candidates. L’expérience s’est déroulée en 1972 et les unités expérimentales, composées de 95 superviseurs bancaires masculins, ont reçu divers mémorandums et ont été invitées à fournir des évaluations de candidatures pour un poste de cadre. Ils devaient prendre des décisions sur la base des informations fournies.</p>
+<p>Nous nous intéressons à l’expérience 1 relative à la promotion des employés: les responsables devaient décider de promouvoir ou non un employé au poste de directeur de succursale sur la base de recommandations et d’évaluations du potentiel de relations avec les clients et les employés. L’intervention des auteurs s’est concentrée sur la description de la nature (complexité) du travail du gestionnaire (simple ou complexe) et sur le sexe du candidat (homme ou femme): tous les dossiers étaient par ailleurs similaires.</p>
+<p>Pour des raisons de simplicité, nous ne considérons que le facteur sexe et nous agrégeons sur le poste pour les <span class="math inline">\(n=93\)</span> réponses. La table <a href="#tbl-rosen-table1" class="quarto-xref">Tableau&nbsp;<span>2.1</span></a> montre le décompte des recommendations pour chaque possibilité.</p>
+<div class="cell" data-layout-align="center">
+<div id="tbl-rosen-table1" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-rosen-table1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tableau&nbsp;2.1: Recommendations de promotion pour le poste de gestionnaire de branche selon le sexe de la personne qui postule.
+</figcaption>
+<div aria-describedby="tbl-rosen-table1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="table do-not-create-environment cell caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">male</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">female</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">promouvoir</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: right;">19</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ne pas promouvoir</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">30</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>L’hypothèse nulle qui nous intéresse ici est que le sexe n’a pas d’impact, de sorte que la probabilité de promotion est la même pour les hommes et les femmes. Soit <span class="math inline">\(p_{\text{h}}\)</span> et <span class="math inline">\(p_{\text{f}}\)</span> ces probabilités respectives; nous pouvons donc écrire mathématiquement l’hypothèse nulle comme <span class="math inline">\(\mathscr{H}_0: p_{\text{h}} = p_{\text{f}}\)</span> contre l’alternative <span class="math inline">\(\mathscr{H}_a: p_{\text{h}} \neq p_{\text{f}}\)</span>.</p>
+<p>La statistique de test généralement employée pour les tableaux de contingence est un test du chi carré<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, qui compare les proportions globales de promotion de chaque sous-groupe. La proportion de l’échantillon pour les hommes est de 32/42 = ~76%, contre 19/49 =~49% pour les femmes. Bien que cette différence de 16 % semble importante, elle pourrait être trompeuse: l’erreur type pour les proportions de l’échantillon est d’environ 3.2 % pour les hommes et 3.4 % pour les femmes.</p>
+<p>S’il n’y avait pas de discrimination fondée sur le sexe, nous nous attendrions à ce que la proportion de personnes promues soit la même dans l’ensemble; elle est de 51/93 ou 0.55 pour l’échantillon regroupé. Nous pourrions nous contenter de tester la différence moyenne, mais nous nous appuyons plutôt sur le test de contingence <span class="math inline">\(X^2_p\)</span> de Pearson (également appelé test du khi-carré), qui compare les chiffres attendus (sur la base de taux de promotion égaux) aux chiffres observés, convenablement normalisés. convenablement normalisés. Si l’écart est important entre les chiffres attendus et les chiffres observés, cela met en doute la véracité de l’hypothèse nulle.</p>
+<p>Si les effectifs de chaque cellule sont importants, la distribution nulle du test du chi-deux est bien approximée par une distribution de <span class="math inline">\(\chi^2\)</span>. La sortie du test comprend la valeur de la statistique, <span class="math inline">\(10.79,\)</span> les degrés de liberté de l’approximation <span class="math inline">\(\chi^2\)</span> et la valeur <em>p</em>, qui donne la probabilité qu’un tirage aléatoire d’une distribution <span class="math inline">\(\chi^2_1\)</span> soit plus grand que la statistique de test observée <strong>en supposant que l’hypothèse nulle est vraie</strong>. La valeur <em>p</em> est très petite, <span class="math inline">\(0.001\)</span>, ce qui signifie qu’il est très peu probable qu’un tel résultat soit le fruit du hasard s’il n’y a pas eu de discrimination fondée sur le sexe.</p>
+<p>Une autre solution pour obtenir un point de référence permettant d’évaluer le caractère exagéré du rapport de cotes observé consiste à utiliser des simulations: les tests de permutation sont efficaces [illustrés par Jared Wilber] (https://www.jwilber.me/permutationtest/). Considérons une base de données contenant les données brutes avec 93 lignes, une pour chaque gestionnaie, avec pour chacune un indicateur d’<code>action</code> et le <code>sexe</code> de l’employé hypothétique présenté dans la tâche.</p>
+<div class="cell" data-layout-align="center">
+<div id="tbl-dat-long-test-rosen-print" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-dat-long-test-rosen-print-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tableau&nbsp;2.2: Les cinq premières lignes de la base de données en format long pour l’expérience 1 de Rosen et Jerdee (1974).
+</figcaption>
+<div aria-describedby="tbl-dat-long-test-rosen-print-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="table do-not-create-environment cell caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">action</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">sexe</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">promouvoir</td>
+<td style="text-align: left;">homme</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ne pas promouvoir</td>
+<td style="text-align: left;">femme</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">promouvoir</td>
+<td style="text-align: left;">homme</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ne pas promouvoir</td>
+<td style="text-align: left;">femme</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ne pas promouvoir</td>
+<td style="text-align: left;">homme</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Sous l’hypothèse nulle, le sexe n’a aucune incidence sur l’action du gestionnaire. Cela signifie que nous pourrions dresser un portrait du monde sans discrimination en mélangeant les étiquettes de sexe de manière répétée. Ainsi, nous pourrions obtenir une référence en répétant les étapes suivantes plusieurs fois :</p>
+<ol type="1">
+<li>permuter les étiquettes pour le <code>sexe</code>,</li>
+<li>recréer un tableau de contingence en agrégeant les effectifs,</li>
+<li>calculer une statistique de test pour le tableau simulé.</li>
+</ol>
+<p>Comme statistique de test, nous utilisons le rapport des cotes: la probabilité d’un événement est le rapport entre le nombre de succès et le nombre d’échecs. Dans notre exemple, il s’agirait du nombre de dossiers promus par rapport au nombre de dossiers retenus. La probabilité de promotion d’un homme est de <span class="math inline">\(32/12,\)</span> alors que celle d’une femme est de <span class="math inline">\(19/30.\)</span> Le rapport des cotes pour un homme par rapport à une femme est donc <span class="math inline">\(\mathsf{RC}=(32/12) / (19/30)= 4.21.\)</span> Sous l’hypothèse nulle, <span class="math inline">\(\mathscr{H}_0: \mathsf{OR}= 1\)</span> (même probabilité d’être promu) (pourquoi ?)</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-intconf" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<div id="fig-infer-odds-ratio-permutation" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-intconf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="inference_files/figure-html/fig-intconf-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+<div aria-describedby="fig-infer-odds-ratio-permutation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="inference_files/figure-html/fig-infer-odds-ratio-permutation-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-intconf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.4: Intervalles de confiance à 95% pour la moyenne d’une population normale <span class="math inline">\(\mathsf{Norm}(0,1)\)</span> pour 100 échantillons aléatoires. En moyenne, 5% de ces intervalles (en rouge) n’incluent pas la vraie valeur de la moyenne de zéro.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-infer-odds-ratio-permutation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.10: Histogramme de simulations de la loi nulle pour le rapport de cote, obtenu par le biais d’un test de permutation; la ligne verticale rouge indique le rapport de cote échantillonal.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Si on s’intéresse seulement à la décision rejeter/ne pas rejeter <span class="math inline">\(\mathscr{H}_0\)</span>, l’intervalle de confiance est équivalent à la valeur-<em>p</em> en ce sens qu’il mène à la même décision. L’intervalle de confiance donne en revanche l’ensemble des valeurs pour lesquelles la statistique de test ne fournit pas assez de preuves pour rejeter <span class="math inline">\(\mathscr{H}_0\)</span>: pour un test à niveau <span class="math inline">\(\alpha\)</span>, on ne rejetterait aucune des valeurs contenues dans l’intervalle de confiance de niveau <span class="math inline">\(1-\alpha\)</span>. Si la valeur-<em>p</em> est inférieure à <span class="math inline">\(\alpha\)</span>, la valeur postulée pour <span class="math inline">\(\theta\)</span> est donc hors de l’intervalle de confiance calculé. À l’inverse, la valeur-<em>p</em> ne donne la probabilité d’obtenir un résultat aussi extrême sous l’hypothèse nulle que pour une seule valeur numérique, mais permet de quantifier précisément à quel point le résultat est extrême.</p>
-<div id="exm-achats-milleniaux" class="theorem example">
-<p><span class="theorem-title"><strong>Exemple 2.1 (Achat en ligne de milléniaux)</strong></span> Supposons qu’une chercheuse veut faire une étude sur l’évolution des ventes en ligne au Canada. Elle postule que les membres de la génération Y fait plus d’achats en ligne que ceux des générations antérieures. Pour répondre à cette question, un sondage est envoyé à un échantillon aléatoire de <span class="math inline">\(n=500\)</span> individus représentatif de la population avec 160 membres de la génération Y et 340 personnes plus âgées. La variable réponse est le montant d’achat effectués en ligne dans le mois dernier (en dollars).</p>
+<p>L’histogramme de la <a href="#fig-infer-odds-ratio-permutation" class="quarto-xref">Figure&nbsp;<span>2.10</span></a> montre la distribution du rapport de cotes sur la base de 10 000 permutations. Il est rassurant de constater que nous obtenons à peu près la même valeur <em>p</em> approximative, ici 0.002.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
+<p>L’article concluait (à la lumière de ce qui précède et d’autres expériences)</p>
+<blockquote class="blockquote">
+<p>Les résultats ont confirmé l’hypothèse selon laquelle les administrateurs masculins ont tendance à discriminer les employées dans les décisions concernant la promotion, le développement et la supervision du personnel.</p>
+</blockquote>
+<p><strong>Récapitulatif</strong></p>
+<ul>
+<li>Paramètres du modèle: probabilité de promotion pour les hommes et les femmes, respectivement <span class="math inline">\(p_{\text{h}}\)</span> et <span class="math inline">\(p_{\text{f}}\)</span>.</li>
+<li>Hypothèses: pas de discrimination fondée sur le sexe, ce qui signifie une probabilité de promotion égale (hypothèse nulle <span class="math inline">\(\mathscr{H}_0: p_{\text{h}}=p_{\text{f}},\)</span> contre hypothèse alternative <span class="math inline">\(\mathscr{H}_a: p_{\text{h}}\neq p_{\text{f}}\)</span>).</li>
+<li>Statistique de test: (1) test du khi-deux pour les tableaux de contingence et (2) rapport de cotes.</li>
+<li>Valeur-<span class="math inline">\(p\)</span>: (1) <span class="math inline">\(.0010\)</span> et (2) <span class="math inline">\(.0024\)</span> pour le test de permutation.</li>
+<li>Conclusion: rejeter l’hypothèse nulle, car il existe des preuves d’une discrimination fondée sur le sexe, avec une probabilité de promotion différente pour les hommes et les femmes.</li>
+</ul>
+<p>Conformément aux directives de l’APA, la statistique <span class="math inline">\(\chi^2\)</span> serait présentée sous la forme <span class="math inline">\(\chi^2(1, n = 93) = 10.79\)</span>, <span class="math inline">\(p = .001\)</span> en même temps que les effectifs et les proportions de l’échantillon.</p>
 </div>
-<p>Dans cet exemple, on s’intéresse à la différence entre le montant moyen des Y et celui des générations antérieures: la différence de moyenne observée dans l’échantillon est de 16.49 dollars et donc les milléniaux ont dépensé davantage. En revanche, notre échantillon est aléatoire et le montant d’achat en ligne varie d’un individu à l’autre (et d’un mois à l’autre): ce n’est donc pas suffisant pour dire que la différence est significative.</p>
-<p>La première étape de notre analyse consiste à définir les quantités d’intérêt et à formuler nos hypothèse en fonction de paramètres du modèle; il convient également de définir ces derniers en fonction des variables en présence dans l’exemple. Ici, on considère un test pour la différence de moyenne dans les populations postulées <span class="math inline">\(\mu_1\)</span> (pour la génération Y) et <span class="math inline">\(\mu_2\)</span> (pour les générations antérieures) d’écart-type respectif <span class="math inline">\(\sigma_1\)</span> et <span class="math inline">\(\sigma_2\)</span>. Comment déterminer quelle hypothèse on considère? Comme statisticien, on se fait l’avocat du Diable: l’hypothèse d’intérêt du chercheur est l’hypothèse alternative et ici, <span class="math inline">\(\mathscr{H}_a: \mu_1 &gt; \mu_2\)</span>, où <span class="math inline">\(\mu_1\)</span> représente la moyenne des achats mensuels des milléniaux. L’hypothèse nulle comprend toutes les autres valeurs pour la différence de moyenne, soit <span class="math inline">\(\mathscr{H}_0: \mu_1 \leq \mu_2\)</span>. Il suffit néanmoins de considérer le cas <span class="math inline">\(\mu_1=\mu_2\)</span> (pourquoi?)</p>
-<p>La deuxième étape consiste à choisir une statistique de test. S’il n’y a aucune différence de moyenne entre les groupes, alors <span class="math inline">\(\overline{X}_1-\overline{X}_2\)</span> a moyenne zéro et la différence de moyenne a une variance de <span class="math inline">\(\sigma^2_1/n_1+\sigma^2_2/n_2\)</span>. Ici, on considère la statistique de <span class="citation" data-cites="Welch:1947">Welch (<a href="references.html#ref-Welch:1947" role="doc-biblioref">1947</a>)</span> pour une différence de moyenne entre deux échantillons: <span class="math display">\[\begin{align*}
-T = \frac{\overline{X}_1 - \overline{X}_2}{\left(\frac{S_1^2}{n_1}+\frac{S_2^2}{n_2} \right)^{1/2}}, \end{align*}\]</span> où <span class="math inline">\(\overline{X}_i\)</span> est la moyenne empirique dans l’échantillon <span class="math inline">\(i\)</span> (<span class="math inline">\(i=1, 2\)</span>) et <span class="math inline">\(S_i^2\)</span> est la variance empirique et <span class="math inline">\(n_i\)</span> la taille de l’échantillon du groupe <span class="math inline">\(i\)</span>. La statistique est utilisée pour calculer la différence de moyennes de deux échantillons de variance potentiellement différente. La valeur de la statistique dans l’échantillon est <span class="math inline">\(T=2.76\)</span>, mais on obtiendrait une valeur différente avec un autre échantillon. Il convient donc de déterminer si cette valeur est compatible avec notre hypothèse nulle en la comparant à la loi nulle sous <span class="math inline">\(\mathscr{H}_0\)</span> de <span class="math inline">\(T\)</span>. On effectuera le test à niveau <span class="math inline">\(\alpha=0.05\)</span>.</p>
-<p>La troisième étape est l’obtention d’un étalon de mesure pour déterminer si notre résultat est extrême ou inattendu. Vous remarquerez que la statistique de Welch a moyenne zéro et variance un sous l’hypothèse nulle que <span class="math inline">\(\mu_1=\mu_2\)</span>: standardiser une statistique permet d’obtenir un objet dont on connaît le comportement pour de grands échantillons et obtenir une quantité sans unité de mesure. La dérivation de la loi nulle est hors objectifs du cours, aussi cette dernière vous sera donnée dans tous les cas qu’on considère. Asymptotiquement, <span class="math inline">\(T\)</span> suit une loi normale <span class="math inline">\(\mathsf{Norm}(0, 1)\)</span>, mais il existe une meilleure approximation pour <span class="math inline">\(n\)</span> petit; on compare le comportement de <span class="math inline">\(T\)</span> à l’aide d’une loi de Student via l’approximation de <span class="citation" data-cites="Satterthwaite:1946">Satterthwaite (<a href="references.html#ref-Satterthwaite:1946" role="doc-biblioref">1946</a>)</span>.</p>
-<p>La dernière étape consiste à obtenir une valeur-<em>p</em>, soit la probabilité d’observer un résultat aussi extrême sous <span class="math inline">\(\mathscr{H}_0\)</span>: l’avantage de la valeur-<em>p</em> est que cette valeur est une probabilité (dans <span class="math inline">\([0, 1]\)</span>) et qu’elle suit une loi uniforme sous <span class="math inline">\(\mathscr{H}_0\)</span>. Puisque nous avons une hypothèse alternative unilatérale, on regarde la probabilité sous <span class="math inline">\(\mathscr{H}_0\)</span> que <span class="math inline">\(\mathsf{Pr}(T &gt; t)\)</span>. La valeur-<em>p</em> vaut <span class="math inline">\(0.0031\)</span> et donc, à niveau 5%, on rejette l’hypothèse nulle pour conclure que la génération Y dépense davantage en ligne que les générations antérieures.</p>
+<div id="exm-LiuRimMinMin2023E1" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 2.3 (L’élément de surprise d’une prise de contact inattendue)</strong></span> <span class="citation" data-cites="Liu.Rim.Min.Min:2023">Liu et al. (<a href="references.html#ref-Liu.Rim.Min.Min:2023" role="doc-biblioref">2023</a>)</span> étudie les interactions sociales et l’impact de la surprise sur les personnes qui contactent de vieilles connaissances de manière inattendue. L’expérience 1 se concentre sur des questionnaires où la condition expérimentale est l’appréciation perçue du fait d’envoyer une communication à quelqu’un avec qui on n’a pas correspondu depuis longtemps (par opposition au fait de se faire contacter). L’étude a utilisé un questionnaire envoyé à 200 adultes américains recrutés sur la plateforme Prolific Academic. L’indice de réponse consiste en la moyenne de quatre questions mesurées sur une échelle de Likert allant de 1 à 7, les valeurs les plus élevées indiquant une plus grande appréciation de la prise de contact.</p>
+<p>Nous pouvons commencer par examiner les statistiques sommaires des variables sociodémographiques (sexe et âge) afin d’évaluer si l’échantillon est représentatif de la population générale dans son ensemble. La proportion d’« autres » (comprenant les personnes non binaires) est beaucoup plus élevée que celle du recensement général, et la population est plutôt jeune selon <a href="#tbl-LRMMS1-summarystat-a" class="quarto-xref">Tableau&nbsp;<span>2.3</span></a>.</p>
+<div class="cell" data-layout-align="center">
+<div id="tbl-LRMMS1-summarystat-a" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-LRMMS1-summarystat-a-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tableau&nbsp;2.3: Statistiques descriptives de l’âge des participants, et décompte par genre.
+</figcaption>
+<div aria-describedby="tbl-LRMMS1-summarystat-a-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="table do-not-create-environment cell caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">genre</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">min</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">max</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">moyenne</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">homme</td>
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">78</td>
+<td style="text-align: right;">32.0</td>
+<td style="text-align: right;">105</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">femme</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">68</td>
+<td style="text-align: right;">36.5</td>
+<td style="text-align: right;">92</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">autre</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">27.7</td>
+<td style="text-align: right;">3</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div id="tbl-LRMMS1-summarystat-b" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-LRMMS1-summarystat-b-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tableau&nbsp;2.4: Appréciation moyenne (écart-type), et nombre de participants par condition expérimentale.
+</figcaption>
+<div aria-describedby="tbl-LRMMS1-summarystat-b-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="table do-not-create-environment cell caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">rôle</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">moyenne</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">écart-type</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">initiateur</td>
+<td style="text-align: right;">5.50</td>
+<td style="text-align: right;">1.28</td>
+<td style="text-align: right;">103</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">destinataire</td>
+<td style="text-align: right;">5.87</td>
+<td style="text-align: right;">1.27</td>
+<td style="text-align: right;">97</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Comme il n’y a que deux groupes sans chevauchements (c’est à dire que les personnes ont un seul rôle), soit initiateur ou destinataire, le test logique à utiliser est un test-<span class="math inline">\(t\)</span> pour deux échantillons indépendants, ou une variante de celui-ci. En utilisant la statistique du <span class="math inline">\(t\)</span>-test de Welch, la moyenne et l’écart-type de chaque groupe sont estimés à l’aide des données fournies.</p>
+<p>Le logiciel renvoie comme valeur du test , ce qui conduit au rejet de l’hypothèse nulle d’absence de différence d’appréciation en fonction du rôle de l’individu (initiateur ou destinataire). La différence moyenne estimée est <span class="math inline">\(\Delta M = -0.37\)</span>, 95% CI <span class="math inline">\([-0.73, -0.01]\)</span>; puisque <span class="math inline">\(0\)</span> n’est pas inclus dans l’intervalle de confiance, nous rejetons également l’hypothèse nulle au niveau 5%. L’estimation suggère que les initiateurs sous-estiment l’importance de contacter de manière inattendue.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>.</p>
+<p><strong>Récapitulatif</strong></p>
+<ul>
+<li>Paramètres du modèle: score d’appréciation moyen <span class="math inline">\(\mu_{\mathrm{i}}\)</span> et <span class="math inline">\(\mu_{\mathrm{d}}\)</span> des initiateurs et des destinataires, respectivement.</li>
+<li>Hypothèse: le score d’appréciation attendu est le même pour les initiateurs et les destinataires, <span class="math inline">\(\mathscr{H}_0: \mu_{\mathrm{i}}=\mu_{\mathrm{d}}\)</span> contre l’alternative <span class="math inline">\(\mathscr{H}_0: \mu_{\mathrm{i}} \neq \mu_{\mathrm{r}}\)</span> qu’ils sont différents.</li>
+<li>Statistique de test: test-<span class="math inline">\(t\)</span> de Welch pour deux échantillons indépendants</li>
+<li>Valeur-<span class="math inline">\(p\)</span>: 0.041</li>
+<li>Conclusion: rejet de l’hypothèse nulle, le score moyen d’appréciation diffère selon le rôle tenu.</li>
+</ul>
+</div>
+<div id="exm-BrucksLevav22" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 2.4 (Les communications virtuelles réduisent le nombre d’idées créatives)</strong></span> Une étude de Nature a réalisé une expérience pour voir comment les communications virtuelles impactent le travail d’équipe en comparant le nombre d’idées créatives générées par des binômes au cours d’une tempête d’idée, ainsi que leur qualité telle que mesurée par des arbitres externes. L’échantillon était composé de 301 paires de participants qui ont interagi par vidéoconférence ou en face à face.</p>
+<p>Les auteurs ont comparé le nombre d’idées créatives, un sous-ensemble d’idées générées avec un score de créativité supérieur à la moyenne. Le nombre moyen d’idées créatives pour le face à face est <span class="math inline">\(7.92\)</span> idées (écart-type <span class="math inline">\(3.40\)</span>), comparativement à <span class="math inline">\(6.73\)</span> idées (écart-type¸ <span class="math inline">\(3.27\)</span>) pour la vidéoconférence.</p>
+<p><span class="citation" data-cites="Brucks.Levav:2022">Brucks et Levav (<a href="references.html#ref-Brucks.Levav:2022" role="doc-biblioref">2022</a>)</span> a utilisé un modèle de régression binomiale négative: dans leur modèle, le nombre moyen d’idées créatives générées est <span class="math display">\[\begin{align*}
+\mathsf{E}(\texttt{ncreative}) = \exp(\beta_0 + \beta_1 \texttt{video})
+\end{align*}\]</span> où <span class="math inline">\(\texttt{video}=0\)</span> si la paire se trouve dans la même pièce et <span class="math inline">\(\texttt{video}=1\)</span> si elle interagit plutôt par vidéoconférence.</p>
+<p>Le nombre moyen d’idées pour la vidéoconférence est donc <span class="math inline">\(\exp(\beta_1)\)</span> multiplié par celui du face à face: l’estimation du facteur multiplicatif est <span class="math inline">\(\exp(\beta_1)\)</span> est <span class="math inline">\(0.85\)</span> 95% CI <span class="math inline">\([0.77, 0.94]\)</span>.</p>
+<p>L’absence de différence entre les conditions expérimentales se traduit par l’hypothèse nulle <span class="math inline">\(\mathscr{H}_0: \beta_1=0\)</span> vs <span class="math inline">\(\mathscr{H}_0: \beta_1 \neq 0\)</span> ou, de manière équivalente, <span class="math inline">\(\mathscr{H}_0: \exp(\beta_1)=1\)</span>. Le test du rapport de vraisemblance comparant le modèle de régression avec et sans <span class="math inline">\(\texttt{video}\)</span> la statistique est <span class="math inline">\(R=9.89\)</span> (valeur-<span class="math inline">\(p\)</span> basée sur <span class="math inline">\(\chi^2_1\)</span> de <span class="math inline">\(.002\)</span>). Nous concluons que le nombre moyen d’idées est différent, les statistiques sommaires suggérant que les paires virtuelles génèrent moins d’idées.</p>
+<p>Si nous avions eu recours à un test-<span class="math inline">\(t\)</span> pour deux échantillons indépendants, nous aurions trouvé une différence moyenne dans le nombre d’idées créatives de <span class="math inline">\(\Delta M = 1.19\)</span>, 95% CI <span class="math inline">\([0.43, 1.95]\)</span>, <span class="math inline">\(t(299) = 3.09\)</span>, <span class="math inline">\(p = .002\)</span>.</p>
+<p>Les deux tests reposent sur des hypothèses légèrement différentes, mais aboutissent à des conclusions similaires: il a de forts indices que le nombre d’idées créatives est plus faible lorsque les personnes interagissent par vidéoconférence.</p>
+</div>
 <div id="exm-prix-trains-tests" class="theorem example">
-<p><span class="theorem-title"><strong>Exemple 2.2 (Prix de billets de trains à grande vitesse espagnols)</strong></span> La compagnie nationale de chemin de fer <a href="https://www.renfe.com/">Renfe</a> gère les trains régionaux et les trains à haute vitesse dans toute l’Espagne. Les prix des billets vendus par Renfe sont <a href="https://www.kaggle.com/thegurusteam/spanish-high-speed-rail-system-ticket-pricing">aggrégés</a> par une compagnie. On s’intéresse ici à une seule ligne, Madrid–Barcelone. Notre question scientifique est la suivante: est-ce que le prix des billets pour un aller (une direction) est plus chère pour un retour? Pour ce faire, on considère un échantillon de 10000 billets entre les deux plus grandes villes espagnoles. On s’intéresse au billets de TGV vendus (AVE) au tarif Promotionnel. Notre statistique de test sera simplement la différence de moyenne entre les deux échantillons: la différence entre le prix en euros d’un train Madrid–Barcelone (<span class="math inline">\(\mu_1\)</span>) et le prix d’un billet Barcelone–Madrid (<span class="math inline">\(\mu_2\)</span>) est <span class="math inline">\(\mu_1-\mu_2\)</span> et notre hypothèse nulle est qu’il n’y a aucune différence de prix, soit <span class="math inline">\(\mathscr{H}_0: \mu_1-\mu_2=0\)</span>.</p>
-</div>
-<p>On utilise de nouveau le test de Welch pour deux échantillons en filtrant les données pour ne conserver que les billets au tarif Promo: la moyenne des billets Barcelone-Madrid est 82.11 euros, ceux pour Madrid-Barcelone 82.56 euros et la valeur de la statistique de Welch est -1.33. Si on utilise l’approximation normale, on obtient une valeur-<em>p</em> de 0.18.</p>
+<p><span class="theorem-title"><strong>Exemple 2.5 (Prix de billets de trains à grande vitesse espagnols)</strong></span> La compagnie nationale de chemin de fer <a href="https://www.renfe.com/">Renfe</a> gère les trains régionaux et les trains à haute vitesse dans toute l’Espagne. Les prix des billets vendus par Renfe sont <a href="https://www.kaggle.com/thegurusteam/spanish-high-speed-rail-system-ticket-pricing">aggrégés</a> par une compagnie. On s’intéresse ici à une seule ligne, Madrid–Barcelone. Notre question scientifique est la suivante: est-ce que le prix des billets pour un aller (une direction) est plus chère pour un retour? Pour ce faire, on considère un échantillon de 10000 billets entre les deux plus grandes villes espagnoles. On s’intéresse au billets de TGV vendus (AVE) au tarif Promotionnel. Notre statistique de test sera simplement la différence de moyenne entre les deux échantillons: la différence entre le prix en euros d’un train Madrid–Barcelone (<span class="math inline">\(\mu_1\)</span>) et le prix d’un billet Barcelone–Madrid (<span class="math inline">\(\mu_2\)</span>) est <span class="math inline">\(\mu_1-\mu_2\)</span> et notre hypothèse nulle est qu’il n’y a aucune différence de prix, soit <span class="math inline">\(\mathscr{H}_0: \mu_1-\mu_2=0.\)</span></p>
+<p>On utilise de nouveau le test de Welch pour deux échantillons en filtrant les données pour ne conserver que les billets au tarif Promo: la moyenne des billets Barcelone-Madrid est 82.11 euros, ceux pour Madrid-Barcelone 82.56 euros et la valeur de la statistique de Welch est -1.33. Si on utilise l’approximation normale, on obtient une valeur-<span class="math inline">\(p\)</span> de 0.18.</p>
 <p>Plutôt que d’utiliser la loi asymptotique (qui est valide pour de grands échantillons à cause du théorème central limite), on peut considérer une approximation sous une hypothèse moins restrictive en supposant que les données sont échangeables. Sous l’hypothèse nulle, il n’y aucune différence entre les deux destinations et les étiquettes pour la destination (une variable catégorielle binaire) sont arbitraires. On pourrait considérer les mêmes données, mais avec une permutation des variables explicatives: c’est ce qu’on appelle un <a href="https://www.jwilber.me/permutationtest/">test de permutation</a>. On va recréer deux groupes de taille identique à notre échantillon original, mais en changeant les observations. On recalcule la statistique de test sur ces nouvelle données (si on a une poignée d’observations, il est possible de lister toutes les permutations possibles; typiquement, il suffit de considérer un grand nombre de telles permutations, disons 9999). Pour chaque nouveau jeu de données, on calculera la statistique de test et on calculera le rang de notre statistique par rapport à cette référence. Si la valeur de notre statistique observée sur l’échantillon original est extrême en comparaison, c’est autant de preuves contre l’hypothèse nulle.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -436,23 +861,39 @@ T = \frac{\overline{X}_1 - \overline{X}_2}{\left(\frac{S_1^2}{n_1}+\frac{S_2^2}{
 <img src="inference_files/figure-html/fig-renfepermut-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-renfepermut-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.5: Approximation par permutation de la loi nulle de la statistique de test de Welch (histogramme et trait noir) et loi asymptotique normale standard (trait bleu) pour le prix de billets de trains AVE au tarif promotionnel entre Madrid et Barcelone. La valeur de la statistique de test de l’échantillon original est représentée par un trait vertical.
+Figure&nbsp;2.11: Approximation par permutation de la loi nulle de la statistique de test de Welch (histogramme et trait noir) et loi asymptotique normale standard (trait bleu) pour le prix de billets de trains AVE au tarif promotionnel entre Madrid et Barcelone. La valeur de la statistique de test de l’échantillon original est représentée par un trait vertical.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>La valeur-<em>p</em> du test de permutation, <span class="math inline">\(0.186\)</span>, est la proportion de statistiques plus extrêmes que celle observée. Cette valeur-<em>p</em> est quasi-identique à celle de l’approximation de Satterthwaite, à savoir <span class="math inline">\(0.182\)</span> (la loi Student-<span class="math inline">\(t\)</span> est numériquement équivalente à une loi standard normale avec autant de degrés de liberté), tel que représenté dans la <a href="#fig-renfepermut" class="quarto-xref">Figure&nbsp;<span>2.5</span></a>. Malgré que notre échantillon soit très grand, avec <span class="math inline">\(n=8059\)</span> observations, la différence n’est pas jugée significative. Avec un échantillon de deux millions de billets, on pourrait estimer précisément la moyenne (au centime près): la différence de prix entre les deux destinations et cette dernière deviendrait statistiquement significative. Elle n’est pas en revanche pas pertinente en partique, car une différence de <span class="math inline">\(0.28\)</span> euros sur un prix moyen de <span class="math inline">\(82.56\)</span> euros est quantité négligeable.</p>
+<p>La valeur-<em>p</em> du test de permutation, <span class="math inline">\(0.186,\)</span> est la proportion de statistiques plus extrêmes que celle observée. Cette valeur-<em>p</em> est quasi-identique à celle de l’approximation de Satterthwaite, à savoir <span class="math inline">\(0.182\)</span> (la loi Student-<span class="math inline">\(t\)</span> est numériquement équivalente à une loi standard normale avec autant de degrés de liberté), tel que représenté dans la <a href="#fig-renfepermut" class="quarto-xref">Figure&nbsp;<span>2.11</span></a>. Malgré que notre échantillon soit très grand, avec <span class="math inline">\(n=8059\)</span> observations, la différence n’est pas jugée significative. Avec un échantillon de deux millions de billets, on pourrait estimer précisément la moyenne (au centime près): la différence de prix entre les deux destinations et cette dernière deviendrait statistiquement significative. Elle n’est pas en revanche pas pertinente en partique, car une différence de <span class="math inline">\(0.28\)</span> euros sur un prix moyen de <span class="math inline">\(82.56\)</span> euros est quantité négligeable.</p>
+</div>
+<!--
+Ce chapitre s'est concentré sur la présentation des outils du métier et de quelques exemples soulignant les ingrédients clés qui sont communs à toute procédure statistique. À ce stade, il n'est pas censé savoir quelle statistique de test choisir, mais il faut plutôt comprendre que notre capacité à faire des découvertes (scientifiques) dépend d'un certain nombre de facteurs.
+-->
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
-<div id="ref-Satterthwaite:1946" class="csl-entry" role="listitem">
-Satterthwaite, F. E. 1946. <span>«&nbsp;An Approximate Distribution of Estimates of Variance Components&nbsp;»</span>. <em>Biometrics Bulletin</em> 2 (6): 110‑14. <a href="http://www.jstor.org/stable/3002019">http://www.jstor.org/stable/3002019</a>.
+<div id="ref-Brucks.Levav:2022" class="csl-entry" role="listitem">
+Brucks, Melanie S., et Jonathan Levav. 2022. <span>«&nbsp;Virtual communication curbs creative idea generation&nbsp;»</span>. <em>Nature</em> 605 (7908): 108‑12. <a href="https://doi.org/10.1038/s41586-022-04643-y">https://doi.org/10.1038/s41586-022-04643-y</a>.
 </div>
-<div id="ref-Welch:1947" class="csl-entry" role="listitem">
-Welch, B. L. 1947. <span>«&nbsp;The generalization of <span>“Student’s”</span> problem when several population variances are involved.&nbsp;»</span> <em>Biometrika</em> 34 (1–2): 28‑35. <a href="https://doi.org/10.1093/biomet/34.1-2.28">https://doi.org/10.1093/biomet/34.1-2.28</a>.
+<div id="ref-Liu.Rim.Min.Min:2023" class="csl-entry" role="listitem">
+Liu, Peggy J., SoYon Rim, Lauren Min, et Kate E. Min. 2023. <span>«&nbsp;The surprise of reaching out: Appreciated more than we think.&nbsp;»</span> <em>Journal of Personality and Social Psychology</em> 124 (4): 754‑71. <a href="https://doi.org/10.1037/pspi0000402">https://doi.org/10.1037/pspi0000402</a>.
+</div>
+<div id="ref-Rosen:1974" class="csl-entry" role="listitem">
+Rosen, B., et T. H. Jerdee. 1974. <span>«&nbsp;Influence of sex role stereotypes on personnel decisions.&nbsp;»</span> <em>Journal of Applied Psychology</em> 59: 9‑14.
 </div>
 </div>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>La formule montre que l’erreur standard diminue d’un facteur 10 chaque fois que la taille de l’échantillon augmente d’un facteur 100.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Si vous avez suivi des cours de modélisation avancés, il s’agit d’un test de score obtenu en ajustant une régression de Poisson avec <code>sexe</code> et <code>action</code> comme covariables; l’hypothèse nulle correspondant à l’absence de terme d’interaction entre les deux.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>La valeur <em>p</em> obtenue pour le test de permutation changerait d’une exécution à l’autre puisque les intrants sont aléatoires. Cependant, la précision de la statistique est suffisante pour la prise de décision<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>En supposant que la variance de chaque sous-groupe soit égale, nous aurions pu utiliser un <span class="math inline">\(t\)</span>-test à deux échantillons à la place. La différence dans la conclusion est insignifiante, avec une valeur <em>p</em> presque égale<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
 </section>
 
 </main> <!-- /main -->

@@ -239,6 +239,22 @@
 \usepackage{makecell}
 \usepackage{xcolor}
 \makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
+\@ifpackageloaded{fontawesome5}{}{\usepackage{fontawesome5}}
+\definecolor{quarto-callout-color}{HTML}{909090}
+\definecolor{quarto-callout-note-color}{HTML}{0758E5}
+\definecolor{quarto-callout-important-color}{HTML}{CC1914}
+\definecolor{quarto-callout-warning-color}{HTML}{EB9113}
+\definecolor{quarto-callout-tip-color}{HTML}{00A047}
+\definecolor{quarto-callout-caution-color}{HTML}{FC5300}
+\definecolor{quarto-callout-color-frame}{HTML}{acacac}
+\definecolor{quarto-callout-note-color-frame}{HTML}{4582ec}
+\definecolor{quarto-callout-important-color-frame}{HTML}{d9534f}
+\definecolor{quarto-callout-warning-color-frame}{HTML}{f0ad4e}
+\definecolor{quarto-callout-tip-color-frame}{HTML}{02b875}
+\definecolor{quarto-callout-caution-color-frame}{HTML}{fd7e14}
+\makeatother
+\makeatletter
 \@ifpackageloaded{bookmark}{}{\usepackage{bookmark}}
 \makeatother
 \makeatletter
@@ -277,9 +293,9 @@
 \newcommand*\listoflistings{\listof{codelisting}{Liste des énumérations}}
 \usepackage{amsthm}
 \theoremstyle{definition}
-\newtheorem{example}{Exemple}[chapter]
-\theoremstyle{definition}
 \newtheorem{definition}{Définition}[chapter]
+\theoremstyle{definition}
+\newtheorem{example}{Exemple}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Preuve}}
 \newtheorem*{remark}{Remarque}
@@ -320,11 +336,11 @@
 
 \title{MATH 60604 - Modélisation statistique}
 \author{Léo Belzile}
-\date{2024-08-21}
+\date{2024-08-25}
 
 \begin{document}
 
-\includepdf{figures/coverpage.pdf}
+\includepdf{images/pagedecouverture.pdf}
 
 \renewcommand*\contentsname{Table des matières}
 {
@@ -486,13 +502,11 @@ explicatifs. Par exemple, on peut chercher à déterminer
 
 \chapter{Introduction}\label{intro}
 
-\section{Rappels}\label{rappels}
-
 Ce chapitre couvre des rappels mathématiques de probabilité et
 statistique d'ordinaire couverts dans un cours de niveau collégial ou
 préuniversitaire.
 
-\subsection{Population et échantillons}\label{population-echantillon}
+\#\#Population et échantillons \{\#population-echantillon\}
 
 Ce qui différencie la statistique des autres sciences est la prise en
 compte de l'incertitude et de la notion d'aléatoire. Règle générale, on
@@ -568,7 +582,7 @@ complète (en anglais)}.
 
 \end{example}
 
-\subsection{Types de variables}\label{types-de-variables}
+\#\#Types de variables
 
 Le résultat d'une collecte de données est un tableau, ou base de
 données, contenant sur chaque ligne des observations et en colonne des
@@ -591,7 +605,9 @@ structure.
 
 \caption{\label{tbl-data-renfe}Premières lignes de la base de données
 \texttt{renfe}, qui contient les prix de 10K billets de train entre
-Barcelone et Madrid.}
+Barcelone et Madrid. Les colonnes \texttt{prix} et \texttt{duree} sont
+des variables numériques continues, les autres des variables
+catégorielles.}
 
 \tabularnewline
 
@@ -616,8 +632,10 @@ numériques, qualitatives (binaires, nominales ou ordinales) si elles
 peuvent être décrites par un adjectif; je préfère le terme catégorielle,
 plus évocateur.
 
-Les modèles de régression servent à expliquer des variables
-quantitatives en fonction d'autres caractéristiques.
+La plupart des modèles avec lesquels nous interagirons sont des modèles
+dits de régression, dans lesquelles on modélisation la moyenne d'une
+variable quantitative en fonction d'autres variables dites explicatives.
+Il y a deux types de variables numériques:
 
 \begin{itemize}
 \tightlist
@@ -653,23 +671,13 @@ catégorielle doit est transformée en un ensemble d'indicateurs binaires
 statistique, surtout si elles sont parfois encodées dans la base de
 données à l'aide de valeurs entières.
 
-\subsection{Variables aléatoires}\label{variable-aleatoire}
+\#\#Variables aléatoires \{\#variable-aleatoire\}
 
 Suppsons qu'on cherche à décrire le comportement d'un phénomène
 aléatoire. Pour ce faire, on cherche à décrire l'ensemble des valeurs
 possibles et leur probabilité/fréquence relative au sein de la
 population: ces dernières sont encodées dans la loi de la variable
 aléatoire.
-
-On fera la distinction entre deux cas de figure: quand le phénomène
-prend des valeurs finies et dénombrables, comme par exemple un événement
-binaire (achat/non-achat d'un produit) ou d'une variable de décompte, on
-parle de distribution \textbf{discrète}. Si l'ensemble des valeurs que
-prend la variable d'intérêt est dans un continuum de valeurs (par
-exemple, le prix d'un item, même si en pratique il y aura une
-sous-division finie et que le montant sera arrondi au centime près pour
-l'argent), on parle de variable \textbf{continue}. Des cas plus
-complexes peuvent survenir.
 
 On dénote les variables aléatoires par des lettres majuscules, et leurs
 réalisations par des minuscules: par exemple,
@@ -739,6 +747,58 @@ convergente, la \textbf{variance} est \begin{align*}
 \mathsf{Va}(Y)&=\int_{\mathbb{R}} (y-\mu)^2 f(y) \mathrm{d} y \\&=\mathsf{E}\{Y-\mathsf{E}(Y)\}^2 \\&= \mathsf{E}(Y^2) - \{\mathsf{E}(Y)\}^2.
 \end{align*}
 
+L'écart-type est défini comme la racine carrée de la variance,
+\(\mathsf{sd}(Y)=\sqrt{\mathsf{Va}(Y)}\): elle est exprimé dans les
+mêmes unités que celle de \(Y\) et donc plus facilement interprétable.
+
+La notion de moments peut être généralisé à des vecteurs. Si
+\(\boldsymbol{Y}\) est un \(n\)-vecteur, comprenant par exemple dans le
+cadre d'une régression des mesures d'un ensemble d'observations, alors
+l'espérance est calculée composante par composante,
+
+\begin{align*}
+\mathsf{E}(\boldsymbol{Y}) &= \boldsymbol{\mu}=
+\begin{pmatrix}
+\mathsf{E}(Y_1) &
+\cdots  &
+\mathsf{E}(Y_n)
+\end{pmatrix}^\top
+\end{align*} tandis que la matrice \(n \times n\) de deuxième moments
+centrés de \(\boldsymbol{Y}\), dite matrice de variance ou matrice de
+\textbf{covariance}, est \begin{align*}
+\mathsf{Va}(\boldsymbol{Y}) &= \boldsymbol{\Sigma} = \begin{pmatrix} \mathsf{Va}(Y_1) & \mathsf{Co}(Y_1, Y_2)  & \cdots & \mathsf{Co}(Y_1, Y_n) \\
+\mathsf{Co}(Y_2, Y_1) & \mathsf{Va}(Y_2) & \ddots & \vdots \\
+\vdots & \ddots & \ddots & \vdots \\
+\mathsf{Co}(Y_n, Y_1) & \mathsf{Co}(Y_n, Y_2) &\cdots & \mathsf{Va}(Y_n)
+\end{pmatrix}
+\end{align*} Le \(i\)e élément diagonal de \(\boldsymbol{\Sigma}\),
+\(\sigma_{ii}=\sigma_i^2\), est la variance de \(Y_i\), tandis que les
+éléments hors de la diagonale, \(\sigma_{ij}=\sigma_{ji}\)
+\((i \neq j)\), sont les covariances des paires \begin{align*}
+\mathsf{Co}(Y_i, Y_j) = \int_{\mathbb{R}^2} (y_i-\mu_i)(y_j-\mu_j) f_{Y_i, Y_j}(y_i, y_j) \mathrm{d} y_i \mathrm{d} y_j.
+\end{align*} Par construction, la matrice de covariance
+\(\boldsymbol{\Sigma}\) est symmétrique. Il est d'usage de considérer la
+relation deux-à-deux de variables standardisées, afin de séparer la
+dépendance linéaire de la variabilité de chaque composante. La
+\textbf{corrélation linéaire} entre \(Y_i\) et \(Y_j\) est
+\begin{align*}
+\rho_{ij}=\mathsf{Cor}(Y_i,Y_j)=\frac{\mathsf{Co}(Y_i, Y_j)}{\sqrt{\mathsf{Va}(Y_i)}\sqrt{\mathsf{Va}(Y_j)}}=\frac{\sigma_{ij}}{\sigma_i\sigma_j}.
+\end{align*} La matrice de corrélation de \(\boldsymbol{Y}\) est une
+matrice symmétrique \(n\times n\) avec des uns sur la diagonale et les
+corrélations des pairs hors diagonale, \begin{align*}
+\mathsf{Cor}(\boldsymbol{Y})=
+\begin{pmatrix}
+1 & \rho_{12} & \rho_{13} & \cdots & \rho_{1n}\\
+\rho_{21} & 1 & \rho_{23} & \cdots & \rho_{2n} \\
+\rho_{31} & \rho_{32} & 1 & \ddots & \rho_{3n} \\
+\vdots & \vdots & \ddots & \ddots & \vdots \\
+\rho_{n1} & \rho_{n2} & \rho_{n3} & \cdots & 1
+\end{pmatrix}.
+\end{align*} Nous modéliserons la matrice de covariance ou de
+corrélation des données corrélées et longitudinales par individus du
+même groupe (ou du même individu pour les mesures répétées) dans le
+\href{donnees-longitudinales-correlees}{Chapitre 5}.
+
 \end{definition}
 
 \begin{definition}[Biais]\protect\hypertarget{def-biais}{}\label{def-biais}
@@ -757,26 +817,28 @@ biais]\protect\hypertarget{exm-estimateurs-non-biaises}{}\label{exm-estimateurs-
 L'estimateur sans biais de l'espérance de \(Y\) pour un échantillon
 aléatoire simple \(Y_1, \ldots, Y_n\) est la moyenne empirique
 \(\overline{Y}_n = n^{-1} \sum_{i=1}^n Y_i\) et celui de la variance
-\(S_n = (n-1)^{-1} \sum_{i=1}^n (Y_i-\overline{Y})^2\). Un estimateur
-sans biais est souhaitable, mais pas toujours optimal. Quelquefois, il
-n'existe pas d'estimateur non-biaisé pour un paramètre!
+\(S_n = (n-1)^{-1} \sum_{i=1}^n (Y_i-\overline{Y})^2\).
 
 \end{example}
 
-\begin{definition}[Erreur quadratique
-moyenne]\protect\hypertarget{def-eqm}{}\label{def-eqm}
+Un estimateur sans biais est souhaitable, mais pas toujours optimal.
+Quelquefois, il n'existe pas d'estimateur non-biaisé pour un paramètre!
+Dans plusieurs cas, on cherche un estimateur qui minimise l'erreur
+quadratique moyenne.
 
 Souvent, on cherche à balancer le biais et la variance: rappelez-vous
 qu'un estimateur est une variable aléatoire (étant une fonction de
 variables aléatoires) et qu'il est lui-même variable: même s'il est sans
 biais, la valeur numérique obtenue fluctuera d'un échantillon à l'autre.
-On peut chercher un estimateur qui minimise l'erreur quadratique
-moyenne,
 
-\begin{align*}
+\begin{definition}[Erreur quadratique
+moyenne]\protect\hypertarget{def-eqm}{}\label{def-eqm}
+
+On peut chercher un estimateur qui minimise l'erreur quadratique
+moyenne, \begin{align*}
 \mathsf{EQM}(\hat{\theta}) = \mathsf{E}\{(\hat{\theta}-\theta)^2\}=\mathsf{Va}(\hat{\theta}) + \{\mathsf{E}(\hat{\theta})\}^2.
-\end{align*} C'est donc un compromis entre le carré du biais et la
-variance de l'estimateur.
+\end{align*} Cette fonction objective est donc un compromis entre le
+carré du biais et la variance de l'estimateur.
 
 \end{definition}
 
@@ -788,7 +850,7 @@ de l'échantillon est suffisamment grande. Ils ont également d'autre
 propriétés qui les rendent attractifs comme choix par défaut pour
 l'estimation. Il ne sont pas nécessairement sans biais
 
-\subsection{Loi discrètes}\label{loi-discruxe8tes}
+\section{Loi discrètes}\label{loi-discruxe8tes}
 
 Plusieurs lois aléatoires décrivent des phénomènes physiques simples et
 ont donc une justification empirique; on revisite les distributions ou
@@ -800,7 +862,7 @@ Bernoulli]\protect\hypertarget{def-loibern}{}\label{def-loibern}
 On considère un phénomène binaire, comme le lancer d'une pièce de
 monnaie (pile/face). De manière générale, on associe les deux
 possibilités à succès/échec et on suppose que la probabilité de
-``succès' est \(p\). Par convention, on représente les échecs (non) par
+``succès'' est \(p\). Par convention, on représente les échecs (non) par
 des zéros et les réussites (oui) par des uns. Donc, si la variable \(Y\)
 vaut \(0\) ou \(1\), alors \(\mathsf{Pr}(Y=1)=p\) et la probabilité
 complémentaire est \(\mathsf{Pr}(Y=0)=1-p\). La fonction de masse de la
@@ -850,11 +912,11 @@ même que pour un échantillon aléatoire de \(m\) variables Bernoulli
 indépendantes. L'espérance d'une variable binomiale est
 \(\mathsf{E}(Y)=mp\) et la variance \(\mathsf{Va}(Y)=mp(1-p)\).
 
+\end{example}
+
 On peut ainsi considérer le nombre de personnes qui ont obtenu leur
 permis de conduire parmi \(m\) candidat(e)s ou le nombre de clients sur
 \(m\) qui ont passé une commande de plus de 10\$ dans un magasin.
-
-\end{example}
 
 Plus généralement, on peut considérer des variables de dénombrement qui
 prennent des valeurs entières. Parmi les exemples de questions de
@@ -871,217 +933,46 @@ recherches comprenant une variable réponse de dénombrement:
   le nombre de tâches réussies par un participant lors d'une étude.
 \end{itemize}
 
-\begin{example}[Loi
-géométrique]\protect\hypertarget{exm-loigeom}{}\label{exm-loigeom}
-
-La
-\href{https://fr.wikipedia.org/wiki/Loi_g\%C3\%A9om\%C3\%A9trique}{loi
-géométrique} décrit le comportement du nombre d'essais Bernoulli de
-probabilité de succès \(p\) nécessaires avant l'obtention d'un premier
-succès. La fonction de masse de \(Y \sim \mathsf{Geo}(p)\) est
+La densité d'une loi Student standard avec \(\nu\) degrés de liberté est
 \begin{align*}
-\mathsf{Pr}(Y=y) = p (1-p)^{y-1}, \quad y=1,2, \ldots
-\end{align*}
+f(y; \nu) = \frac{\Gamma \left( \frac{\nu+1}{2}\right)}{\Gamma\left(\frac{\nu}{2}\right)
+\sqrt{\nu\pi}}\left(1+\frac{y^{2}}{\nu}\right)^{-\frac{\nu+1}{2}}.
+\end{align*} La loi a des ailes à décroissance polynomiale, est
+symmétrique autour de zéro et unimodale. Quand \(\nu \to \infty\), on
+recouvre une loi normale, mais les ailes sont plus lourdes que la loi
+normale. Effectivement, seuls les \(\nu-1\) premiers moments de la
+distribution existent: la loi \(\mathsf{Student}(2)\) n'a pas de
+variance.
 
-Par exemple, on pourrait modéliser le nombre de visites d'une maison en
-vente avant une première offre d'achat à l'aide d'une variable
-géométrique.
-
-\end{example}
-
-\begin{example}[Loi de
-Poisson]\protect\hypertarget{exm-loipoisson}{}\label{exm-loipoisson}
-
-Si la probabilité d'un événement Bernoulli est petite et qu'il est rare
-d'obtenir un succès dans le sens où \(mp \to \lambda\) quand le nombre
-d'essais \(m\) augmente, alors le nombre de succès suit
-approximateivement une loi de Poisson de fonction de masse
-\begin{align*}
-\mathsf{Pr}(Y=y) = \frac{\exp(-\lambda)\lambda^y}{\Gamma(y+1)}, \quad y=0, 1, 2, \ldots
-\end{align*} où \(\Gamma(\cdot)\) dénote la fonction gamma, et
-\(\Gamma(y+1) = y!\) si \(y\) est un entier. Le paramètre \(\lambda\) de
-la loi de Poisson représente à la fois l'espérance et la variance de la
-variable, c'est-à-dire que \(\mathsf{E}(Y)=\mathsf{Va}(Y)=\lambda\).
-
-\end{example}
-
-\begin{example}[Loi binomiale
-négative]\protect\hypertarget{exm-loibinneg}{}\label{exm-loibinneg}
-
-On considère une série d'essais Bernoulli de probabilité de succès \(p\)
-jusqu'à l'obtention de \(m\) succès. Soit \(Y\), le nombre d'échecs:
-puisque la dernière réalisation doit forcément être un succès, mais que
-l'ordre des succès/échecs précédents n'importe pas, la fonction de masse
-est \begin{align*}
-\mathsf{Pr}(Y=y)= \binom{m-1+y}{y} p^m (1-p)^{y}.
-\end{align*}
-
-La loi binomiale négative apparaît également si on considère la loi
-non-conditionnelle du modèle hiérarchique gamma-Poisson, dans lequel on
-suppose que le paramètre de la moyenne de la loi Poisson est aussi
-aléatoire, c'est-à-dire
-\(Y \mid \Lambda=\lambda \sim \mathsf{Po}(\lambda)\) et \(\Lambda\) suit
-une loi gamma de paramètre de forme \(r\) et de paramètre d'échelle
-\(\theta\), dont la densité est
-\begin{align*} f(x) = \theta^{-r}x^{r-1}\exp(-x/\theta)/\Gamma(r).\end{align*}
-Le nombre d'événements suit alors une loi binomiale négative.
-
-La paramétrisation la plus courante pour la modélisation est légèrement
-différente: pour un paramètre \(r>0\) (pas forcément entier), on écrit
-la fonction de masse \begin{align*}
-\mathsf{Pr}(Y=y)=\frac{\Gamma(y+r)}{\Gamma(y+1)\Gamma(r)} \left(\frac{r}{r + \mu} \right)^{r} \left(\frac{\mu}{r+\mu}\right)^y,
-\end{align*} où \(\Gamma\) dénote la fonction gamma. Dans cette
-paramétrisation, la moyenne théorique et la variance sont
-\(\mathsf{E}(Y)=\mu\) et \(\mathsf{Va}(Y)=\mu+k\mu^2\), où \(k=1/r\). La
-variance d'une variable binomiale négative est \emph{supérieure} à sa
-moyenne et le modèle est utilisé comme alternative à la loi de Poisson
-pour modéliser la surdispersion.
-
-\end{example}
-
-\subsection{Lois continues}\label{lois-continues}
-
-On considère plusieurs lois de variables aléatoires continues; certaines
-servent de lois pour des tests d'hypothèse et découlent du théorème
-central limite (notamment les lois normales, Student, Fisher ou \(F\),
-et khi-deux).
-
-\begin{definition}[Loi
-beta]\protect\hypertarget{def-loibeta}{}\label{def-loibeta}
-
-La loi beta \(\mathsf{Beta}(\alpha, \beta)\) est une loi sur
-l'intervalle \([0,1]\) avec paramètres de forme \(\alpha>0\) et
-\(\beta>0\). Sa densité est \begin{align*}
-f(x) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}x^{\alpha-1}(1-x)^{1-\beta}, \qquad x \in [0,1].
-\end{align*} Le cas \(\alpha=\beta=1\) correspond à la loi standard
-uniforme.
+Si les \(n\) observations indépendantes et identiquement distribuées
+\(Y_i \sim \mathsf{normale}(\mu, \sigma^2)\), alors la moyenne empirique
+centrée, divisée par la variance empirique, \((\overline{Y}-\mu)/S^2\),
+suit une loi Student-\(t\) avec \(n-1\) degrés de liberté.
 
 \begin{figure}[ht!]
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{introduction_files/figure-pdf/fig-densite-beta-1.pdf}
+\includegraphics[width=0.5\textwidth,height=\textheight]{introduction_files/figure-pdf/fig-densite-Student-1.pdf}
 
 }
 
-\caption{\label{fig-densite-beta}Fonctions de densité de lois uniformes
-et beta(2, 3/4) sur l'intervalle {[}0,1{]}.}
+\caption{\label{fig-densite-Student}Comparaison de la densité
+Student-\(t\) versus normale pour différents degrés de liberté avec
+\(\nu=2\) (pointillé), \(\nu=10\) (traitillé) et la loi normale
+(\(\nu = \infty)\).}
 
 \end{figure}%
 
-\end{definition}
-
-\begin{definition}[Loi
-exponentielle]\protect\hypertarget{def-loiexpo}{}\label{def-loiexpo}
-
-La loi exponentielle figure de manière proéminente dans l'étude des
-temps d'attente pour les phénomènes Poisson et en analyse de survie. Une
-caractéristique clé de la loi est son absence de mémoire:
-\(\Pr(Y \geq y + u \mid Y > u) = \Pr(Y > u)\) pour \(Y > 0\) et
-\(y, u>0\).
-
-La fonction de répartition de la loi exponentielle
-\(Y \sim \mathsf{Exp}(\beta)\) où \(\beta>0\), est
-\(F(x) = 1-\exp(-\beta x)\) et sa fonction de densité est
-\(f(x) =\beta\exp(-\beta x)\) pour \(x >0\). La moyenne théorique de la
-loi est \(\beta\).
-
-\end{definition}
-
-\begin{definition}[Loi
-normale]\protect\hypertarget{def-loinormale}{}\label{def-loinormale}
-
-De loin la plus continue des distributions, la loi normale intervient
-dans le théorème central limite, qui dicte le comportement aléatoire de
-la moyenne de grand échantillons. La fonction de densité est symmétrique
-autour d'une moyenne \(\mu \in \mathbb{R}\), qui est une mesure de la
-tendance centrale. L'autre paramètre, l'écart-type \(\sigma>0\), est un
-paramètre d'échelle qui mesure la dispersion. La fonction de densité, en
-forme de cloche, est symmétrique autour de \(\mu\), qui est aussi le
-mode de la distribution.
-
-\begin{figure}[ht!]
-
-\centering{
-
-\includegraphics[width=0.85\textwidth,height=\textheight]{introduction_files/figure-pdf/fig-normal-loc-echelle-1.pdf}
-
-}
-
-\caption{\label{fig-normal-loc-echelle}Densités de loi normales avec des
-paramètres de moyenne différents (gauche) et des paramètres d'échelle
-différents (droite).}
-
-\end{figure}%
-
-La loi normale est une famille de localisation échelle: si
-\(Y \sim \mathsf{normale}(\mu, \sigma^2)\), alors
-\(Z = (Y-\mu)/\sigma \sim \mathsf{normale}(0,1)\). La variable
-standardisée est appelée cote Z. Inversement, si
-\(Z \sim \mathsf{normale}(0,1)\), alors
-\(Y = \mu + \sigma Z \sim \mathsf{normale}(\mu, \sigma^2)\).
-
-\end{definition}
-
-Les trois lois suivantes ne sont pas couvertes dans les cours
-d'introduction, mais elles interviennent régulièrement dans les cours de
-mathématique statistique et serviront d'étalon de mesure pour déterminer
-si les statistiques de test sont extrêmes sous l'hypothèse nulle.
-
-\begin{definition}[Loi
-khi-deux]\protect\hypertarget{def-loikhideux}{}\label{def-loikhideux}
-
-La loi de khi-deux avec \(\nu>0\) degrés de liberté, dénotée
-\(\chi^2_{\nu}\) joue un rôle important en statistique car elle est la
-loi nulle asymptotique de nombreuses statistiques de test usuelles. Sa
-densité est \begin{align*}
-f(x; \nu) = \frac{1}{2^{\nu/2}\Gamma(\nu/2)}x^{\nu/2-1}\exp(-x/2),\qquad x >0.
-\end{align*} Elle est obtenue en prenant la somme de variables normales
-centrées et réduites au carré: si
-\(Z_i \stackrel{\mathrm{iid}}{\sim}\mathsf{normale}(0,1)\) pour
-\(i=1, \ldots, k\), alors \(\sum_{i=1}^k Z_i^2 \sim \chi^2_k\).
-L'espérance de la loi \(\chi^2_k\) est \(k\).
-
-\end{definition}
-
-\begin{definition}[Loi
-Student-\(t\)]\protect\hypertarget{def-loistudent}{}\label{def-loistudent}
-
-La loi Student-\(t\) avec \(\nu>0\) degrés de liberté est une famille de
-localisation et d'échelle de densité symmétrique. On la dénote
-\(\mathsf{Student}(\nu)\) dans le cas centré réduit. Ses ailes sont plus
-lourdes que la loi normale et son \(k\)e moment existe uniquement si
-\(\nu > k\). Ainsi, la variance n'existe que si \(\nu>2\). Si
-\(\nu \to \infty\), on recouvre une loi limite Gaussienne standard.
-
-Son nom provient d'un article de William Gosset sous le pseudonyme
-Student (\citeproc{ref-Student:1908}{Gosset 1908}). La statistique
-\(T\), pour des données Gaussiennes, suit une loi Student avec \(k\)
-degrés de liberté, puisque la moyenne est Gaussienne et la variance
-empirique, adéquatement repondérée, suit une loi khi-deux avec \(k\)
-degrés de liberté.
-
-\begin{figure}[ht!]
-
-{\centering \includegraphics[width=0.5\textwidth,height=\textheight]{introduction_files/figure-pdf/unnamed-chunk-6-1.pdf}
-
-}
-
-\caption{Comparaison de la densité Student-\(t\) versus normale pour
-différents degrés de liberté avec \(\nu=2\) (pointillé), \(\nu=10\)
-(traitillé) et la loi normale (\(\nu = \infty)\).}
-
-\end{figure}%
-
-\end{definition}
+:::
 
 \begin{definition}[Loi de
 Fisher]\protect\hypertarget{def-loiF}{}\label{def-loiF}
 
-Une généralisation de la loi Student-\(t\) est obtenue pour le
-comportement en grand échantillon de statistiques de test pour la
-comparaison de plusieurs moyennes (analyse de variance) sous un postulat
-de normalité des observations.
+La loi de Fisher, ou loi \(F\), sert à déterminer le comportement en
+grand échantillon de statistiques de test pour la comparaison de
+plusieurs moyennes (analyse de variance) sous un postulat de normalité
+des observations.
 
 La loi \(F\), dite de Fisher et dénotée
 \(\mathsf{Fisher}(\nu_1, \nu_2)\), est obtenue en divisant deux
@@ -1091,12 +982,15 @@ variables khi-deux indépendantes de degrés de liberté \(\nu_1\) et
 F = \frac{Y_1/\nu_1}{Y_2/\nu_2} \sim \mathsf{Fisher}(\nu_1, \nu_2)
 \end{align*}
 
-La loi de Fisher tend vers une loi \(\chi^2\) quand
+La loi de Fisher tend vers une loi \(\chi^2_{\nu_1}\) quand
 \(\nu_2 \to \infty\).
 
 \end{definition}
 
-\subsection{Graphiques}\label{graphiques}
+\section{Graphiques}\label{graphiques}
+
+Cette section sert à réviser les principales représentations graphiques
+de jeux de données selon la catégorie des variables.
 
 Le principal type de graphique pour représenter la distribution d'une
 variable catégorielle est le diagramme en bâtons, dans lequel la
@@ -1216,19 +1110,44 @@ utilise un nuage de points où chaque variable est représentée sur un axe
 et chaque observation donne la coordonnée des points. Si la
 représentation graphique est dominée par quelques valeurs très grandes,
 une transformation des données peut être utile: vous verrez souvent des
-données positives à l'échelle logarithmique.
+données positives à l'échelle logarithmique. Si le nombre d'observations
+est très grand, il devient difficile de distinguer quoi que ce soit. On
+peut alors ajouter de la transparence ou regrouper des données en
+compartiments bidimensionnels (un histogramme bidimensionnel), dont la
+couleur représente la fréquence de chaque compartiment. Le paneau gauche
+de Figure~\ref{fig-nuagedepoints} montre un nuage de points de 100
+observations simulées, tandis que celui de droite représente des
+compartiments hexagonaux contenant 10 000 points.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{introduction_files/figure-pdf/fig-nuagedepoints-1.pdf}
+
+}
+
+\caption{\label{fig-nuagedepoints}Nuage de points (gauche) et diagramme
+hexagonal (droite) pour des données simulées.}
+
+\end{figure}%
+
+Si on ajuste un modèle à des données, il convient de vérifier la qualité
+de l'ajustement et l'adéquation du modèle, par exemple graphiquement.
 
 \begin{definition}[Diagrammes
 quantiles-quantiles]\protect\hypertarget{def-diagramme-qq}{}\label{def-diagramme-qq}
 
-Si on ajuste un modèle à des données, il convient de vérifier la qualité
-de l'ajustement et l'adéquation du modèle, par exemple graphiquement. Le
-diagramme quantile-quantile sert à vérifier l'adéquation du modèle et
+Le diagramme quantile-quantile sert à vérifier l'adéquation du modèle et
 découle du constat suivant: si \(Y\) est une variable aléatoire continue
 et \(F\) sa fonction de répartition, alors l'application
-\(F(Y) \sim \mathsf{Unif}(0,1)\). De la même façon, appliquer la
-fonction quantile à une variable uniforme permet de simuler de la loi
-\(F\), et donc \(F^{-1}(U)\).
+\(F(Y) \sim \mathsf{unif}(0,1)\), une loi uniforme standard. De la même
+façon, appliquer la fonction quantile à une variable uniforme permet de
+simuler de la loi \(F\), et donc \(F^{-1}(U)\). Supposons un échantillon
+uniforme de taille \(n\). On peut démontrer que, pour des variables
+continues, les statistiques d'ordre \(U_{(1)} \leq \cdots \leq U_{(n)}\)
+ont une loi marginale beta, avec
+\(U_{(k)} \sim \mathsf{Beta}(k, n+1-k)\) d'espérance \(k/(n+1)\).
 
 Les paramètres de la loi \(F\) sont inconnus, mais on peut obtenir un
 estimateur \(\widehat{F}\) et appliquer la transformation inverse pour
@@ -1274,8 +1193,7 @@ ou pas. On va donc idéalement ajouter un intervalle de confiance
 (approximatif) ponctuel ou conjoint au diagramme.
 
 Pour obtenir l'intervalle de confiance approximatif, la méthode la plus
-simple est par simulation (autoamorçage paramétrique), en répétant \(B\)
-fois les étapes suivantes
+simple est par simulation, en répétant \(B\) fois les étapes suivantes
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -1308,7 +1226,13 @@ Figure~\ref{fig-diagrammeqq2} sont donc ponctuels. La variabilité des
 statistiques d'ordre uniformes est plus grande autour de 1/2, mais
 celles des variables transformées dépend de \(F\).
 
-\subsection{Loi des grands nombres}\label{loi-grands-nombres}
+L'interprétation d'un diagramme quantile-quantile nécessite une bonne
+dose de pratique et de l'expérience:
+\href{https://stats.stackexchange.com/questions/101274/how-to-interpret-a-qq-plot/101290\#101290}{cette
+publication par \emph{Glen\_b} sur StackOverflow} résume bien ce qu'on
+peut détecter ou pas en lisant le diagramme.
+
+\#\#Loi des grands nombres \{\#loi-grands-nombres\}
 
 Un estimateur est dit \textbf{convergent} si la valeur obtenue à mesure
 que la taille de l'échantillon augmente s'approche de la vraie valeur
@@ -1340,7 +1264,7 @@ ponctuel, il ne nous donne aucune information sur la variabilité de
 notre estimé de la moyenne et la vitesse à laquelle on s'approche de la
 vraie valeur du paramètre.
 
-\subsection{Théorème central limite}\label{TCL}
+\#\#Théorème central limite \{\#TCL\}
 
 Le théorème central limite dit que, pour un échantillon aléatoire de
 taille \(n\) dont les observations sont indépendantes et tirées d'une
@@ -1392,8 +1316,8 @@ est de 170 minutes et 41 secondes. La Figure~\ref{fig-renfeclt} montre
 la distribution empirique des données.
 
 Considérons maintenant des échantillons de taille \(n=10\). Dans notre
-premier échantillon aléatoire, la durée moyenne affichée est 170.9
-minutes, elle est de 164.5 minutes dans le deuxième, de 172.3 dans le
+premier échantillon aléatoire, la durée moyenne affichée est 169.3
+minutes, elle est de 167 minutes dans le deuxième, de 157.9 dans le
 troisième, et ainsi de suite.
 
 \begin{figure}[ht!]
@@ -1447,6 +1371,338 @@ suffisant). C'est ce qui garantie la validité de notre inférence!
 \bookmarksetup{startatroot}
 
 \chapter{Inférence statistique}\label{inference}
+
+Dans la plupart des domaines scientifiques, les donnéese empiriques
+issues d'expériences contribuent à l'édification de la science. Afin de
+tirer des conclusions en faveur ou à l'encontre d'une théorie, les
+chercheurs se tournent (souvent à contrecoeur) vers la statistique. Cela
+a conduit à la prédominance de l'utilisation du cadre des tests
+statistiques et à la prépondérance des valeurs-\(p\) dans les articles
+scientifiques, souvent employées de manière abusive ou fautive dans les
+articles de journaux. La falsification d'une hypothèse nulle n'est pas
+suffisante pour fournir des résultats substantiels pour une théorie.
+
+Comme les cours d'introduction aux statistiques présentent généralement
+des tests d'hypothèses sans accorder beaucoup d'attention aux principes
+de construction sous-jacents de ces procédures, les utilisateurs ont
+souvent une vision réductrice des statistiques. Plusieurs voient les
+statistiques comme un catalogue de procédures pré-établies. Pour faire
+une analogie culinaire, les utilisateurs se concentrent sur
+l'apprentissage en vase clos des recettes plutôt que d'essayer de
+comprendre les bases de la cuisine et de faire des liens. Ce chapitre se
+concentre sur la compréhension des concepts-clés liées aux tests.
+
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-important-color-frame, bottomrule=.15mm, opacitybacktitle=0.6, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, opacityback=0, left=2mm, breakable, toptitle=1mm, toprule=.15mm, colbacktitle=quarto-callout-important-color!10!white, bottomtitle=1mm, coltitle=black, titlerule=0mm, leftrule=.75mm, arc=.35mm, rightrule=.15mm, colback=white]
+
+**Objectifs d'apprentissage
+
+\begin{itemize}
+\tightlist
+\item
+  Comprendre le rôle de l'incertitude dans la prise de décision.
+\item
+  Comprendre l'importance du rapport signal/bruit en tant que preuve.
+\item
+  Connaître les ingrédients de base des tests d'hypothèse et être
+  capable de formuler et d'identifier correctement ces composants dans
+  un article scientifique
+\item
+  Interpréter correctement les valeurs-\(p\) et les intervalles de
+  confiance pour un paramètre.
+\end{itemize}
+
+\end{tcolorbox}
+
+Avant d'entamer une collecte de données pour une expérience, il est
+nécessaire de formuler une question de recherche. En général, cette
+hypothèse spécifie les différences potentielles entre les
+caractéristiques de la population dues à une intervention (un
+traitement) que le chercheur souhaite quantifier. C'est à cette étape
+que les chercheurs décident de la taille de l'échantillon, du choix de
+la variable de réponse et de la méthode de mesure, qu'ils rédigent le
+plan de l'étude, etc.
+
+Il est important de noter que la plupart des questions de recherche ne
+peuvent être résolues à l'aide d'outils simples. Les chercheurs qui
+souhaitent mener une recherche méthodologique innovante devraient
+contacter des experts et consulter des statisticien(ne)s \textbf{avant}
+de collecter leurs données afin d'obtenir des informations sur la
+meilleure façon de procéder pour ce qu'ils ont en tête, afin d'éviter le
+risque d'affirmations trompeuses basées sur une analyse ou une collecte
+de données incorrectes.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.6\textwidth,height=\textheight]{images/xkcd2569_hypothesis_generation.png}
+
+}
+
+\caption{\label{fig-xkcd2569}Bande dessinée xkcd
+\href{https://xkcd.com/2569/}{2569 (Hypothesis generation) par Randall
+Munroe}. Text alternatif: Frazzled scientists are requesting that
+everyone please stop generating hypotheses for a little bit while they
+work through the backlog. Bande réimprimée sous license
+\href{https://creativecommons.org/licenses/by-nc/2.5/}{CC BY-NC 2.5}.}
+
+\end{figure}%
+
+\section{Variabilité
+échantillonale}\label{variabilituxe9-uxe9chantillonale}
+
+Un chercheur s'intéressera à l'estimation de certaines caractéristiques
+de la population à partir d'une base de données. Nous pouvons
+caractériser l'ensemble de toutes les valeurs potentielles que leurs
+mesures peuvent prendre, ainsi que leur fréquence, au moyen d'une loi
+d'une variable aléatoire.
+
+L'objectif de cette section est d'illustrer le fait que nous ne pouvons
+pas simplement utiliser les différences brutes entre les groupes pour
+effectuer des comparaisons significatives: en raison de la variabilité
+due à l'échantillonnage, les échantillons seront semblables même s'ils
+sont générés de la même manière, mais il y aura toujours des différences
+entre les statistiques récapitulatives calculées sur des échantillons
+différents. Ces différences ont tendance à s'atténuer (ou à augmenter)
+au fur et à mesure que l'on collecte davantage d'observations. Plus nous
+recueillons de données (et donc d'informations) sur notre cible, plus le
+portrait devient précis. C'est somme toute ce qui nous permet de tirer
+des conclusions mais, pour ce faire, nous devons d'abord déterminer ce
+qui est probable ou plausible et donc le fruit du hsard, de ce qui n'est
+pas ou peu susceptible de se produire.
+
+Nous appelons \textbf{statistiques} les résumés numériques des données.
+Il est important de faire la distinction entre les procédures ou
+formules et leurs valeurs numériques. Un \textbf{estimateur} est une
+règle ou une formule utilisée pour calculer une estimation d'un
+paramètre ou d'une quantité d'intérêt sur la base de données observées
+(comme une recette de gâteau). Une fois que nous disposons de données
+observées, nous pouvons calculer la moyenne de l'échantillon,
+c'est-à-dire que nous disposons d'une estimation --- d'une valeur réelle
+(le gâteau), qui est une réalisation unique et non aléatoire. En
+d'autres termes,
+
+\begin{itemize}
+\tightlist
+\item
+  un estimand est notre cible conceptuelle, comme la caractéristique de
+  la population qui nous intéresse (la moyenne de la population).
+\item
+  un estimateur est la procédure ou la formule qui nous indique comment
+  transformer les données de l'échantillon en un résumé numérique qui
+  est une approximation de notre cible.
+\item
+  une estimation (ou un estimé) est un nombre, la valeur numérique
+  obtenue lorsque nous appliquons la formule à un échantillon en
+  praticulier.
+\end{itemize}
+
+\begin{figure}[ht!]
+
+\begin{minipage}{0.33\linewidth}
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{images/estimand.jpg}
+
+}
+
+\subcaption{\label{fig-cake-1}Estimand}
+
+\end{minipage}%
+%
+\begin{minipage}{0.33\linewidth}
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{images/estimator.jpg}
+
+}
+
+\subcaption{\label{fig-cake-2}Estimator}
+
+\end{minipage}%
+%
+\begin{minipage}{0.33\linewidth}
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{images/estimate.jpg}
+
+}
+
+\subcaption{\label{fig-cake-3}Estimate}
+
+\end{minipage}%
+
+\caption{\label{fig-cake}Les concepts
+d'\href{https://www.flickr.com/photos/darkdwarf/16563489881}{estimand}
+(gauche), estimateur (milieu) et
+\href{https://www.flickr.com/photos/bensutherland/14685548773}{estimaté}
+(droite), illustrés à l'aide de gâteau, une variation d'un idée
+originale de Simon Grund. Les photos de gâteau sont partagées sous
+licence \href{https://creativecommons.org/licenses/by-nc/2.0/}{CC BY-NC
+2.0}.}
+
+\end{figure}%
+
+Par exemple, si l'estimand est l'espérance de la population \(\mu,\)
+l'estimateur sera la moyenne arithmétique, soit la somme des éléments de
+l'échantillon aléatoire divisé par la taille de l'échantillon, ou,
+\(\overline{Y}=(Y_1 + \cdots + Y_n)/n.\) L'estimé sera une valeur
+numérique, disons 4.3.
+
+Parce que les intrants de l'estimateur sont aléatoires, la sortie l'est
+également et varie d'un échantillon à l'autre. Autrement dit, même si on
+répète une recette, on n'obtient pas le même résultat à chaque coup,
+comme le montre si bien la Figure~\ref{fig-xkcd605}.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.7\textwidth,height=\textheight]{images/xkcd2581_health_stats.png}
+
+}
+
+\caption{\label{fig-xkcd605}Bande dessinée xkcd
+\href{https://xkcd.com/2581/}{2581 (Health Stats) par Randall Munroe}.
+Texte alternatif: You will live on forever in our hearts, pushing a
+little extra blood toward our left hands now and then to give them a
+squeeze. Bande réimprimée sous license
+\href{https://creativecommons.org/licenses/by-nc/2.5/}{CC BY-NC 2.5}.}
+
+\end{figure}%
+
+Pour illustrer ce point, Figure~\ref{fig-samplevar} montre cinq
+échantillons aléatoires simples de taille \(n=10\) tirés d'une
+population hypothétique de moyenne théorique \(\mu\) et d'écart-type
+\(\sigma,\) ainsi que leur moyenne d'échantillon \(\overline{y}.\) En
+raison de la variabilité échantillonnale, les moyennes des sous-groupes
+sont différentes même si elles proviennent de la même population. Vous
+pouvez considérer la variabilité d'échantillonnage comme du bruit: notre
+objectif est d'extraire le signal (typiquement les différences de
+moyennes) tout en tenant compte du bruit de fond.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{inference_files/figure-pdf/fig-samplevar-1.pdf}
+
+}
+
+\caption{\label{fig-samplevar}Cinq échantillons de taille \(n=10\) tirés
+d'une population commune de moyenne \(\mu\) (ligne horizontale). Les
+segments colorés représentent les moyennes empiriques de chaque groupe.}
+
+\end{figure}%
+
+L'oeil avisé pourra remarquer que les moyennes des cinq échantillons
+(segments horizontaux colorés) sont moins dispersées autour de la ligne
+horizontale noire représentant la moyenne de la population \(\mu\) que
+ne le sont les observations. Il s'agit là d'un principe fondamental de
+la statistique: l'information s'accumule au fur et à mesure que l'on
+obtient plus de données.
+
+Les valeurs de la moyenne de l'échantillon ne donnent pas une image
+complète et l'étude des différences de moyenne (entre les groupes ou par
+rapport à une valeur de référence postulée) n'est pas suffisante pour
+tirer des conclusions. Dans la plupart des cas, rien ne garantit que la
+moyenne de l'échantillon sera égale à sa valeur réelle, car elle varie
+d'un échantillon à l'autre: la seule garantie que nous ayons est qu'elle
+sera en moyenne égale à la moyenne de la population dans des
+échantillons répétés. Selon le choix de la mesure et la variabilité de
+la population, il peut y avoir des différences considérables d'une
+observation à l'autre, ce qui signifie que la différence observée peut
+être un coup de chance.
+
+Pour avoir une idée du degré de certitude d'une chose, nous devons
+considérer la variabilité d'une observation \(Y_i.\) Cette variance
+d'une observation tirée de la population est typiquement notée
+\(\sigma^2\) et sa racine carrée, l'écart-type, par \(\sigma.\)
+
+L'écart-type \emph{d'une statistique} est appelé \textbf{erreur-type};
+il ne doit pas être confondu avec l'écart-type \(\sigma\) de la
+population dont sont tirées les observations de l'échantillon
+\(Y_1, \ldots, Y_n.\) L'écart-type et l'erreur-type sont exprimés dans
+les mêmes unités que les données et sont donc plus faciles à interpréter
+que la variance. L'erreur-type étant fonction de la taille de
+l'échantillon, il est d'usage de rapporter plutôt l'écart-type dans les
+rapports.
+
+\begin{example}[Proportion échantillonale et tirages
+uniformes]\protect\hypertarget{exm-samppropunif}{}\label{exm-samppropunif}
+
+Pour illustrer le concept de variabilité échantillonnale, nous suivons
+l'exemple de {[}Matthew Crump{]}
+(https://www.crumplab.com/statistics/foundations-for-inference.html) et
+considérons des échantillons provenant d'une distribution uniforme sur
+\(\{1, 2, \ldots, 10\}\): chaque entier de cet intervalle a la même
+probabilité d'être tiré.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{inference_files/figure-pdf/fig-unifsamp1-1.pdf}
+
+}
+
+\caption{\label{fig-unifsamp1}Histogrammes de 10 échantillons aléatoires
+de taille \(n=20\) de loi uniforme discrète.}
+
+\end{figure}%
+
+Même s'ils sont tirés de la même population, les 10 échantillons de
+Figure~\ref{fig-unifsamp1} sont très différents. La seule chose en jeu
+ici est la variabilité de l'échantillon: puisqu'il y a \(n=20\)
+d'observations au total, il devrait y avoir en moyenne 10\% des
+observations dans chacun des 10 bacs, mais certains bacs sont vides et
+d'autres ont plus d'effectifs que prévu. Cette fluctuation est le fruit
+du hasard.
+
+Comment pouvons-nous donc déterminer si ce que nous voyons est
+compatible avec le modèle qui, selon nous, a généré les données ? Il
+suffit de collecter davantage d'observations: la hauteur de la barre est
+la proportion de l'échantillon, une moyenne de valeurs 0/1, où la valeur
+`un' indique que l'observation se trouve dans la case, et `zéro' dans le
+cas contraire.
+
+Considérons maintenant ce qui se passe lorsque nous augmentons la taille
+de l'échantillon: le panneau supérieur de Figure~\ref{fig-uniformsamp2}
+montre des échantillons uniformes pour une taille d'échantillon
+croissante. Le diagramme à bande ressemble de plus en plus à la
+véritable distribution sous-jacente (fonction de masse constante, donc
+chaque case ayant la même fréquence) à mesure que la taille de
+l'échantillon augmente. La distribution des points de l'échantillon est
+presque indiscernable de la distribution théorique (ligne droite)
+lorsque \(n=10 000.\)\footnote{La formule montre que l'erreur standard
+  diminue d'un facteur 10 chaque fois que la taille de l'échantillon
+  augmente d'un facteur 100.}. Le panneau du bas, en revanche, ne
+provient pas d'une distribution uniforme. Plus l'échantillon grossit,
+plus l'approximation de la fonction de masse se rapproche de la vraie
+valeur. Nous n'aurions pas pu remarquer cette différence dans les deux
+premiers graphiques, car la variabilité de l'échantillonnage est trop
+importante; là, le manque de données dans certaines cases pourrait être
+un obstacle à l'obtention d'une distribution uniforme.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{inference_files/figure-pdf/fig-uniformsamp2-1.pdf}
+
+}
+
+\caption{\label{fig-uniformsamp2}Diagrammes à bande de données tirées
+d'une loi uniforme (haut) et d'une loi non-uniforme (bas) pour des
+tailles d'échantillons de 10, 100, 1000 and 10 000 (de gauche à
+droite).}
+
+\end{figure}%
+
+\end{example}
 
 \section{Tests d'hypothèse}\label{tests}
 
@@ -1508,14 +1764,13 @@ faire un parallèle avec un procès pour meurtre où vous êtes nommé juré.
 \item
   Vous émettez un verdict, à savoir une décision binaire, où l'accusé
   est déclaré soit non-coupable, soit coupable. Si vous avez une
-  valeur-\emph{p}, disons \(P\), pour votre statistique de test et que
-  vous effectuez ce dernier à niveau \(\alpha\), la règle de décision
-  revient à rejeter \(\mathscr{H}_0\) si \(P < \alpha\).
+  valeur-\emph{p}, disons \(P,\) pour votre statistique de test et que
+  vous effectuez ce dernier à niveau \(\alpha,\) la règle de décision
+  revient à rejeter \(\mathscr{H}_0\) si \(P < \alpha.\)
 \end{itemize}
 
 On s'attarde davantage sur ces définitions heuristiques et le
-vocabulaire employé pour parler de tests d'hypothèse. Le matériel de la
-section suivante a été préparé par Juliana Schulz.
+vocabulaire employé pour parler de tests d'hypothèse.
 
 \section{Hypothèse}\label{hypothuxe8se}
 
@@ -1528,19 +1783,19 @@ analysant toutes les preuves sous l'angle: « est-ce que les données
 entrent en contradiction avec \(\mathscr{H}_0\)? ». Un test d'hypothèse
 statistique nous permet de décider si nos données nous fournissent assez
 de preuves pour rejeter \(\mathscr{H}_0\) en faveur de
-\(\mathscr{H}_a\), selon un risque d'erreur spécifié.
+\(\mathscr{H}_a,\) selon un risque d'erreur spécifié.
 
 Généralement, les tests d'hypothèses sont exprimés en fonction de
 paramètres (de valeurs inconnues) du modèle sous-jacent, par ex.
-\(\theta\). Un test d'hypothèse bilatéral concernant un paramètre
+\(\theta.\) Un test d'hypothèse bilatéral concernant un paramètre
 scalaire \(\theta\) s'exprimerait la forme suivante: \begin{align*}
 \mathscr{H}_0: \theta=\theta_0 \qquad \text{versus} \qquad \mathscr{H}_a:\theta \neq \theta_0.
 \end{align*} Ces hypothèses permettent de tester si \(\theta\) est égal
-à une valeur numérique précise \(\theta_0\).
+à une valeur numérique précise \(\theta_0.\)
 
 Par exemple, pour un test bilatéral concernant le paramètre d'un modèle
 de régression \(\beta_j\) associé à une variable explicative d'intérêt
-\(\mathrm{X}_j\), les hypothèses sont \begin{align*}
+\(\mathrm{X}_j,\) les hypothèses sont \begin{align*}
 \mathscr{H}_0: \beta_j=\beta_j^0 \qquad \text{versus} \qquad \mathscr{H}_a:\beta_j \neq \beta_j^0,
 \end{align*} où \(\beta_j^0\) est une valeur précise qui est reliée à la
 question de recherche. Par exemple, si \(\beta_j^0=0\) la question de
@@ -1548,17 +1803,17 @@ recherche sous-jacente est: est-ce que la covariable \(\mathrm{X}_j\)
 impacte la variable réponse d'intérêt \(Y\) une fois l'effet des autres
 variables pris en compte?
 
-Remarque: il est possible d'imposer une direction dans les tests en
-considérant une hypothèse alternative de la forme
+Il est possible d'imposer une direction dans les tests en considérant
+une hypothèse alternative de la forme
 \(\mathscr{H}_a: \theta > \theta_0\) ou
-\(\mathscr{H}_a: \theta < \theta_0\).
+\(\mathscr{H}_a: \theta < \theta_0.\)
 
 \section{Statistique de test}\label{statistique-de-test}
 
-Une statistique de test \(T\) est un fonctionnel des données qui résume
-l'information contenue dans les données pour \(\theta\). La forme de la
+Une statistique de test \(T\) est une fonction des données qui résume
+l'information contenue dans les données pour \(\theta.\) La forme de la
 statistique de test est choisie de façon à ce que son comportement sous
-\(\mathscr{H}_0\), c'est-à-dire l'ensemble des valeurs que prend \(T\)
+\(\mathscr{H}_0,\) c'est-à-dire l'ensemble des valeurs que prend \(T\)
 si \(\mathscr{H}_0\) est vraie et leur probabilité relative, soit connu.
 En effet, \(T\) est une variable aléatoire et sa valeur va changer selon
 l'échantillon. La \textbf{loi nulle} de la statistique de test nous
@@ -1568,9 +1823,9 @@ dans ce cours sont des \textbf{statistiques de Wald}, de la forme
 \begin{align*}
 T = \frac{\widehat{\theta} - \theta_0}{\mathrm{se}(\widehat{\theta})}
 \end{align*} où \(\widehat{\theta}\) est l'estimateur du paramètre
-\(\theta\), \(\theta_0\) la valeur numérique postulée (par ex., zéro) et
+\(\theta,\) \(\theta_0\) la valeur numérique postulée (par ex., zéro) et
 \(\mathrm{se}(\widehat{\theta})\) est l'estimateur de l'écart-type de
-\(\widehat{\theta}\).
+\(\widehat{\theta}.\)
 
 Par exemple, pour une hypothèse sur la moyenne d'une population de la
 forme \begin{align*}
@@ -1578,63 +1833,169 @@ forme \begin{align*}
 \end{align*} la statistique de test de Wald est \begin{align*}
 T &= \frac{\overline{X}-0}{S_n/\sqrt{n}}
 \end{align*} où \(\overline{X}\) est la moyenne de l'échantillon
-\(X_1, \ldots, X_n\), \begin{align*}
+\(X_1, \ldots, X_n,\) \begin{align*}
 \overline{X} &= \frac{1}{n} \sum_{i=1}^n X_i = \frac{X_1+ \cdots + X_n}{n}
 \end{align*} et l'erreur-type de la moyenne \(\overline{X}\) est
-\(S_n/\sqrt{n}\); l'écart-type \(S_n\) est un estimateur de \(\sigma\),
+\(S_n/\sqrt{n}\); l'écart-type \(S_n\) est un estimateur de \(\sigma,\)
 où \begin{align*}
 S^2_n &= \frac{1}{n-1} \sum_{i=1}^n (X_i-\overline{X})^2.
 \end{align*}
-
-Il convient de faire la différence entre procédures/formules et valeurs
-numériques. Un \textbf{estimateur} est une règle ou une formule utilisée
-pour calculer l'estimation d'un paramètre ou quantité d'intérêt selon
-des données observées. Par exemple, la moyenne d'échantillon
-\(\overline{X}\) est un estimateur de la moyenne dans la population
-\(\mu\). Une fois qu'on a des données observées, on peut calculer un
-estimé de la moyenne empirique \(\overline{x},\) c'est-à-dire, on
-obtient une valeur numérique. Autrement dit,
-
-\begin{itemize}
-\tightlist
-\item
-  un estimateur est une fonction de variables aléatoires et donc c'est
-  aussi une variable aléatoire car sa valeur fluctue d'un échantillon à
-  l'autre.
-\item
-  l'estimé est la valeur numérique calculée sur un échantillon donné.
-\end{itemize}
 
 \section{\texorpdfstring{Loi nulle et
 valeur-\emph{p}}{Loi nulle et valeur-p}}\label{loi-nulle-et-valeur-p}
 
 La \textbf{valeur-\emph{p}} nous permet de déterminer si la valeur
 observée de la statistique de test \(T\) est plausible sous
-\(\mathscr{H}_0\). Plus précisément, la valeur-\emph{p} est la
+\(\mathscr{H}_0.\) Plus précisément, la valeur-\emph{p} est la
 probabilité, si \(\mathscr{H}_0\) est vraie, que la statistique de test
 soit égale or plus extrême à ce qu'on observe. Supposons qu'on a un
 échantillon \(X_1, \ldots, X_n\) et qu'on observe une valeur de la
-statistique de test de \(T=t\). Pour un test d'hypothèse bilatéral
+statistique de test de \(T=t.\) Pour un test d'hypothèse bilatéral
 \(\mathscr{H}_0:\theta=\theta_0\)
-vs.~\(\mathscr{H}_a:\theta \neq \theta_0\), la valeur-\emph{p} est
-\(\mathsf{Pr}_0(|T| \geq |t|)\). Si la distribution de \(T\) est
-symétrique autour de zéro, la valeur-\emph{p} vaut \begin{align*}
-p = 2 \times \mathsf{Pr}_0(T \geq |t|).
+vs.~\(\mathscr{H}_a:\theta \neq \theta_0,\) la valeur-\emph{p} est
+\(\Pr{\!}_0(|T| \geq |t|).\) Si la distribution de \(T\) est symétrique
+autour de zéro, la valeur-\emph{p} vaut \begin{align*}
+p = 2 \times \Pr{\!}_0(T \geq |t|).
 \end{align*}
 
+La Figure~\ref{fig-power-plots} montre la loi des valeurs-\(p\) sous
+deux scénarios: à gauche, une loi nulle et à droite, une loi
+alternative. La probabilité de rejetter \(\mathscr{H}_0\) est obtenue en
+calculant l'aire sous la courbe sous la courbe de densité et
+\(\alpha=0.1.\) Sous l'hypothèse nulle, le modèle est calibré et la loi
+des valeurs-\(p\) est uniforme (un rectangle de hauteur 1), ce qui veut
+dire que toutes les valeurs sont également plausibles. Sous
+l'alternative, l'obtention de petites valeurs\(-\)p est plus plausible.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{inference_files/figure-pdf/fig-power-plots-1.pdf}
+
+}
+
+\caption{\label{fig-power-plots}Densité des valeurs-\(p\) sou
+l'hypothèse nulle (gauche) et une alternative avec un ratio signal-bruit
+de 0.5 (droite).}
+
+\end{figure}%
+
+Il existe généralement trois façons d'obtenir des lois nulles pour
+évaluer le degré de preuve contre l'hypothèse nulle
+
+\begin{itemize}
+\tightlist
+\item
+  les calculs exacts (combinatoires)
+\item
+  la théorie des grands échantillons (appelée « régime asymptotique »
+  dans le jargon statistique)
+\item
+  les méthodes de simulation Monte Carlo.
+\end{itemize}
+
+Bien que souhaitable, la première méthode n'est applicable que dans des
+cas simples (comme le calcul de la probabilité d'obtenir deux six en
+lançant deux dés identiques). La deuxième méthode est la plus couramment
+utilisée en raison de sa généralité et de sa facilité d'utilisation (en
+particulier dans les temps anciens où la puissance de calcul était
+rare), mais elle ne donne pas de bons résultats avec des échantillons de
+petite taille (où la noti de « trop petit » dépend du contexte et du
+test). La dernière approche peut être utilisée pour approcher la
+distribution nulle dans de nombreux scénarios, mais elle ajoute une
+couche d'aléatoire et les coûts de calcul supplémentaires n'en valent
+parfois pas la peine.
+
 Prenons l'exemple d'un test d'hypothèse bilatéral pour la moyenne au
-population \(\mathscr{H}_0:\mu=0\) contre \(\mathscr{H}_a:\mu \neq 0\).
+population \(\mathscr{H}_0:\mu=0\) contre \(\mathscr{H}_a:\mu \neq 0.\)
 Si l'échantillon provient d'une (population de) loi normale
-\(\mathsf{Norm}(\mu, \sigma^2)\), on peut démontrer que, si
+\(\mathsf{normale}(\mu, \sigma^2),\) on peut démontrer que, si
 \(\mathscr{H}_0\) est vraie et donc \(\mu=0\)), la statistique de test
 \begin{align*}
 T = \frac{\overline{X}}{S/\sqrt{n}}
 \end{align*} suit une loi de Student-\(t\) avec \(n-1\) degrés de
-liberté, dénotée \(\mathsf{St}_{n-1}\). À partir de cette loi nulle, on
-peut calculer la valeur-\emph{p} (ou bien à partir d'une table ou d'un
-logiciel statistique). Puisque la distribution Student-\(t\) est
-symétrique autour de \(0\), on peut calculer la valeur-\emph{p} comme
-\(P = 2\times\mathsf{Pr}(T > |t|)\), où \(T \sim \mathsf{St}_{n-1}\).
+liberté, dénotée \(\mathsf{Student}_{n-1}.\) À partir de cette loi
+nulle, on peut calculer la valeur-\emph{p} (ou bien à partir d'une table
+ou d'un logiciel statistique). Puisque la distribution Student-\(t\) est
+symétrique autour de \(0,\) on peut calculer la valeur-\emph{p} comme
+\(P = 2\times\Pr(T > |t|),\) où \(T \sim \mathsf{Student}_{n-1}.\)
+
+\section{Intervalle de confiance}\label{intervalle-de-confiance}
+
+Un \textbf{intervalle de confiance} est une manière alternative de
+rapporter les conclusions d'un test, en ce sens qu'on fournit une
+estimation ponctuelle de \(\hat{\theta}\) avec une marge d'erreur.
+L'intervalle de confiance donne donc une indication de la variabilité de
+la procédure d'estimation. Un intervalle de confiance de Wald à
+\((1-\alpha)\) pour un paramètre \(\theta\) est de la forme
+\begin{align*}
+[\widehat{\theta} + \mathfrak{q}_{\alpha/2}\mathrm{se}(\widehat{\theta}, \widehat{\theta} +\mathfrak{q}_{1-\alpha/2}\times \mathrm{se}(\widehat{\theta})]
+\end{align*} où \(\mathfrak{q}_{\alpha}\) dénote le quantile d'ordre
+\(\alpha \in (0,1)\) de la loi nulle de la statistique de Wald,
+\begin{align*}
+T =\frac{\widehat{\theta}-\theta}{\mathrm{se}(\widehat{\theta})},
+\end{align*} et où \(\theta\) représente la valeur du paramètre
+\(\theta\) (supposé fixe, mais inconnu) de la population.
+
+Par exemple, pour un échantillon aléatoire \(X_1, \ldots, X_n\)
+provenant d'une loi \(\mathsf{normale}(\mu, \sigma),\) l'intervalle de
+confiance à \((1-\alpha)\) pour la moyenne (dans la population) \(\mu\)
+est \begin{align*}
+\overline{X} \pm t_{n-1, \alpha/2} \frac{S}{\sqrt{n}}
+\end{align*} où \(t_{n-1, \alpha/2}\) est le quantile d'ordre
+\(1-\alpha/2\) de la loi Student-\(t\) avec \(n-1\) degrés de libertés.
+
+Les bornes de l'intervalle de confiance sont aléatoires puisque
+\(\widehat{\theta}\) et \(\mathrm{se}(\widehat{\theta})\) sont des
+variable aléatoires: leurs valeurs observées changent d'un échantillon à
+un autre. Avant qu'on calcule l'intervalle de confiance, il y a une
+probabilité de \(1-\alpha\) que \(\theta\) soit contenu dans
+l'intervalle \textbf{aléatoire} symmétrique
+\((\widehat{\theta} - \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta}), \widehat{\theta} + \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta})),\)
+où \(\widehat{\theta}\) dénote l'estimateur de \(\theta.\) Une fois
+qu'on obtient un échantillon et qu'on calcule les bornes de l'intervalle
+de confiance, il n'y a plus de notion de probabilité: la vraie valeur du
+paramètre \(\theta\) (inconnue) est soit contenue dans l'intervalle de
+confiance, soit pas. La seule interprétation de l'intervalle de
+confiance qui soit valable alors est la suivante: si on répète
+l'expérience plusieurs fois et qu'à chaque fois on calcule un intervalle
+de confiance à \(1-\alpha,\) alors une proportion de \((1-\alpha)\) de
+ces intervalles devraient contenir la vraie valeur de \(\theta\) (de la
+même manière, si vous lancez une pièce de monnaie équilibrée, vous
+devriez obtenir grosso modo une fréquence de 50\% de pile et 50\% de
+face, mais chaque lancer donnera un ou l'autre de ces choix). Notre «
+confiance » est dans la procédure et non pas dans les valeurs numériques
+obtenues pour un échantillon donné.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{inference_files/figure-pdf/fig-intconf-1.pdf}
+
+}
+
+\caption{\label{fig-intconf}Intervalles de confiance à 95\% pour la
+moyenne d'une population normale \(\mathsf{normale}(0,1)\) pour 100
+échantillons aléatoires. En moyenne, 5\% de ces intervalles (en rouge)
+n'incluent pas la vraie valeur de la moyenne de zéro.}
+
+\end{figure}%
+
+Si on s'intéresse seulement à la décision rejeter/ne pas rejeter
+\(\mathscr{H}_0,\) l'intervalle de confiance est équivalent à la
+valeur-\emph{p} en ce sens qu'il mène à la même décision. L'intervalle
+de confiance donne en revanche l'ensemble des valeurs pour lesquelles la
+statistique de test ne fournit pas assez de preuves pour rejeter
+\(\mathscr{H}_0\): pour un test à niveau \(\alpha,\) on ne rejetterait
+aucune des valeurs contenues dans l'intervalle de confiance de niveau
+\(1-\alpha.\) Si la valeur-\emph{p} est inférieure à \(\alpha,\) la
+valeur postulée pour \(\theta\) est donc hors de l'intervalle de
+confiance calculé. À l'inverse, la valeur-\emph{p} ne donne la
+probabilité d'obtenir un résultat aussi extrême sous l'hypothèse nulle
+que pour une seule valeur numérique, mais permet de quantifier
+précisément à quel point le résultat est extrême.
 
 \section{Conclusion}\label{conclusion}
 
@@ -1666,7 +2027,7 @@ rejette souvent l'hypothèse nulle même si cette dernière est vraie. La
 valeur de \(\alpha \in (0, 1)\) est la probabilité qu'on rejette
 \(\mathscr{H}_0\) quand \(\mathscr{H}_0\) est en fait vraie.
 \begin{align*}
-\alpha = \mathsf{Pr}_0\left(\text{ rejeter } \mathscr{H}_0\right).
+\alpha = \Pr{\!}_0\left(\text{ rejeter } \mathscr{H}_0\right).
 \end{align*} Comme chercheur, on choisit ce niveau \(\alpha\);
 habituellement \(1\)\%, \(5\)\% ou \(10\)\%. La probabilité de commettre
 une erreur de type I est \(\alpha\) seulement si le modèle nul postulé
@@ -1708,9 +2069,9 @@ avec le niveau du test \(\alpha\):
 \begin{itemize}
 \tightlist
 \item
-  si \(P < \alpha\) on rejette \(\mathscr{H}_0\),
+  si \(P < \alpha\) on rejette \(\mathscr{H}_0,\)
 \item
-  si \(P \geq \alpha\) on ne rejette pas \(\mathscr{H}_0\).
+  si \(P \geq \alpha\) on ne rejette pas \(\mathscr{H}_0.\)
 \end{itemize}
 
 Attention à ne pas confondre niveau du test (probabilité fixée au
@@ -1722,21 +2083,76 @@ probabilité d'obtenir une valeur de la statistique de test égale ou même
 plus grande que celle qu'on a observée dans l'échantillon, si
 \(\mathscr{H}_0\) est vraie.
 
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-caution-color-frame, bottomrule=.15mm, opacitybacktitle=0.6, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Mise en garde}, opacityback=0, left=2mm, breakable, toptitle=1mm, toprule=.15mm, colbacktitle=quarto-callout-caution-color!10!white, bottomtitle=1mm, coltitle=black, titlerule=0mm, leftrule=.75mm, arc=.35mm, rightrule=.15mm, colback=white]
+
+L'\href{https://doi.org/10.1080/00031305.2016.1154108}{\emph{American
+Statistical Association (ASA)} a publié une liste de principes}
+détaillant les principales erreurs d'interprétation des valeurs-\(p,\)
+notamment
+
+\begin{quote}
+\begin{enumerate}
+\def\labelenumi{(\arabic{enumi})}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Les valeurs-\(p\) ne mesurent pas la probabilité que l'hypothèse
+  étudiée est vrai
+\end{enumerate}
+\end{quote}
+
+\begin{quote}
+\begin{enumerate}
+\def\labelenumi{(\arabic{enumi})}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Les décisions d'affaires et scientiques ne devraient pas seulement
+  être basées sur le fait qu'une valeur-\(p\) est inférieure à un seuil
+  spécifié.
+\end{enumerate}
+\end{quote}
+
+\begin{quote}
+\begin{enumerate}
+\def\labelenumi{(\arabic{enumi})}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  Les analyses statistiques et les valeurs-\(p\) associées ne devraient
+  pas être rapportées de manière sélective.
+\end{enumerate}
+\end{quote}
+
+\begin{quote}
+\begin{enumerate}
+\def\labelenumi{(\arabic{enumi})}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  Les valeurs-\(p,\) ou la significativité statistiques, ne mesurent pas
+  la taille de l'effet ou l'importance d'un résultat.
+\end{enumerate}
+\end{quote}
+
+\end{tcolorbox}
+
 \section{Puissance statistique}\label{puissance-statistique}
 
 Le but du test d'hypothèse est de prouver (hors de tout doute
-raisonnable) qu'une différence ou un effet est significatif:: par
+raisonnable) qu'une différence ou un effet est significatif: par
 exemple, si une nouvelle configuration d'un site web (hypothèse
 alternative) permet d'augmenter les ventes par rapport au statu quo.
 Notre capacité à détecter cette amélioration dépend de la puissance du
 test: plus cette dernière est élevée, plus grande est notre capacité à
-rejeter \(\mathscr{H}_0\) quand ce dernier est faux. Quand on ne rejette
-pas \(\mathscr{H}_0\) et que \(\mathscr{H}_a\) est en fait vraie, on
-commet une erreur de type II: cette dernière survient avec probabilité
-\(1-\gamma\). La \textbf{puissance statistique} d'un test est la
-probabilité que le test rejette \(\mathscr{H}_0\) alors que
+rejeter \(\mathscr{H}_0\) quand ce dernier est faux.
+
+Quand on ne rejette pas \(\mathscr{H}_0\) et que \(\mathscr{H}_a\) est
+en fait vraie, on commet une erreur de type II: cette dernière survient
+avec probabilité \(1-\gamma.\) La \textbf{puissance statistique} d'un
+test est la probabilité que le test rejette \(\mathscr{H}_0\) alors que
 \(\mathscr{H}_0\) est fausse, soit \begin{align*}
-\gamma = \mathsf{Pr}_a(\text{rejeter } \mathscr{H}_0)
+\gamma = \Pr{\!}_a(\text{rejeter } \mathscr{H}_0)
 \end{align*} Selon le choix de l'alternative, il est plus ou moins
 facile de rejeter l'hypothèse nulle en faveur de l'alternative.
 
@@ -1744,74 +2160,45 @@ facile de rejeter l'hypothèse nulle en faveur de l'alternative.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{inference_files/figure-pdf/fig-puissance1-1.pdf}
+\includegraphics[width=1\textwidth,height=\textheight]{inference_files/figure-pdf/fig-puissance-1.pdf}
 
 }
 
-\caption{\label{fig-puissance1}Comparaison de la loi nulle (ligne
-pleine) et d'une alternative spécifique pour un test-\(t\) (ligne
-traitillée). La puissance correspond à l'aire sous la courbe de la
-densité de la loi alternative qui est dans la zone de rejet du test (en
-blanc).}
+\caption{\label{fig-puissance}Comparaison de la loi nulle (ligne pleine)
+et d'une alternative spécifique pour un test-\(t\) (ligne traitillée).
+La puissance correspond à l'aire sous la courbe de la densité de la loi
+alternative qui est dans la zone de rejet du test (en blanc). Le panneau
+du milieu représente l'augmentation de la puissance suite à
+l'augmentation de la taille d'effet (différence moyenne entre groupes
+plus élevée) sous l'hypothèse alternative. Le panneau de droite
+correspond à un scénario alternatif avec la même taille d'effet, mais
+une taille d'échantillon ou une précision plus grande.}
 
 \end{figure}%
 
-\begin{figure}[ht!]
-
-\centering{
-
-\includegraphics[width=0.85\textwidth,height=\textheight]{inference_files/figure-pdf/fig-puissance2-1.pdf}
-
-}
-
-\caption{\label{fig-puissance2}Augmentation de la puissance suite à une
-augmentation de la différence de moyenne sous l'hypothèse alternative.
-La puissance est l'aire sous la courbe (blanc) de la loi alternative
-(ligne traitillée); cette dernière est plus décalée vers la droite par
-rapport à la loi nulle postulée (ligne pleine).}
-
-\end{figure}%
-
-\begin{figure}[ht!]
-
-\centering{
-
-\includegraphics[width=0.85\textwidth,height=\textheight]{inference_files/figure-pdf/fig-puissance3-1.pdf}
-
-}
-
-\caption{\label{fig-puissance3}Augmentation de la puissance suite à une
-augmentation de la taille de l'échantillon ou une diminution de
-l'écart-type de la population: la loi nulle (ligne pleine) est plus
-concentrée et la taille de la région de rejet diminue. La puissance est
-l'aire sous la courbe (blanc) de la loi alternative (ligne traitillée).
-Règle générale, la loi nulle change selon la taille de l'échantillon.}
-
-\end{figure}%
-
-On veut qu'un test ait une puissance élevée, c'est-à-dire, on veut que
-\(\gamma\) soit le plus près de 1 possible. Minimalement, la puissance
-du test devrait être \(\alpha\) si on rejette l'hypothèse nulle une
-fraction \(\alpha\) du temps quand cette dernière est vraie. La
-puissance dépend de plusieurs critères, à savoir:
+On veut qu'un test ait une puissance élevée, c'est-à-dire, le plus près
+de 1 possible. Minimalement, la puissance du test devrait être
+\(\alpha\) si on rejette l'hypothèse nulle une fraction \(\alpha\) du
+temps quand cette dernière est vraie. La puissance dépend de plusieurs
+critères, à savoir:
 
 \begin{itemize}
 \tightlist
 \item
   la taille de l'effet: plus la différence est grande entre la valeur du
   paramètre postulé \(\theta_0\) sous \(\mathscr{H}_0\) et le
-  comportement observé, plus il est facile de le détecter (voir
-  Figure~\ref{fig-puissance3});
+  comportement observé, plus il est facile de le détecter (panneau du
+  milieu de Figure~\ref{fig-puissance});
 \item
   la variabilité: moins les observations sont variables, plus il est
   facile de déterminer que la différence observée est significative (les
-  grandes différences sont alors moins plausibles, comme l'illustre la
-  Figure~\ref{fig-puissance2});
+  grandes différences sont alors moins plausibles, comme l'illustre le
+  panneau de droite de Figure~\ref{fig-puissance});
 \item
   la taille de l'échantillon: plus on a d'observations, plus notre
   capacité à détecter une différence significative augmente parce que
   l'erreur-type décroît avec la taille de l'échantillon à un rythme
-  (ordinairement) de \(n^{-1/2}\). La loi nulle devient aussi plus
+  (ordinairement) de \(n^{-1/2}.\) La loi nulle devient aussi plus
   concentrée quand la taille de l'échantillon augmente.
 \item
   le choix de la statistique de test: par exemple, les statistiques
@@ -1827,172 +2214,374 @@ puissance dépend de plusieurs critères, à savoir:
 
 Pour calculer la puissance d'un test, il faut choisir une alternative
 spécifique. Pour des exemples simples de statistiques, on peut obtenir
-une formule pour la puissance: par exemple, si on utilise un test-\(t\)
-pour un échantillon, la statistique
-\(T=\sqrt{n}(\overline{X}-\mu_0)/S_n \sim \mathcal{T}_{n-1}\) et, si la
-vraie moyenne est \(\Delta + \mu_0\), alors la loi alternative est
-Student-\(t\), mais non-centrée avec paramètre de décalage \(\Delta\).
-Cette dérivation est l'exception plutôt que la règle et on détermine
-d'ordinaire la puissance à l'aide de méthodes de Monte Carlo en simulant
-des observations d'une alternative donnée, en calculant la statistique
-de test sur le nouvel échantillon simulé et en calculant la
-valeur-\emph{p} associée à notre hypothèse nulle de façon répétée. On
-calcule par la suite la proportion de tests qui mènent au rejet de
-l'hypothèse nulle à niveau \(\alpha\), ce qui correspond au pourcentage
-de valeurs-\(p\) inférieures à \(\alpha\).
+une formule explicite pour la puissance. Généralement, on détermine la
+puissance à l'aide de méthodes de Monte Carlo en simulant des
+observations d'une alternative donnée, en calculant la statistique de
+test sur le nouvel échantillon simulé et en calculant la valeur-\emph{p}
+associée à notre hypothèse nulle de façon répétée. On calcule par la
+suite la proportion de tests qui mènent au rejet de l'hypothèse nulle à
+niveau \(\alpha,\) ce qui correspond au pourcentage de valeurs-\(p\)
+inférieures à \(\alpha.\)
 
-\section{Intervalle de confiance}\label{intervalle-de-confiance}
+\section{Exemples}\label{exemples}
 
-Un \textbf{intervalle de confiance} est une manière alternative de
-rapporter les conclusions d'un test, en ce sens qu'on fournit une
-estimation ponctuelle de \(\hat{\theta}\) avec une marge d'erreur.
-L'intervalle de confiance donne donc une indication de la variabilité de
-la procédure d'estimation. Un intervalle de confiance de Wald à
-\((1-\alpha)\) pour un paramètre \(\theta\) est de la forme
-\begin{align*}
-\widehat{\theta} \pm \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta})
-\end{align*} où \(\mathfrak{q}_{\alpha/2}\) est le quantile d'ordre
-\(1-\alpha/2\) de la loi nulle de la statistique de Wald, \begin{align*}
-T =\frac{\widehat{\theta}-\theta}{\mathrm{se}(\widehat{\theta})},
-\end{align*} et où \(\theta\) représente la valeur du paramètre
-\(\theta\) (supposé fixe, mais inconnu) de la population. Les bornes de
-l'intervalle de confiance sont aléatoires puisque \(\widehat{\theta}\)
-et \(\mathrm{se}(\widehat{\theta})\) sont des variable aléatoires: leurs
-valeurs observées changent d'un échantillon à un autre.
+\begin{example}[Inégalité de genre et tests de
+permutation]\protect\hypertarget{exm-rosenjerdee74}{}\label{exm-rosenjerdee74}
 
-Par exemple, pour un échantillon aléatoire \(X_1, \ldots, X_n\)
-provenant d'une loi normale \(\mathsf{Norm}(\mu, \sigma)\), l'intervalle
-de confiance à \((1-\alpha)\) pour la moyenne (dans la population)
-\(\mu\) est \begin{align*}
-\overline{X} \pm t_{n-1, \alpha/2} \frac{S}{\sqrt{n}}
-\end{align*} où \(t_{n-1, \alpha/2}\) est le quantile d'ordre
-\(1-\alpha/2\) de la loi Student-\(t\) avec \(n-1\) degrés de libertés.
+Nous examinons les données de Rosen et Jerdee
+(\citeproc{ref-Rosen:1974}{1974}), qui étudie les stéréotypes de genre
+et leur impact sur la promotion et les opportunités pour les femmes
+candidates. L'expérience s'est déroulée en 1972 et les unités
+expérimentales, composées de 95 superviseurs bancaires masculins, ont
+reçu divers mémorandums et ont été invitées à fournir des évaluations de
+candidatures pour un poste de cadre. Ils devaient prendre des décisions
+sur la base des informations fournies.
 
-Avant qu'on calcule l'intervalle de confiance, il y a une probabilité de
-\(1-\alpha\) que \(\theta\) soit contenu dans l'intervalle
-\textbf{aléatoire} symmétrique
-\((\widehat{\theta} - \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta}), \widehat{\theta} + \mathfrak{q}_{\alpha/2} \; \mathrm{se}(\widehat{\theta}))\),
-où \(\widehat{\theta}\) dénote l'estimateur de \(\theta\). Une fois
-qu'on obtient un échantillon et qu'on calcule les bornes de l'intervalle
-de confiance, il n'y a plus de notion de probabilité: la vraie valeur du
-paramètre \(\theta\) (inconnue) est soit contenue dans l'intervalle de
-confiance, soit pas. La seule interprétation de l'intervalle de
-confiance qui soit valable alors est la suivante: si on répète
-l'expérience plusieurs fois et qu'à chaque fois on calcule un intervalle
-de confiance à \(1-\alpha\), alors une proportion de \((1-\alpha)\) de
-ces intervalles devraient contenir la vraie valeur de \(\theta\) (de la
-même manière, si vous lancez une pièce de monnaie équilibrée, vous
-devriez obtenir grosso modo une fréquence de 50\% de pile et 50\% de
-face, mais chaque lancer donnera un ou l'autre de ces choix). Notre «
-confiance » est dans la procédure et non pas dans les valeurs numériques
-obtenues pour un échantillon donné.
+Nous nous intéressons à l'expérience 1 relative à la promotion des
+employés: les responsables devaient décider de promouvoir ou non un
+employé au poste de directeur de succursale sur la base de
+recommandations et d'évaluations du potentiel de relations avec les
+clients et les employés. L'intervention des auteurs s'est concentrée sur
+la description de la nature (complexité) du travail du gestionnaire
+(simple ou complexe) et sur le sexe du candidat (homme ou femme): tous
+les dossiers étaient par ailleurs similaires.
+
+Pour des raisons de simplicité, nous ne considérons que le facteur sexe
+et nous agrégeons sur le poste pour les \(n=93\) réponses. La table
+Tableau~\ref{tbl-rosen-table1} montre le décompte des recommendations
+pour chaque possibilité.
+
+\begin{longtable}[t]{lrr}
+
+\caption{\label{tbl-rosen-table1}Recommendations de promotion pour le
+poste de gestionnaire de branche selon le sexe de la personne qui
+postule.}
+
+\tabularnewline
+
+\toprule
+ & male & female\\
+\midrule
+promouvoir & 32 & 19\\
+ne pas promouvoir & 12 & 30\\
+\bottomrule
+
+\end{longtable}
+
+L'hypothèse nulle qui nous intéresse ici est que le sexe n'a pas
+d'impact, de sorte que la probabilité de promotion est la même pour les
+hommes et les femmes. Soit \(p_{\text{h}}\) et \(p_{\text{f}}\) ces
+probabilités respectives; nous pouvons donc écrire mathématiquement
+l'hypothèse nulle comme \(\mathscr{H}_0: p_{\text{h}} = p_{\text{f}}\)
+contre l'alternative \(\mathscr{H}_a: p_{\text{h}} \neq p_{\text{f}}\).
+
+La statistique de test généralement employée pour les tableaux de
+contingence est un test du chi carré\footnote{Si vous avez suivi des
+  cours de modélisation avancés, il s'agit d'un test de score obtenu en
+  ajustant une régression de Poisson avec \texttt{sexe} et
+  \texttt{action} comme covariables; l'hypothèse nulle correspondant à
+  l'absence de terme d'interaction entre les deux.}, qui compare les
+proportions globales de promotion de chaque sous-groupe. La proportion
+de l'échantillon pour les hommes est de 32/42 = \textasciitilde76\%,
+contre 19/49 =\textasciitilde49\% pour les femmes. Bien que cette
+différence de 16 \% semble importante, elle pourrait être trompeuse:
+l'erreur type pour les proportions de l'échantillon est d'environ 3.2 \%
+pour les hommes et 3.4 \% pour les femmes.
+
+S'il n'y avait pas de discrimination fondée sur le sexe, nous nous
+attendrions à ce que la proportion de personnes promues soit la même
+dans l'ensemble; elle est de 51/93 ou 0.55 pour l'échantillon regroupé.
+Nous pourrions nous contenter de tester la différence moyenne, mais nous
+nous appuyons plutôt sur le test de contingence \(X^2_p\) de Pearson
+(également appelé test du khi-carré), qui compare les chiffres attendus
+(sur la base de taux de promotion égaux) aux chiffres observés,
+convenablement normalisés. convenablement normalisés. Si l'écart est
+important entre les chiffres attendus et les chiffres observés, cela met
+en doute la véracité de l'hypothèse nulle.
+
+Si les effectifs de chaque cellule sont importants, la distribution
+nulle du test du chi-deux est bien approximée par une distribution de
+\(\chi^2\). La sortie du test comprend la valeur de la statistique,
+\(10.79,\) les degrés de liberté de l'approximation \(\chi^2\) et la
+valeur \emph{p}, qui donne la probabilité qu'un tirage aléatoire d'une
+distribution \(\chi^2_1\) soit plus grand que la statistique de test
+observée \textbf{en supposant que l'hypothèse nulle est vraie}. La
+valeur \emph{p} est très petite, \(0.001\), ce qui signifie qu'il est
+très peu probable qu'un tel résultat soit le fruit du hasard s'il n'y a
+pas eu de discrimination fondée sur le sexe.
+
+Une autre solution pour obtenir un point de référence permettant
+d'évaluer le caractère exagéré du rapport de cotes observé consiste à
+utiliser des simulations: les tests de permutation sont efficaces
+{[}illustrés par Jared Wilber{]}
+(https://www.jwilber.me/permutationtest/). Considérons une base de
+données contenant les données brutes avec 93 lignes, une pour chaque
+gestionnaie, avec pour chacune un indicateur d'\texttt{action} et le
+\texttt{sexe} de l'employé hypothétique présenté dans la tâche.
+
+\begin{longtable}[t]{ll}
+
+\caption{\label{tbl-dat-long-test-rosen-print}Les cinq premières lignes
+de la base de données en format long pour l'expérience 1 de Rosen et
+Jerdee (1974).}
+
+\tabularnewline
+
+\toprule
+action & sexe\\
+\midrule
+promouvoir & homme\\
+ne pas promouvoir & femme\\
+promouvoir & homme\\
+ne pas promouvoir & femme\\
+ne pas promouvoir & homme\\
+\bottomrule
+
+\end{longtable}
+
+Sous l'hypothèse nulle, le sexe n'a aucune incidence sur l'action du
+gestionnaire. Cela signifie que nous pourrions dresser un portrait du
+monde sans discrimination en mélangeant les étiquettes de sexe de
+manière répétée. Ainsi, nous pourrions obtenir une référence en répétant
+les étapes suivantes plusieurs fois :
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  permuter les étiquettes pour le \texttt{sexe},
+\item
+  recréer un tableau de contingence en agrégeant les effectifs,
+\item
+  calculer une statistique de test pour le tableau simulé.
+\end{enumerate}
+
+Comme statistique de test, nous utilisons le rapport des cotes: la
+probabilité d'un événement est le rapport entre le nombre de succès et
+le nombre d'échecs. Dans notre exemple, il s'agirait du nombre de
+dossiers promus par rapport au nombre de dossiers retenus. La
+probabilité de promotion d'un homme est de \(32/12,\) alors que celle
+d'une femme est de \(19/30.\) Le rapport des cotes pour un homme par
+rapport à une femme est donc \(\mathsf{RC}=(32/12) / (19/30)= 4.21.\)
+Sous l'hypothèse nulle, \(\mathscr{H}_0: \mathsf{OR}= 1\) (même
+probabilité d'être promu) (pourquoi ?)
 
 \begin{figure}[ht!]
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{inference_files/figure-pdf/fig-intconf-1.pdf}
+\includegraphics[width=0.85\textwidth,height=\textheight]{inference_files/figure-pdf/fig-infer-odds-ratio-permutation-1.pdf}
 
 }
 
-\caption{\label{fig-intconf}Intervalles de confiance à 95\% pour la
-moyenne d'une population normale \(\mathsf{Norm}(0,1)\) pour 100
-échantillons aléatoires. En moyenne, 5\% de ces intervalles (en rouge)
-n'incluent pas la vraie valeur de la moyenne de zéro.}
+\caption{\label{fig-infer-odds-ratio-permutation}Histogramme de
+simulations de la loi nulle pour le rapport de cote, obtenu par le biais
+d'un test de permutation; la ligne verticale rouge indique le rapport de
+cote échantillonal.}
 
 \end{figure}%
 
-Si on s'intéresse seulement à la décision rejeter/ne pas rejeter
-\(\mathscr{H}_0\), l'intervalle de confiance est équivalent à la
-valeur-\emph{p} en ce sens qu'il mène à la même décision. L'intervalle
-de confiance donne en revanche l'ensemble des valeurs pour lesquelles la
-statistique de test ne fournit pas assez de preuves pour rejeter
-\(\mathscr{H}_0\): pour un test à niveau \(\alpha\), on ne rejetterait
-aucune des valeurs contenues dans l'intervalle de confiance de niveau
-\(1-\alpha\). Si la valeur-\emph{p} est inférieure à \(\alpha\), la
-valeur postulée pour \(\theta\) est donc hors de l'intervalle de
-confiance calculé. À l'inverse, la valeur-\emph{p} ne donne la
-probabilité d'obtenir un résultat aussi extrême sous l'hypothèse nulle
-que pour une seule valeur numérique, mais permet de quantifier
-précisément à quel point le résultat est extrême.
+L'histogramme de la Figure~\ref{fig-infer-odds-ratio-permutation} montre
+la distribution du rapport de cotes sur la base de 10 000 permutations.
+Il est rassurant de constater que nous obtenons à peu près la même
+valeur \emph{p} approximative, ici 0.002.\footnote{La valeur \emph{p}
+  obtenue pour le test de permutation changerait d'une exécution à
+  l'autre puisque les intrants sont aléatoires. Cependant, la précision
+  de la statistique est suffisante pour la prise de décision}.
 
-\begin{example}[Achat en ligne de
-milléniaux]\protect\hypertarget{exm-achats-milleniaux}{}\label{exm-achats-milleniaux}
+L'article concluait (à la lumière de ce qui précède et d'autres
+expériences)
 
-Supposons qu'une chercheuse veut faire une étude sur l'évolution des
-ventes en ligne au Canada. Elle postule que les membres de la génération
-Y fait plus d'achats en ligne que ceux des générations antérieures. Pour
-répondre à cette question, un sondage est envoyé à un échantillon
-aléatoire de \(n=500\) individus représentatif de la population avec 160
-membres de la génération Y et 340 personnes plus âgées. La variable
-réponse est le montant d'achat effectués en ligne dans le mois dernier
-(en dollars).
+\begin{quote}
+Les résultats ont confirmé l'hypothèse selon laquelle les
+administrateurs masculins ont tendance à discriminer les employées dans
+les décisions concernant la promotion, le développement et la
+supervision du personnel.
+\end{quote}
+
+\textbf{Récapitulatif}
+
+\begin{itemize}
+\tightlist
+\item
+  Paramètres du modèle: probabilité de promotion pour les hommes et les
+  femmes, respectivement \(p_{\text{h}}\) et \(p_{\text{f}}\).
+\item
+  Hypothèses: pas de discrimination fondée sur le sexe, ce qui signifie
+  une probabilité de promotion égale (hypothèse nulle
+  \(\mathscr{H}_0: p_{\text{h}}=p_{\text{f}},\) contre hypothèse
+  alternative \(\mathscr{H}_a: p_{\text{h}}\neq p_{\text{f}}\)).
+\item
+  Statistique de test: (1) test du khi-deux pour les tableaux de
+  contingence et (2) rapport de cotes.
+\item
+  Valeur-\(p\): (1) \(.0010\) et (2) \(.0024\) pour le test de
+  permutation.
+\item
+  Conclusion: rejeter l'hypothèse nulle, car il existe des preuves d'une
+  discrimination fondée sur le sexe, avec une probabilité de promotion
+  différente pour les hommes et les femmes.
+\end{itemize}
+
+Conformément aux directives de l'APA, la statistique \(\chi^2\) serait
+présentée sous la forme \(\chi^2(1, n = 93) = 10.79\), \(p = .001\) en
+même temps que les effectifs et les proportions de l'échantillon.
 
 \end{example}
 
-Dans cet exemple, on s'intéresse à la différence entre le montant moyen
-des Y et celui des générations antérieures: la différence de moyenne
-observée dans l'échantillon est de 16.49 dollars et donc les milléniaux
-ont dépensé davantage. En revanche, notre échantillon est aléatoire et
-le montant d'achat en ligne varie d'un individu à l'autre (et d'un mois
-à l'autre): ce n'est donc pas suffisant pour dire que la différence est
-significative.
+\begin{example}[L'élément de surprise d'une prise de contact
+inattendue]\protect\hypertarget{exm-LiuRimMinMin2023E1}{}\label{exm-LiuRimMinMin2023E1}
 
-La première étape de notre analyse consiste à définir les quantités
-d'intérêt et à formuler nos hypothèse en fonction de paramètres du
-modèle; il convient également de définir ces derniers en fonction des
-variables en présence dans l'exemple. Ici, on considère un test pour la
-différence de moyenne dans les populations postulées \(\mu_1\) (pour la
-génération Y) et \(\mu_2\) (pour les générations antérieures)
-d'écart-type respectif \(\sigma_1\) et \(\sigma_2\). Comment déterminer
-quelle hypothèse on considère? Comme statisticien, on se fait l'avocat
-du Diable: l'hypothèse d'intérêt du chercheur est l'hypothèse
-alternative et ici, \(\mathscr{H}_a: \mu_1 > \mu_2\), où \(\mu_1\)
-représente la moyenne des achats mensuels des milléniaux. L'hypothèse
-nulle comprend toutes les autres valeurs pour la différence de moyenne,
-soit \(\mathscr{H}_0: \mu_1 \leq \mu_2\). Il suffit néanmoins de
-considérer le cas \(\mu_1=\mu_2\) (pourquoi?)
+Liu et al. (\citeproc{ref-Liu.Rim.Min.Min:2023}{2023}) étudie les
+interactions sociales et l'impact de la surprise sur les personnes qui
+contactent de vieilles connaissances de manière inattendue. L'expérience
+1 se concentre sur des questionnaires où la condition expérimentale est
+l'appréciation perçue du fait d'envoyer une communication à quelqu'un
+avec qui on n'a pas correspondu depuis longtemps (par opposition au fait
+de se faire contacter). L'étude a utilisé un questionnaire envoyé à 200
+adultes américains recrutés sur la plateforme Prolific Academic.
+L'indice de réponse consiste en la moyenne de quatre questions mesurées
+sur une échelle de Likert allant de 1 à 7, les valeurs les plus élevées
+indiquant une plus grande appréciation de la prise de contact.
 
-La deuxième étape consiste à choisir une statistique de test. S'il n'y a
-aucune différence de moyenne entre les groupes, alors
-\(\overline{X}_1-\overline{X}_2\) a moyenne zéro et la différence de
-moyenne a une variance de \(\sigma^2_1/n_1+\sigma^2_2/n_2\). Ici, on
-considère la statistique de Welch (\citeproc{ref-Welch:1947}{1947}) pour
-une différence de moyenne entre deux échantillons: \begin{align*}
-T = \frac{\overline{X}_1 - \overline{X}_2}{\left(\frac{S_1^2}{n_1}+\frac{S_2^2}{n_2} \right)^{1/2}}, \end{align*}
-où \(\overline{X}_i\) est la moyenne empirique dans l'échantillon \(i\)
-(\(i=1, 2\)) et \(S_i^2\) est la variance empirique et \(n_i\) la taille
-de l'échantillon du groupe \(i\). La statistique est utilisée pour
-calculer la différence de moyennes de deux échantillons de variance
-potentiellement différente. La valeur de la statistique dans
-l'échantillon est \(T=2.76\), mais on obtiendrait une valeur différente
-avec un autre échantillon. Il convient donc de déterminer si cette
-valeur est compatible avec notre hypothèse nulle en la comparant à la
-loi nulle sous \(\mathscr{H}_0\) de \(T\). On effectuera le test à
-niveau \(\alpha=0.05\).
+Nous pouvons commencer par examiner les statistiques sommaires des
+variables sociodémographiques (sexe et âge) afin d'évaluer si
+l'échantillon est représentatif de la population générale dans son
+ensemble. La proportion d'« autres » (comprenant les personnes non
+binaires) est beaucoup plus élevée que celle du recensement général, et
+la population est plutôt jeune selon
+Tableau~\ref{tbl-LRMMS1-summarystat-a}.
 
-La troisième étape est l'obtention d'un étalon de mesure pour déterminer
-si notre résultat est extrême ou inattendu. Vous remarquerez que la
-statistique de Welch a moyenne zéro et variance un sous l'hypothèse
-nulle que \(\mu_1=\mu_2\): standardiser une statistique permet d'obtenir
-un objet dont on connaît le comportement pour de grands échantillons et
-obtenir une quantité sans unité de mesure. La dérivation de la loi nulle
-est hors objectifs du cours, aussi cette dernière vous sera donnée dans
-tous les cas qu'on considère. Asymptotiquement, \(T\) suit une loi
-normale \(\mathsf{Norm}(0, 1)\), mais il existe une meilleure
-approximation pour \(n\) petit; on compare le comportement de \(T\) à
-l'aide d'une loi de Student via l'approximation de Satterthwaite
-(\citeproc{ref-Satterthwaite:1946}{1946}).
+\begin{longtable}[t]{lrrrr}
 
-La dernière étape consiste à obtenir une valeur-\emph{p}, soit la
-probabilité d'observer un résultat aussi extrême sous \(\mathscr{H}_0\):
-l'avantage de la valeur-\emph{p} est que cette valeur est une
-probabilité (dans \([0, 1]\)) et qu'elle suit une loi uniforme sous
-\(\mathscr{H}_0\). Puisque nous avons une hypothèse alternative
-unilatérale, on regarde la probabilité sous \(\mathscr{H}_0\) que
-\(\mathsf{Pr}(T > t)\). La valeur-\emph{p} vaut \(0.0031\) et donc, à
-niveau 5\%, on rejette l'hypothèse nulle pour conclure que la génération
-Y dépense davantage en ligne que les générations antérieures.
+\caption{\label{tbl-LRMMS1-summarystat-a}Statistiques descriptives de
+l'âge des participants, et décompte par genre.}
+
+\tabularnewline
+
+\toprule
+genre & min & max & moyenne & n\\
+\midrule
+homme & 18 & 78 & 32.0 & 105\\
+femme & 19 & 68 & 36.5 & 92\\
+autre & 24 & 30 & 27.7 & 3\\
+\bottomrule
+
+\end{longtable}
+
+\begin{longtable}[t]{lrrr}
+
+\caption{\label{tbl-LRMMS1-summarystat-b}Appréciation moyenne
+(écart-type), et nombre de participants par condition expérimentale.}
+
+\tabularnewline
+
+\toprule
+rôle & moyenne & écart-type & n\\
+\midrule
+initiateur & 5.50 & 1.28 & 103\\
+destinataire & 5.87 & 1.27 & 97\\
+\bottomrule
+
+\end{longtable}
+
+Comme il n'y a que deux groupes sans chevauchements (c'est à dire que
+les personnes ont un seul rôle), soit initiateur ou destinataire, le
+test logique à utiliser est un test-\(t\) pour deux échantillons
+indépendants, ou une variante de celui-ci. En utilisant la statistique
+du \(t\)-test de Welch, la moyenne et l'écart-type de chaque groupe sont
+estimés à l'aide des données fournies.
+
+Le logiciel renvoie comme valeur du test , ce qui conduit au rejet de
+l'hypothèse nulle d'absence de différence d'appréciation en fonction du
+rôle de l'individu (initiateur ou destinataire). La différence moyenne
+estimée est \(\Delta M = -0.37\), 95\% CI \([-0.73, -0.01]\); puisque
+\(0\) n'est pas inclus dans l'intervalle de confiance, nous rejetons
+également l'hypothèse nulle au niveau 5\%. L'estimation suggère que les
+initiateurs sous-estiment l'importance de contacter de manière
+inattendue.\footnote{En supposant que la variance de chaque sous-groupe
+  soit égale, nous aurions pu utiliser un \(t\)-test à deux échantillons
+  à la place. La différence dans la conclusion est insignifiante, avec
+  une valeur \emph{p} presque égale}.
+
+\textbf{Récapitulatif}
+
+\begin{itemize}
+\tightlist
+\item
+  Paramètres du modèle: score d'appréciation moyen \(\mu_{\mathrm{i}}\)
+  et \(\mu_{\mathrm{d}}\) des initiateurs et des destinataires,
+  respectivement.
+\item
+  Hypothèse: le score d'appréciation attendu est le même pour les
+  initiateurs et les destinataires,
+  \(\mathscr{H}_0: \mu_{\mathrm{i}}=\mu_{\mathrm{d}}\) contre
+  l'alternative
+  \(\mathscr{H}_0: \mu_{\mathrm{i}} \neq \mu_{\mathrm{r}}\) qu'ils sont
+  différents.
+\item
+  Statistique de test: test-\(t\) de Welch pour deux échantillons
+  indépendants
+\item
+  Valeur-\(p\): 0.041
+\item
+  Conclusion: rejet de l'hypothèse nulle, le score moyen d'appréciation
+  diffère selon le rôle tenu.
+\end{itemize}
+
+\end{example}
+
+\begin{example}[Les communications virtuelles réduisent le nombre
+d'idées
+créatives]\protect\hypertarget{exm-BrucksLevav22}{}\label{exm-BrucksLevav22}
+
+Une étude de Nature a réalisé une expérience pour voir comment les
+communications virtuelles impactent le travail d'équipe en comparant le
+nombre d'idées créatives générées par des binômes au cours d'une tempête
+d'idée, ainsi que leur qualité telle que mesurée par des arbitres
+externes. L'échantillon était composé de 301 paires de participants qui
+ont interagi par vidéoconférence ou en face à face.
+
+Les auteurs ont comparé le nombre d'idées créatives, un sous-ensemble
+d'idées générées avec un score de créativité supérieur à la moyenne. Le
+nombre moyen d'idées créatives pour le face à face est \(7.92\) idées
+(écart-type \(3.40\)), comparativement à \(6.73\) idées (écart-type¸
+\(3.27\)) pour la vidéoconférence.
+
+Brucks et Levav (\citeproc{ref-Brucks.Levav:2022}{2022}) a utilisé un
+modèle de régression binomiale négative: dans leur modèle, le nombre
+moyen d'idées créatives générées est \begin{align*}
+\mathsf{E}(\texttt{ncreative}) = \exp(\beta_0 + \beta_1 \texttt{video})
+\end{align*} où \(\texttt{video}=0\) si la paire se trouve dans la même
+pièce et \(\texttt{video}=1\) si elle interagit plutôt par
+vidéoconférence.
+
+Le nombre moyen d'idées pour la vidéoconférence est donc
+\(\exp(\beta_1)\) multiplié par celui du face à face: l'estimation du
+facteur multiplicatif est \(\exp(\beta_1)\) est \(0.85\) 95\% CI
+\([0.77, 0.94]\).
+
+L'absence de différence entre les conditions expérimentales se traduit
+par l'hypothèse nulle \(\mathscr{H}_0: \beta_1=0\) vs
+\(\mathscr{H}_0: \beta_1 \neq 0\) ou, de manière équivalente,
+\(\mathscr{H}_0: \exp(\beta_1)=1\). Le test du rapport de vraisemblance
+comparant le modèle de régression avec et sans \(\texttt{video}\) la
+statistique est \(R=9.89\) (valeur-\(p\) basée sur \(\chi^2_1\) de
+\(.002\)). Nous concluons que le nombre moyen d'idées est différent, les
+statistiques sommaires suggérant que les paires virtuelles génèrent
+moins d'idées.
+
+Si nous avions eu recours à un test-\(t\) pour deux échantillons
+indépendants, nous aurions trouvé une différence moyenne dans le nombre
+d'idées créatives de \(\Delta M = 1.19\), 95\% CI \([0.43, 1.95]\),
+\(t(299) = 3.09\), \(p = .002\).
+
+Les deux tests reposent sur des hypothèses légèrement différentes, mais
+aboutissent à des conclusions similaires: il a de forts indices que le
+nombre d'idées créatives est plus faible lorsque les personnes
+interagissent par vidéoconférence.
+
+\end{example}
 
 \begin{example}[Prix de billets de trains à grande vitesse
 espagnols]\protect\hypertarget{exm-prix-trains-tests}{}\label{exm-prix-trains-tests}
@@ -2012,16 +2601,14 @@ test sera simplement la différence de moyenne entre les deux
 échantillons: la différence entre le prix en euros d'un train
 Madrid--Barcelone (\(\mu_1\)) et le prix d'un billet Barcelone--Madrid
 (\(\mu_2\)) est \(\mu_1-\mu_2\) et notre hypothèse nulle est qu'il n'y a
-aucune différence de prix, soit \(\mathscr{H}_0: \mu_1-\mu_2=0\).
-
-\end{example}
+aucune différence de prix, soit \(\mathscr{H}_0: \mu_1-\mu_2=0.\)
 
 On utilise de nouveau le test de Welch pour deux échantillons en
 filtrant les données pour ne conserver que les billets au tarif Promo:
 la moyenne des billets Barcelone-Madrid est 82.11 euros, ceux pour
 Madrid-Barcelone 82.56 euros et la valeur de la statistique de Welch est
 -1.33. Si on utilise l'approximation normale, on obtient une
-valeur-\emph{p} de 0.18.
+valeur-\(p\) de 0.18.
 
 Plutôt que d'utiliser la loi asymptotique (qui est valide pour de grands
 échantillons à cause du théorème central limite), on peut considérer une
@@ -2060,7 +2647,7 @@ un trait vertical.}
 
 \end{figure}%
 
-La valeur-\emph{p} du test de permutation, \(0.186\), est la proportion
+La valeur-\emph{p} du test de permutation, \(0.186,\) est la proportion
 de statistiques plus extrêmes que celle observée. Cette valeur-\emph{p}
 est quasi-identique à celle de l'approximation de Satterthwaite, à
 savoir \(0.182\) (la loi Student-\(t\) est numériquement équivalente à
@@ -2073,6 +2660,8 @@ la différence de prix entre les deux destinations et cette dernière
 deviendrait statistiquement significative. Elle n'est pas en revanche
 pas pertinente en partique, car une différence de \(0.28\) euros sur un
 prix moyen de \(82.56\) euros est quantité négligeable.
+
+\end{example}
 
 \bookmarksetup{startatroot}
 
@@ -2101,16 +2690,17 @@ Formats: When Integrating Purchase and Quantity Decisions Increases
 Sales~»}. \emph{Marketing Science} 42 (1): 87‑109.
 \url{https://doi.org/10.1287/mksc.2022.1364}.
 
-\bibitem[\citeproctext]{ref-Student:1908}
-Gosset, William Sealy. 1908. {«~The probable error of a mean~»}.
-\emph{Biometrika} 6 (1): 1‑25.
-\url{https://doi.org/10.1093/biomet/6.1.1}.
-
 \bibitem[\citeproctext]{ref-Lee.Choi:2019}
 Lee, Kiljae, et Jungsil Choi. 2019. {«~Image-text inconsistency effect
 on product evaluation in online retailing~»}. \emph{Journal of Retailing
 and Consumer Services} 49: 279‑88.
 \url{https://doi.org/10.1016/j.jretconser.2019.03.015}.
+
+\bibitem[\citeproctext]{ref-Liu.Rim.Min.Min:2023}
+Liu, Peggy J., SoYon Rim, Lauren Min, et Kate E. Min. 2023. {«~The
+surprise of reaching out: Appreciated more than we think.~»}
+\emph{Journal of Personality and Social Psychology} 124 (4): 754‑71.
+\url{https://doi.org/10.1037/pspi0000402}.
 
 \bibitem[\citeproctext]{ref-McCullagh.Nelder:1989}
 McCullagh, P., et J. A. Nelder. 1989. \emph{Generalized linear models}.
@@ -2121,21 +2711,16 @@ Moon, Alice, et Eric M VanEpps. 2023. {«~Giving Suggestions: Using
 Quantity Requests to Increase Donations~»}. \emph{Journal of Consumer
 Research} 50 (1): 190‑210. \url{https://doi.org/10.1093/jcr/ucac047}.
 
-\bibitem[\citeproctext]{ref-Satterthwaite:1946}
-Satterthwaite, F. E. 1946. {«~An Approximate Distribution of Estimates
-of Variance Components~»}. \emph{Biometrics Bulletin} 2 (6): 110‑14.
-\url{http://www.jstor.org/stable/3002019}.
+\bibitem[\citeproctext]{ref-Rosen:1974}
+Rosen, B., et T. H. Jerdee. 1974. {«~Influence of sex role stereotypes
+on personnel decisions.~»} \emph{Journal of Applied Psychology} 59:
+9‑14.
 
 \bibitem[\citeproctext]{ref-Sokolova:2023}
 Sokolova, Tatiana, Aradhna Krishna, et Tim Döring. 2023. {«~Paper Meets
 Plastic: The Perceived Environmental Friendliness of Product
 Packaging~»}. \emph{Journal of Consumer Research} 50 (3): 468‑91.
 \url{https://doi.org/10.1093/jcr/ucad008}.
-
-\bibitem[\citeproctext]{ref-Welch:1947}
-Welch, B. L. 1947. {«~The generalization of {``Student's''} problem when
-several population variances are involved.~»} \emph{Biometrika} 34
-(1--2): 28‑35. \url{https://doi.org/10.1093/biomet/34.1-2.28}.
 
 \end{CSLReferences}
 
