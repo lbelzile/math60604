@@ -16,7 +16,7 @@ Ce chapitre couvre des rappels mathématiques de probabilité et statistique d'o
 
 
 
-##Population et échantillons {#population-echantillon}
+## Population et échantillons {#population-echantillon}
 
 Ce qui différencie la statistique des autres sciences est la prise en compte de l'incertitude et de la notion d'aléatoire. Règle générale, on cherche à estimer une caractéristique d'une population définie à l'aide d'un échantillon (un sous-groupe de la population) de taille restreinte. 
 
@@ -41,7 +41,7 @@ Gallup avait de son côté correctement prédit la victoire de Roosevelt en util
 :::
 
 
-##Types de variables
+## Types de variables
 
 Le résultat d'une collecte de données est un tableau, ou base de données, contenant sur chaque ligne des observations et en colonne des variables. Le @tbl-data-renfe donne un exemple de structure.
 
@@ -74,7 +74,7 @@ La codification des modalités des variables catégorielle est arbitraire; en re
 
 
 
-##Variables aléatoires {#variable-aleatoire}
+## Variables aléatoires {#variable-aleatoire}
 
 Suppsons qu'on cherche à décrire le comportement d'un phénomène aléatoire. Pour ce faire, on cherche à décrire l'ensemble des valeurs possibles et leur probabilité/fréquence relative au sein de la population: ces dernières sont encodées dans la loi de la variable aléatoire. 
 
@@ -696,7 +696,7 @@ L'interprétation d'un diagramme quantile-quantile nécessite une bonne dose de 
 
 
 
-##Loi des grands nombres {#loi-grands-nombres}
+## Loi des grands nombres {#loi-grands-nombres}
 
 
 Un estimateur est dit **convergent** si la valeur obtenue à mesure que la taille de l'échantillon augmente s'approche de la vraie valeur que l'on cherche à estimer. Mathématiquement parlant, un estimateur est dit convergent s'il converge en probabilité, ou $\hat{\theta} \stackrel{\mathsf{Pr}}{\to} \theta$: en langage commun, la probabilité que la différence entre $\hat{\theta}$ et $\theta$ diffèrent est négligeable quand $n$ est grand. 
@@ -709,7 +709,7 @@ Si la loi des grands nombres nous renseigne sur le comportement limite ponctuel,
 
 
 
-##Théorème central limite {#TCL}
+## Théorème central limite {#TCL}
 
 
 Le théorème central limite dit que, pour un échantillon aléatoire de taille $n$ dont les observations sont indépendantes et tirées d'une loi quelconque d'espérance $\mu$ et de variance finie $\sigma^2$, alors la moyenne empirique tend non seulement vers $\mu$, mais à une vitesse précise:

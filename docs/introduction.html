@@ -175,8 +175,13 @@ window.Quarto = {
     <h2 id="toc-title">Table des matières</h2>
    
   <ul>
-  <li><a href="#loi-discrètes" id="toc-loi-discrètes" class="nav-link active" data-scroll-target="#loi-discrètes"><span class="header-section-number">1.1</span> Loi discrètes</a></li>
-  <li><a href="#graphiques" id="toc-graphiques" class="nav-link" data-scroll-target="#graphiques"><span class="header-section-number">1.2</span> Graphiques</a></li>
+  <li><a href="#population-echantillon" id="toc-population-echantillon" class="nav-link active" data-scroll-target="#population-echantillon"><span class="header-section-number">1.1</span> Population et échantillons</a></li>
+  <li><a href="#types-de-variables" id="toc-types-de-variables" class="nav-link" data-scroll-target="#types-de-variables"><span class="header-section-number">1.2</span> Types de variables</a></li>
+  <li><a href="#variable-aleatoire" id="toc-variable-aleatoire" class="nav-link" data-scroll-target="#variable-aleatoire"><span class="header-section-number">1.3</span> Variables aléatoires</a></li>
+  <li><a href="#loi-discrètes" id="toc-loi-discrètes" class="nav-link" data-scroll-target="#loi-discrètes"><span class="header-section-number">1.4</span> Loi discrètes</a></li>
+  <li><a href="#graphiques" id="toc-graphiques" class="nav-link" data-scroll-target="#graphiques"><span class="header-section-number">1.5</span> Graphiques</a></li>
+  <li><a href="#loi-grands-nombres" id="toc-loi-grands-nombres" class="nav-link" data-scroll-target="#loi-grands-nombres"><span class="header-section-number">1.6</span> Loi des grands nombres</a></li>
+  <li><a href="#TCL" id="toc-TCL" class="nav-link" data-scroll-target="#TCL"><span class="header-section-number">1.7</span> Théorème central limite</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/lbelzile/math60604/edit/master/introduction.qmd" class="toc-action"><i class="bi bi-github"></i>Éditer cette page</a></li></ul></div></nav>
     </div>
@@ -203,7 +208,8 @@ window.Quarto = {
 
 
 <p>Ce chapitre couvre des rappels mathématiques de probabilité et statistique d’ordinaire couverts dans un cours de niveau collégial ou préuniversitaire.</p>
-<p>##Population et échantillons {#population-echantillon}</p>
+<section id="population-echantillon" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="population-echantillon"><span class="header-section-number">1.1</span> Population et échantillons</h2>
 <p>Ce qui différencie la statistique des autres sciences est la prise en compte de l’incertitude et de la notion d’aléatoire. Règle générale, on cherche à estimer une caractéristique d’une population définie à l’aide d’un échantillon (un sous-groupe de la population) de taille restreinte.</p>
 <p>La <strong>population d’intérêt</strong> est un ensemble d’individus formant la matière première d’une étude statistique. Par exemple, pour l’Enquête sur la population active (EPA) de Statistique Canada, « la population cible comprend la population canadienne civile non institutionnalisée de 15 ans et plus ». Même si on faisait un recensement et qu’on interrogeait tous les membres de la population cible, la caractéristique d’intérêt peut varier selon le moment de la collecte; une personne peut trouver un emploi, quitter le marché du travail ou encore se retrouver au chômage. Cela explique la variabilité intrinsèque.</p>
 <p>En général, on se base sur un <strong>échantillon</strong> pour obtenir de l’information parce que l’acquisition de données est coûteuse. L’<strong>inférence statistique</strong> vise à tirer des conclusions, pour toute la population, en utilisant seulement l’information contenue dans l’échantillon et en tenant compte des sources de variabilité. Le sondeur George Gallup (traduction libre) a fait cette merveilleuse analogie entre échantillon et population:</p>
@@ -216,7 +222,9 @@ window.Quarto = {
 <p><span class="theorem-title"><strong>Exemple 1.1 (Gallup et l’élection présidentielle américaine de 1936)</strong></span> Désireuse de prédire le résultat de l’élection présidentielle américaine de 1936, la revue <em>Literary Digest</em> a sondé 10 millions d’électeurs par la poste, dont 2.4 millions ont répondu au sondage en donnant une nette avance au candidat républicain Alf Landon (57%) face au président sortant Franklin D. Roosevelt (43%). Ce dernier a néanmoins remporté l’élection avec 62% des suffrages, une erreur de prédiction de 19%. Le plan d’échantillonnage avait été conçu en utilisant des bottins téléphoniques, des enregistrements d’automobiles et des listes de membres de clubs privés, etc.: <a href="https://www.jstor.org/stable/2749114">la non-réponse différentielle et un échantillon biaisé</a> vers les classes supérieures sont en grande partie responsable de cette erreur.</p>
 <p>Gallup avait de son côté correctement prédit la victoire de Roosevelt en utilisant un échantillon aléatoire de (seulement) 50 000 électeurs. Vous pouvez lire l’<a href="https://ozanozbey.medium.com/two-lessons-of-sampling-bias-from-1936-us-election-e4e96bd42be">histoire complète (en anglais)</a>.</p>
 </div>
-<p>##Types de variables</p>
+</section>
+<section id="types-de-variables" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="types-de-variables"><span class="header-section-number">1.2</span> Types de variables</h2>
 <p>Le résultat d’une collecte de données est un tableau, ou base de données, contenant sur chaque ligne des observations et en colonne des variables. Le <a href="#tbl-data-renfe" class="quarto-xref">Tableau&nbsp;<span>1.1</span></a> donne un exemple de structure.</p>
 <ul>
 <li>Une <strong>variable</strong> représente une caractéristique de la population d’intérêt, par exemple le sexe d’un individu, le prix d’un article, etc.</li>
@@ -307,7 +315,9 @@ Tableau&nbsp;1.1: Premières lignes de la base de données <code>renfe</code>, q
 <li>ordinale (échelle de Likert, tranche salariale).</li>
 </ul>
 <p>La codification des modalités des variables catégorielle est arbitraire; en revanche, on préservera l’ordre lorsqu’on représentera graphiquement les variables ordinales. Lors de l’estimation, chaque variable catégorielle doit est transformée en un ensemble d’indicateurs binaires 0/1: il est donc essentiel de déclarer ces dernières dans votre logiciel statistique, surtout si elles sont parfois encodées dans la base de données à l’aide de valeurs entières.</p>
-<p>##Variables aléatoires {#variable-aleatoire}</p>
+</section>
+<section id="variable-aleatoire" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="variable-aleatoire"><span class="header-section-number">1.3</span> Variables aléatoires</h2>
 <p>Suppsons qu’on cherche à décrire le comportement d’un phénomène aléatoire. Pour ce faire, on cherche à décrire l’ensemble des valeurs possibles et leur probabilité/fréquence relative au sein de la population: ces dernières sont encodées dans la loi de la variable aléatoire.</p>
 <p>On dénote les variables aléatoires par des lettres majuscules, et leurs réalisations par des minuscules: par exemple, <span class="math inline">\(Y \sim \mathsf{normale}(\mu, \sigma^2)\)</span> indique que <span class="math inline">\(Y\)</span> suit une loi normale de paramètres <span class="math inline">\(\mu \in \mathbb{R}\)</span> et <span class="math inline">\(\sigma &gt; 0\)</span>. On parle de famille de lois si la valeur des paramètres ne sont pas spécifiées; si on fixe plutôt ces dernière, on obtient une représentation qui encode les probabilité.</p>
 <div id="def-repartition" class="theorem definition">
@@ -380,8 +390,9 @@ Figure&nbsp;1.1: Fonctions de répartition (panneau supérieur) et fonctions de 
 \end{align*}\]</span> Cette fonction objective est donc un compromis entre le carré du biais et la variance de l’estimateur.</p>
 </div>
 <p>La plupart des estimateurs que nous considérerons dans le cadre du cours sont des estimateurs du maximum de vraisemblance. Ces derniers sont asymptotiquement efficaces, c’est-à-dire qu’ils minimisent l’erreur quadratique moyenne parmi tous les estimateurs possibles quand la taille de l’échantillon est suffisamment grande. Ils ont également d’autre propriétés qui les rendent attractifs comme choix par défaut pour l’estimation. Il ne sont pas nécessairement sans biais</p>
-<section id="loi-discrètes" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="loi-discrètes"><span class="header-section-number">1.1</span> Loi discrètes</h2>
+</section>
+<section id="loi-discrètes" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="loi-discrètes"><span class="header-section-number">1.4</span> Loi discrètes</h2>
 <p>Plusieurs lois aléatoires décrivent des phénomènes physiques simples et ont donc une justification empirique; on revisite les distributions ou loi discrètes les plus fréquemment couvertes.</p>
 <div id="def-loibern" class="theorem definition">
 <p><span class="theorem-title"><strong>Définition 1.5 (Loi de Bernoulli)</strong></span> On considère un phénomène binaire, comme le lancer d’une pièce de monnaie (pile/face). De manière générale, on associe les deux possibilités à succès/échec et on suppose que la probabilité de “succès” est <span class="math inline">\(p\)</span>. Par convention, on représente les échecs (non) par des zéros et les réussites (oui) par des uns. Donc, si la variable <span class="math inline">\(Y\)</span> vaut <span class="math inline">\(0\)</span> ou <span class="math inline">\(1\)</span>, alors <span class="math inline">\(\mathsf{Pr}(Y=1)=p\)</span> et la probabilité complémentaire est <span class="math inline">\(\mathsf{Pr}(Y=0)=1-p\)</span>. La fonction de masse de la <a href="https://fr.wikipedia.org/wiki/Loi_de_Bernoulli">loi Bernoulli</a> s’écrit de façon plus compacte <span class="math display">\[\begin{align*}
@@ -481,11 +492,15 @@ Le cas $\alpha=\beta=1$, dénotée également $\mathsf{unif}(0,1)$, correspond �
 
 
 
+
+
 ::: {.cell layout-align="center"}
 ::: {.cell-output-display}
 ![Fonctions de densité de lois uniformes et beta(2, 3/4) sur l'intervalle [0,1].](introduction_files/figure-html/fig-densite-beta-1.png){#fig-densite-beta fig-align='center' width=85%}
 :::
 :::
+
+
 
 
 
@@ -521,11 +536,15 @@ en forme de cloche, est symmétrique autour de $\mu$, qui est aussi le mode de l
 
 
 
+
+
 ::: {.cell layout-align="center"}
 ::: {.cell-output-display}
 ![Densités de loi normales avec des paramètres de moyenne différents (gauche) et des paramètres d'échelle différents (droite).](introduction_files/figure-html/fig-normal-loc-echelle-1.png){#fig-normal-loc-echelle fig-align='center' width=85%}
 :::
 :::
+
+
 
 
 
@@ -602,8 +621,8 @@ F = \frac{Y_1/\nu_1}{Y_2/\nu_2} \sim \mathsf{Fisher}(\nu_1, \nu_2)
 <p>La loi de Fisher tend vers une loi <span class="math inline">\(\chi^2_{\nu_1}\)</span> quand <span class="math inline">\(\nu_2 \to \infty\)</span>.</p>
 </div>
 </section>
-<section id="graphiques" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="graphiques"><span class="header-section-number">1.2</span> Graphiques</h2>
+<section id="graphiques" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="graphiques"><span class="header-section-number">1.5</span> Graphiques</h2>
 <p>Cette section sert à réviser les principales représentations graphiques de jeux de données selon la catégorie des variables.</p>
 <p>Le principal type de graphique pour représenter la distribution d’une variable catégorielle est le diagramme en bâtons, dans lequel la fréquence de chaque catégorie est présentée sur l’axe des ordonnées (<span class="math inline">\(y\)</span>) en fonction de la modalité, sur l’axe des abscisses (<span class="math inline">\(x\)</span>), et ordonnées pour des variables ordinales. Cette représentation est en tout point supérieur au <a href="http://www.perceptualedge.com/articles/08-21-07.pdf">diagramme en camembert</a>, une engeance répandu qui devrait être honnie (notamment parce que l’humain juge mal les différences d’aires, qu’une simple rotation change la perception du graphique et qu’il est difficile de mesurer les proportions) — ce n’est pas de la tarte!</p>
 <div class="cell" data-layout-align="center">
@@ -718,12 +737,16 @@ Figure&nbsp;1.7: Diagramme probabilité-probabilité (gauche) et quantile-quanti
 <p>Le résultat de cette opération sera une matrice <span class="math inline">\(n \times B\)</span> de données simulées; on obtient un intervalle de confiance symmétrique en conservant le quantile <span class="math inline">\(\alpha/2\)</span> et <span class="math inline">\(1-\alpha/2\)</span> de chaque ligne. Le nombre de simulation <span class="math inline">\(B\)</span> devrait être large (typiquement 999 ou davantage) et être choisi de manière à ce que <span class="math inline">\(B/\alpha\)</span> soit un entier.</p>
 <p>Pour l’intervalle de confiance ponctuel, chaque valeur représente une statistique et donc individuellement, la probabilité qu’une statistique d’ordre sorte de l’intervalle de confiance est <span class="math inline">\(\alpha\)</span>. En revanche, les statistiques d’ordres ne sont pas indépendantes et sont qui est plus ordonnées, ce qui fait qu’un point hors de l’intervalle risque de n’être pas isolé. Les intervalles présentés dans la <a href="#fig-diagrammeqq2" class="quarto-xref">Figure&nbsp;<span>1.7</span></a> sont donc ponctuels. La variabilité des statistiques d’ordre uniformes est plus grande autour de 1/2, mais celles des variables transformées dépend de <span class="math inline">\(F\)</span>.</p>
 <p>L’interprétation d’un diagramme quantile-quantile nécessite une bonne dose de pratique et de l’expérience: <a href="https://stats.stackexchange.com/questions/101274/how-to-interpret-a-qq-plot/101290#101290">cette publication par <em>Glen_b</em> sur StackOverflow</a> résume bien ce qu’on peut détecter ou pas en lisant le diagramme.</p>
-<p>##Loi des grands nombres {#loi-grands-nombres}</p>
+</section>
+<section id="loi-grands-nombres" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="loi-grands-nombres"><span class="header-section-number">1.6</span> Loi des grands nombres</h2>
 <p>Un estimateur est dit <strong>convergent</strong> si la valeur obtenue à mesure que la taille de l’échantillon augmente s’approche de la vraie valeur que l’on cherche à estimer. Mathématiquement parlant, un estimateur est dit convergent s’il converge en probabilité, ou <span class="math inline">\(\hat{\theta} \stackrel{\mathsf{Pr}}{\to} \theta\)</span>: en langage commun, la probabilité que la différence entre <span class="math inline">\(\hat{\theta}\)</span> et <span class="math inline">\(\theta\)</span> diffèrent est négligeable quand <span class="math inline">\(n\)</span> est grand.</p>
 <p>La condition <em>a minima</em> pour le choix d’un estimateur est donc la convergence: plus on récolte d’information, plus notre estimateur devrait s’approcher de la valeur qu’on tente d’estimer.</p>
 <p>La loi des grands nombres établit que la moyenne empirique de <span class="math inline">\(n\)</span> observations indépendantes de même espérance, <span class="math inline">\(\overline{Y}_n\)</span>, tend vers l’espérance commune des variables <span class="math inline">\(\mu\)</span>, où <span class="math inline">\(\overline{Y}_n \rightarrow \mu\)</span>. En gros, ce résultat nous dit que l’on réussit à approximer de mieux en mieux la quantité d’intérêt quand la taille de l’échantillon (et donc la quantité d’information disponible sur le paramètre) augmente. La loi des grands nombres est très utile dans les expériences Monte Carlo: on peut ainsi approximer par simulation la moyenne d’une fonction <span class="math inline">\(g(x)\)</span> de variables aléatoires en simulant de façon répétée des variables <span class="math inline">\(Y\)</span> indépendantes et identiquement distribuées et en prenant la moyenne empirique <span class="math inline">\(n^{-1} \sum_{i=1}^n g(Y_i)\)</span>.</p>
 <p>Si la loi des grands nombres nous renseigne sur le comportement limite ponctuel, il ne nous donne aucune information sur la variabilité de notre estimé de la moyenne et la vitesse à laquelle on s’approche de la vraie valeur du paramètre.</p>
-<p>##Théorème central limite {#TCL}</p>
+</section>
+<section id="TCL" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="TCL"><span class="header-section-number">1.7</span> Théorème central limite</h2>
 <p>Le théorème central limite dit que, pour un échantillon aléatoire de taille <span class="math inline">\(n\)</span> dont les observations sont indépendantes et tirées d’une loi quelconque d’espérance <span class="math inline">\(\mu\)</span> et de variance finie <span class="math inline">\(\sigma^2\)</span>, alors la moyenne empirique tend non seulement vers <span class="math inline">\(\mu\)</span>, mais à une vitesse précise:</p>
 <ul>
 <li>l’estimateur <span class="math inline">\(\overline{Y}\)</span> sera centré autour de <span class="math inline">\(\mu\)</span>,</li>
