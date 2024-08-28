@@ -18,9 +18,7 @@ Dans la plupart des domaines scientifiques, les donnéese empiriques issues d'ex
 
 Comme les cours d'introduction aux statistiques présentent généralement des tests d'hypothèses sans accorder beaucoup d'attention aux principes de construction sous-jacents de ces procédures, les utilisateurs ont souvent une vision réductrice des statistiques. Plusieurs voient les statistiques comme un catalogue de procédures pré-établies. Pour faire une analogie culinaire, les utilisateurs se concentrent sur l'apprentissage en vase clos des recettes plutôt que d'essayer de comprendre les bases de la cuisine et de faire des liens. Ce chapitre se concentre sur la compréhension des concepts-clés liées aux tests.
 
-::: {.callout-important}
-
-**Objectifs d'apprentissage
+::: {.callout-important title="Objectifs d'apprentissage"}
 
 * Comprendre le rôle de l'incertitude dans la prise de décision.
 * Comprendre l'importance du rapport signal/bruit en tant que preuve.
@@ -42,7 +40,7 @@ Il est important de noter que la plupart des questions de recherche ne peuvent �
 #| echo: false
 #| eval: true
 #| fig-cap: 'Bande dessinée xkcd [2569 (Hypothesis generation) par Randall Munroe](https://xkcd.com/2569/).
-#|   Text alternatif: Frazzled scientists are requesting that everyone please stop generating
+#|   Texte alternatif: Frazzled scientists are requesting that everyone please stop generating
 #|   hypotheses for a little bit while they work through the backlog. Bande réimprimée sous license [CC BY-NC 2.5](https://creativecommons.org/licenses/by-nc/2.5/).'
 knitr::include_graphics("images/xkcd2569_hypothesis_generation.png")
 ```
@@ -67,8 +65,8 @@ Nous appelons **statistiques** les résumés numériques des données. Il est im
 #| fig-cap: "Les concepts d'[estimand](https://www.flickr.com/photos/darkdwarf/16563489881) (gauche), estimateur (milieu) et [estimaté](https://www.flickr.com/photos/bensutherland/14685548773) (droite), illustrés à l'aide de gâteau, une variation d'un idée originale de Simon Grund. Les photos de gâteau sont partagées sous licence [CC BY-NC 2.0](https://creativecommons.org/licenses/by-nc/2.0/)."
 #| fig-subcap:
 #|  - "Estimand"
-#|  - "Estimator"
-#|  - "Estimate"
+#|  - "Estimateur"
+#|  - "Estimé"
 #| layout-ncol: 3
 knitr::include_graphics("images/estimand.jpg")
 knitr::include_graphics("images/estimator.jpg")
@@ -156,7 +154,7 @@ Considérons maintenant ce qui se passe lorsque nous augmentons la taille de l'�
 
 ```{r}
 #| label: fig-uniformsamp2
-#| fig-cap: Diagrammes à bande de données tirées d'une loi uniforme (haut) et d'une loi non-uniforme (bas) pour des tailles d'échantillons de 10, 100, 1000 and 10 000 (de gauche à droite).
+#| fig-cap: Histogrammes de données tirées d'une loi uniforme (haut) et d'une loi non-uniforme (bas) pour des tailles d'échantillons de 10, 100, 1000 and 10 000 (de gauche à droite).
 #| echo: false
 set.seed(1234)
 ntot <- (10+100+1000+10000)
@@ -184,7 +182,7 @@ g1 <- ggplot(df |> dplyr::filter(group == "alternative"), aes(x = x, y = after_s
   labs(y = "proportion", x = "") +
   scale_x_continuous(breaks=c(0,5,10)) +
   theme_classic()
-g2 <- ggplot(df |> filter(group == "null"), aes(x = x, y = after_stat(density))) +
+g2 <- ggplot(df |> dplyr::filter(group == "null"), aes(x = x, y = after_stat(density))) +
   geom_hline(yintercept = 0.1, col = "gray", lty = 2) +
   geom_histogram(bins = 10, color="white", fill = 4)+
   facet_wrap(~sample, nrow = 1,
@@ -387,7 +385,7 @@ suit une loi de Student-$t$ avec $n-1$ degrés de liberté, dénotée $\mathsf{S
 
 Un **intervalle de confiance** est une manière alternative de rapporter les conclusions d'un test, en ce sens qu'on fournit une estimation ponctuelle de $\hat{\theta}$ avec une marge d'erreur. L'intervalle de confiance donne donc une indication de la variabilité de la procédure d'estimation. Un intervalle de confiance de Wald à $(1-\alpha)$ pour un paramètre $\theta$ est de la forme
 \begin{align*}
-[\widehat{\theta} + \mathfrak{q}_{\alpha/2}\mathrm{se}(\widehat{\theta}, \widehat{\theta} +\mathfrak{q}_{1-\alpha/2}\times \mathrm{se}(\widehat{\theta})]
+[\widehat{\theta} + \mathfrak{q}_{\alpha/2}\mathrm{se}(\widehat{\theta}), \widehat{\theta} +\mathfrak{q}_{1-\alpha/2}\times \mathrm{se}(\widehat{\theta})]
 \end{align*}
 où $\mathfrak{q}_{\alpha}$ dénote le quantile d'ordre $\alpha \in (0,1)$ de la loi nulle de la statistique de Wald,
 \begin{align*}
@@ -412,8 +410,7 @@ Les bornes de l'intervalle de confiance sont aléatoires puisque $\widehat{\thet
 #| cache: true
 #| fig-width: 8
 #| fig-height: 5
-#| fig-cap: "Intervalles de confiance à 95% pour la moyenne d'une population normale
-#|   $\\mathsf{normale}(0,1)$ pour 100 échantillons aléatoires. En moyenne, 5% de ces intervalles
+#| fig-cap: "Intervalles de confiance à 95% pour la moyenne d'une population normale standard pour 100 échantillons aléatoires. En moyenne, 5% de ces intervalles
 #|   (en rouge) n'incluent pas la vraie valeur de la moyenne de zéro."
 set.seed(1234)
 interv <- t(sapply(1:100, function(i){t.test(rnorm(1000), mu=0)$conf.int}))
@@ -559,7 +556,7 @@ g1 + g2 + g3 +
 
 On veut qu'un test ait une puissance élevée, c'est-à-dire, le plus près de 1 possible. Minimalement, la puissance du test devrait être $\alpha$ si on rejette l'hypothèse nulle une fraction $\alpha$ du temps quand cette dernière est vraie. La puissance dépend de plusieurs critères, à savoir:
 
-- la taille de l'effet: plus la différence est grande entre la valeur du paramètre postulé $\theta_0$ sous $\mathscr{H}_0$ et le comportement observé, plus il est facile de le détecter (panneau du milieu de @fig-puissance);
+- la taille de l'effet: plus la différence est grande entre la valeur postulée $\theta_0$ du paramètre  sous $\mathscr{H}_0$ et le comportement observé, plus il est facile de le détecter (panneau du milieu de @fig-puissance);
 - la variabilité: moins les observations sont variables, plus il est facile de déterminer que la différence observée est significative (les grandes différences sont alors moins plausibles, comme l'illustre le panneau de droite de @fig-puissance);
 - la taille de l'échantillon: plus on a d'observations, plus notre capacité à détecter une différence significative augmente parce que l'erreur-type décroît avec la taille de l'échantillon à un rythme (ordinairement) de $n^{-1/2}.$ La loi nulle devient aussi plus concentrée quand la taille de l'échantillon augmente.
 - le choix de la statistique de test: par exemple, les statistiques basées sur les rangs n'utilisent pas les valeurs numériques qu'à travers le rang relatif. Ces tests sont donc moins puissants parce qu'ils n'utilisent pas toute l'information dans l'échantillon; en contrepartie, ils sont souvent plus robustes en présence de valeurs aberrantes et si le modèle est mal spécifié. Les statistiques de test que nous choisirons sont souvent standards et parmi les plus puissantes qui soient, aussi on ne traitera pas de ce point davantage dans le cadre du cours.

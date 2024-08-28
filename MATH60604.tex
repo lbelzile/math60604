@@ -336,7 +336,7 @@
 
 \title{MATH 60604 - Modélisation statistique}
 \author{Léo Belzile}
-\date{2024-08-25}
+\date{2024-08-28}
 
 \begin{document}
 
@@ -475,12 +475,12 @@ explicatifs. Par exemple, on peut chercher à déterminer
 \item
   Qu'est-ce qui explique que les prix de l'essence soient plus élevés en
   Gaspésie qu'ailleurs au Québec?
-  \href{http://www.regie-energie.qc.ca/energie/rapports/Rapport_PrixGasp\%C3\%A9sie_20191219.pdf}{Un
+  \href{https://ici.radio-canada.ca/nouvelle/1463520/prix-essence-gaspesie-rapport-regie-energie}{Un
   rapport de surveillance des prix de l'essence en Gaspésie par la Régie
   de l'énergie se penche sur la question.}
 \item
   Est-ce que les examens pratiques de conduite en Grande-Bretagne sont
-  plus faciles dans les régions à faible densité?
+  plus faciles dans les régions à faible densité de population?
   \href{https://www.theguardian.com/world/2019/aug/23/an-easy-ride-scottish-village-fuels-debate-driving-test-pass-rates}{Une
   analyse du journal britannique \emph{The Guardian}} laisse penser que
   c'est le cas.
@@ -506,7 +506,7 @@ Ce chapitre couvre des rappels mathématiques de probabilité et
 statistique d'ordinaire couverts dans un cours de niveau collégial ou
 préuniversitaire.
 
-\#\#Population et échantillons \{\#population-echantillon\}
+\section{Population et échantillons}\label{population-echantillon}
 
 Ce qui différencie la statistique des autres sciences est la prise en
 compte de l'incertitude et de la notion d'aléatoire. Règle générale, on
@@ -582,7 +582,7 @@ complète (en anglais)}.
 
 \end{example}
 
-\#\#Types de variables
+\section{Types de variables}\label{types-de-variables}
 
 Le résultat d'une collecte de données est un tableau, ou base de
 données, contenant sur chaque ligne des observations et en colonne des
@@ -671,7 +671,7 @@ catégorielle doit est transformée en un ensemble d'indicateurs binaires
 statistique, surtout si elles sont parfois encodées dans la base de
 données à l'aide de valeurs entières.
 
-\#\#Variables aléatoires \{\#variable-aleatoire\}
+\section{Variables aléatoires}\label{variable-aleatoire}
 
 Suppsons qu'on cherche à décrire le comportement d'un phénomène
 aléatoire. Pour ce faire, on cherche à décrire l'ensemble des valeurs
@@ -1232,7 +1232,7 @@ dose de pratique et de l'expérience:
 publication par \emph{Glen\_b} sur StackOverflow} résume bien ce qu'on
 peut détecter ou pas en lisant le diagramme.
 
-\#\#Loi des grands nombres \{\#loi-grands-nombres\}
+\section{Loi des grands nombres}\label{loi-grands-nombres}
 
 Un estimateur est dit \textbf{convergent} si la valeur obtenue à mesure
 que la taille de l'échantillon augmente s'approche de la vraie valeur
@@ -1264,7 +1264,7 @@ ponctuel, il ne nous donne aucune information sur la variabilité de
 notre estimé de la moyenne et la vitesse à laquelle on s'approche de la
 vraie valeur du paramètre.
 
-\#\#Théorème central limite \{\#TCL\}
+\section{Théorème central limite}\label{TCL}
 
 Le théorème central limite dit que, pour un échantillon aléatoire de
 taille \(n\) dont les observations sont indépendantes et tirées d'une
@@ -1392,9 +1392,7 @@ l'apprentissage en vase clos des recettes plutôt que d'essayer de
 comprendre les bases de la cuisine et de faire des liens. Ce chapitre se
 concentre sur la compréhension des concepts-clés liées aux tests.
 
-\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-important-color-frame, bottomrule=.15mm, opacitybacktitle=0.6, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, opacityback=0, left=2mm, breakable, toptitle=1mm, toprule=.15mm, colbacktitle=quarto-callout-important-color!10!white, bottomtitle=1mm, coltitle=black, titlerule=0mm, leftrule=.75mm, arc=.35mm, rightrule=.15mm, colback=white]
-
-**Objectifs d'apprentissage
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, left=2mm, rightrule=.15mm, colback=white, bottomrule=.15mm, colframe=quarto-callout-important-color-frame, breakable, leftrule=.75mm, toprule=.15mm, titlerule=0mm, opacityback=0, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Objectifs d'apprentissage}, opacitybacktitle=0.6, arc=.35mm, toptitle=1mm, colbacktitle=quarto-callout-important-color!10!white]
 
 \begin{itemize}
 \tightlist
@@ -1441,7 +1439,7 @@ de données incorrectes.
 
 \caption{\label{fig-xkcd2569}Bande dessinée xkcd
 \href{https://xkcd.com/2569/}{2569 (Hypothesis generation) par Randall
-Munroe}. Text alternatif: Frazzled scientists are requesting that
+Munroe}. Texte alternatif: Frazzled scientists are requesting that
 everyone please stop generating hypotheses for a little bit while they
 work through the backlog. Bande réimprimée sous license
 \href{https://creativecommons.org/licenses/by-nc/2.5/}{CC BY-NC 2.5}.}
@@ -1519,7 +1517,7 @@ d'autres termes,
 
 }
 
-\subcaption{\label{fig-cake-2}Estimator}
+\subcaption{\label{fig-cake-2}Estimateur}
 
 \end{minipage}%
 %
@@ -1531,7 +1529,7 @@ d'autres termes,
 
 }
 
-\subcaption{\label{fig-cake-3}Estimate}
+\subcaption{\label{fig-cake-3}Estimé}
 
 \end{minipage}%
 
@@ -1695,10 +1693,9 @@ un obstacle à l'obtention d'une distribution uniforme.
 
 }
 
-\caption{\label{fig-uniformsamp2}Diagrammes à bande de données tirées
-d'une loi uniforme (haut) et d'une loi non-uniforme (bas) pour des
-tailles d'échantillons de 10, 100, 1000 and 10 000 (de gauche à
-droite).}
+\caption{\label{fig-uniformsamp2}Histogrammes de données tirées d'une
+loi uniforme (haut) et d'une loi non-uniforme (bas) pour des tailles
+d'échantillons de 10, 100, 1000 and 10 000 (de gauche à droite).}
 
 \end{figure}%
 
@@ -1930,7 +1927,7 @@ L'intervalle de confiance donne donc une indication de la variabilité de
 la procédure d'estimation. Un intervalle de confiance de Wald à
 \((1-\alpha)\) pour un paramètre \(\theta\) est de la forme
 \begin{align*}
-[\widehat{\theta} + \mathfrak{q}_{\alpha/2}\mathrm{se}(\widehat{\theta}, \widehat{\theta} +\mathfrak{q}_{1-\alpha/2}\times \mathrm{se}(\widehat{\theta})]
+[\widehat{\theta} + \mathfrak{q}_{\alpha/2}\mathrm{se}(\widehat{\theta}), \widehat{\theta} +\mathfrak{q}_{1-\alpha/2}\times \mathrm{se}(\widehat{\theta})]
 \end{align*} où \(\mathfrak{q}_{\alpha}\) dénote le quantile d'ordre
 \(\alpha \in (0,1)\) de la loi nulle de la statistique de Wald,
 \begin{align*}
@@ -1977,9 +1974,9 @@ obtenues pour un échantillon donné.
 }
 
 \caption{\label{fig-intconf}Intervalles de confiance à 95\% pour la
-moyenne d'une population normale \(\mathsf{normale}(0,1)\) pour 100
-échantillons aléatoires. En moyenne, 5\% de ces intervalles (en rouge)
-n'incluent pas la vraie valeur de la moyenne de zéro.}
+moyenne d'une population normale standard pour 100 échantillons
+aléatoires. En moyenne, 5\% de ces intervalles (en rouge) n'incluent pas
+la vraie valeur de la moyenne de zéro.}
 
 \end{figure}%
 
@@ -2083,7 +2080,7 @@ probabilité d'obtenir une valeur de la statistique de test égale ou même
 plus grande que celle qu'on a observée dans l'échantillon, si
 \(\mathscr{H}_0\) est vraie.
 
-\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-caution-color-frame, bottomrule=.15mm, opacitybacktitle=0.6, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Mise en garde}, opacityback=0, left=2mm, breakable, toptitle=1mm, toprule=.15mm, colbacktitle=quarto-callout-caution-color!10!white, bottomtitle=1mm, coltitle=black, titlerule=0mm, leftrule=.75mm, arc=.35mm, rightrule=.15mm, colback=white]
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, left=2mm, rightrule=.15mm, colback=white, bottomrule=.15mm, colframe=quarto-callout-caution-color-frame, breakable, leftrule=.75mm, toprule=.15mm, titlerule=0mm, opacityback=0, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Mise en garde}, opacitybacktitle=0.6, arc=.35mm, toptitle=1mm, colbacktitle=quarto-callout-caution-color!10!white]
 
 L'\href{https://doi.org/10.1080/00031305.2016.1154108}{\emph{American
 Statistical Association (ASA)} a publié une liste de principes}
@@ -2185,8 +2182,8 @@ critères, à savoir:
 \begin{itemize}
 \tightlist
 \item
-  la taille de l'effet: plus la différence est grande entre la valeur du
-  paramètre postulé \(\theta_0\) sous \(\mathscr{H}_0\) et le
+  la taille de l'effet: plus la différence est grande entre la valeur
+  postulée \(\theta_0\) du paramètre sous \(\mathscr{H}_0\) et le
   comportement observé, plus il est facile de le détecter (panneau du
   milieu de Figure~\ref{fig-puissance});
 \item

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.1">
+<meta name="generator" content="quarto-1.5.56">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -233,17 +233,16 @@ window.Quarto = {
 
 <p>Dans la plupart des domaines scientifiques, les donnéese empiriques issues d’expériences contribuent à l’édification de la science. Afin de tirer des conclusions en faveur ou à l’encontre d’une théorie, les chercheurs se tournent (souvent à contrecoeur) vers la statistique. Cela a conduit à la prédominance de l’utilisation du cadre des tests statistiques et à la prépondérance des valeurs-<span class="math inline">\(p\)</span> dans les articles scientifiques, souvent employées de manière abusive ou fautive dans les articles de journaux. La falsification d’une hypothèse nulle n’est pas suffisante pour fournir des résultats substantiels pour une théorie.</p>
 <p>Comme les cours d’introduction aux statistiques présentent généralement des tests d’hypothèses sans accorder beaucoup d’attention aux principes de construction sous-jacents de ces procédures, les utilisateurs ont souvent une vision réductrice des statistiques. Plusieurs voient les statistiques comme un catalogue de procédures pré-établies. Pour faire une analogie culinaire, les utilisateurs se concentrent sur l’apprentissage en vase clos des recettes plutôt que d’essayer de comprendre les bases de la cuisine et de faire des liens. Ce chapitre se concentre sur la compréhension des concepts-clés liées aux tests.</p>
-<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout callout-style-default callout-important callout-titled" title="Objectifs d'apprentissage">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Important
+Objectifs d’apprentissage
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>**Objectifs d’apprentissage</p>
 <ul>
 <li>Comprendre le rôle de l’incertitude dans la prise de décision.</li>
 <li>Comprendre l’importance du rapport signal/bruit en tant que preuve.</li>
@@ -262,7 +261,7 @@ Important
 <img src="images/xkcd2569_hypothesis_generation.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-xkcd2569-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.1: Bande dessinée xkcd <a href="https://xkcd.com/2569/">2569 (Hypothesis generation) par Randall Munroe</a>. Text alternatif: Frazzled scientists are requesting that everyone please stop generating hypotheses for a little bit while they work through the backlog. Bande réimprimée sous license <a href="https://creativecommons.org/licenses/by-nc/2.5/">CC BY-NC 2.5</a>.
+Figure&nbsp;2.1: Bande dessinée xkcd <a href="https://xkcd.com/2569/">2569 (Hypothesis generation) par Randall Munroe</a>. Texte alternatif: Frazzled scientists are requesting that everyone please stop generating hypotheses for a little bit while they work through the backlog. Bande réimprimée sous license <a href="https://creativecommons.org/licenses/by-nc/2.5/">CC BY-NC 2.5</a>.
 </figcaption>
 </figure>
 </div>
@@ -301,7 +300,7 @@ Figure&nbsp;2.1: Bande dessinée xkcd <a href="https://xkcd.com/2569/">2569 (Hyp
 <img src="images/estimator.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%" data-ref-parent="fig-cake">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-cake-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(b) Estimator
+(b) Estimateur
 </figcaption>
 </figure>
 </div>
@@ -313,7 +312,7 @@ Figure&nbsp;2.1: Bande dessinée xkcd <a href="https://xkcd.com/2569/">2569 (Hyp
 <img src="images/estimate.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%" data-ref-parent="fig-cake">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-cake-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(c) Estimate
+(c) Estimé
 </figcaption>
 </figure>
 </div>
@@ -387,7 +386,7 @@ Figure&nbsp;2.5: Histogrammes de 10 échantillons aléatoires de taille <span cl
 <img src="inference_files/figure-html/fig-uniformsamp2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-uniformsamp2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.6: Diagrammes à bande de données tirées d’une loi uniforme (haut) et d’une loi non-uniforme (bas) pour des tailles d’échantillons de 10, 100, 1000 and 10 000 (de gauche à droite).
+Figure&nbsp;2.6: Histogrammes de données tirées d’une loi uniforme (haut) et d’une loi non-uniforme (bas) pour des tailles d’échantillons de 10, 100, 1000 and 10 000 (de gauche à droite).
 </figcaption>
 </figure>
 </div>
@@ -476,7 +475,7 @@ T = \frac{\overline{X}}{S/\sqrt{n}}
 <section id="intervalle-de-confiance" class="level2" data-number="2.6">
 <h2 data-number="2.6" class="anchored" data-anchor-id="intervalle-de-confiance"><span class="header-section-number">2.6</span> Intervalle de confiance</h2>
 <p>Un <strong>intervalle de confiance</strong> est une manière alternative de rapporter les conclusions d’un test, en ce sens qu’on fournit une estimation ponctuelle de <span class="math inline">\(\hat{\theta}\)</span> avec une marge d’erreur. L’intervalle de confiance donne donc une indication de la variabilité de la procédure d’estimation. Un intervalle de confiance de Wald à <span class="math inline">\((1-\alpha)\)</span> pour un paramètre <span class="math inline">\(\theta\)</span> est de la forme <span class="math display">\[\begin{align*}
-[\widehat{\theta} + \mathfrak{q}_{\alpha/2}\mathrm{se}(\widehat{\theta}, \widehat{\theta} +\mathfrak{q}_{1-\alpha/2}\times \mathrm{se}(\widehat{\theta})]
+[\widehat{\theta} + \mathfrak{q}_{\alpha/2}\mathrm{se}(\widehat{\theta}), \widehat{\theta} +\mathfrak{q}_{1-\alpha/2}\times \mathrm{se}(\widehat{\theta})]
 \end{align*}\]</span> où <span class="math inline">\(\mathfrak{q}_{\alpha}\)</span> dénote le quantile d’ordre <span class="math inline">\(\alpha \in (0,1)\)</span> de la loi nulle de la statistique de Wald, <span class="math display">\[\begin{align*}
 T =\frac{\widehat{\theta}-\theta}{\mathrm{se}(\widehat{\theta})},
 \end{align*}\]</span> et où <span class="math inline">\(\theta\)</span> représente la valeur du paramètre <span class="math inline">\(\theta\)</span> (supposé fixe, mais inconnu) de la population.</p>
@@ -492,7 +491,7 @@ T =\frac{\widehat{\theta}-\theta}{\mathrm{se}(\widehat{\theta})},
 <img src="inference_files/figure-html/fig-intconf-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-intconf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.8: Intervalles de confiance à 95% pour la moyenne d’une population normale <span class="math inline">\(\mathsf{normale}(0,1)\)</span> pour 100 échantillons aléatoires. En moyenne, 5% de ces intervalles (en rouge) n’incluent pas la vraie valeur de la moyenne de zéro.
+Figure&nbsp;2.8: Intervalles de confiance à 95% pour la moyenne d’une population normale standard pour 100 échantillons aléatoires. En moyenne, 5% de ces intervalles (en rouge) n’incluent pas la vraie valeur de la moyenne de zéro.
 </figcaption>
 </figure>
 </div>
@@ -599,7 +598,7 @@ Figure&nbsp;2.9: Comparaison de la loi nulle (ligne pleine) et d’une alternati
 </div>
 <p>On veut qu’un test ait une puissance élevée, c’est-à-dire, le plus près de 1 possible. Minimalement, la puissance du test devrait être <span class="math inline">\(\alpha\)</span> si on rejette l’hypothèse nulle une fraction <span class="math inline">\(\alpha\)</span> du temps quand cette dernière est vraie. La puissance dépend de plusieurs critères, à savoir:</p>
 <ul>
-<li>la taille de l’effet: plus la différence est grande entre la valeur du paramètre postulé <span class="math inline">\(\theta_0\)</span> sous <span class="math inline">\(\mathscr{H}_0\)</span> et le comportement observé, plus il est facile de le détecter (panneau du milieu de <a href="#fig-puissance" class="quarto-xref">Figure&nbsp;<span>2.9</span></a>);</li>
+<li>la taille de l’effet: plus la différence est grande entre la valeur postulée <span class="math inline">\(\theta_0\)</span> du paramètre sous <span class="math inline">\(\mathscr{H}_0\)</span> et le comportement observé, plus il est facile de le détecter (panneau du milieu de <a href="#fig-puissance" class="quarto-xref">Figure&nbsp;<span>2.9</span></a>);</li>
 <li>la variabilité: moins les observations sont variables, plus il est facile de déterminer que la différence observée est significative (les grandes différences sont alors moins plausibles, comme l’illustre le panneau de droite de <a href="#fig-puissance" class="quarto-xref">Figure&nbsp;<span>2.9</span></a>);</li>
 <li>la taille de l’échantillon: plus on a d’observations, plus notre capacité à détecter une différence significative augmente parce que l’erreur-type décroît avec la taille de l’échantillon à un rythme (ordinairement) de <span class="math inline">\(n^{-1/2}.\)</span> La loi nulle devient aussi plus concentrée quand la taille de l’échantillon augmente.</li>
 <li>le choix de la statistique de test: par exemple, les statistiques basées sur les rangs n’utilisent pas les valeurs numériques qu’à travers le rang relatif. Ces tests sont donc moins puissants parce qu’ils n’utilisent pas toute l’information dans l’échantillon; en contrepartie, ils sont souvent plus robustes en présence de valeurs aberrantes et si le modèle est mal spécifié. Les statistiques de test que nous choisirons sont souvent standards et parmi les plus puissantes qui soient, aussi on ne traitera pas de ce point davantage dans le cadre du cours.</li>
