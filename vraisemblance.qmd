@@ -70,7 +70,7 @@ Pour modéliser les temps d'attente, on considère une loi exponentielle avec pa
 \begin{align*}
 f(\boldsymbol{y}) = \prod_{i=1}^n f(y_i) =\prod_{i=1}^n  \lambda^{-1} \exp(- y_i/\lambda) = \lambda^{-n} \exp\left(- \sum_{i=1}^n y_i/\lambda\right)
 \end{align*}
-L'espace d'échantillonage est $\mathbb{R}_{+}^n = [0, \infty)^n,$ et l'espace des paramètres est $(0, \infty).$
+L'espace d'échantillonnage est $\mathbb{R}_{+}^n = [0, \infty)^n,$ et l'espace des paramètres est $(0, \infty).$
 :::
 
 
@@ -179,11 +179,11 @@ Puisque $\widehat{\sigma}^2=(n-1)/n S^2$, il s'ensuit que l'estimateur du maximu
 
 :::
 
-:::{#exm-ols-mle}
+:::{#exm-mco-mle}
 
-## Ordinary least squares
+## Moindres carrés ordinaires
 
-Le cas des données normalement distribuées est intimement lié à la régression linéaire et aux moindres carrés ordinaires : en supposant la normalité des erreurs, les estimateurs des moindres carrés de $\boldsymbol{\beta}$ coïncident avec l'estimateur du maximum de vraisemblance de $\boldsymbol{\beta}$.
+Le cas des données normalement distribuées est intimement lié à la régression linéaire et aux moindres carrés ordinaires: en supposant la normalité des erreurs, les estimateurs des moindres carrés de $\boldsymbol{\beta}$ coïncident avec l'estimateur du maximum de vraisemblance de $\boldsymbol{\beta}$.
 
 Le modèle de régression linéaire spécifie que $Y_i \sim \mathsf{normale}(\mathbf{X}_i\boldsymbol{\beta}, \sigma^2)$, ou de manière équivalente
 \begin{align*}
@@ -415,7 +415,7 @@ isTRUE(all(eigen(opt_weibull$hessian)$values > 0))
 
 :::
 
-## Loi d'échantillonage 
+## Loi d'échantillonnage 
 
 La **loi d'échantillonnage** d'un estimateur $\widehat{\boldsymbol{\theta}}$ est la loi de probabilité induite par les données aléatoires sous-jacentes.
 
@@ -425,7 +425,7 @@ i(\boldsymbol{\theta}_0)^{-1/2}U(\boldsymbol{\theta}_0) \stackrel{\cdot}{\sim}\m
 \end{align*}
 <!-- Quantities such as $i(\widehat{\boldsymbol{\theta}})^{-1/2}U(\widehat{\boldsymbol{\theta}})$ are termed **pivots**, because their sampling loi does not depend on unknown parameters. -->
 
-On peut utiliser ce résultat pour obtenir une approximation à la loi d'échantillonage des estimateurs du maximum de vraisemblance de $\widehat{\boldsymbol{\theta}},$ 
+On peut utiliser ce résultat pour obtenir une approximation à la loi d'échantillonnage des estimateurs du maximum de vraisemblance de $\widehat{\boldsymbol{\theta}},$ 
 \begin{align*}
 \widehat{\boldsymbol{\theta}} \stackrel{\cdot}{\sim} \mathsf{normale}_p\{\boldsymbol{\theta}_0, i^{-1}(\boldsymbol{\theta})\}
 \end{align*}
@@ -713,9 +713,11 @@ ptwise_confint_exp <- apply(
   X = apply(boot_dat_exp, 1, sort),
   MARGIN = 1, FUN = quantile, probs = c(0.025, 0.975))
 g1 <- ggplot() +
-  stat_qq(data = data.frame(y = attente), 
-          mapping = aes(sample = y),
-          loi = qexp, dparams  = list(rate = 1 / mean(attente))) +
+  geom_point(data = data.frame(
+      y = sort(attente),
+      x = qexp(ppoints(n), rate = 1/mean(attente))
+      ),
+    mapping = aes(x = x, y = y)) + 
   geom_abline(intercept = 0, slope = 1) +
   geom_line(linetype = "dashed", data = data.frame(x = ptwise_confint_exp[1,], y = sort(attente)),
  mapping = aes(x = x, y = y)) +
