@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.1">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Ces notes forment un complément web du cours MATH 60604 (Modélisation statistique) offert à la M.Sc. en gestion (science des données et analytique d’affaires) à HEC Montréal.">
+
+<title>3&nbsp; Inférence basée sur la vraisemblance – MATH 60604 - Modélisation statistique</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./references.html" rel="next">
+<link href="./inference.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer",
+    "search-label": "Recherche"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./vraisemblance.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Inférence basée sur la vraisemblance</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Recherche" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">MATH 60604 - Modélisation statistique</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/lbelzile/math60604/" title="Code source" class="quarto-navigation-tool px-1" aria-label="Code source"><i class="bi bi-github"></i></a>
+    <a href="./MATH60604.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Recherche"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bienvenue</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Inférence statistique</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./vraisemblance.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Inférence basée sur la vraisemblance</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bibliographie</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table des matières</h2>
+   
+  <ul>
+  <li><a href="#estimation-par-maximum-de-vraisemblance" id="toc-estimation-par-maximum-de-vraisemblance" class="nav-link active" data-scroll-target="#estimation-par-maximum-de-vraisemblance"><span class="header-section-number">3.1</span> Estimation par maximum de vraisemblance</a></li>
+  <li><a href="#loi-déchantillonage" id="toc-loi-déchantillonage" class="nav-link" data-scroll-target="#loi-déchantillonage"><span class="header-section-number">3.2</span> Loi d’échantillonage</a></li>
+  <li><a href="#testsvrais" id="toc-testsvrais" class="nav-link" data-scroll-target="#testsvrais"><span class="header-section-number">3.3</span> Tests dérivés de la vraisemblance</a></li>
+  <li><a href="#vraisemblance-profilée" id="toc-vraisemblance-profilée" class="nav-link" data-scroll-target="#vraisemblance-profilée"><span class="header-section-number">3.4</span> Vraisemblance profilée</a></li>
+  <li><a href="#critères-dinformation" id="toc-critères-dinformation" class="nav-link" data-scroll-target="#critères-dinformation"><span class="header-section-number">3.5</span> Critères d’information</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/lbelzile/math60604/edit/master/vraisemblance.qmd" class="toc-action"><i class="bi bi-github"></i>Éditer cette page</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="vraisemblance" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Inférence basée sur la vraisemblance</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Ce chapitre traite de modélisation statistique et d’inférence basée sur la vraisemblance, la méthodologie la plus populaire dans le monde de la statistique.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Objectifs d’apprentissage</strong></p>
+<ul>
+<li>Apprendre la terminologie associée à l’inférence basée sur la vraisemblance.</li>
+<li>Dériver des expressions explicites pour l’estimateur du maximum de vraisemblance de modèles simples.</li>
+<li>En utilisant l’optimisation numérique, obtenir des estimations de paramètres et leurs erreurs-type en utilisant le maximum de vraisemblance.</li>
+<li>Utiliser les propriétés de la vraisemblance pour les grands échantillons afin d’obtenir des intervalles de confiance et les propriétés des tests statistiques.</li>
+<li>Être capable d’utiliser les critères d’information pour la sélection des modèles.</li>
+</ul>
+</div>
+</div>
+<p>Un modèle statistique spécifie typiquement un mécanisme de génération de données. Nous postulons ainsi que les données ont été générées à partir d’une loi de probabilité dotée de <span class="math inline">\(p\)</span> paramètres <span class="math inline">\(\boldsymbol{\theta}.\)</span> L’espace d’échantillonnage est l’ensemble dans lequel se trouvent les <span class="math inline">\(n\)</span> observations, tandis que l’espace des paramètres <span class="math inline">\(\boldsymbol{\Theta} \subseteq \mathbb{R}^p\)</span> est l’ensemble des valeurs que peuvent prendre le vecteur de paramètres.</p>
+<p>Nous considérons un exemple pour motiver les concepts présentés ci-après. Supposons qu’on s’intéresse au temps qu’un usager doit attendre à la station Université de Montréal s’il arrive à 17h59 précise tous les jours de la semaine, juste à temps pour la prochaine rame de métro. La base de données <code>attente</code> consistent le temps en secondes avant que la prochaine rame ne quitte la station. Les données ont été collectées pendant trois mois et peuvent être traitées comme un échantillon indépendant. Le panneau gauche de <a href="#fig-attente-hist" class="quarto-xref">Figure&nbsp;<span>3.1</span></a> montre un histogramme des observations <span class="math inline">\(n=62\)</span> qui vont de <span class="math inline">\(4\)</span> à <span class="math inline">\(57\)</span> secondes. Les données sont positives, notre modèle doit donc tenir compte de cette caractéristique.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-attente-hist" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-attente-hist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="vraisemblance_files/figure-html/fig-attente-hist-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-attente-hist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.1: Histogramme du temps d’attente avec des traits indiquant les temps observés (gauche) et log-vraisemblance exponentielle, avec la valeur de l’estimation du maximum de vraisemblance en traitillé (droite).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div id="exm-modele-exponentiel" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 3.1 (Modèle exponentiel pour les temps d’attente)</strong></span> Pour modéliser les temps d’attente, on considère une loi exponentielle avec paramètre d’échelle <span class="math inline">\(\lambda\)</span> (<a href="introduction.html#def-loiexpo" class="quarto-xref">Définition&nbsp;<span>1.7</span></a>), où <span class="math inline">\(\lambda\)</span> est l’espérance (moyenne théorique). Sous un postulat d’indépendence<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, la densité conjointe des observations <span class="math inline">\(y_1, \ldots, y_n\)</span> est <span class="math display">\[\begin{align*}
+f(\boldsymbol{y}) = \prod_{i=1}^n f(y_i) =\prod_{i=1}^n  \lambda^{-1} \exp(- y_i/\lambda) = \lambda^{-n} \exp\left(- \sum_{i=1}^n y_i/\lambda\right)
+\end{align*}\]</span> L’espace d’échantillonage est <span class="math inline">\(\mathbb{R}_{+}^n = [0, \infty)^n,\)</span> et l’espace des paramètres est <span class="math inline">\((0, \infty).\)</span></p>
+</div>
+<p>Pour estimer le paramètre d’échelle <span class="math inline">\(\lambda\)</span> et obtenir des mesures d’incertitude appropriées, nous avons besoin d’un <strong>cadre de modélisation</strong>.</p>
+<section id="estimation-par-maximum-de-vraisemblance" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="estimation-par-maximum-de-vraisemblance"><span class="header-section-number">3.1</span> Estimation par maximum de vraisemblance</h2>
+<p>Pour chaque valeur du paramètre <span class="math inline">\(\boldsymbol{\theta},\)</span> on obtient une fonction de densité ou de masse pour les obserations qui varie en fonction de la compatibilité entre le modèle et les données recueillies. Cela nous permet d’obtenir une fonction objective pour l’estimation des paramètres</p>
+<div id="def-vraisemblance" class="theorem definition">
+<p><span class="theorem-title"><strong>Définition 3.1 (Vraisemblance)</strong></span> La <strong>vraisemblance</strong> <span class="math inline">\(L(\boldsymbol{\theta})\)</span> est une fonction des paramètres <span class="math inline">\(\boldsymbol{\theta}\)</span> qui donne la probabilité (ou densité) d’observer un échantillon selon une loi postulée, en traitant les observations comme fixes, <span class="math display">\[\begin{align*}
+L(\boldsymbol{\theta}; \boldsymbol{y}) = f(\boldsymbol{y}; \boldsymbol{\theta}),
+\end{align*}\]</span> où <span class="math inline">\(f(\boldsymbol{y}; \boldsymbol{\theta})\)</span> désigne la densité ou la fonction de masse conjointe du <span class="math inline">\(n\)</span>-vecteur des observations.</p>
+<p>Si ces dernières sont indépendantes, la densité conjointe se factorise en un produit de densité unidimensionnelle pour chaque observation et la vraisemblance devient alors <span class="math display">\[\begin{align*}
+L(\boldsymbol{\theta}; \boldsymbol{y})=\prod_{i=1}^n f_i(y_i; \boldsymbol{\theta}) = f_1(y_1; \boldsymbol{\theta}) \times \cdots \times f_n(y_n; \boldsymbol{\theta}).
+\end{align*}\]</span> La fonction de log-vraisemblance correspondante pour des données indépendantes et identiquement distribuées est <span class="math display">\[\begin{align*}
+\ell(\boldsymbol{\theta}; \boldsymbol{y}) = \sum_{i=1}^n \ln f(y_i; \boldsymbol{\theta})
+\end{align*}\]</span></p>
+</div>
+<div id="exm-markov" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 3.2 (Données dépendantes)</strong></span> La fonction de densité conjointe ne se factorise que pour les données indépendantes, mais une décomposition séquentielle alternative peut s’avérer utile. Par exemple, nous pouvons écrire la densité conjointe <span class="math inline">\(f(y_1, \ldots, y_n)\)</span> en utilisant la factorisation <span class="math display">\[\begin{align*}
+f(\boldsymbol{y}) = f(y_1) \times f(y_2 \mid y_1) \times \ldots f(y_n \mid y_1, \ldots, y_n)
+\end{align*}\]</span> en termes de densitées conditionnelles. Une telle décomposition est particulièrement utile pour les séries temporelles, où les données sont ordonnées du temps <span class="math inline">\(1\)</span> au temps <span class="math inline">\(n\)</span> et où les modèles relient généralement l’observation <span class="math inline">\(y_n\)</span> à son passé. Par exemple, le processus <span class="math inline">\(\mathsf{AR}(1)\)</span> stipule que <span class="math inline">\(Y_t \mid Y_{t-1}=y_{t-1} \sim \mathsf{normale}(\alpha + \beta y_{t-1}, \sigma^2)\)</span> et nous pouvons simplifier la log-vraisemblance en utilisant la propriété de Markov, qui stipule que la réalisation actuelle dépend du passé, <span class="math inline">\(Y_t \mid Y_1, \ldots, Y_{t-1},\)</span> uniquement à travers la valeur la plus récente <span class="math inline">\(Y_{t-1}\)</span>. La log-vraisemblance devient donc <span class="math display">\[\begin{align*}
+\ell(\boldsymbol{\theta}) = \ln f(y_1) + \sum_{i=2}^n f(y_i \mid y_{i-1}).
+\end{align*}\]</span></p>
+</div>
+<div id="def-emv" class="theorem definition">
+<p><span class="theorem-title"><strong>Définition 3.2 (Estimateur du maximum de vraisemblance)</strong></span> L’<strong>estimateur du maximum de vraisemblance</strong> (EMV) <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> est la valeur du vecteur qui maximise la vraisemblance, <span class="math display">\[\begin{align*}
+\widehat{\boldsymbol{\theta}} = \mathrm{arg max}_{\boldsymbol{\theta} \in \boldsymbol{\Theta}} L(\boldsymbol{\theta}; \boldsymbol{y}).
+\end{align*}\]</span> Le logarithme naturel <span class="math inline">\(\ln\)</span> est une transformation monotone, il est donc préférable de calculer les EMV sur l’échelle logarithmique pour éviter les imprécisions numériques et maximiser de manière équivalente la log-vraisemblance <span class="math inline">\(\ell(\boldsymbol{\theta}; \boldsymbol{y}) = \ln L(\boldsymbol{\theta}; \boldsymbol{y}).\)</span><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+</div>
+<p>Si nous supposons que notre modèle est correct, nous nous attendons à observer ce qui a été réalisé, et nous trouvons donc le vecteur de paramètres qui rend l’échantillon le plus susceptible d’avoir été généré par notre modèle. Plusieurs propriétés de l’estimateur du maximum de vraisemblance le rendent intéressant pour l’inférence. L’estimateur du maximum de vraisemblance est efficace, c’est-à-dire qu’il présente l’erreur quadratique moyenne asymptotique la plus faible de tous les estimateurs. L’estimateur du maximum de vraisemblance est également <strong>convergent</strong>, c’est-à-dire qu’il approche de la vraie valeur du paramètre inconnu à mesure que la taille de l’échantillon augmente (asymptotiquement sans biais).</p>
+<p>La plupart du temps, nous allons recourir à des routines d’optimisation numérique pour trouver la valeur de l’estimation du maximum de vraisemblance, ou parfois dériver des expressions explicites pour l’estimateur, à partir de la log-vraisemblance. Le panneau de droite de <a href="#fig-attente-hist" class="quarto-xref">Figure&nbsp;<span>3.1</span></a> montre la log-vraisemblance exponentielle, qui atteint un maximum à <span class="math inline">\(\widehat{\lambda}=28.935\)</span> secondes, la moyenne de l’échantillon des observations. La fonction diminue de part et d’autre de ces valeurs à mesure que les données deviennent moins compatibles avec le modèle. Compte tenu de l’échelle pour la log-vraisemblance, ici pour un petit échantillon, il est facile de voir que l’optimisation directe de la fonction de vraisemblance (plutôt que de son logarithme naturel) pourrait conduire à un débordement numérique, puisque <span class="math inline">\(\exp(-270) \approx 5.5 \times 10^{-118},\)</span> et que les valeurs logarithmiques inférieures à <span class="math inline">\(-746\)</span> seraient arrondies à zéro.</p>
+<div id="exm-exponential-mle" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 3.3 (Calcul de l’estimateur du maximum de vraisemblance d’une loi exponentielle)</strong></span> La <a href="#fig-attente-hist" class="quarto-xref">Figure&nbsp;<span>3.1</span></a> révèle que la log-vraisemblance exponentielle est unimodale. Nous pouvons utiliser le calcul différentiel pour obtenir une expression explicite pour <span class="math inline">\(\widehat{\lambda}\)</span> sur la base de la log-vraisemblance <span class="math display">\[\begin{align*}
+\ell(\lambda) = -n \ln\lambda -\frac{1}{\lambda} \sum_{i=1}^n y_i.
+\end{align*}\]</span> Si on calcule la dérivée première et que l’on fixe cette dernière à zéro, on obtient <span class="math display">\[\begin{align*}
+\frac{\mathrm{d} \ell(\lambda)}{\mathrm{d} \lambda}  = -\frac{n}{\lambda} + \frac{1}{\lambda^2} \sum_{i=1}^n y_i = 0.
+\end{align*}\]</span> En réarrangeant cette expression pour amener <span class="math inline">\(-n/\lambda\)</span> à droite de l’égalité, et en multipliant les deux côtés par <span class="math inline">\(\lambda^2&gt;0,\)</span> on obtient que le point d’inflexion se situe à <span class="math inline">\(\widehat{\lambda} = \sum_{i=1}^n y_i / n.\)</span> La dérivée deuxième de la log vraisemblance est <span class="math inline">\(\mathrm{d}^2 \ell(\lambda)/\mathrm{d} \lambda^2 = n(\lambda^{-2} - 2\lambda^{-3}\overline{y}),\)</span> et si on évalue cette dernière à <span class="math inline">\(\lambda = \overline{y}\)</span>, on trouve une valeur négative, <span class="math inline">\(-n/\overline{y}^2.\)</span> Cela confirme que <span class="math inline">\(\widehat{\lambda}\)</span> est la valeur où la fonction atteint son maximum.</p>
+</div>
+<div id="exm-emv-normal" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 3.4 (Échantillons de loi normale)</strong></span> Supposons que nous disposions de <span class="math inline">\(n\)</span> observations de loi normale de paramètres de moyenne <span class="math inline">\(\mu\)</span> et de variance <span class="math inline">\(\sigma^2\)</span>, où <span class="math inline">\(Y_i \sim \mathsf{normale}(\mu, \sigma^2)\)</span> sont indépendants. Rappelons que la densité de la loi normale est <span class="math display">\[\begin{align*}
+f(y; \mu, \sigma^2)=\frac{1}{(2\pi \sigma^2)^{1/2}}\exp\left\{-\frac{1}{2\sigma^2}(x-\mu)^2\right\}.
+\end{align*}\]</span> Pour une réalisation <span class="math inline">\(y_1, \ldots, y_n\)</span> tirée d’un échantillon aléatoire simple, la vraisemblance est <span class="math display">\[\begin{align*}
+L(\mu, \sigma^2; \boldsymbol{y})=&amp;\prod_{i=1}^n\frac{1}{({2\pi \sigma^2})^{1/2}}\exp\left\{-\frac{1}{2\sigma^2}(y_i-\mu)^2\right\}\\
+=&amp;(2\pi \sigma^2)^{-n/2}\exp\left\{-\frac{1}{2\sigma^2}\sum_{i=1}^n(y_i-\mu)^2\right\}.
+\end{align*}\]</span> et la log-vraisemblance s’écrit <span class="math display">\[\begin{align*}
+\ell(\mu, \sigma^2; \boldsymbol{y})=-\frac{n}{2}\ln(2\pi) -\frac{n}{2}\ln(\sigma^2)-\frac{1}{2\sigma^2}\sum_{i=1}^n (y_i-\mu)^2.
+\end{align*}\]</span> On peut montrer que les estimateurs du maximum de vraisemblance pour les deux paramètres sont <span class="math display">\[\begin{align*}
+\widehat{\mu}=\overline{Y}=\frac{1}{n} \sum_{i=1}^n Y_i, \qquad \widehat{\sigma}^2=\frac{1}{n}\sum_{i=1}^n (Y_i-\overline{Y})^2.
+\end{align*}\]</span></p>
+<p>Le fait que l’estimateur de la moyenne théorique <span class="math inline">\(\mu\)</span> soit la moyenne de l’échantillon est assez intuitif et on peut montrer que l’estimateur est sans biais pour <span class="math inline">\(\mu\)</span>. L’estimateur sans biais de la variance de l’échantillon est <span class="math display">\[\begin{align*}
+S^2=\frac{1}{n-1} \sum_{i=1}^n (Y_i-\overline{Y})^2.
+\end{align*}\]</span> Puisque <span class="math inline">\(\widehat{\sigma}^2=(n-1)/n S^2\)</span>, il s’ensuit que l’estimateur du maximum de vraisemblance de <span class="math inline">\(\sigma^2\)</span> est biaisé, mais les deux estimateurs sont convergents et s’approcheront donc de la vraie valeur <span class="math inline">\(\sigma^2\)</span> pour <span class="math inline">\(n\)</span> suffisamment grand.</p>
+</div>
+<div id="exm-ols-mle" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 3.5 (Ordinary least squares)</strong></span> Le cas des données normalement distribuées est intimement lié à la régression linéaire et aux moindres carrés ordinaires : en supposant la normalité des erreurs, les estimateurs des moindres carrés de <span class="math inline">\(\boldsymbol{\beta}\)</span> coïncident avec l’estimateur du maximum de vraisemblance de <span class="math inline">\(\boldsymbol{\beta}\)</span>.</p>
+<p>Le modèle de régression linéaire spécifie que <span class="math inline">\(Y_i \sim \mathsf{normale}(\mathbf{X}_i\boldsymbol{\beta}, \sigma^2)\)</span>, ou de manière équivalente <span class="math display">\[\begin{align*}
+Y_i=\beta_0+\beta_1 \mathrm{X}_{i1}+\beta_2 \mathrm{X}_{i2}+\ldots +\beta_p \mathrm{X}_{ip} + \varepsilon_i, \qquad  (i=1, \ldots, n),
+\end{align*}\]</span> avec des aléas <span class="math inline">\(\varepsilon_i \sim \mathsf{normale}(0, \sigma^2)\)</span>. Le modèle linéaire a <span class="math inline">\(p+2\)</span> paramètres (<span class="math inline">\(\boldsymbol{\beta}\)</span> et <span class="math inline">\(\sigma^2\)</span>) et la log-vraisemblance est <span class="math display">\[\begin{align*}
+\ell(\boldsymbol{\theta})&amp;=-\frac{n}{2} \ln(2\pi)-\frac{n}{2} \ln (\sigma^2) -\frac{1}{2\sigma^2}\left\{(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\right\}^2.
+\end{align*}\]</span> Maximiser la log-vraisemblance par rapport à <span class="math inline">\(\boldsymbol{\beta}\)</span> équivaut à minimiser la somme des erreurs quadratiques <span class="math inline">\(\|\boldsymbol{y} - \widehat{\boldsymbol{y}}\|^2\)</span>. Cette fonction objective étant la même que celle des moindres carrés, il s’ensuit que l’estimateur des moindres carrés <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span> pour les paramètres de la moyenne est aussi l’estimateur du maximum de vraisemblance si les aléas ont la même variance <span class="math inline">\(\sigma^2\)</span>, quelle que soit la valeur de cette dernière. L’estimateur du maximum de vraisemblance <span class="math inline">\(\widehat{\sigma}^2\)</span> est donc <span class="math display">\[\begin{align*}
+\widehat{\sigma}^2=\max_{\sigma^2} \ell(\widehat{\boldsymbol{\beta}}, \sigma^2).
+\end{align*}\]</span> La log-vraisemblance, en omettant tout terme ou constante qui n’est pas fonction de <span class="math inline">\(\sigma^2\)</span>, est <span class="math display">\[\begin{align*}
+\ell(\widehat{\boldsymbol{\beta}}, \sigma^2)
+&amp;\propto-\frac{1}{2}\left\{n\ln\sigma^2+\frac{1}{\sigma^2}(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})\right\}.
+\end{align*}\]</span> En différenciant chaque terme par rapport à <span class="math inline">\(\sigma^2\)</span> et en fixant le gradient à zéro, on obtient l’estimateur du maximum de vraisemblance <span class="math display">\[\begin{align*}
+\widehat{\sigma}^2=\frac{1}{n}(\boldsymbol{Y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{Y}-\mathbf{X}\hat{\boldsymbol{\beta}})= \frac{1}{n} \sum_{i=1}^n e_i^2= \frac{\mathsf{SS}_e}{n};
+\end{align*}\]</span> où <span class="math inline">\(\mathsf{SS}_e\)</span> est la somme des carrés des résidus. L’estimateur sans biais habituel de <span class="math inline">\(\sigma^2\)</span> calculé par le logiciel est <span class="math inline">\(S^2=\mathsf{SS}_e/(n-p-1)\)</span>, où le dénominateur est la taille de l’échantillon <span class="math inline">\(n\)</span> moins le nombre de paramètres de la moyenne <span class="math inline">\(\boldsymbol{\beta}\)</span>, soit <span class="math inline">\(p+1\)</span>.</p>
+</div>
+<div id="prp-invariance-emv" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 3.1 (Invariance des estimateurs du maximum de vraisemblance)</strong></span> Si <span class="math inline">\(g(\boldsymbol{\theta}): \mathbb{R}^p \mapsto \mathbb{R}^k\)</span> pour <span class="math inline">\(k \leq p\)</span> est une fonction des paramètres, alors <span class="math inline">\(g(\widehat{\boldsymbol{\theta}})\)</span> est l’estimateur du maximum de vraisemblance de cette fonction.</p>
+</div>
+<p>La propriété d’invariance explique l’utilisation répandue de l’estimation du maximum de vraisemblance. Par exemple, après avoir estimé le paramètre <span class="math inline">\(\lambda,\)</span> nous pouvons maintenant utiliser le modèle pour dériver d’autres quantités d’intérêt et obtenir les “meilleures” estimations gratuitement. Par exemple, nous pourrions calculer l’estimation du maximum de vraisemblance de la probabilité d’attendre plus d’une minute, <span class="math inline">\(\Pr(T&gt;60) = \exp(-60/\widehat{\lambda})= 0.126.\)</span> On peut utiliser la fonction de répartition <code>pexp</code> dans <strong>R</strong>,</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note: la paramétrisation usuelle dans R pour la loi exponentielle</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># est en terme d'intensité (réciproque du paramètre d'échelle)</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pexp</span>(<span class="at">q =</span> <span class="dv">60</span>, <span class="at">rate =</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">mean</span>(attente), <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.126</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Un autre intérêt de la propriété d’invariance est la possibilité de calculer l’EMV dans la paramétrisation la plus simple, ce qui est pratique si le support est contraint. Si <span class="math inline">\(g\)</span> est une fonction bijective de <span class="math inline">\(\boldsymbol{\theta},\)</span> par exemple si <span class="math inline">\(\theta &gt;0,\)</span> maximiser le modèle paramétré en terme de <span class="math inline">\(g(\theta) = \ln \theta\)</span> ou de <span class="math inline">\(g(\theta) = \ln(\theta) - \ln(1-\theta) \in \mathbb{R}\)</span> si <span class="math inline">\(0 \leq \theta \leq 1,\)</span> élimine les contraintes pour l’optimisation numérique.</p>
+<div id="def-information" class="theorem definition">
+<p><span class="theorem-title"><strong>Définition 3.3 (Score et information)</strong></span> Soit <span class="math inline">\(\ell(\boldsymbol{\theta}),\)</span> <span class="math inline">\(\boldsymbol{\theta} \in \boldsymbol{\Theta} \subseteq \mathbb{R}^p,\)</span> la fonction de log-vraisemblance. Le gradient (ou vecteur de dérivée première) de la log-vraisemblance <span class="math inline">\(U(\boldsymbol{\theta}) = \partial \ell(\boldsymbol{\theta}) / \partial \boldsymbol{\theta}\)</span> est appelé fonction de <strong>score</strong>.</p>
+<p>L’<strong>‘information observée** est la hessienne (matrice de dérivée deuxième) du négatif de la log-vraisemblance <span class="math display">\[\begin{align*}
+j(\boldsymbol{\theta}; \boldsymbol{y})=-\frac{\partial^2 \ell(\boldsymbol{\theta}; \boldsymbol{y})}{\partial \boldsymbol{\theta} \partial \boldsymbol{\theta}^\top}.
+\end{align*}\]</span> En pratique, on évalue cette fonction à l’estimation du maximum de vraisemblance <span class="math inline">\(\widehat{\boldsymbol{\theta}},\)</span> d’où le terme information observée pour désigner plutôt <span class="math inline">\(j(\widehat{\boldsymbol{\theta}}).\)</span> Sous des conditions de régularité, l’</strong>information de Fisher** est <span class="math display">\[\begin{align*}
+i(\boldsymbol{\theta}) = \mathsf{E}\left\{U(\boldsymbol{\theta}; \boldsymbol{Y}) U(\boldsymbol{\theta}; \boldsymbol{Y})^\top\right\} = \mathsf{E}\left\{j(\boldsymbol{\theta}; \boldsymbol{Y})\right\}
+\end{align*}\]</span> La différence est qu’on prend l’espérance de chaque fonction des observations à l’intérieur des entrées de la matrice. Quand elle évaluée au point <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span>, l’information de Fisher mesure la variance du score, ou la courbure de ce dernier. La matrice de Fisher et la matrice d’information sont toutes deux symmétriques.</p>
+</div>
+<div id="exm-exponentiel-info" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 3.6 (Information pour le modèle exponentiel)</strong></span> L’information de Fisher et observée pour un échantillon aléatoire simple du modèle exponentiel, <span class="math inline">\(Y_1, \ldots, Y_n,\)</span>, paramétré en terme d’échelle <span class="math inline">\(\lambda,\)</span> est <span class="math display">\[\begin{align*}
+j(\lambda; \boldsymbol{y}) &amp;= -\frac{\partial^2 \ell(\lambda)}{\partial \lambda^2} = \frac{n}{\lambda^{2}} + \frac{2}{n\lambda^{3}}\sum_{i=1}^n y_i \\
+i(\lambda) &amp;= \frac{n}{\lambda^{2}} + \frac{2}{n\lambda^{3}}\sum_{i=1}^n \mathsf{E}(Y_i)  = \frac{n}{\lambda^{2}}
+\end{align*}\]</span> puisque <span class="math inline">\(\mathsf{E}(Y_i) = \lambda\)</span> et que l’espérance est un opérateur linéaire. On trouve que <span class="math inline">\(i(\widehat{\lambda}) = j(\widehat{\lambda}) = n/\overline{y}^2\)</span>, mais cette égalité ne tient qu’à l’EMV.</p>
+</div>
+<p>Le modèle exponentiel peut s’avérer restrictif pour adéquatement capturer nos données, c’est pourquoi nous considérons une loi de Weibull comme généralisation.</p>
+<div id="def-weibull" class="theorem definition">
+<p><span class="theorem-title"><strong>Définition 3.4 (Loi de Weibull)</strong></span> La fonction de répartition d’une variable aléatoire de loi <strong>Weibull</strong>, de paramètres d’échelle <span class="math inline">\(\lambda&gt;0\)</span> et de forme <span class="math inline">\(\alpha&gt;0\)</span> est <span class="math display">\[\begin{align*}
+F(x; \lambda, \alpha) &amp;= 1 - \exp\left\{-(x/\lambda)^\alpha\right\}, \qquad x \geq 0, \lambda&gt;0, \alpha&gt;0,
+\end{align*}\]</span> alors que sa densité est <span class="math display">\[\begin{align*}
+f(x; \lambda, \alpha) &amp;= \frac{\alpha}{\lambda^\alpha} x^{\alpha-1}\exp\left\{-(x/\lambda)^\alpha\right\}, \qquad x \geq 0, \lambda&gt;0, \alpha&gt;0.
+\end{align*}\]</span> La fonction quantile, qui est l’inverse de la fonction de répartition, est <span class="math inline">\(Q(p) = \lambda\{-\ln(1-p)\}^{1/\alpha}.\)</span> La loi Weibull inclut la loi exponentielle comme cas spécial quand <span class="math inline">\(\alpha=1.\)</span> L’espérance de <span class="math inline">\(Y \sim \mathsf{Weibull}(\lambda, \alpha)\)</span> est <span class="math inline">\(\mathsf{E}(Y) = \lambda \Gamma(1+1/\alpha).\)</span></p>
+</div>
+<div id="exm-weibull-emv" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 3.7 (Score et information d’une loi Weibull)</strong></span> La log-vraisemblance d’un échantillon aléatoire simple de taille <span class="math inline">\(n\)</span> dont la réalisation est dénotée <span class="math inline">\(y_1, \ldots, y_n\)</span>, tirée d’une loi <span class="math inline">\(\mathsf{Weibull}(\lambda, \alpha)\)</span>, est <span class="math display">\[\begin{align*}
+\ell(\lambda, \alpha) = n \ln(\alpha) - n\alpha\ln(\lambda) + (\alpha-1) \sum_{i=1}^n \ln y_i  - \lambda^{-\alpha}\sum_{i=1}^n y_i^\alpha.
+\end{align*}\]</span> Le gradient de cette fonction est<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> <span class="math display">\[\begin{align*}
+U(\lambda, \alpha) = \begin{pmatrix}\frac{\partial \ell(\lambda, \alpha)}{\partial \lambda} \\
+\frac{\partial \ell(\lambda, \alpha)}{\partial \alpha} \end{pmatrix} &amp;=
+\begin{pmatrix}
+-\frac{n\alpha}{\lambda} +\alpha\lambda^{-\alpha-1}\sum_{i=1}^n y_i^\alpha
+\\
+\frac{n}{\alpha} - n \ln(\lambda) + \sum_{i=1}^n \ln y_i  - \sum_{i=1}^n \left(\frac{y_i}{\lambda}\right)^{\alpha} \times\ln\left(\frac{y_i}{\lambda}\right).
+\end{pmatrix}
+\end{align*}\]</span> et l’information observée est <span class="math display">\[\begin{align*}
+j(\lambda, \alpha) &amp;= - \begin{pmatrix}
+\frac{\partial^2 \ell(\lambda, \alpha)}{\partial \lambda^2} &amp;  \frac{\partial^2 \ell(\lambda, \alpha)}{\partial \lambda \partial \alpha} \\ \frac{\partial^2 \ell(\lambda, \alpha)}{\partial \alpha \partial \lambda} &amp; \frac{\partial^2 \ell(\lambda, \alpha)}{\partial \alpha^2}
+\end{pmatrix}
+\\&amp;= \begin{pmatrix}
+\lambda^{-2}\left\{-n\alpha + \alpha(\alpha+1)\sum_{i=1}^n (y_i/\lambda)^2\right\} &amp; \lambda^{-1}\sum_{i=1}^n [1-(y_i/\lambda)^\alpha\{1+\alpha\ln(y_i/\lambda)\}]\\ \lambda^{-1}\sum_{i=1}^n [1-(y_i/\lambda)^\alpha\{1+\alpha\ln(y_i/\lambda)\}]&amp; n\alpha^{-2} + \sum_{i=1}^n (y_i/\lambda)^\alpha \{\ln(y_i/\theta)\}^2
+\end{pmatrix}
+\end{align*}\]</span></p>
+</div>
+<div id="prp-gradient" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 3.2 (Optimisation basée sur le gradient)</strong></span> Pour obtenir l’estimateur du maximum de vraisemblance, nous trouverons généralement la valeur du vecteur <span class="math inline">\(\boldsymbol{\theta}\)</span> qui résout le vecteur de score, c’est-à-dire <span class="math inline">\(U(\widehat{\boldsymbol{\theta}})=\boldsymbol{0}_p.\)</span> Cela revient à résoudre simultanément un système de <span class="math inline">\(p\)</span> équations en fixant à zéro la dérivée première par rapport à chaque élément de <span class="math inline">\(\boldsymbol{\theta}\)</span>. Si <span class="math inline">\(j(\widehat{\boldsymbol{\theta}})\)</span> est une matrice définie positive (c’est-à-dire que toutes ses valeurs propres sont positives), alors le vecteur <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> maximise la fonction de log-vraisemblance et est l’estimateur du maximum de vraisemblance.</p>
+<p>Nous pouvons utiliser une variante de l’algorithme de Newton–Raphson si la vraisemblance est trois fois différentiable et si l’estimateur du maximum de vraisemblance ne se trouve pas sur la frontière de l’espace des paramètres. Si nous considérons une valeur initiale <span class="math inline">\(\boldsymbol{\theta}^{\dagger},\)</span> alors une expansion en série de Taylor du premier ordre de la vraisemblance du score dans un voisinage <span class="math inline">\(\boldsymbol{\theta}^{\dagger}\)</span> de l’EMV <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> donne <span class="math display">\[\begin{align*}
+\boldsymbol{0}_p &amp; = U(\widehat{\boldsymbol{\theta}}) \stackrel{\cdot}{\simeq} \left.
+\frac{\partial \ell(\boldsymbol{\theta})}{\partial \boldsymbol{\theta}} \right|_{\boldsymbol{\theta} = \boldsymbol{\theta}^{\dagger}} + \left.
+\frac{\partial^2 \ell(\boldsymbol{\theta})}{\partial \boldsymbol{\theta} \partial \boldsymbol{\theta}^\top}\right|_{\boldsymbol{\theta} = \boldsymbol{\theta}^{\dagger}}(\widehat{\boldsymbol{\theta}} - \boldsymbol{\theta}^{\dagger})\\&amp;=U(\boldsymbol{\theta}^{\dagger}) - j(\boldsymbol{\theta}^{\dagger})(\widehat{\boldsymbol{\theta}} - \boldsymbol{\theta}^{\dagger}).
+\end{align*}\]</span> En réarrangeant cette expression pour isoler <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> (pourvu que la matrice <span class="math inline">\(p \times p\)</span> d’information observée <span class="math inline">\(j(\widehat{\boldsymbol{\theta}})\)</span> soit inversible à l’EMV), on obtient <span class="math display">\[\begin{align*}
+\widehat{\boldsymbol{\theta}} \stackrel{\cdot}{\simeq} \boldsymbol{\theta}^{\dagger} +
+j^{-1}(\boldsymbol{\theta}^{\dagger})U(\boldsymbol{\theta}^{\dagger}).
+\end{align*}\]</span> Cela suggère l’utilisation d’une procédure itérative: à partir d’une valeur de départ <span class="math inline">\(\boldsymbol{\theta}^{\dagger}\)</span> dans le voisinage du mode, on applique le schéma de mise à jour jusqu’à ce que le gradient soit approximativement nul. Si la valeur est éloignée du mode, l’algorithme peut diverger. Pour éviter cela, nous pouvons multiplier le terme <span class="math inline">\(j^{-1}(\boldsymbol{\theta}^{\dagger})U(\boldsymbol{\theta}^{\dagger})\)</span> par un facteur d’amortissement <span class="math inline">\(c&lt;1\)</span>. Une variante de l’algorithme, appelée score de Fisher, utilise l’information de Fisher <span class="math inline">\(i(\boldsymbol{\theta})\)</span> au lieu de l’information observée, <span class="math inline">\(j(\boldsymbol{\theta}),\)</span> pour des raisons de stabilité numérique et pour éviter les situations où cette dernière n’est pas définie positive. Il s’agit de la routine d’optimisation utilisée dans la fonction <code>glm</code> de <strong>R</strong>.</p>
+</div>
+<!-- Similar quantities can be obtained via Monte Carlo methods by simulation from the model, or through analytical derivations.  -->
+<div id="exm-evm-weibull" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 3.8 (Estimateurs du maximum de vraisemblance d’un échantillon Weibull)</strong></span> Nous nous tournons vers l’optimisation numérique pour obtenir l’estimation du maximum de vraisemblance de la loi de Weibull, en l’absence formule explicite pour les EMV. À cette fin, il faut écrire une fonction qui encodent la log-vraisemblance, ici la somme des contributions de la log-densité. La fonction <code>nll_weibull</code> ci-dessous prend comme premier argument le vecteur de paramètres, <code>pars</code>, et renvoie la valeur négative de la log-vraisemblance que nous souhaitons minimiser<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. Nous codons également le gradient, bien que nous puissions recourir à la différenciation numérique. Nous utilisons ensuite <code>optim</code>, la routine d’optimisation par défaut de <strong>R</strong>, pour minimiser <code>nll_weibull</code>. La fonction renvoie une liste contenant un code de convergence (<code>0</code> indiquant la convergence), les EMV dans <code>par</code>, la log-vraisemblance <span class="math inline">\(\ell(\widehat{\boldsymbol{\theta}})\)</span> et la hessienne, qui est la matrice d’information observée évaluée à <span class="math inline">\(\widehat{\boldsymbol{\theta}}.\)</span> La surface de log-vraisemblance, pour les paires de vecteurs d’échelle et de forme <span class="math inline">\(\boldsymbol{\theta} = (\lambda, \alpha),\)</span> est représentée dans la <a href="#fig-weibull-profile" class="quarto-xref">Figure&nbsp;<span>3.3</span></a>. Nous pouvons voir que l’algorithme a convergé vers le maximum de vraisemblance et vérifier que le score satisfait <span class="math inline">\(U(\widehat{\boldsymbol{\theta}}) = 0\)</span> à la valeur optimale retournée.</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Charger les données</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(attente, <span class="at">package =</span> <span class="st">"hecstatmod"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Négatif de la log vraisemblance pour un échantillon Weibull</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>nll_weibull <span class="ot">&lt;-</span> <span class="cf">function</span>(pars, y) {</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Gérer le cas de paramètres négatifs (impossible)</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">isTRUE</span>(<span class="fu">any</span>(pars <span class="sc">&lt;=</span> <span class="dv">0</span>))) {</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fl">1e10</span>) <span class="co"># retourner une valeur large finie (pour éviter les messages d'avertissement)</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span> <span class="fu">sum</span>(<span class="fu">dweibull</span>(</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> y,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">scale =</span> pars[<span class="dv">1</span>],</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">shape =</span> pars[<span class="dv">2</span>],</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">log =</span> <span class="cn">TRUE</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Gradient du négatif de la fonction de log vraisemblance Weibull</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>gr_nll_weibull <span class="ot">&lt;-</span> <span class="cf">function</span>(pars, y) {</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  scale <span class="ot">&lt;-</span> pars[<span class="dv">1</span>]</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  shape <span class="ot">&lt;-</span> pars[<span class="dv">2</span>]</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  grad_ll <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">scale =</span> <span class="sc">-</span>n <span class="sc">*</span> shape <span class="sc">/</span> scale <span class="sc">+</span> shape <span class="sc">*</span> scale<span class="sc">^</span>(<span class="sc">-</span>shape <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">sum</span>(y<span class="sc">^</span>shape),</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">shape =</span> n <span class="sc">/</span> shape <span class="sc">-</span> n <span class="sc">*</span> <span class="fu">log</span>(scale) <span class="sc">+</span> <span class="fu">sum</span>(<span class="fu">log</span>(y)) <span class="sc">-</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>      <span class="fu">sum</span>(<span class="fu">log</span>(y <span class="sc">/</span> scale) <span class="sc">*</span> (y <span class="sc">/</span> scale)<span class="sc">^</span>shape)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="sc">-</span>grad_ll)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Utiliser les EMV du modèle exponentiel pour l'initialisation</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>valinit <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">mean</span>(attente), <span class="dv">1</span>)</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Vérifier préalablement que le gradient est correct!</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="co"># La commande retourne TRUE si la dérivée numérique égale sa version analytique à tolérance donnée</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="fu">isTRUE</span>(<span class="fu">all.equal</span>(</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  numDeriv<span class="sc">::</span><span class="fu">grad</span>(nll_weibull, <span class="at">x =</span> valinit, <span class="at">y =</span> attente),</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gr_nll_weibull</span>(<span class="at">pars =</span> valinit, <span class="at">y =</span> attente),</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">check.attributes =</span> <span class="cn">FALSE</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Optimisation numérique avec optim</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>opt_weibull <span class="ot">&lt;-</span> <span class="fu">optim</span>(</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>  <span class="at">par =</span> valinit,</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>  <span class="co"># valeurs initiales</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>  <span class="at">fn =</span> nll_weibull,</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>  <span class="co"># passer la fonction à optimiser, son premier argument doit être le vecteur de paramètres</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>  <span class="at">gr =</span> gr_nll_weibull,</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>  <span class="co"># gradient (optionnel)</span></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"BFGS"</span>,</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>  <span class="co"># algorithme BFGS est basé sur le gradient, une alternative robuste est"Nelder"</span></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> attente,</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>  <span class="co"># vecteur d'observations passées en argument additionnel à "fn"</span></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>  <span class="at">hessian =</span> <span class="cn">TRUE</span> <span class="co"># retourner la matrice de dérivée secondes évaluée aux EMV</span></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>) </span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternative avec un Newton</span></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a><span class="co"># nlm(f = nll_weibull, p = valinit, hessian = TRUE, y = attente)</span></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimations du maximum de vraisemblance</span></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>(mle_weibull <span class="ot">&lt;-</span> opt_weibull<span class="sc">$</span>par)</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 32.6  2.6</span></span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a><span class="co"># Vérifier la convergence numérique à l'aide du gradient</span></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a><span class="fu">gr_nll_weibull</span>(mle_weibull, <span class="at">y =</span> attente)</span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     scale     shape </span></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.0000142 0.0001136</span></span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a><span class="co"># Vérifier que la hessienne est positive définite</span></span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a><span class="co"># Toutes les valeurs propres sont positives</span></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Si oui, on a trouvé un maximum et la matrice est invertible</span></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a><span class="fu">isTRUE</span>(<span class="fu">all</span>(<span class="fu">eigen</span>(opt_weibull<span class="sc">$</span>hessian)<span class="sc">$</span>values <span class="sc">&gt;</span> <span class="dv">0</span>))</span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+</section>
+<section id="loi-déchantillonage" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="loi-déchantillonage"><span class="header-section-number">3.2</span> Loi d’échantillonage</h2>
+<p>La <strong>loi d’échantillonnage</strong> d’un estimateur <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> est la loi de probabilité induite par les données aléatoires sous-jacentes.</p>
+<p>Supposons que nous disposons d’un échantillon aléatoire simple, de sorte que la log-vraisemblance est constitutée d’une somme de <span class="math inline">\(n\)</span> termes et que l’information s’accumule linéairement avec la taille de l’échantillon. Nous dénotons la vraie valeur du vecteur de paramètres inconnu <span class="math inline">\(\boldsymbol{\theta}_0.\)</span> Sous des conditions de régularité appropriées, cf.&nbsp;section 4.4.2 de <span class="citation" data-cites="Davison:2003">Davison (<a href="references.html#ref-Davison:2003" role="doc-biblioref">2003</a>)</span>, pour un échantillon de grande taille <span class="math inline">\(n,\)</span> nous pouvons effectuer une série de Taylor du score et appliquer le théorème de la limite centrale à la moyenne résultante puisque <span class="math inline">\(U(\boldsymbol{\theta})\)</span> et <span class="math inline">\(i(\boldsymbol{\theta})\)</span> sont la somme de <span class="math inline">\(n\)</span> variables aléatoires indépendantes, et que <span class="math inline">\(\mathsf{E}\{U(\boldsymbol{\theta})\}=\boldsymbol{0}_p,\)</span> et <span class="math inline">\(\mathsf{Var}\{U(\boldsymbol{\theta})\}=i(\boldsymbol{\theta}),\)</span> l’application du théorème de la limite centrale et de la loi des grands nombres donne <span class="math display">\[\begin{align*}
+i(\boldsymbol{\theta}_0)^{-1/2}U(\boldsymbol{\theta}_0) \stackrel{\cdot}{\sim}\mathsf{normale}_p(\boldsymbol{0}, \mathbf{I}_p).
+\end{align*}\]</span> <!-- Quantities such as $i(\widehat{\boldsymbol{\theta}})^{-1/2}U(\widehat{\boldsymbol{\theta}})$ are termed **pivots**, because their sampling loi does not depend on unknown parameters. --></p>
+<p>On peut utiliser ce résultat pour obtenir une approximation à la loi d’échantillonage des estimateurs du maximum de vraisemblance de <span class="math inline">\(\widehat{\boldsymbol{\theta}},\)</span> <span class="math display">\[\begin{align*}
+\widehat{\boldsymbol{\theta}} \stackrel{\cdot}{\sim} \mathsf{normale}_p\{\boldsymbol{\theta}_0, i^{-1}(\boldsymbol{\theta})\}
+\end{align*}\]</span> ou la matrice de covariance est l’inverse de l’information de Fisher. En pratique, puisque la valeur des paramètres <span class="math inline">\(\boldsymbol{\theta}_0\)</span> est inconnue, on remplace la covariance soit par <span class="math inline">\(i^{-1}(\widehat{\boldsymbol{\theta}})\)</span> ou par l’inverse de l’information observée, <span class="math inline">\(j^{-1}(\widehat{\boldsymbol{\theta}}).\)</span> Cela est justifié par le fait que les deux matrices d’informations <span class="math inline">\(i(\widehat{\boldsymbol{\theta}})\)</span> et <span class="math inline">\(j(\widehat{\boldsymbol{\theta}})\)</span> convergent vers <span class="math inline">\(i(\boldsymbol{\theta})\)</span> quand <span class="math inline">\(n \to \infty\)</span>.</p>
+<p>Au fur et à mesure que la taille de l’échantillon augmente, l’estimateur du maximum de vraisemblance <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> devient centré autour de la valeur <span class="math inline">\(\boldsymbol{\theta}_0\)</span> qui minimise l’écart entre le modèle et le véritable processus de génération des données. Dans les grands échantillons, la loi d’échantillonnage de l’estimateur du maximum de vraisemblance est approximativement quadratique.</p>
+<!--
+
+ and also for the log likelihood ratio 
+\begin{align*}
+R(\boldsymbol{\theta}_0)=2\{\ell(\widehat{\boldsymbol{\theta}}) - \ell(\boldsymbol{\theta}_0)\}
+\end{align*}
+where $R(\boldsymbol{\theta}_0) \stackrel{\cdot}{\sim} \chi^2_p.$
+
+-->
+<div id="exm-Weibull-se" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 3.9 (Matrice de covariance et erreurs-type pour le modèle de Weibull)</strong></span> Nous utilisons la sortie de notre procédure d’optimisation pour obtenir la matrice d’information observée et les erreurs-type pour les paramètres du modèle de Weibull. Ces dernières sont simplement la racine carrée des entrées diagonales de l’information observée évaluée aux EMV, <span class="math inline">\([\mathrm{diag}\{j^{-1}(\widehat{\boldsymbol{\theta}})\}]^{1/2}\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># La hessienne du négatif de la log vraisemblance, évaluée aux EMV</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># est la matrice d'information observée</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>obsinfo_weibull <span class="ot">&lt;-</span> opt_weibull<span class="sc">$</span>hessian</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>vmat_weibull <span class="ot">&lt;-</span> <span class="fu">solve</span>(obsinfo_weibull)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Erreurs-type</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>se_weibull <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(vmat_weibull))</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>Une fois que l’on a les estimations du maximum de vraisemblance et les erreurs-type, on peut dériver des intervalles de confiance ponctuels de Wald pour les paramètres de <span class="math inline">\(\boldsymbol{\theta}.\)</span> Si la quantité d’intérêt est une transformation des paramètres du modèle, on peut utiliser le résultat suivant pour procéder.</p>
+<div id="prp-transformation" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 3.3 (Normalité asymptotique et transformations)</strong></span> Le résultat de normalité asymptotique peut être utilisé pour dériver les erreurs standard pour d’autres quantités d’intérêt. Si <span class="math inline">\(\phi = g(\boldsymbol{\theta})\)</span> est une fonction différentiable de <span class="math inline">\(\boldsymbol{\theta}\)</span> dont le gradient est non-nul lorsque évalué à <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span>, alors <span class="math inline">\(\widehat{\phi} \stackrel{\cdot}{\sim}\mathsf{normale}(\phi_0, \mathrm{V}_\phi),\)</span> with <span class="math inline">\(\mathrm{V}_\phi = \nabla \phi^\top \mathbf{V}_{\boldsymbol{\theta}} \nabla \phi,\)</span> où <span class="math inline">\(\nabla \phi=[\partial \phi/\partial \theta_1, \ldots, \partial \phi/\partial \theta_p]^\top.\)</span> La matrice de covariance et le gradient sont évalués aux estimations du maximum de vraisemblance <span class="math inline">\(\widehat{\boldsymbol{\theta}}.\)</span> Ce résultat se généralise aux fonctions vectorielles <span class="math inline">\(\boldsymbol{\phi} \in \mathbb{R}^k\)</span> pour <span class="math inline">\(k \leq p,\)</span> où <span class="math inline">\(\nabla \phi\)</span> est la jacobienne de la transformation.</p>
+</div>
+<div id="exm-transformation-exp" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 3.10 (Probabilité d’attente pour un modèle exponentiel.)</strong></span> Considérons les données sur le temps d’attente dans le métro et la probabilité d’attendre plus d’une minute, <span class="math inline">\(\phi=g(\lambda) = \exp(-60/\lambda).\)</span> L’estimation du maximum de vraisemblance est, par invariance, <span class="math inline">\(0.126\)</span> et le gradient de <span class="math inline">\(g\)</span> par rapport au paramètre d’échelle est <span class="math inline">\(\nabla \phi = \partial \phi / \partial \lambda = 60\exp(-60/\lambda)/\lambda^2.\)</span></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemple de dérivation des erreurs-type pour une</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># transformation des paramètres</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Ici, on calcule Pr(Y&gt;60) selon le modèle exponentiel</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>lambda_hat <span class="ot">&lt;-</span> <span class="fu">mean</span>(attente)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Définir la fonction d'intérêt</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>phi_hat <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="dv">60</span> <span class="sc">/</span> lambda_hat)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># jacobien de la transformation</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>dphi <span class="ot">&lt;-</span> <span class="cf">function</span>(lambda) {</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="dv">60</span> <span class="sc">*</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="dv">60</span> <span class="sc">/</span> lambda) <span class="sc">/</span> (lambda<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># variance du paramètre exponentiel</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>V_lambda <span class="ot">&lt;-</span> lambda_hat<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">length</span>(attente)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># variance de Pr(Y&gt;60) via la méthode delta</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>V_phi <span class="ot">&lt;-</span> <span class="fu">dphi</span>(lambda_hat)<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> V_lambda</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co"># extraire et imprimer les erreurs-type</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>(se_phi <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(V_phi))</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.0331</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="testsvrais" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="testsvrais"><span class="header-section-number">3.3</span> Tests dérivés de la vraisemblance</h2>
+<p>Nous considérons une hypothèse nulle <span class="math inline">\(\mathscr{H}_0\)</span> qui impose des restrictions sur les valeurs possibles de <span class="math inline">\(\boldsymbol{\theta}\)</span>, par rapport à une alternative sans contrainte <span class="math inline">\(\mathscr{H}_1.\)</span> Nous avons besoin de deux modèles <strong>emboîtés</strong> : un modèle <em>complet</em> et un modèle <em>réduit</em>, pour lequel l’espace des paramèteres est un sous-ensemble du modèle complet suite à l’imposition des <span class="math inline">\(q\)</span> restrictions. Par exemple, la loi exponentielle est un cas particulier de la loi de Weibull si <span class="math inline">\(\alpha=1\)</span>.</p>
+<p>L’hypothèse nulle <span class="math inline">\(\mathscr{H}_0\)</span> testée est “le modèle réduit est une <strong>simplification adéquate</strong> du modèle complet”. Soit <span class="math inline">\(\widehat{\boldsymbol{\theta}}_0\)</span> les EMV contraints pour le modèle sous l’hypothèse nulle, et <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> les EMV du modèle complet. La vraisemblance fournit trois classes principales de statistiques pour tester cette hypothèse, soit</p>
+<ul>
+<li>les statistiques des tests du rapport de vraisemblance, notées <span class="math inline">\(R,\)</span> qui mesurent la différence de log vraisemblance (distance verticale) entre <span class="math inline">\(\ell(\widehat{\boldsymbol{\theta}})\)</span> et <span class="math inline">\(\ell(\widehat{\boldsymbol{\theta}}_0).\)</span></li>
+<li>les statistiques des tests de Wald, notées <span class="math inline">\(W,\)</span> qui considèrent la distance horizontale normalisée entre <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> et <span class="math inline">\(\widehat{\boldsymbol{\theta}}_0.\)</span></li>
+<li>les statistiques des tests de score de Rao, notées <span class="math inline">\(S,\)</span> qui examinent le gradient repondéré de <span class="math inline">\(\ell,\)</span> évaluée <em>uniquement</em> à <span class="math inline">\(\widehat{\boldsymbol{\theta}}_0\)</span>.</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-courbe-logvraise" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-courbe-logvraise-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/likelihood_tests_fr.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-courbe-logvraise-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.2: Fonction de log vraisemblance et illustrations des éléments des statistique du score, de Wald et du rapport de vraisemblance.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Les trois principales classes de statistiques permettant de tester une hypothèse nulle simple <span class="math inline">\(\mathscr{H}_0 : \boldsymbol{\theta}=\boldsymbol{\theta}_0\)</span> par rapport à l’hypothèse alternative <span class="math inline">\(\mathscr{H}_a : \boldsymbol{\theta} \neq \boldsymbol{\theta}_0\)</span> sont <span class="math display">\[\begin{align*}
+W(\boldsymbol{\theta}_0) &amp;= (\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)^\top j(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0), &amp;&amp;(\text{Wald}) \\
+R(\boldsymbol{\theta}_0) &amp;= 2 \left\{ \ell(\widehat{\boldsymbol{\theta}})-\ell(\boldsymbol{\theta}_0)\right\}, &amp;&amp;(\text{rapport de vraisemblance})\\
+S(\boldsymbol{\theta}_0) &amp;= U^\top(\boldsymbol{\theta}_0)i^{-1}(\boldsymbol{\theta}_0)U(\boldsymbol{\theta}_0), &amp;&amp; (\text{score})
+\end{align*}\]</span> où <span class="math inline">\(\boldsymbol{\theta}_0\)</span> est la valeur nulle postulée du paramètre avec <span class="math inline">\(q\)</span> restrictions. Si <span class="math inline">\(q \neq p\)</span>, alors on remplace <span class="math inline">\(\boldsymbol{\theta}_0\)</span> par l’estimation contrainte <span class="math inline">\(\widehat{\boldsymbol{\theta}}_0\)</span>.</p>
+<p>Asymptotiquement, toutes les statistiques de test sont équivalentes (dans le sens où elles conduisent aux mêmes conclusions sur <span class="math inline">\(\mathscr{H}_0\)</span>), mais elles ne sont pas identiques. Sous <span class="math inline">\(\mathscr{H}_0\)</span>, les trois statistiques de test suivent une loi asymptotique <span class="math inline">\(\chi^2_q\)</span>, où les degrés de liberté <span class="math inline">\(q\)</span> indiquent le nombre de restrictions.</p>
+<p>Si <span class="math inline">\(\theta\)</span> est un scalaire (cas <span class="math inline">\(q=1\)</span>), des versions directionnelles de ces statistiques existent, <span class="math display">\[\begin{align*}
+w(\theta_0)&amp;=(\widehat{\theta}-\theta_0)/\mathsf{se}(\widehat{\theta}) &amp;&amp;(\text{Wald}) \\
+r({\theta_0}) &amp;= \mathrm{sign}(\widehat{\theta}-\theta)\left[2
+\left\{\ell(\widehat{\theta})-\ell(\theta)\right\}\right]^{1/2} &amp;&amp;(\text{racine directionnelle de vraisemblance}) \\
+s(\theta_0)&amp;=i^{-1/2}(\theta_0)U(\theta_0) &amp;&amp;(\text{score})
+\end{align*}\]</span></p>
+<p>Sous cette forme, si l’hypothèse nulle <span class="math inline">\(\mathscr{H}_0: \theta = \theta_0\)</span> est vraie, alors <span class="math inline">\(w(\theta_0)\stackrel{\cdot}{\sim} \mathsf{normale}(0,1)\)</span>, etc.</p>
+<p>La statistique du test du rapport de vraisemblance est normalement la plus puissante des trois tests (et donc préférable selon ce critère); la statistique est aussi invariante aux reparamétrages. La statistique de score <span class="math inline">\(S\)</span>, moins utilisée, nécessite le calcul du score et de l’information de Fisher, mais n’est évaluée que sous <span class="math inline">\(\mathscr{H}_0\)</span> (car par définition <span class="math inline">\(U(\widehat{\theta})=0\)</span>), elle peut donc être utile dans les problèmes où les calculs de l’estimateur du maximum de vraisemblance sous l’alternative sont coûteux ou impossibles. Le test de Wald est le plus facile à dériver, mais son taux de couverture empirique peut laisser à désirer si la loi d’échantillonnage de <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> est fortement asymétrique.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-weibull-profile" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-weibull-profile-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="vraisemblance_files/figure-html/fig-weibull-profile-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-weibull-profile-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.3: Log-vraisemblance profilée pour <span class="math inline">\(\alpha\)</span>, représentée par un trait gris traitillé (gauche) et par une coupe transversale (droite). Le panneau de gauche montre la surface de log-vraisemblance pour le modèle de Weibull avec des régions de confiance de 10%, 20%, , 90% du rapport de vraisemblance (courbes de contour blanches). Les valeurs de log vraisemblance les plus élevées sont indiquées par des couleurs plus foncées, et la valeur des estimations du maximum de vraisemblance par une croix. La vraisemblance profilée du panneau de droite a été décalée verticalement pour que sa valeur maximale soit zéro; les lignes horizontales traitillées indiquent les valeurs pour les intervalles de confiance à 95% et 99%.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>La statistique de Wald <span class="math inline">\(W\)</span> est la plus courante. Les intervalles de confiance bilatéraux de niveau <span class="math inline">\((1-\alpha)\)</span> de Wald pour les paramètres de <span class="math inline">\(\boldsymbol{\theta}\)</span>, où pour <span class="math inline">\(\theta_j\)</span> <span class="math inline">\((j=1, \ldots, p)\)</span>, <span class="math display">\[\begin{align*}
+\widehat{\theta}_j \pm \mathfrak{z}_{1-\alpha/2}\mathrm{se}(\widehat{\theta}_j),
+\end{align*}\]</span> avec <span class="math inline">\(\mathfrak{z}_{1-\alpha/2}\)</span> le quantile <span class="math inline">\(1-\alpha/2\)</span> d’une loi normale standard. Pour un intervalle à 95%, le <span class="math inline">\(0.975\)</span> quantile vaut <span class="math inline">\(\mathfrak{z}_{0.975}=1.96.\)</span> Les intervalles de confiance de Wald bilatéraux sont, par construction, symmétriques. Parfois, cela donne des valeurs impossibles (par exemple, une variance négative).</p>
+<div id="exm-weibull-exponentiel-sousmodele" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 3.11 (Test de Wald pour comparer les modèles Weibull et exponentiel)</strong></span> Nous pouvons tester si la loi exponentielle est une simplification adéquate de la loi de Weibull en imposant la restriction <span class="math inline">\(\mathscr{H}_0: \alpha=1\)</span>. Nous comparons les statistiques de Wald <span class="math inline">\(W\)</span> à un <span class="math inline">\(\chi^2_1\)</span>. Puisque <span class="math inline">\(\alpha\)</span> est un paramètre de la loi Weibull, nous avons les erreurs-type gratuitement.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculer la statistique de Wald</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>wald_exp <span class="ot">&lt;-</span> (mle_weibull[<span class="dv">2</span>] <span class="sc">-</span> <span class="dv">1</span>)<span class="sc">/</span>se_weibull[<span class="dv">2</span>]</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculer la valeur-p</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">pchisq</span>(wald_exp<span class="sc">^</span><span class="dv">2</span>, <span class="at">df =</span> <span class="dv">1</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3.61e-10</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># valeur-p inférieure à 5%, rejet de l'hypothèse nulle</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Intervalles de confiance de niveau 95%</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>mle_weibull[<span class="dv">2</span>] <span class="sc">+</span> <span class="fu">qnorm</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))<span class="sc">*</span>se_weibull[<span class="dv">2</span>]</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2.1 3.1</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># La valeur 1 n'appartient pas à l'intervalle, rejeter H0</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Nous rejetons l’hypothèse nulle, ce qui signifie que le sous-modèle exponentiel n’est pas une simplification adéquate du modèle de Weibull <span class="math inline">\((\alpha \neq 1\)</span>).</p>
+<p>Nous pouvons également vérifier l’ajustement des deux modèles à l’aide d’un diagramme quantile-quantile (cf. <a href="introduction.html#def-diagramme-qq" class="quarto-xref">Définition&nbsp;<span>1.13</span></a>). Il ressort de <a href="#fig-qqplots-weibull-exp" class="quarto-xref">Figure&nbsp;<span>3.4</span></a> que le modèle exponentiel surestime les temps d’attente les plus importants, dont la dispersion dans l’échantillon est inférieure à celle impliquée par le modèle. En revanche, la ligne droite presque parfaite pour le modèle de Weibull dans le panneau de droite de <a href="#fig-qqplots-weibull-exp" class="quarto-xref">Figure&nbsp;<span>3.4</span></a> suggère que l’ajustement du modèle est adéquat.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-qqplots-weibull-exp" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-qqplots-weibull-exp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="vraisemblance_files/figure-html/fig-qqplots-weibull-exp-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-qqplots-weibull-exp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.4: Diagrammes quantile-quantile des modèles exponentiel (gauche) et Weibull (droite) avec intervalles de confiance ponctuels à 95% obtenus par autoamorçage.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="rem-invariance-wald-intervalle" class="proof remark">
+<p><span class="proof-title"><em>Remarque 3.1</em> (Absence d’invariance des intervalles de confiance de Wald). </span>Puisque les erreurs-types de paramètres dépendent de la paramétrisation, les intervalles de confiance de Wald ne sont pas invariants à ces transformations. Par exemple, si on veut des intervalles de confiance pour une fonction <span class="math inline">\(g(\boldsymbol{\theta})\)</span> qui n’est pas linéaire, alors en général. <span class="math inline">\(\mathsf{IC}_{W}\{g(\theta)\} \neq g\{\mathsf{IC}_{W}(\theta)\}.\)</span></p>
+<p>Par exemple, considérons le modèle exponentiel. Nous pouvons inverser la statistique du test de Wald pour obtenir un intervalle de confiance symétrique à 95% pour <span class="math inline">\(\phi = g(\lambda) = \exp(-60/\lambda),\)</span> $ [0.061,$ <span class="math inline">\(0.191].\)</span> Si nous devions naïvement transformer l’intervalle de confiance pour <span class="math inline">\(\lambda\)</span> en un pour <span class="math inline">\(\phi\)</span> en appliquant la fonction <span class="math inline">\(g(\cdot)\)</span> à chaque borne, nous obtiendrions plutôt <span class="math inline">\([0.063,\)</span> <span class="math inline">\(0.19],\)</span> Bien que la différence soit minime ici, cela met en évidence l’invariance. L’approximation gaussienne qui sous-tend le test de Wald est fiable si la loi d’échantillonnage de la vraisemblance est presque quadratique, ce qui se produit lorsque la fonction de vraisemblance est à peu près symétrique de part et d’autre de l’estimateur du maximum de vraisemblance.</p>
+</div>
+<p>Le test du rapport de vraisemblance est invariant par rapport aux reparamétrages préservant les intérêts, de sorte que la statistique de test pour <span class="math inline">\(\mathscr{H}_0: \phi=\phi_0\)</span> et <span class="math inline">\(\mathscr{H}_0: \lambda = -60/\ln(\phi_0)\)</span> est la même. Les intervalles de confiance de Wald peuvent être comparées à celles (meilleures) obtenues à l’aide du test du rapport de vraisemblance. Ces dernières sont obtenues par une recherche numérique des limites de <span class="math display">\[\begin{align*}
+\left\{\theta: 2\{\ell(\widehat{\boldsymbol{\theta}}) - \ell(\boldsymbol{\theta})\} \leq \chi^2_p(1-\alpha)\right\},
+\end{align*}\]</span> où <span class="math inline">\(\chi^2_p(1-\alpha)\)</span> est le quantile de niveau <span class="math inline">\((1-\alpha)\)</span> de la loi <span class="math inline">\(\chi^2_p\)</span>. De tels intervalles, pour <span class="math inline">\(\alpha = 0.1, \ldots, 0.9\)</span>, sont tracés sur la <a href="#fig-weibull-profile" class="quarto-xref">Figure&nbsp;<span>3.3</span></a> (courbes de contour). Si <span class="math inline">\(\boldsymbol{\theta}\)</span> est un <span class="math inline">\(p\)</span>-vecteur <span class="math inline">\((p&gt; 1)\)</span>, alors les intervalles de confiance pour <span class="math inline">\(\theta_i\)</span> sont dérivés à partir de la vraisemblance profilée. Les intervalles de confiance basés sur la statistique du rapport de vraisemblance sont <strong>invariants aux reparamétrages</strong>, donc <span class="math inline">\(\mathsf{IC}_{R}\{g(\theta)\} = g\{\mathsf{IC}_{R}(\theta)\}.\)</span> Comme la vraisemblance est nulle si la valeur d’un paramètre se situe en dehors de l’espace des paramètres <span class="math inline">\(\boldsymbol{\Theta}\)</span>, les intervalles n’incluent que les valeurs plausibles de <span class="math inline">\(\theta.\)</span> En général, les intervalles sont asymétriques et présentent de meilleures taux de couverture.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Log vraisemblance exponentielle</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>ll_exp <span class="ot">&lt;-</span> <span class="cf">function</span>(lambda) {</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(<span class="fu">dexp</span>(attente, <span class="at">rate =</span> <span class="dv">1</span> <span class="sc">/</span> lambda, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># EMV du paramètre d'échelle</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>lambda_hat <span class="ot">&lt;-</span> <span class="fu">mean</span>(attente)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Recherche des zéros de la fonction pour obtenir</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># les limites des intervalles de confiance</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>lrt_lb <span class="ot">&lt;-</span> <span class="fu">uniroot</span>(</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># borne inférieure, en utilisant l'EMV</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">f =</span> <span class="cf">function</span>(r) {</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="dv">2</span> <span class="sc">*</span> (<span class="fu">ll_exp</span>(lambda_hat) <span class="sc">-</span> <span class="fu">ll_exp</span>(r)) <span class="sc">-</span> <span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="dv">1</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">interval =</span> <span class="fu">c</span>(<span class="fl">0.5</span> <span class="sc">*</span> <span class="fu">min</span>(attente), lambda_hat)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>)<span class="sc">$</span>root</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>lrt_ub <span class="ot">&lt;-</span> <span class="fu">uniroot</span>(</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># borne supérieure</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">f =</span> <span class="cf">function</span>(r) {</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="dv">2</span> <span class="sc">*</span> (<span class="fu">ll_exp</span>(lambda_hat) <span class="sc">-</span> <span class="fu">ll_exp</span>(r)) <span class="sc">-</span> <span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="dv">1</span>)</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">interval =</span> <span class="fu">c</span>(lambda_hat, <span class="dv">2</span> <span class="sc">*</span> <span class="fu">max</span>(attente))</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>)<span class="sc">$</span>root</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>L’intervalle de confiance à 95% de la statistique du rapport de vraisemblance pour <span class="math inline">\(\lambda\)</span> peut être trouvé en utilisant un algorithme de recherche linéaire: l’intervalle de confiance à 95% pour <span class="math inline">\(\lambda\)</span> est <span class="math inline">\(\mathsf{IC}_R(\lambda)[22.784,37.515].\)</span> Par invariance, l’intervalle de confiance à 95% pour <span class="math inline">\(\phi\)</span> est <span class="math inline">\(\mathsf{IC}_R(\phi) = [0.072, 0.202] = g\{\mathsf{IC}_R(\lambda)\}.\)</span></p>
+</section>
+<section id="vraisemblance-profilée" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="vraisemblance-profilée"><span class="header-section-number">3.4</span> Vraisemblance profilée</h2>
+<p>Parfois, nous pouvons vouloir effectuer des tests d’hypothèse ou dériver des intervalles de confiance pour un sous-ensemble spécifique des paramètres du modèle, ou une transformation de ces derniers. Dans ce cas, l’hypothèse nulle ne restreint qu’une partie de l’espace et les autres paramètres, dits de nuisance, ne sont pas spécifiés — la question est alors de savoir quelles valeurs utiliser pour la comparaison avec le modèle complet. Il s’avère que les valeurs qui maximisent la log-vraisemblance contrainte sont celles que l’on doit utiliser pour le test, et la fonction particulière dans laquelle ces paramètres de nuisance sont intégrés est appelée vraisemblance profilée.</p>
+<!-- The score vector, the information matrix and its inverse are partitioned accordingly as -->
+<!-- \begin{align*} -->
+<!-- U(\boldsymbol{\theta})=\ell_{\boldsymbol{\theta}} = \begin{pmatrix} -->
+<!-- \ell_{\boldsymbol{\psi}} \\ \ell_{\boldsymbol{\lambda}} -->
+<!-- \end{pmatrix}, \qquad  -->
+<!-- i(\boldsymbol{\theta}) = \begin{pmatrix} -->
+<!-- i_{\boldsymbol{\psi\psi}} & i_{\boldsymbol{\psi\lambda}}\\ -->
+<!-- i_{\boldsymbol{\lambda\psi}} & i_{\boldsymbol{\lambda\lambda}}\\ -->
+<!-- \end{pmatrix}, \qquad  -->
+<!-- i^{-1}(\boldsymbol{\theta}) = \begin{pmatrix} -->
+<!-- i^{\boldsymbol{\psi\psi}} & i^{\boldsymbol{\psi\lambda}}\\ -->
+<!-- i^{\boldsymbol{\lambda\psi}} & i^{\boldsymbol{\lambda\lambda}}\\ -->
+<!-- \end{pmatrix}.       -->
+<!-- \end{align*} -->
+<div id="def-logvraisemblance" class="theorem definition">
+<p><span class="theorem-title"><strong>Définition 3.5 (Log-vraisemblance profilée)</strong></span> Soit un modèle paramétrique avec log-vraisemblance <span class="math inline">\(\ell(\boldsymbol{\theta})\)</span>, dont le vecteur de paramètres de dimension <span class="math inline">\(p\)</span> <span class="math inline">\(\boldsymbol{\theta}=(\boldsymbol{\psi}, \boldsymbol{\varphi})\)</span> peut être séparé en un sous-vecteur de longueur <span class="math inline">\(q\)</span> contenant les paramètres d’intérêts, disons <span class="math inline">\(\boldsymbol{\psi}\)</span> et un sous-vecteur de longueur <span class="math inline">\((p-q)\)</span> contenant les paramètres de nuisance <span class="math inline">\(\boldsymbol{\varphi}.\)</span></p>
+<p>La log-vraisemblance profilée <span class="math inline">\(\ell_{\mathsf{p}}\)</span> est une fonction de <span class="math inline">\(\boldsymbol{\psi}\)</span> qui est obtenue en maximisant la log-vraisemblance ponctuellement à chaque valeur fixe <span class="math inline">\(\boldsymbol{\psi}_0\)</span> sur le vecteur de nuisance <span class="math inline">\(\boldsymbol{\varphi}_{\psi_0},\)</span> <span class="math display">\[\begin{align*}
+\ell_{\mathsf{p}}(\boldsymbol{\psi})=\max_{\boldsymbol{\varphi}}\ell(\boldsymbol{\psi}, \boldsymbol{\varphi})=\ell(\boldsymbol{\psi}, \widehat{\boldsymbol{\varphi}}_{\boldsymbol{\psi}}).
+\end{align*}\]</span></p>
+</div>
+<div id="exm-profile-alpha-weibull" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 3.12 (Log-vraisemblance profilée pour le paramètre de forme d’une loi Weibull)</strong></span> Considérons le paramètre de forme <span class="math inline">\(\psi \equiv\alpha\)</span> comme paramètre d’intérêt, et le paramètre d’échelle <span class="math inline">\(\varphi\equiv\lambda\)</span> comme paramètre de nuisance. En utilisant le gradient dérivé dans l’<a href="#exm-weibull-emv" class="quarto-xref">Exemple&nbsp;<span>3.7</span></a>, nous constatons que la valeur de l’échelle qui maximise la log-vraisemblance pour un <span class="math inline">\(\alpha\)</span> donné est <span class="math display">\[\begin{align*}
+\widehat{\lambda}_\alpha = \left( \frac{1}{n}\sum_{i=1}^n y_i^\alpha\right)^{1/\alpha}.
+\end{align*}\]</span> Si on substitue cette valeur dans la log-vraisemblance, on obtient une fonction de <span class="math inline">\(\alpha\)</span> uniquement, ce qui réduit également le problème d’optimisation pour les EMV d’une loi Weibull à une recherche linéaire le long de <span class="math inline">\(\ell_{\mathsf{p}}(\alpha)\)</span>. Le panneau de gauche de <a href="#fig-weibull-profile" class="quarto-xref">Figure&nbsp;<span>3.3</span></a> montre la crête le long de la direction de <span class="math inline">\(\alpha\)</span> correspondant à la surface de log-vraisemblance. Si l’on considère ces courbes de niveau comme celles d’une carte topographique, la log-vraisemblance profilée correspond dans ce cas à une marche le long de la crête des deux montagnes dans la direction <span class="math inline">\(\psi\)</span>, le panneau de droite montrant le gain/la perte d’altitude. Le profil d’élévation correspondant à droite de <a href="#fig-weibull-profile" class="quarto-xref">Figure&nbsp;<span>3.3</span></a> avec les points de coupure pour les intervalles de confiance basés sur le rapport de vraisemblance&lt;. Nous devrions obtenir numériquement, à l’aide d’un algorithme de recherche lin/aire, les limites de l’intervalle de confiance de part et d’autre de <span class="math inline">\(\widehat{\alpha}\)</span>, mais il est clair que <span class="math inline">\(\alpha=1\)</span> n’est pas dans l’intervalle de 99%.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># EMV conditionnels de lambda pour alpha donné</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>lambda_alpha <span class="ot">&lt;-</span> <span class="cf">function</span>(alpha, <span class="at">y =</span> attente) {</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  (<span class="fu">mean</span>(y<span class="sc">^</span>alpha))<span class="sc">^</span>(<span class="dv">1</span> <span class="sc">/</span> alpha)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Log vraisemblance profilée pour alpha</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>prof_alpha_weibull <span class="ot">&lt;-</span> <span class="cf">function</span>(par, <span class="at">y =</span> attente) {</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sapply</span>(par, <span class="cf">function</span>(a) {</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">nll_weibull</span>(<span class="at">pars =</span> <span class="fu">c</span>(<span class="fu">lambda_alpha</span>(a), a), <span class="at">y =</span> y)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="exm-profile-mean-weibull" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 3.13 (Log-vraisemblance profilée pour l’espérance d’une loi Weibull)</strong></span> Nous pouvons également utiliser l’optimisation numérique pour calculer la log-vraisemblance profilée d’une fonction des paramètres. Supposons que nous soyons intéressés par le temps moyen d’attente théorique. Selon le modèle Weibull, cette valeur est <span class="math inline">\(\mu = \mathsf{E}(Y) = \lambda\Gamma(1+1/\alpha)\)</span>. À cet effet, nous reparamétrons le modèle en termes de <span class="math inline">\((\mu, \alpha)\)</span>, où <span class="math inline">\(\lambda=\mu/\Gamma(1+1/\alpha)\)</span>. Nous créons ensuite une fonction qui optimise la log-vraisemblance pour une valeur fixe de <span class="math inline">\(\mu\)</span>, puis renvoie <span class="math inline">\(\widehat{\alpha}_{\mu}\)</span>, <span class="math inline">\(\mu\)</span> et <span class="math inline">\(\ell_{\mathrm{p}}(\mu)\)</span>.</p>
+<p>Pour obtenir les intervalles de confiance d’un paramètre scalaire, il existe une astuce qui permet de s’en tirer avec une évaluation sommaire, pour autant que la log-vraisemblance profilée soit relativement lisse. Nous calculons la racine directionnelle du rapport de vraisemblance, <span class="math inline">\(r(\psi) = \mathrm{sign}(\psi - \widehat{\psi})\{2\ell_{\mathrm{p}}(\widehat{\psi}) -2 \ell_{\mathrm{p}}(\psi)\}^{1/2}\)</span> sur une grille fine de valeurs de <span class="math inline">\(\psi\)</span>, puis nous ajustons une spline de lissage, une régression avec variable réponse <span class="math inline">\(y=\psi\)</span> et variable explicative <span class="math inline">\(x=r(\psi)\)</span>. Nous prédisons ensuite la courbe aux quantiles normaux <span class="math inline">\(\mathfrak{z}_{\alpha/2}\)</span> et <span class="math inline">\(\mathfrak{z}_{1-\alpha/2}\)</span>, et renvoyons ces valeurs sous forme d’intervalle de confiance. La <a href="#fig-profile-mu-weibull" class="quarto-xref">Figure&nbsp;<span>3.5</span></a> montre comment ces valeurs correspondent aux points de coupure sur l’échelle du logarithme du rapport de vraisemblance, où la ligne verticale est donnée par <span class="math inline">\(-\mathfrak{c}(1-\alpha)/2\)</span> où <span class="math inline">\(\mathfrak{c}\)</span> représente le quantile d’une variable aléatoire <span class="math inline">\(\chi^2_1\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the MLE for the expected value via plug-in</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>mu_hat <span class="ot">&lt;-</span> mle_weibull[<span class="dv">1</span>]<span class="sc">*</span><span class="fu">gamma</span>(<span class="dv">1</span><span class="sc">+</span><span class="dv">1</span><span class="sc">/</span>mle_weibull[<span class="dv">2</span>])</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a profile function</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>prof_weibull_mu <span class="ot">&lt;-</span> <span class="cf">function</span>(mu){</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># For given value of mu</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  alpha_mu <span class="ot">&lt;-</span> <span class="cf">function</span>(mu){ </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Find the profile by optimizing (line search) for fixed mu and the best alpha</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>     opt <span class="ot">&lt;-</span> <span class="fu">optimize</span>(<span class="at">f =</span> <span class="cf">function</span>(alpha, mu){</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>     <span class="co"># minimize the negative log likelihood</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">nll_weibull</span>(<span class="fu">c</span>(mu<span class="sc">/</span><span class="fu">gamma</span>(<span class="dv">1</span><span class="sc">+</span><span class="dv">1</span><span class="sc">/</span>alpha), alpha), <span class="at">y =</span> attente)}, </span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>   <span class="at">mu =</span> mu, </span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">interval =</span> <span class="fu">c</span>(<span class="fl">0.1</span>,<span class="dv">10</span>) <span class="co">#search region</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Return the value of the negative log likelihood and alpha_mu</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">c</span>(<span class="at">nll =</span> opt<span class="sc">$</span>objective, <span class="at">alpha =</span> opt<span class="sc">$</span>minimum))</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Create a data frame with mu and the other parameters</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">mu =</span> mu, <span class="fu">t</span>(<span class="fu">sapply</span>(mu, <span class="cf">function</span>(m){<span class="fu">alpha_mu</span>(m)})))</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data frame with the profile  </span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>prof <span class="ot">&lt;-</span> <span class="fu">prof_weibull_mu</span>(<span class="fu">seq</span>(<span class="dv">22</span>, <span class="dv">35</span>, <span class="at">length.out =</span> <span class="dv">101</span>L))</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute signed likelihood root r</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>prof<span class="sc">$</span>r <span class="ot">&lt;-</span> <span class="fu">sign</span>(prof<span class="sc">$</span>mu <span class="sc">-</span> mu_hat)<span class="sc">*</span><span class="fu">sqrt</span>(<span class="dv">2</span><span class="sc">*</span>(prof<span class="sc">$</span>nll <span class="sc">-</span> opt_weibull<span class="sc">$</span>value))</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Trick: fit a spline to obtain the predictions with mu as a function of r</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Then use this to predict the value at which we intersect the normal quantiles</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>fit.r <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">smooth.spline</span>(<span class="at">x =</span> <span class="fu">cbind</span>(prof<span class="sc">$</span>r, prof<span class="sc">$</span>mu), <span class="at">cv =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>pr <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit.r, <span class="fu">qnorm</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>)))<span class="sc">$</span>y</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the signed likelihood root - near linear indicates quadratic</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>g1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> prof,</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>     <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> mu, <span class="at">y =</span> r)) <span class="sc">+</span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">slope =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fu">qnorm</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>),</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>            <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span> </span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"espérance "</span>, mu)),</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"racine directionnelle de vraisemblance"</span>)</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a plot of the profile</span></span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> prof,</span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> mu, <span class="at">y =</span> opt_weibull<span class="sc">$</span>value <span class="sc">-</span> nll)) <span class="sc">+</span> </span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="sc">-</span><span class="fu">qchisq</span>(<span class="fu">c</span>(<span class="fl">0.95</span>), <span class="at">df =</span> <span class="dv">1</span>)<span class="sc">/</span><span class="dv">2</span>,</span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">linetype =</span> <span class="st">"dotted"</span>,</span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>  <span class="at">xintercept =</span> pr) <span class="sc">+</span> </span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"espérance "</span>, mu)),</span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"log vraisemblance profilée"</span>)</span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>g1 <span class="sc">+</span> g2</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-profile-mu-weibull" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-profile-mu-weibull-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="vraisemblance_files/figure-html/fig-profile-mu-weibull-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-profile-mu-weibull-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.5: Racine directionnelle du rapport de vraisemblance (gauche) et log vraisemblance profilée (droite) en fonction de l’espérance <span class="math inline">\(\mu\)</span> pour un modèle Weibull.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>L’estimateur du maximum de vraisemblance du profil se comporte comme une vraisemblance normale pour la plupart des quantités d’intérêt et nous pouvons dériver des statistiques de test et des intervalles de confiance de la manière habituelle. Un exemple célèbre de profil de vraisemblance est la fonction de risque proportionnel de Cox couvert dans le <a href="#survie">chapitre 7</a>.</p>
+<div id="exm-boxcox" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 3.14 (Transformation de Box–Cox)</strong></span> Parfois, le postulat de normalité de l’erreur dans une régression linéaire ne tient pas. Si les données sont strictement positives, on peut envisager une transformation de Box-Cox, <span class="math display">\[\begin{align*}
+y(\lambda)= \begin{cases}
+(y^{\lambda}-1)/\lambda, &amp; \lambda \neq 0\\
+\ln(y), &amp; \lambda=0.
+\end{cases}
+\end{align*}\]</span></p>
+<p>Si on postule que <span class="math inline">\(\boldsymbol{Y}(\lambda) \sim \mathsf{normale}(\mathbf{X}\boldsymbol{\beta}, \sigma^2 \mathbf{I}_n)\)</span>, alors la log-vraisemblance s’écrit <span class="math display">\[\begin{align*}
+L(\lambda, \boldsymbol{\beta}, \sigma; \boldsymbol{y}, \mathbf{X}) &amp;= (2\pi\sigma^2)^{-n/2} J(\lambda, \boldsymbol{y}) \times\\&amp; \quad \exp \left[ - \frac{1}{2\sigma^2}\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}^\top\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}\right],
+\end{align*}\]</span> où <span class="math inline">\(J\)</span> dénote le jacobien de la transformation de Box–Cox, <span class="math inline">\(J(\lambda, \boldsymbol{y})=\prod_{i=1}^n y_i^{\lambda-1}\)</span>. Pour chaque valeur de <span class="math inline">\(\lambda\)</span>, l’estimateur du maximum de vraisemblance est le même que celle de la régression linéaire, mais où <span class="math inline">\(\boldsymbol{y}\)</span> est remplacée par <span class="math inline">\(\boldsymbol{y}(\lambda)\)</span>, soit <span class="math inline">\(\widehat{\boldsymbol{\beta}}_\lambda = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y}(\lambda)\)</span> and <span class="math inline">\(\widehat{\sigma}^2_\lambda = n^{-1}\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}^\top\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}\)</span>.</p>
+<p>La log-vraisemblance profilée est donc <span class="math display">\[\begin{align*}
+\ell_{\mathsf{p}}(\lambda) = -\frac{n}{2}\ln(2\pi \widehat{\sigma}^2_\lambda) - \frac{n}{2} + (\lambda - 1)\sum_{i=1}^n \ln(y_i)
+\end{align*}\]</span> L’estimateur du maximum de vraisemblance profilée est la valeur <span class="math inline">\(\lambda\)</span> qui minimise la somme des carrés des résidus du modèle linéaire avec <span class="math inline">\(\boldsymbol{y}(\lambda)\)</span> comme réponse.</p>
+<p>La transformation de Box–Cox n’est pas une solution miracle et doit être réservée aux cas où la transformation réduit l’hétéroscédasticité (variance inégale) ou crée une relation linéaire entre les explications et la réponse. La théorie fournit une explication convaincante des données avec, par exemple, la fonction de production Cobb-Douglas utilisée en économie qui peut être linéarisée par une transformation logarithmique. Plutôt que de choisir une transformation <em>ad hoc</em>, on pourrait choisir une transformation logarithmique si la valeur 0$ est incluse dans l’intervalle de confiance à 95%, car cela améliore l’interprétabilité.</p>
+</div>
+</section>
+<section id="critères-dinformation" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="critères-dinformation"><span class="header-section-number">3.5</span> Critères d’information</h2>
+<p>La vraisemblance peut également servir d’élément de base pour la comparaison des modèles : plus <span class="math inline">\(\ell(\boldsymbol{\widehat{\theta}})\)</span> est grand, meilleure est l’adéquation. Cependant, la vraisemblance ne tient pas compte de la complexité du modèle dans le sens où des modèles plus complexes avec plus de paramètres conduisent à une vraisemblance plus élevée. Cela ne pose pas de problème pour la comparaison de modèles emboîtés à l’aide du test du rapport de vraisemblance, car nous ne tenons compte que de l’amélioration relative de l’adéquation. Il existe un risque de <strong>surajustement</strong> si l’on ne tient compte que de la vraisemblance d’un modèle.</p>
+<!-- Software often reports $-2\ell(\boldsymbol{\widehat{\theta}})$, often (improperly) termed **deviance**. -->
+<p>Les critères d’information combinent la log vraisemblance, qui mesure l’adéquation du modèle aux données, avec une pénalité pour le nombre de paramètres. Les plus fréquents sont les critères d’information d’Akaike (AIC) et bayésien (BIC), <span class="math display">\[\begin{align*}
+\mathsf{AIC}&amp;=-2\ell(\widehat{\boldsymbol{\theta}})+2p \\
+\mathsf{BIC}&amp;=-2\ell(\widehat{\boldsymbol{\theta}})+p\ln(n),
+\end{align*}\]</span> où <span class="math inline">\(p\)</span> dénote le nombre de paramètres du modèle. Le plus petit la valeur du critère d’information, le meilleur le modèle.</p>
+<p>Notez que les critères d’information ne constituent pas des tests d’hypothèse formels sur les paramètres, mais qu’ils peuvent être utilisés pour comparer des modèles non imbriqués (mais ils sont alors très imprécis!) Ces outils fonctionnent sous des conditions de régularité et les critères d’information estimés sont assez bruyants, de sorte que les comparaisons pour les modèles non emboîtés sont hasardeuses bien que populaires. Si nous voulons comparer la vraisemblance de différents modèles de probabilité, nous devons nous assurer qu’ils incluent une constante de normalisation<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. Le <span class="math inline">\(\mathsf{BIC}\)</span> est plus strict que le <span class="math inline">\(\mathsf{AIC}\)</span>, car sa pénalité augmente avec la taille de l’échantillon, ce qui permet de sélectionner des modèles plus parsimonieux. Le <span class="math inline">\(\mathsf{BIC}\)</span> est un critère <strong>convergent</strong>, ce qui signifie qu’il choisira le vrai modèle parmi un ensemble de modèles avec une probabilité de 1 lorsque <span class="math inline">\(n \to \infty\)</span> si ce dernier fait partie du catalogue de modèles à comparer. En pratique, cela présente peu d’intérêt si l’on suppose que tous les modèles sont des approximations de la réalité (il est peu probable que le vrai modèle soit inclus dans ceux que nous considérons). Pour sa part, <span class="math inline">\(\mathsf{AIC}\)</span> sélectionne souvent des modèles trop compliqués dans les grands échantillons, alors que <span class="math inline">\(\mathsf{BIC}\)</span> choisit des modèles trop simples.</p>
+<p>Une mise en garde s’impose: s’il est possible de comparer des modèles de régression non emboîtés à l’aide de critères d’information, ceux-ci ne peuvent être utilisés que lorsque la variable de réponse est la même. Vous pouvez comparer une régression de Poisson avec une régression linéaire pour une réponse <span class="math inline">\(Y\)</span> en utilisant des critères d’information à condition d’inclure toutes les constantes de normalisation dans votre modèle. Les logiciels omettent souvent les termes constants; cela n’a pas d’impact lorsque vous comparez des modèles avec les mêmes facteurs constants, mais cela a de l’importance lorsque ceux-ci diffèrent. Cependant, <strong>on ne peut pas</strong> les comparer à un modèle log-linéaire avec une réponse <span class="math inline">\(\ln(Y)\)</span>. Les comparaisons entre les modèles log-linéaires et linéaires ne sont valables que si vous utilisez la vraisemblance de Box–Cox, car elle inclut le jacobien de la transformation.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-Davison:2003" class="csl-entry" role="listitem">
+Davison, A. C. 2003. <em>Statistical Models</em>. Cambridge University Press.
+</div>
+</div>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Si <span class="math inline">\(A\)</span> et <span class="math inline">\(B\)</span> sont des variables aléatoires indépendantes, leur probabilité conjointe est le produit des probabilités des événements individuels, <span class="math inline">\(\Pr(A \cup B) = \Pr(A)\Pr(B).\)</span> La même factorisation tient pour la fonction de densité ou de masse, lesquelles sont les dérivées de la fonction de répartition.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Puisque dans la plupart des cas on a un produit de densités, prendre le logarithme transforme un produit de termes potentiellement petits en une somme de log densités, ce qui est plus facile côté dérivation et plus stable du point de vue du calcul numérique.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Par exemple, en utilisant une calculatrice symbolique.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>La plupart des algorithmes d’optimisation minimisent les fonctions par rapport à leurs arguments, nous minimisons donc la log-vraisemblance négative, ce qui équivaut à maximiser la log-vraisemblance<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Les logiciels enlèvent parfois les termes ou constantes qui ne sont pas des fonctions des paramètres.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copié");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copié");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/lbelzile\.github\.io\/math60604\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./inference.html" class="pagination-link" aria-label="Inférence statistique">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Inférence statistique</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./references.html" class="pagination-link" aria-label="Bibliographie">
+        <span class="nav-page-text">Bibliographie</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Tous droits réservés (Léo Belzile)</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/lbelzile/math60604/edit/master/vraisemblance.qmd" class="toc-action"><i class="bi bi-github"></i>Éditer cette page</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

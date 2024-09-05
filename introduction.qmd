@@ -271,6 +271,7 @@ Par exemple, on pourrait modéliser le nombre de visites d'une maison en vente a
 
 :::
 
+-->
 
 
 :::{#exm-loipoisson}

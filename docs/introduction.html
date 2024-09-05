@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.56">
+<meta name="generator" content="quarto-1.6.1">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -21,7 +21,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -161,6 +181,12 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./vraisemblance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Inférence basée sur la vraisemblance</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Bibliographie</span></a>
   </div>
@@ -179,9 +205,10 @@ window.Quarto = {
   <li><a href="#types-de-variables" id="toc-types-de-variables" class="nav-link" data-scroll-target="#types-de-variables"><span class="header-section-number">1.2</span> Types de variables</a></li>
   <li><a href="#variable-aleatoire" id="toc-variable-aleatoire" class="nav-link" data-scroll-target="#variable-aleatoire"><span class="header-section-number">1.3</span> Variables aléatoires</a></li>
   <li><a href="#loi-discrètes" id="toc-loi-discrètes" class="nav-link" data-scroll-target="#loi-discrètes"><span class="header-section-number">1.4</span> Loi discrètes</a></li>
-  <li><a href="#graphiques" id="toc-graphiques" class="nav-link" data-scroll-target="#graphiques"><span class="header-section-number">1.5</span> Graphiques</a></li>
-  <li><a href="#loi-grands-nombres" id="toc-loi-grands-nombres" class="nav-link" data-scroll-target="#loi-grands-nombres"><span class="header-section-number">1.6</span> Loi des grands nombres</a></li>
-  <li><a href="#TCL" id="toc-TCL" class="nav-link" data-scroll-target="#TCL"><span class="header-section-number">1.7</span> Théorème central limite</a></li>
+  <li><a href="#lois-continues" id="toc-lois-continues" class="nav-link" data-scroll-target="#lois-continues"><span class="header-section-number">1.5</span> Lois continues</a></li>
+  <li><a href="#graphiques" id="toc-graphiques" class="nav-link" data-scroll-target="#graphiques"><span class="header-section-number">1.6</span> Graphiques</a></li>
+  <li><a href="#loi-grands-nombres" id="toc-loi-grands-nombres" class="nav-link" data-scroll-target="#loi-grands-nombres"><span class="header-section-number">1.7</span> Loi des grands nombres</a></li>
+  <li><a href="#TCL" id="toc-TCL" class="nav-link" data-scroll-target="#TCL"><span class="header-section-number">1.8</span> Théorème central limite</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/lbelzile/math60604/edit/master/introduction.qmd" class="toc-action"><i class="bi bi-github"></i>Éditer cette page</a></li></ul></div></nav>
     </div>
@@ -436,156 +463,85 @@ Par exemple, on pourrait modéliser le nombre de visites d'une maison en vente a
 
 :::
 
-
-
-:::{#exm-loipoisson}
-
-## Loi de Poisson
-
-Si la probabilité d'un événement Bernoulli est petite et qu'il est rare d'obtenir un succès dans le sens où $mp \to \lambda$ quand le nombre d'essais $m$ augmente, alors le nombre de succès suit approximateivement une loi de Poisson de fonction de masse
-\begin{align*}
-\mathsf{Pr}(Y=y) = \frac{\exp(-\lambda)\lambda^y}{\Gamma(y+1)}, \quad y=0, 1, 2, \ldots
-\end{align*}
-où $\Gamma(\cdot)$ dénote la fonction gamma, et $\Gamma(y+1) = y!$ si $y$ est un entier. Le paramètre $\lambda$ de la loi de Poisson représente à la fois l'espérance et la variance de la variable, c'est-à-dire que $\mathsf{E}(Y)=\mathsf{Va}(Y)=\lambda$.
-
-:::
-
-
-:::{#exm-loibinneg}
-
-## Loi binomiale négative
-
-On considère une série d'essais Bernoulli de probabilité de succès $p$ jusqu'à l'obtention de $m$ succès. Soit $Y$, le nombre d'échecs: puisque la dernière réalisation doit forcément être un succès, mais que l'ordre des succès/échecs précédents n'importe pas, la fonction de masse de la loi binomiale négative est
-\begin{align*}
-\mathsf{Pr}(Y=y)= \binom{m-1+y}{y} p^m (1-p)^{y}.
-\end{align*}
-
-La loi binomiale négative apparaît également si on considère la loi non-conditionnelle du modèle hiérarchique gamma-Poisson, dans lequel on suppose que le paramètre de la moyenne de la loi Poisson est aussi aléatoire, c'est-à-dire $Y \mid \Lambda=\lambda \sim \mathsf{Po}(\lambda)$ et $\Lambda$ suit une loi gamma de paramètre de forme $r$ et de paramètre d'échelle $\theta$, dont la densité est
-\begin{align*}
-f(x) = \theta^{-r}x^{r-1}\exp(-x/\theta)/\Gamma(r).\end{align*}  Le nombre d'événements suit alors une loi binomiale négative.
-
-La paramétrisation la plus courante pour la modélisation est légèrement différente: pour un paramètre $r>0$ (pas forcément entier), on écrit la fonction de masse
-\begin{align*}
-\mathsf{Pr}(Y=y)=\frac{\Gamma(y+r)}{\Gamma(y+1)\Gamma(r)} \left(\frac{r}{r + \mu} \right)^{r} \left(\frac{\mu}{r+\mu}\right)^y,
-\end{align*}
-où $\Gamma$ dénote la fonction gamma. Dans cette paramétrisation, la moyenne théorique et la variance sont
-$\mathsf{E}(Y)=\mu$ et $\mathsf{Va}(Y)=\mu+k\mu^2$, où $k=1/r$. La variance d'une variable binomiale négative est *supérieure* à sa moyenne et le modèle est utilisé comme alternative à la loi de Poisson pour modéliser la surdispersion. 
-
-:::
-
-## Lois continues
-
-On considère plusieurs lois de variables aléatoires continues; certaines servent de lois pour des tests d'hypothèse et découlent du théorème central limite (notamment les lois normales, Student, Fisher ou $F$, et khi-deux).
-
-::: {#def-loibeta}
-
-## Loi beta
-
-La loi beta $\mathsf{Beta}(\alpha, \beta)$ est une loi sur l'intervalle $[0,1]$ avec paramètres de forme $\alpha>0$ et $\beta>0$. Sa densité est
-\begin{align*}
-f(x) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}x^{\alpha-1}(1-x)^{1-\beta}, \qquad x \in [0,1].
-\end{align*}
-Le cas $\alpha=\beta=1$, dénotée également $\mathsf{unif}(0,1)$, correspond à la loi standard uniforme.
-
-
-
-
-
-
-::: {.cell layout-align="center"}
-::: {.cell-output-display}
-![Fonctions de densité de lois uniformes et beta(2, 3/4) sur l'intervalle [0,1].](introduction_files/figure-html/fig-densite-beta-1.png){#fig-densite-beta fig-align='center' width=85%}
-:::
-:::
-
-
-
-
-
-
-:::
-
-
-
-::: {#def-loiexpo}
-
-## Loi exponentielle
-
-La loi exponentielle figure de manière proéminente dans l'étude des temps d'attente pour les phénomènes Poisson et en analyse de survie. Une caractéristique clé de la loi est son absence de mémoire: $\Pr(Y \geq y + u \mid Y > u) = \Pr(Y > u)$ pour $Y > 0$ et $y, u>0$. 
-
-La fonction de répartition de la loi exponentielle $Y \sim \mathsf{Exp}(\beta)$ où $\beta>0$, est $F(x) = 1-\exp(-\beta x)$ et sa fonction de densité est $f(x) =\beta\exp(-\beta x)$ pour $x >0$. La moyenne théorique de la loi est $\beta$.
-
-:::
-
-::: {#def-loinormale}
-
-## Loi normale
-
-De loin la plus continue des distributions, la loi normale intervient dans le théorème central limite, qui dicte le comportement aléatoire de la moyenne de grand échantillons. La loi normale est pleinement caractérisée par son espérance $\mu \in \mathbb{R}$ et son écart-type  $\sigma>0$. Loi symmétrique autour de $\mu$, c'est une famille de localisation et d'échelle. Sa fonction de densité,
-\begin{align*}
-f(x) = (2\pi\sigma^2)^{-1/2} \exp \left\{ - \frac{(x-\mu)^2}{2\sigma^2}\right\}, \qquad x \in \mathbb{R}.
-\end{align*}
-en forme de cloche, est symmétrique autour de $\mu$, qui est aussi le mode de la distribution.
-
-
-
-
-
-
-::: {.cell layout-align="center"}
-::: {.cell-output-display}
-![Densités de loi normales avec des paramètres de moyenne différents (gauche) et des paramètres d'échelle différents (droite).](introduction_files/figure-html/fig-normal-loc-echelle-1.png){#fig-normal-loc-echelle fig-align='center' width=85%}
-:::
-:::
-
-
-
-
-
-The distribution function of the normal distribution is not available in closed-form.
-La loi normale est une famille de localisation échelle: si $Y \sim \mathsf{normale}(\mu, \sigma^2)$, alors $Z = (Y-\mu)/\sigma \sim \mathsf{normale}(0,1)$.
-Inversement, si $Z \sim \mathsf{normale}(0,1)$, alors $Y = \mu + \sigma Z \sim \mathsf{normale}(\mu, \sigma^2)$. 
-
-
-Nous verrons aussi l'extension multidimensionnelle de la loi normale: un $d$ vecteur  $\boldsymbol{Y} \sim \mathsf{normal}_d(\boldsymbol{\mu}, \boldsymbol{\Sigma})$ admet une fonction de densité égale à
-\begin{align*}
-f(\boldsymbol{x}) = (2\pi)^{-d/2} |\boldsymbol{\Sigma}|^{-1/2} \exp \left\{ - \frac{1}{2} (\boldsymbol{x}-\boldsymbol{\mu})^\top \boldsymbol{\Sigma}^{-1}(\boldsymbol{x}-\boldsymbol{\mu})\right\}
-\end{align*}
-
-Le vecteur de moyenne $\boldsymbol{\mu}$ contient l'espérance de chaque composante, tandis que  $\boldsymbol{\Sigma}$ est la matrice de covariance de $\boldsymbol{Y}$. Une propriété unique à la loi normale (muldimensionnelle) est le lien entre indépendance et matrice de covariance: si $Y_i$ et $Y_j$ sont indépendants, alors l'entrée $(i,j)$ hors diagonale de $\boldsymbol{\Sigma}$ est nulle.
-
-:::
-
-Les trois lois suivantes ne sont pas couvertes dans les cours d'introduction, mais elles interviennent régulièrement dans les cours de mathématique statistique et serviront d'étalon de mesure pour déterminer si les statistiques de test sont extrêmes sous l'hypothèse nulle.
-
-
-::: {#def-loikhideux}
-
-## Loi khi-deux
-
-
-La loi de khi-deux avec $\nu>0$ degrés de liberté, dénotée $\chi^2_{\nu}$ ou $\mathsf{khi-deux}(\nu)$ joue un rôle important en statistique.
-Sa densité est 
-\begin{align*}
-f(x; \nu) = \frac{1}{2^{\nu/2}\Gamma(\nu/2)}x^{\nu/2-1}\exp(-x/2),\qquad x >0.
-\end{align*}
-Elle est obtenue pour $\nu$ entier en prenant la somme de variables normales centrées et réduites au carré: si $Y_i \stackrel{\mathrm{iid}}{\sim}\mathsf{normale}(0,1)$ pour $i=1, \ldots, k$, alors $\sum_{i=1}^k Y_i^2 \sim \chi^2_k$. L'espérance de la loi $\chi^2_k$ est $k$.
-
-:::
-
-Si on considère un échantillon aléatoire et identiquement distribution de $n$ observations de lois normales, alors la variance empirique repondérée satisfait $(n-1)S^2/\sigma^2 \sim \chi^2_{n-1}$.
-
-::: {#def-loistudent}
-
-## Loi Student-$t$
-
-La loi Student-$t$ avec $\nu>0$ degrés de liberté est une famille de localisation et d'échelle de densité symmétrique. On la dénote $\mathsf{Student}(\nu)$ dans le cas centré réduit.
-
-Son nom provient d'un article de William Gosset sous le pseudonyme Student [@Student:1908], qui a introduit la loi comme approximation au comportement de la statistique $t$.
-<!--
-pour des données normales centrées, suit une loi Student avec $k$ degrés de liberté, puisque la moyenne est normale et la variance empirique, adéquatement repondérée, suit une loi khi-deux avec $k$ degrés de liberté.
 -->
-<p>La densité d’une loi Student standard avec <span class="math inline">\(\nu\)</span> degrés de liberté est <span class="math display">\[\begin{align*}
+<div id="exm-loipoisson" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 1.4 (Loi de Poisson)</strong></span> Si la probabilité d’un événement Bernoulli est petite et qu’il est rare d’obtenir un succès dans le sens où <span class="math inline">\(mp \to \lambda\)</span> quand le nombre d’essais <span class="math inline">\(m\)</span> augmente, alors le nombre de succès suit approximateivement une loi de Poisson de fonction de masse <span class="math display">\[\begin{align*}
+\mathsf{Pr}(Y=y) = \frac{\exp(-\lambda)\lambda^y}{\Gamma(y+1)}, \quad y=0, 1, 2, \ldots
+\end{align*}\]</span> où <span class="math inline">\(\Gamma(\cdot)\)</span> dénote la fonction gamma, et <span class="math inline">\(\Gamma(y+1) = y!\)</span> si <span class="math inline">\(y\)</span> est un entier. Le paramètre <span class="math inline">\(\lambda\)</span> de la loi de Poisson représente à la fois l’espérance et la variance de la variable, c’est-à-dire que <span class="math inline">\(\mathsf{E}(Y)=\mathsf{Va}(Y)=\lambda\)</span>.</p>
+</div>
+<div id="exm-loibinneg" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 1.5 (Loi binomiale négative)</strong></span> On considère une série d’essais Bernoulli de probabilité de succès <span class="math inline">\(p\)</span> jusqu’à l’obtention de <span class="math inline">\(m\)</span> succès. Soit <span class="math inline">\(Y\)</span>, le nombre d’échecs: puisque la dernière réalisation doit forcément être un succès, mais que l’ordre des succès/échecs précédents n’importe pas, la fonction de masse de la loi binomiale négative est <span class="math display">\[\begin{align*}
+\mathsf{Pr}(Y=y)= \binom{m-1+y}{y} p^m (1-p)^{y}.
+\end{align*}\]</span></p>
+<p>La loi binomiale négative apparaît également si on considère la loi non-conditionnelle du modèle hiérarchique gamma-Poisson, dans lequel on suppose que le paramètre de la moyenne de la loi Poisson est aussi aléatoire, c’est-à-dire <span class="math inline">\(Y \mid \Lambda=\lambda \sim \mathsf{Po}(\lambda)\)</span> et <span class="math inline">\(\Lambda\)</span> suit une loi gamma de paramètre de forme <span class="math inline">\(r\)</span> et de paramètre d’échelle <span class="math inline">\(\theta\)</span>, dont la densité est <span class="math display">\[\begin{align*}
+f(x) = \theta^{-r}x^{r-1}\exp(-x/\theta)/\Gamma(r).\end{align*}\]</span> Le nombre d’événements suit alors une loi binomiale négative.</p>
+<p>La paramétrisation la plus courante pour la modélisation est légèrement différente: pour un paramètre <span class="math inline">\(r&gt;0\)</span> (pas forcément entier), on écrit la fonction de masse <span class="math display">\[\begin{align*}
+\mathsf{Pr}(Y=y)=\frac{\Gamma(y+r)}{\Gamma(y+1)\Gamma(r)} \left(\frac{r}{r + \mu} \right)^{r} \left(\frac{\mu}{r+\mu}\right)^y,
+\end{align*}\]</span> où <span class="math inline">\(\Gamma\)</span> dénote la fonction gamma. Dans cette paramétrisation, la moyenne théorique et la variance sont <span class="math inline">\(\mathsf{E}(Y)=\mu\)</span> et <span class="math inline">\(\mathsf{Va}(Y)=\mu+k\mu^2\)</span>, où <span class="math inline">\(k=1/r\)</span>. La variance d’une variable binomiale négative est <em>supérieure</em> à sa moyenne et le modèle est utilisé comme alternative à la loi de Poisson pour modéliser la surdispersion.</p>
+</div>
+</section>
+<section id="lois-continues" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="lois-continues"><span class="header-section-number">1.5</span> Lois continues</h2>
+<p>On considère plusieurs lois de variables aléatoires continues; certaines servent de lois pour des tests d’hypothèse et découlent du théorème central limite (notamment les lois normales, Student, Fisher ou <span class="math inline">\(F\)</span>, et khi-deux).</p>
+<div id="def-loibeta" class="theorem definition">
+<p><span class="theorem-title"><strong>Définition 1.6 (Loi beta)</strong></span> La loi beta <span class="math inline">\(\mathsf{Beta}(\alpha, \beta)\)</span> est une loi sur l’intervalle <span class="math inline">\([0,1]\)</span> avec paramètres de forme <span class="math inline">\(\alpha&gt;0\)</span> et <span class="math inline">\(\beta&gt;0\)</span>. Sa densité est <span class="math display">\[\begin{align*}
+f(x) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}x^{\alpha-1}(1-x)^{1-\beta}, \qquad x \in [0,1].
+\end{align*}\]</span> Le cas <span class="math inline">\(\alpha=\beta=1\)</span>, dénotée également <span class="math inline">\(\mathsf{unif}(0,1)\)</span>, correspond à la loi standard uniforme.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-densite-beta" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-densite-beta-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="introduction_files/figure-html/fig-densite-beta-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-densite-beta-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.2: Fonctions de densité de lois uniformes et beta(2, 3/4) sur l’intervalle [0,1].
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="def-loiexpo" class="theorem definition">
+<p><span class="theorem-title"><strong>Définition 1.7 (Loi exponentielle)</strong></span> La loi exponentielle figure de manière proéminente dans l’étude des temps d’attente pour les phénomènes Poisson et en analyse de survie. Une caractéristique clé de la loi est son absence de mémoire: <span class="math inline">\(\Pr(Y \geq y + u \mid Y &gt; u) = \Pr(Y &gt; u)\)</span> pour <span class="math inline">\(Y &gt; 0\)</span> et <span class="math inline">\(y, u&gt;0\)</span>.</p>
+<p>La fonction de répartition de la loi exponentielle <span class="math inline">\(Y \sim \mathsf{Exp}(\beta)\)</span> où <span class="math inline">\(\beta&gt;0\)</span>, est <span class="math inline">\(F(x) = 1-\exp(-\beta x)\)</span> et sa fonction de densité est <span class="math inline">\(f(x) =\beta\exp(-\beta x)\)</span> pour <span class="math inline">\(x &gt;0\)</span>. La moyenne théorique de la loi est <span class="math inline">\(\beta\)</span>.</p>
+</div>
+<div id="def-loinormale" class="theorem definition">
+<p><span class="theorem-title"><strong>Définition 1.8 (Loi normale)</strong></span> De loin la plus continue des distributions, la loi normale intervient dans le théorème central limite, qui dicte le comportement aléatoire de la moyenne de grand échantillons. La loi normale est pleinement caractérisée par son espérance <span class="math inline">\(\mu \in \mathbb{R}\)</span> et son écart-type <span class="math inline">\(\sigma&gt;0\)</span>. Loi symmétrique autour de <span class="math inline">\(\mu\)</span>, c’est une famille de localisation et d’échelle. Sa fonction de densité, <span class="math display">\[\begin{align*}
+f(x) = (2\pi\sigma^2)^{-1/2} \exp \left\{ - \frac{(x-\mu)^2}{2\sigma^2}\right\}, \qquad x \in \mathbb{R}.
+\end{align*}\]</span> en forme de cloche, est symmétrique autour de <span class="math inline">\(\mu\)</span>, qui est aussi le mode de la distribution.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-normal-loc-echelle" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-normal-loc-echelle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="introduction_files/figure-html/fig-normal-loc-echelle-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-normal-loc-echelle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.3: Densités de loi normales avec des paramètres de moyenne différents (gauche) et des paramètres d’échelle différents (droite).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The distribution function of the normal distribution is not available in closed-form. La loi normale est une famille de localisation échelle: si <span class="math inline">\(Y \sim \mathsf{normale}(\mu, \sigma^2)\)</span>, alors <span class="math inline">\(Z = (Y-\mu)/\sigma \sim \mathsf{normale}(0,1)\)</span>. Inversement, si <span class="math inline">\(Z \sim \mathsf{normale}(0,1)\)</span>, alors <span class="math inline">\(Y = \mu + \sigma Z \sim \mathsf{normale}(\mu, \sigma^2)\)</span>.</p>
+<p>Nous verrons aussi l’extension multidimensionnelle de la loi normale: un <span class="math inline">\(d\)</span> vecteur <span class="math inline">\(\boldsymbol{Y} \sim \mathsf{normal}_d(\boldsymbol{\mu}, \boldsymbol{\Sigma})\)</span> admet une fonction de densité égale à <span class="math display">\[\begin{align*}
+f(\boldsymbol{x}) = (2\pi)^{-d/2} |\boldsymbol{\Sigma}|^{-1/2} \exp \left\{ - \frac{1}{2} (\boldsymbol{x}-\boldsymbol{\mu})^\top \boldsymbol{\Sigma}^{-1}(\boldsymbol{x}-\boldsymbol{\mu})\right\}
+\end{align*}\]</span></p>
+<p>Le vecteur de moyenne <span class="math inline">\(\boldsymbol{\mu}\)</span> contient l’espérance de chaque composante, tandis que <span class="math inline">\(\boldsymbol{\Sigma}\)</span> est la matrice de covariance de <span class="math inline">\(\boldsymbol{Y}\)</span>. Une propriété unique à la loi normale (muldimensionnelle) est le lien entre indépendance et matrice de covariance: si <span class="math inline">\(Y_i\)</span> et <span class="math inline">\(Y_j\)</span> sont indépendants, alors l’entrée <span class="math inline">\((i,j)\)</span> hors diagonale de <span class="math inline">\(\boldsymbol{\Sigma}\)</span> est nulle.</p>
+</div>
+<p>Les trois lois suivantes ne sont pas couvertes dans les cours d’introduction, mais elles interviennent régulièrement dans les cours de mathématique statistique et serviront d’étalon de mesure pour déterminer si les statistiques de test sont extrêmes sous l’hypothèse nulle.</p>
+<div id="def-loikhideux" class="theorem definition">
+<p><span class="theorem-title"><strong>Définition 1.9 (Loi khi-deux)</strong></span> La loi de khi-deux avec <span class="math inline">\(\nu&gt;0\)</span> degrés de liberté, dénotée <span class="math inline">\(\chi^2_{\nu}\)</span> ou <span class="math inline">\(\mathsf{khi-deux}(\nu)\)</span> joue un rôle important en statistique. Sa densité est <span class="math display">\[\begin{align*}
+f(x; \nu) = \frac{1}{2^{\nu/2}\Gamma(\nu/2)}x^{\nu/2-1}\exp(-x/2),\qquad x &gt;0.
+\end{align*}\]</span> Elle est obtenue pour <span class="math inline">\(\nu\)</span> entier en prenant la somme de variables normales centrées et réduites au carré: si <span class="math inline">\(Y_i \stackrel{\mathrm{iid}}{\sim}\mathsf{normale}(0,1)\)</span> pour <span class="math inline">\(i=1, \ldots, k\)</span>, alors <span class="math inline">\(\sum_{i=1}^k Y_i^2 \sim \chi^2_k\)</span>. L’espérance de la loi <span class="math inline">\(\chi^2_k\)</span> est <span class="math inline">\(k\)</span>.</p>
+</div>
+<p>Si on considère un échantillon aléatoire et identiquement distribution de <span class="math inline">\(n\)</span> observations de lois normales, alors la variance empirique repondérée satisfait <span class="math inline">\((n-1)S^2/\sigma^2 \sim \chi^2_{n-1}\)</span>.</p>
+<div id="def-loistudent" class="theorem definition">
+<p><span class="theorem-title"><strong>Définition 1.10 (Loi Student-<span class="math inline">\(t\)</span>)</strong></span> La loi Student-<span class="math inline">\(t\)</span> avec <span class="math inline">\(\nu&gt;0\)</span> degrés de liberté est une famille de localisation et d’échelle de densité symmétrique. On la dénote <span class="math inline">\(\mathsf{Student}(\nu)\)</span> dans le cas centré réduit.</p>
+<p>Son nom provient d’un article de William Gosset sous le pseudonyme Student <span class="citation" data-cites="Student:1908">(<a href="references.html#ref-Student:1908" role="doc-biblioref">Gosset 1908</a>)</span>, qui a introduit la loi comme approximation au comportement de la statistique <span class="math inline">\(t\)</span>. <!--
+pour des données normales centrées, suit une loi Student avec $k$ degrés de liberté, puisque la moyenne est normale et la variance empirique, adéquatement repondérée, suit une loi khi-deux avec $k$ degrés de liberté.
+--> La densité d’une loi Student standard avec <span class="math inline">\(\nu\)</span> degrés de liberté est <span class="math display">\[\begin{align*}
 f(y; \nu) = \frac{\Gamma \left( \frac{\nu+1}{2}\right)}{\Gamma\left(\frac{\nu}{2}\right)
 \sqrt{\nu\pi}}\left(1+\frac{y^{2}}{\nu}\right)^{-\frac{\nu+1}{2}}.
 \end{align*}\]</span> La loi a des ailes à décroissance polynomiale, est symmétrique autour de zéro et unimodale. Quand <span class="math inline">\(\nu \to \infty\)</span>, on recouvre une loi normale, mais les ailes sont plus lourdes que la loi normale. Effectivement, seuls les <span class="math inline">\(\nu-1\)</span> premiers moments de la distribution existent: la loi <span class="math inline">\(\mathsf{Student}(2)\)</span> n’a pas de variance.</p>
@@ -598,23 +554,23 @@ f(y; \nu) = \frac{\Gamma \left( \frac{\nu+1}{2}\right)}{\Gamma\left(\frac{\nu}{2
 <img src="introduction_files/figure-html/fig-densite-Student-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-densite-Student-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.2: Comparaison de la densité Student-<span class="math inline">\(t\)</span> versus normale pour différents degrés de liberté avec <span class="math inline">\(\nu=2\)</span> (pointillé), <span class="math inline">\(\nu=10\)</span> (traitillé) et la loi normale (<span class="math inline">\(\nu = \infty)\)</span>.
+Figure&nbsp;1.4: Comparaison de la densité Student-<span class="math inline">\(t\)</span> versus normale pour différents degrés de liberté avec <span class="math inline">\(\nu=2\)</span> (pointillé), <span class="math inline">\(\nu=10\)</span> (traitillé) et la loi normale (<span class="math inline">\(\nu = \infty)\)</span>.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>:::</p>
+</div>
 <div id="def-loiF" class="theorem definition">
-<p><span class="theorem-title"><strong>Définition 1.6 (Loi de Fisher)</strong></span> La loi de Fisher, ou loi <span class="math inline">\(F\)</span>, sert à déterminer le comportement en grand échantillon de statistiques de test pour la comparaison de plusieurs moyennes (analyse de variance) sous un postulat de normalité des observations.</p>
+<p><span class="theorem-title"><strong>Définition 1.11 (Loi de Fisher)</strong></span> La loi de Fisher, ou loi <span class="math inline">\(F\)</span>, sert à déterminer le comportement en grand échantillon de statistiques de test pour la comparaison de plusieurs moyennes (analyse de variance) sous un postulat de normalité des observations.</p>
 <p>La loi <span class="math inline">\(F\)</span>, dite de Fisher et dénotée <span class="math inline">\(\mathsf{Fisher}(\nu_1, \nu_2)\)</span>, est obtenue en divisant deux variables khi-deux indépendantes de degrés de liberté <span class="math inline">\(\nu_1\)</span> et <span class="math inline">\(\nu_2\)</span>. Spécifiquement, si <span class="math inline">\(Y_1 \sim \chi^2_{\nu_1}\)</span> et <span class="math inline">\(Y_2 \sim \chi^2_{\nu_2}\)</span>, alors <span class="math display">\[\begin{align*}
 F = \frac{Y_1/\nu_1}{Y_2/\nu_2} \sim \mathsf{Fisher}(\nu_1, \nu_2)
 \end{align*}\]</span></p>
 <p>La loi de Fisher tend vers une loi <span class="math inline">\(\chi^2_{\nu_1}\)</span> quand <span class="math inline">\(\nu_2 \to \infty\)</span>.</p>
 </div>
 </section>
-<section id="graphiques" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="graphiques"><span class="header-section-number">1.5</span> Graphiques</h2>
+<section id="graphiques" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="graphiques"><span class="header-section-number">1.6</span> Graphiques</h2>
 <p>Cette section sert à réviser les principales représentations graphiques de jeux de données selon la catégorie des variables.</p>
 <p>Le principal type de graphique pour représenter la distribution d’une variable catégorielle est le diagramme en bâtons, dans lequel la fréquence de chaque catégorie est présentée sur l’axe des ordonnées (<span class="math inline">\(y\)</span>) en fonction de la modalité, sur l’axe des abscisses (<span class="math inline">\(x\)</span>), et ordonnées pour des variables ordinales. Cette représentation est en tout point supérieur au <a href="http://www.perceptualedge.com/articles/08-21-07.pdf">diagramme en camembert</a>, une engeance répandu qui devrait être honnie (notamment parce que l’humain juge mal les différences d’aires, qu’une simple rotation change la perception du graphique et qu’il est difficile de mesurer les proportions) — ce n’est pas de la tarte!</p>
 <div class="cell" data-layout-align="center">
@@ -625,7 +581,7 @@ F = \frac{Y_1/\nu_1}{Y_2/\nu_2} \sim \mathsf{Fisher}(\nu_1, \nu_2)
 <img src="introduction_files/figure-html/fig-barplotrenfe-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-barplotrenfe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.3: Diagramme en bâtons pour la classe des billets de trains du jeu de données Renfe.
+Figure&nbsp;1.5: Diagramme en bâtons pour la classe des billets de trains du jeu de données Renfe.
 </figcaption>
 </figure>
 </div>
@@ -641,14 +597,14 @@ Figure&nbsp;1.3: Diagramme en bâtons pour la classe des billets de trains du je
 <img src="introduction_files/figure-html/fig-histrenfe-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-histrenfe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.4: Histogramme du prix des billets au tarif Promo de trains du jeu de données Renfe
+Figure&nbsp;1.6: Histogramme du prix des billets au tarif Promo de trains du jeu de données Renfe
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 <div id="def-boxplot" class="theorem definition">
-<p><span class="theorem-title"><strong>Définition 1.7 (Boîte à moustaches)</strong></span> Elle représente graphiquement cinq statistiques descriptives.</p>
+<p><span class="theorem-title"><strong>Définition 1.12 (Boîte à moustaches)</strong></span> Elle représente graphiquement cinq statistiques descriptives.</p>
 <ul>
 <li>La boîte donne les 1e, 2e et 3e quartiles <span class="math inline">\(q_1, q_2, q_3\)</span>. Il y a donc 50% des observations sont au-dessus/en-dessous de la médiane <span class="math inline">\(q_2\)</span> qui sépare en deux la boîte.</li>
 <li>La longueur des moustaches est moins de <span class="math inline">\(1.5\)</span> fois l’écart interquartile <span class="math inline">\(q_3-q_1\)</span> (tracée entre 3e quartile et le dernier point plus petit que <span class="math inline">\(q_3+1.5(q_3-q_1)\)</span>, etc.)</li>
@@ -665,7 +621,7 @@ Figure&nbsp;1.4: Histogramme du prix des billets au tarif Promo de trains du jeu
 </div>
 </div>
 </div>
-<p>On peut représenter la distribution d’une variable réponse continue en fonction d’une variable catégorielle en traçant une boîte à moustaches pour chaque catégorie et en les disposant côte-à-côte. Une troisième variable catégorielle peut être ajoutée par le biais de couleurs, comme dans la <a href="#fig-histboxplot" class="quarto-xref">Figure&nbsp;<span>1.5</span></a>.</p>
+<p>On peut représenter la distribution d’une variable réponse continue en fonction d’une variable catégorielle en traçant une boîte à moustaches pour chaque catégorie et en les disposant côte-à-côte. Une troisième variable catégorielle peut être ajoutée par le biais de couleurs, comme dans la <a href="#fig-histboxplot" class="quarto-xref">Figure&nbsp;<span>1.7</span></a>.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-histboxplot" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -674,13 +630,13 @@ Figure&nbsp;1.4: Histogramme du prix des billets au tarif Promo de trains du jeu
 <img src="introduction_files/figure-html/fig-histboxplot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-histboxplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.5: Boîte à moustaches du prix des billets au tarif Promo en fonction de la classe pour le jeu de données Renfe.
+Figure&nbsp;1.7: Boîte à moustaches du prix des billets au tarif Promo en fonction de la classe pour le jeu de données Renfe.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Si on veut représenter la covariabilité de deux variables continues, on utilise un nuage de points où chaque variable est représentée sur un axe et chaque observation donne la coordonnée des points. Si la représentation graphique est dominée par quelques valeurs très grandes, une transformation des données peut être utile: vous verrez souvent des données positives à l’échelle logarithmique. Si le nombre d’observations est très grand, il devient difficile de distinguer quoi que ce soit. On peut alors ajouter de la transparence ou regrouper des données en compartiments bidimensionnels (un histogramme bidimensionnel), dont la couleur représente la fréquence de chaque compartiment. Le paneau gauche de <a href="#fig-nuagedepoints" class="quarto-xref">Figure&nbsp;<span>1.6</span></a> montre un nuage de points de 100 observations simulées, tandis que celui de droite représente des compartiments hexagonaux contenant 10 000 points.</p>
+<p>Si on veut représenter la covariabilité de deux variables continues, on utilise un nuage de points où chaque variable est représentée sur un axe et chaque observation donne la coordonnée des points. Si la représentation graphique est dominée par quelques valeurs très grandes, une transformation des données peut être utile: vous verrez souvent des données positives à l’échelle logarithmique. Si le nombre d’observations est très grand, il devient difficile de distinguer quoi que ce soit. On peut alors ajouter de la transparence ou regrouper des données en compartiments bidimensionnels (un histogramme bidimensionnel), dont la couleur représente la fréquence de chaque compartiment. Le paneau gauche de <a href="#fig-nuagedepoints" class="quarto-xref">Figure&nbsp;<span>1.8</span></a> montre un nuage de points de 100 observations simulées, tandis que celui de droite représente des compartiments hexagonaux contenant 10 000 points.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-nuagedepoints" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -689,7 +645,7 @@ Figure&nbsp;1.5: Boîte à moustaches du prix des billets au tarif Promo en fonc
 <img src="introduction_files/figure-html/fig-nuagedepoints-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-nuagedepoints-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.6: Nuage de points (gauche) et diagramme hexagonal (droite) pour des données simulées.
+Figure&nbsp;1.8: Nuage de points (gauche) et diagramme hexagonal (droite) pour des données simulées.
 </figcaption>
 </figure>
 </div>
@@ -697,7 +653,7 @@ Figure&nbsp;1.6: Nuage de points (gauche) et diagramme hexagonal (droite) pour d
 </div>
 <p>Si on ajuste un modèle à des données, il convient de vérifier la qualité de l’ajustement et l’adéquation du modèle, par exemple graphiquement.</p>
 <div id="def-diagramme-qq" class="theorem definition">
-<p><span class="theorem-title"><strong>Définition 1.8 (Diagrammes quantiles-quantiles)</strong></span> Le diagramme quantile-quantile sert à vérifier l’adéquation du modèle et découle du constat suivant: si <span class="math inline">\(Y\)</span> est une variable aléatoire continue et <span class="math inline">\(F\)</span> sa fonction de répartition, alors l’application <span class="math inline">\(F(Y) \sim \mathsf{unif}(0,1)\)</span>, une loi uniforme standard. De la même façon, appliquer la fonction quantile à une variable uniforme permet de simuler de la loi <span class="math inline">\(F\)</span>, et donc <span class="math inline">\(F^{-1}(U)\)</span>. Supposons un échantillon uniforme de taille <span class="math inline">\(n\)</span>. On peut démontrer que, pour des variables continues, les statistiques d’ordre <span class="math inline">\(U_{(1)} \leq \cdots \leq U_{(n)}\)</span> ont une loi marginale beta, avec <span class="math inline">\(U_{(k)} \sim \mathsf{Beta}(k, n+1-k)\)</span> d’espérance <span class="math inline">\(k/(n+1)\)</span>.</p>
+<p><span class="theorem-title"><strong>Définition 1.13 (Diagrammes quantiles-quantiles)</strong></span> Le diagramme quantile-quantile sert à vérifier l’adéquation du modèle et découle du constat suivant: si <span class="math inline">\(Y\)</span> est une variable aléatoire continue et <span class="math inline">\(F\)</span> sa fonction de répartition, alors l’application <span class="math inline">\(F(Y) \sim \mathsf{unif}(0,1)\)</span>, une loi uniforme standard. De la même façon, appliquer la fonction quantile à une variable uniforme permet de simuler de la loi <span class="math inline">\(F\)</span>, et donc <span class="math inline">\(F^{-1}(U)\)</span>. Supposons un échantillon uniforme de taille <span class="math inline">\(n\)</span>. On peut démontrer que, pour des variables continues, les statistiques d’ordre <span class="math inline">\(U_{(1)} \leq \cdots \leq U_{(n)}\)</span> ont une loi marginale beta, avec <span class="math inline">\(U_{(k)} \sim \mathsf{Beta}(k, n+1-k)\)</span> d’espérance <span class="math inline">\(k/(n+1)\)</span>.</p>
 <p>Les paramètres de la loi <span class="math inline">\(F\)</span> sont inconnus, mais on peut obtenir un estimateur <span class="math inline">\(\widehat{F}\)</span> et appliquer la transformation inverse pour obtenir une variable approximativement uniforme. Un diagramme quantile-quantile représente les données en fonction des moments des statistiques d’ordre transformées</p>
 <ul>
 <li>sur l’axe des abscisses, les quantiles théoriques <span class="math inline">\(\widehat{F}^{-1}\{\mathrm{rang}(Y_i)/(n+1)\}\)</span></li>
@@ -713,7 +669,7 @@ Figure&nbsp;1.6: Nuage de points (gauche) et diagramme hexagonal (droite) pour d
 <img src="introduction_files/figure-html/fig-diagrammeqq2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-diagrammeqq2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.7: Diagramme probabilité-probabilité (gauche) et quantile-quantile normal (droite)
+Figure&nbsp;1.9: Diagramme probabilité-probabilité (gauche) et quantile-quantile normal (droite)
 </figcaption>
 </figure>
 </div>
@@ -727,18 +683,18 @@ Figure&nbsp;1.7: Diagramme probabilité-probabilité (gauche) et quantile-quanti
 <li>calculer et stocker les positions <span class="math inline">\(\widehat{F}^{-1}_{(b)}\{i/(n+1)\}\)</span>.</li>
 </ol>
 <p>Le résultat de cette opération sera une matrice <span class="math inline">\(n \times B\)</span> de données simulées; on obtient un intervalle de confiance symmétrique en conservant le quantile <span class="math inline">\(\alpha/2\)</span> et <span class="math inline">\(1-\alpha/2\)</span> de chaque ligne. Le nombre de simulation <span class="math inline">\(B\)</span> devrait être large (typiquement 999 ou davantage) et être choisi de manière à ce que <span class="math inline">\(B/\alpha\)</span> soit un entier.</p>
-<p>Pour l’intervalle de confiance ponctuel, chaque valeur représente une statistique et donc individuellement, la probabilité qu’une statistique d’ordre sorte de l’intervalle de confiance est <span class="math inline">\(\alpha\)</span>. En revanche, les statistiques d’ordres ne sont pas indépendantes et sont qui est plus ordonnées, ce qui fait qu’un point hors de l’intervalle risque de n’être pas isolé. Les intervalles présentés dans la <a href="#fig-diagrammeqq2" class="quarto-xref">Figure&nbsp;<span>1.7</span></a> sont donc ponctuels. La variabilité des statistiques d’ordre uniformes est plus grande autour de 1/2, mais celles des variables transformées dépend de <span class="math inline">\(F\)</span>.</p>
+<p>Pour l’intervalle de confiance ponctuel, chaque valeur représente une statistique et donc individuellement, la probabilité qu’une statistique d’ordre sorte de l’intervalle de confiance est <span class="math inline">\(\alpha\)</span>. En revanche, les statistiques d’ordres ne sont pas indépendantes et sont qui est plus ordonnées, ce qui fait qu’un point hors de l’intervalle risque de n’être pas isolé. Les intervalles présentés dans la <a href="#fig-diagrammeqq2" class="quarto-xref">Figure&nbsp;<span>1.9</span></a> sont donc ponctuels. La variabilité des statistiques d’ordre uniformes est plus grande autour de 1/2, mais celles des variables transformées dépend de <span class="math inline">\(F\)</span>.</p>
 <p>L’interprétation d’un diagramme quantile-quantile nécessite une bonne dose de pratique et de l’expérience: <a href="https://stats.stackexchange.com/questions/101274/how-to-interpret-a-qq-plot/101290#101290">cette publication par <em>Glen_b</em> sur StackOverflow</a> résume bien ce qu’on peut détecter ou pas en lisant le diagramme.</p>
 </section>
-<section id="loi-grands-nombres" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="loi-grands-nombres"><span class="header-section-number">1.6</span> Loi des grands nombres</h2>
+<section id="loi-grands-nombres" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="loi-grands-nombres"><span class="header-section-number">1.7</span> Loi des grands nombres</h2>
 <p>Un estimateur est dit <strong>convergent</strong> si la valeur obtenue à mesure que la taille de l’échantillon augmente s’approche de la vraie valeur que l’on cherche à estimer. Mathématiquement parlant, un estimateur est dit convergent s’il converge en probabilité, ou <span class="math inline">\(\hat{\theta} \stackrel{\mathsf{Pr}}{\to} \theta\)</span>: en langage commun, la probabilité que la différence entre <span class="math inline">\(\hat{\theta}\)</span> et <span class="math inline">\(\theta\)</span> diffèrent est négligeable quand <span class="math inline">\(n\)</span> est grand.</p>
 <p>La condition <em>a minima</em> pour le choix d’un estimateur est donc la convergence: plus on récolte d’information, plus notre estimateur devrait s’approcher de la valeur qu’on tente d’estimer.</p>
 <p>La loi des grands nombres établit que la moyenne empirique de <span class="math inline">\(n\)</span> observations indépendantes de même espérance, <span class="math inline">\(\overline{Y}_n\)</span>, tend vers l’espérance commune des variables <span class="math inline">\(\mu\)</span>, où <span class="math inline">\(\overline{Y}_n \rightarrow \mu\)</span>. En gros, ce résultat nous dit que l’on réussit à approximer de mieux en mieux la quantité d’intérêt quand la taille de l’échantillon (et donc la quantité d’information disponible sur le paramètre) augmente. La loi des grands nombres est très utile dans les expériences Monte Carlo: on peut ainsi approximer par simulation la moyenne d’une fonction <span class="math inline">\(g(x)\)</span> de variables aléatoires en simulant de façon répétée des variables <span class="math inline">\(Y\)</span> indépendantes et identiquement distribuées et en prenant la moyenne empirique <span class="math inline">\(n^{-1} \sum_{i=1}^n g(Y_i)\)</span>.</p>
 <p>Si la loi des grands nombres nous renseigne sur le comportement limite ponctuel, il ne nous donne aucune information sur la variabilité de notre estimé de la moyenne et la vitesse à laquelle on s’approche de la vraie valeur du paramètre.</p>
 </section>
-<section id="TCL" class="level2" data-number="1.7">
-<h2 data-number="1.7" class="anchored" data-anchor-id="TCL"><span class="header-section-number">1.7</span> Théorème central limite</h2>
+<section id="TCL" class="level2" data-number="1.8">
+<h2 data-number="1.8" class="anchored" data-anchor-id="TCL"><span class="header-section-number">1.8</span> Théorème central limite</h2>
 <p>Le théorème central limite dit que, pour un échantillon aléatoire de taille <span class="math inline">\(n\)</span> dont les observations sont indépendantes et tirées d’une loi quelconque d’espérance <span class="math inline">\(\mu\)</span> et de variance finie <span class="math inline">\(\sigma^2\)</span>, alors la moyenne empirique tend non seulement vers <span class="math inline">\(\mu\)</span>, mais à une vitesse précise:</p>
 <ul>
 <li>l’estimateur <span class="math inline">\(\overline{Y}\)</span> sera centré autour de <span class="math inline">\(\mu\)</span>,</li>
@@ -755,13 +711,13 @@ Figure&nbsp;1.7: Diagramme probabilité-probabilité (gauche) et quantile-quanti
 <img src="introduction_files/figure-html/fig-renfeclt-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-renfeclt-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.8: Distribution empirique des temps de trajet en trains à grande vitesse.
+Figure&nbsp;1.10: Distribution empirique des temps de trajet en trains à grande vitesse.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Une analyse exploratoire indique que la durée du trajet de la base de données est celle affichée sur le billet (et non le temps réel du parcours). Ainsi, il n’y a ainsi que 15 valeurs possibles. Le temps affiché moyen pour le parcours, estimé sur la base de 9603 observations, est de 170 minutes et 41 secondes. La <a href="#fig-renfeclt" class="quarto-xref">Figure&nbsp;<span>1.8</span></a> montre la distribution empirique des données.</p>
+<p>Une analyse exploratoire indique que la durée du trajet de la base de données est celle affichée sur le billet (et non le temps réel du parcours). Ainsi, il n’y a ainsi que 15 valeurs possibles. Le temps affiché moyen pour le parcours, estimé sur la base de 9603 observations, est de 170 minutes et 41 secondes. La <a href="#fig-renfeclt" class="quarto-xref">Figure&nbsp;<span>1.10</span></a> montre la distribution empirique des données.</p>
 <p>Considérons maintenant des échantillons de taille <span class="math inline">\(n=10\)</span>. Dans notre premier échantillon aléatoire, la durée moyenne affichée est 169.3 minutes, elle est de 167 minutes dans le deuxième, de 157.9 dans le troisième, et ainsi de suite.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -771,17 +727,22 @@ Figure&nbsp;1.8: Distribution empirique des temps de trajet en trains à grande 
 <img src="introduction_files/figure-html/fig-renfemeanCLT-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-renfemeanCLT-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.9: Représentation graphique du théorème central limite: échantillon aléatoire de 20 observations avec leur moyenne empirique (trait vertical rouge) (en haut à gauche). Les trois autres panneaux montrent les histogrammes des moyennes empiriques d’échantillons répétés de taille 5 (en haut à droite), 20 (en bas à gauche) et les histogrammes pour <span class="math inline">\(n=5, 20, 100\)</span> (en bas à droite) avec courbe de densité de l’approximation normale fournie par le théorème central limite.
+Figure&nbsp;1.11: Représentation graphique du théorème central limite: échantillon aléatoire de 20 observations avec leur moyenne empirique (trait vertical rouge) (en haut à gauche). Les trois autres panneaux montrent les histogrammes des moyennes empiriques d’échantillons répétés de taille 5 (en haut à droite), 20 (en bas à gauche) et les histogrammes pour <span class="math inline">\(n=5, 20, 100\)</span> (en bas à droite) avec courbe de densité de l’approximation normale fournie par le théorème central limite.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Supposons qu’on tire <span class="math inline">\(B=1000\)</span> échantillons différents, chacun de taille <span class="math inline">\(n=5\)</span>, de notre ensemble, et qu’on calcule la moyenne de chacun d’entre eux. Le graphique supérieur droit de la <a href="#fig-renfemeanCLT" class="quarto-xref">Figure&nbsp;<span>1.9</span></a> montre un de ces 1000 échantillons aléatoire de taille <span class="math inline">\(n=20\)</span> tiré de notre base de données. Les autres graphiques de la <a href="#fig-renfemeanCLT" class="quarto-xref">Figure&nbsp;<span>1.9</span></a> illustrent l’effet de l’augmentation de la taille de l’échantillon: si l’approximation normale est approximative avec <span class="math inline">\(n=5\)</span>, la distribution des moyennes est virtuellement identique à partir de <span class="math inline">\(n=20\)</span>. Plus la moyenne est calculée à partir d’un grand échantillon (c’est-à-dire, plus <span class="math inline">\(n\)</span> augmente), plus la qualité de l’approximation normale est meilleure et plus la courbe se concentre autour de la vraie moyenne; malgré le fait que nos données sont discrètes, la distribution des moyennes est approximativement normale.</p>
+<p>Supposons qu’on tire <span class="math inline">\(B=1000\)</span> échantillons différents, chacun de taille <span class="math inline">\(n=5\)</span>, de notre ensemble, et qu’on calcule la moyenne de chacun d’entre eux. Le graphique supérieur droit de la <a href="#fig-renfemeanCLT" class="quarto-xref">Figure&nbsp;<span>1.11</span></a> montre un de ces 1000 échantillons aléatoire de taille <span class="math inline">\(n=20\)</span> tiré de notre base de données. Les autres graphiques de la <a href="#fig-renfemeanCLT" class="quarto-xref">Figure&nbsp;<span>1.11</span></a> illustrent l’effet de l’augmentation de la taille de l’échantillon: si l’approximation normale est approximative avec <span class="math inline">\(n=5\)</span>, la distribution des moyennes est virtuellement identique à partir de <span class="math inline">\(n=20\)</span>. Plus la moyenne est calculée à partir d’un grand échantillon (c’est-à-dire, plus <span class="math inline">\(n\)</span> augmente), plus la qualité de l’approximation normale est meilleure et plus la courbe se concentre autour de la vraie moyenne; malgré le fait que nos données sont discrètes, la distribution des moyennes est approximativement normale.</p>
 <p>On a considéré une seule loi aléatoire inspirée de l’exemple, mais vous pouvez vous amuser à regarder l’effet de la distribution sous-jacent et de la taille de l’échantillon nécessaire pour que l’effet du théorème central limite prenne effet: il suffit pour cela de simulant des observations d’une loi quelconque de variance finie, en utilisant par exemple cette <a href="http://195.134.76.37/applets/AppletCentralLimit/Appl_CentralLimit2.html">applette</a>.</p>
 <p>Les statistiques de test qui découlent d’une moyenne centrée-réduite (ou d’une quantité équivalente pour laquelle un théorème central limite s’applique) ont souvent une loi nulle standard normale, du moins asymptotiquement (quand <span class="math inline">\(n\)</span> est grand, typiquement <span class="math inline">\(n&gt;30\)</span> est suffisant). C’est ce qui garantie la validité de notre inférence!</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-Student:1908" class="csl-entry" role="listitem">
+Gosset, William Sealy. 1908. <span>«&nbsp;The probable error of a mean&nbsp;»</span>. <em>Biometrika</em> 6 (1): 1‑25. <a href="https://doi.org/10.1093/biomet/6.1.1">https://doi.org/10.1093/biomet/6.1.1</a>.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->
