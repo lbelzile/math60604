@@ -240,7 +240,7 @@ Un autre intérêt de la propriété d'invariance est la possibilité de calcule
 Soit $\ell(\boldsymbol{\theta}),$ $\boldsymbol{\theta} \in \boldsymbol{\Theta} \subseteq \mathbb{R}^p,$ la fonction de log-vraisemblance. Le gradient (ou vecteur de dérivée première) de la log-vraisemblance $U(\boldsymbol{\theta}) = \partial \ell(\boldsymbol{\theta}) / \partial \boldsymbol{\theta}$ est appelé fonction de **score**.
 
 
-L'**'information observée** est la hessienne (matrice de dérivée deuxième) du négatif de la log-vraisemblance
+L'**information observée** est la hessienne (matrice de dérivée deuxième) du négatif de la log-vraisemblance
 \begin{align*}
 j(\boldsymbol{\theta}; \boldsymbol{y})=-\frac{\partial^2 \ell(\boldsymbol{\theta}; \boldsymbol{y})}{\partial \boldsymbol{\theta} \partial \boldsymbol{\theta}^\top}.
 \end{align*}

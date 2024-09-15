@@ -378,7 +378,7 @@
 
 \title{MATH 60604 - Modélisation statistique}
 \author{Léo Belzile}
-\date{2024-09-05}
+\date{2024-09-15}
 
 \begin{document}
 
@@ -1617,7 +1617,7 @@ l'apprentissage en vase clos des recettes plutôt que d'essayer de
 comprendre les bases de la cuisine et de faire des liens. Ce chapitre se
 concentre sur la compréhension des concepts-clés liées aux tests.
 
-\begin{tcolorbox}[enhanced jigsaw, leftrule=.75mm, colback=white, colframe=quarto-callout-important-color-frame, toptitle=1mm, colbacktitle=quarto-callout-important-color!10!white, coltitle=black, rightrule=.15mm, breakable, opacitybacktitle=0.6, opacityback=0, toprule=.15mm, arc=.35mm, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Objectifs d'apprentissage}, left=2mm, bottomrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colbacktitle=quarto-callout-important-color!10!white, arc=.35mm, opacitybacktitle=0.6, coltitle=black, left=2mm, breakable, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Objectifs d'apprentissage}, leftrule=.75mm, colback=white, bottomtitle=1mm, toprule=.15mm, titlerule=0mm, rightrule=.15mm, toptitle=1mm, colframe=quarto-callout-important-color-frame, bottomrule=.15mm]
 
 \begin{itemize}
 \tightlist
@@ -2305,7 +2305,7 @@ probabilité d'obtenir une valeur de la statistique de test égale ou même
 plus grande que celle qu'on a observée dans l'échantillon, si
 \(\mathscr{H}_0\) est vraie.
 
-\begin{tcolorbox}[enhanced jigsaw, leftrule=.75mm, colback=white, colframe=quarto-callout-caution-color-frame, toptitle=1mm, colbacktitle=quarto-callout-caution-color!10!white, coltitle=black, rightrule=.15mm, breakable, opacitybacktitle=0.6, opacityback=0, toprule=.15mm, arc=.35mm, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Mise en garde}, left=2mm, bottomrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colbacktitle=quarto-callout-caution-color!10!white, arc=.35mm, opacitybacktitle=0.6, coltitle=black, left=2mm, breakable, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Mise en garde}, leftrule=.75mm, colback=white, bottomtitle=1mm, toprule=.15mm, titlerule=0mm, rightrule=.15mm, toptitle=1mm, colframe=quarto-callout-caution-color-frame, bottomrule=.15mm]
 
 L'\href{https://doi.org/10.1080/00031305.2016.1154108}{\emph{American
 Statistical Association (ASA)} a publié une liste de principes}
@@ -2893,7 +2893,7 @@ Ce chapitre traite de modélisation statistique et d'inférence basée sur
 la vraisemblance, la méthodologie la plus populaire dans le monde de la
 statistique.
 
-\begin{tcolorbox}[enhanced jigsaw, leftrule=.75mm, colback=white, colframe=quarto-callout-important-color-frame, toptitle=1mm, colbacktitle=quarto-callout-important-color!10!white, coltitle=black, rightrule=.15mm, breakable, opacitybacktitle=0.6, opacityback=0, toprule=.15mm, arc=.35mm, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, left=2mm, bottomrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colbacktitle=quarto-callout-important-color!10!white, arc=.35mm, opacitybacktitle=0.6, coltitle=black, left=2mm, breakable, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, leftrule=.75mm, colback=white, bottomtitle=1mm, toprule=.15mm, titlerule=0mm, rightrule=.15mm, toptitle=1mm, colframe=quarto-callout-important-color-frame, bottomrule=.15mm]
 
 \textbf{Objectifs d'apprentissage}
 
@@ -2969,7 +2969,7 @@ d'indépendence\footnote{Si \(A\) et \(B\) sont des variables aléatoires
   fonction de répartition.}, la densité conjointe des observations
 \(y_1, \ldots, y_n\) est \begin{align*}
 f(\boldsymbol{y}) = \prod_{i=1}^n f(y_i) =\prod_{i=1}^n  \lambda^{-1} \exp(- y_i/\lambda) = \lambda^{-n} \exp\left(- \sum_{i=1}^n y_i/\lambda\right)
-\end{align*} L'espace d'échantillonage est
+\end{align*} L'espace d'échantillonnage est
 \(\mathbb{R}_{+}^n = [0, \infty)^n,\) et l'espace des paramètres est
 \((0, \infty).\)
 
@@ -3135,11 +3135,11 @@ vraie valeur \(\sigma^2\) pour \(n\) suffisamment grand.
 
 \end{example}
 
-\begin{example}[Ordinary least
-squares]\protect\hypertarget{exm-ols-mle}{}\label{exm-ols-mle}
+\begin{example}[Moindres carrés
+ordinaires]\protect\hypertarget{exm-mco-mle}{}\label{exm-mco-mle}
 
 Le cas des données normalement distribuées est intimement lié à la
-régression linéaire et aux moindres carrés ordinaires : en supposant la
+régression linéaire et aux moindres carrés ordinaires: en supposant la
 normalité des erreurs, les estimateurs des moindres carrés de
 \(\boldsymbol{\beta}\) coïncident avec l'estimateur du maximum de
 vraisemblance de \(\boldsymbol{\beta}\).
@@ -3228,14 +3228,14 @@ première) de la log-vraisemblance
 \(U(\boldsymbol{\theta}) = \partial \ell(\boldsymbol{\theta}) / \partial \boldsymbol{\theta}\)
 est appelé fonction de \textbf{score}.
 
-L'\textbf{`information observée** est la hessienne (matrice de dérivée
+L'\textbf{information observée} est la hessienne (matrice de dérivée
 deuxième) du négatif de la log-vraisemblance \begin{align*}
 j(\boldsymbol{\theta}; \boldsymbol{y})=-\frac{\partial^2 \ell(\boldsymbol{\theta}; \boldsymbol{y})}{\partial \boldsymbol{\theta} \partial \boldsymbol{\theta}^\top}.
 \end{align*} En pratique, on évalue cette fonction à l'estimation du
 maximum de vraisemblance \(\widehat{\boldsymbol{\theta}},\) d'où le
 terme information observée pour désigner plutôt
 \(j(\widehat{\boldsymbol{\theta}}).\) Sous des conditions de régularité,
-l'}information de Fisher** est \begin{align*}
+l'\textbf{information de Fisher} est \begin{align*}
 i(\boldsymbol{\theta}) = \mathsf{E}\left\{U(\boldsymbol{\theta}; \boldsymbol{Y}) U(\boldsymbol{\theta}; \boldsymbol{Y})^\top\right\} = \mathsf{E}\left\{j(\boldsymbol{\theta}; \boldsymbol{Y})\right\}
 \end{align*} La différence est qu'on prend l'espérance de chaque
 fonction des observations à l'intérieur des entrées de la matrice. Quand
@@ -3462,7 +3462,7 @@ retournée.
 
 \end{example}
 
-\section{Loi d'échantillonage}\label{loi-duxe9chantillonage}
+\section{Loi d'échantillonnage}\label{loi-duxe9chantillonnage}
 
 La \textbf{loi d'échantillonnage} d'un estimateur
 \(\widehat{\boldsymbol{\theta}}\) est la loi de probabilité induite par
@@ -3487,7 +3487,7 @@ i(\boldsymbol{\theta}_0)^{-1/2}U(\boldsymbol{\theta}_0) \stackrel{\cdot}{\sim}\m
 \end{align*}
 
 On peut utiliser ce résultat pour obtenir une approximation à la loi
-d'échantillonage des estimateurs du maximum de vraisemblance de
+d'échantillonnage des estimateurs du maximum de vraisemblance de
 \(\widehat{\boldsymbol{\theta}},\) \begin{align*}
 \widehat{\boldsymbol{\theta}} \stackrel{\cdot}{\sim} \mathsf{normale}_p\{\boldsymbol{\theta}_0, i^{-1}(\boldsymbol{\theta})\}
 \end{align*} ou la matrice de covariance est l'inverse de l'information
