@@ -85,7 +85,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
+<link href="./regression-lineaire.html" rel="next">
 <link href="./inference.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -221,6 +221,12 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./regression-lineaire.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Régression linéaire</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Bibliographie</span></a>
   </div>
@@ -303,7 +309,7 @@ Figure&nbsp;3.1: Histogramme du temps d’attente avec des traits indiquant les 
 </div>
 </div>
 <div id="exm-modele-exponentiel" class="theorem example">
-<p><span class="theorem-title"><strong>Exemple 3.1 (Modèle exponentiel pour les temps d’attente)</strong></span> Pour modéliser les temps d’attente, on considère une loi exponentielle avec paramètre d’échelle <span class="math inline">\(\lambda\)</span> (<a href="introduction.html#def-loiexpo" class="quarto-xref">Définition&nbsp;<span>1.7</span></a>), où <span class="math inline">\(\lambda\)</span> est l’espérance (moyenne théorique). Sous un postulat d’indépendence<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, la densité conjointe des observations <span class="math inline">\(y_1, \ldots, y_n\)</span> est <span class="math display">\[\begin{align*}
+<p><span class="theorem-title"><strong>Exemple 3.1 (Modèle exponentiel pour les temps d’attente)</strong></span> Pour modéliser les temps d’attente, on considère une loi exponentielle avec paramètre d’échelle <span class="math inline">\(\lambda\)</span> (<a href="introduction.html#def-loiexpo" class="quarto-xref">Définition&nbsp;<span>1.8</span></a>), où <span class="math inline">\(\lambda\)</span> est l’espérance (moyenne théorique). Sous un postulat d’indépendence<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, la densité conjointe des observations <span class="math inline">\(y_1, \ldots, y_n\)</span> est <span class="math display">\[\begin{align*}
 f(\boldsymbol{y}) = \prod_{i=1}^n f(y_i) =\prod_{i=1}^n  \lambda^{-1} \exp(- y_i/\lambda) = \lambda^{-n} \exp\left(- \sum_{i=1}^n y_i/\lambda\right)
 \end{align*}\]</span> L’espace d’échantillonnage est <span class="math inline">\(\mathbb{R}_{+}^n = [0, \infty)^n,\)</span> et l’espace des paramètres est <span class="math inline">\((0, \infty).\)</span></p>
 </div>
@@ -639,7 +645,7 @@ Figure&nbsp;3.3: Log-vraisemblance profilée pour <span class="math inline">\(\a
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># La valeur 1 n'appartient pas à l'intervalle, rejeter H0</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Nous rejetons l’hypothèse nulle, ce qui signifie que le sous-modèle exponentiel n’est pas une simplification adéquate du modèle de Weibull <span class="math inline">\((\alpha \neq 1\)</span>).</p>
-<p>Nous pouvons également vérifier l’ajustement des deux modèles à l’aide d’un diagramme quantile-quantile (cf. <a href="introduction.html#def-diagramme-qq" class="quarto-xref">Définition&nbsp;<span>1.13</span></a>). Il ressort de <a href="#fig-qqplots-weibull-exp" class="quarto-xref">Figure&nbsp;<span>3.4</span></a> que le modèle exponentiel surestime les temps d’attente les plus importants, dont la dispersion dans l’échantillon est inférieure à celle impliquée par le modèle. En revanche, la ligne droite presque parfaite pour le modèle de Weibull dans le panneau de droite de <a href="#fig-qqplots-weibull-exp" class="quarto-xref">Figure&nbsp;<span>3.4</span></a> suggère que l’ajustement du modèle est adéquat.</p>
+<p>Nous pouvons également vérifier l’ajustement des deux modèles à l’aide d’un diagramme quantile-quantile (cf. <a href="introduction.html#def-diagramme-qq" class="quarto-xref">Définition&nbsp;<span>1.14</span></a>). Il ressort de <a href="#fig-qqplots-weibull-exp" class="quarto-xref">Figure&nbsp;<span>3.4</span></a> que le modèle exponentiel surestime les temps d’attente les plus importants, dont la dispersion dans l’échantillon est inférieure à celle impliquée par le modèle. En revanche, la ligne droite presque parfaite pour le modèle de Weibull dans le panneau de droite de <a href="#fig-qqplots-weibull-exp" class="quarto-xref">Figure&nbsp;<span>3.4</span></a> suggère que l’ajustement du modèle est adéquat.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-qqplots-weibull-exp" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1272,8 +1278,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link" aria-label="Bibliographie">
-        <span class="nav-page-text">Bibliographie</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./regression-lineaire.html" class="pagination-link" aria-label="Régression linéaire">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Régression linéaire</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

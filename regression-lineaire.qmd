@@ -25,7 +25,7 @@ où $\mathbf{x}_i = (1, x_{i1}, \ldots, x_{ip})$ est un vecteur ligne de taille 
 
 
 
-Pour simplifier la notation, nous regroupons les observations dans un vecteur $n$ $\boldsymbol{Y}$ et les explications dans une matrice $n \n fois (p+1)$ $\mathbf{X}$ en concaténant une colonne de uns et les vecteurs de colonnes $p$ $\boldsymbol{X}_1, \ldots, \boldsymbol{X}_p$, chacun contenant les $n$ observations des explications respectives. La matrice $\mathbf{X}$ est appelée **matrice du modèle** (ou parfois matrice de devis dans un contexte expérimental), et sa $i$ème ligne est $\mathbf{x}_i$.
+Pour simplifier la notation, nous regroupons les observations dans un vecteur $n$ $\boldsymbol{Y}$ et les explications dans une matrice $n \times (p+1)$ $\mathbf{X}$ en concaténant une colonne de uns et les vecteurs de colonnes $p$ $\boldsymbol{X}_1, \ldots, \boldsymbol{X}_p$, chacun contenant les $n$ observations des explications respectives. La matrice $\mathbf{X}$ est appelée **matrice du modèle** (ou parfois matrice de devis dans un contexte expérimental), et sa $i$ème ligne est $\mathbf{x}_i$.
 
 
 En supposant que la  variable réponse provient d'une famille de localisation, nous pouvons réécrire le modèle linéaire en termes de la moyenne plus un aléa,
@@ -35,9 +35,9 @@ En supposant que la  variable réponse provient d'une famille de localisation, n
 où $\varepsilon_i$ est le terme spécifique à l'observation $i$. On assume que les aléas $\varepsilon_1, \ldots \varepsilon_n$ sont indépendants et identiquement distribués, avec $\mathsf{E}(\varepsilon_i \mid \mathbf{x}_i) = 0$ et $\mathsf{Var}(\varepsilon_i \mid \mathbf{x}_i) = \sigma^2$. On fixe l'espérance de l'aléa à zéro car on postule qu’il n’y a pas d’erreur systématique. La variance $\sigma^2$ sert à tenir compte du fait qu’aucune relation linéaire exacte ne lie $\mathbf{x}_i$ et $Y_i$, ou que les mesures de $Y_i$ sont variables.
 
 
-Le modèle linéaire normal ou gaussien spécifie que les réponses suivent une loi normale, avec $Y_i \mid \boldsymbol{X}_i=\boldsymbol{x}_i \sim \mathsf{normale}(\mathbf{x}_i\boldsymbol{\beta}, \sigma^2)$. La loi normale est une famille de localisation, de sorte que $Y \sim \mathsf{normal}(\mu, \sigma^2)$ équivaut à la décomposition additive $\mu + \varepsilon$ pour $\varepsilon \sim \mathsf{normal}(0, \sigma^2)$.
+Le modèle linéaire normal ou gaussien spécifie que les réponses suivent une loi normale, avec $Y_i \mid \boldsymbol{X}_i=\boldsymbol{x}_i \sim \mathsf{normale}(\mathbf{x}_i\boldsymbol{\beta}, \sigma^2)$. La loi normale est une famille de localisation, de sorte que $Y \sim \mathsf{normale}(\mu, \sigma^2)$ équivaut à la décomposition additive $\mu + \varepsilon$ pour $\varepsilon \sim \mathsf{normale}(0, \sigma^2)$.
 
-## Exemples 
+### Exemples
 
 Considérons quelques exemples de jeux de données qui serviront à illustrer les méthodes par la suite. 
 
@@ -63,6 +63,31 @@ dim(modmat) # dimension de la matrice du modèle
 
 
 
+:::{#exm-teaching-baumann}
+
+## Méthodes d'apprentissage de compréhension de lecture
+
+
+La base de données `BSJ92` du paquet `hecedsm` contient les résultats d'une expérience de @Baumann:1992 sur l'efficacité de différentes stratégies de lecture sur la compréhension d'enfants.
+
+
+> Soixante-six élèves de quatrième année ont été assignés au hasard à l'un des trois groupes expérimentaux suivants : (a) un groupe « Think-Aloud » (TA), dans lequel les élèves ont appris diverses stratégies de contrôle de la compréhension pour la lecture d'histoires (par exemple : auto-questionnement, prédiction, relecture) par le biais de la réflexion à haute voix; (b) un groupe lecture dirigée-activité de réflexion (DRTA), dans lequel les élèves ont appris une stratégie de prédiction-vérification pour lire et répondre aux histoires; ou (c) un groupe activité de lecture dirigée (DRA), un groupe contrôle dans lequel les élèves se sont engagés dans une lecture guidée non interactive d'histoires.
+
+Les variables d'intérêt sont `group`, le facteur pour le groupe expérimental, soit `DRTA`, `TA` et `DR` ainsi que les variables numériques `pretest1` et `posttest1`, qui donnent le score (sur 16) sur le test pré-expérience pour la tâche de détection des erreurs.
+
+```{r}
+#| eval: true
+#| echo: false
+data(BSJ92, package = "hecedsm")
+# Compute sample correlation between pretest and posttest 1
+cor_baum <- with(BSJ92, cor(posttest1, pretest1))
+```
+
+Les données sont balancées puisqu'il y a 22 observations dans chacun des trois sous-groupes. Les chercheurs ont appliqué une série de trois évaluations: le test 1 de  détection d'erreurs, le test 2 consistant en un questionnaire de suivi de compréhension, et le test 3 standardisé *Degrees of Reading Power*). Les tests 1 et 2 ont été administrés à la fois avant et après l'intervention: cela nous permet d'établir l'amélioration moyenne de l'élève en ajoutant le résultat du test pré-intervention comme covariable. Les tests 1 étaient sur 16, mais celui administré après l'expérience a été rendu plus difficile pour éviter les cas d'étudiants obtenant des scores presque complets. La corrélation entre le pré-test et le post-test 1 est $(\widehat{\rho}_1=`r round(cor_baum, 2)`)$, beaucoup plus forte que celle du second test $(\widehat{\rho}_2=`r round(cor(BSJ92$posttest2, BSJ92$pretest2), 2)`)$.
+
+
+:::
+
 
 :::{#exm-college-salary-discrimination}
 
@@ -76,6 +101,19 @@ dim(modmat) # dimension de la matrice du modèle
 -   `sexe`: indicateur binaire pour le sexe, `homme` ou `femme`.
 -   `service`: nombre d'années de service.
 -   `annees`: nombre d'années depuis l'obtention du doctorat.
+
+:::
+
+
+
+
+
+
+:::{#exm-moon-vanepps}
+
+## Suggestion de montants de dons
+
+L'étude 1 de @Moon.VanEpps:2023 (données `MV23_S1`, paquet `hecedsm`) porte sur la proportion de donateurs à un organisme de charité. Les participants au panel en ligne avaient la possibilité de gagner 25$ et de faire don d'une partie de cette somme à l'organisme de leur choix. Les données fournies incluent uniquement les personnes qui n'ont pas dépassé ce montant et qui ont indiqué avoir fait un don d'un montant non nul.
 
 :::
 
@@ -136,3 +174,625 @@ knitr::kable(table(college$sexe, college$echelon),
 Plusieurs des variables explicatives potentielles des données `college` sont cat/gorielles (`echelon`, `sexe`, `discipline`), les deux dernières étant binaires. Les variables numériques `annees` et `service` sont fortement corrélées, avec une corrélation linéaire de `r with(hecmodstat::college, cor(annees, service))`.
 
 :::
+
+
+:::{#exm-donnees-manquantes-moon}
+
+## Analyse exploratoire et données manquantes
+
+
+Il convient de vérifier pour les données de @Moon.VanEpps:2023 que la description de la collecte coïncide avec la structure. Puisque les personnes qui n'ont pas donné ne remplissent pas le champ pour le montant, ce dernier indique une valeur manquante. Tous les montants des dons sont entre 0.25$ et 25$.
+
+```{r}
+#| eval: true
+#| echo: true
+data(MV23_S1, package = "hecedsm")
+str(MV23_S1)
+summary(MV23_S1)
+```
+
+
+Si nous incluons `amount` comme variable réponse dans un modèle de régression, les 235 observations manquantes seront supprimées par défaut. Cela ne pose pas de problème si nous voulons comparer le montant moyen des personnes qui ont fait un don, mais dans le cas contraire, nous devons transformer les `NA` en zéros. La variable `donate` ne doit pas être incluse comme variable explicative dans le modèle, car elle permet de prédire exactement les personnes qui n'ont pas donné.
+
+:::
+
+
+
+### Spécification du modèle pour la moyenne
+
+
+La première étape d'une analyse consiste à décider quelles variables explicatives doivent être ajoutées à l'équation de la moyenne, et sous quelle forme. Les modèles ne sont que des approximations de la réalité; la section 2.1 de @Venables:2000 affirme que, si nous pensons que la véritable fonction moyenne reliant les variables explicatives $\boldsymbol{X}$ et la réponse $Y$ est de la forme $\mathsf{E}(Y \mid \boldsymbol{X}) = f(\boldsymbol{X})$ pour $f$ suffisamment lisse, alors le modèle linéaire est une approximation du premier ordre. À des fins d'interprétation, il est logique de centrer sur la moyenne toute variable explicative continue, car cela facilite l'interprétation.
+
+
+Dans un cadre expérimental, où la condition expérimentale est attribué de manière aléatoire, nous pouvons directement comparer les différents traitements et tirer des conclusions causales (puisque toutes les autres choses sont égales en moyenne constantes, toute différence détectable est due en moyenne à notre manipulation). Bien que nous nous abstenions généralement d'inclure d'autres variables explicatives afin de préserver la simplicité du modèle, il peut néanmoins être utile de prendre en compte certaines variables concomitantes qui expliquent une partie de la variabilité afin de filtrer le bruit de fond et d'augmenter la puissance de l'étude. Par exemple, pour les données de @Baumann:1992, l'objectif est de comparer les scores moyens en fonction de la méthode d'enseignement, nous inclurions `group`. Dans cet exemple, il serait également logique d'inclure le résultat `pretest1` en tant qu'élément explicatif pour `posttest1`. De cette façon, nous modéliserons la différence moyenne d'amélioration entre le pré-test et le post-test plutôt que le résultat final.
+
+
+
+
+Dans un contexte observationnel, les participants dans différents groupes ont des caractéristiques différentes et nous devons donc tenir compte de ces différences. Les modèles linéaires utilisés en économie et en finance contiennent souvent des variables de contrôle au modèle pour tenir compte des différences potentielles dues aux variables sociodémographiques (âge, revenu, etc.) qui seraient corrélées à l'appartenance aux groupes.  Tout test de coefficients ne prendrait en compte que la corrélation entre le résultat $Y$ et le facteur explicatif postulé d'intérêt.
+
+## Interprétation des coefficients
+
+La spécification de la moyenne est
+\begin{align*}
+\mathsf{E}(Y_i \mid \boldsymbol{X}_i = \boldsymbol{x}_i) = \beta_0 + \beta_1 x_{i1} + \ldots + \beta_p x_{ip}.
+\end{align*}
+L'**ordonnée à l'origine** $\beta_0$ est la **valeur moyenne de $Y$** lorsque toutes les variables explicatives du modèles sont nulles, soit $\boldsymbol{x}_i=\boldsymbol{0}_p$.
+\begin{align*}
+\beta_0 &= \mathsf{E}(Y \mid X_1=0,X_2=0,\ldots,X_p=0) \\
+&= \beta_0 + \beta_1 \times 0 + \beta_2 \times 0 + \cdots + \beta_p \times 0
+\end{align*}
+Bien sur, il se peut que cette interprétation n'ait aucun sens dans le contexte étudié. Centrer les variables explicatives numériques (pour que leurs moyennes soit zéro) permet de rendre l'ordonnée à l'origine plus interprétable.
+
+
+En régression linéaire, le paramètre $\beta_j$ mesure l'effet de la variable $X_j$ sur la variable $Y$ une fois que l'on tient compte des effets des autres variables explicatives. Pour chaque augmentation d'une unité de $X_j$, la réponse $Y$ augmente en moyenne de $\beta_j$ lorsque les autres variables demeurent inchangées,
+\begin{align*}
+\beta_j &= \mathsf{E}(Y \mid X_j= x_j+1, \boldsymbol{X}_{-j} = \boldsymbol{x}_{-j})  - \mathsf{E}(Y \mid \boldsymbol{X} = \boldsymbol{x}) \\
+&= \sum_{\substack{k=1\\k \neq j}}^p \beta_kx_k + \beta_j(x_j+1) - \sum_{k=1}^p \beta_k x_k
+\end{align*}
+
+:::{#def-effet-marginal}
+
+## Effet marginal
+
+On définit l'effet marginal comme la dérivée première de la moyenne conditionnelle par rapport à $X_j$, soit
+$$\text{effet marginal de }X_j =  \frac{\partial \mathsf{E}(Y \mid \boldsymbol{X})}{ \partial X_j}.$$
+Le coefficient $\beta_j$ est aussi l'*effet marginal* de la variable $X_j$.
+
+:::
+
+
+
+Les variables indicatrices, qui prennent typiquement des valeurs de $-1$, $0$ et $1$, servent à indiquer l'appartenance aux différentes modalités d'une variable catégorielle. Par exemple, pour une variable indicatrice binaire, nous pouvons créer une colonne dont les entrées sont $1$ pour le groupe de traitement et $0$ pour le groupe de contrôle.
+
+
+
+:::{#exm-moon}
+
+## Modèle linéaire avec une seule variable binaire
+
+Considérons par exemple un modèle linéaire pour les données de @Moon.VanEpps:2023 qui inclut le montant (`amount`) (en dollars, de 0 pour les personnes qui n'ont pas fait de don, jusqu'à 25 dollars).
+
+L'équation du modèle linéaire simple qui inclut la variable binaire `condition` est
+\begin{align*}
+\mathsf{E}(\texttt{amount} \mid \texttt{condition})&= \beta_0 + \beta_1 \mathbf{1}_{\texttt{condition}=\texttt{quantity}}.
+\\&= \begin{cases}
+\beta_0, & \texttt{condition}=0, \\
+\beta_0 + \beta_1 & \texttt{condition}=1.
+\end{cases}
+\end{align*}
+Soit $\mu_0$ l'espérance du montant pour le groupe contrôle (`open-ended`) et $\mu_1$ celui des participants du groupe de traitement (`quantity`). Un modèle linéaire qui ne contient qu'une variable binaire $X$ comme régresseur revient à spécifier une moyenne différente pour chacun des deux groupes. L'ordonnée à l'origine $\beta_0$ est la moyenne du groupe contrôle. La moyenne du groupe traitement (`quantity`) est $\beta_0 + \beta_1 = \mu_1$ et donc $\beta_1=\mu_1-\mu_0$ est la différence du montant moyen de dons entre le groupe `open-ended`  et le groupe `quantity`. Cette paramétrisation est commode si on veut tester s'il y a une différence moyenne entre les deux groupes, puisque cette hypothèse nulle correspond à $\mathscr{H}_0: \beta_1=0$.
+
+```{r}
+#| label: fig-donation-moon
+#| eval: true
+#| echo: false
+#| fig-align: 'center'
+#| fig-cap: "Modèle linéaire simple pour les données `MV23_S1` avec `condition` comme variable explicative binaire, avec nuage de points décalés et un diagramme en demi-violin. Les cercles indiquent les moyennes de l'échantillon."
+data("MV23_S1", package = "hecedsm")
+MV23_S1 <- MV23_S1 |>
+  dplyr::mutate(amount2 = ifelse(is.na(amount), 0, amount),
+                condbin = ifelse(condition == "quantity",1,0))
+coefs <- coef(lm(data = MV23_S1, amount2 ~ condbin))
+ggplot(data = MV23_S1,
+   aes(x = condbin, y = amount2, group = condition)) +
+  see::geom_violindot(aes(col = condition), position_dots = position_jitter(width = 0.05)) +
+  MetBrewer::scale_color_met_d("Hiroshige") +
+  geom_abline(intercept = coefs[1], slope = coefs[2]) +
+   scale_x_continuous(breaks = 0:1,
+                     limits = c(-0.1,1.5),
+                     labels = 0:1) +
+  theme(legend.position = "inside",
+        legend.position.inside = c(.95, .95),
+        legend.justification = c("right", "top")) +
+  labs(x = "condition", y = "montant (en dollars)") +
+  stat_summary(fun = mean, aes(col = condition))
+```
+
+
+Même si le modèle linéaire définit une droite, cette dernière ne peut être évaluée qu'à $0$ ou $1$; la @fig-donation-moon montre cette droite avec en plus un nuage de points des montants, décalés horizontalement, et de la densité pour chaque condition. Le point coloré indique la moyenne empirique, qui correspond aux estimations.
+
+Même s'il est clair que les données sont fortement discrétisées avec beaucoup de doublons et de zéros, l'échantillon a une taille de `r nrow(MV23_S1)` observations, donc les conclusions quant aux moyennes de groupe seront fiables.
+
+:::
+
+
+
+Considérons des variables catégorielles avec $K > 2$ niveaux, qui dans **R** sont de la classe `factor`. La paramétrisation par défaut des facteurs se fait en termes de contraste de traitement: le niveau de référence du facteur (par défaut, la première valeur dans l'ordre alphanumérique) sera traité comme la catégorie de référence et assimilé à l'ordonnée à l'origine. Le logiciel créera alors un ensemble de $K-1$ variables indicatrices pour un facteur à $K$ niveaux, chacune d'entre elles ayant un pour la catégorie représentée et zéro dans le cas contraire.
+
+:::{#exm-baumann-dummies}
+
+# Codage binaire pour les variables catégorielles
+
+Considérons l'étude de @Baumann:1992 et la seule variable `group`. Les données sont classées par groupe : les 22 premières observations concernent le groupe `DR`, les 22 suivantes le groupe `DRTA` et les 22 dernières le groupe `TA`. Si nous ajustons un modèle avec `groupe` comme variable catégorielle
+
+```{r}
+#| eval: true
+#| echo: true
+data(BSJ92, package = "hecedsm")
+class(BSJ92$group) # Vérifier que group est un facteur
+levels(BSJ92$group) # première valeur est la catégorie de référence
+# Imprimer trois lignes de la matrice du modèle
+# (trois enfants de groupes différents)
+model.matrix(~ group, data = BSJ92)[c(1,23,47),]
+# Comparer avec les niveaux des facteurs
+BSJ92$group[c(1,23,47)]
+```
+
+Si nous ajustons un modèle avec `groupe` comme variable catégorielle, la spécification de la moyenne du modèle est $$\mathsf{E}(Y \mid \texttt{group})= \beta_0 + \beta_1\mathbf{1}_{\texttt{group}=\texttt{DRTA}} + \beta_2\mathbf{1}_{\texttt{group}=\texttt{TA}}.$$
+Puisque la variable `group` est catégorielle avec $K=3$ niveaux, il nous faut mettre $K-1 = 2$ variables indicatrices.
+
+Avec la paramétrisation en termes de **traitements** (option par défaut), on obtient
+
+-  $\mathbf{1}_{\texttt{group}=\texttt{DRTA}}=1$  si `group=DRTA` et zéro sinon,
+-  $\mathbf{1}_{\texttt{group}=\texttt{TA}}=1$ si `group=TA` et zéro sinon.
+
+Étant donné que le modèle comprend une ordonnée à l'origine et que le modèle décrit en fin de compte trois moyennes de groupe, nous n'avons besoin que de deux variables supplémentaires. Avec la paramétrisation en termes de **traitements**, la moyenne du groupe de référence est l'ordonnée à l'origine. Si `group`=`DR` (référence), les deux variables indicatrices binaires `groupDRTA` et `groupTA` sont nulles. La moyenne de chaque groupe est
+
+- $\mu_{\texttt{DR}} = \beta_0$,
+- $\mu_{\texttt{DRTA}}=\beta_0 + \beta_1$ et
+- $\mu_{\texttt{TA}} = \beta_0 + \beta_2$.
+
+Ainsi, $\beta_1$ est la différence de moyenne entre les groupes `DRTA` et`DR`, et de la même façon $\beta_2=\mu_{\texttt{TA}}- \mu_{\texttt{DR}}$.
+
+:::
+
+:::{#rem-sumtozero}
+
+## Contrainte de somme nulle
+
+La paramétrisation discutée ci-dessus, qui est la valeur par défaut de la fonction `lm`, n'est pas la seule disponible. Plutôt que de comparer la moyenne de chaque groupe avec celle d'une catégorie de référence, la paramétrisation par défaut pour les modèles d'analyse de la variance est en termes de contraintes de somme nulle pour les coefficients, où l'ordonnée à l'origine est la moyenne équi-pondérée de chaque groupe, et les paramètres $\beta_1, \ldots, \beta_{K-1}$ sont des différences par rapport à cette moyenne.
+
+```{r}
+#| eval: false
+#| echo: true
+model.matrix(
+    ~ group,
+    data = BSJ92,
+    contrasts.arg = list(group = "contr.sum"))
+```
+
+```{r}
+#| eval: true
+#| echo: false
+#| label: tbl-sum2zero
+#| tbl-cap: "Paramétrisation des variables indicatrices pour la contrainte de somme nulle pour une variable catégorielle."
+modmat_sum2zero <- model.matrix(
+    ~ group,
+    data = BSJ92,
+    contrasts.arg = list(group = "contr.sum"))[c(1,23,47),]
+rownames(modmat_sum2zero) <- BSJ92$group[c(1,23,47)]
+kable(modmat_sum2zero, booktabs = TRUE, row.names = TRUE)
+```
+
+Dans la contrainte de somme nulle, nous obtenons à nouveau deux variables indicatrices, `group1` et `group2`, ainsi que l'ordonnée à l'origine. La valeur de `group1` est $1$ si `group=DR`, $0$ si `group=DRTA` et $-1$ si `group=TA`. ous trouvons $\mu_{\texttt{DR}} = \beta_0 + \beta_1$, $\mu_{\texttt{DRTA}}=\beta_0 + \beta_2$ et $\mu_{\texttt{TA}} = \beta_0 - \beta_1 - \beta_2$. Quelques manipulations algébriques révèlent que
+$\beta_0 = (\mu_{\texttt{DR}} +\mu_{\texttt{DRTA}}+\mu_{\texttt{TA}})/3$, l'espérance équipondérée des différents niveaux. De manière générale, l'ordonnée à l'origine moins la somme de tous les autres coefficients liés aux facteurs. 
+
+
+En supprimant l'ordonnée à l'origine, on pourrait inclure trois variables indicatrices pour chaque niveau d'un facteur et chaque paramètre correspondrait alors à la moyenne. Ce n'est pas recommandé dans **R** car le logiciel traite différemment les modèles sans ordonnée à l'origine et certains résultats seront absurdes (par exemple, le coefficient de détermination sera erroné).
+
+:::
+
+
+:::{#exm-college-coeff}
+
+## Interprétation des coefficients
+
+On considère un modèle de régression pour les données `college` qui inclut le sexe, l'échelon académique, le nombre d'années de service et le domaine d'expertise (appliquée ou théorique).
+
+
+Le modèle linéaire postulé s'écrit
+
+\begin{align*}
+\texttt{salaire} &= \beta_0 + \beta_1 \mathbf{1}_{\texttt{sexe}=\texttt{femme}} +\beta_2 \mathbf{1}_{\texttt{domaine}=\texttt{theorique}} \\&\quad +\beta_3 \mathbf{1}_{\texttt{echelon}=\texttt{aggrege}}
++\beta_4 \mathbf{1}_{\texttt{echelon}=\texttt{titulaire}}  +\beta_5 \texttt{service} + \varepsilon.
+\end{align*}
+
+```{r}
+#| label: tbl-collegecoefs
+#| tbl-cap: "Estimations des coefficients du modèle linéaire pour les données $\\texttt{college}$ (en dollars USD, arrondis à l'unité)."
+#| eval: true
+#| echo: false
+college$sexe <- relevel(x = college$sexe, ref = "homme")
+college_lm <- lm(salaire ~  sexe + domaine + echelon + service , data = college)
+coefs_college_lm <- round(coef(college_lm)*1000,0)
+names(coefs_college_lm) <- paste0("$\\widehat{\\beta}_",0:5,"$")
+knitr::kable(t(coefs_college_lm),
+     booktabs = TRUE, escape = FALSE)
+```
+
+
+L'interprétation des coefficients est la suivante:
+
+- L'ordonnée à l'origine $\beta_0$ correspond au salaire moyen d'un professeur adjoint (un homme) qui vient de compléter ses études et qui travaille dans un domaine appliqué: on estime ce salaire à $\widehat{\beta}_0=`r coefs_college_lm[1]`$ dollars.
+- toutes choses étant égales par ailleurs (même domaine, échelon et années depuis le dernier diplôme), l'écart de salaire entre un homme et un femme est estimé à  $\widehat{\beta}_1=`r coefs_college_lm[2]`$ dollars.
+- *ceteris paribus*, un(e) professeur(e) qui oeuvre dans un domaine théorique gagne $\beta_2$ dollars de plus qu'une personne du même sexe dans un domaine appliqué; on estime cette différence à $`r coefs_college_lm[3]`$ dollars.
+- *ceteris paribus*, la différence moyenne de salaire entre professeurs adjoints et aggrégés est estimée à  $\widehat{\beta}_3=`r coefs_college_lm[4]`$ dollars.
+- *ceteris paribus*, la différence moyenne de salaire entre professeurs adjoints et titulaires est de $\widehat{\beta}_4=`r coefs_college_lm[5]`$ dollars.
+- au sein d'un même échelon, chaque année supplémentaire de service mène à une augmentation de salaire annuelle moyenne de $\widehat{\beta}_5=`r coefs_college_lm[6]`$ dollars.
+
+:::
+
+
+:::{#rem-polynomes}
+
+## Polynômes
+
+Il n'est pas toujours possible de fixer la valeur des autres colonnes de $\mathbf{X}$ si plusieurs colonnes contiennent des transformations ou des fonctions d'une même variable explicative. Par exemple, on pourrait par exemple considérer un polynôme d'ordre $k$ (ordinairement, on prendre $k\leq 3$),
+\begin{align*}
+\mathsf{E}(Y \mid X=x)=\beta_0+ \beta_1 x+ \beta_2 x^2 + \ldots +\beta_k x^k.
+\end{align*}
+Si l'on inclut un terme d'ordre $k$, $x^k$, il faut **toujours** inclure les termes d'ordre inférieur $1, x, \ldots, x^{k-1}$ pour l'interprétabilité du modèle résultant (autrement, cela revient à choisir un polynôme en imposant que certains coefficients soient zéros). L'interprétation des effets des covariables nonlinéaires (même polynomiaux) est complexe parce qu'on ne peut pas « fixer la valeur des autres variables »: l'effet d'une augmentation d'une unité de $x$ *dépend de la valeur de cette dernière*. L'effet marginal  de $x$ est $\beta_1 + \sum_{j=1}^{k-1}j \beta_{j+1}x^j$.
+
+L'utilisation de polynôme, plus flexibles, n'est généralement pas recommendée car ces derniers se généralisent mal hors de l'étendue observée des données. L'utilisation de splines avec une pénalité sur les coefficients, avec des modèles additifs, offre plus de flexibilité.
+
+:::
+
+
+:::{#exm-quadmod}
+
+## Modèle quadratique pour les données automobile
+
+Considérons un modèle de régression linéaire pour l'autonomie d'essence en fonction de la puissance du moteur pour différentes voitures dont les caractéristiques sont données dans le jeu de données `automobiles`. Le modèle postulé incluant un terme quadratique est
+\begin{align*}
+\texttt{autonomie}_i = \beta_0 + \beta_1 \texttt{puissance}_i + \beta_2 \texttt{puissance}_i^2 + \varepsilon_i
+\end{align*}
+Afin de comparer l'ajustement du modèle quadratique, on peut inclure également la droite ajustée du modèle de régression simple qui n'inclut que puissance.
+
+```{r}
+#| label: fig-autoquad2d
+#| echo: false
+#| fig-cap: Modèle de régression avec terme quadratique pour la puissance (gris), versus spline cubique pénalisée (ligne traitillée).
+data(automobile, package = "hecmodstat")
+mod <- lm(autonomie ~ puissance + I(puissance^2),  data = automobile)
+ggplot(data = automobile, aes(x = puissance, y = autonomie)) +
+  geom_point()+
+      geom_line(data = data.frame(puissance = automobile$puissance, fitted = mod$fitted),
+                aes(x = puissance, y = fitted), col = "grey", show.legend = FALSE) +
+    geom_smooth(method = mgcv::gam, formula =  y ~ s(x, bs = "cs"), se = FALSE, col = "black", linetype = "dashed") +
+  labs(#title = "Caractéristiques d'automobiles, circa 1983",
+       x = "puissance du moteur (en chevaux-vapeurs)",
+             y = "autonomie d'essence\n (en miles/US gallon)")
+```
+
+À vue d'oeil, l'ajustement quadratique est bon: nous verrons plus tard à l'aide de test si une simple droite aurait été suffisante.
+On voit aussi dans la @fig-autoquad2d que l'autonomie d'essence décroît rapidement quand la puissance croît entre $0$ et $189.35$, mais semble remonter légèrement par la suite pour les voitures qui un moteur de plus de 200 chevaux-vapeurs, ce que le modèle quadratique capture.  Prenez garde en revanche à l'extrapolation là où vous n'avez pas de données (comme l'illustre remarquablement bien [le modèle cubique de Hassett pour le nombre de cas quotidiens de coronavirus](https://web.archive.org/web/20210315050023/https://livefreeordichotomize.com/2020/05/05/model-detective/)).
+
+La représentation graphique du modèle polynomial de degré 2 présenté dans la @fig-autoquad2d peut sembler contre-intuitive, mais c'est une projection en 2D d'un plan 3D de coordonnées $\beta_0 + \beta_1x-y +\beta_2z =0$, où $x=\texttt{puissance}$, $z=\texttt{puissance}^2$ et $y=\texttt{autonomie}$. La physique et le bon-sens imposent la contrainte $z = x^2$, et donc les valeurs ajustées vivent sur une courbe dans un sous-espace du plan ajusté, représenté en gris dans la @fig-hyperplan.
+
+
+
+```{r}
+#| label: fig-hyperplan
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-cap: Représentation graphique 3D du modèle de régression linéaire pour les données
+#|   $\texttt{automobile}$.
+out_type <- knitr::opts_knit$get("rmarkdown.pandoc.to")
+if(out_type == 'html'){
+  data(automobile, package = "hecmodstat")
+  automobile$puissance2 <- with(automobile, I(puissance^2))
+  mod <- lm(autonomie ~ puissance + puissance2,  data = automobile)
+  to_plot_x <- with(automobile, range(puissance))
+  to_plot_y <- with(automobile, range(puissance2))
+  df <- data.frame(puissance = rep(to_plot_x, 2),
+                   puissance2 = rep(to_plot_y, each = 2))
+  df["pred"] <- predict.lm(mod, df, se.fit = FALSE)
+  surf <- reshape2::acast(df, puissance2 ~ puissance)
+  color <- rep(0, length(df))
+  automobile$pred <- predict(mod)
+  df2 <- data.frame(x = (0:250),
+                    y = (0:250)^2,
+                    z = predict(mod, data.frame(puissance = 0:250, puissance2 = (0:250)^2))
+  )
+  scene <- list(
+    xaxis = list(title = "puissance (chevaux vapeurs)"),
+    yaxis = list(title = "puissance carré"),
+    zaxis = list(title = "autonomie d'essence (miles au gallon)"))
+  automobile %>%
+    plotly::plot_ly(colors = "grey") %>%
+    plotly::add_markers(x = ~puissance, y = ~puissance2, z = ~autonomie,
+                name = "data",
+                opacity = .8,
+                marker=list(color = 'black', size = 4, hoverinfo="skip", opacity = 0.8)) %>%
+     plotly::add_surface(x = to_plot_x, y = to_plot_y, z = ~surf,
+                         inherit = FALSE,
+                         name = "Relation entre puissance et autonomie",
+                         opacity = .75, cauto = FALSE, surfacecolor = color) %>%
+    plotly::add_trace(data = df2,
+                      x=~x, y = ~y, z = ~z,
+                      type = 'scatter3d', mode = 'lines', color = "grey") %>%
+    plotly::layout(scene = scene) %>%
+    plotly::hide_guides()
+
+
+#library(rgl)
+#plot3d(y = automobile$autonomie, x = automobile$puissance, z = I(automobile$puissance^2),
+#          xlab = expression("puissance"),
+#          ylab = expression("autonomie"),
+#          zlab = expression(paste("puissance"^{2})),
+#          axis.col = rep("black", 3))
+#ols <- coef(mod)
+#ran <- range(automobile$puissance)
+#hor_seq <- seq(from = ran[1], to = ran[2], length = 1000)
+#hor2_seq <- hor_seq^2
+#mpg_seq <- ols[1] + ols[2]*hor_seq + ols[3]*hor2_seq
+
+#points3d(x = hor_seq, z = hor2_seq, y = mpg_seq, col = hecblue)
+#planes3d(a = ols[2], c = ols[3], b = -1, d = ols[1], alpha = 0.1)
+#rglwidget()
+} else{
+  knitr::include_graphics('images/hyperplan_auto.png')
+}
+```
+
+
+:::
+
+
+
+## Estimation des paramètres
+
+Considérons un échantillon de $n$ observations. On n'observe ni les aléas $\boldsymbol{\varepsilon}$, ni les paramètres $\boldsymbol{\beta}$: il est donc impossible de recouvrer les (vrais) coefficients du modèle. Effectivement, le système d'équation spécifié par le modèle linéaire inclut $n+p+1$ inconnues, mais uniquement $n$ observations. Si on se concentre sur les $p+1$ paramètres de moyenne et sur la variance $\sigma^2$, nous pourrons estimer les paramètres généralement si $n> p+2$, mais cela dépend de la spécification. Une infinité de plans pourraient passer dans le nuage de points; il faut donc choisir la meilleure droite (selon un critère donné). La section aborde le choix de ce critère et l'estimation des paramètres de la moyenne.
+
+### Moindres carrés ordinaires
+
+Soit une matrice de modèle $\mathbf{X}$ et une formulation pour la moyenne avec $\mathsf{E}(Y_i) = \mathbf{x}_i\boldsymbol{\beta}$. Les estimateurs des moindres carrés ordinaires $\widehat{\boldsymbol{\beta}}=(\widehat{\beta}_0, \ldots, \widehat{\beta}_p)$ sont les paramètres qui minimisent simultanément la distance euclidienne entre les observations $y_i$ et les **valeurs ajustées** $\widehat{y}_i=\mathbf{x}_i\widehat{\boldsymbol{\beta}}$. 
+
+```{r}
+#| eval: true
+#| echo: false
+#| label: fig-vertdist
+#| fig-cap: Résidus ordinaires $e_i$ (vecteurs verticaux) ajoutés à la droit de régression dans l'espace $(x, y)$ (gauche) et l'ajustement de la variable réponse $y_i$ en fonction des valeurs ajustées $\widehat{y}_i$. 
+set.seed(1234)
+n <- 100L
+x <- rexp(n = n, rate = 1/100)
+y <- 100*rt(n, df = 10) + 40 + 2*x
+ols <- lm(y ~ x)
+res <- resid(ols)
+yhat <- fitted(ols)
+df <- data.frame(x = x, y = y, res = res, fitted = yhat)
+vlines <- data.frame(x1 = x, 
+    y1 = yhat, 
+    y2 = yhat + res)
+vlines2 <- data.frame(x1 = yhat, 
+    y1 = y, 
+    y2 = y - res)
+g1 <- ggplot(data = df, 
+       aes(x = x, y = y)) +
+        geom_point() +
+  geom_smooth(method = "lm", 
+              formula = y ~ x,
+              se = FALSE, 
+              col ="black") +
+   labs(x = "variable explicative",
+       y = "variable réponse") +
+        geom_segment(aes(x = x1, y = y1, xend = x1, yend = y2), arrow= arrow(length = unit(0.2,"cm")), color = "grey",
+                     data = vlines, show.legend = FALSE)
+g2 <- ggplot(data = df, aes(x = yhat, y = y)) +
+        geom_point() +
+geom_abline(intercept = 0, slope = 1) +
+   labs(x = "valeurs ajustées",
+       y = "variable réponse") +
+scale_x_continuous(limits = range(c(yhat, y)),
+                   expand = expansion()) + scale_y_continuous(limits = range(c(yhat, y)),
+                   expand = expansion()) +
+geom_segment(aes(x = x1, y = y1, xend = x1, yend = y2), 
+arrow= arrow(length = unit(0.2,"cm")), color = "grey",
+                     data = vlines2, show.legend = FALSE)
+g1 + g2
+```
+
+
+
+
+
+En d'autres mots, les estimateurs des moindres carrés sont la solution du problème d'optimization convexe
+\begin{align*}
+\widehat{\boldsymbol{\beta}} &=\min_{\boldsymbol{\beta} \in \mathbb{R}^{p+1}}\sum_{i=1}^n (Y_i-\widehat{Y}_i)^2= \min_{\boldsymbol{\beta}} \|\boldsymbol{Y}-\mathbf{X}\boldsymbol{\beta}\|^2
+\end{align*}
+Ce système d'équation a une solution  explicite qui est plus facilement exprimée en notation matricielle. Soit les matrices et vecteurs
+\begin{align*}
+\boldsymbol{Y} =
+ \begin{pmatrix}
+  Y_1 \\
+  Y_2 \\
+  \vdots \\
+  Y_n
+ \end{pmatrix} ,
+ \;
+\mathbf{X} = \begin{pmatrix}
+1 & x_{11} & x_{12} & \cdots & x_{1p} \\
+1 & x_{21} & x_{22} & \cdots & x_{2p} \\
+\vdots & \vdots & \ddots & \vdots \\
+1 & x_{n1} & x_{n2} & \cdots & x_{np}
+\end{pmatrix} , \;
+\boldsymbol{\beta} =
+ \begin{pmatrix}
+  \beta_1 \\
+  \beta_2 \\
+  \vdots \\
+  \beta_p
+ \end{pmatrix}
+\end{align*}
+
+
+:::{#prp-ols-mle}
+
+## Moindres carrés ordinaires
+
+L'estimateur des moindres carrés ordinaires résoud le problème d'optimisation non-contraint
+\begin{align*}
+\widehat{\boldsymbol{\beta}}=\min_{\boldsymbol{\beta} \in \mathbb{R}^{p+1}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}).
+\end{align*}
+On peut calculer la dérivée première par rapport à $\boldsymbol{\beta}$, égaler à zéro et isoler le maximum pour obtenir une formule explicite pour $\widehat{\boldsymbol{\beta}}$,
+\begin{align*}
+\mathbf{0}_n&=\frac{\partial}{\partial\boldsymbol{\beta}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\\
+\\&=\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial \boldsymbol{\beta}}\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}\\
+ \\&=\mathbf{X}^\top (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})
+\end{align*}
+en utilisant la [règle de dérivation en chaîne](http://www.stat.rice.edu/~dobelman/notes_papers/math/Matrix.Calculus.AppD.pdf); on peut ainsi distribuer les termes pour obtenir l'*équation normale*
+\begin{align*}
+ \mathbf{X}^\top \mathbf{X}\boldsymbol{\beta}&=\mathbf{X}^\top \boldsymbol{y}.
+\end{align*}
+Si $\mathbf{X}$ est une matrice de rang $p$, alors la forme quadratique $\mathbf{X}^\top \mathbf{X}$ est inversible et l'unique solution du problème d'optimisation est
+\begin{align*}
+\widehat{\boldsymbol{\beta}} = (\mathbf{X}^{\top} \mathbf{X})^{-1} \mathbf{X}^{\top} \boldsymbol{Y}.
+\end{align*}
+Si le rang de la matrice $\mathbf{X}$ est dimension $n \times (p+1)$ est de rang $p+1$, l'unique solution du problème d'optimisation est
+$$
+\widehat{\boldsymbol{\beta}} = (\mathbf{X}^{\top} \mathbf{X})^{-1} \mathbf{X}^{\top} \boldsymbol{Y}.
+$$ {#eq-ols}
+Cet estimateur dit des **moindres carrés ordinaires** (MCO) est explicite; il n'est donc pas nécessaire de procéder à l'optimisation à l'aide d'algorithmes numériques.
+
+:::
+
+### Maximum de vraisemblance
+
+
+Nous pourrions également envisager l'estimation du maximum de vraisemblance. @prp-mle-normal-linmod montre que, en supposant la normalité des aléas, les estimateurs des moindres carrés de $\boldsymbol{\beta}$ coïncident avec ceux du maximum de vraisemblance.
+
+
+:::{#prp-mle-normal-linmod}
+
+## Estimation du maximum de vraisemblance du modèle linéaire normal
+
+
+Le modèle de régression linéaire spécifie que les observations $Y_i \sim \mathsf{normale}(\mathbf{x}_i\boldsymbol{\beta}, \sigma^2)$ sont indépendantes. 
+Le modèle linéaire a $p+2$ paramètres ($\boldsymbol{\beta}$ et $\sigma^2$) et la log-vraisemblance est, abstraction faite des termes constants,
+\begin{align*}
+\ell(\boldsymbol{\beta}, \sigma)&\propto-\frac{n}{2} \ln (\sigma^2) -\frac{1}{2\sigma^2}\left\{(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\right\}^2.
+\end{align*}
+Maximiser la log-vraisemblance par rapport à $\boldsymbol{\beta}$ revient à minimiser la somme du carré des erreurs $\sum_{i=1}^n (y_i - \mathbf{x}_i\boldsymbol{\beta})^2$, quelle que soit la valeur de  $\sigma$, et on recouvre $\widehat{\boldsymbol{\beta}}$. L'estimateur du maximum de vraisemblance de la variance  $\widehat{\sigma}^2$ est
+\begin{align*}
+\widehat{\sigma}^2=\mathrm{arg max}_{\sigma^2} \ell(\widehat{\boldsymbol{\beta}}, \sigma^2).
+\end{align*}
+La log-vraisemblance profilée de $\sigma^2$, abstraction faite des constantes, est
+\begin{align*}
+\ell_{\mathrm{p}}(\sigma^2)
+&\propto-\frac{1}{2}\left\{n\ln\sigma^2+\frac{1}{\sigma^2}(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})\right\}.
+\end{align*}
+En différenciant chaque terme par rapport à $\sigma^2$ et en fixant le gradient à zéro, on obtient 
+\begin{align*}
+\frac{\partial \ell_{\mathrm{p}}(\sigma^2)}{\partial \sigma^2} = -\frac{n}{2\sigma^2} + \frac{(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})}{2\sigma^4} = 0
+\end{align*}
+
+On déduit que l'estimateur du maximum de vraisemblance est la moyenne des carrés des résidus,
+\begin{align*}
+\widehat{\sigma}^2&=\frac{1}{n}(\boldsymbol{Y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{Y}-\mathbf{X}\hat{\boldsymbol{\beta}})\\&= \frac{1}{n} \sum_{i=1}^n (y_i - \mathbf{x}_i\widehat{\boldsymbol{\beta}})^2= \frac{\mathsf{SC}_e}{n};
+\end{align*}
+L'estimateur sans biais habituel de $\sigma^2$ calculé par le logiciel est $$S^2=\mathsf{SC}_e/(n-p-1),$$ où le dénominateur est la taille de l'échantillon $n$ moins le nombre de paramètres de la moyenne $\boldsymbol{\beta}$, soit $p+1$.
+
+:::
+
+:::{#rem-invariance}
+
+## Invariance
+
+Une conséquence directe des propriétés des estimateurs du maximum de vraisemblance est que les valeurs ajustées $\widehat{y}_i$ pour deux matrices de modèle $\mathbf{X}_a$ et $\mathbf{X}_b$ sont les mêmes si elles engendrent le même espace linéaire, comme dans @exm-baumann-dummies; seule l''interprétation des coefficients change. Si nous incluons une ordonnée à l'origine, nous obtenons le même résultat si les colonnes explicatives sont centrées sur la moyenne.
+
+:::
+
+
+La valeur de $\widehat{\boldsymbol{\beta}}$ est telle qu'elle maximise la corrélation entre $\boldsymbol{y}$ et $\widehat{\boldsymbol{y}}$. Dans le cas d'une variable catégorielle unique, nous obtiendrons des valeurs ajustées $\widehat{y}$ qui correspondent à la moyenne de l'échantillon de chaque groupe.
+
+
+:::{#rem-geometry}
+
+## Géométrie
+ 
+Le vecteur de valeurs ajustées $\widehat{\boldsymbol{y}} =\mathbf{X} \widehat{\boldsymbol{\beta}} = \mathbf{H}_{\mathbf{X}}\boldsymbol{y}$ est la projection du vecteur réponse $\boldsymbol{y}$ dans l'espace linéaire engendré par les colonnes de $\mathbf{X}$. La matrice chapeau $\mathbf{H}_{\mathbf{X}} = \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top$ est une matrice de projection orthogonale, car $\mathbf{H}_{\mathbf{X}}=\mathbf{H}_{\mathbf{X}}^\top$ et $\mathbf{H}_{\mathbf{X}}\mathbf{H}_{\mathbf{X}} = \mathbf{H}_{\mathbf{X}}$. Ainsi, $\mathbf{H}_{\mathbf{X}}\mathbf{X} = \mathbf{X}$. Puisque le vecteur de résidus ordinaires $\boldsymbol{e} = (e_1, \ldots, e_n)^\top$,  qui apparaît dans la somme des erreurs quadratiques, est définie comme  $\boldsymbol{y} - \widehat{\boldsymbol{y}}$ et $\widehat{\boldsymbol{y}}=\mathbf{X}\boldsymbol{\beta}$, de simples manipulations algébriques montrent que le produit scalaire entre les résidus ordinaires et les valeurs ajustées est nul, puisque
+\begin{align*}
+\widehat{\boldsymbol{y}}^\top\boldsymbol{e} &= \widehat{\boldsymbol{\beta}}^\top \mathbf{X}^\top (\boldsymbol{y}- \mathbf{X} \widehat{\boldsymbol{\beta}})
+\\&= \boldsymbol{y}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top(\boldsymbol{y} - \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y})\\&=\boldsymbol{y}^\top\mathbf{H}_{\mathbf{X}}\boldsymbol{y} - \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y}
+\\&= 0
+\end{align*}
+où nous utilisons la définition de $\widehat{\boldsymbol{y}}$ et $\boldsymbol{e} = \boldsymbol{y} - \widehat{\boldsymbol{y}}$ sur la première ligne, puis on substitut l'estimateur des MCO $\widehat{\boldsymbol{\beta}} = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\boldsymbol{y}$ avant de distribuer les termes du produit. Une dérivation similaire montre que $\mathbf{X}^\top\boldsymbol{e}=\boldsymbol{0}_{p+1}$. Les résidus ordinaires sont donc orthogonaux à la fois à la matrice du modèle $\mathbf{X}$ et aux valeurs ajustées $\widehat{\boldsymbol{y}}$.
+
+Une conséquence directe de ces résultats est le fait que la corrélation linéaire entre $\boldsymbol{e}$ et $\widehat{\boldsymbol{y}}$ est nulle. Cette propriété servira lors de l'élaboration de diagnostics graphiques.
+
+Puisque le produit scalaire est zéro, la moyenne de $\boldsymbol{e}$ doit être zéro pour autant que $\mathbf{1}_n$ est dans l'espace linéaire engendré par $\mathbf{X}$.
+
+
+:::
+
+:::{#prp-info-normal}
+
+## Matrices d'information pour modèles linéaires normaux.
+
+Les entrées de la matrice d'information observée du modèle linéaire normal sont les suivantes
+\begin{align*}
+-\frac{\partial^2 \ell(\boldsymbol{\beta}, \sigma^2)}{\partial \boldsymbol{\beta}\partial \boldsymbol{\beta}^\top} &= \frac{1}{\sigma^2} \frac{\partial \mathbf{X}^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial \boldsymbol{\beta}^\top} =  \frac{\mathbf{X}^\top\mathbf{X}}{\sigma^2}\\
+-\frac{\partial^2 \ell(\boldsymbol{\beta}, \sigma^2)}{\partial \boldsymbol{\beta}\partial \sigma^2} &=- \frac{\mathbf{X}^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\sigma^4}\\
+-\frac{\partial^2 \ell(\boldsymbol{\beta}, \sigma^2)}{\partial (\sigma^2)^2} &= -\frac{n}{2\sigma^4} + \frac{(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\sigma^6}.
+\end{align*}
+Si on évalue l'information observée aux EMV, on obtient
+\begin{align*}
+j(\widehat{\boldsymbol{\beta}}, \widehat{\sigma^2}) = 
+\begin{pmatrix}
+\frac{\mathbf{X}^\top\mathbf{X}}{\widehat{\sigma^2}} & \boldsymbol{0}_{p+1} \\  \boldsymbol{0}_{p+1}^\top & \frac{n}{2\widehat{\sigma^4}}
+\end{pmatrix}
+\end{align*}
+puisque $\widehat{\sigma}^2=\mathsf{SC}_e/n$ et que les résidus sont orthogonaux à la matrice du modèle. Sachant que  $\mathsf{E}(Y \mid \mathbf{X})=\mathbf{X}\boldsymbol{\beta}$, la matrice d'information de Fisher est
+\begin{align*}
+i(\boldsymbol{\beta}, \sigma^2) = 
+\begin{pmatrix}
+\frac{\mathbf{X}^\top\mathbf{X}}{\sigma^2} & \boldsymbol{0}_{p+1} \\  \boldsymbol{0}_{p+1}^\top & \frac{n}{2\sigma^4}
+\end{pmatrix}
+\end{align*}
+Puisque la loi asymptotique de l'estimateur est normale, les EMV de $\sigma^2$ et $\boldsymbol{\beta}$ sont asymptotiquement indépendants car leur corrélation asymptotique est nulle.Pourvu que la matrice carrée $(p+1)$, $\mathbf{X}^\top\mathbf{X}$ soit inversible, la variance asymptotique des estimateurs est $\mathsf{Var}(\widehat{\boldsymbol{\beta}})=\sigma^2(\mathbf{X}^\top\mathbf{X})^{-1}$ et $\mathsf{Var}(\widehat{\sigma}^2) = 2\sigma^4/n$.
+
+:::
+
+
+### Ajustement des modèles linéaires à l'aide d'un logiciel
+
+Bien que nous puissions construire la matrice du modèle nous-mêmes et utiliser la formule des moindres carrés de l'@eq-ols, les routines numériques implémentées dans les logiciels sont préférables car plus stables. La fonction `lm` dans **R** ajuste **les modèles linéaires**, tout comme `glm` avec les arguments par défaut. Les objets de la classe `lm` ont plusieurs méthodes qui vous permettent d'extraire des objets spécifiques des objets `lm`. Par exemple, les fonctions `coef`, `resid`, `fitted`, `model.matrix` renvoient les estimations des coefficients $\widehat{\boldsymbol{\beta}},$ les résidus ordinaires $\boldsymbol{e},$ les valeurs ajustées $\widehat{\boldsymbol{y}}$ et la matrice du modèle $\mathbf{X}$.
+
+
+```{r fitlm}
+#| eval: false
+#| echo: true
+data(BSJ92, package = "hecedsm") # charger les données
+str(BSJ92) # vérifier que les variables catégorielles sont "factor"
+# Ajustement de la régression linéaire
+linmod <- lm(posttest1 ~ pretest1 + group, 
+             data = BSJ92)
+est_beta <- coef(linmod) # coefficients (betas)
+vcov_beta <- vcov(linmod) # matrice de covariance des betas
+summary(linmod) # tableau résumé
+beta_ic <- confint(linmod) # IC de Wald pour betas
+y_adj <- fitted(linmod) # valeurs ajustées
+e <- resid(linmod) # résidus ordinaires
+
+# Vérifier la formule des moindres carrés ordinaires
+X <- model.matrix(linmod) # matrice du modèle
+y <- college$salary
+isTRUE(all.equal(
+  c(solve(t(X) %*% X) %*% t(X) %*% y),
+  as.numeric(coef(linmod))
+))
+```
+
+
+La méthode `summary` est sans doute la plus utile: elle affiche les estimations des paramètres de la moyenne ainsi que leurs erreurs type, les valeurs $t$ pour le test de Wald de l'hypothèse $\mathscr{H}_0 : \beta_i=0$ et les valeurs-$p$ associées. D'autres statistiques descriptives, portant sur la taille de l'échantillon, les degrés de liberté, etc. sont données au bas du tableau. Notez que la fonction `lm` utilise l'estimateur sans biais de la variance $\sigma^2$.
+
+
+## Coefficient de détermination {#coefR2}
+
+
+Lorsque nous spécifions un modèle, les aléas  $\boldsymbol{\varepsilon}$ servent à tenir compte du fait qu'aucune relation linéaire exacte ne caractérise les données  Une fois que nous avons ajusté un modèle, nous estimons la variance $\sigma^2$; on peut alors se demander quelle part de la variance totale de l'échantillon est expliquée par le modèle.
+
+La somme totale des carrés, définie comme la somme des carrés des résidus du modèle à ordonnée à l'origine uniquement, sert de comparaison --- le modèle le plus simple que nous puissions trouver impliquerait chaque observation par la moyenne de l'échantillon de la réponse, ce qui donne la variance expliquée $\mathsf{SC}_c = \sum_{i=1}^n (y_i - \overline{y})^2$. Nous pouvons ensuite comparer la variance des données originales avec celle des résidus du modèle avec la matrice de covariables $\mathbf{X}$, définie comme $\mathsf{SC}_e =\sum_{i=1}^n e_i^2$ avec $e_i = y_i - \widehat{\beta}_0 - \sum_{j=1}^p \widehat{\beta}_jX_j$.
+Nous définissons le coefficient de détermination $R^2$, comme suit
+\begin{align*}
+R^2 &=1- \frac{\mathsf{SC}_e}{\mathsf{SC}_c} = \frac{\sum_{i=1}^n (y_i - \overline{y})^2- \sum_{i=1}^n e_i^2}{\sum_{i=1}^n (y_i - \overline{y})^2}.
+\end{align*}
+Une autre décomposition montre que $R^2 = \mathsf{cor}^2(\boldsymbol{y}, \widehat{\boldsymbol{y}})$, c'est-à-dire que le coefficient de détermination peut être interprété comme le carré de la corrélation linéaire de Pearson (@def-correlation-Pearson) entre la réponse $\boldsymbol{y}$ et les valeurs ajustées $\widehat{\boldsymbol{y}}$.
+
+Il est important de noter que le $R^2$ n'est pas un critère de qualité de l'ajustement, tout comme la log-vraisemblance. En effet, certain phénomènes sont intrinsèquement complexes et même un bon modèle ne parviendra pas à rendre compte d'une grande partie de la variabilité de la réponse. Ce n'est pas non plus parce que le $R^2$ est faible que $Y$ et et les variables explicatives $X_j$ sont indépendantes, comme l'illustre la @fig-datasaurus.
+
+
+En outre, il est possible de gonfler la valeur de $R^2$ en incluant davantage de variables explicatives et en rendant le modèle plus complexe, ce qui améliore la vraisemblance et $R^2$. En effet, le coefficient n'est pas décroissant dans la dimension de $\mathbf{X}$, de sorte qu'un modèle comportant $p+1$ de covariables aura nécessairement des valeurs de $R^2$ plus élevées que si l'on n'incluait que $p$ de ces variables explicatives. Pour comparer les modèles, il est préférable d'utiliser des critères d'information ou de s'appuyer sur la performance prédictive si tel est l'objectif de la régression. Enfin, un modèle avec un $R^2$ élevé peut impliquer une corrélation élevée, mais [la relation peut être fallacieuse](http://www.tylervigen.com/spurious-correlations): la régression linéaire ne produit pas de modèles causaux!
+

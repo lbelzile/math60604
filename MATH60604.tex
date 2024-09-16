@@ -378,7 +378,7 @@
 
 \title{MATH 60604 - Modélisation statistique}
 \author{Léo Belzile}
-\date{2024-09-15}
+\date{2024-09-16}
 
 \begin{document}
 
@@ -842,6 +842,73 @@ même groupe (ou du même individu pour les mesures répétées) dans le
 \href{donnees-longitudinales-correlees}{Chapitre 5}.
 
 \end{definition}
+
+\begin{definition}[Corrélation linéaire de
+Pearson]\protect\hypertarget{def-correlation-Pearson}{}\label{def-correlation-Pearson}
+
+Le coefficient de corrélation linéaire entre \(X_j\) et \(X_k\), que
+l'on note \(r_{j, k}\), cherche à mesurer la force de la relation
+linéaire entre deux variables, c'est-à-dire à quantifier à quel point
+les observations sont alignées autour d'une droite. Le coefficient de
+corrélation est \begin{align*}
+r_{j, k} &= \frac{\widehat{\mathsf{Co}}(X_j, X_k)}{\{\widehat{\mathsf{Va}}(X_j) \widehat{\mathsf{Va}}(X_k)\}^{1/2}}
+%\\&=\frac{\sum_{i=1}^n (x_{i, j}-\overline{x}_j)(x_{i, k} -\overline{x}_{k})}{\left\{\sum_{i=1}^n (x_{i, j}-\overline{x}_j)^2 \sum_{i=1}^n(x_{i, k} -\overline{x}_{k})^2\right\}^{1/2}}
+\end{align*}
+
+Les propriétés les plus importantes du coefficient de corrélation
+linéaire \(r\) sont les suivantes:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\tightlist
+\item
+  \(-1 \leq r \leq 1\);
+\item
+  \(r=1\) (respectivement \(r=-1\)) si et seulement si les \(n\)
+  observations sont exactement alignées sur une droite de pente positive
+  (négative). C'est-à-dire, s'il existe deux constantes \(a\) et \(b>0\)
+  (\(b<0\)) telles que \(y_i=a+b x_i\) pour tout \(i=1, \ldots, n\).
+\end{enumerate}
+
+Règle générale,
+
+\begin{itemize}
+\tightlist
+\item
+  Le signe de la corrélation détermine l'orientation de la pente
+  (négative ou positive)
+\item
+  Plus la corrélation est près de 1 en valeur absolue, plus les points
+  auront tendance à être alignés autour d'une droite.
+\item
+  Lorsque la corrélation est presque nulle, les points n'auront pas
+  tendance à être alignés autour d'une droite. Il est très important de
+  noter que cela n'implique pas qu'il n'y a pas de relation entre les
+  deux variables. Cela implique seulement qu'il n'y a pas de
+  \textbf{relation linéaire} entre les deux variables.
+\end{itemize}
+
+\end{definition}
+
+La Figure~\ref{fig-datasaurus} montre bien ce dernier point: ces jeux de
+données ont la même corrélation linéaire (quasi-nulle) et donc la même
+droite de régression, mais ne sont clairement pas indépendantes
+puisqu'elles permettent de dessiner un dinosaure ou une étoile.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{introduction_files/figure-pdf/fig-datasaurus-1.pdf}
+
+}
+
+\caption{\label{fig-datasaurus}Trois jeux de données de
+\texttt{datasauRus}, avec une corrélation linéaire de -0.06 et des
+statistiques descriptives moyenne, écart-type, etc. identiques pour
+chaque jeu de données.}
+
+\end{figure}%
 
 \begin{definition}[Biais]\protect\hypertarget{def-biais}{}\label{def-biais}
 
@@ -1617,7 +1684,7 @@ l'apprentissage en vase clos des recettes plutôt que d'essayer de
 comprendre les bases de la cuisine et de faire des liens. Ce chapitre se
 concentre sur la compréhension des concepts-clés liées aux tests.
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colbacktitle=quarto-callout-important-color!10!white, arc=.35mm, opacitybacktitle=0.6, coltitle=black, left=2mm, breakable, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Objectifs d'apprentissage}, leftrule=.75mm, colback=white, bottomtitle=1mm, toprule=.15mm, titlerule=0mm, rightrule=.15mm, toptitle=1mm, colframe=quarto-callout-important-color-frame, bottomrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, colback=white, opacityback=0, colframe=quarto-callout-important-color-frame, titlerule=0mm, colbacktitle=quarto-callout-important-color!10!white, toptitle=1mm, arc=.35mm, rightrule=.15mm, coltitle=black, leftrule=.75mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Objectifs d'apprentissage}, breakable, bottomtitle=1mm, bottomrule=.15mm, opacitybacktitle=0.6, left=2mm, toprule=.15mm]
 
 \begin{itemize}
 \tightlist
@@ -2305,7 +2372,7 @@ probabilité d'obtenir une valeur de la statistique de test égale ou même
 plus grande que celle qu'on a observée dans l'échantillon, si
 \(\mathscr{H}_0\) est vraie.
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colbacktitle=quarto-callout-caution-color!10!white, arc=.35mm, opacitybacktitle=0.6, coltitle=black, left=2mm, breakable, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Mise en garde}, leftrule=.75mm, colback=white, bottomtitle=1mm, toprule=.15mm, titlerule=0mm, rightrule=.15mm, toptitle=1mm, colframe=quarto-callout-caution-color-frame, bottomrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, colback=white, opacityback=0, colframe=quarto-callout-caution-color-frame, titlerule=0mm, colbacktitle=quarto-callout-caution-color!10!white, toptitle=1mm, arc=.35mm, rightrule=.15mm, coltitle=black, leftrule=.75mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Mise en garde}, breakable, bottomtitle=1mm, bottomrule=.15mm, opacitybacktitle=0.6, left=2mm, toprule=.15mm]
 
 L'\href{https://doi.org/10.1080/00031305.2016.1154108}{\emph{American
 Statistical Association (ASA)} a publié une liste de principes}
@@ -2893,7 +2960,7 @@ Ce chapitre traite de modélisation statistique et d'inférence basée sur
 la vraisemblance, la méthodologie la plus populaire dans le monde de la
 statistique.
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colbacktitle=quarto-callout-important-color!10!white, arc=.35mm, opacitybacktitle=0.6, coltitle=black, left=2mm, breakable, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, leftrule=.75mm, colback=white, bottomtitle=1mm, toprule=.15mm, titlerule=0mm, rightrule=.15mm, toptitle=1mm, colframe=quarto-callout-important-color-frame, bottomrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, colback=white, opacityback=0, colframe=quarto-callout-important-color-frame, titlerule=0mm, colbacktitle=quarto-callout-important-color!10!white, toptitle=1mm, arc=.35mm, rightrule=.15mm, coltitle=black, leftrule=.75mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, breakable, bottomtitle=1mm, bottomrule=.15mm, opacitybacktitle=0.6, left=2mm, toprule=.15mm]
 
 \textbf{Objectifs d'apprentissage}
 
@@ -4153,6 +4220,1158 @@ transformation.
 
 \bookmarksetup{startatroot}
 
+\chapter{Régression linéaire}\label{regression-lineaire}
+
+\section{Introduction}\label{introduction}
+
+Le modèle de régression linéaire, ou modèle linéaire, est l'un des
+outils les plus polyvalents pour l'inférence statistique. La régression
+linéaire est principalement utilisée pour évaluer les effets des
+variables explicatives (souvent l'effet d'une manipulation ou d'un
+traitement dans un cadre expérimental) sur la moyenne d'une variable
+réponse continue, ou pour la prédiction. Un modèle linéaire est un
+modèle qui décrit la moyenne d'une \textbf{variable réponse} continue
+\(Y_i\) d'un échantillon aléatoire de taille \(n\) comme
+\textbf{fonction linéaire} des \textbf{variables explicatives}
+(également appelés prédicteurs, régresseurs ou covariables)
+\(X_1, \ldots, X_p\).
+
+Dénotons par \(Y_i\) la valeur de \(Y\) pour le sujet \(i\), et
+\(X_{ij}\) la valeur de la \(j\)e variable explicative du sujet \(i\).
+\begin{align}
+\underset{\text{moyenne conditionnelle}}{\mathsf{E}(Y_i \mid \boldsymbol{X}_i=\boldsymbol{x}_i)}=\mu_i=\underset{\substack{\text{combinaison linéaire (somme pondérée)}\\ \text{de variables explicatives}}}{\beta_0 + \beta_1x_{i1} + \cdots + \beta_p x_{ip}}\equiv \mathbf{x}_i\boldsymbol{\beta}.
+\end{align} où \(\mathbf{x}_i = (1, x_{i1}, \ldots, x_{ip})\) est un
+vecteur ligne de taille \((p+1)\) contenant les variables explicatives
+de l'observation \(i\) et
+\(\boldsymbol{\beta} = (\beta_0, \ldots, \beta_p)^\top\) est un vecteur
+colonne de longueur \(p+1\) contenant les coefficients de la moyenne. Le
+fait que la moyenne est conditionnelle aux valeurs de \(\mathbf{X}\)
+implique simplement que l'on considère les régresseurs comme constant,
+ou connus à l'avance. Les coefficients \(\boldsymbol{\beta}\) sont les
+mêmes pour toutes les observations, mais le vecteurs de variables
+explicatives \(\mathbf{x}_i\) peut différer d'une observation à l'autre.
+Le modèle est \textbf{linéaire} en \(\beta_0, \ldots, \beta_p\), pas
+nécessairement dans les variables explicatives.
+
+Pour simplifier la notation, nous regroupons les observations dans un
+vecteur \(n\) \(\boldsymbol{Y}\) et les explications dans une matrice
+\(n \times (p+1)\) \(\mathbf{X}\) en concaténant une colonne de uns et
+les vecteurs de colonnes \(p\)
+\(\boldsymbol{X}_1, \ldots, \boldsymbol{X}_p\), chacun contenant les
+\(n\) observations des explications respectives. La matrice
+\(\mathbf{X}\) est appelée \textbf{matrice du modèle} (ou parfois
+matrice de devis dans un contexte expérimental), et sa \(i\)ème ligne
+est \(\mathbf{x}_i\).
+
+En supposant que la variable réponse provient d'une famille de
+localisation, nous pouvons réécrire le modèle linéaire en termes de la
+moyenne plus un aléa, \begin{align*}
+\underset{\text{observation}\vphantom{\mu_i}}{Y_i} = \underset{\text{moyenne } \mu_i}{\vphantom{Y_i}\mathbf{x}_i\boldsymbol{\beta}} + \underset{\text{aléa}\vphantom{\mu_i}}{\vphantom{Y_i}\varepsilon_i},
+\end{align*} où \(\varepsilon_i\) est le terme spécifique à
+l'observation \(i\). On assume que les aléas
+\(\varepsilon_1, \ldots \varepsilon_n\) sont indépendants et
+identiquement distribués, avec
+\(\mathsf{E}(\varepsilon_i \mid \mathbf{x}_i) = 0\) et
+\(\mathsf{Var}(\varepsilon_i \mid \mathbf{x}_i) = \sigma^2\). On fixe
+l'espérance de l'aléa à zéro car on postule qu'il n'y a pas d'erreur
+systématique. La variance \(\sigma^2\) sert à tenir compte du fait
+qu'aucune relation linéaire exacte ne lie \(\mathbf{x}_i\) et \(Y_i\),
+ou que les mesures de \(Y_i\) sont variables.
+
+Le modèle linéaire normal ou gaussien spécifie que les réponses suivent
+une loi normale, avec
+\(Y_i \mid \boldsymbol{X}_i=\boldsymbol{x}_i \sim \mathsf{normale}(\mathbf{x}_i\boldsymbol{\beta}, \sigma^2)\).
+La loi normale est une famille de localisation, de sorte que
+\(Y \sim \mathsf{normale}(\mu, \sigma^2)\) équivaut à la décomposition
+additive \(\mu + \varepsilon\) pour
+\(\varepsilon \sim \mathsf{normale}(0, \sigma^2)\).
+
+\subsection{Exemples}\label{exemples-1}
+
+Considérons quelques exemples de jeux de données qui serviront à
+illustrer les méthodes par la suite.
+
+\begin{example}[Cohérence de descriptions de
+produits]\protect\hypertarget{exm-lee-choi1}{}\label{exm-lee-choi1}
+
+L'étude 1 de Lee et Choi (\citeproc{ref-Lee.Choi:2019}{2019}) (base de
+données \texttt{LC19\_S1}, paquet \texttt{hecedsm}) considère l'impact
+sur la perception d'un produit de la divergence entre la description
+textuelle et l'image. Dans leur première expérience, un paquet de six
+brosses à dents est vendu, mais l'image montre soit un paquet de six,
+soit une seule). Les auteurs ont également mesuré la familiarité
+préalable avec la marque de l'article. Les \(n=96\) participants ont été
+recrutés à l'aide d'un panel en ligne. Nous pourrions ajuster un modèle
+linéaire pour le score moyen d'évaluation du produit, \texttt{prodeval},
+en fonction de la familiarité de la marque \texttt{familiarity}, un
+nombre entier allant de 1 à 7, et une variable binaire pour le facteur
+expérimental \texttt{consistency}, codé \texttt{0} pour des descriptions
+d'image/texte cohérentes et \texttt{1} si elles sont incohérentes. La
+matrice du modèle qui en résulte est alors de dimension \(96\times 3\).
+La réponse \texttt{prodeval} est fortement discrétisée.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data}\NormalTok{(LC19\_S1, }\AttributeTok{package =} \StringTok{"hecedsm"}\NormalTok{)}
+\NormalTok{modmat }\OtherTok{\textless{}{-}} \FunctionTok{model.matrix}\NormalTok{( }\CommentTok{\# Matrice du modèle}
+     \SpecialCharTok{\textasciitilde{}}\NormalTok{ familiarity }\SpecialCharTok{+}\NormalTok{ consistency,}
+     \AttributeTok{data =}\NormalTok{ LC19\_S1)}
+\FunctionTok{tail}\NormalTok{(modmat, }\AttributeTok{n =} \DecValTok{5}\NormalTok{L) }\CommentTok{\# Imprimer les premières 5 lignes}
+\CommentTok{\#\textgreater{}    (Intercept) familiarity consistencyinconsistent}
+\CommentTok{\#\textgreater{} 92           1           6                       1}
+\CommentTok{\#\textgreater{} 93           1           4                       1}
+\CommentTok{\#\textgreater{} 94           1           7                       1}
+\CommentTok{\#\textgreater{} 95           1           7                       1}
+\CommentTok{\#\textgreater{} 96           1           7                       1}
+\FunctionTok{dim}\NormalTok{(modmat) }\CommentTok{\# dimension de la matrice du modèle}
+\CommentTok{\#\textgreater{} [1] 96  3}
+\end{Highlighting}
+\end{Shaded}
+
+\end{example}
+
+\begin{example}[Méthodes d'apprentissage de compréhension de
+lecture]\protect\hypertarget{exm-teaching-baumann}{}\label{exm-teaching-baumann}
+
+La base de données \texttt{BSJ92} du paquet \texttt{hecedsm} contient
+les résultats d'une expérience de Baumann, Seifert-Kessell, et Jones
+(\citeproc{ref-Baumann:1992}{1992}) sur l'efficacité de différentes
+stratégies de lecture sur la compréhension d'enfants.
+
+\begin{quote}
+Soixante-six élèves de quatrième année ont été assignés au hasard à l'un
+des trois groupes expérimentaux suivants : (a) un groupe « Think-Aloud »
+(TA), dans lequel les élèves ont appris diverses stratégies de contrôle
+de la compréhension pour la lecture d'histoires (par exemple :
+auto-questionnement, prédiction, relecture) par le biais de la réflexion
+à haute voix; (b) un groupe lecture dirigée-activité de réflexion
+(DRTA), dans lequel les élèves ont appris une stratégie de
+prédiction-vérification pour lire et répondre aux histoires; ou (c) un
+groupe activité de lecture dirigée (DRA), un groupe contrôle dans lequel
+les élèves se sont engagés dans une lecture guidée non interactive
+d'histoires.
+\end{quote}
+
+Les variables d'intérêt sont \texttt{group}, le facteur pour le groupe
+expérimental, soit \texttt{DRTA}, \texttt{TA} et \texttt{DR} ainsi que
+les variables numériques \texttt{pretest1} et \texttt{posttest1}, qui
+donnent le score (sur 16) sur le test pré-expérience pour la tâche de
+détection des erreurs.
+
+Les données sont balancées puisqu'il y a 22 observations dans chacun des
+trois sous-groupes. Les chercheurs ont appliqué une série de trois
+évaluations: le test 1 de détection d'erreurs, le test 2 consistant en
+un questionnaire de suivi de compréhension, et le test 3 standardisé
+\emph{Degrees of Reading Power}). Les tests 1 et 2 ont été administrés à
+la fois avant et après l'intervention: cela nous permet d'établir
+l'amélioration moyenne de l'élève en ajoutant le résultat du test
+pré-intervention comme covariable. Les tests 1 étaient sur 16, mais
+celui administré après l'expérience a été rendu plus difficile pour
+éviter les cas d'étudiants obtenant des scores presque complets. La
+corrélation entre le pré-test et le post-test 1 est
+\((\widehat{\rho}_1=0.57)\), beaucoup plus forte que celle du second
+test \((\widehat{\rho}_2=0.21)\).
+
+\end{example}
+
+\begin{example}[Discrimination salariale dans un collège
+américain]\protect\hypertarget{exm-college-salary-discrimination}{}\label{exm-college-salary-discrimination}
+
+On s'intéresse à la discrimination salariale dans un collège américain,
+au sein duquel une étude a été réalisée pour investiguer s'il existait
+des inégalités salariales entre hommes et femmes. Le jeu de données
+\texttt{college} contient les variables suivantes:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{salaire}: salaire de professeurs pendant l'année académique
+  2008--2009 (en milliers de dollars USD).
+\item
+  \texttt{echelon}: échelon académique, soit adjoint (\texttt{adjoint}),
+  aggrégé (\texttt{aggrege}) ou titulaire (\texttt{titulaire}).
+\item
+  \texttt{domaine}: variable catégorielle indiquant le champ d'expertise
+  du professeur, soit appliqué (\texttt{applique}) ou théorique
+  (\texttt{theorique}).
+\item
+  \texttt{sexe}: indicateur binaire pour le sexe, \texttt{homme} ou
+  \texttt{femme}.
+\item
+  \texttt{service}: nombre d'années de service.
+\item
+  \texttt{annees}: nombre d'années depuis l'obtention du doctorat.
+\end{itemize}
+
+\end{example}
+
+\begin{example}[Suggestion de montants de
+dons]\protect\hypertarget{exm-moon-vanepps}{}\label{exm-moon-vanepps}
+
+L'étude 1 de Moon et VanEpps (\citeproc{ref-Moon.VanEpps:2023}{2023})
+(données \texttt{MV23\_S1}, paquet \texttt{hecedsm}) porte sur la
+proportion de donateurs à un organisme de charité. Les participants au
+panel en ligne avaient la possibilité de gagner 25\$ et de faire don
+d'une partie de cette somme à l'organisme de leur choix. Les données
+fournies incluent uniquement les personnes qui n'ont pas dépassé ce
+montant et qui ont indiqué avoir fait un don d'un montant non nul.
+
+\end{example}
+
+\subsection{Analyse exploratoire des
+données}\label{analyse-exploratoire-des-donnuxe9es}
+
+L'analyse exploratoire des données est une procédure itérative par
+laquelle nous interrogeons les données, en utilisant des informations
+auxiliaires, des statistiques descriptives et des graphiques, afin de
+mieux informer notre modélisation.
+
+Elle est utile pour mieux comprendre les caractéristiques des données
+(plan d'échantillonnage, valeurs manquantes, valeurs aberrantes), la
+nature des observations, qu'il s'agisse de variables réponse ou
+explicatives et les interrelations entre variables.
+
+Voir le \href{https://tellingstorieswithdata.com/11-eda.html}{Chapitre
+11 de Alexander (2023)} pour des exemples. En particulier, il convient
+de vérifier
+
+\begin{itemize}
+\tightlist
+\item
+  que les variables catégorielles sont adéquatement traitées comme des
+  facteurs (\texttt{factor}).
+\item
+  que les valeurs manquantes sont adéquatement déclarées comme telles
+  (code d'erreur, 999, etc.)
+\item
+  s'il ne vaudrait mieux pas retirer certaines variables explicatives
+  avec beaucoup de valeurs manquantes.
+\item
+  s'il ne vaudrait mieux pas fusionner des modalités de variables
+  catégorielles si le nombre d'observation par modalité est trop faible.
+\item
+  qu'il n'y a pas de variable explicative dérivée de la variable réponse
+\item
+  que le sous-ensemble des observations employé pour l'analyse
+  statistique est adéquat.
+\item
+  qu'il n'y a pas d'anomalies ou de valeurs aberrantes (par ex., 999
+  pour valeurs manquantes) qui viendraient fausser les résultats.
+\end{itemize}
+
+\begin{example}[Analyse exploratoire des données
+\texttt{college}]\protect\hypertarget{exm-college-aed}{}\label{exm-college-aed}
+
+Une analyse exploratoire des données est de mise avant d'ébaucher un
+modèle. Si le salaire augmente au fil des ans, on voit que
+l'hétérogénéité change en fonction de l'échelon et qu'il y a une
+relation claire entre ce dernier et le nombre d'années de service (les
+professeurs n'étant éligibles à des promotions qu'après un certain
+nombre d'années). Les professeurs adjoints qui ne sont pas promus sont
+généralement mis à la porte, aussi il y a moins d'occasions pour que les
+salaires varient sur cette échelle.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-edacollege-1.pdf}
+
+}
+
+\caption{\label{fig-edacollege}Analyse exploratoire des données
+\texttt{college}: répartition des salaires en fonction de l'échelon et
+du nombre d'années de service}
+
+\end{figure}%
+
+Ainsi, le salaire augmente avec les années, mais la variabilité croît
+également. Les professeurs adjoints qui ne sont pas promus sont
+généralement mis à la porte, aussi il y a moins d'occasions pour que les
+salaires varient sur cette échelle. Il y a peu de femmes dans
+l'échantillon: moins d'information signifie moins de puissance pour
+détecter de petites différences de salaire. Si on fait un tableau de
+contingence de l'échelon et du sexe, on peut calculer la proportion
+relative homme/femme dans chaque échelon: 16\% des profs adjoints, 16\%
+pour les aggrégés, mais seulement 7\% des titulaires alors que ces
+derniers sont mieux payés en moyenne.
+
+\begin{longtable}[]{@{}lrrr@{}}
+\caption{Tableau de contingence donnant le nombre de professeurs du
+collège par sexe et par échelon académique.}\tabularnewline
+\toprule\noalign{}
+& adjoint & aggrege & titulaire \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+& adjoint & aggrege & titulaire \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+femme & 11 & 10 & 18 \\
+homme & 56 & 54 & 248 \\
+\end{longtable}
+
+Plusieurs des variables explicatives potentielles des données
+\texttt{college} sont cat/gorielles (\texttt{echelon}, \texttt{sexe},
+\texttt{discipline}), les deux dernières étant binaires. Les variables
+numériques \texttt{annees} et \texttt{service} sont fortement corrélées,
+avec une corrélation linéaire de 0.91.
+
+\end{example}
+
+\begin{example}[Analyse exploratoire et données
+manquantes]\protect\hypertarget{exm-donnees-manquantes-moon}{}\label{exm-donnees-manquantes-moon}
+
+Il convient de vérifier pour les données de Moon et VanEpps
+(\citeproc{ref-Moon.VanEpps:2023}{2023}) que la description de la
+collecte coïncide avec la structure. Puisque les personnes qui n'ont pas
+donné ne remplissent pas le champ pour le montant, ce dernier indique
+une valeur manquante. Tous les montants des dons sont entre 0.25\$ et
+25\$.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data}\NormalTok{(MV23\_S1, }\AttributeTok{package =} \StringTok{"hecedsm"}\NormalTok{)}
+\FunctionTok{str}\NormalTok{(MV23\_S1)}
+\CommentTok{\#\textgreater{} tibble [869 x 4] (S3: tbl\_df/tbl/data.frame)}
+\CommentTok{\#\textgreater{}  $ before   : int [1:869] 0 1 0 1 1 1 1 0 1 0 ...}
+\CommentTok{\#\textgreater{}  $ donate   : int [1:869] 0 0 0 1 1 0 1 0 0 1 ...}
+\CommentTok{\#\textgreater{}  $ condition: Factor w/ 2 levels "open{-}ended","quantity": 1 1 1 1 2 2 2 1 1 1 ...}
+\CommentTok{\#\textgreater{}  $ amount   : num [1:869] NA NA NA 10 5 NA 20 NA NA 25 ...}
+\FunctionTok{summary}\NormalTok{(MV23\_S1)}
+\CommentTok{\#\textgreater{}      before          donate          condition       amount    }
+\CommentTok{\#\textgreater{}  Min.   :0.000   Min.   :0.00   open{-}ended:407   Min.   : 0.2  }
+\CommentTok{\#\textgreater{}  1st Qu.:0.000   1st Qu.:0.00   quantity  :462   1st Qu.: 5.0  }
+\CommentTok{\#\textgreater{}  Median :1.000   Median :1.00                    Median :10.0  }
+\CommentTok{\#\textgreater{}  Mean   :0.596   Mean   :0.73                    Mean   :10.7  }
+\CommentTok{\#\textgreater{}  3rd Qu.:1.000   3rd Qu.:1.00                    3rd Qu.:15.0  }
+\CommentTok{\#\textgreater{}  Max.   :1.000   Max.   :1.00                    Max.   :25.0  }
+\CommentTok{\#\textgreater{}  NA\textquotesingle{}s   :1                                       NA\textquotesingle{}s   :235}
+\end{Highlighting}
+\end{Shaded}
+
+Si nous incluons \texttt{amount} comme variable réponse dans un modèle
+de régression, les 235 observations manquantes seront supprimées par
+défaut. Cela ne pose pas de problème si nous voulons comparer le montant
+moyen des personnes qui ont fait un don, mais dans le cas contraire,
+nous devons transformer les \texttt{NA} en zéros. La variable
+\texttt{donate} ne doit pas être incluse comme variable explicative dans
+le modèle, car elle permet de prédire exactement les personnes qui n'ont
+pas donné.
+
+\end{example}
+
+\subsection{Spécification du modèle pour la
+moyenne}\label{spuxe9cification-du-moduxe8le-pour-la-moyenne}
+
+La première étape d'une analyse consiste à décider quelles variables
+explicatives doivent être ajoutées à l'équation de la moyenne, et sous
+quelle forme. Les modèles ne sont que des approximations de la réalité;
+la section 2.1 de Venables (\citeproc{ref-Venables:2000}{2000}) affirme
+que, si nous pensons que la véritable fonction moyenne reliant les
+variables explicatives \(\boldsymbol{X}\) et la réponse \(Y\) est de la
+forme \(\mathsf{E}(Y \mid \boldsymbol{X}) = f(\boldsymbol{X})\) pour
+\(f\) suffisamment lisse, alors le modèle linéaire est une approximation
+du premier ordre. À des fins d'interprétation, il est logique de centrer
+sur la moyenne toute variable explicative continue, car cela facilite
+l'interprétation.
+
+Dans un cadre expérimental, où la condition expérimentale est attribué
+de manière aléatoire, nous pouvons directement comparer les différents
+traitements et tirer des conclusions causales (puisque toutes les autres
+choses sont égales en moyenne constantes, toute différence détectable
+est due en moyenne à notre manipulation). Bien que nous nous abstenions
+généralement d'inclure d'autres variables explicatives afin de préserver
+la simplicité du modèle, il peut néanmoins être utile de prendre en
+compte certaines variables concomitantes qui expliquent une partie de la
+variabilité afin de filtrer le bruit de fond et d'augmenter la puissance
+de l'étude. Par exemple, pour les données de Baumann, Seifert-Kessell,
+et Jones (\citeproc{ref-Baumann:1992}{1992}), l'objectif est de comparer
+les scores moyens en fonction de la méthode d'enseignement, nous
+inclurions \texttt{group}. Dans cet exemple, il serait également logique
+d'inclure le résultat \texttt{pretest1} en tant qu'élément explicatif
+pour \texttt{posttest1}. De cette façon, nous modéliserons la différence
+moyenne d'amélioration entre le pré-test et le post-test plutôt que le
+résultat final.
+
+Dans un contexte observationnel, les participants dans différents
+groupes ont des caractéristiques différentes et nous devons donc tenir
+compte de ces différences. Les modèles linéaires utilisés en économie et
+en finance contiennent souvent des variables de contrôle au modèle pour
+tenir compte des différences potentielles dues aux variables
+sociodémographiques (âge, revenu, etc.) qui seraient corrélées à
+l'appartenance aux groupes. Tout test de coefficients ne prendrait en
+compte que la corrélation entre le résultat \(Y\) et le facteur
+explicatif postulé d'intérêt.
+
+\section{Interprétation des
+coefficients}\label{interpruxe9tation-des-coefficients}
+
+La spécification de la moyenne est \begin{align*}
+\mathsf{E}(Y_i \mid \boldsymbol{X}_i = \boldsymbol{x}_i) = \beta_0 + \beta_1 x_{i1} + \ldots + \beta_p x_{ip}.
+\end{align*} L'\textbf{ordonnée à l'origine} \(\beta_0\) est la
+\textbf{valeur moyenne de \(Y\)} lorsque toutes les variables
+explicatives du modèles sont nulles, soit
+\(\boldsymbol{x}_i=\boldsymbol{0}_p\). \begin{align*}
+\beta_0 &= \mathsf{E}(Y \mid X_1=0,X_2=0,\ldots,X_p=0) \\
+&= \beta_0 + \beta_1 \times 0 + \beta_2 \times 0 + \cdots + \beta_p \times 0
+\end{align*} Bien sur, il se peut que cette interprétation n'ait aucun
+sens dans le contexte étudié. Centrer les variables explicatives
+numériques (pour que leurs moyennes soit zéro) permet de rendre
+l'ordonnée à l'origine plus interprétable.
+
+En régression linéaire, le paramètre \(\beta_j\) mesure l'effet de la
+variable \(X_j\) sur la variable \(Y\) une fois que l'on tient compte
+des effets des autres variables explicatives. Pour chaque augmentation
+d'une unité de \(X_j\), la réponse \(Y\) augmente en moyenne de
+\(\beta_j\) lorsque les autres variables demeurent inchangées,
+\begin{align*}
+\beta_j &= \mathsf{E}(Y \mid X_j= x_j+1, \boldsymbol{X}_{-j} = \boldsymbol{x}_{-j})  - \mathsf{E}(Y \mid \boldsymbol{X} = \boldsymbol{x}) \\
+&= \sum_{\substack{k=1\\k \neq j}}^p \beta_kx_k + \beta_j(x_j+1) - \sum_{k=1}^p \beta_k x_k
+\end{align*}
+
+\begin{definition}[Effet
+marginal]\protect\hypertarget{def-effet-marginal}{}\label{def-effet-marginal}
+
+On définit l'effet marginal comme la dérivée première de la moyenne
+conditionnelle par rapport à \(X_j\), soit
+\[\text{effet marginal de }X_j =  \frac{\partial \mathsf{E}(Y \mid \boldsymbol{X})}{ \partial X_j}.\]
+Le coefficient \(\beta_j\) est aussi l'\emph{effet marginal} de la
+variable \(X_j\).
+
+\end{definition}
+
+Les variables indicatrices, qui prennent typiquement des valeurs de
+\(-1\), \(0\) et \(1\), servent à indiquer l'appartenance aux
+différentes modalités d'une variable catégorielle. Par exemple, pour une
+variable indicatrice binaire, nous pouvons créer une colonne dont les
+entrées sont \(1\) pour le groupe de traitement et \(0\) pour le groupe
+de contrôle.
+
+\begin{example}[Modèle linéaire avec une seule variable
+binaire]\protect\hypertarget{exm-moon}{}\label{exm-moon}
+
+Considérons par exemple un modèle linéaire pour les données de Moon et
+VanEpps (\citeproc{ref-Moon.VanEpps:2023}{2023}) qui inclut le montant
+(\texttt{amount}) (en dollars, de 0 pour les personnes qui n'ont pas
+fait de don, jusqu'à 25 dollars).
+
+L'équation du modèle linéaire simple qui inclut la variable binaire
+\texttt{condition} est \begin{align*}
+\mathsf{E}(\texttt{amount} \mid \texttt{condition})&= \beta_0 + \beta_1 \mathbf{1}_{\texttt{condition}=\texttt{quantity}}.
+\\&= \begin{cases}
+\beta_0, & \texttt{condition}=0, \\
+\beta_0 + \beta_1 & \texttt{condition}=1.
+\end{cases}
+\end{align*} Soit \(\mu_0\) l'espérance du montant pour le groupe
+contrôle (\texttt{open-ended}) et \(\mu_1\) celui des participants du
+groupe de traitement (\texttt{quantity}). Un modèle linéaire qui ne
+contient qu'une variable binaire \(X\) comme régresseur revient à
+spécifier une moyenne différente pour chacun des deux groupes.
+L'ordonnée à l'origine \(\beta_0\) est la moyenne du groupe contrôle. La
+moyenne du groupe traitement (\texttt{quantity}) est
+\(\beta_0 + \beta_1 = \mu_1\) et donc \(\beta_1=\mu_1-\mu_0\) est la
+différence du montant moyen de dons entre le groupe \texttt{open-ended}
+et le groupe \texttt{quantity}. Cette paramétrisation est commode si on
+veut tester s'il y a une différence moyenne entre les deux groupes,
+puisque cette hypothèse nulle correspond à \(\mathscr{H}_0: \beta_1=0\).
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-donation-moon-1.pdf}
+
+}
+
+\caption{\label{fig-donation-moon}Modèle linéaire simple pour les
+données \texttt{MV23\_S1} avec \texttt{condition} comme variable
+explicative binaire, avec nuage de points décalés et un diagramme en
+demi-violin. Les cercles indiquent les moyennes de l'échantillon.}
+
+\end{figure}%
+
+Même si le modèle linéaire définit une droite, cette dernière ne peut
+être évaluée qu'à \(0\) ou \(1\); la Figure~\ref{fig-donation-moon}
+montre cette droite avec en plus un nuage de points des montants,
+décalés horizontalement, et de la densité pour chaque condition. Le
+point coloré indique la moyenne empirique, qui correspond aux
+estimations.
+
+Même s'il est clair que les données sont fortement discrétisées avec
+beaucoup de doublons et de zéros, l'échantillon a une taille de 869
+observations, donc les conclusions quant aux moyennes de groupe seront
+fiables.
+
+\end{example}
+
+Considérons des variables catégorielles avec \(K > 2\) niveaux, qui dans
+\textbf{R} sont de la classe \texttt{factor}. La paramétrisation par
+défaut des facteurs se fait en termes de contraste de traitement: le
+niveau de référence du facteur (par défaut, la première valeur dans
+l'ordre alphanumérique) sera traité comme la catégorie de référence et
+assimilé à l'ordonnée à l'origine. Le logiciel créera alors un ensemble
+de \(K-1\) variables indicatrices pour un facteur à \(K\) niveaux,
+chacune d'entre elles ayant un pour la catégorie représentée et zéro
+dans le cas contraire.
+
+\begin{example}[Codage binaire pour les variables
+catégorielles]\protect\hypertarget{exm-baumann-dummies}{}\label{exm-baumann-dummies}
+
+Considérons l'étude de Baumann, Seifert-Kessell, et Jones
+(\citeproc{ref-Baumann:1992}{1992}) et la seule variable \texttt{group}.
+Les données sont classées par groupe : les 22 premières observations
+concernent le groupe \texttt{DR}, les 22 suivantes le groupe
+\texttt{DRTA} et les 22 dernières le groupe \texttt{TA}. Si nous
+ajustons un modèle avec \texttt{groupe} comme variable catégorielle
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data}\NormalTok{(BSJ92, }\AttributeTok{package =} \StringTok{"hecedsm"}\NormalTok{)}
+\FunctionTok{class}\NormalTok{(BSJ92}\SpecialCharTok{$}\NormalTok{group) }\CommentTok{\# Vérifier que group est un facteur}
+\CommentTok{\#\textgreater{} [1] "factor"}
+\FunctionTok{levels}\NormalTok{(BSJ92}\SpecialCharTok{$}\NormalTok{group) }\CommentTok{\# première valeur est la catégorie de référence}
+\CommentTok{\#\textgreater{} [1] "DR"   "DRTA" "TA"}
+\CommentTok{\# Imprimer trois lignes de la matrice du modèle}
+\CommentTok{\# (trois enfants de groupes différents)}
+\FunctionTok{model.matrix}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{ group, }\AttributeTok{data =}\NormalTok{ BSJ92)[}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{23}\NormalTok{,}\DecValTok{47}\NormalTok{),]}
+\CommentTok{\#\textgreater{}    (Intercept) groupDRTA groupTA}
+\CommentTok{\#\textgreater{} 1            1         0       0}
+\CommentTok{\#\textgreater{} 23           1         1       0}
+\CommentTok{\#\textgreater{} 47           1         0       1}
+\CommentTok{\# Comparer avec les niveaux des facteurs}
+\NormalTok{BSJ92}\SpecialCharTok{$}\NormalTok{group[}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{23}\NormalTok{,}\DecValTok{47}\NormalTok{)]}
+\CommentTok{\#\textgreater{} [1] DR   DRTA TA  }
+\CommentTok{\#\textgreater{} Levels: DR DRTA TA}
+\end{Highlighting}
+\end{Shaded}
+
+Si nous ajustons un modèle avec \texttt{groupe} comme variable
+catégorielle, la spécification de la moyenne du modèle est
+\[\mathsf{E}(Y \mid \texttt{group})= \beta_0 + \beta_1\mathbf{1}_{\texttt{group}=\texttt{DRTA}} + \beta_2\mathbf{1}_{\texttt{group}=\texttt{TA}}.\]
+Puisque la variable \texttt{group} est catégorielle avec \(K=3\)
+niveaux, il nous faut mettre \(K-1 = 2\) variables indicatrices.
+
+Avec la paramétrisation en termes de \textbf{traitements} (option par
+défaut), on obtient
+
+\begin{itemize}
+\tightlist
+\item
+  \(\mathbf{1}_{\texttt{group}=\texttt{DRTA}}=1\) si \texttt{group=DRTA}
+  et zéro sinon,
+\item
+  \(\mathbf{1}_{\texttt{group}=\texttt{TA}}=1\) si \texttt{group=TA} et
+  zéro sinon.
+\end{itemize}
+
+Étant donné que le modèle comprend une ordonnée à l'origine et que le
+modèle décrit en fin de compte trois moyennes de groupe, nous n'avons
+besoin que de deux variables supplémentaires. Avec la paramétrisation en
+termes de \textbf{traitements}, la moyenne du groupe de référence est
+l'ordonnée à l'origine. Si \texttt{group}=\texttt{DR} (référence), les
+deux variables indicatrices binaires \texttt{groupDRTA} et
+\texttt{groupTA} sont nulles. La moyenne de chaque groupe est
+
+\begin{itemize}
+\tightlist
+\item
+  \(\mu_{\texttt{DR}} = \beta_0\),
+\item
+  \(\mu_{\texttt{DRTA}}=\beta_0 + \beta_1\) et
+\item
+  \(\mu_{\texttt{TA}} = \beta_0 + \beta_2\).
+\end{itemize}
+
+Ainsi, \(\beta_1\) est la différence de moyenne entre les groupes
+\texttt{DRTA} et\texttt{DR}, et de la même façon
+\(\beta_2=\mu_{\texttt{TA}}- \mu_{\texttt{DR}}\).
+
+\end{example}
+
+\begin{refremark}[Contrainte de somme nulle]
+La paramétrisation discutée ci-dessus, qui est la valeur par défaut de
+la fonction \texttt{lm}, n'est pas la seule disponible. Plutôt que de
+comparer la moyenne de chaque groupe avec celle d'une catégorie de
+référence, la paramétrisation par défaut pour les modèles d'analyse de
+la variance est en termes de contraintes de somme nulle pour les
+coefficients, où l'ordonnée à l'origine est la moyenne équi-pondérée de
+chaque groupe, et les paramètres \(\beta_1, \ldots, \beta_{K-1}\) sont
+des différences par rapport à cette moyenne.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{model.matrix}\NormalTok{(}
+    \SpecialCharTok{\textasciitilde{}}\NormalTok{ group,}
+    \AttributeTok{data =}\NormalTok{ BSJ92,}
+    \AttributeTok{contrasts.arg =} \FunctionTok{list}\NormalTok{(}\AttributeTok{group =} \StringTok{"contr.sum"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+
+\caption{\label{tbl-sum2zero}Paramétrisation des variables indicatrices
+pour la contrainte de somme nulle pour une variable catégorielle.}
+
+\tabularnewline
+
+\toprule\noalign{}
+& (Intercept) & group1 & group2 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+DR & 1 & 1 & 0 \\
+DRTA & 1 & 0 & 1 \\
+TA & 1 & -1 & -1 \\
+
+\end{longtable}
+
+Dans la contrainte de somme nulle, nous obtenons à nouveau deux
+variables indicatrices, \texttt{group1} et \texttt{group2}, ainsi que
+l'ordonnée à l'origine. La valeur de \texttt{group1} est \(1\) si
+\texttt{group=DR}, \(0\) si \texttt{group=DRTA} et \(-1\) si
+\texttt{group=TA}. ous trouvons
+\(\mu_{\texttt{DR}} = \beta_0 + \beta_1\),
+\(\mu_{\texttt{DRTA}}=\beta_0 + \beta_2\) et
+\(\mu_{\texttt{TA}} = \beta_0 - \beta_1 - \beta_2\). Quelques
+manipulations algébriques révèlent que
+\(\beta_0 = (\mu_{\texttt{DR}} +\mu_{\texttt{DRTA}}+\mu_{\texttt{TA}})/3\),
+l'espérance équipondérée des différents niveaux. De manière générale,
+l'ordonnée à l'origine moins la somme de tous les autres coefficients
+liés aux facteurs.
+
+En supprimant l'ordonnée à l'origine, on pourrait inclure trois
+variables indicatrices pour chaque niveau d'un facteur et chaque
+paramètre correspondrait alors à la moyenne. Ce n'est pas recommandé
+dans \textbf{R} car le logiciel traite différemment les modèles sans
+ordonnée à l'origine et certains résultats seront absurdes (par exemple,
+le coefficient de détermination sera erroné).
+
+\label{rem-sumtozero}
+
+\end{refremark}
+
+\begin{example}[Interprétation des
+coefficients]\protect\hypertarget{exm-college-coeff}{}\label{exm-college-coeff}
+
+On considère un modèle de régression pour les données \texttt{college}
+qui inclut le sexe, l'échelon académique, le nombre d'années de service
+et le domaine d'expertise (appliquée ou théorique).
+
+Le modèle linéaire postulé s'écrit
+
+\begin{align*}
+\texttt{salaire} &= \beta_0 + \beta_1 \mathbf{1}_{\texttt{sexe}=\texttt{femme}} +\beta_2 \mathbf{1}_{\texttt{domaine}=\texttt{theorique}} \\&\quad +\beta_3 \mathbf{1}_{\texttt{echelon}=\texttt{aggrege}}
++\beta_4 \mathbf{1}_{\texttt{echelon}=\texttt{titulaire}}  +\beta_5 \texttt{service} + \varepsilon.
+\end{align*}
+
+\begin{longtable}[]{@{}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1667}}@{}}
+
+\caption{\label{tbl-collegecoefs}Estimations des coefficients du modèle
+linéaire pour les données \(\texttt{college}\) (en dollars USD, arrondis
+à l'unité).}
+
+\tabularnewline
+
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedleft
+\(\widehat{\beta}_0\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(\widehat{\beta}_1\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(\widehat{\beta}_2\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(\widehat{\beta}_3\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(\widehat{\beta}_4\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\(\widehat{\beta}_5\)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+86596 & -4771 & -13473 & 14560 & 49160 & -89 \\
+
+\end{longtable}
+
+L'interprétation des coefficients est la suivante:
+
+\begin{itemize}
+\tightlist
+\item
+  L'ordonnée à l'origine \(\beta_0\) correspond au salaire moyen d'un
+  professeur adjoint (un homme) qui vient de compléter ses études et qui
+  travaille dans un domaine appliqué: on estime ce salaire à
+  \(\widehat{\beta}_0=86596\) dollars.
+\item
+  toutes choses étant égales par ailleurs (même domaine, échelon et
+  années depuis le dernier diplôme), l'écart de salaire entre un homme
+  et un femme est estimé à \(\widehat{\beta}_1=-4771\) dollars.
+\item
+  \emph{ceteris paribus}, un(e) professeur(e) qui oeuvre dans un domaine
+  théorique gagne \(\beta_2\) dollars de plus qu'une personne du même
+  sexe dans un domaine appliqué; on estime cette différence à \(-13473\)
+  dollars.
+\item
+  \emph{ceteris paribus}, la différence moyenne de salaire entre
+  professeurs adjoints et aggrégés est estimée à
+  \(\widehat{\beta}_3=14560\) dollars.
+\item
+  \emph{ceteris paribus}, la différence moyenne de salaire entre
+  professeurs adjoints et titulaires est de \(\widehat{\beta}_4=49160\)
+  dollars.
+\item
+  au sein d'un même échelon, chaque année supplémentaire de service mène
+  à une augmentation de salaire annuelle moyenne de
+  \(\widehat{\beta}_5=-89\) dollars.
+\end{itemize}
+
+\end{example}
+
+\begin{refremark}[Polynômes]
+Il n'est pas toujours possible de fixer la valeur des autres colonnes de
+\(\mathbf{X}\) si plusieurs colonnes contiennent des transformations ou
+des fonctions d'une même variable explicative. Par exemple, on pourrait
+par exemple considérer un polynôme d'ordre \(k\) (ordinairement, on
+prendre \(k\leq 3\)), \begin{align*}
+\mathsf{E}(Y \mid X=x)=\beta_0+ \beta_1 x+ \beta_2 x^2 + \ldots +\beta_k x^k.
+\end{align*} Si l'on inclut un terme d'ordre \(k\), \(x^k\), il faut
+\textbf{toujours} inclure les termes d'ordre inférieur
+\(1, x, \ldots, x^{k-1}\) pour l'interprétabilité du modèle résultant
+(autrement, cela revient à choisir un polynôme en imposant que certains
+coefficients soient zéros). L'interprétation des effets des covariables
+nonlinéaires (même polynomiaux) est complexe parce qu'on ne peut pas «
+fixer la valeur des autres variables »: l'effet d'une augmentation d'une
+unité de \(x\) \emph{dépend de la valeur de cette dernière}. L'effet
+marginal de \(x\) est \(\beta_1 + \sum_{j=1}^{k-1}j \beta_{j+1}x^j\).
+
+L'utilisation de polynôme, plus flexibles, n'est généralement pas
+recommendée car ces derniers se généralisent mal hors de l'étendue
+observée des données. L'utilisation de splines avec une pénalité sur les
+coefficients, avec des modèles additifs, offre plus de flexibilité.
+
+\label{rem-polynomes}
+
+\end{refremark}
+
+\begin{example}[Modèle quadratique pour les données
+automobile]\protect\hypertarget{exm-quadmod}{}\label{exm-quadmod}
+
+Considérons un modèle de régression linéaire pour l'autonomie d'essence
+en fonction de la puissance du moteur pour différentes voitures dont les
+caractéristiques sont données dans le jeu de données
+\texttt{automobiles}. Le modèle postulé incluant un terme quadratique
+est \begin{align*}
+\texttt{autonomie}_i = \beta_0 + \beta_1 \texttt{puissance}_i + \beta_2 \texttt{puissance}_i^2 + \varepsilon_i
+\end{align*} Afin de comparer l'ajustement du modèle quadratique, on
+peut inclure également la droite ajustée du modèle de régression simple
+qui n'inclut que puissance.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-autoquad2d-1.pdf}
+
+}
+
+\caption{\label{fig-autoquad2d}Modèle de régression avec terme
+quadratique pour la puissance (gris), versus spline cubique pénalisée
+(ligne traitillée).}
+
+\end{figure}%
+
+À vue d'oeil, l'ajustement quadratique est bon: nous verrons plus tard à
+l'aide de test si une simple droite aurait été suffisante. On voit aussi
+dans la Figure~\ref{fig-autoquad2d} que l'autonomie d'essence décroît
+rapidement quand la puissance croît entre \(0\) et \(189.35\), mais
+semble remonter légèrement par la suite pour les voitures qui un moteur
+de plus de 200 chevaux-vapeurs, ce que le modèle quadratique capture.
+Prenez garde en revanche à l'extrapolation là où vous n'avez pas de
+données (comme l'illustre remarquablement bien
+\href{https://web.archive.org/web/20210315050023/https://livefreeordichotomize.com/2020/05/05/model-detective/}{le
+modèle cubique de Hassett pour le nombre de cas quotidiens de
+coronavirus}).
+
+La représentation graphique du modèle polynomial de degré 2 présenté
+dans la Figure~\ref{fig-autoquad2d} peut sembler contre-intuitive, mais
+c'est une projection en 2D d'un plan 3D de coordonnées
+\(\beta_0 + \beta_1x-y +\beta_2z =0\), où \(x=\texttt{puissance}\),
+\(z=\texttt{puissance}^2\) et \(y=\texttt{autonomie}\). La physique et
+le bon-sens imposent la contrainte \(z = x^2\), et donc les valeurs
+ajustées vivent sur une courbe dans un sous-espace du plan ajusté,
+représenté en gris dans la Figure~\ref{fig-hyperplan}.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{images/hyperplan_auto.png}
+
+}
+
+\caption{\label{fig-hyperplan}Représentation graphique 3D du modèle de
+régression linéaire pour les données \(\texttt{automobile}\).}
+
+\end{figure}%
+
+\end{example}
+
+\section{Estimation des paramètres}\label{estimation-des-paramuxe8tres}
+
+Considérons un échantillon de \(n\) observations. On n'observe ni les
+aléas \(\boldsymbol{\varepsilon}\), ni les paramètres
+\(\boldsymbol{\beta}\): il est donc impossible de recouvrer les (vrais)
+coefficients du modèle. Effectivement, le système d'équation spécifié
+par le modèle linéaire inclut \(n+p+1\) inconnues, mais uniquement \(n\)
+observations. Si on se concentre sur les \(p+1\) paramètres de moyenne
+et sur la variance \(\sigma^2\), nous pourrons estimer les paramètres
+généralement si \(n> p+2\), mais cela dépend de la spécification. Une
+infinité de plans pourraient passer dans le nuage de points; il faut
+donc choisir la meilleure droite (selon un critère donné). La section
+aborde le choix de ce critère et l'estimation des paramètres de la
+moyenne.
+
+\subsection{Moindres carrés
+ordinaires}\label{moindres-carruxe9s-ordinaires-1}
+
+Soit une matrice de modèle \(\mathbf{X}\) et une formulation pour la
+moyenne avec \(\mathsf{E}(Y_i) = \mathbf{x}_i\boldsymbol{\beta}\). Les
+estimateurs des moindres carrés ordinaires
+\(\widehat{\boldsymbol{\beta}}=(\widehat{\beta}_0, \ldots, \widehat{\beta}_p)\)
+sont les paramètres qui minimisent simultanément la distance euclidienne
+entre les observations \(y_i\) et les \textbf{valeurs ajustées}
+\(\widehat{y}_i=\mathbf{x}_i\widehat{\boldsymbol{\beta}}\).
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-vertdist-1.pdf}
+
+}
+
+\caption{\label{fig-vertdist}Résidus ordinaires \(e_i\) (vecteurs
+verticaux) ajoutés à la droit de régression dans l'espace \((x, y)\)
+(gauche) et l'ajustement de la variable réponse \(y_i\) en fonction des
+valeurs ajustées \(\widehat{y}_i\).}
+
+\end{figure}%
+
+En d'autres mots, les estimateurs des moindres carrés sont la solution
+du problème d'optimization convexe \begin{align*}
+\widehat{\boldsymbol{\beta}} &=\min_{\boldsymbol{\beta} \in \mathbb{R}^{p+1}}\sum_{i=1}^n (Y_i-\widehat{Y}_i)^2= \min_{\boldsymbol{\beta}} \|\boldsymbol{Y}-\mathbf{X}\boldsymbol{\beta}\|^2
+\end{align*} Ce système d'équation a une solution explicite qui est plus
+facilement exprimée en notation matricielle. Soit les matrices et
+vecteurs \begin{align*}
+\boldsymbol{Y} =
+ \begin{pmatrix}
+  Y_1 \\
+  Y_2 \\
+  \vdots \\
+  Y_n
+ \end{pmatrix} ,
+ \;
+\mathbf{X} = \begin{pmatrix}
+1 & x_{11} & x_{12} & \cdots & x_{1p} \\
+1 & x_{21} & x_{22} & \cdots & x_{2p} \\
+\vdots & \vdots & \ddots & \vdots \\
+1 & x_{n1} & x_{n2} & \cdots & x_{np}
+\end{pmatrix} , \;
+\boldsymbol{\beta} =
+ \begin{pmatrix}
+  \beta_1 \\
+  \beta_2 \\
+  \vdots \\
+  \beta_p
+ \end{pmatrix}
+\end{align*}
+
+\begin{proposition}[Moindres carrés
+ordinaires]\protect\hypertarget{prp-ols-mle}{}\label{prp-ols-mle}
+
+L'estimateur des moindres carrés ordinaires résoud le problème
+d'optimisation non-contraint \begin{align*}
+\widehat{\boldsymbol{\beta}}=\min_{\boldsymbol{\beta} \in \mathbb{R}^{p+1}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}).
+\end{align*} On peut calculer la dérivée première par rapport à
+\(\boldsymbol{\beta}\), égaler à zéro et isoler le maximum pour obtenir
+une formule explicite pour \(\widehat{\boldsymbol{\beta}}\),
+\begin{align*}
+\mathbf{0}_n&=\frac{\partial}{\partial\boldsymbol{\beta}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\\
+\\&=\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial \boldsymbol{\beta}}\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}\\
+ \\&=\mathbf{X}^\top (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})
+\end{align*} en utilisant la
+\href{http://www.stat.rice.edu/~dobelman/notes_papers/math/Matrix.Calculus.AppD.pdf}{règle
+de dérivation en chaîne}; on peut ainsi distribuer les termes pour
+obtenir l'\emph{équation normale} \begin{align*}
+ \mathbf{X}^\top \mathbf{X}\boldsymbol{\beta}&=\mathbf{X}^\top \boldsymbol{y}.
+\end{align*} Si \(\mathbf{X}\) est une matrice de rang \(p\), alors la
+forme quadratique \(\mathbf{X}^\top \mathbf{X}\) est inversible et
+l'unique solution du problème d'optimisation est \begin{align*}
+\widehat{\boldsymbol{\beta}} = (\mathbf{X}^{\top} \mathbf{X})^{-1} \mathbf{X}^{\top} \boldsymbol{Y}.
+\end{align*} Si le rang de la matrice \(\mathbf{X}\) est dimension
+\(n \times (p+1)\) est de rang \(p+1\), l'unique solution du problème
+d'optimisation est \begin{equation}\phantomsection\label{eq-ols}{
+\widehat{\boldsymbol{\beta}} = (\mathbf{X}^{\top} \mathbf{X})^{-1} \mathbf{X}^{\top} \boldsymbol{Y}.
+}\end{equation} Cet estimateur dit des \textbf{moindres carrés
+ordinaires} (MCO) est explicite; il n'est donc pas nécessaire de
+procéder à l'optimisation à l'aide d'algorithmes numériques.
+
+\end{proposition}
+
+\subsection{Maximum de vraisemblance}\label{maximum-de-vraisemblance}
+
+Nous pourrions également envisager l'estimation du maximum de
+vraisemblance. Proposition~\ref{prp-mle-normal-linmod} montre que, en
+supposant la normalité des aléas, les estimateurs des moindres carrés de
+\(\boldsymbol{\beta}\) coïncident avec ceux du maximum de vraisemblance.
+
+\begin{proposition}[Estimation du maximum de vraisemblance du modèle
+linéaire
+normal]\protect\hypertarget{prp-mle-normal-linmod}{}\label{prp-mle-normal-linmod}
+
+Le modèle de régression linéaire spécifie que les observations
+\(Y_i \sim \mathsf{normale}(\mathbf{x}_i\boldsymbol{\beta}, \sigma^2)\)
+sont indépendantes. Le modèle linéaire a \(p+2\) paramètres
+(\(\boldsymbol{\beta}\) et \(\sigma^2\)) et la log-vraisemblance est,
+abstraction faite des termes constants, \begin{align*}
+\ell(\boldsymbol{\beta}, \sigma)&\propto-\frac{n}{2} \ln (\sigma^2) -\frac{1}{2\sigma^2}\left\{(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\right\}^2.
+\end{align*} Maximiser la log-vraisemblance par rapport à
+\(\boldsymbol{\beta}\) revient à minimiser la somme du carré des erreurs
+\(\sum_{i=1}^n (y_i - \mathbf{x}_i\boldsymbol{\beta})^2\), quelle que
+soit la valeur de \(\sigma\), et on recouvre
+\(\widehat{\boldsymbol{\beta}}\). L'estimateur du maximum de
+vraisemblance de la variance \(\widehat{\sigma}^2\) est \begin{align*}
+\widehat{\sigma}^2=\mathrm{arg max}_{\sigma^2} \ell(\widehat{\boldsymbol{\beta}}, \sigma^2).
+\end{align*} La log-vraisemblance profilée de \(\sigma^2\), abstraction
+faite des constantes, est \begin{align*}
+\ell_{\mathrm{p}}(\sigma^2)
+&\propto-\frac{1}{2}\left\{n\ln\sigma^2+\frac{1}{\sigma^2}(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})\right\}.
+\end{align*} En différenciant chaque terme par rapport à \(\sigma^2\) et
+en fixant le gradient à zéro, on obtient \begin{align*}
+\frac{\partial \ell_{\mathrm{p}}(\sigma^2)}{\partial \sigma^2} = -\frac{n}{2\sigma^2} + \frac{(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})}{2\sigma^4} = 0
+\end{align*}
+
+On déduit que l'estimateur du maximum de vraisemblance est la moyenne
+des carrés des résidus, \begin{align*}
+\widehat{\sigma}^2&=\frac{1}{n}(\boldsymbol{Y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{Y}-\mathbf{X}\hat{\boldsymbol{\beta}})\\&= \frac{1}{n} \sum_{i=1}^n (y_i - \mathbf{x}_i\widehat{\boldsymbol{\beta}})^2= \frac{\mathsf{SC}_e}{n};
+\end{align*} L'estimateur sans biais habituel de \(\sigma^2\) calculé
+par le logiciel est \[S^2=\mathsf{SC}_e/(n-p-1),\] où le dénominateur
+est la taille de l'échantillon \(n\) moins le nombre de paramètres de la
+moyenne \(\boldsymbol{\beta}\), soit \(p+1\).
+
+\end{proposition}
+
+\begin{refremark}[Invariance]
+Une conséquence directe des propriétés des estimateurs du maximum de
+vraisemblance est que les valeurs ajustées \(\widehat{y}_i\) pour deux
+matrices de modèle \(\mathbf{X}_a\) et \(\mathbf{X}_b\) sont les mêmes
+si elles engendrent le même espace linéaire, comme dans
+Exemple~\ref{exm-baumann-dummies}; seule l'\,'interprétation des
+coefficients change. Si nous incluons une ordonnée à l'origine, nous
+obtenons le même résultat si les colonnes explicatives sont centrées sur
+la moyenne.
+
+\label{rem-invariance}
+
+\end{refremark}
+
+La valeur de \(\widehat{\boldsymbol{\beta}}\) est telle qu'elle maximise
+la corrélation entre \(\boldsymbol{y}\) et \(\widehat{\boldsymbol{y}}\).
+Dans le cas d'une variable catégorielle unique, nous obtiendrons des
+valeurs ajustées \(\widehat{y}\) qui correspondent à la moyenne de
+l'échantillon de chaque groupe.
+
+\begin{refremark}[Géométrie]
+Le vecteur de valeurs ajustées
+\(\widehat{\boldsymbol{y}} =\mathbf{X} \widehat{\boldsymbol{\beta}} = \mathbf{H}_{\mathbf{X}}\boldsymbol{y}\)
+est la projection du vecteur réponse \(\boldsymbol{y}\) dans l'espace
+linéaire engendré par les colonnes de \(\mathbf{X}\). La matrice chapeau
+\(\mathbf{H}_{\mathbf{X}} = \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\)
+est une matrice de projection orthogonale, car
+\(\mathbf{H}_{\mathbf{X}}=\mathbf{H}_{\mathbf{X}}^\top\) et
+\(\mathbf{H}_{\mathbf{X}}\mathbf{H}_{\mathbf{X}} = \mathbf{H}_{\mathbf{X}}\).
+Ainsi, \(\mathbf{H}_{\mathbf{X}}\mathbf{X} = \mathbf{X}\). Puisque le
+vecteur de résidus ordinaires
+\(\boldsymbol{e} = (e_1, \ldots, e_n)^\top\), qui apparaît dans la somme
+des erreurs quadratiques, est définie comme
+\(\boldsymbol{y} - \widehat{\boldsymbol{y}}\) et
+\(\widehat{\boldsymbol{y}}=\mathbf{X}\boldsymbol{\beta}\), de simples
+manipulations algébriques montrent que le produit scalaire entre les
+résidus ordinaires et les valeurs ajustées est nul, puisque
+\begin{align*}
+\widehat{\boldsymbol{y}}^\top\boldsymbol{e} &= \widehat{\boldsymbol{\beta}}^\top \mathbf{X}^\top (\boldsymbol{y}- \mathbf{X} \widehat{\boldsymbol{\beta}})
+\\&= \boldsymbol{y}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top(\boldsymbol{y} - \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y})\\&=\boldsymbol{y}^\top\mathbf{H}_{\mathbf{X}}\boldsymbol{y} - \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y}
+\\&= 0
+\end{align*} où nous utilisons la définition de
+\(\widehat{\boldsymbol{y}}\) et
+\(\boldsymbol{e} = \boldsymbol{y} - \widehat{\boldsymbol{y}}\) sur la
+première ligne, puis on substitut l'estimateur des MCO
+\(\widehat{\boldsymbol{\beta}} = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\boldsymbol{y}\)
+avant de distribuer les termes du produit. Une dérivation similaire
+montre que \(\mathbf{X}^\top\boldsymbol{e}=\boldsymbol{0}_{p+1}\). Les
+résidus ordinaires sont donc orthogonaux à la fois à la matrice du
+modèle \(\mathbf{X}\) et aux valeurs ajustées
+\(\widehat{\boldsymbol{y}}\).
+
+Une conséquence directe de ces résultats est le fait que la corrélation
+linéaire entre \(\boldsymbol{e}\) et \(\widehat{\boldsymbol{y}}\) est
+nulle. Cette propriété servira lors de l'élaboration de diagnostics
+graphiques.
+
+Puisque le produit scalaire est zéro, la moyenne de \(\boldsymbol{e}\)
+doit être zéro pour autant que \(\mathbf{1}_n\) est dans l'espace
+linéaire engendré par \(\mathbf{X}\).
+
+\label{rem-geometry}
+
+\end{refremark}
+
+\begin{proposition}[Matrices d'information pour modèles linéaires
+normaux.]\protect\hypertarget{prp-info-normal}{}\label{prp-info-normal}
+
+Les entrées de la matrice d'information observée du modèle linéaire
+normal sont les suivantes \begin{align*}
+-\frac{\partial^2 \ell(\boldsymbol{\beta}, \sigma^2)}{\partial \boldsymbol{\beta}\partial \boldsymbol{\beta}^\top} &= \frac{1}{\sigma^2} \frac{\partial \mathbf{X}^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial \boldsymbol{\beta}^\top} =  \frac{\mathbf{X}^\top\mathbf{X}}{\sigma^2}\\
+-\frac{\partial^2 \ell(\boldsymbol{\beta}, \sigma^2)}{\partial \boldsymbol{\beta}\partial \sigma^2} &=- \frac{\mathbf{X}^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\sigma^4}\\
+-\frac{\partial^2 \ell(\boldsymbol{\beta}, \sigma^2)}{\partial (\sigma^2)^2} &= -\frac{n}{2\sigma^4} + \frac{(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\sigma^6}.
+\end{align*} Si on évalue l'information observée aux EMV, on obtient
+\begin{align*}
+j(\widehat{\boldsymbol{\beta}}, \widehat{\sigma^2}) = 
+\begin{pmatrix}
+\frac{\mathbf{X}^\top\mathbf{X}}{\widehat{\sigma^2}} & \boldsymbol{0}_{p+1} \\  \boldsymbol{0}_{p+1}^\top & \frac{n}{2\widehat{\sigma^4}}
+\end{pmatrix}
+\end{align*} puisque \(\widehat{\sigma}^2=\mathsf{SC}_e/n\) et que les
+résidus sont orthogonaux à la matrice du modèle. Sachant que
+\(\mathsf{E}(Y \mid \mathbf{X})=\mathbf{X}\boldsymbol{\beta}\), la
+matrice d'information de Fisher est \begin{align*}
+i(\boldsymbol{\beta}, \sigma^2) = 
+\begin{pmatrix}
+\frac{\mathbf{X}^\top\mathbf{X}}{\sigma^2} & \boldsymbol{0}_{p+1} \\  \boldsymbol{0}_{p+1}^\top & \frac{n}{2\sigma^4}
+\end{pmatrix}
+\end{align*} Puisque la loi asymptotique de l'estimateur est normale,
+les EMV de \(\sigma^2\) et \(\boldsymbol{\beta}\) sont asymptotiquement
+indépendants car leur corrélation asymptotique est nulle.Pourvu que la
+matrice carrée \((p+1)\), \(\mathbf{X}^\top\mathbf{X}\) soit inversible,
+la variance asymptotique des estimateurs est
+\(\mathsf{Var}(\widehat{\boldsymbol{\beta}})=\sigma^2(\mathbf{X}^\top\mathbf{X})^{-1}\)
+et \(\mathsf{Var}(\widehat{\sigma}^2) = 2\sigma^4/n\).
+
+\end{proposition}
+
+\subsection{Ajustement des modèles linéaires à l'aide d'un
+logiciel}\label{ajustement-des-moduxe8les-linuxe9aires-uxe0-laide-dun-logiciel}
+
+Bien que nous puissions construire la matrice du modèle nous-mêmes et
+utiliser la formule des moindres carrés de l'Équation~\ref{eq-ols}, les
+routines numériques implémentées dans les logiciels sont préférables car
+plus stables. La fonction \texttt{lm} dans \textbf{R} ajuste \textbf{les
+modèles linéaires}, tout comme \texttt{glm} avec les arguments par
+défaut. Les objets de la classe \texttt{lm} ont plusieurs méthodes qui
+vous permettent d'extraire des objets spécifiques des objets
+\texttt{lm}. Par exemple, les fonctions \texttt{coef}, \texttt{resid},
+\texttt{fitted}, \texttt{model.matrix} renvoient les estimations des
+coefficients \(\widehat{\boldsymbol{\beta}},\) les résidus ordinaires
+\(\boldsymbol{e},\) les valeurs ajustées \(\widehat{\boldsymbol{y}}\) et
+la matrice du modèle \(\mathbf{X}\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data}\NormalTok{(BSJ92, }\AttributeTok{package =} \StringTok{"hecedsm"}\NormalTok{) }\CommentTok{\# charger les données}
+\FunctionTok{str}\NormalTok{(BSJ92) }\CommentTok{\# vérifier que les variables catégorielles sont "factor"}
+\CommentTok{\# Ajustement de la régression linéaire}
+\NormalTok{linmod }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(posttest1 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ pretest1 }\SpecialCharTok{+}\NormalTok{ group, }
+             \AttributeTok{data =}\NormalTok{ BSJ92)}
+\NormalTok{est\_beta }\OtherTok{\textless{}{-}} \FunctionTok{coef}\NormalTok{(linmod) }\CommentTok{\# coefficients (betas)}
+\NormalTok{vcov\_beta }\OtherTok{\textless{}{-}} \FunctionTok{vcov}\NormalTok{(linmod) }\CommentTok{\# matrice de covariance des betas}
+\FunctionTok{summary}\NormalTok{(linmod) }\CommentTok{\# tableau résumé}
+\NormalTok{beta\_ic }\OtherTok{\textless{}{-}} \FunctionTok{confint}\NormalTok{(linmod) }\CommentTok{\# IC de Wald pour betas}
+\NormalTok{y\_adj }\OtherTok{\textless{}{-}} \FunctionTok{fitted}\NormalTok{(linmod) }\CommentTok{\# valeurs ajustées}
+\NormalTok{e }\OtherTok{\textless{}{-}} \FunctionTok{resid}\NormalTok{(linmod) }\CommentTok{\# résidus ordinaires}
+
+\CommentTok{\# Vérifier la formule des moindres carrés ordinaires}
+\NormalTok{X }\OtherTok{\textless{}{-}} \FunctionTok{model.matrix}\NormalTok{(linmod) }\CommentTok{\# matrice du modèle}
+\NormalTok{y }\OtherTok{\textless{}{-}}\NormalTok{ college}\SpecialCharTok{$}\NormalTok{salary}
+\FunctionTok{isTRUE}\NormalTok{(}\FunctionTok{all.equal}\NormalTok{(}
+  \FunctionTok{c}\NormalTok{(}\FunctionTok{solve}\NormalTok{(}\FunctionTok{t}\NormalTok{(X) }\SpecialCharTok{\%*\%}\NormalTok{ X) }\SpecialCharTok{\%*\%} \FunctionTok{t}\NormalTok{(X) }\SpecialCharTok{\%*\%}\NormalTok{ y),}
+  \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{coef}\NormalTok{(linmod))}
+\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+La méthode \texttt{summary} est sans doute la plus utile: elle affiche
+les estimations des paramètres de la moyenne ainsi que leurs erreurs
+type, les valeurs \(t\) pour le test de Wald de l'hypothèse
+\(\mathscr{H}_0 : \beta_i=0\) et les valeurs-\(p\) associées. D'autres
+statistiques descriptives, portant sur la taille de l'échantillon, les
+degrés de liberté, etc. sont données au bas du tableau. Notez que la
+fonction \texttt{lm} utilise l'estimateur sans biais de la variance
+\(\sigma^2\).
+
+\section{Coefficient de détermination}\label{coefR2}
+
+Lorsque nous spécifions un modèle, les aléas
+\(\boldsymbol{\varepsilon}\) servent à tenir compte du fait qu'aucune
+relation linéaire exacte ne caractérise les données Une fois que nous
+avons ajusté un modèle, nous estimons la variance \(\sigma^2\); on peut
+alors se demander quelle part de la variance totale de l'échantillon est
+expliquée par le modèle.
+
+La somme totale des carrés, définie comme la somme des carrés des
+résidus du modèle à ordonnée à l'origine uniquement, sert de comparaison
+--- le modèle le plus simple que nous puissions trouver impliquerait
+chaque observation par la moyenne de l'échantillon de la réponse, ce qui
+donne la variance expliquée
+\(\mathsf{SC}_c = \sum_{i=1}^n (y_i - \overline{y})^2\). Nous pouvons
+ensuite comparer la variance des données originales avec celle des
+résidus du modèle avec la matrice de covariables \(\mathbf{X}\), définie
+comme \(\mathsf{SC}_e =\sum_{i=1}^n e_i^2\) avec
+\(e_i = y_i - \widehat{\beta}_0 - \sum_{j=1}^p \widehat{\beta}_jX_j\).
+Nous définissons le coefficient de détermination \(R^2\), comme suit
+\begin{align*}
+R^2 &=1- \frac{\mathsf{SC}_e}{\mathsf{SC}_c} = \frac{\sum_{i=1}^n (y_i - \overline{y})^2- \sum_{i=1}^n e_i^2}{\sum_{i=1}^n (y_i - \overline{y})^2}.
+\end{align*} Une autre décomposition montre que
+\(R^2 = \mathsf{cor}^2(\boldsymbol{y}, \widehat{\boldsymbol{y}})\),
+c'est-à-dire que le coefficient de détermination peut être interprété
+comme le carré de la corrélation linéaire de Pearson
+(Définition~\ref{def-correlation-Pearson}) entre la réponse
+\(\boldsymbol{y}\) et les valeurs ajustées \(\widehat{\boldsymbol{y}}\).
+
+Il est important de noter que le \(R^2\) n'est pas un critère de qualité
+de l'ajustement, tout comme la log-vraisemblance. En effet, certain
+phénomènes sont intrinsèquement complexes et même un bon modèle ne
+parviendra pas à rendre compte d'une grande partie de la variabilité de
+la réponse. Ce n'est pas non plus parce que le \(R^2\) est faible que
+\(Y\) et et les variables explicatives \(X_j\) sont indépendantes, comme
+l'illustre la Figure~\ref{fig-datasaurus}.
+
+En outre, il est possible de gonfler la valeur de \(R^2\) en incluant
+davantage de variables explicatives et en rendant le modèle plus
+complexe, ce qui améliore la vraisemblance et \(R^2\). En effet, le
+coefficient n'est pas décroissant dans la dimension de \(\mathbf{X}\),
+de sorte qu'un modèle comportant \(p+1\) de covariables aura
+nécessairement des valeurs de \(R^2\) plus élevées que si l'on
+n'incluait que \(p\) de ces variables explicatives. Pour comparer les
+modèles, il est préférable d'utiliser des critères d'information ou de
+s'appuyer sur la performance prédictive si tel est l'objectif de la
+régression. Enfin, un modèle avec un \(R^2\) élevé peut impliquer une
+corrélation élevée, mais
+\href{http://www.tylervigen.com/spurious-correlations}{la relation peut
+être fallacieuse}: la régression linéaire ne produit pas de modèles
+causaux!
+
+\bookmarksetup{startatroot}
+
 \chapter*{Bibliographie}\label{bibliographie}
 \addcontentsline{toc}{chapter}{Bibliographie}
 
@@ -4160,6 +5379,13 @@ transformation.
 
 \phantomsection\label{refs}
 \begin{CSLReferences}{1}{0}
+\bibitem[\citeproctext]{ref-Baumann:1992}
+Baumann, James F., Nancy Seifert-Kessell, et Leah A. Jones. 1992.
+{«~Effect of Think-Aloud Instruction on Elementary Students'
+Comprehension Monitoring Abilities~»}. \emph{Journal of Reading
+Behavior} 24 (2): 143‑72.
+\url{https://doi.org/10.1080/10862969209547770}.
+
 \bibitem[\citeproctext]{ref-Brodeur:2021}
 Brodeur, Mathieu, Perrine Ruer, Pierre-Majorique Léger, et Sylvain
 Sénécal. 2021. {«~Smartwatches are more distracting than mobile phones
@@ -4218,6 +5444,11 @@ Sokolova, Tatiana, Aradhna Krishna, et Tim Döring. 2023. {«~Paper Meets
 Plastic: The Perceived Environmental Friendliness of Product
 Packaging~»}. \emph{Journal of Consumer Research} 50 (3): 468‑91.
 \url{https://doi.org/10.1093/jcr/ucad008}.
+
+\bibitem[\citeproctext]{ref-Venables:2000}
+Venables, William N. 2000. {«~Exegeses on Linear Models~»}. In
+\emph{S-PLUS User's Conference}. Washington, D.C.
+\url{https://www.stats.ox.ac.uk/pub/MASS3/Exegeses.pdf}.
 
 \end{CSLReferences}
 

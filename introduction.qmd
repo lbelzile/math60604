@@ -157,7 +157,49 @@ La matrice de corrélation de $\boldsymbol{Y}$ est une matrice symmétrique $n\t
 \end{align*}
 Nous modéliserons la matrice de covariance ou de corrélation des données corrélées et longitudinales par individus du même groupe (ou du même individu pour les mesures répétées) dans le [Chapitre 5](donnees-longitudinales-correlees).
 
+
 :::
+
+:::{#def-correlation-Pearson}
+
+## Corrélation linéaire de Pearson
+
+Le coefficient de corrélation linéaire entre $X_j$ et $X_k$, que l'on note $r_{j, k}$, cherche à mesurer la force de la relation linéaire entre deux variables, c'est-à-dire à quantifier à quel point les observations sont alignées autour d'une droite. Le coefficient de corrélation est
+\begin{align*}
+r_{j, k} &= \frac{\widehat{\mathsf{Co}}(X_j, X_k)}{\{\widehat{\mathsf{Va}}(X_j) \widehat{\mathsf{Va}}(X_k)\}^{1/2}}
+%\\&=\frac{\sum_{i=1}^n (x_{i, j}-\overline{x}_j)(x_{i, k} -\overline{x}_{k})}{\left\{\sum_{i=1}^n (x_{i, j}-\overline{x}_j)^2 \sum_{i=1}^n(x_{i, k} -\overline{x}_{k})^2\right\}^{1/2}}
+\end{align*}
+
+Les propriétés les plus importantes du coefficient de corrélation linéaire $r$ sont les suivantes:
+
+1) $-1 \leq r \leq 1$;
+2) $r=1$ (respectivement $r=-1$) si et seulement si les $n$ observations sont exactement alignées sur une droite de pente positive (négative). C'est-à-dire, s'il existe deux constantes $a$ et $b>0$ ($b<0$) telles que $y_i=a+b x_i$ pour tout $i=1, \ldots, n$.
+
+Règle générale,
+
+- Le signe de la corrélation détermine l'orientation de la pente (négative ou positive)
+- Plus la corrélation est près de 1 en valeur absolue, plus les points auront tendance à être alignés autour d'une droite.
+- Lorsque la corrélation est presque nulle, les points n'auront pas tendance à être alignés autour d'une droite. Il est très important de noter que cela n'implique pas qu'il n'y a pas de relation entre les deux variables. Cela implique seulement qu'il n'y a pas de **relation linéaire** entre les deux variables.
+
+:::
+
+La @fig-datasaurus montre bien ce dernier point: ces jeux de données ont la même corrélation linéaire (quasi-nulle) et donc la même droite de régression, mais ne sont clairement pas indépendantes puisqu'elles permettent de dessiner un dinosaure ou une étoile.
+
+
+```{r}
+#| label: fig-datasaurus
+#| eval: true
+#| echo: false
+#| fig-cap: "Trois jeux de données de `datasauRus`, avec une corrélation linéaire de -0.06 et des statistiques descriptives moyenne, écart-type, etc. identiques pour chaque jeu de données."
+ggplot(data = datasauRus::datasaurus_dozen |>
+    dplyr::filter(dataset %in% c("dino","star", "slant_up")),
+    mapping = aes(x = x, y = y))+
+  geom_point() +
+  geom_smooth(method = lm, formula = y ~ x, se = FALSE) +
+  theme_void() +
+  theme(legend.position = "none")+
+  facet_wrap(~dataset, ncol = 3)
+```
 
 :::{#def-biais}
 

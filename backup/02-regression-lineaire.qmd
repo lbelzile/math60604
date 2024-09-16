@@ -277,6 +277,8 @@ De nouveau, cette interprétation peut ne pas être sensée ou logique selon le 
 &= \left\{\beta_0 + \beta_1 (x_1+1) + \beta_2 x_2 + \cdots +\beta_p \mathrm{X}_p \right\} \\
 & \qquad \qquad -\left\{\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots +\beta_p \mathrm{X}_p \right\}
 \end{align*}
+
+
 Il n'est pas toujours possible de fixer la valeur des autres colonnes de $\mathbf{X}$ si plusieurs colonnes contiennent des transformations ou des fonctions d'une même variable explicative. Par exemple, on pourrait par exemple considérer un polynôme d'ordre $k$ (normalement, $k\leq 3$ en pratique),
 \begin{align*}
 Y=\beta_0+ \beta_1 \mathrm{X}+ \beta_2 \mathrm{X}^2 + \ldots +\beta_k \mathrm{X}^k + \varepsilon.
@@ -439,3 +441,9 @@ On voit que les femmes sont moins payées que les hommes: reste à savoir si cet
 #|   de régression linéaire pour les données $\texttt{college}$."
 car::avPlots(model = college_lm, "service", xlab= "années de service | reste", ylab = "salaire | reste", bty = "l", pch = 19, col = scales::alpha("black", 0.3))
 ```
+
+
+## Estimation des paramètres
+
+Considérons un échantillon de $n$ observations. On n'observe ni les aléas $\boldsymbol{\varepsilon}$, ni les paramètres $\boldsymbol{\beta}$: il est donc impossible de recouvrer les (vrais) coefficients du modèle. Effectivement, le système d'équation spécifié par le modèle linéaire inclut $n+p+1$ inconnues, mais uniquement $n$ observations.
+Une infinité de plans pourraient passer dans le nuage de points; il faut donc choisir la meilleure droite (selon un critère donné). La section aborde le choix de ce critère et l'estimation des paramètres de l'équation de la droite.
