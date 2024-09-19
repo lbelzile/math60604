@@ -223,7 +223,7 @@ Dans un contexte observationnel, les participants dans différents groupes ont d
 
 La spécification de la moyenne est
 \begin{align*}
-\mathsf{E}(Y_i \mid \boldsymbol{X}_i = \boldsymbol{x}_i) = \beta_0 + \beta_1 x_{i1} + \ldots + \beta_p x_{ip}.
+\mathsf{E}(Y_i \mid \boldsymbol{X}_i = \boldsymbol{x}_i) = \beta_0 + \beta_1 x_{i1} + \cdots + \beta_p x_{ip}.
 \end{align*}
 L'**ordonnée à l'origine** $\beta_0$ est la **valeur moyenne de $Y$** lorsque toutes les variables explicatives du modèles sont nulles, soit $\boldsymbol{x}_i=\boldsymbol{0}_p$.
 \begin{align*}
@@ -427,7 +427,7 @@ L'interprétation des coefficients est la suivante:
 
 Il n'est pas toujours possible de fixer la valeur des autres colonnes de $\mathbf{X}$ si plusieurs colonnes contiennent des transformations ou des fonctions d'une même variable explicative. Par exemple, on pourrait par exemple considérer un polynôme d'ordre $k$ (ordinairement, on va prendre $k\leq 3$),
 \begin{align*}
-\mathsf{E}(Y \mid X=x)=\beta_0+ \beta_1 x+ \beta_2 x^2 + \ldots +\beta_k x^k.
+\mathsf{E}(Y \mid X=x)=\beta_0+ \beta_1 x+ \beta_2 x^2 + \cdots +\beta_k x^k.
 \end{align*}
 Si l'on inclut un terme d'ordre $k$, $x^k$, il faut **toujours** inclure les termes d'ordre inférieur $1, x, \ldots, x^{k-1}$ pour l'interprétabilité du modèle résultant (autrement, cela revient à choisir un polynôme en imposant que certains coefficients soient zéros). L'interprétation des effets des covariables nonlinéaires (même polynomiaux) est complexe parce qu'on ne peut pas « fixer la valeur des autres variables »: l'effet d'une augmentation d'une unité de $x$ *dépend de la valeur de cette dernière*. L'effet marginal  de $x$ est $\beta_1 + \sum_{j=1}^{k-1}j \beta_{j+1}x^j$.
 
@@ -786,7 +786,7 @@ On obtient l'**intervalle de prédiction** de niveau $1-\alpha$ pour $Y^*$ en in
 \begin{align*}
 \mathrm{x}^*\widehat{\boldsymbol{\beta}}\pm \mathfrak{t}_{n-p-1}(\alpha/2)\sqrt{S^2\{1+\mathrm{x}^*(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}^{*\top}\}}.
 \end{align*}
-Des calculs similaires pour les **intervalles de confiance** ponctuels pour la moyenne donnent
+Des calculs similaires pour les **intervalles de confiance** ponctuels pour la moyenne $\mathrm{x}^*\boldsymbol{\beta}$ \donnent
 \begin{align*}
 \mathrm{x}^*\widehat{\boldsymbol{\beta}}\pm \mathfrak{t}_{n-p-1}(\alpha/2)\sqrt{S^2\mathrm{x}^*(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}^{*\top}}.
 \end{align*}
@@ -955,13 +955,13 @@ Considérons le modèle linéaire *complet* qui contient $p$ variables explicati
 Supposons sans perte de généralité que nous voulions tester $\mathscr{H}_0 : \beta_{k+1}=\beta_{k+2}=\cdots=\beta_p=0$ pour $k < p$ (on pourrait permuter les colonnes de la matrice du modèle pour obtenir cette configuration).
 L'hypothèse globale spécifie que $(p-k)$ des paramètres $\beta$ sont nuls. Le *modèle restreint* correspondant à l'hypothèse nulle ne contient que les covariables pour lesquelles $\beta_j \neq 0$,
 \begin{align*}
-\mathbb{M}_0: Y=\beta_0+\beta_1 x_1 + \ldots + \beta_k x_k + \varepsilon.
+\mathbb{M}_0: Y=\beta_0+\beta_1 x_1 + \cdots + \beta_k x_k + \varepsilon.
 \end{align*}
-Soit $\mathsf{SS}_e(\mathbb{M}_1)$ la somme du carré des résidus du modèle complet $\mathbb{M}_1$,
+Soit $\mathsf{SC}_e(\mathbb{M}_1)$ la somme du carré des résidus du modèle complet $\mathbb{M}_1$,
 \begin{align*}
 \mathsf{SC}_e(\mathbb{M}_1)=\sum_{i=1}^n (Y_i-\widehat{Y}_i^{\mathbb{M}_1})^2,
 \end{align*}
-où $\hat{Y}_i^{\mathbb{M}_1}$ est la  $i$e valeur ajustée du  modèle $\mathbb{M}_1$. On définit de la même façon la somme du carré des résidus,  $\mathsf{SS}_e(\mathbb{M}_0)$, pour le modèle $\mathbb{M}_0$. Logiquement, $\mathsf{SS}_e(\mathbb{M}_0) \geq \mathsf{SS}_e(\mathbb{M}_1)$.
+où $\hat{Y}_i^{\mathbb{M}_1}$ est la  $i$e valeur ajustée du  modèle $\mathbb{M}_1$. On définit de la même façon la somme du carré des résidus,  $\mathsf{SC}_e(\mathbb{M}_0)$, pour le modèle $\mathbb{M}_0$. Logiquement, $\mathsf{SC}_e(\mathbb{M}_0) \geq \mathsf{SC}_e(\mathbb{M}_1)$.
 
 
 La statistique $F$ est
