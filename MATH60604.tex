@@ -333,9 +333,9 @@
 \newcommand*\listoflistings{\listof{codelisting}{Liste des énumérations}}
 \usepackage{amsthm}
 \theoremstyle{definition}
-\newtheorem{example}{Exemple}[chapter]
-\theoremstyle{definition}
 \newtheorem{definition}{Définition}[chapter]
+\theoremstyle{definition}
+\newtheorem{example}{Exemple}[chapter]
 \theoremstyle{plain}
 \newtheorem{proposition}{Proposition}[chapter]
 \theoremstyle{remark}
@@ -378,7 +378,7 @@
 
 \title{MATH 60604 - Modélisation statistique}
 \author{Léo Belzile}
-\date{2024-09-18}
+\date{2024-09-19}
 
 \begin{document}
 
@@ -1684,7 +1684,7 @@ l'apprentissage en vase clos des recettes plutôt que d'essayer de
 comprendre les bases de la cuisine et de faire des liens. Ce chapitre se
 concentre sur la compréhension des concepts-clés liées aux tests.
 
-\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, coltitle=black, colframe=quarto-callout-important-color-frame, colbacktitle=quarto-callout-important-color!10!white, colback=white, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Objectifs d'apprentissage}, bottomtitle=1mm, leftrule=.75mm, arc=.35mm, breakable, toprule=.15mm, toptitle=1mm, bottomrule=.15mm, opacityback=0]
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, rightrule=.15mm, left=2mm, leftrule=.75mm, colback=white, bottomrule=.15mm, arc=.35mm, colbacktitle=quarto-callout-important-color!10!white, bottomtitle=1mm, toptitle=1mm, titlerule=0mm, colframe=quarto-callout-important-color-frame, breakable, opacityback=0, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Objectifs d'apprentissage}, toprule=.15mm, opacitybacktitle=0.6]
 
 \begin{itemize}
 \tightlist
@@ -2372,7 +2372,7 @@ probabilité d'obtenir une valeur de la statistique de test égale ou même
 plus grande que celle qu'on a observée dans l'échantillon, si
 \(\mathscr{H}_0\) est vraie.
 
-\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, coltitle=black, colframe=quarto-callout-caution-color-frame, colbacktitle=quarto-callout-caution-color!10!white, colback=white, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Mise en garde}, bottomtitle=1mm, leftrule=.75mm, arc=.35mm, breakable, toprule=.15mm, toptitle=1mm, bottomrule=.15mm, opacityback=0]
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, rightrule=.15mm, left=2mm, leftrule=.75mm, colback=white, bottomrule=.15mm, arc=.35mm, colbacktitle=quarto-callout-caution-color!10!white, bottomtitle=1mm, toptitle=1mm, titlerule=0mm, colframe=quarto-callout-caution-color-frame, breakable, opacityback=0, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Mise en garde}, toprule=.15mm, opacitybacktitle=0.6]
 
 L'\href{https://doi.org/10.1080/00031305.2016.1154108}{\emph{American
 Statistical Association (ASA)} a publié une liste de principes}
@@ -2960,7 +2960,7 @@ Ce chapitre traite de modélisation statistique et d'inférence basée sur
 la vraisemblance, la méthodologie la plus populaire dans le monde de la
 statistique.
 
-\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, coltitle=black, colframe=quarto-callout-important-color-frame, colbacktitle=quarto-callout-important-color!10!white, colback=white, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, bottomtitle=1mm, leftrule=.75mm, arc=.35mm, breakable, toprule=.15mm, toptitle=1mm, bottomrule=.15mm, opacityback=0]
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, rightrule=.15mm, left=2mm, leftrule=.75mm, colback=white, bottomrule=.15mm, arc=.35mm, colbacktitle=quarto-callout-important-color!10!white, bottomtitle=1mm, toptitle=1mm, titlerule=0mm, colframe=quarto-callout-important-color-frame, breakable, opacityback=0, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, toprule=.15mm, opacitybacktitle=0.6]
 
 \textbf{Objectifs d'apprentissage}
 
@@ -4410,15 +4410,16 @@ dons]\protect\hypertarget{exm-moon-vanepps}{}\label{exm-moon-vanepps}
 
 L'étude 1 de Moon et VanEpps (\citeproc{ref-Moon.VanEpps:2023}{2023})
 (données \texttt{MV23\_S1}, paquet \texttt{hecedsm}) porte sur la
-proportion de donateurs à un organisme de charité. Les participants au
-panel en ligne avaient la possibilité de gagner 25\$ et de faire don
-d'une partie de cette somme à l'organisme de leur choix. Les données
-fournies incluent uniquement les personnes qui n'ont pas dépassé ce
-montant et qui ont indiqué avoir fait un don d'un montant non nul.
+proportion de donateurs à un organisme de charité et le montant de leurs
+dons. Les participants au panel en ligne avaient la possibilité de
+gagner 25\$ et de faire don d'une partie de cette somme à l'organisme de
+leur choix. Les données fournies incluent uniquement les personnes qui
+n'ont pas dépassé ce montant et qui ont indiqué avoir fait un don d'un
+montant non nul.
 
 \end{example}
 
-\begin{example}[Un emballage en papier supplémentaire est-il considéré
+\begin{example}[Un emballage en carton supplémentaire est-il considéré
 comme plus écologique
 ?]\protect\hypertarget{exm-sokolova}{}\label{exm-sokolova}
 
@@ -4428,11 +4429,11 @@ caractère écologique des emballages. Des produits tels que les céréales
 sont emballés dans des sacs en plastique, eux-mêmes recouverts d'une
 boîte. Ils supposent (et constatent) que, paradoxalement, les
 consommateurs ont tendance à considérer l'emballage comme plus
-écologique lorsque la quantité de carton ou de papier entourant la boîte
+écologique lorsque la quantité de carton ou de carton entourant la boîte
 est plus importante, ce qui n'est pas le cas. Nous examinons dans la
 suite les données de l'étude 2A, qui mesure la perception du respect de
 l'environnement (PEF, variable \texttt{pef}) en fonction de la
-\texttt{proportion} d'emballage en papier (soit aucun, soit la moitié de
+\texttt{proportion} d'emballage en carton (soit aucun, soit la moitié de
 la surface du plastique, soit la même, soit le double).
 
 \end{example}
@@ -4884,7 +4885,7 @@ Le modèle linéaire postulé s'écrit
 
 \begin{align*}
 \texttt{salaire} &= \beta_0 + \beta_1 \mathbf{1}_{\texttt{sexe}=\texttt{femme}} +\beta_2 \mathbf{1}_{\texttt{domaine}=\texttt{theorique}} \\&\quad +\beta_3 \mathbf{1}_{\texttt{echelon}=\texttt{aggrege}}
-+\beta_4 \mathbf{1}_{\texttt{echelon}=\texttt{titulaire}}  +\beta_5 \texttt{service} + \varepsilon.
++\beta_4 \mathbf{1}_{\texttt{echelon}=\texttt{titulaire}} \\&\quad+\beta_5 \texttt{service} + \varepsilon.
 \end{align*}
 
 \begin{longtable}[]{@{}
@@ -5307,14 +5308,13 @@ connues, la prédiction sera donc
 que les moyennes (qui sont elles-mêmes basées sur plusieurs
 observations). Intuitivement, cela est dû à l'incertitude supplémentaire
 du terme d'erreur apparaissant dans l'équation du modèle: la variabilité
-des nouvelles prédictions est la somme de l'incertitude due aux
-estimateurs (basés sur des données aléatoires) et de la variance
-intrinsèque des observations en supposant que la nouvelle observation
-est indépendante de celles utilisées pour estimer les coefficients,
-\begin{align*}
+des prédictions est la somme de l'incertitude due aux estimateurs (basés
+sur des données aléatoires) et de la variance intrinsèque des
+observations en supposant que la nouvelle observation est indépendante
+de celles utilisées pour estimer les coefficients, \begin{align*}
 \mathsf{Va}(Y^*-\widehat{Y}^* \mid \mathbf{X}, \mathbf{x}^*) &= \mathsf{Va}(Y^*  - \mathbf{x}^*\widehat{\boldsymbol{\beta}} \mid \mathbf{X}, \mathbf{x}^*)
 \\&=\mathsf{Va}(Y^* \mid \mathbf{X}, \mathbf{x}^*) + \mathsf{Va}(\mathbf{x}^*\widehat{\boldsymbol{\beta}} \mid \mathbf{X}, \mathbf{x}^*)
-\\& = \sigma^2\mathbf{x}^{*\vphantom{\top}}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{x}^{*\top} + \sigma^2.
+\\& = \sigma^2 + \sigma^2\mathbf{x}^{*\vphantom{\top}}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{x}^{*\top}.
 \end{align*} On peut baser les intervalles de prédictions sur la loi
 Student-\(t\), à l'aide du pivot \begin{align*}
 \frac{Y^*-\mathrm{x}^*\widehat{\boldsymbol{\beta}}}{\sqrt{S^2\{1+\mathrm{x}^*(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}^{*\top}\}}}\sim \mathsf{Student}(n-p-1).
@@ -5340,13 +5340,13 @@ observations indépendantes.
 La Figure~\ref{fig-predinterval} montre les bandes d'incertitude
 ponctuelles pour une simple régression linéaire des données de Sokolova,
 Krishna, et Döring (\citeproc{ref-Sokolova:2023}{2023}) en fonction de
-la \texttt{proportion} de papier par rapport au plastique, les valeurs
+la \texttt{proportion} de carton par rapport au plastique, les valeurs
 les plus élevées indiquant un emballage avec plus de carton superflu. Le
 modèle ne tient pas compte du fait que notre réponse provient d'une
 distribution discrète limitée avec des valeurs entières allant de 1 à 7,
-et que les ratios testés dans l'expérience sont 0 (pas de papier), 0.5,
+et que les ratios testés dans l'expérience sont 0 (pas de carton), 0.5,
 1 et 2 uniquement. La droite centrale donne la prédiction des individus
-lorsque nous faisons varier la proportion papier/plastique. En examinant
+lorsque nous faisons varier la proportion carton/plastique. En examinant
 les formules des intervalles de confiance et de prédiction, il est clair
 que les bandes ne sont pas linéaires (nous considérons la racine carrée
 d'une fonction qui implique les prédicteurs), mais il n'est pas évident
@@ -5381,7 +5381,7 @@ que les courbes s'en écartent peu.
 prédiction (à gauche) et intervalles de confiance pour la moyenne (à
 droite) pour la régression linéaire simple de la perception du respect
 de l'environnement (\texttt{pef}) en fonction de la \texttt{proportion}
-de papier par rapport au plastique, avec des observations décalées
+de carton par rapport au plastique, avec des observations décalées
 horizontalement. Le graphique montre les prédictions ainsi que les
 intervalles de confiance ponctuels à 95 \% de la moyenne et des
 prédictions individuelles. L'axe des ordonnées a été tronqué.}
@@ -5440,11 +5440,11 @@ prédiction (gauche) et intervalles de confiance pour la moyenne
 \begin{longtable}[]{@{}ccc@{}}
 \caption{Intervalles de confiance pour la moyenne}\tabularnewline
 \toprule\noalign{}
-moyenne & borne inf. (IC) & borne sup. (IC) \\
+moyenne & borne inf. & borne sup. \\
 \midrule\noalign{}
 \endfirsthead
 \toprule\noalign{}
-moyenne & borne inf. (IC) & borne sup. (IC) \\
+moyenne & borne inf. & borne sup. \\
 \midrule\noalign{}
 \endhead
 \bottomrule\noalign{}
@@ -5520,7 +5520,7 @@ mesurées sur une échelle de 1 à 7, de sorte que la réponse moyenne
 lorsque \texttt{proportion=0} ne peut être nulle. Le coefficient de
 \texttt{proportion} suggère une tendance de 0.5 point par unité de
 ratio, et il est significativement différent de zéro, ce qui indique que
-le score \texttt{pef} change avec le ratio papier/plastique.
+le score \texttt{pef} change avec le ratio carton/plastique.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5556,14 +5556,14 @@ emboîtés]\protect\hypertarget{prp-ftest}{}\label{prp-ftest}
 
 Considérons le modèle linéaire \emph{complet} qui contient \(p\)
 variables explicatives, \begin{align*}
-\mathbb{M}_1: Y=\beta_0+\beta_1 x_1 + \cdots + \beta_g x_g + \beta_{k+1}x_{k+1} + \ldots + \beta_p x_p + \varepsilon.
+\mathbb{M}_1: Y=\beta_0+\beta_1 x_1 + \cdots + \beta_p x_p + \varepsilon.
 \end{align*} Supposons sans perte de généralité que nous voulions tester
-\(\mathscr{H}_0 : \beta_{k+1}=\beta_{k+2}=\cdots=\beta_p=0\) (on
-pourrait permuter les colonnes de la matrice du modèle pour obtenir
-cette configuration). L'hypothèse globale spécifie que \((p-k)\) des
-paramètres \(\beta\) sont nuls. Le \emph{modèle restreint} correspondant
-à l'hypothèse nulle ne contient que les covariables pour lesquelles
-\(\beta_j \neq 0\), \begin{align*}
+\(\mathscr{H}_0 : \beta_{k+1}=\beta_{k+2}=\cdots=\beta_p=0\) pour
+\(k < p\) (on pourrait permuter les colonnes de la matrice du modèle
+pour obtenir cette configuration). L'hypothèse globale spécifie que
+\((p-k)\) des paramètres \(\beta\) sont nuls. Le \emph{modèle restreint}
+correspondant à l'hypothèse nulle ne contient que les covariables pour
+lesquelles \(\beta_j \neq 0\), \begin{align*}
 \mathbb{M}_0: Y=\beta_0+\beta_1 x_1 + \ldots + \beta_k x_k + \varepsilon.
 \end{align*} Soit \(\mathsf{SS}_e(\mathbb{M}_1)\) la somme du carré des
 résidus du modèle complet \(\mathbb{M}_1\), \begin{align*}
@@ -5600,7 +5600,7 @@ Pour la régression linéaire normale, le test du rapport de vraisemblance
 pour comparer les modèles \(\mathbb{M}_1\) et \(\mathbb{M}_0\) est une
 fonction de la somme des carrés des résidus: la formule habituelle se
 simplifie à \begin{align*}
-R &= n\ln\{\mathsf{SC}_e(\mathbb{M}_0)/\mathsf{SC}_e(\mathbb{M}_1)\}\\
+R &= 2( \ell_{\mathbb{M}_1} - \ell_{\mathbb{M}_0}) \\&= n\ln\{\mathsf{SC}_e(\mathbb{M}_0)/\mathsf{SC}_e(\mathbb{M}_1)\}\\
 &= n \ln \left( 1+ \frac{p-k}{n-p-1}F\right)
 \end{align*} Le test du rapport de vraisemblance et les tests \(F\) sont
 liés par une transformation monotone, et nous pouvons utiliser la
@@ -5640,7 +5640,7 @@ sous-groupes. Nous pouvons normalement les exprimer sous la forme de
 est équivalent à une pièce faiblement éclairée, les contrastes sont
 comparables à des projecteurs qui permettent de mettre l'accent sur des
 aspects particuliers des différences entre les traitements.
-Formellement, un contraste est une combinaison linéaire de moyennes : en
+Formellement, un contraste est une combinaison linéaire de moyennes: en
 clair, cela signifie que nous attribuons un poids à chaque moyenne de
 groupe et que nous les additionnons, puis que nous comparons ce résumé à
 une valeur postulée \(a\), généralement zéro.
@@ -5679,7 +5679,7 @@ l'échantillon pour l'effet global\footnote{La contrainte
   \(c_1 + \cdots + c_K=0\) garantit que les contrastes linéaires sont
   orthogonaux à la moyenne, qui a un poids \(c_i=n_i/n\) et pour les
   échantillons équilibrés \(c_i =1/n\).}. Si nous nous intéressons
-uniquement à la différence entre les groupes (par opposition à l'effet
+uniquement à la différence entre groupes (par opposition à l'effet
 global de tous les traitements), nous imposons une contrainte de somme à
 zéro sur les poids, de sorte que \(c_1 + \cdots + c_K=0\).
 
@@ -5759,7 +5759,8 @@ l'Exemple~\ref{exm-teaching-baumann} et
 l'Exemple~\ref{exm-baumann-dummies}, avec une covariable en plus.
 L'objectif de Baumann, Seifert-Kessell, et Jones
 (\citeproc{ref-Baumann:1992}{1992}) était de faire une comparaison
-particulière entre des groupes de traitement. Extrait du résumé :
+particulière entre des groupes de traitement. Selon le résumé de
+l'article:
 
 \begin{quote}
 Les analyses quantitatives principales comportaient deux contrastes
@@ -5773,23 +5774,22 @@ score \texttt{pretest1}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(emmeans) }\CommentTok{\#load package}
+\FunctionTok{library}\NormalTok{(emmeans) }\CommentTok{\# moyennes marginales}
 \FunctionTok{data}\NormalTok{(BSJ92, }\AttributeTok{package =} \StringTok{"hecedsm"}\NormalTok{)}
 \NormalTok{mod\_post }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(posttest1 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ group }\SpecialCharTok{+}\NormalTok{ pretest1,}
                \AttributeTok{data =}\NormalTok{ BSJ92)}
-\NormalTok{car}\SpecialCharTok{::}\FunctionTok{Anova}\NormalTok{(mod\_post, }\AttributeTok{type =} \DecValTok{3}\NormalTok{) }\CommentTok{\# tests F}
-\CommentTok{\#\textgreater{} Anova Table (Type III tests)}
+\NormalTok{mod\_post0 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(posttest1 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ pretest1,}
+               \AttributeTok{data =}\NormalTok{ BSJ92)}
+\FunctionTok{anova}\NormalTok{(mod\_post0, mod\_post) }\CommentTok{\# tests F}
+\CommentTok{\#\textgreater{} Analysis of Variance Table}
 \CommentTok{\#\textgreater{} }
-\CommentTok{\#\textgreater{} Response: posttest1}
-\CommentTok{\#\textgreater{}             Sum Sq Df F value  Pr(\textgreater{}F)    }
-\CommentTok{\#\textgreater{} (Intercept)      1  1    0.25    0.62    }
-\CommentTok{\#\textgreater{} group          143  2   12.17 3.5e{-}05 ***}
-\CommentTok{\#\textgreater{} pretest1       275  1   46.67 4.2e{-}09 ***}
-\CommentTok{\#\textgreater{} Residuals      365 62                    }
+\CommentTok{\#\textgreater{} Model 1: posttest1 \textasciitilde{} pretest1}
+\CommentTok{\#\textgreater{} Model 2: posttest1 \textasciitilde{} group + pretest1}
+\CommentTok{\#\textgreater{}   Res.Df RSS Df Sum of Sq    F   Pr(\textgreater{}F)    }
+\CommentTok{\#\textgreater{} 1     64 509                               }
+\CommentTok{\#\textgreater{} 2     62 365  2       143 12.2 0.000035 ***}
 \CommentTok{\#\textgreater{} {-}{-}{-}}
 \CommentTok{\#\textgreater{} Signif. codes:  0 \textquotesingle{}***\textquotesingle{} 0.001 \textquotesingle{}**\textquotesingle{} 0.01 \textquotesingle{}*\textquotesingle{} 0.05 \textquotesingle{}.\textquotesingle{} 0.1 \textquotesingle{} \textquotesingle{} 1}
-\CommentTok{\# Ci{-}dessus compare le modèle avec pretest1 et group,}
-\CommentTok{\# versus sans l\textquotesingle{}une ou l\textquotesingle{}autre des variables}
 \NormalTok{emmeans\_post }\OtherTok{\textless{}{-}} \FunctionTok{emmeans}\NormalTok{(}\AttributeTok{object =}\NormalTok{ mod\_post,}
                         \AttributeTok{specs =} \StringTok{"group"}\NormalTok{)}
 \end{Highlighting}
@@ -5916,18 +5916,18 @@ sur la
 perception]\protect\hypertarget{exm-paperorplastic}{}\label{exm-paperorplastic}
 
 Soit \(\mu_{0}, \mu_{0.5}, \mu_{1}, \mu_2\) la vraie moyenne du score
-PEF en fonction de la proportion de papier pour les données de
+PEF en fonction de la proportion de carton pour les données de
 Exemple~\ref{exm-sokolova}. Plusieurs tests pourraient être intéressants
 ici, mais nous nous concentrons sur les contrastes effectués par les
 auteurs et sur un test d'hypothèse de linéarité en fonction de la
-proportion de plastique. Pour ce dernier, nous pourrions comparer le
+proportion de plastique. Pour ce dernier, nous pouvons comparer le
 modèle de régression linéaire (dans lequel le score PEF augmente
-linéairement avec la proportion de papier par rapport au plastique),
+linéairement avec la proportion de carton par rapport au plastique),
 \begin{align*}
  \mathsf{E}(\texttt{pef} \mid \texttt{proportion}) = \beta_0 + \beta_1\texttt{proportion},
- \end{align*} à l'ANOVA qui permet à chacun des quatre groupes d'avoir
-des moyennes différentes. \begin{align*}
- \mathsf{E}(\texttt{pef} \mid \texttt{proportion}) &= \alpha_0 + \alpha_1 \mathbf{1}_{\texttt{proportion}=0.5} + \alpha_2 \mathbf{1}_{\texttt{proportion}=1}\\& \qquad  + \alpha_3\mathbf{1}_{\texttt{proportion}=2}.
+ \end{align*} au modèle d'analyse de variance qui permet à chacun des
+quatre groupes d'avoir des moyennes différentes. \begin{align*}
+ &\mathsf{E}(\texttt{pef} \mid \texttt{proportion}) = \alpha_0 + \alpha_1 \mathbf{1}_{\texttt{proportion}=0.5} \\&\quad + \alpha_2 \mathbf{1}_{\texttt{proportion}=1} + \alpha_3\mathbf{1}_{\texttt{proportion}=2}.
 \end{align*} Si on veut obtenir l'hypothèse nulle en terme de
 contraintes sur les paramètres \(\boldsymbol{\alpha}\), on trouve
 \begin{align*}
@@ -5988,7 +5988,7 @@ identiques, que l'on impose les contraintes manuellement ou que l'on
 soumette simplement les deux modèles imbriqués à la méthode
 \texttt{anova}.
 
-Les auteurs souhaitaient comparer zéro papier avec d'autres choix: nous
+Les auteurs souhaitaient comparer zéro carton avec d'autres choix: nous
 nous intéressons aux différences par paire, mais uniquement par rapport
 à la référence \(\mu_{0}\): \begin{align*}
 \mu_0 = \mu_{0.5}  & \iff 1\mu_0 - 1\mu_{0.5} + 0\mu_{1} + 0 \mu_{2} = 0\\
@@ -6018,12 +6018,12 @@ moyennes marginales.
 Les moyennes des groupes rapportées dans le
 Tableau~\ref{tbl-print-groupmeans-PEF} correspondent à celles indiquées
 par les auteurs dans l'article. Elles suggèrent que la perception du
-respect de l'environnement augmente avec la quantité de papier utilisée
+respect de l'environnement augmente avec la quantité de carton utilisée
 dans l'emballage. Nous avons pu ajuster un modèle de régression simple
 pour évaluer le changement moyen, en traitant la proportion comme une
 variable explicative continue. La pente estimée pour le changement du
 score PEF, qui va de 1 à 7 par incréments de 0.25, est 0.53 point par
-rapport au papier/plastique. Il y a cependant de fortes indications,
+rapport au carton/plastique. Il y a cependant de fortes indications,
 compte tenu des données, que le changement n'est pas tout à fait
 linéaire, puisque l'ajustement du modèle de régression linéaire est
 significativement plus mauvais que le modèle linéaire correspondant.
