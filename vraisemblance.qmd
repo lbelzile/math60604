@@ -504,7 +504,7 @@ V_phi <- dphi(lambda_hat)^2 * V_lambda
 :::
 
 
-## Tests dérivés de la vraisemblance {#testsvrais}
+## Tests dérivés de la vraisemblance {#sec-testsvrais}
 
 Nous considérons une hypothèse nulle $\mathscr{H}_0$ qui impose des restrictions sur les valeurs possibles de $\boldsymbol{\theta}$, par rapport à une alternative sans contrainte $\mathscr{H}_1.$ Nous avons besoin de deux modèles **emboîtés** : un modèle *complet* et un modèle *réduit*, pour lequel l'espace des paramèteres est un sous-ensemble du modèle complet suite à l'imposition des $q$ restrictions. Par exemple, la loi exponentielle est un cas particulier de la loi de Weibull si $\alpha=1$.
 

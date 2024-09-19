@@ -132,6 +132,8 @@ div.csl-indent {
 <script src="site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
 <link href="site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
 <script src="site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -263,7 +265,12 @@ window.Quarto = {
   <li><a href="#maximum-de-vraisemblance" id="toc-maximum-de-vraisemblance" class="nav-link" data-scroll-target="#maximum-de-vraisemblance"><span class="header-section-number">4.3.2</span> Maximum de vraisemblance</a></li>
   <li><a href="#ajustement-des-modèles-linéaires-à-laide-dun-logiciel" id="toc-ajustement-des-modèles-linéaires-à-laide-dun-logiciel" class="nav-link" data-scroll-target="#ajustement-des-modèles-linéaires-à-laide-dun-logiciel"><span class="header-section-number">4.3.3</span> Ajustement des modèles linéaires à l’aide d’un logiciel</a></li>
   </ul></li>
-  <li><a href="#coefR2" id="toc-coefR2" class="nav-link" data-scroll-target="#coefR2"><span class="header-section-number">4.4</span> Coefficient de détermination</a></li>
+  <li><a href="#sec-predictions-lm" id="toc-sec-predictions-lm" class="nav-link" data-scroll-target="#sec-predictions-lm"><span class="header-section-number">4.4</span> Prédictions</a></li>
+  <li><a href="#tests-dhypothèses" id="toc-tests-dhypothèses" class="nav-link" data-scroll-target="#tests-dhypothèses"><span class="header-section-number">4.5</span> Tests d’hypothèses</a>
+  <ul class="collapse">
+  <li><a href="#contrastes" id="toc-contrastes" class="nav-link" data-scroll-target="#contrastes"><span class="header-section-number">4.5.1</span> Contrastes</a></li>
+  <li><a href="#exemples-de-tests" id="toc-exemples-de-tests" class="nav-link" data-scroll-target="#exemples-de-tests"><span class="header-section-number">4.5.2</span> Exemples de tests</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/lbelzile/math60604/edit/master/regression-lineaire.qmd" class="toc-action"><i class="bi bi-github"></i>Éditer cette page</a></li></ul></div></nav>
     </div>
@@ -343,6 +350,9 @@ window.Quarto = {
 <div id="exm-moon-vanepps" class="theorem example">
 <p><span class="theorem-title"><strong>Exemple 4.4 (Suggestion de montants de dons)</strong></span> L’étude 1 de <span class="citation" data-cites="Moon.VanEpps:2023">Moon et VanEpps (<a href="references.html#ref-Moon.VanEpps:2023" role="doc-biblioref">2023</a>)</span> (données <code>MV23_S1</code>, paquet <code>hecedsm</code>) porte sur la proportion de donateurs à un organisme de charité. Les participants au panel en ligne avaient la possibilité de gagner 25$ et de faire don d’une partie de cette somme à l’organisme de leur choix. Les données fournies incluent uniquement les personnes qui n’ont pas dépassé ce montant et qui ont indiqué avoir fait un don d’un montant non nul.</p>
 </div>
+<div id="exm-sokolova" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 4.5 (Un emballage en papier supplémentaire est-il considéré comme plus écologique ?)</strong></span> <span class="citation" data-cites="Sokolova:2023">Sokolova, Krishna, et Döring (<a href="references.html#ref-Sokolova:2023" role="doc-biblioref">2023</a>)</span> tient compte des préjugés des consommateurs lorsqu’il s’agit d’évaluer le caractère écologique des emballages. Des produits tels que les céréales sont emballés dans des sacs en plastique, eux-mêmes recouverts d’une boîte. Ils supposent (et constatent) que, paradoxalement, les consommateurs ont tendance à considérer l’emballage comme plus écologique lorsque la quantité de carton ou de papier entourant la boîte est plus importante, ce qui n’est pas le cas. Nous examinons dans la suite les données de l’étude 2A, qui mesure la perception du respect de l’environnement (PEF, variable <code>pef</code>) en fonction de la <code>proportion</code> d’emballage en papier (soit aucun, soit la moitié de la surface du plastique, soit la même, soit le double).</p>
+</div>
 </section>
 <section id="analyse-exploratoire-des-données" class="level3" data-number="4.1.2">
 <h3 data-number="4.1.2" class="anchored" data-anchor-id="analyse-exploratoire-des-données"><span class="header-section-number">4.1.2</span> Analyse exploratoire des données</h3>
@@ -359,7 +369,7 @@ window.Quarto = {
 <li>qu’il n’y a pas d’anomalies ou de valeurs aberrantes (par ex., 999 pour valeurs manquantes) qui viendraient fausser les résultats.</li>
 </ul>
 <div id="exm-college-aed" class="theorem example">
-<p><span class="theorem-title"><strong>Exemple 4.5 (Analyse exploratoire des données <code>college</code>)</strong></span> Une analyse exploratoire des données est de mise avant d’ébaucher un modèle. Si le salaire augmente au fil des ans, on voit que l’hétérogénéité change en fonction de l’échelon et qu’il y a une relation claire entre ce dernier et le nombre d’années de service (les professeurs n’étant éligibles à des promotions qu’après un certain nombre d’années). Les professeurs adjoints qui ne sont pas promus sont généralement mis à la porte, aussi il y a moins d’occasions pour que les salaires varient sur cette échelle.</p>
+<p><span class="theorem-title"><strong>Exemple 4.6 (Analyse exploratoire des données <code>college</code>)</strong></span> Une analyse exploratoire des données est de mise avant d’ébaucher un modèle. Si le salaire augmente au fil des ans, on voit que l’hétérogénéité change en fonction de l’échelon et qu’il y a une relation claire entre ce dernier et le nombre d’années de service (les professeurs n’étant éligibles à des promotions qu’après un certain nombre d’années). Les professeurs adjoints qui ne sont pas promus sont généralement mis à la porte, aussi il y a moins d’occasions pour que les salaires varient sur cette échelle.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-edacollege" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -407,7 +417,7 @@ Figure&nbsp;4.1: Analyse exploratoire des données <code>college</code>: répart
 <p>Plusieurs des variables explicatives potentielles des données <code>college</code> sont cat/gorielles (<code>echelon</code>, <code>sexe</code>, <code>discipline</code>), les deux dernières étant binaires. Les variables numériques <code>annees</code> et <code>service</code> sont fortement corrélées, avec une corrélation linéaire de 0.91.</p>
 </div>
 <div id="exm-donnees-manquantes-moon" class="theorem example">
-<p><span class="theorem-title"><strong>Exemple 4.6 (Analyse exploratoire et données manquantes)</strong></span> Il convient de vérifier pour les données de <span class="citation" data-cites="Moon.VanEpps:2023">Moon et VanEpps (<a href="references.html#ref-Moon.VanEpps:2023" role="doc-biblioref">2023</a>)</span> que la description de la collecte coïncide avec la structure. Puisque les personnes qui n’ont pas donné ne remplissent pas le champ pour le montant, ce dernier indique une valeur manquante. Tous les montants des dons sont entre 0.25$ et 25$.</p>
+<p><span class="theorem-title"><strong>Exemple 4.7 (Analyse exploratoire et données manquantes)</strong></span> Il convient de vérifier pour les données de <span class="citation" data-cites="Moon.VanEpps:2023">Moon et VanEpps (<a href="references.html#ref-Moon.VanEpps:2023" role="doc-biblioref">2023</a>)</span> que la description de la collecte coïncide avec la structure. Puisque les personnes qui n’ont pas donné ne remplissent pas le champ pour le montant, ce dernier indique une valeur manquante. Tous les montants des dons sont entre 0.25$ et 25$.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(MV23_S1, <span class="at">package =</span> <span class="st">"hecedsm"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(MV23_S1)</span>
@@ -453,7 +463,7 @@ Figure&nbsp;4.1: Analyse exploratoire des données <code>college</code>: répart
 </div>
 <p>Les variables indicatrices, qui prennent typiquement des valeurs de <span class="math inline">\(-1\)</span>, <span class="math inline">\(0\)</span> et <span class="math inline">\(1\)</span>, servent à indiquer l’appartenance aux différentes modalités d’une variable catégorielle. Par exemple, pour une variable indicatrice binaire, nous pouvons créer une colonne dont les entrées sont <span class="math inline">\(1\)</span> pour le groupe de traitement et <span class="math inline">\(0\)</span> pour le groupe de contrôle.</p>
 <div id="exm-moon" class="theorem example">
-<p><span class="theorem-title"><strong>Exemple 4.7 (Modèle linéaire avec une seule variable binaire)</strong></span> Considérons par exemple un modèle linéaire pour les données de <span class="citation" data-cites="Moon.VanEpps:2023">Moon et VanEpps (<a href="references.html#ref-Moon.VanEpps:2023" role="doc-biblioref">2023</a>)</span> qui inclut le montant (<code>amount</code>) (en dollars, de 0 pour les personnes qui n’ont pas fait de don, jusqu’à 25 dollars).</p>
+<p><span class="theorem-title"><strong>Exemple 4.8 (Modèle linéaire avec une seule variable binaire)</strong></span> Considérons par exemple un modèle linéaire pour les données de <span class="citation" data-cites="Moon.VanEpps:2023">Moon et VanEpps (<a href="references.html#ref-Moon.VanEpps:2023" role="doc-biblioref">2023</a>)</span> qui inclut le montant (<code>amount</code>) (en dollars, de 0 pour les personnes qui n’ont pas fait de don, jusqu’à 25 dollars).</p>
 <p>L’équation du modèle linéaire simple qui inclut la variable binaire <code>condition</code> est <span class="math display">\[\begin{align*}
 \mathsf{E}(\texttt{amount} \mid \texttt{condition})&amp;= \beta_0 + \beta_1 \mathbf{1}_{\texttt{condition}=\texttt{quantity}}.
 \\&amp;= \begin{cases}
@@ -480,7 +490,7 @@ Figure&nbsp;4.2: Modèle linéaire simple pour les données <code>MV23_S1</code>
 </div>
 <p>Considérons des variables catégorielles avec <span class="math inline">\(K &gt; 2\)</span> niveaux, qui dans <strong>R</strong> sont de la classe <code>factor</code>. La paramétrisation par défaut des facteurs se fait en termes de contraste de traitement: le niveau de référence du facteur (par défaut, la première valeur dans l’ordre alphanumérique) sera traité comme la catégorie de référence et assimilé à l’ordonnée à l’origine. Le logiciel créera alors un ensemble de <span class="math inline">\(K-1\)</span> variables indicatrices pour un facteur à <span class="math inline">\(K\)</span> niveaux, chacune d’entre elles ayant un pour la catégorie représentée et zéro dans le cas contraire.</p>
 <div id="exm-baumann-dummies" class="theorem example">
-<p><span class="theorem-title"><strong>Exemple 4.8 (Codage binaire pour les variables catégorielles)</strong></span> Considérons l’étude de <span class="citation" data-cites="Baumann:1992">Baumann, Seifert-Kessell, et Jones (<a href="references.html#ref-Baumann:1992" role="doc-biblioref">1992</a>)</span> et la seule variable <code>group</code>. Les données sont classées par groupe : les 22 premières observations concernent le groupe <code>DR</code>, les 22 suivantes le groupe <code>DRTA</code> et les 22 dernières le groupe <code>TA</code>. Si nous ajustons un modèle avec <code>groupe</code> comme variable catégorielle</p>
+<p><span class="theorem-title"><strong>Exemple 4.9 (Codage binaire pour les variables catégorielles)</strong></span> Considérons l’étude de <span class="citation" data-cites="Baumann:1992">Baumann, Seifert-Kessell, et Jones (<a href="references.html#ref-Baumann:1992" role="doc-biblioref">1992</a>)</span> et la seule variable <code>group</code>. Les données sont classées par groupe : les 22 premières observations concernent le groupe <code>DR</code>, les 22 suivantes le groupe <code>DRTA</code> et les 22 dernières le groupe <code>TA</code>. Si nous ajustons un modèle avec <code>groupe</code> comme variable catégorielle</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(BSJ92, <span class="at">package =</span> <span class="st">"hecedsm"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(BSJ92<span class="sc">$</span>group) <span class="co"># Vérifier que group est un facteur</span></span>
@@ -568,7 +578,7 @@ Tableau&nbsp;4.1: Paramétrisation des variables indicatrices pour la contrainte
 <p>En supprimant l’ordonnée à l’origine, on pourrait inclure trois variables indicatrices pour chaque niveau d’un facteur et chaque paramètre correspondrait alors à la moyenne. Ce n’est pas recommandé dans <strong>R</strong> car le logiciel traite différemment les modèles sans ordonnée à l’origine et certains résultats seront absurdes (par exemple, le coefficient de détermination sera erroné).</p>
 </div>
 <div id="exm-college-coeff" class="theorem example">
-<p><span class="theorem-title"><strong>Exemple 4.9 (Interprétation des coefficients)</strong></span> On considère un modèle de régression pour les données <code>college</code> qui inclut le sexe, l’échelon académique, le nombre d’années de service et le domaine d’expertise (appliquée ou théorique).</p>
+<p><span class="theorem-title"><strong>Exemple 4.10 (Interprétation des coefficients)</strong></span> On considère un modèle de régression pour les données <code>college</code> qui inclut le sexe, l’échelon académique, le nombre d’années de service et le domaine d’expertise (appliquée ou théorique).</p>
 <p>Le modèle linéaire postulé s’écrit</p>
 <p><span class="math display">\[\begin{align*}
 \texttt{salaire} &amp;= \beta_0 + \beta_1 \mathbf{1}_{\texttt{sexe}=\texttt{femme}} +\beta_2 \mathbf{1}_{\texttt{domaine}=\texttt{theorique}} \\&amp;\quad +\beta_3 \mathbf{1}_{\texttt{echelon}=\texttt{aggrege}}
@@ -628,13 +638,13 @@ Tableau&nbsp;4.2: Estimations des coefficients du modèle linéaire pour les don
 </ul>
 </div>
 <div id="rem-polynomes" class="proof remark">
-<p><span class="proof-title"><em>Remarque 4.2</em> (Polynômes). </span>Il n’est pas toujours possible de fixer la valeur des autres colonnes de <span class="math inline">\(\mathbf{X}\)</span> si plusieurs colonnes contiennent des transformations ou des fonctions d’une même variable explicative. Par exemple, on pourrait par exemple considérer un polynôme d’ordre <span class="math inline">\(k\)</span> (ordinairement, on prendre <span class="math inline">\(k\leq 3\)</span>), <span class="math display">\[\begin{align*}
+<p><span class="proof-title"><em>Remarque 4.2</em> (Polynômes). </span>Il n’est pas toujours possible de fixer la valeur des autres colonnes de <span class="math inline">\(\mathbf{X}\)</span> si plusieurs colonnes contiennent des transformations ou des fonctions d’une même variable explicative. Par exemple, on pourrait par exemple considérer un polynôme d’ordre <span class="math inline">\(k\)</span> (ordinairement, on va prendre <span class="math inline">\(k\leq 3\)</span>), <span class="math display">\[\begin{align*}
 \mathsf{E}(Y \mid X=x)=\beta_0+ \beta_1 x+ \beta_2 x^2 + \ldots +\beta_k x^k.
 \end{align*}\]</span> Si l’on inclut un terme d’ordre <span class="math inline">\(k\)</span>, <span class="math inline">\(x^k\)</span>, il faut <strong>toujours</strong> inclure les termes d’ordre inférieur <span class="math inline">\(1, x, \ldots, x^{k-1}\)</span> pour l’interprétabilité du modèle résultant (autrement, cela revient à choisir un polynôme en imposant que certains coefficients soient zéros). L’interprétation des effets des covariables nonlinéaires (même polynomiaux) est complexe parce qu’on ne peut pas « fixer la valeur des autres variables »: l’effet d’une augmentation d’une unité de <span class="math inline">\(x\)</span> <em>dépend de la valeur de cette dernière</em>. L’effet marginal de <span class="math inline">\(x\)</span> est <span class="math inline">\(\beta_1 + \sum_{j=1}^{k-1}j \beta_{j+1}x^j\)</span>.</p>
 <p>L’utilisation de polynôme, plus flexibles, n’est généralement pas recommendée car ces derniers se généralisent mal hors de l’étendue observée des données. L’utilisation de splines avec une pénalité sur les coefficients, avec des modèles additifs, offre plus de flexibilité.</p>
 </div>
 <div id="exm-quadmod" class="theorem example">
-<p><span class="theorem-title"><strong>Exemple 4.10 (Modèle quadratique pour les données automobile)</strong></span> Considérons un modèle de régression linéaire pour l’autonomie d’essence en fonction de la puissance du moteur pour différentes voitures dont les caractéristiques sont données dans le jeu de données <code>automobiles</code>. Le modèle postulé incluant un terme quadratique est <span class="math display">\[\begin{align*}
+<p><span class="theorem-title"><strong>Exemple 4.11 (Modèle quadratique pour les données automobile)</strong></span> Considérons un modèle de régression linéaire pour l’autonomie d’essence en fonction de la puissance du moteur pour différentes voitures dont les caractéristiques sont données dans le jeu de données <code>automobiles</code>. Le modèle postulé incluant un terme quadratique est <span class="math display">\[\begin{align*}
 \texttt{autonomie}_i = \beta_0 + \beta_1 \texttt{puissance}_i + \beta_2 \texttt{puissance}_i^2 + \varepsilon_i
 \end{align*}\]</span> Afin de comparer l’ajustement du modèle quadratique, on peut inclure également la droite ajustée du modèle de régression simple qui n’inclut que puissance.</p>
 <div class="cell" data-layout-align="center">
@@ -745,20 +755,8 @@ Figure&nbsp;4.5: Résidus ordinaires <span class="math inline">\(e_i\)</span> (v
 \end{align*}\]</span></p>
 <p>On déduit que l’estimateur du maximum de vraisemblance est la moyenne des carrés des résidus, <span class="math display">\[\begin{align*}
 \widehat{\sigma}^2&amp;=\frac{1}{n}(\boldsymbol{Y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{Y}-\mathbf{X}\hat{\boldsymbol{\beta}})\\&amp;= \frac{1}{n} \sum_{i=1}^n (y_i - \mathbf{x}_i\widehat{\boldsymbol{\beta}})^2= \frac{\mathsf{SC}_e}{n};
-\end{align*}\]</span> L’estimateur sans biais habituel de <span class="math inline">\(\sigma^2\)</span> calculé par le logiciel est <span class="math display">\[S^2=\mathsf{SC}_e/(n-p-1),\]</span> où le dénominateur est la taille de l’échantillon <span class="math inline">\(n\)</span> moins le nombre de paramètres de la moyenne <span class="math inline">\(\boldsymbol{\beta}\)</span>, soit <span class="math inline">\(p+1\)</span>.</p>
-</div>
-<div id="rem-invariance" class="proof remark">
-<p><span class="proof-title"><em>Remarque 4.3</em> (Invariance). </span>Une conséquence directe des propriétés des estimateurs du maximum de vraisemblance est que les valeurs ajustées <span class="math inline">\(\widehat{y}_i\)</span> pour deux matrices de modèle <span class="math inline">\(\mathbf{X}_a\)</span> et <span class="math inline">\(\mathbf{X}_b\)</span> sont les mêmes si elles engendrent le même espace linéaire, comme dans <a href="#exm-baumann-dummies" class="quarto-xref">Exemple&nbsp;<span>4.8</span></a>; seule l’’interprétation des coefficients change. Si nous incluons une ordonnée à l’origine, nous obtenons le même résultat si les colonnes explicatives sont centrées sur la moyenne.</p>
-</div>
-<p>La valeur de <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span> est telle qu’elle maximise la corrélation entre <span class="math inline">\(\boldsymbol{y}\)</span> et <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span>. Dans le cas d’une variable catégorielle unique, nous obtiendrons des valeurs ajustées <span class="math inline">\(\widehat{y}\)</span> qui correspondent à la moyenne de l’échantillon de chaque groupe.</p>
-<div id="rem-geometry" class="proof remark">
-<p><span class="proof-title"><em>Remarque 4.4</em> (Géométrie). </span>Le vecteur de valeurs ajustées <span class="math inline">\(\widehat{\boldsymbol{y}} =\mathbf{X} \widehat{\boldsymbol{\beta}} = \mathbf{H}_{\mathbf{X}}\boldsymbol{y}\)</span> est la projection du vecteur réponse <span class="math inline">\(\boldsymbol{y}\)</span> dans l’espace linéaire engendré par les colonnes de <span class="math inline">\(\mathbf{X}\)</span>. La matrice chapeau <span class="math inline">\(\mathbf{H}_{\mathbf{X}} = \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\)</span> est une matrice de projection orthogonale, car <span class="math inline">\(\mathbf{H}_{\mathbf{X}}=\mathbf{H}_{\mathbf{X}}^\top\)</span> et <span class="math inline">\(\mathbf{H}_{\mathbf{X}}\mathbf{H}_{\mathbf{X}} = \mathbf{H}_{\mathbf{X}}\)</span>. Ainsi, <span class="math inline">\(\mathbf{H}_{\mathbf{X}}\mathbf{X} = \mathbf{X}\)</span>. Puisque le vecteur de résidus ordinaires <span class="math inline">\(\boldsymbol{e} = (e_1, \ldots, e_n)^\top\)</span>, qui apparaît dans la somme des erreurs quadratiques, est définie comme <span class="math inline">\(\boldsymbol{y} - \widehat{\boldsymbol{y}}\)</span> et <span class="math inline">\(\widehat{\boldsymbol{y}}=\mathbf{X}\boldsymbol{\beta}\)</span>, de simples manipulations algébriques montrent que le produit scalaire entre les résidus ordinaires et les valeurs ajustées est nul, puisque <span class="math display">\[\begin{align*}
-\widehat{\boldsymbol{y}}^\top\boldsymbol{e} &amp;= \widehat{\boldsymbol{\beta}}^\top \mathbf{X}^\top (\boldsymbol{y}- \mathbf{X} \widehat{\boldsymbol{\beta}})
-\\&amp;= \boldsymbol{y}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top(\boldsymbol{y} - \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y})\\&amp;=\boldsymbol{y}^\top\mathbf{H}_{\mathbf{X}}\boldsymbol{y} - \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y}
-\\&amp;= 0
-\end{align*}\]</span> où nous utilisons la définition de <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span> et <span class="math inline">\(\boldsymbol{e} = \boldsymbol{y} - \widehat{\boldsymbol{y}}\)</span> sur la première ligne, puis on substitut l’estimateur des MCO <span class="math inline">\(\widehat{\boldsymbol{\beta}} = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\boldsymbol{y}\)</span> avant de distribuer les termes du produit. Une dérivation similaire montre que <span class="math inline">\(\mathbf{X}^\top\boldsymbol{e}=\boldsymbol{0}_{p+1}\)</span>. Les résidus ordinaires sont donc orthogonaux à la fois à la matrice du modèle <span class="math inline">\(\mathbf{X}\)</span> et aux valeurs ajustées <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span>.</p>
-<p>Une conséquence directe de ces résultats est le fait que la corrélation linéaire entre <span class="math inline">\(\boldsymbol{e}\)</span> et <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span> est nulle. Cette propriété servira lors de l’élaboration de diagnostics graphiques.</p>
-<p>Puisque le produit scalaire est zéro, la moyenne de <span class="math inline">\(\boldsymbol{e}\)</span> doit être zéro pour autant que <span class="math inline">\(\mathbf{1}_n\)</span> est dans l’espace linéaire engendré par <span class="math inline">\(\mathbf{X}\)</span>.</p>
+\end{align*}\]</span> L’estimateur sans biais habituel de <span class="math inline">\(\sigma^2\)</span> calculé par le logiciel est <span class="math display">\[S^2=\mathsf{SC}_e/(n-p-1),
+\]</span> où le dénominateur est la taille de l’échantillon <span class="math inline">\(n\)</span> moins le nombre de paramètres de la moyenne <span class="math inline">\(\boldsymbol{\beta}\)</span>, soit <span class="math inline">\(p+1\)</span>.</p>
 </div>
 <div id="prp-info-normal" class="theorem proposition">
 <p><span class="theorem-title"><strong>Proposition 4.3 (Matrices d’information pour modèles linéaires normaux.)</strong></span> Les entrées de la matrice d’information observée du modèle linéaire normal sont les suivantes <span class="math display">\[\begin{align*}
@@ -776,6 +774,9 @@ i(\boldsymbol{\beta}, \sigma^2) =
 \frac{\mathbf{X}^\top\mathbf{X}}{\sigma^2} &amp; \boldsymbol{0}_{p+1} \\  \boldsymbol{0}_{p+1}^\top &amp; \frac{n}{2\sigma^4}
 \end{pmatrix}
 \end{align*}\]</span> Puisque la loi asymptotique de l’estimateur est normale, les EMV de <span class="math inline">\(\sigma^2\)</span> et <span class="math inline">\(\boldsymbol{\beta}\)</span> sont asymptotiquement indépendants car leur corrélation asymptotique est nulle.Pourvu que la matrice carrée <span class="math inline">\((p+1)\)</span>, <span class="math inline">\(\mathbf{X}^\top\mathbf{X}\)</span> soit inversible, la variance asymptotique des estimateurs est <span class="math inline">\(\mathsf{Var}(\widehat{\boldsymbol{\beta}})=\sigma^2(\mathbf{X}^\top\mathbf{X})^{-1}\)</span> et <span class="math inline">\(\mathsf{Var}(\widehat{\sigma}^2) = 2\sigma^4/n\)</span>.</p>
+</div>
+<div id="rem-independance" class="proof remark">
+<p><span class="proof-title"><em>Remarque 4.3</em>. </span>Si on suppose que les observations sont normales, alors on peut montrer que <span class="math inline">\(\mathsf{SC}_e/\sigma^2 \sim \chi^2_{n-p-1}\)</span> et <span class="math inline">\(\widehat{\boldsymbol{\beta}} \sim \mathsf{normale}\{\boldsymbol{\beta}, \sigma^2(\mathbf{X}^\top\mathbf{X})^{-1}\}\)</span> sont indépendants et leurs lois sont connues. Cela nous permettra de construire des tests d’hypothèse.</p>
 </div>
 </section>
 <section id="ajustement-des-modèles-linéaires-à-laide-dun-logiciel" class="level3" data-number="4.3.3">
@@ -805,14 +806,724 @@ i(\boldsymbol{\beta}, \sigma^2) =
 <p>La méthode <code>summary</code> est sans doute la plus utile: elle affiche les estimations des paramètres de la moyenne ainsi que leurs erreurs type, les valeurs <span class="math inline">\(t\)</span> pour le test de Wald de l’hypothèse <span class="math inline">\(\mathscr{H}_0 : \beta_i=0\)</span> et les valeurs-<span class="math inline">\(p\)</span> associées. D’autres statistiques descriptives, portant sur la taille de l’échantillon, les degrés de liberté, etc. sont données au bas du tableau. Notez que la fonction <code>lm</code> utilise l’estimateur sans biais de la variance <span class="math inline">\(\sigma^2\)</span>.</p>
 </section>
 </section>
-<section id="coefR2" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="coefR2"><span class="header-section-number">4.4</span> Coefficient de détermination</h2>
-<p>Lorsque nous spécifions un modèle, les aléas <span class="math inline">\(\boldsymbol{\varepsilon}\)</span> servent à tenir compte du fait qu’aucune relation linéaire exacte ne caractérise les données Une fois que nous avons ajusté un modèle, nous estimons la variance <span class="math inline">\(\sigma^2\)</span>; on peut alors se demander quelle part de la variance totale de l’échantillon est expliquée par le modèle.</p>
-<p>La somme totale des carrés, définie comme la somme des carrés des résidus du modèle à ordonnée à l’origine uniquement, sert de comparaison — le modèle le plus simple que nous puissions trouver impliquerait chaque observation par la moyenne de l’échantillon de la réponse, ce qui donne la variance expliquée <span class="math inline">\(\mathsf{SC}_c = \sum_{i=1}^n (y_i - \overline{y})^2\)</span>. Nous pouvons ensuite comparer la variance des données originales avec celle des résidus du modèle avec la matrice de covariables <span class="math inline">\(\mathbf{X}\)</span>, définie comme <span class="math inline">\(\mathsf{SC}_e =\sum_{i=1}^n e_i^2\)</span> avec <span class="math inline">\(e_i = y_i - \widehat{\beta}_0 - \sum_{j=1}^p \widehat{\beta}_jX_j\)</span>. Nous définissons le coefficient de détermination <span class="math inline">\(R^2\)</span>, comme suit <span class="math display">\[\begin{align*}
-R^2 &amp;=1- \frac{\mathsf{SC}_e}{\mathsf{SC}_c} = \frac{\sum_{i=1}^n (y_i - \overline{y})^2- \sum_{i=1}^n e_i^2}{\sum_{i=1}^n (y_i - \overline{y})^2}.
-\end{align*}\]</span> Une autre décomposition montre que <span class="math inline">\(R^2 = \mathsf{cor}^2(\boldsymbol{y}, \widehat{\boldsymbol{y}})\)</span>, c’est-à-dire que le coefficient de détermination peut être interprété comme le carré de la corrélation linéaire de Pearson (<a href="introduction.html#def-correlation-Pearson" class="quarto-xref">Définition&nbsp;<span>1.3</span></a>) entre la réponse <span class="math inline">\(\boldsymbol{y}\)</span> et les valeurs ajustées <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span>.</p>
-<p>Il est important de noter que le <span class="math inline">\(R^2\)</span> n’est pas un critère de qualité de l’ajustement, tout comme la log-vraisemblance. En effet, certain phénomènes sont intrinsèquement complexes et même un bon modèle ne parviendra pas à rendre compte d’une grande partie de la variabilité de la réponse. Ce n’est pas non plus parce que le <span class="math inline">\(R^2\)</span> est faible que <span class="math inline">\(Y\)</span> et et les variables explicatives <span class="math inline">\(X_j\)</span> sont indépendantes, comme l’illustre la <a href="introduction.html#fig-datasaurus" class="quarto-xref">Figure&nbsp;<span>1.2</span></a>.</p>
-<p>En outre, il est possible de gonfler la valeur de <span class="math inline">\(R^2\)</span> en incluant davantage de variables explicatives et en rendant le modèle plus complexe, ce qui améliore la vraisemblance et <span class="math inline">\(R^2\)</span>. En effet, le coefficient n’est pas décroissant dans la dimension de <span class="math inline">\(\mathbf{X}\)</span>, de sorte qu’un modèle comportant <span class="math inline">\(p+1\)</span> de covariables aura nécessairement des valeurs de <span class="math inline">\(R^2\)</span> plus élevées que si l’on n’incluait que <span class="math inline">\(p\)</span> de ces variables explicatives. Pour comparer les modèles, il est préférable d’utiliser des critères d’information ou de s’appuyer sur la performance prédictive si tel est l’objectif de la régression. Enfin, un modèle avec un <span class="math inline">\(R^2\)</span> élevé peut impliquer une corrélation élevée, mais <a href="http://www.tylervigen.com/spurious-correlations">la relation peut être fallacieuse</a>: la régression linéaire ne produit pas de modèles causaux!</p>
+<section id="sec-predictions-lm" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="sec-predictions-lm"><span class="header-section-number">4.4</span> Prédictions</h2>
+<p>Une fois les estimations des coefficients obtenues, on peut calculer les valeurs ajustées <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span> avec <span class="math inline">\(\mathbf{X}\widehat{\boldsymbol{\beta}}\)</span>, où <span class="math inline">\(\mathbf{X}\)</span> dénote la matrice du modèle <span class="math inline">\(n \times (p+1)\)</span>. On peut aussi généraliser cette approche et obtenir une estimation de la moyenne pour n’importe quel vecteur lignes de covariables <span class="math inline">\(\mathbf{x}^* = (1, x^*_1, \ldots, x^*_p)\)</span>, sachant que <span class="math inline">\(\mathsf{E}(Y \mid \mathbf{x}^*)=\mathbf{x}^*\boldsymbol{\beta}\)</span>, en remplaçant les coefficients inconnus <span class="math inline">\(\boldsymbol{\beta}\)</span> par leurs estimations <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span>. Pour le modèle postulé, c’est le meilleur prédicteur linéaire non-biaisé de la moyenne.</p>
+<p>Si l’on veut prédire la valeur d’une nouvelle observation, disons <span class="math inline">\(Y^*\)</span>, dont le vecteur de variables explicatives <span class="math inline">\(\mathbf{x}^*\)</span> sont connues, la prédiction sera donc <span class="math inline">\(\widehat{y}^* = \mathbf{x}^*\widehat{\boldsymbol{\beta}}\)</span> parce que <span class="math display">\[\begin{align*}
+\mathsf{E}(\widehat{Y}^* \mid \mathbf{X}, \mathbf{x}^*) = \mathsf{E}(\mathbf{x}^*\widehat{\boldsymbol{\beta}}\mid \mathbf{X}, \mathbf{x}^*) = \mathbf{x}^*\boldsymbol{\beta}.
+\end{align*}\]</span> Cependant, les observations individuelles varient davantage que les moyennes (qui sont elles-mêmes basées sur plusieurs observations). Intuitivement, cela est dû à l’incertitude supplémentaire du terme d’erreur apparaissant dans l’équation du modèle: la variabilité des nouvelles prédictions est la somme de l’incertitude due aux estimateurs (basés sur des données aléatoires) et de la variance intrinsèque des observations en supposant que la nouvelle observation est indépendante de celles utilisées pour estimer les coefficients, <span class="math display">\[\begin{align*}
+\mathsf{Va}(Y^*-\widehat{Y}^* \mid \mathbf{X}, \mathbf{x}^*) &amp;= \mathsf{Va}(Y^*  - \mathbf{x}^*\widehat{\boldsymbol{\beta}} \mid \mathbf{X}, \mathbf{x}^*)
+\\&amp;=\mathsf{Va}(Y^* \mid \mathbf{X}, \mathbf{x}^*) + \mathsf{Va}(\mathbf{x}^*\widehat{\boldsymbol{\beta}} \mid \mathbf{X}, \mathbf{x}^*)
+\\&amp; = \sigma^2\mathbf{x}^{*\vphantom{\top}}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{x}^{*\top} + \sigma^2.
+\end{align*}\]</span> On peut baser les intervalles de prédictions sur la loi Student-<span class="math inline">\(t\)</span>, à l’aide du pivot <span class="math display">\[\begin{align*}
+\frac{Y^*-\mathrm{x}^*\widehat{\boldsymbol{\beta}}}{\sqrt{S^2\{1+\mathrm{x}^*(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}^{*\top}\}}}\sim \mathsf{Student}(n-p-1).
+\end{align*}\]</span> On obtient l’<strong>intervalle de prédiction</strong> de niveau <span class="math inline">\(1-\alpha\)</span> pour <span class="math inline">\(Y^*\)</span> en inversant la statistique de test <span class="math display">\[\begin{align*}
+\mathrm{x}^*\widehat{\boldsymbol{\beta}}\pm \mathfrak{t}_{n-p-1}(\alpha/2)\sqrt{S^2\{1+\mathrm{x}^*(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}^{*\top}\}}.
+\end{align*}\]</span> Des calculs similaires pour les <strong>intervalles de confiance</strong> ponctuels pour la moyenne donnent <span class="math display">\[\begin{align*}
+\mathrm{x}^*\widehat{\boldsymbol{\beta}}\pm \mathfrak{t}_{n-p-1}(\alpha/2)\sqrt{S^2\mathrm{x}^*(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}^{*\top}}.
+\end{align*}\]</span> Les deux formules diffèrent uniquement au niveau de la variabilité.</p>
+<div id="exm-sokolova-pred" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 4.12 (Prédiction pour une régression linéaire simple)</strong></span> Considérons les données de l’<a href="#exm-sokolova" class="quarto-xref">Exemple&nbsp;<span>4.5</span></a>. On ajuste un modèle de régression linéaire simple avec <span class="math inline">\(\texttt{pef} = \beta_0 + \beta_1 \texttt{proportion} + \varepsilon\)</span>, où <span class="math inline">\(\varepsilon \sim \mathsf{normal}(0,\sigma^2)\)</span> et on suppose les observations indépendantes.</p>
+<p>La <a href="#fig-predinterval" class="quarto-xref">Figure&nbsp;<span>4.6</span></a> montre les bandes d’incertitude ponctuelles pour une simple régression linéaire des données de <span class="citation" data-cites="Sokolova:2023">Sokolova, Krishna, et Döring (<a href="references.html#ref-Sokolova:2023" role="doc-biblioref">2023</a>)</span> en fonction de la <code>proportion</code> de papier par rapport au plastique, les valeurs les plus élevées indiquant un emballage avec plus de carton superflu. Le modèle ne tient pas compte du fait que notre réponse provient d’une distribution discrète limitée avec des valeurs entières allant de 1 à 7, et que les ratios testés dans l’expérience sont 0 (pas de papier), 0.5, 1 et 2 uniquement. La droite centrale donne la prédiction des individus lorsque nous faisons varier la proportion papier/plastique. En examinant les formules des intervalles de confiance et de prédiction, il est clair que les bandes ne sont pas linéaires (nous considérons la racine carrée d’une fonction qui implique les prédicteurs), mais il n’est pas évident visuellement que l’incertitude augmente au fur et à mesure que l’on s’éloigne de la moyenne des prédicteurs.</p>
+<p>Il est plus facile de s’en rendre compte en reproduisant les courbes potentielles qui auraient pu se produire avec des données différentes: la <a href="#fig-predinterval" class="quarto-xref">Figure&nbsp;<span>4.6</span></a> montre les nouvelles pentes potentielles générées à partir de la distribution normale asymptotique des estimateurs <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span>. La forme hyperbolique n’est pas surprenante: nous pivotons essentiellement les courbes à partir de la <code>pef</code>/<code>proportion</code> moyenne, et leur potentiel de déviation est d’autant plus élevé que nous nous éloignons de la moyenne dans chaque direction. Les intervalles de prédiction (gris pâle) sont très larges et couvrent essentiellement l’ensemble des valeurs potentielles de l’échelle de Likert sur la perception du respect de l’environnement, à l’exception de quelques observations. En revanche, les intervalles de confiance pour la moyenne sont assez étroits, en raison de la taille importante de l’échantillon. On constate également que les courbes s’en écartent peu.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-predinterval" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-predinterval-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="regression-lineaire_files/figure-html/fig-predinterval-1.gif" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-predinterval-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.6: Prédictions avec intervalles de prédiction (à gauche) et intervalles de confiance pour la moyenne (à droite) pour la régression linéaire simple de la perception du respect de l’environnement (<code>pef</code>) en fonction de la <code>proportion</code> de papier par rapport au plastique, avec des observations décalées horizontalement. Le graphique montre les prédictions ainsi que les intervalles de confiance ponctuels à 95 % de la moyenne et des prédictions individuelles. L’axe des ordonnées a été tronqué.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Dans <strong>R</strong>, la fonction générique <code>predict</code> prend comme arguments un modèle et une nouvelle base de données <code>newdata</code> contenant un tableau avec la même structure que les données qui ont servi à l’ajustement du modèle (à minima, les colonnes de variables explicatives utilisées dans le modèle).</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(SKD23_S2A, <span class="at">package =</span> <span class="st">"hecedsm"</span>) <span class="co"># charger les données</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>lm_simple <span class="ot">&lt;-</span> <span class="fu">lm</span>(pef <span class="sc">~</span> proportion, <span class="at">data =</span> SKD23_S2A) <span class="co"># régression linéaire simple</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(lm_simple,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">proportion =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">2</span>)),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">interval =</span> <span class="st">"prediction"</span>) <span class="co"># intervalles de prédiction</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(lm_simple,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">proportion =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">2</span>)),</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">interval =</span> <span class="st">"confidence"</span>) <span class="co"># IC de confiance pour la moyenne</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tbl-predints-soko" class="quarto-layout-panel anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-predints-soko-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tableau&nbsp;4.3: Prédictions avec intervalles de prédiction (gauche) et intervalles de confiance pour la moyenne (droite).
+</figcaption>
+<div aria-describedby="tbl-predints-soko-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<table class="do-not-create-environment cell caption-top table">
+<caption>Intervalles de prédiction</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><code>proportion</code></th>
+<th style="text-align: center;">prédiction</th>
+<th style="text-align: center;">borne inf.</th>
+<th style="text-align: center;">borne sup.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0.0</td>
+<td style="text-align: center;">2.41</td>
+<td style="text-align: center;">-0.168</td>
+<td style="text-align: center;">4.98</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">0.5</td>
+<td style="text-align: center;">2.67</td>
+<td style="text-align: center;">0.097</td>
+<td style="text-align: center;">5.24</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">1.0</td>
+<td style="text-align: center;">2.93</td>
+<td style="text-align: center;">0.361</td>
+<td style="text-align: center;">5.51</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2.0</td>
+<td style="text-align: center;">3.46</td>
+<td style="text-align: center;">0.884</td>
+<td style="text-align: center;">6.04</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<table class="do-not-create-environment cell caption-top table">
+<caption>Intervalles de confiance pour la moyenne</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;">moyenne</th>
+<th style="text-align: center;">borne inf. (IC)</th>
+<th style="text-align: center;">borne sup. (IC)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">2.41</td>
+<td style="text-align: center;">2.27</td>
+<td style="text-align: center;">2.55</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2.67</td>
+<td style="text-align: center;">2.57</td>
+<td style="text-align: center;">2.77</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2.93</td>
+<td style="text-align: center;">2.84</td>
+<td style="text-align: center;">3.02</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">3.46</td>
+<td style="text-align: center;">3.30</td>
+<td style="text-align: center;">3.62</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+</section>
+<section id="tests-dhypothèses" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="tests-dhypothèses"><span class="header-section-number">4.5</span> Tests d’hypothèses</h2>
+<p>Les tests d’hypothèses dans les modèles linéaires et d’analyse de la variance suivent la procédure usuelle: nous comparons deux modèles emboîtés, dont l’un (le modèle nul) est une simplification d’un modèle plus complexe (modèle alternatif) obtenu en imposant des restrictions sur les coefficients de la moyenne.</p>
+<p>Les tests de restrictions pour les composantes de <span class="math inline">\(\boldsymbol{\beta}\)</span> sont particulièrement intéressants. Les propriétés de l’estimateur du maximum de vraisemblance pour les grands échantillons impliquent que <span class="math display">\[\begin{align*}
+\widehat{\boldsymbol{\beta}} \stackrel{\cdot}{\sim}\mathsf{normale}_{p+1}\left\{\boldsymbol{\beta}, \sigma^2(\mathbf{X}^\top\mathbf{X})^{-1}\right\}
+\end{align*}\]</span> pour une taille d’échantillon suffisamment grande, et ce résultat est exact si les observations sont normales. On peut aisément obtenir les erreurs-type des coefficients en remplaçant <span class="math inline">\(\sigma^2\)</span> par un estimé; avec des données normales, on peut montrer que la somme du carré des erreurs <span class="math inline">\(\mathsf{SC}_e \sim \sigma^2\chi^2_{n-p-1}\)</span> et <span class="math inline">\(\mathsf{SC}_e\)</span> est indépendante de <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span>.</p>
+<p>Dans un contexte inférentiel, il est souvent important de tester si l’effet d’une variable explicative est significatif : si <span class="math inline">\(x_j\)</span> est binaire ou continu, le test pour <span class="math inline">\(\mathscr{H}_0 : \beta_j=0\)</span> correspond à un effet marginal nul pour <span class="math inline">\(x_j\)</span>. Le modèle nul est une régression linéaire dans laquelle nous supprimons la <span class="math inline">\((j+1)\)</span>ème colonne de <span class="math inline">\(\mathbf{X}\)</span>.</p>
+<div id="prp-wald" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 4.4 (Tests de Wald en régression linéaire)</strong></span> Rappelons que la statistique du test de Wald pour l’hypothèse <span class="math inline">\(\mathscr{H}_0: \beta_j=b\)</span> est <span class="math display">\[W = \frac{\widehat{\beta}_j - b}{\mathsf{se}(\widehat{\beta}_j)}.\]</span> La statistique du test de Wald est rapportée par la plupart des logiciels pour l’hypothèse <span class="math inline">\(b=0\)</span>. Puisque <span class="math inline">\(\mathsf{Var}(\widehat{\beta}_j) = \sigma^2 [(\mathbf{X}^\top\mathbf{X})^{-1}]_{j,j}\)</span>, nous pouvons estimer l’erreur type à partir de <span class="math inline">\(S^2\)</span> et en déduire que la distribution de <span class="math inline">\(W\)</span> sous l’hypothèse nulle est <span class="math inline">\(\mathsf{Student}(n-p-1)\)</span>. Cela explique la terminologie « <span class="math inline">\(t\)</span> values » dans le tableau <code>summary</code>. Outre les estimations des coefficients, il est possible d’obtenir des intervalles de confiance basés sur Wald pour <span class="math inline">\(\beta_j\)</span>, qui comme à l’accoutumée sont de la forme <span class="math inline">\(\widehat{\beta}_j \pm \mathfrak{t}_{n-p-1,\alpha/2} \mathsf{se}(\widehat{\beta}_j)\)</span>, avec <span class="math inline">\(\mathfrak{t}_{n-p-1,\alpha/2}\)</span> le quantile de niveau <span class="math inline">\(1-\alpha/2\)</span> d’une loi <span class="math inline">\(\mathsf{Student}({n-p-1})\)</span>.</p>
+</div>
+<div id="exm-sokolova-simple-ttest" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 4.13</strong></span> Considérons les données de <a href="#exm-sokolova" class="quarto-xref">Exemple&nbsp;<span>4.5</span></a>. Si nous ajustons le modèle de régression linéaire simple, nous pouvons extraire les valeurs -<span class="math inline">\(p\)</span> pour les tests de Wald ou tests-<span class="math inline">\(t\)</span>. Le test pour l’ordonnée à l’origine est sans intérêt puisque les données sont mesurées sur une échelle de 1 à 7, de sorte que la réponse moyenne lorsque <code>proportion=0</code> ne peut être nulle. Le coefficient de <code>proportion</code> suggère une tendance de 0.5 point par unité de ratio, et il est significativement différent de zéro, ce qui indique que le score <code>pef</code> change avec le ratio papier/plastique.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># tests-t (Wald) pour beta=0 avec valeurs-p</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm_simple)<span class="sc">$</span>coefficients</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             Estimate Std. Error t value  Pr(&gt;|t|)</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (Intercept)    2.407     0.0723   33.31 2.56e-153</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; proportion     0.526     0.0618    8.51  8.40e-17</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(lm_simple) <span class="co"># intervalles de confiance pour betas</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             2.5 % 97.5 %</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (Intercept) 2.266  2.549</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; proportion  0.405  0.648</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>Pour les variables catégorielles à plus de deux niveaux, tester si <span class="math inline">\(\beta_j=0\)</span> n’est généralement pas intéressant car le coefficient représente la différence entre la catégorie <span class="math inline">\(x_j\)</span> et la ligne de base avec la paramétrisation du modèle en terme de contrastes (traitements): ces deux catégories peuvent avoir une faible différence, mais la variable catégorielle dans son ensemble peut toujours être un prédicteur utile compte tenu des autres explications. L’hypothèse d’un contraste nul est spécifique car elle implique un modèle nul dans lequel les catégories sélectionnées sont fusionnées, ce qui dépend de la référence. Nous souhaitons plutôt comparer un modèle dans lequel toutes les variables sont présentes avec un modèle dans lequel la variable explicative catégorielle est omise.</p>
+<div id="prp-ftest" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 4.5 (Tests-<em>F</em> pour comparaison de modèles emboîtés)</strong></span> Considérons le modèle linéaire <em>complet</em> qui contient <span class="math inline">\(p\)</span> variables explicatives, <span class="math display">\[\begin{align*}
+\mathbb{M}_1: Y=\beta_0+\beta_1 x_1 + \cdots + \beta_g x_g + \beta_{k+1}x_{k+1} + \ldots + \beta_p x_p + \varepsilon.
+\end{align*}\]</span> Supposons sans perte de généralité que nous voulions tester <span class="math inline">\(\mathscr{H}_0 : \beta_{k+1}=\beta_{k+2}=\cdots=\beta_p=0\)</span> (on pourrait permuter les colonnes de la matrice du modèle pour obtenir cette configuration). L’hypothèse globale spécifie que <span class="math inline">\((p-k)\)</span> des paramètres <span class="math inline">\(\beta\)</span> sont nuls. Le <em>modèle restreint</em> correspondant à l’hypothèse nulle ne contient que les covariables pour lesquelles <span class="math inline">\(\beta_j \neq 0\)</span>, <span class="math display">\[\begin{align*}
+\mathbb{M}_0: Y=\beta_0+\beta_1 x_1 + \ldots + \beta_k x_k + \varepsilon.
+\end{align*}\]</span> Soit <span class="math inline">\(\mathsf{SS}_e(\mathbb{M}_1)\)</span> la somme du carré des résidus du modèle complet <span class="math inline">\(\mathbb{M}_1\)</span>, <span class="math display">\[\begin{align*}
+\mathsf{SC}_e(\mathbb{M}_1)=\sum_{i=1}^n (Y_i-\widehat{Y}_i^{\mathbb{M}_1})^2,
+\end{align*}\]</span> où <span class="math inline">\(\hat{Y}_i^{\mathbb{M}_1}\)</span> est la <span class="math inline">\(i\)</span>e valeur ajustée du modèle <span class="math inline">\(\mathbb{M}_1\)</span>. On définit de la même façon la somme du carré des résidus, <span class="math inline">\(\mathsf{SS}_e(\mathbb{M}_0)\)</span>, pour le modèle <span class="math inline">\(\mathbb{M}_0\)</span>. Logiquement, <span class="math inline">\(\mathsf{SS}_e(\mathbb{M}_0) \geq \mathsf{SS}_e(\mathbb{M}_1)\)</span>.</p>
+<p>La statistique <span class="math inline">\(F\)</span> est <span class="math display">\[\begin{align*}
+F=\frac{\{\mathsf{SC}_e(\mathbb{M}_0)-\mathsf{SC}_e(\mathbb{M}_1)\}/(p-k)}{\mathsf{SC}_e(\mathbb{M}_1)/(n-p-1)}.
+\end{align*}\]</span> Sous <span class="math inline">\(\mathscr{H}_0\)</span>, la statistique <span class="math inline">\(F\)</span> suit une loi de Fisher (<a href="introduction.html#def-loiF" class="quarto-xref">Définition&nbsp;<span>1.12</span></a>) avec <span class="math inline">\((p-k)\)</span> et <span class="math inline">\((n-p-1)\)</span> degrés de liberté, <span class="math inline">\(\mathsf{Fisher}(p-k, n-p-1)\)</span>. Les degrés de libertés du numérateur, <span class="math inline">\(p-k\)</span>, indiquent le nombre de restrictions ou la différence du nombre de paramètres, tandis que celle du dénominateur, <span class="math inline">\(n-p-1\)</span> est la taille de l’échantillons moins le nombre de paramères pour la moyenne du modèle <span class="math inline">\(\mathbb{M}_1\)</span>.</p>
+</div>
+<p>Quand la <span class="math inline">\(j\)</span>e variable explicative est continue ou binaire, le test <span class="math inline">\(F\)</span> est équivalent au test <span class="math inline">\(t\)</span> pour <span class="math inline">\(\beta_j=0\)</span>. En effet, la statistique <span class="math inline">\(F\)</span> est le carré de la statistique de Wald, et ils mènent à la même inférence — les valeurs-<span class="math inline">\(p\)</span> sont identiques. Bien qu’il soit rapporté dans les tableaux, le test pour <span class="math inline">\(\beta_0=0\)</span> n’est pas intéressant; nous conservons l’ordonnée à l’origine uniquement pour centrer les résidus.</p>
+<div id="rem-lrtvsF" class="proof remark">
+<p><span class="proof-title"><em>Remarque 4.4</em> (Tests <em>F</em> versus test du rapport de vraisemblance). </span>Pour la régression linéaire normale, le test du rapport de vraisemblance pour comparer les modèles <span class="math inline">\(\mathbb{M}_1\)</span> et <span class="math inline">\(\mathbb{M}_0\)</span> est une fonction de la somme des carrés des résidus: la formule habituelle se simplifie à <span class="math display">\[\begin{align*}
+R &amp;= n\ln\{\mathsf{SC}_e(\mathbb{M}_0)/\mathsf{SC}_e(\mathbb{M}_1)\}\\
+&amp;= n \ln \left( 1+ \frac{p-k}{n-p-1}F\right)
+\end{align*}\]</span> Le test du rapport de vraisemblance et les tests <span class="math inline">\(F\)</span> sont liés par une transformation monotone, et nous pouvons utiliser la distribution <span class="math inline">\(\mathsf{Fisher}\)</span> à des fins de comparaison, plutôt que l’approximation <span class="math inline">\(\chi^2\)</span> pour grand échantillon. Les tests <span class="math inline">\(t\)</span> et <span class="math inline">\(F\)</span> présentés ci-dessus pourraient donc tous deux être considérés comme des cas particuliers de <a href="@sec-testsvrais">tests de rapport de vraisemblance</a>, mais en utilisant Student-<span class="math inline">\(t\)</span> contre la distribution normale lorsque <span class="math inline">\(p-k=1\)</span>, et <span class="math inline">\(\mathsf{Fisher}\)</span> contre <span class="math inline">\(\chi^2\)</span> lorsque <span class="math inline">\(p-k \ge 1\)</span>. Lorsque <span class="math inline">\(n\)</span> est grand, les résultats sont à peu près les mêmes.</p>
+</div>
+<!-- ### Analysis of variance tables -->
+<!-- In **R**, the generic `anova` can be used to compare two nested models by passing as arguments the simpler model and the complete model (in this order). Alternatively, we can call `anova` on the output of a linear regression model to produce an **analysis of variance** table, in which we compare the sum of square of the model with all variables, and the difference in sum of square when adding terms sequentially in the order in which they appear in the formula. The latter is typically not of interest, and we must be careful in models with interactions. -->
+<section id="contrastes" class="level3" data-number="4.5.1">
+<h3 data-number="4.5.1" class="anchored" data-anchor-id="contrastes"><span class="header-section-number">4.5.1</span> Contrastes</h3>
+<p>Supposons que nous effectuions une analyse de la variance et que le test <span class="math inline">\(F\)</span> pour l’hypothèse nulle (globale) selon laquelle les moyennes de tous les groupes sont égales soit très élevé: nous rejetons l’hypothèse nulle en faveur de l’alternative, qui stipule qu’au moins une des moyennes du groupe est différente. La question suivante sera de savoir où se situent ces différences. En effet, dans un contexte expérimental, cela implique qu’une ou plusieurs manipulations ont un effet différent des autres sur la réponse moyenne. Souvent, cela n’est pas intéressant en soi: nous pourrions être intéressés par la comparaison de différentes options par rapport à un groupe de contrôle ou déterminer si des combinaisons spécifiques fonctionnent mieux que séparément, ou trouver le meilleur traitement en comparant toutes les paires.</p>
+<p>La question scientifique qui a justifié l’expérience peut conduire à un ensemble spécifique d’hypothèses, qui peuvent être formulées par les chercheurs comme des comparaisons entre les moyennes de différents sous-groupes. Nous pouvons normalement les exprimer sous la forme de <strong>contrastes</strong>. Si le test global <span class="math inline">\(F\)</span> pour l’égalité des moyennes est équivalent à une pièce faiblement éclairée, les contrastes sont comparables à des projecteurs qui permettent de mettre l’accent sur des aspects particuliers des différences entre les traitements. Formellement, un contraste est une combinaison linéaire de moyennes : en clair, cela signifie que nous attribuons un poids à chaque moyenne de groupe et que nous les additionnons, puis que nous comparons ce résumé à une valeur postulée <span class="math inline">\(a\)</span>, généralement zéro.</p>
+<p>Les contrastes encodent la question de recherche : si <span class="math inline">\(c_i\)</span> représente le poids de la moyenne du groupe <span class="math inline">\(\mu_i\)</span> <span class="math inline">\((i=1, \ldots, K)\)</span>, alors nous pouvons écrire le contraste comme <span class="math inline">\(C = c_1 \mu_1 + \cdots + c_K \mu_K\)</span> avec l’hypothèse nulle <span class="math inline">\(\mathscr{H}_0 : C=a\)</span> pour une alternative bilatérale. L’estimation du contraste linéaire est obtenue en remplaçant la moyenne inconnue de la population <span class="math inline">\(\mu_i\)</span> par la moyenne de l’échantillon de ce groupe, <span class="math inline">\(\widehat{\mu}_i = \overline{y}_{i}\)</span>. Nous pouvons facilement obtenir l’erreur type de la combinaison linéaire <span class="math inline">\(C\)</span>. La formule, l’erreur type, en supposant une taille de sous-échantillon de <span class="math inline">\(n_1, \ldots, n_K\)</span> et une variance commune <span class="math inline">\(\sigma^2\)</span>, est la racine carrée de <span class="math display">\[\begin{align*}
+\mathsf{Va}(\widehat{C}) = \widehat{\sigma}^2\left(\frac{c_1^2}{n_1} + \cdots + \frac{c_K^2}{n_K}\right).
+\end{align*}\]</span> Nous pouvons alors construire une statistique <span class="math inline">\(t\)</span> comme d’habitude en examinant la différence entre notre valeur postulée et la moyenne pondérée observée, convenablement normalisée. Si le test global <span class="math inline">\(F\)</span> conduit au rejet de la valeur nulle, il existe au moins un contraste significatif au même niveau. Lorsque les vecteurs de contraste sont orthogonaux, les tests ne sont pas corrélés. Mathématiquement, si nous laissons <span class="math inline">\(c_{i}\)</span> et <span class="math inline">\(c^{*}_{i}\)</span> désigner les poids attachés à la moyenne du groupe <span class="math inline">\(i\)</span> comprenant <span class="math inline">\(n_i\)</span> observations, les contrastes sont orthogonaux si <span class="math inline">\(c_{1}c^{*}_{1}/n_1 + \cdots + c_{K}c^{*}_K/n_K = 0\)</span> ; si l’échantillon est équilibré avec le même nombre d’observations dans chaque groupe, <span class="math inline">\(n/K = n_1 =\cdots = n_K\)</span>, nous pouvons considérer le produit scalaire des deux vecteurs de contrastes et négliger la taille des sous-échantillons.</p>
+<p>Si nous avons <span class="math inline">\(K\)</span> groupes, il y a <span class="math inline">\(K-1\)</span> contrastes pour les différences deux à deux, le dernier étant capturé par la moyenne de l’échantillon pour l’effet global<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. Si nous nous intéressons uniquement à la différence entre les groupes (par opposition à l’effet global de tous les traitements), nous imposons une contrainte de somme à zéro sur les poids, de sorte que <span class="math inline">\(c_1 + \cdots + c_K=0\)</span>.</p>
+</section>
+<section id="exemples-de-tests" class="level3" data-number="4.5.2">
+<h3 data-number="4.5.2" class="anchored" data-anchor-id="exemples-de-tests"><span class="header-section-number">4.5.2</span> Exemples de tests</h3>
+<div id="exm-moonvaepps-test" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 4.14 (Test du montant des dons)</strong></span> Considérons l’<a href="#exm-moon" class="quarto-xref">Exemple&nbsp;<span>4.8</span></a>, dans lequel nous testons les différences entre les montants libres (<code>open-ended</code>) et les montants suggérés (<code>quantity</code>). Le test qui nous intéresse est <span class="math inline">\(\mathscr{H}_0 : \beta_1=0\)</span>, où <span class="math inline">\(\beta_1=\mu_{\texttt{oe}} - \mu_{\texttt{qty}}\)</span> est la différence moyenne entre les groupes. Outre le fait que la différence est statistiquement significative au niveau de 5 %, nous voulons également rapporter les <strong>moyennes marginales</strong>, qui, lorsque nous avons une seule variable explicative catégorielle dans le modèle linéaire, est la moyenne empirique de chaque sous-groupe.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"MV23_S1"</span>, <span class="at">package =</span> <span class="st">"hecedsm"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>MV23_S1 <span class="ot">&lt;-</span> MV23_S1 <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">amount2 =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(amount), <span class="dv">0</span>, amount))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>linmod_MV23 <span class="ot">&lt;-</span> <span class="fu">lm</span>(amount2 <span class="sc">~</span> condition, <span class="at">data =</span> MV23_S1)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Test Wald avec coefficients</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(linmod_MV23)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Call:</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; lm(formula = amount2 ~ condition, data = MV23_S1)</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residuals:</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Min     1Q Median     3Q    Max </span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  -8.70  -6.77  -1.77   3.23  18.23 </span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                   Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (Intercept)          6.771      0.377   17.95   &lt;2e-16 ***</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; conditionquantity    1.929      0.517    3.73   0.0002 ***</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 7.61 on 867 degrees of freedom</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Multiple R-squared:  0.0158, Adjusted R-squared:  0.0147 </span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; F-statistic: 13.9 on 1 and 867 DF,  p-value: 0.000205</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co"># ANOVA avec tests F</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(linmod_MV23)</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Analysis of Variance Table</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Response: amount2</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            Df Sum Sq Mean Sq F value Pr(&gt;F)    </span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; condition   1    805     805    13.9 0.0002 ***</span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residuals 867  50214      58                   </span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Moyennes marginales</span></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>(emm <span class="ot">&lt;-</span> emmeans<span class="sc">::</span><span class="fu">emmeans</span>(linmod_MV23, <span class="at">spec =</span> <span class="st">"condition"</span>))</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  condition  emmean    SE  df lower.CL upper.CL</span></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  open-ended   6.77 0.377 867     6.03     7.51</span></span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  quantity     8.70 0.354 867     8.01     9.40</span></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Confidence level used: 0.95</span></span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>emm <span class="sc">|&gt;</span> emmeans<span class="sc">::</span><span class="fu">contrast</span>(<span class="at">method =</span> <span class="st">"pairwise"</span>) <span class="co"># vecteur de contraste (1,-1)</span></span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  contrast                estimate    SE  df t.ratio p.value</span></span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  (open-ended) - quantity    -1.93 0.517 867  -3.730  0.0002</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="exm-teachingtoread" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 4.15 (Tests et contrastes pour les méthodes de compréhension de la lecture)</strong></span> Nous examinons maintenant les tests pour l’<a href="#exm-teaching-baumann" class="quarto-xref">Exemple&nbsp;<span>4.2</span></a> et l’<a href="#exm-baumann-dummies" class="quarto-xref">Exemple&nbsp;<span>4.9</span></a>, avec une covariable en plus. L’objectif de <span class="citation" data-cites="Baumann:1992">Baumann, Seifert-Kessell, et Jones (<a href="references.html#ref-Baumann:1992" role="doc-biblioref">1992</a>)</span> était de faire une comparaison particulière entre des groupes de traitement. Extrait du résumé :</p>
+<blockquote class="blockquote">
+<p>Les analyses quantitatives principales comportaient deux contrastes orthogonaux planifiés: l’effet de l’enseignement (TA + DRTA vs.&nbsp;2 x DR) et l’intensité de l’enseignement (TA vs.&nbsp;DRTA).</p>
+</blockquote>
+<p>Avec un modèle pré-post, nous allons comparer les moyennes pour une valeur commune de <code>pretest1</code>, ci-dessous la moyenne globale du score <code>pretest1</code>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans) <span class="co">#load package</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(BSJ92, <span class="at">package =</span> <span class="st">"hecedsm"</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>mod_post <span class="ot">&lt;-</span> <span class="fu">lm</span>(posttest1 <span class="sc">~</span> group <span class="sc">+</span> pretest1,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> BSJ92)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(mod_post, <span class="at">type =</span> <span class="dv">3</span>) <span class="co"># tests F</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Anova Table (Type III tests)</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Response: posttest1</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             Sum Sq Df F value  Pr(&gt;F)    </span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (Intercept)      1  1    0.25    0.62    </span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; group          143  2   12.17 3.5e-05 ***</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; pretest1       275  1   46.67 4.2e-09 ***</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residuals      365 62                    </span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Ci-dessus compare le modèle avec pretest1 et group,</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="co"># versus sans l'une ou l'autre des variables</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>emmeans_post <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(<span class="at">object =</span> mod_post,</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>                        <span class="at">specs =</span> <span class="st">"group"</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Le résultat du tableau d’analyse de la variance montre qu’il y a bien des différences entre les groupes. On peut donc s’intéresser aux moyennes marginales estimées, qui sont la moyenne de chaque groupe.</p>
+<div class="cell" data-layout-align="center">
+<div id="tbl-print-pairwise-baumann" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-print-pairwise-baumann-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tableau&nbsp;4.4: Moyennes estimées des groupes avec erreurs-types et intervalles de confiance à 95 % pour le post-test 1 pour un score moyen au pré-test 1.
+</figcaption>
+<div aria-describedby="tbl-print-pairwise-baumann-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">termes</th>
+<th style="text-align: right;">moyennes</th>
+<th style="text-align: right;">erreur-type</th>
+<th style="text-align: right;">ddl</th>
+<th style="text-align: right;">borne inf.</th>
+<th style="text-align: right;">borne sup.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">DR</td>
+<td style="text-align: right;">6.19</td>
+<td style="text-align: right;">0.52</td>
+<td style="text-align: right;">62</td>
+<td style="text-align: right;">5.14</td>
+<td style="text-align: right;">7.23</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">DRTA</td>
+<td style="text-align: right;">9.81</td>
+<td style="text-align: right;">0.52</td>
+<td style="text-align: right;">62</td>
+<td style="text-align: right;">8.78</td>
+<td style="text-align: right;">10.85</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TA</td>
+<td style="text-align: right;">8.22</td>
+<td style="text-align: right;">0.52</td>
+<td style="text-align: right;">62</td>
+<td style="text-align: right;">7.18</td>
+<td style="text-align: right;">9.27</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Les deux hypothèses et contrastes de <span class="citation" data-cites="Baumann:1992">Baumann, Seifert-Kessell, et Jones (<a href="references.html#ref-Baumann:1992" role="doc-biblioref">1992</a>)</span> sont <span class="math inline">\(\mathscr{H}_0: \mu_{\mathrm{TA}} + \mu_{\mathrm{DRTA}} = 2 \mu_{\mathrm{DRA}}\)</span> ou <span class="math display">\[\begin{align*}
+\mathscr{H}_0: - 2 \mu_{\mathrm{DR}} + \mu_{\mathrm{DRTA}} + \mu_{\mathrm{TA}} = 0.
+\end{align*}\]</span> avec poids <span class="math inline">\(c_1=(-2, 1, 1)\)</span>; l’ordre des niveaux de traitement est (<span class="math inline">\(\mathrm{DRA}\)</span>, <span class="math inline">\(\mathrm{DRTA}\)</span>, <span class="math inline">\(\mathrm{TA}\)</span>) et ce dernier doit correspond à celui des poids pour les contrastes. Ces derniers donnent les mêmes tests à multiple non-nul près, donc <span class="math inline">\(ac_1\)</span>, <span class="math inline">\(a \neq 0\)</span> donne un résultat équivalent, par exemple <span class="math inline">\((2, -1, -1)\)</span> ou <span class="math inline">\((1, -1/2, -1/2)\)</span> fonctionnent. Si les estimations changent, les erreurs-types sont ajustées d’autant. Un vecteur de contrastes pour <span class="math inline">\(\mathscr{H}_0:  \mu_{\mathrm{TA}} = \mu_{\mathrm{DRTA}}\)</span> est (<span class="math inline">\(0\)</span>, <span class="math inline">\(-1\)</span>, <span class="math inline">\(1\)</span>): le zéro apparaît parce que la première composante, <span class="math inline">\(\mathrm{DRA}\)</span> n’apparaît pas. Les deux contrastes sont orthogonaux puisque <span class="math inline">\((-2 \times 0) + (1 \times -1) + (1 \times 1) = 0\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Identifier l'ordre de niveau du facteur</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(BSJ92, <span class="fu">levels</span>(group))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "DR"   "DRTA" "TA"</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># DR, DRTA, TA (alphabetical)</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>contrastes_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Contrastes: combo linéaire de moyennes,</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># la somme des coefficients doit être nulle</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"C1: moy(DRTA+TA) vs DR"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>),</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"C2: DRTA vs TA"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>contrastes_post <span class="ot">&lt;-</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">contrast</span>(<span class="at">object =</span> emmeans_post,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>           <span class="at">method =</span> contrastes_list)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>contrastes_summary_post <span class="ot">&lt;-</span> <span class="fu">summary</span>(contrastes_post)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div id="tbl-print-contrasts" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-print-contrasts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tableau&nbsp;4.5: Contrastes estimés pour le post-test 1.
+</figcaption>
+<div aria-describedby="tbl-print-contrasts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="table do-not-create-environment cell caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">contraste</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">estimation</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">erreur-type</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">ddl</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">stat</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">valeur-p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">C1: moy(DRTA+TA) vs DR</td>
+<td style="text-align: right;">2.83</td>
+<td style="text-align: right;">0.64</td>
+<td style="text-align: right;">62</td>
+<td style="text-align: right;">4.40</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C2: DRTA vs TA</td>
+<td style="text-align: right;">1.59</td>
+<td style="text-align: right;">0.73</td>
+<td style="text-align: right;">62</td>
+<td style="text-align: right;">2.17</td>
+<td style="text-align: right;">0.03</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Nous pouvons examiner ces différences: puisque <code>DRTA</code> contre <code>TA</code> est une différence par paire, nous aurions pu obtenir la statistique <span class="math inline">\(t\)</span> directement à partir des contrastes deux à deux en utilisant <code>pairs(emmeans_post)</code>.</p>
+<p>Quelle est la conclusion de notre analyse des contrastes? Il semble que les méthodes impliquant la réflexion à haute voix aient un impact important sur la compréhension de la lecture par rapport à la seule lecture dirigée. Les preuves ne sont pas aussi solides lorsque nous comparons la méthode qui combine la lecture dirigée, l’activité de réflexion et la réflexion à haute voix, mais la différence est néanmoins significative à niveau 5%.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraire les coefficients et les erreurs-type</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>beta_pre <span class="ot">&lt;-</span> <span class="fu">coefficients</span>(mod_post)[<span class="st">'pretest1'</span>]</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>se_pre <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">c</span>(<span class="fu">vcov</span>(mod_post)[<span class="st">'pretest1'</span>, <span class="st">'pretest1'</span>]))</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>wald <span class="ot">&lt;-</span> (beta_pre <span class="sc">-</span> <span class="dv">1</span>)<span class="sc">/</span>se_pre <span class="co"># test de Wald directionnel</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Valeur-p basée sur la référence nulle Student-t avec n-p-1 ddl</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>pval <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span><span class="fu">pt</span>(<span class="fu">abs</span>(wald), <span class="at">df =</span> mod_post<span class="sc">$</span>df.residual, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparaison de modèles emboîtés avec appel à 'anova'</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>mod0 <span class="ot">&lt;-</span> <span class="fu">lm</span>(posttest1 <span class="sc">~</span> <span class="fu">offset</span>(pretest1) <span class="sc">+</span> group, <span class="at">data =</span> BSJ92)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Le décalage (`offset`) fixe le terme, ce qui équivaut à un coefficient de 1.</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>aov_tab <span class="ot">&lt;-</span> <span class="fu">anova</span>(mod0, mod_post)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Une autre hypothèse potentielle intéressante consiste à tester si le coefficient de <code>pretest1</code> est égal à l’unité. Cela équivaut à l’hypothèse <span class="math inline">\(b=1\)</span> pour le test de Wald, <span class="math inline">\(w = (\widehat{\beta}_{\texttt{pretest1}}-1)/\mathsf{se}(\widehat{\beta}_{\texttt{pretest1}})= -3.024\)</span>, ou bien une comparaison de modèles avec le test <span class="math inline">\(F\)</span> via <code>anova</code>, qui donne une statistique de test de <span class="math inline">\(F=9.143.\)</span> On peut montrer que si <span class="math inline">\(Z \sim \mathsf{Student}(\nu)\)</span>, alors <span class="math inline">\(Z^2 \sim \mathsf{Fisher}(1, \nu)\)</span>, il s’ensuit que les deux tests sont équivalents et que les valeurs-<span class="math inline">\(p\)</span> sont exactement les mêmes.</p>
+</div>
+<div id="exm-paperorplastic" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 4.16 (Tests et contrastes pour l’effet de l’emballage carton sur la perception)</strong></span> Soit <span class="math inline">\(\mu_{0}, \mu_{0.5}, \mu_{1}, \mu_2\)</span> la vraie moyenne du score PEF en fonction de la proportion de papier pour les données de <a href="#exm-sokolova" class="quarto-xref">Exemple&nbsp;<span>4.5</span></a>. Plusieurs tests pourraient être intéressants ici, mais nous nous concentrons sur les contrastes effectués par les auteurs et sur un test d’hypothèse de linéarité en fonction de la proportion de plastique. Pour ce dernier, nous pourrions comparer le modèle de régression linéaire (dans lequel le score PEF augmente linéairement avec la proportion de papier par rapport au plastique), <span class="math display">\[\begin{align*}
+\mathsf{E}(\texttt{pef} \mid \texttt{proportion}) = \beta_0 + \beta_1\texttt{proportion},
+\end{align*}\]</span> à l’ANOVA qui permet à chacun des quatre groupes d’avoir des moyennes différentes. <span class="math display">\[\begin{align*}
+\mathsf{E}(\texttt{pef} \mid \texttt{proportion}) &amp;= \alpha_0 + \alpha_1 \mathbf{1}_{\texttt{proportion}=0.5} + \alpha_2 \mathbf{1}_{\texttt{proportion}=1}\\&amp; \qquad  + \alpha_3\mathbf{1}_{\texttt{proportion}=2}.
+\end{align*}\]</span> Si on veut obtenir l’hypothèse nulle en terme de contraintes sur les paramètres <span class="math inline">\(\boldsymbol{\alpha}\)</span>, on trouve <span class="math display">\[\begin{align*}
+\mu_0 &amp;= \beta_0=\alpha_0 \\
+\mu_{0.5} &amp;= \beta_0 + 0.5 \beta_1 = \alpha_0 + \alpha_1\\
+\mu_1 &amp;= \beta_0 + \beta_1 = \alpha_0 + \alpha_2 \\
+\mu_2 &amp;= \beta_0 + 2 \beta_1= \alpha_0 + \alpha_3.
+\end{align*}\]</span> Le test comparant la régression linéaire simple à l’analyse de la variance impose deux restrictions simultanées, avec <span class="math inline">\(\mathscr{H}_0 : \alpha_3 = 2\alpha_2= 4\alpha_1\)</span>, de sorte que la distribution nulle est <span class="math inline">\(\mathsf{Fisher}(2, 798)\)</span> ou approximativement <span class="math inline">\(\chi^2_2\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(SKD23_S2A, <span class="at">package =</span> <span class="st">"hecedsm"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>linmod <span class="ot">&lt;-</span> <span class="fu">lm</span>(pef <span class="sc">~</span> proportion, <span class="at">data =</span> SKD23_S2A)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(linmod) <span class="co"># extraire coefficients</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (Intercept)  proportion </span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       2.407       0.526</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co"># ANOVA à un facteur</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>anovamod <span class="ot">&lt;-</span> <span class="fu">lm</span>(pef <span class="sc">~</span> <span class="fu">factor</span>(proportion),</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> SKD23_S2A)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparer les deux modèles emboîtés</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(linmod, anovamod) <span class="co"># est-ce que l'effet est linéaire?</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Analysis of Variance Table</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Model 1: pef ~ proportion</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Model 2: pef ~ factor(proportion)</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Res.Df  RSS Df Sum of Sq    F  Pr(&gt;F)    </span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1    800 1373                              </span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2    798 1343  2      29.3 8.69 0.00018 ***</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Test avec code alternatif (poids pour chaque coefficient)</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">linearHypothesis</span>(<span class="at">model =</span> anovamod,</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>   <span class="at">hypothesis =</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">1</span>)))</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Linear hypothesis test</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Hypothesis:</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; - 2 factor(proportion)0.5  + factor(proportion)1 = 0</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; - 2 factor(proportion)1  + factor(proportion)2 = 0</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Model 1: restricted model</span></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Model 2: pef ~ factor(proportion)</span></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Res.Df  RSS Df Sum of Sq    F  Pr(&gt;F)    </span></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1    800 1373                              </span></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2    798 1343  2      29.3 8.69 0.00018 ***</span></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Le résultat montre que les tests <span class="math inline">\(F\)</span> et les valeurs-<span class="math inline">\(p\)</span> sont identiques, que l’on impose les contraintes manuellement ou que l’on soumette simplement les deux modèles imbriqués à la méthode <code>anova</code>.</p>
+<p>Les auteurs souhaitaient comparer zéro papier avec d’autres choix: nous nous intéressons aux différences par paire, mais uniquement par rapport à la référence <span class="math inline">\(\mu_{0}\)</span>: <span class="math display">\[\begin{align*}
+\mu_0 = \mu_{0.5}  &amp; \iff 1\mu_0 - 1\mu_{0.5} + 0\mu_{1} + 0 \mu_{2} = 0\\
+\mu_0 = \mu_{1} &amp; \iff 1\mu_0 + 0\mu_{0.5} -1\mu_{1} + 0 \mu_{2} = 0\\
+\mu_0 = \mu_{2} &amp; \iff 1\mu_0 + 0\mu_{0.5} + 0\mu_{1} -1 \mu_{2} = 0.
+\end{align*}\]</span> Les vecteurs de poids pour les contrastes linéaires sont <span class="math inline">\((1, -1, 0, 0)\)</span>, <span class="math inline">\((1, 0, -1, 0)\)</span> et <span class="math inline">\((1, 0, 0, -1)\)</span> pour les moyennes marginales.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>moymarg <span class="ot">&lt;-</span> anovamod <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  emmeans<span class="sc">::</span><span class="fu">emmeans</span>(<span class="at">specs =</span> <span class="st">"proportion"</span>) <span class="co"># moyennes de groupes</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>contrastlist <span class="ot">&lt;-</span> <span class="fu">list</span>( <span class="co"># liste de vecteurs de contrastes</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>   <span class="at">refvsdemi =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>   <span class="at">refvsun =</span>  <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>   <span class="at">refvsdeux =</span>  <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">1</span>))</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># calculer différences relativement à la référence</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>moymarg <span class="sc">|&gt;</span> emmeans<span class="sc">::</span><span class="fu">contrast</span>(<span class="at">method =</span> contrastlist)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  contrast  estimate    SE  df t.ratio p.value</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  refvsdemi   -0.749 0.131 798  -5.710  &lt;.0001</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  refvsun     -0.901 0.131 798  -6.890  &lt;.0001</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  refvsdeux   -1.182 0.129 798  -9.200  &lt;.0001</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Les moyennes des groupes rapportées dans le <a href="#tbl-print-groupmeans-PEF" class="quarto-xref">Tableau&nbsp;<span>4.6</span></a> correspondent à celles indiquées par les auteurs dans l’article. Elles suggèrent que la perception du respect de l’environnement augmente avec la quantité de papier utilisée dans l’emballage. Nous avons pu ajuster un modèle de régression simple pour évaluer le changement moyen, en traitant la proportion comme une variable explicative continue. La pente estimée pour le changement du score PEF, qui va de 1 à 7 par incréments de 0.25, est 0.53 point par rapport au papier/plastique. Il y a cependant de fortes indications, compte tenu des données, que le changement n’est pas tout à fait linéaire, puisque l’ajustement du modèle de régression linéaire est significativement plus mauvais que le modèle linéaire correspondant.</p>
+<div class="cell" data-layout-align="center">
+<div id="tbl-print-groupmeans-PEF" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-print-groupmeans-PEF-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tableau&nbsp;4.6: Moyennes estimées du DEP par proportion pour les groupes, avec erreurs-types
+</figcaption>
+<div aria-describedby="tbl-print-groupmeans-PEF-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="table do-not-create-environment cell caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">proportion</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">moyenne</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">erreur-type</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">ddl</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">borne inf.</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">borne sup.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">2.16</td>
+<td style="text-align: right;">0.093</td>
+<td style="text-align: right;">798</td>
+<td style="text-align: right;">1.98</td>
+<td style="text-align: right;">2.34</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">2.91</td>
+<td style="text-align: right;">0.093</td>
+<td style="text-align: right;">798</td>
+<td style="text-align: right;">2.73</td>
+<td style="text-align: right;">3.09</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">3.06</td>
+<td style="text-align: right;">0.092</td>
+<td style="text-align: right;">798</td>
+<td style="text-align: right;">2.88</td>
+<td style="text-align: right;">3.24</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">3.34</td>
+<td style="text-align: right;">0.089</td>
+<td style="text-align: right;">798</td>
+<td style="text-align: right;">3.17</td>
+<td style="text-align: right;">3.52</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div id="tbl-print-contrast-PEF" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-print-contrast-PEF-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tableau&nbsp;4.7: Estimations des contrastes pour les différences de PEF relativement à plastique seulement.
+</figcaption>
+<div aria-describedby="tbl-print-contrast-PEF-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="table do-not-create-environment cell caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">contraste</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">estimation</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">erreur-type</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">ddl</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">stat</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">valeur-p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">refvshalf</td>
+<td style="text-align: right;">-0.75</td>
+<td style="text-align: right;">0.13</td>
+<td style="text-align: right;">798</td>
+<td style="text-align: right;">-5.71</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">refvsone</td>
+<td style="text-align: right;">-0.90</td>
+<td style="text-align: right;">0.13</td>
+<td style="text-align: right;">798</td>
+<td style="text-align: right;">-6.89</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">refvstwo</td>
+<td style="text-align: right;">-1.18</td>
+<td style="text-align: right;">0.13</td>
+<td style="text-align: right;">798</td>
+<td style="text-align: right;">-9.20</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Toutes les différences dans le <a href="#tbl-print-contrast-PEF" class="quarto-xref">Tableau&nbsp;<span>4.7</span></a> sont significatives et positives, conformément à l’hypothèse des chercheurs.</p>
+</div>
+<div id="exm-tests-college" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 4.17 (Tester la discrimination salariale dans l’enseignement supérieur)</strong></span> Considérons l’exemple des données <code>college</code> et le modèle linéaire associé avec <code>echelon</code>, <code>sexe</code>, années de <code>service</code> et <code>domaine</code> comme variables explicatives.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(college, <span class="at">package =</span> <span class="st">"hecmodstat"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>mod1_college <span class="ot">&lt;-</span> <span class="fu">lm</span>(salaire <span class="sc">~</span> sexe <span class="sc">+</span> domaine <span class="sc">+</span> echelon <span class="sc">+</span> service, <span class="at">data =</span> college)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>mod0_college <span class="ot">&lt;-</span> <span class="fu">lm</span>(salaire <span class="sc">~</span> domaine <span class="sc">+</span> echelon <span class="sc">+</span> service, <span class="at">data =</span> college)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># F-test avec "anova" comparant les modèles emboîtés</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>aov_tab_college <span class="ot">&lt;-</span> <span class="fu">anova</span>(mod0_college, mod1_college)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Test t de Wald</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>wald_college <span class="ot">&lt;-</span> <span class="fu">summary</span>(mod1_college)<span class="sc">$</span>coefficients[<span class="dv">2</span>,]</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Test du rapport de vraisemblance avec approx khi-deux</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>pval_lrt <span class="ot">&lt;-</span> <span class="fu">pchisq</span>(<span class="at">q =</span> <span class="fu">as.numeric</span>(<span class="dv">2</span><span class="sc">*</span>(<span class="fu">logLik</span>(mod1_college) <span class="sc">-</span> <span class="fu">logLik</span>(mod0_college))),</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">df =</span> <span class="dv">1</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Le seul test qui nous intéresse ici est <span class="math inline">\(\mathscr{H}_0 : \beta_{\texttt{sexe}} = 0\)</span> contre l’alternative bilatérale <span class="math inline">\(\mathscr{H}_a : \beta_{\texttt{sexe}} \neq 0\)</span>. La statistique du test de Wald est <span class="math inline">\(1.23\)</span>, avec une valeur-<span class="math inline">\(p\)</span> de <span class="math inline">\(0.219\)</span> basée sur une distribution Student-<span class="math inline">\(t\)</span> avec <span class="math inline">\(391\)</span> degrés de liberté. La valeur-<span class="math inline">\(p\)</span> dans la sortie du test <span class="math inline">\(F\)</span> est la même, et celle obtenue par le test du rapport de vraisemblance est la même jusqu’à la deuxième décimale.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Tableau des estimations des coefficients de régression linéaire avec les erreurs-type associées, les tests de Wald et les valeurs <span class="math inline">\(p\)</span> basées sur la distribution Student-<span class="math inline">\(t\)</span>.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimation</th>
+<th style="text-align: right;">erreur-type</th>
+<th style="text-align: right;">stat de Wald</th>
+<th style="text-align: right;">valeur-p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">86.596</td>
+<td style="text-align: right;">2.96</td>
+<td style="text-align: right;">29.25</td>
+<td style="text-align: right;">&lt; 0.001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sexe [femme]</td>
+<td style="text-align: right;">-4.771</td>
+<td style="text-align: right;">3.878</td>
+<td style="text-align: right;">-1.23</td>
+<td style="text-align: right;">0.22</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">domaine [théorique]</td>
+<td style="text-align: right;">-13.473</td>
+<td style="text-align: right;">2.315</td>
+<td style="text-align: right;">-5.82</td>
+<td style="text-align: right;">&lt; 0.001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">échelon [agrégé]</td>
+<td style="text-align: right;">14.56</td>
+<td style="text-align: right;">4.098</td>
+<td style="text-align: right;">3.55</td>
+<td style="text-align: right;">&lt; 0.001</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">échelon [titulaire]</td>
+<td style="text-align: right;">49.16</td>
+<td style="text-align: right;">3.834</td>
+<td style="text-align: right;">12.82</td>
+<td style="text-align: right;">&lt; 0.001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">service</td>
+<td style="text-align: right;">-0.089</td>
+<td style="text-align: right;">0.112</td>
+<td style="text-align: right;">-0.8</td>
+<td style="text-align: right;">0.43</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!--
+
+
+:::{#rem-geometry}
+
+## Géométrie
+
+Le vecteur de valeurs ajustées $\widehat{\boldsymbol{y}} =\mathbf{X} \widehat{\boldsymbol{\beta}} = \mathbf{H}_{\mathbf{X}}\boldsymbol{y}$ est la projection du vecteur réponse $\boldsymbol{y}$ dans l'espace linéaire engendré par les colonnes de $\mathbf{X}$. La matrice chapeau $\mathbf{H}_{\mathbf{X}} = \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top$ est une matrice de projection orthogonale, car $\mathbf{H}_{\mathbf{X}}=\mathbf{H}_{\mathbf{X}}^\top$ et $\mathbf{H}_{\mathbf{X}}\mathbf{H}_{\mathbf{X}} = \mathbf{H}_{\mathbf{X}}$. Ainsi, $\mathbf{H}_{\mathbf{X}}\mathbf{X} = \mathbf{X}$. Puisque le vecteur de résidus ordinaires $\boldsymbol{e} = (e_1, \ldots, e_n)^\top$,  qui apparaît dans la somme des erreurs quadratiques, est définie comme  $\boldsymbol{y} - \widehat{\boldsymbol{y}}$ et $\widehat{\boldsymbol{y}}=\mathbf{X}\boldsymbol{\beta}$, de simples manipulations algébriques montrent que le produit scalaire entre les résidus ordinaires et les valeurs ajustées est nul, puisque
+\begin{align*}
+\widehat{\boldsymbol{y}}^\top\boldsymbol{e} &= \widehat{\boldsymbol{\beta}}^\top \mathbf{X}^\top (\boldsymbol{y}- \mathbf{X} \widehat{\boldsymbol{\beta}})
+\\&= \boldsymbol{y}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top(\boldsymbol{y} - \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y})\\&=\boldsymbol{y}^\top\mathbf{H}_{\mathbf{X}}\boldsymbol{y} - \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y}
+\\&= 0
+\end{align*}
+où nous utilisons la définition de $\widehat{\boldsymbol{y}}$ et $\boldsymbol{e} = \boldsymbol{y} - \widehat{\boldsymbol{y}}$ sur la première ligne, puis on substitut l'estimateur des MCO $\widehat{\boldsymbol{\beta}} = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\boldsymbol{y}$ avant de distribuer les termes du produit. Une dérivation similaire montre que $\mathbf{X}^\top\boldsymbol{e}=\boldsymbol{0}_{p+1}$. Les résidus ordinaires sont donc orthogonaux à la fois à la matrice du modèle $\mathbf{X}$ et aux valeurs ajustées $\widehat{\boldsymbol{y}}$.
+
+Une conséquence directe de ces résultats est le fait que la corrélation linéaire entre $\boldsymbol{e}$ et $\widehat{\boldsymbol{y}}$ est nulle. Cette propriété servira lors de l'élaboration de diagnostics graphiques.
+
+Puisque le produit scalaire est zéro, la moyenne de $\boldsymbol{e}$ doit être zéro pour autant que $\mathbf{1}_n$ est dans l'espace linéaire engendré par $\mathbf{X}$.
+
+
+:::
+
+
+:::{#rem-invariance}
+
+## Invariance
+
+Une conséquence directe de l'expression de l'estimateur des MCO en terme de matrice de projection est que les valeurs ajustées $\widehat{y}_i$ pour deux matrices de modèle $\mathbf{X}_a$ et $\mathbf{X}_b$ sont les mêmes si elles engendrent le même espace linéaire, comme dans @exm-baumann-dummies; seule l''interprétation des coefficients change. Si nous incluons une ordonnée à l'origine, nous obtenons le même résultat si les colonnes explicatives sont centrées sur la moyenne.
+
+:::
+
+
+La valeur de $\widehat{\boldsymbol{\beta}}$ est telle qu'elle maximise la corrélation entre $\boldsymbol{y}$ et $\widehat{\boldsymbol{y}}$. Dans le cas d'une variable catégorielle unique, nous obtiendrons des valeurs ajustées $\widehat{y}$ qui correspondent à la moyenne de l'échantillon de chaque groupe.
+
+
+
+:::{#def-r2}
+
+## Coefficient de détermination {#coefR2}
+
+
+Lorsque nous spécifions un modèle, les aléas  $\boldsymbol{\varepsilon}$ servent à tenir compte du fait qu'aucune relation linéaire exacte ne caractérise les données  Une fois que nous avons ajusté un modèle, nous estimons la variance $\sigma^2$; on peut alors se demander quelle part de la variance totale de l'échantillon est expliquée par le modèle.
+
+La somme totale des carrés, définie comme la somme des carrés des résidus du modèle à ordonnée à l'origine uniquement, sert de comparaison --- le modèle le plus simple que nous puissions trouver impliquerait chaque observation par la moyenne de l'échantillon de la réponse, ce qui donne la variance expliquée $\mathsf{SC}_c = \sum_{i=1}^n (y_i - \overline{y})^2$. Nous pouvons ensuite comparer la variance des données originales avec celle des résidus du modèle avec la matrice de covariables $\mathbf{X}$, définie comme $\mathsf{SC}_e =\sum_{i=1}^n e_i^2$ avec $e_i = y_i - \widehat{\beta}_0 - \sum_{j=1}^p \widehat{\beta}_jX_j$.
+Nous définissons le coefficient de détermination $R^2$, comme suit
+\begin{align*}
+R^2 &=1- \frac{\mathsf{SC}_e}{\mathsf{SC}_c} = \frac{\sum_{i=1}^n (y_i - \overline{y})^2- \sum_{i=1}^n e_i^2}{\sum_{i=1}^n (y_i - \overline{y})^2}.
+\end{align*}
+Une autre décomposition montre que $R^2 = \mathsf{cor}^2(\boldsymbol{y}, \widehat{\boldsymbol{y}})$, c'est-à-dire que le coefficient de détermination peut être interprété comme le carré de la corrélation linéaire de Pearson (@def-correlation-Pearson) entre la réponse $\boldsymbol{y}$ et les valeurs ajustées $\widehat{\boldsymbol{y}}$.
+
+:::
+
+Il est important de noter que le $R^2$ n'est pas un critère de qualité de l'ajustement, tout comme la log-vraisemblance. En effet, certain phénomènes sont intrinsèquement complexes et même un bon modèle ne parviendra pas à rendre compte d'une grande partie de la variabilité de la réponse. Ce n'est pas non plus parce que le $R^2$ est faible que $Y$ et et les variables explicatives $X_j$ sont indépendantes, comme l'illustre la @fig-datasaurus.
+
+
+En outre, il est possible de gonfler la valeur de $R^2$ en incluant davantage de variables explicatives et en rendant le modèle plus complexe, ce qui améliore la vraisemblance et $R^2$. En effet, le coefficient n'est pas décroissant dans la dimension de $\mathbf{X}$, de sorte qu'un modèle comportant $p+1$ de covariables aura nécessairement des valeurs de $R^2$ plus élevées que si l'on n'incluait que $p$ de ces variables explicatives. Pour comparer les modèles, il est préférable d'utiliser des critères d'information ou de s'appuyer sur la performance prédictive si tel est l'objectif de la régression. Enfin, un modèle avec un $R^2$ élevé peut impliquer une corrélation élevée, mais [la relation peut être fallacieuse](http://www.tylervigen.com/spurious-correlations): la régression linéaire ne produit pas de modèles causaux!
+
+
+-->
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
@@ -825,10 +1536,20 @@ Lee, Kiljae, et Jungsil Choi. 2019. <span>«&nbsp;Image-text inconsistency effec
 <div id="ref-Moon.VanEpps:2023" class="csl-entry" role="listitem">
 Moon, Alice, et Eric M VanEpps. 2023. <span>«&nbsp;Giving Suggestions: Using Quantity Requests to Increase Donations&nbsp;»</span>. <em>Journal of Consumer Research</em> 50 (1): 190‑210. <a href="https://doi.org/10.1093/jcr/ucac047">https://doi.org/10.1093/jcr/ucac047</a>.
 </div>
+<div id="ref-Sokolova:2023" class="csl-entry" role="listitem">
+Sokolova, Tatiana, Aradhna Krishna, et Tim Döring. 2023. <span>«&nbsp;Paper Meets Plastic: The Perceived Environmental Friendliness of Product Packaging&nbsp;»</span>. <em>Journal of Consumer Research</em> 50 (3): 468‑91. <a href="https://doi.org/10.1093/jcr/ucad008">https://doi.org/10.1093/jcr/ucad008</a>.
+</div>
 <div id="ref-Venables:2000" class="csl-entry" role="listitem">
 Venables, William N. 2000. <span>«&nbsp;Exegeses on Linear Models&nbsp;»</span>. In <em>S-PLUS User’s Conference</em>. Washington, D.C. <a href="https://www.stats.ox.ac.uk/pub/MASS3/Exegeses.pdf">https://www.stats.ox.ac.uk/pub/MASS3/Exegeses.pdf</a>.
 </div>
 </div>
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>La contrainte <span class="math inline">\(c_1 + \cdots + c_K=0\)</span> garantit que les contrastes linéaires sont orthogonaux à la moyenne, qui a un poids <span class="math inline">\(c_i=n_i/n\)</span> et pour les échantillons équilibrés <span class="math inline">\(c_i =1/n\)</span>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
 </section>
 
 </main> <!-- /main -->

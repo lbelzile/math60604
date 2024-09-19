@@ -243,7 +243,7 @@ window.Quarto = {
   <ul>
   <li><a href="#estimation-par-maximum-de-vraisemblance" id="toc-estimation-par-maximum-de-vraisemblance" class="nav-link active" data-scroll-target="#estimation-par-maximum-de-vraisemblance"><span class="header-section-number">3.1</span> Estimation par maximum de vraisemblance</a></li>
   <li><a href="#loi-déchantillonnage" id="toc-loi-déchantillonnage" class="nav-link" data-scroll-target="#loi-déchantillonnage"><span class="header-section-number">3.2</span> Loi d’échantillonnage</a></li>
-  <li><a href="#testsvrais" id="toc-testsvrais" class="nav-link" data-scroll-target="#testsvrais"><span class="header-section-number">3.3</span> Tests dérivés de la vraisemblance</a></li>
+  <li><a href="#sec-testsvrais" id="toc-sec-testsvrais" class="nav-link" data-scroll-target="#sec-testsvrais"><span class="header-section-number">3.3</span> Tests dérivés de la vraisemblance</a></li>
   <li><a href="#vraisemblance-profilée" id="toc-vraisemblance-profilée" class="nav-link" data-scroll-target="#vraisemblance-profilée"><span class="header-section-number">3.4</span> Vraisemblance profilée</a></li>
   <li><a href="#critères-dinformation" id="toc-critères-dinformation" class="nav-link" data-scroll-target="#critères-dinformation"><span class="header-section-number">3.5</span> Critères d’information</a></li>
   </ul>
@@ -576,8 +576,8 @@ where $R(\boldsymbol{\theta}_0) \stackrel{\cdot}{\sim} \chi^2_p.$
 </div>
 </div>
 </section>
-<section id="testsvrais" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="testsvrais"><span class="header-section-number">3.3</span> Tests dérivés de la vraisemblance</h2>
+<section id="sec-testsvrais" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="sec-testsvrais"><span class="header-section-number">3.3</span> Tests dérivés de la vraisemblance</h2>
 <p>Nous considérons une hypothèse nulle <span class="math inline">\(\mathscr{H}_0\)</span> qui impose des restrictions sur les valeurs possibles de <span class="math inline">\(\boldsymbol{\theta}\)</span>, par rapport à une alternative sans contrainte <span class="math inline">\(\mathscr{H}_1.\)</span> Nous avons besoin de deux modèles <strong>emboîtés</strong> : un modèle <em>complet</em> et un modèle <em>réduit</em>, pour lequel l’espace des paramèteres est un sous-ensemble du modèle complet suite à l’imposition des <span class="math inline">\(q\)</span> restrictions. Par exemple, la loi exponentielle est un cas particulier de la loi de Weibull si <span class="math inline">\(\alpha=1\)</span>.</p>
 <p>L’hypothèse nulle <span class="math inline">\(\mathscr{H}_0\)</span> testée est “le modèle réduit est une <strong>simplification adéquate</strong> du modèle complet”. Soit <span class="math inline">\(\widehat{\boldsymbol{\theta}}_0\)</span> les EMV contraints pour le modèle sous l’hypothèse nulle, et <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> les EMV du modèle complet. La vraisemblance fournit trois classes principales de statistiques pour tester cette hypothèse, soit</p>
 <ul>

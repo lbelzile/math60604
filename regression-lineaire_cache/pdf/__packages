@@ -5,3 +5,6 @@ viridis
 ggplot2
 patchwork
 dplyr
+gganimate
+emmeans
+pixiedust
