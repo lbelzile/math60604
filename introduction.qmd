@@ -118,6 +118,16 @@ L'espérance est  la « moyenne théorique», ou moment de premier ordre : dans 
 
 L'écart-type  est défini comme la racine carrée de la variance,  $\mathsf{sd}(Y)=\sqrt{\mathsf{Va}(Y)}$: elle est exprimé dans les mêmes unités que celle de $Y$ et donc plus facilement interprétable.
 
+
+:::{#exm-moments-des}
+
+Considérons une variable aléatoire discrète $Y$ pour la somme de deux lancers de dés à six faces. L'espérance de $g(Y)=Y^2$ est
+\begin{align*}
+\mathsf{E}(Y^2) &= (2^2 + 12^2) \times \frac{1}{36} + (3^2 + 11^2) \times  \frac{2}{36} + (4^2 + 10^2) \\&\;\times  \frac{3}{36} + (5^2 +9^2) \times  \frac{4}{36} + (6^2 + 8^2) \times  \frac{5}{36} \\& + 7^2 \times  \frac{6}{36}= \frac{329}{6}.
+\end{align*}
+
+:::
+
 La notion de moments peut être généralisé à des vecteurs. Si $\boldsymbol{Y}$ est un $n$-vecteur, comprenant par exemple dans le cadre d'une régression des mesures d'un ensemble d'observations, alors l'espérance est calculée composante par composante,
 
 \begin{align*}
