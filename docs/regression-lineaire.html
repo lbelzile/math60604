@@ -271,6 +271,11 @@ window.Quarto = {
   <li><a href="#contrastes" id="toc-contrastes" class="nav-link" data-scroll-target="#contrastes"><span class="header-section-number">4.5.1</span> Contrastes</a></li>
   <li><a href="#exemples-de-tests" id="toc-exemples-de-tests" class="nav-link" data-scroll-target="#exemples-de-tests"><span class="header-section-number">4.5.2</span> Exemples de tests</a></li>
   </ul></li>
+  <li><a href="#plans-factoriels-et-interactions" id="toc-plans-factoriels-et-interactions" class="nav-link" data-scroll-target="#plans-factoriels-et-interactions"><span class="header-section-number">4.6</span> Plans factoriels et interactions</a></li>
+  <li><a href="#géométrie-des-moindres-carrés" id="toc-géométrie-des-moindres-carrés" class="nav-link" data-scroll-target="#géométrie-des-moindres-carrés"><span class="header-section-number">4.7</span> Géométrie des moindres carrés</a>
+  <ul class="collapse">
+  <li><a href="#résidus" id="toc-résidus" class="nav-link" data-scroll-target="#résidus"><span class="header-section-number">4.7.1</span> Résidus</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/lbelzile/math60604/edit/master/regression-lineaire.qmd" class="toc-action"><i class="bi bi-github"></i>Éditer cette page</a></li></ul></div></nav>
     </div>
@@ -449,7 +454,7 @@ Figure&nbsp;4.1: Analyse exploratoire des données <code>college</code>: répart
 <section id="interprétation-des-coefficients" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="interprétation-des-coefficients"><span class="header-section-number">4.2</span> Interprétation des coefficients</h2>
 <p>La spécification de la moyenne est <span class="math display">\[\begin{align*}
-\mathsf{E}(Y_i \mid \boldsymbol{X}_i = \boldsymbol{x}_i) = \beta_0 + \beta_1 x_{i1} + \ldots + \beta_p x_{ip}.
+\mathsf{E}(Y_i \mid \boldsymbol{X}_i = \boldsymbol{x}_i) = \beta_0 + \beta_1 x_{i1} + \cdots + \beta_p x_{ip}.
 \end{align*}\]</span> L’<strong>ordonnée à l’origine</strong> <span class="math inline">\(\beta_0\)</span> est la <strong>valeur moyenne de <span class="math inline">\(Y\)</span></strong> lorsque toutes les variables explicatives du modèles sont nulles, soit <span class="math inline">\(\boldsymbol{x}_i=\boldsymbol{0}_p\)</span>. <span class="math display">\[\begin{align*}
 \beta_0 &amp;= \mathsf{E}(Y \mid X_1=0,X_2=0,\ldots,X_p=0) \\
 &amp;= \beta_0 + \beta_1 \times 0 + \beta_2 \times 0 + \cdots + \beta_p \times 0
@@ -639,7 +644,7 @@ Tableau&nbsp;4.2: Estimations des coefficients du modèle linéaire pour les don
 </div>
 <div id="rem-polynomes" class="proof remark">
 <p><span class="proof-title"><em>Remarque 4.2</em> (Polynômes). </span>Il n’est pas toujours possible de fixer la valeur des autres colonnes de <span class="math inline">\(\mathbf{X}\)</span> si plusieurs colonnes contiennent des transformations ou des fonctions d’une même variable explicative. Par exemple, on pourrait par exemple considérer un polynôme d’ordre <span class="math inline">\(k\)</span> (ordinairement, on va prendre <span class="math inline">\(k\leq 3\)</span>), <span class="math display">\[\begin{align*}
-\mathsf{E}(Y \mid X=x)=\beta_0+ \beta_1 x+ \beta_2 x^2 + \ldots +\beta_k x^k.
+\mathsf{E}(Y \mid X=x)=\beta_0+ \beta_1 x+ \beta_2 x^2 + \cdots +\beta_k x^k.
 \end{align*}\]</span> Si l’on inclut un terme d’ordre <span class="math inline">\(k\)</span>, <span class="math inline">\(x^k\)</span>, il faut <strong>toujours</strong> inclure les termes d’ordre inférieur <span class="math inline">\(1, x, \ldots, x^{k-1}\)</span> pour l’interprétabilité du modèle résultant (autrement, cela revient à choisir un polynôme en imposant que certains coefficients soient zéros). L’interprétation des effets des covariables nonlinéaires (même polynomiaux) est complexe parce qu’on ne peut pas « fixer la valeur des autres variables »: l’effet d’une augmentation d’une unité de <span class="math inline">\(x\)</span> <em>dépend de la valeur de cette dernière</em>. L’effet marginal de <span class="math inline">\(x\)</span> est <span class="math inline">\(\beta_1 + \sum_{j=1}^{k-1}j \beta_{j+1}x^j\)</span>.</p>
 <p>L’utilisation de polynôme, plus flexibles, n’est généralement pas recommendée car ces derniers se généralisent mal hors de l’étendue observée des données. L’utilisation de splines avec une pénalité sur les coefficients, avec des modèles additifs, offre plus de flexibilité.</p>
 </div>
@@ -819,7 +824,7 @@ i(\boldsymbol{\beta}, \sigma^2) =
 \frac{Y^*-\mathrm{x}^*\widehat{\boldsymbol{\beta}}}{\sqrt{S^2\{1+\mathrm{x}^*(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}^{*\top}\}}}\sim \mathsf{Student}(n-p-1).
 \end{align*}\]</span> On obtient l’<strong>intervalle de prédiction</strong> de niveau <span class="math inline">\(1-\alpha\)</span> pour <span class="math inline">\(Y^*\)</span> en inversant la statistique de test <span class="math display">\[\begin{align*}
 \mathrm{x}^*\widehat{\boldsymbol{\beta}}\pm \mathfrak{t}_{n-p-1}(\alpha/2)\sqrt{S^2\{1+\mathrm{x}^*(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}^{*\top}\}}.
-\end{align*}\]</span> Des calculs similaires pour les <strong>intervalles de confiance</strong> ponctuels pour la moyenne donnent <span class="math display">\[\begin{align*}
+\end{align*}\]</span> Des calculs similaires pour les <strong>intervalles de confiance</strong> ponctuels pour la moyenne <span class="math inline">\(\mathrm{x}^*\boldsymbol{\beta}\)</span> donnent <span class="math display">\[\begin{align*}
 \mathrm{x}^*\widehat{\boldsymbol{\beta}}\pm \mathfrak{t}_{n-p-1}(\alpha/2)\sqrt{S^2\mathrm{x}^*(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}^{*\top}}.
 \end{align*}\]</span> Les deux formules diffèrent uniquement au niveau de la variabilité.</p>
 <div id="exm-sokolova-pred" class="theorem example">
@@ -966,10 +971,10 @@ Tableau&nbsp;4.3: Prédictions avec intervalles de prédiction (gauche) et inter
 <p><span class="theorem-title"><strong>Proposition 4.5 (Tests-<em>F</em> pour comparaison de modèles emboîtés)</strong></span> Considérons le modèle linéaire <em>complet</em> qui contient <span class="math inline">\(p\)</span> variables explicatives, <span class="math display">\[\begin{align*}
 \mathbb{M}_1: Y=\beta_0+\beta_1 x_1 + \cdots + \beta_p x_p + \varepsilon.
 \end{align*}\]</span> Supposons sans perte de généralité que nous voulions tester <span class="math inline">\(\mathscr{H}_0 : \beta_{k+1}=\beta_{k+2}=\cdots=\beta_p=0\)</span> pour <span class="math inline">\(k &lt; p\)</span> (on pourrait permuter les colonnes de la matrice du modèle pour obtenir cette configuration). L’hypothèse globale spécifie que <span class="math inline">\((p-k)\)</span> des paramètres <span class="math inline">\(\beta\)</span> sont nuls. Le <em>modèle restreint</em> correspondant à l’hypothèse nulle ne contient que les covariables pour lesquelles <span class="math inline">\(\beta_j \neq 0\)</span>, <span class="math display">\[\begin{align*}
-\mathbb{M}_0: Y=\beta_0+\beta_1 x_1 + \ldots + \beta_k x_k + \varepsilon.
-\end{align*}\]</span> Soit <span class="math inline">\(\mathsf{SS}_e(\mathbb{M}_1)\)</span> la somme du carré des résidus du modèle complet <span class="math inline">\(\mathbb{M}_1\)</span>, <span class="math display">\[\begin{align*}
+\mathbb{M}_0: Y=\beta_0+\beta_1 x_1 + \cdots + \beta_k x_k + \varepsilon.
+\end{align*}\]</span> Soit <span class="math inline">\(\mathsf{SC}_e(\mathbb{M}_1)\)</span> la somme du carré des résidus du modèle complet <span class="math inline">\(\mathbb{M}_1\)</span>, <span class="math display">\[\begin{align*}
 \mathsf{SC}_e(\mathbb{M}_1)=\sum_{i=1}^n (Y_i-\widehat{Y}_i^{\mathbb{M}_1})^2,
-\end{align*}\]</span> où <span class="math inline">\(\hat{Y}_i^{\mathbb{M}_1}\)</span> est la <span class="math inline">\(i\)</span>e valeur ajustée du modèle <span class="math inline">\(\mathbb{M}_1\)</span>. On définit de la même façon la somme du carré des résidus, <span class="math inline">\(\mathsf{SS}_e(\mathbb{M}_0)\)</span>, pour le modèle <span class="math inline">\(\mathbb{M}_0\)</span>. Logiquement, <span class="math inline">\(\mathsf{SS}_e(\mathbb{M}_0) \geq \mathsf{SS}_e(\mathbb{M}_1)\)</span>.</p>
+\end{align*}\]</span> où <span class="math inline">\(\hat{Y}_i^{\mathbb{M}_1}\)</span> est la <span class="math inline">\(i\)</span>e valeur ajustée du modèle <span class="math inline">\(\mathbb{M}_1\)</span>. On définit de la même façon la somme du carré des résidus, <span class="math inline">\(\mathsf{SC}_e(\mathbb{M}_0)\)</span>, pour le modèle <span class="math inline">\(\mathbb{M}_0\)</span>. Logiquement, <span class="math inline">\(\mathsf{SC}_e(\mathbb{M}_0) \geq \mathsf{SC}_e(\mathbb{M}_1)\)</span>.</p>
 <p>La statistique <span class="math inline">\(F\)</span> est <span class="math display">\[\begin{align*}
 F=\frac{\{\mathsf{SC}_e(\mathbb{M}_0)-\mathsf{SC}_e(\mathbb{M}_1)\}/(p-k)}{\mathsf{SC}_e(\mathbb{M}_1)/(n-p-1)}.
 \end{align*}\]</span> Sous <span class="math inline">\(\mathscr{H}_0\)</span>, la statistique <span class="math inline">\(F\)</span> suit une loi de Fisher (<a href="introduction.html#def-loiF" class="quarto-xref">Définition&nbsp;<span>1.12</span></a>) avec <span class="math inline">\((p-k)\)</span> et <span class="math inline">\((n-p-1)\)</span> degrés de liberté, <span class="math inline">\(\mathsf{Fisher}(p-k, n-p-1)\)</span>. Les degrés de libertés du numérateur, <span class="math inline">\(p-k\)</span>, indiquent le nombre de restrictions ou la différence du nombre de paramètres, tandis que celle du dénominateur, <span class="math inline">\(n-p-1\)</span> est la taille de l’échantillons moins le nombre de paramères pour la moyenne du modèle <span class="math inline">\(\mathbb{M}_1\)</span>.</p>
@@ -1464,76 +1469,595 @@ Tableau&nbsp;4.7: Estimations des contrastes pour les différences de PEF relati
 </div>
 </div>
 </div>
+</section>
+</section>
+<section id="plans-factoriels-et-interactions" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="plans-factoriels-et-interactions"><span class="header-section-number">4.6</span> Plans factoriels et interactions</h2>
+<p>Le modèle additif pour la moyenne spécifie que l’effet marginal d’une variable ( y compris pour les variables catégorielles) est indépendant des autres. Nous pouvons souhaiter assouplir cette hypothèse en incluant des <strong>termes d’interaction</strong>.</p>
+<div id="def-interaction" class="theorem definition">
+<p><span class="theorem-title"><strong>Définition 4.2 (Interaction)</strong></span> On parle d’<strong>interaction</strong> lorsque des combinaisons de variables explicatives affectent la variable réponse différemment que lorsqu’elles sont considérées individuellement. Si <span class="math inline">\(X_j\)</span> et <span class="math inline">\(X_k\)</span> interagissent, l’effet marginal de <span class="math inline">\(\mathsf{E}(Y \mid \boldsymbol{X})\)</span> par rapport à <span class="math inline">\(X_j\)</span> est une fonction de <span class="math inline">\(X_k\)</span>, et vice-versa.</p>
+</div>
+<p>On s’attarde au cas où au moins une des variables est catégorielle (facteur).</p>
+<div id="exm-assurance-interaction" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 4.18 (Primes d’assurances et interactions)</strong></span> On considère la relation entre <code>fumeur</code> et l’indice de masse corporel pour la détermination de primes d’assurance. Les fumeurs dont l’indice de masse corporelle (IMC) est égal ou supérieur à 30 paient une prime élevée, mais il semble que le montant de la prime augmente de façon linéaire en fonction de l’IMC. Cette tarification ne semble pas s’appliquer aux non-fumeurs.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-insuranceinter1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-insuranceinter1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="regression-lineaire_files/figure-html/fig-insuranceinter1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-insuranceinter1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.7: Nuage de points des données <code>assurance</code> avec les frais en fonction de l’<code>imc</code>, selon le status <code>fumeur</code>.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="exm-intention" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 4.19 (Intention d’achat)</strong></span> On considère un exemple avec des données bidons <code>interaction</code>. Le modèle additif (sans interaction) a pour moyenne <span class="math display">\[\begin{align*}
+\mathsf{E}(\texttt{intention} \mid \cdot)=\beta_0 + \beta_1 \texttt{sexe} + \beta_2 \texttt{fixation},
+\end{align*}\]</span> où <span class="math inline">\(\texttt{sexe=1}\)</span> pour les femmes et <span class="math inline">\(\texttt{sexe=0}\)</span> pour les hommes</p>
+<p>L’effet de la variable continue <code>fixation</code> est identique pour les deux sexes. De même, l’effet de la variable binaire est supposé être le même pour toutes les valeurs possibles de la variable continue. Nous pouvons le voir sur le graphique, car la différence entre les lignes représente l’effet de <span class="math inline">\(\texttt{sexe}\)</span>, est le même pour toutes les valeurs de <span class="math inline">\(\texttt{fixation}\)</span>; les lignes sont <em>parallèles</em> : voir le panneau gauche de <a href="#fig-interaction-slope" class="quarto-xref">Figure&nbsp;<span>4.8</span></a>.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-interaction-slope" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-interaction-slope-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="regression-lineaire_files/figure-html/fig-interaction-slope-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-interaction-slope-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.8: Nuages de points et droites ajustées pour un modèle sans interaction (gauche) et avec interaction (droite).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Pour ajuster une pente différente par sexe, on crée une nouvelle variable égale au produit <span class="math inline">\(\texttt{fixation}\times\texttt{sexe}\)</span> et on l’ajoute à notre modèle, <span class="math display">\[\begin{align*}
+\mathsf{E}(\texttt{intention} \mid \cdot)= \beta_0 + \beta_1 \texttt{sexe} + \beta_2\texttt{fixation}  + \beta_3 \texttt{fixation}\cdot \texttt{sexe}.
+\end{align*}\]</span></p>
+<p>Selon la valeur de <span class="math inline">\(\texttt{sexe}\)</span>, on obtient <span class="math display">\[\begin{align*}
+\mathsf{E}(\texttt{intention} \mid \cdot) =
+\begin{cases}
+(\beta_0 + \beta_1) + (\beta_2 + \beta_3)\texttt{fixation}, &amp; \texttt{sexe}=1 \text{ (femme)},\\
+  \beta_0 + \beta_2 \texttt{fixation}, &amp; \texttt{sexe}=0 \text{ (homme)}.
+\end{cases}
+\end{align*}\]</span> L’interprétation des coefficients du modèle se fait comme d’habitude avec la paramétrisation (traitement):</p>
+<ul>
+<li><span class="math inline">\(\beta_0\)</span> est l’intention d’achat moyenne lorsque le temps de fixation est nul pour les hommes,</li>
+<li><span class="math inline">\(\beta_1\)</span> est la différence d’ordonnée à l’origine entre les femmes et les hommes (différence d’intention d’achat moyenne entre femmes et hommes quand le temps de fixation est nul),</li>
+<li><span class="math inline">\(\beta_2\)</span> est l’augmentation unitaire de l’intention d’achat par seconde de fixation pour les hommes,</li>
+<li><span class="math inline">\(\beta_3\)</span> est la différence de pente entre les femmes et les hommes (différence d’intention d’achat moyenne femmes vs hommes pour une augmentation d’une seconde de fixation).</li>
+</ul>
+<p>Tester la significativité de l’interaction revient à vérifier si <span class="math inline">\(\mathscr{H}_0: \beta_3=0\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(interaction, <span class="at">package =</span> <span class="st">"hecmodstat"</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Pour spécifier une interaction, utiliser :</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(intention <span class="sc">~</span> sexe <span class="sc">+</span> fixation <span class="sc">+</span>  sexe<span class="sc">:</span>fixation, </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> interaction)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Un raccourci est sexe*fixation, qui donne la même chose</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod)<span class="sc">$</span>coefficients</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;               Estimate Std. Error t value Pr(&gt;|t|)</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (Intercept)      2.741      0.282    9.73 1.02e-16</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sexe             1.312      0.380    3.45 7.74e-04</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; fixation         0.504      0.153    3.29 1.33e-03</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sexe:fixation    2.135      0.200   10.69 5.61e-19</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Le modèle avec interaction est significativement meilleur, ce qui signifie que l’effet du temps de fixation sur l’intention d’achat varie en fonction du sexe.</p>
+</div>
+<div id="rem-marginalite" class="proof remark">
+<p><span class="proof-title"><em>Remarque 4.5</em> (Principe de marginalité). </span>Tous les termes d’ordre inférieurs devraient être inclus si l’interaction est présente.</p>
+<p>Par exemple, on ne retirera pas <span class="math inline">\(\texttt{fixation}\)</span> tout en conservant le terme d’interaction <span class="math inline">\(\texttt{fixation*sexe}\)</span>, même si on ne rejette pas <span class="math inline">\(\mathscr{H}_0:\beta_2=0\)</span>, puisqu’autrement <span class="math display">\[\begin{align*}
+&amp;\mathsf{E}(\texttt{intention} \mid \cdot) =
+\begin{cases}
+(\beta_0 + \beta_1) + \beta_3\texttt{fixation}, &amp; \texttt{sexe}=1 \text{ (femme)},\\
+  \beta_0, &amp;\texttt{sexe}=0 \text{ (homme)};                 
+\end{cases}
+\end{align*}\]</span> cela implique que l’intention d’achat est constante pour les hommes, quel que soit le temps de fixation.</p>
+<p>Comme le choix de catégorie de référence est arbitraire, changer la variable indicatrice pour <span class="math inline">\(\texttt{0}\)</span> pour les femmes, <span class="math inline">\(\texttt{1}\)</span> pour les hommes, donnerait un autre modèle et potentiellement des inférences différentes. De ce fait, on ne considère jamais le retrait d’un effet principal si la variable est incluse dans une interaction. Le principe de <strong>marginalité</strong> suppose que tous les termes d’ordre inférieurs devraient être inclus.</p>
+</div>
+<p>Le concept d’interaction se généralise à des variables catégorielles avec plus de deux niveaux. Dans ce cas, on doit considérer la statistique <span class="math inline">\(F\)</span> pour l’ajout/l’élimination afin de vérifier la significativité de l’interaction dans son ensemble.</p>
+<div id="def-anova" class="theorem definition">
+<p><span class="theorem-title"><strong>Définition 4.3 (Analyse de variance)</strong></span> Une analyse de variance est un modèle linéaire dans lequel la moyenne est une fonction de variables explicatives catégorielles. Si nous disposons de données pour toutes les combinaisons différentes de facteurs, les facteurs sont <strong>croisés</strong> et nous pouvons envisager d’inclure leurs interactions.</p>
+</div>
+<p>Considérons un modèle d’analyse de variance à deux facteurs, disons <span class="math inline">\(A\)</span> et <span class="math inline">\(B\)</span>, lesquels ont respectivement <span class="math inline">\(n_a\)</span> et <span class="math inline">\(n_b\)</span> niveaux. Le modèle avec interaction s’écrit</p>
+<p><span id="eq-twowayasoneway"><span class="math display">\[
+\underset{\text{réponse}\vphantom{b}}{Y_{ijk}} = \underset{\text{moyenne de sous-groupe}}{\mu_{ij}} + \underset{\text{aléa}}{\varepsilon_{ijk}}
+\tag{4.2}\]</span></span> où</p>
+<ul>
+<li><span class="math inline">\(Y_{ijk}\)</span> est le <span class="math inline">\(k\)</span>e mesure du <span class="math inline">\(i\)</span>e niveau du facteur <span class="math inline">\(A\)</span> et du <span class="math inline">\(j\)</span>e niveau du facteur <span class="math inline">\(B\)</span>, disons <span class="math inline">\((a_i, b_j)\)</span></li>
+<li><span class="math inline">\(\mu_{ij}\)</span> est la moyenne théorique du sous-groupe <span class="math inline">\((a_i, b_j)\)</span></li>
+<li><span class="math inline">\(\varepsilon_{ijk}\)</span> sont des termes d’aléas indépendants de moyenne zéro et d’écart-type <span class="math inline">\(\sigma\)</span>.</li>
+</ul>
+<p>Dans un devis factoriel complet avec interaction, on peut écrire l’espérance de la variable réponse <span class="math inline">\(\mathsf{E}(Y \mid A=a_i, B=b_j) = \mu_{ij}\)</span>. Ce modèle peut être vu comme une analyse de variance à un facteur doté de <span class="math inline">\(n_an_b\)</span> niveaux. Cette observation peut être utile pour spécifier les poids de contrastes linéaires ou lorsqu’il existe un groupe de contrôle supplémentaire dans un cadre expérimental. Toutefois, la structure permet de spécifier les hypothèses d’intérêt.</p>
+<p>Nous pouvons l’exprimer de manière équivalente en termes d’ordonnée à l’origine, d’effets principaux de l’une ou l’autre variable et de termes d’interaction. Le modèle additif, sans interaction, a une moyenne pour la cellule <span class="math inline">\((i,j)\)</span> de</p>
+<p><span class="math display">\[\begin{align*}
+\mathsf{E}(Y_{ij} \mid A = a_i, B=b_j) = \mu + \alpha_i + \beta_j.
+\end{align*}\]</span> <!--
+- $\mu$ is the average of all subgroup averages, termed overall mean.
+- $\alpha_i = \mu_{i.} - \mu$ is the mean of level $A_i$ minus the overall mean.
+- $\beta_j  = \mu_{.j} - \mu$ is the mean of level $B_j$ minus the overall mean.
+- $(\alpha\beta)_{ij} = \mu_{ij} - \mu_{i.} - \mu_{.j} + \mu$ is the interaction term for $A_i$ and $B_j$ which encodes the effect of both variable not already captured by the main effects.
+--></p>
 <!--
-
-
-:::{#rem-geometry}
-
-## Géométrie
-
-Le vecteur de valeurs ajustées $\widehat{\boldsymbol{y}} =\mathbf{X} \widehat{\boldsymbol{\beta}} = \mathbf{H}_{\mathbf{X}}\boldsymbol{y}$ est la projection du vecteur réponse $\boldsymbol{y}$ dans l'espace linéaire engendré par les colonnes de $\mathbf{X}$. La matrice chapeau $\mathbf{H}_{\mathbf{X}} = \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top$ est une matrice de projection orthogonale, car $\mathbf{H}_{\mathbf{X}}=\mathbf{H}_{\mathbf{X}}^\top$ et $\mathbf{H}_{\mathbf{X}}\mathbf{H}_{\mathbf{X}} = \mathbf{H}_{\mathbf{X}}$. Ainsi, $\mathbf{H}_{\mathbf{X}}\mathbf{X} = \mathbf{X}$. Puisque le vecteur de résidus ordinaires $\boldsymbol{e} = (e_1, \ldots, e_n)^\top$,  qui apparaît dans la somme des erreurs quadratiques, est définie comme  $\boldsymbol{y} - \widehat{\boldsymbol{y}}$ et $\widehat{\boldsymbol{y}}=\mathbf{X}\boldsymbol{\beta}$, de simples manipulations algébriques montrent que le produit scalaire entre les résidus ordinaires et les valeurs ajustées est nul, puisque
-\begin{align*}
-\widehat{\boldsymbol{y}}^\top\boldsymbol{e} &= \widehat{\boldsymbol{\beta}}^\top \mathbf{X}^\top (\boldsymbol{y}- \mathbf{X} \widehat{\boldsymbol{\beta}})
-\\&= \boldsymbol{y}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top(\boldsymbol{y} - \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y})\\&=\boldsymbol{y}^\top\mathbf{H}_{\mathbf{X}}\boldsymbol{y} - \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y}
-\\&= 0
-\end{align*}
-où nous utilisons la définition de $\widehat{\boldsymbol{y}}$ et $\boldsymbol{e} = \boldsymbol{y} - \widehat{\boldsymbol{y}}$ sur la première ligne, puis on substitut l'estimateur des MCO $\widehat{\boldsymbol{\beta}} = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\boldsymbol{y}$ avant de distribuer les termes du produit. Une dérivation similaire montre que $\mathbf{X}^\top\boldsymbol{e}=\boldsymbol{0}_{p+1}$. Les résidus ordinaires sont donc orthogonaux à la fois à la matrice du modèle $\mathbf{X}$ et aux valeurs ajustées $\widehat{\boldsymbol{y}}$.
-
-Une conséquence directe de ces résultats est le fait que la corrélation linéaire entre $\boldsymbol{e}$ et $\widehat{\boldsymbol{y}}$ est nulle. Cette propriété servira lors de l'élaboration de diagnostics graphiques.
-
-Puisque le produit scalaire est zéro, la moyenne de $\boldsymbol{e}$ doit être zéro pour autant que $\mathbf{1}_n$ est dans l'espace linéaire engendré par $\mathbf{X}$.
-
-
-:::
-
-
-:::{#rem-invariance}
-
-## Invariance
-
-Une conséquence directe de l'expression de l'estimateur des MCO en terme de matrice de projection est que les valeurs ajustées $\widehat{y}_i$ pour deux matrices de modèle $\mathbf{X}_a$ et $\mathbf{X}_b$ sont les mêmes si elles engendrent le même espace linéaire, comme dans @exm-baumann-dummies; seule l''interprétation des coefficients change. Si nous incluons une ordonnée à l'origine, nous obtenons le même résultat si les colonnes explicatives sont centrées sur la moyenne.
-
-:::
-
-
-La valeur de $\widehat{\boldsymbol{\beta}}$ est telle qu'elle maximise la corrélation entre $\boldsymbol{y}$ et $\widehat{\boldsymbol{y}}$. Dans le cas d'une variable catégorielle unique, nous obtiendrons des valeurs ajustées $\widehat{y}$ qui correspondent à la moyenne de l'échantillon de chaque groupe.
-
-
-
-:::{#def-r2}
-
-## Coefficient de détermination {#coefR2}
-
-
-Lorsque nous spécifions un modèle, les aléas  $\boldsymbol{\varepsilon}$ servent à tenir compte du fait qu'aucune relation linéaire exacte ne caractérise les données  Une fois que nous avons ajusté un modèle, nous estimons la variance $\sigma^2$; on peut alors se demander quelle part de la variance totale de l'échantillon est expliquée par le modèle.
-
-La somme totale des carrés, définie comme la somme des carrés des résidus du modèle à ordonnée à l'origine uniquement, sert de comparaison --- le modèle le plus simple que nous puissions trouver impliquerait chaque observation par la moyenne de l'échantillon de la réponse, ce qui donne la variance expliquée $\mathsf{SC}_c = \sum_{i=1}^n (y_i - \overline{y})^2$. Nous pouvons ensuite comparer la variance des données originales avec celle des résidus du modèle avec la matrice de covariables $\mathbf{X}$, définie comme $\mathsf{SC}_e =\sum_{i=1}^n e_i^2$ avec $e_i = y_i - \widehat{\beta}_0 - \sum_{j=1}^p \widehat{\beta}_jX_j$.
-Nous définissons le coefficient de détermination $R^2$, comme suit
-\begin{align*}
-R^2 &=1- \frac{\mathsf{SC}_e}{\mathsf{SC}_c} = \frac{\sum_{i=1}^n (y_i - \overline{y})^2- \sum_{i=1}^n e_i^2}{\sum_{i=1}^n (y_i - \overline{y})^2}.
-\end{align*}
-Une autre décomposition montre que $R^2 = \mathsf{cor}^2(\boldsymbol{y}, \widehat{\boldsymbol{y}})$, c'est-à-dire que le coefficient de détermination peut être interprété comme le carré de la corrélation linéaire de Pearson (@def-correlation-Pearson) entre la réponse $\boldsymbol{y}$ et les valeurs ajustées $\widehat{\boldsymbol{y}}$.
-
-:::
-
-Il est important de noter que le $R^2$ n'est pas un critère de qualité de l'ajustement, tout comme la log-vraisemblance. En effet, certain phénomènes sont intrinsèquement complexes et même un bon modèle ne parviendra pas à rendre compte d'une grande partie de la variabilité de la réponse. Ce n'est pas non plus parce que le $R^2$ est faible que $Y$ et et les variables explicatives $X_j$ sont indépendantes, comme l'illustre la @fig-datasaurus.
-
-
-En outre, il est possible de gonfler la valeur de $R^2$ en incluant davantage de variables explicatives et en rendant le modèle plus complexe, ce qui améliore la vraisemblance et $R^2$. En effet, le coefficient n'est pas décroissant dans la dimension de $\mathbf{X}$, de sorte qu'un modèle comportant $p+1$ de covariables aura nécessairement des valeurs de $R^2$ plus élevées que si l'on n'incluait que $p$ de ces variables explicatives. Pour comparer les modèles, il est préférable d'utiliser des critères d'information ou de s'appuyer sur la performance prédictive si tel est l'objectif de la régression. Enfin, un modèle avec un $R^2$ élevé peut impliquer une corrélation élevée, mais [la relation peut être fallacieuse](http://www.tylervigen.com/spurious-correlations): la régression linéaire ne produit pas de modèles causaux!
-
-
+The model formulation in terms of difference from the global average or main effect ensures that we can test for main effects for factor $A$ by setting $\mathscr{H}_0: \alpha_1 = \cdots = \alpha_{n_a-1}=0$. The $1 +  n_a + n_b$ **sum to zero** constraints,
+$$\sum_{i=1}^{n_a} \alpha_i=0, \quad \sum_{j=1}^{n_b} \beta_j=0, \quad  \sum_{j=1}^{n_b} (\alpha\beta)_{ij}=0, \quad \sum_{i=1}^{n_a} (\alpha\beta)_{ij}=0.$$
 -->
+<p>Nous pouvons envisager des simplifications de modèle de bas en haut. La suppression de l’interaction conduit à un modèle avec <span class="math inline">\(1 + (n_a-1) + (n_b-1)\)</span> paramètres, par rapport à <span class="math inline">\(n_a \times n_b\)</span> pour le modèle avec l’interaction. Nous pouvons utiliser un test <span class="math inline">\(F\)</span> pour vérifier la significativité de ce dernier. Si les facteurs n’interagissent pas, la moyenne dans la cellule est donnée par la somme des effets principaux. Ce n’est qu’après avoir supprimé ce terme que nous pouvons déterminer si toutes les moyennes des lignes ou des colonnes sont identiques.</p>
+<p>:::</p>
+<p>Bien que des tests formels soient nécessaires pour vérifier les interactions, le concept peut être mieux compris en examinant des graphiques.</p>
+<div id="def-interactionplot" class="theorem definition">
+<p><span class="theorem-title"><strong>Définition 4.4 (Diagramme d’interaction)</strong></span> Nous pouvons essayer de détecter visuellement les interactions en traçant la réponse (moyenne) en fonction de l’une des covariables, en utilisant ce que l’on appelle un <strong>diagramme d’interaction</strong>. Lorsqu’il y a plus de deux variables catégorielles, nous pouvons utiliser des couleurs, des symboles ou des panneaux pour représenter les catégories. L’absence d’interaction dans ces diagrammes implique des lignes parallèles, mais il faut tenir compte de l’incertitude.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-2by2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-2by2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="regression-lineaire_files/figure-html/fig-2by2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-2by2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.9: Diagramme d’interactions pour un devis 2 par 2. Image adaptée de la Figure 10.2 de <span class="citation" data-cites="Crump.Navarro.Suzuki:2019">Crump, Navarro, et Suzuki (<a href="references.html#ref-Crump.Navarro.Suzuki:2019" role="doc-biblioref">2019</a>)</span> par Matthew Crump (licence CC BY-SA 4.0).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="def-simple" class="theorem definition">
+<p><span class="theorem-title"><strong>Définition 4.5 (Effets simples et effets principaux)</strong></span> Lorsqu’il n’y a pas d’interactions, il est logique de faire abstraction d’une ou plusieurs variables et de considérer les <strong>effets marginaux</strong>, obtenus en regroupant les données des facteurs omis, en calculant la moyenne équipondérée des sous-groupes. Supposons, par exemple, que nous soyons intéressés par la comparaison des niveaux de <span class="math inline">\(A\)</span>. Lorsque les interactions entre <span class="math inline">\(A\)</span> et <span class="math inline">\(B\)</span> ne sont pas significatives, nous pouvons considérer des termes d’ordre inférieur et rapporter les <strong>moyennes marginales estimées</strong> et les contrastes entre les moyennes de <span class="math inline">\(A\)</span>. Si l’interaction avec <span class="math inline">\(B\)</span> a un impact, nous pouvons plutôt calculer la moyenne de la sous-cellule <span class="math inline">\(A \mid B=b_j\)</span>, et de la même manière pour les contrastes. Nous distinguons donc les cas suivants :</p>
+<ul>
+<li><strong>effets simples</strong>: différences entre les niveaux d’un élément dans une combinaison fixe d’autres éléments. Les effets simples consistent à comparer les moyennes des cellules dans une ligne ou une colonne donnée.</li>
+<li><strong>effets principaux</strong> : différences par rapport à la moyenne pour chaque condition d’un facteur. Les effets principaux sont des moyennes de lignes ou de colonnes.</li>
+</ul>
+</div>
+<div id="exm-STC21-twoway" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 4.20 (Effet psychologique d’emprunt)</strong></span> L’étude complémentaire 5 de <span class="citation" data-cites="Sharma.Tully.Cryder:2021">Sharma, Tully, et Cryder (<a href="references.html#ref-Sharma.Tully.Cryder:2021" role="doc-biblioref">2021</a>)</span> vérifie la perception psychologique de l’emprunt en fonction du terme employé pour désigner le montant monétaire. Les auteurs ont effectué une comparaison deux par deux inter-sujets (ANOVA à deux facteurs) en faisant varier le type de dette (si l’argent était proposé sous forme de crédit (<code>credit</code>) ou prêt (<code>loan</code>), de même que le type d’achat pour lequel l’argent serait utilisé, soit dépenses discrétionnaires (<code>discretionary</code>) ou pour combler à des besoins essentiels (<code>need</code>). La réponse est la moyenne de (a) la probabilité et de (b) l’intérêt pour le produit, toutes deux mesurés à l’aide d’une échelle de Likert allant de 1 à 9.</p>
+<p>Le modèle pour la moyenne avec interaction peut être écrit en utilisant la paramétrisation usuelle comme suit <span class="math display">\[\begin{align*}
+\texttt{likelihood} &amp;= \beta_0 + \beta_1\mathbf{1}_{\texttt{purchase=need}} + \beta_2\mathbf{1}_{\texttt{debttype=loan}} \\&amp;\quad+ \beta_3\mathbf{1}_{\texttt{purchase=need}}\mathbf{1}_{\texttt{debttype=loan}} + \varepsilon
+\end{align*}\]</span></p>
+<p>On peut calculer la moyenne de chaque groupe et déduire l’interprétation des coefficients:</p>
+<ul>
+<li><span class="math inline">\(\mu_1 = \beta_0\)</span> pour <code>purchase=discretionnary</code> et <code>debttype=credit</code></li>
+<li><span class="math inline">\(\mu_2 = \beta_0 + \beta_1\)</span> pour <code>purchase=need</code> et <code>debttype=credit</code></li>
+<li><span class="math inline">\(\mu_1 = \beta_0 + \beta_2\)</span> pour <code>purchase=discretionnary</code> et <code>debttype=loan</code></li>
+<li><span class="math inline">\(\mu_2 = \beta_0 + \beta_1 + \beta_2 + \beta_3\)</span> pour <code>purchase=need</code> et <code>debttype=loan</code></li>
+</ul>
+<p>Ainsi, <span class="math inline">\(\beta_3\)</span> représente la différence des moyennes <span class="math inline">\(\mu_1 + \mu_4 - \mu_2 - \mu_3\)</span>.</p>
+<p><span class="citation" data-cites="Sharma.Tully.Cryder:2021">Sharma, Tully, et Cryder (<a href="references.html#ref-Sharma.Tully.Cryder:2021" role="doc-biblioref">2021</a>)</span> a ajusté un modèle avec deux facteurs, chacun avec deux niveaux, et leur interaction. Comme il y a une moyenne globale et deux effets principaux (différence supplémentaire de moyenne pour les deux facteurs <code>debttype</code> et <code>purchase</code>), l’interaction a un degré de liberté puisque nous passons d’un modèle avec trois paramètres à un modèle qui a une moyenne différente pour chacun des quatre sous-groupes.</p>
+<p>La raison pour laquelle on teste d’abord la présence d’interaction est que, si l’effet d’un facteur dépend du niveau de l’autre, comme le montre <a href="#fig-2by2" class="quarto-xref">Figure&nbsp;<span>4.9</span></a>, il faut alors comparer l’étiquette du type de dette séparément pour chaque type d’achat et vice-versa à l’aide d’effets simples. Si l’interaction n’est pas significative, nous pouvons regrouper les observations pour obtenir une ANOVA à un facteur, ce qui donne les comparaisons marginales avec les effets principaux.</p>
+<p>L’ajustement du modèle incluant l’interaction entre les facteurs garantit que nous conservons l’hypothèse d’additivité et que nos conclusions ne sont pas trompeuses: le prix à payer est l’estimation de paramètres moyens supplémentaires, ce qui n’est pas un problème si vous recueillez suffisamment de données, mais peut être critique lorsque la collecte de données est extrêmement coûteuse et que seules quelques observations sont disponibles pour chaque sous-groupe.</p>
+<p>Dans <strong>R</strong>, on inclut les deux facteurs et leurs interactions avec <code>reponse ~ facteurA * facteurB</code>, le symbole <code>*</code> indiquant que les deux interagissent, un raccourci pour <code>facteuA + facteurB + facteurA:facteurB</code>; dans un modèle avec seulement les effets principaux, on sépare les facteurs par un <code>+</code> pour obtenir le modèle additif.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Données de l'étude supp. 5</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># de Sharma, Tully, et Cryder (2021)</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(STC21_SS5, <span class="at">package =</span> <span class="st">"hecedsm"</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># La fonction 'aov' sert à ajuste des ANOVA</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Équivalent à "lm" avec variables catégorielles, contrasts somme nulle</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>modlin_STC21 <span class="ot">&lt;-</span> <span class="fu">aov</span>(</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    likelihood <span class="sc">~</span> purchase<span class="sc">*</span>debttype, </span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> STC21_SS5)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculer le décompte par sous-catégorie (données débalancées)</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="fu">xtabs</span>(<span class="sc">~</span> purchase <span class="sc">+</span> debttype, <span class="at">data =</span> STC21_SS5)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                debttype</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; purchase        credit loan</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   discretionary    392  359</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   need             361  389</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcul de la moyenne globale/lignes/colonnes/cellules</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>moy_groupes <span class="ot">&lt;-</span> <span class="fu">model.tables</span>(modlin_STC21, <span class="at">type =</span> <span class="st">"means"</span>)</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Tableau d'ANOVA avec effets de type 2</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(modlin_STC21, <span class="at">type =</span> <span class="dv">2</span>)</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Anova Table (Type II tests)</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Response: likelihood</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                   Sum Sq   Df F value  Pr(&gt;F)    </span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; purchase             752    1   98.21 &lt; 2e-16 ***</span></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debttype              92    1   12.04 0.00054 ***</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; purchase:debttype     14    1    1.79 0.18171    </span></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residuals          11467 1497                    </span></span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>L’interaction n’étant pas significative, nous pouvons n’interpréter que l’effet principal de la fixation.</p>
+<p>Cette différence de moyenne conditionnelle est appelée effet marginal, car elle est obtenue en calculant la moyenne de toutes les sous-catégories pour un même niveau du facteur. Le modèle estime cependant la variance sur la base des résidus du modèle d’interaction complet avec quatre moyennes de cellules, et diffère donc de celui obtenu en exécutant (à tort) un modèle avec seulement <code>purchase</code> comme variable explicative.</p>
+<p>Dans le tableau d’analyse de la variance, nous nous concentrons exclusivement sur la dernière ligne avec la somme des carrés pour l’interaction <code>purchase:debttype</code>. La statistique <span class="math inline">\(F\)</span> est 1.79; avec la loi de référence <span class="math inline">\(\mathsf{Fisher}\)</span> (1, 1497), on obtient une valeur-<span class="math inline">\(p\)</span> de 0.18 alors il n’y a pas de preuve que l’effet du libellé pour l’achat dépende du type de dette.</p>
+<p>On peut donc regrouper les données et étudier uniquement l’effet du libellé (prêt <code>loan</code> ou <code>credit</code>) en combinant les données pour les types d’achats, une des comparaisons planifiées des annexes en ligne. Pour ce faire, on utilise la fonction <code>emmeans</code> du paquet éponyme en spécifiant le nom du ou des facteurs d’intérêts (ceux que l’on veut conserver) avec l’argument <code>specs</code>. Par défaut, on calcule les moyennes marginales estimées, l’argument <code>contr = "pairwise"</code> indique que l’on veut en plus les différences deux à deux, ici le seul contraste possible pour des différences entre deux facteurs.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparisons deux à deux au sein des niveaux de "purchase"</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Effets simples</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>emmeans<span class="sc">::</span><span class="fu">emmeans</span>(modlin_STC21, </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">specs =</span> <span class="st">"purchase"</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">contr =</span> <span class="st">"pairwise"</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $emmeans</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  purchase      emmean    SE   df lower.CL upper.CL</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  discretionary   4.17 0.101 1497     3.97     4.36</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  need            5.58 0.101 1497     5.39     5.78</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Results are averaged over the levels of: debttype </span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Confidence level used: 0.95 </span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $contrasts</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  contrast             estimate    SE   df t.ratio p.value</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  discretionary - need    -1.42 0.143 1497  -9.910  &lt;.0001</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Results are averaged over the levels of: debttype</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagramme d'interaction</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>emmeans<span class="sc">::</span><span class="fu">emmip</span>(modlin_STC21, </span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>               purchase <span class="sc">~</span> debttype, </span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>               <span class="at">CIs =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-interaction-ST" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-interaction-ST-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="regression-lineaire_files/figure-html/fig-interaction-ST-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-interaction-ST-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.10: Diagramme d’interaction pour les données de l’étude S5 de <span class="citation" data-cites="Sharma.Tully.Cryder:2021">Sharma, Tully, et Cryder (<a href="references.html#ref-Sharma.Tully.Cryder:2021" role="doc-biblioref">2021</a>)</span>.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="rem-sumofsquare" class="proof remark">
+<p><span class="proof-title"><em>Remarque 4.6</em> (Décomposition de sommes des carrés). </span>Il existe différentes décompositions de la somme des carrés (type I, II et III) pour la comparaison des modèles emboîtés dans les tableaux d’analyse de la variance.</p>
+<p>Ces décompositions testent différents modèles à l’aide des statistiques <span class="math inline">\(F\)</span>, avec le même dénominateur basé sur l’estimation de l’écart-type, mesuré avec <span class="math inline">\(S_2\)</span>, de la sortie du modèle complet. Le numérateur est la différence dans la somme des carrés. Toutes les décompositions concordent lorsque le plan d’expérience est <strong>équilibré</strong>, ce qui signifie que chaque cellule a le même nombre de réplications <span class="math inline">\(n_r\)</span>, de sorte que le nombre total d’observations est <span class="math inline">\(n = n_an_bn_r\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div id="tbl-ssdecompo" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ssdecompo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tableau&nbsp;4.8: Décomposition de la somme des carrés dans les tableaux d’ANOVA (termes de l’hypothèse nulle vs l’alternative).
+</figcaption>
+<div aria-describedby="tbl-ssdecompo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">type I</th>
+<th style="text-align: left;">type II</th>
+<th style="text-align: left;">type III</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\boldsymbol{A}\)</span></td>
+<td style="text-align: left;">intercept vs <span class="math inline">\(A\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(B\)</span> vs <span class="math inline">\((A,B)\)</span></td>
+<td style="text-align: left;"><span class="math inline">\((B, A:B)\)</span> vs <span class="math inline">\((A,B, A:B)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(\boldsymbol{B}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(A\)</span> vs <span class="math inline">\((A,B)\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(A\)</span> vs <span class="math inline">\((A,B)\)</span></td>
+<td style="text-align: left;"><span class="math inline">\((A, A:B)\)</span> vs <span class="math inline">\((A,B,A:B)\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\boldsymbol{A:B}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\((A,B)\)</span> vs <span class="math inline">\((A,B,A:B)\)</span></td>
+<td style="text-align: left;"><span class="math inline">\((A,B)\)</span> vs <span class="math inline">\((A,B,A:B)\)</span></td>
+<td style="text-align: left;"><span class="math inline">\((A,B)\)</span> vs <span class="math inline">\((A,B,A:B)\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p><a href="#tbl-ssdecompo" class="quarto-xref">Tableau&nbsp;<span>4.8</span></a> montre les différentes sommes des erreurs quadratiques des modèles, avec les termes entre parenthèses indiquant quels termes sont inclus (<span class="math inline">\(A:B\)</span> désigne l’interaction).</p>
+<p>La décomposition de type I, la valeur par défaut du générique <code>anova</code>, utilise l’ordre dans lequel les termes sont spécifiés, disons <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span>, <span class="math inline">\(AB\)</span>, et compare donc sur la première ligne l’amélioration dans le modèle de la moyenne seule avec <span class="math inline">\(A\)</span>, puis sur la deuxième ligne le test pour <span class="math inline">\(B\)</span> compare le modèle avec les deux effets principaux <span class="math inline">\(A\)</span> et <span class="math inline">\(B\)</span> avec seulement <span class="math inline">\(A\)</span>. Étant donné que l’ordre dans lequel les facteurs sont spécifiés est arbitraire, cette décomposition est arbitraire et donc non pertinente.</p>
+<p>La décomposition de type II considère les termes de même niveau dans la hiérarchie, de sorte que les tests pour les effets principaux sont <span class="math inline">\(A + B\)</span> vs <span class="math inline">\(A\)</span>, <span class="math inline">\(A+B\)</span> vs <span class="math inline">\(B\)</span> et celui de l’interaction est <span class="math inline">\(A\times B\)</span> vs <span class="math inline">\(A, B\)</span>. Il s’agit de l’option par défaut si l’on souhaite considérer les effets principaux lorsque l’interaction n’est pas significative.</p>
+<p>La décomposition de type III, popularisée par SAS et souvent choisie par défaut dans les logiciels, prend en compte tous les autres termes, et testerait donc les effets principaux comme <span class="math inline">\(A + B + A\times B\)</span> vs <span class="math inline">\(B + A\times B\)</span>. Cette méthode ne respecte pas le principe de marginalité et doit donc être évitée. Les tests pour <span class="math inline">\(A\)</span> ou <span class="math inline">\(B\)</span> ne doivent pas être utilisés.</p>
+<p>Les trois méthodes donnent le même résultat et la même comparaison pour le dernier niveau avec l’interaction.</p>
+</div>
+<p>Toutes les discussions relatives à une ANOVA à deux voies s’appliquent à des plans d’expérience à <span class="math inline">\(K\)</span> facteurs. Cependant, le fléau de la dimensionnalité rend plus difficile la collecte d’observations dans chaque cellule. Toute ANOVA à plusieurs facteurs peut être ramenée à une ANOVA à un facteur: ceci est particulièrement utile lorsqu’il y a un groupe de contrôle qui n’est pas lié aux niveaux des facteurs, étant donné qu’il n’y a pas de manipulation. L’utilisation des contrastes devient critique puisque nous pouvons écrire n’importe quel test pour les effets principaux, les interactions, etc.</p>
+<div id="exm-LKUK24" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 4.21 (Perception d’appropriation culturelle par idéologie politique)</strong></span> On considère un modèle d’ANOVA à trois facteurs de <span class="citation" data-cites="Lin.Kim.Uduehi.Keinan:2024">Lin et al. (<a href="references.html#ref-Lin.Kim.Uduehi.Keinan:2024" role="doc-biblioref">2024</a>)</span>. Leur étude 4 s’intéresse à l’appropriation culturelle pour une recette de <em>soul food</em>, un courant afro-américain, parue dans le livre du “Chef Dax”. Les auteurs manipulent l’ethnicité du chef, afro-Américain ou pas, et la façon dont la recette a été obtenue (furtivement, en demandant la permission ou sans mention dans le cas du groupe contrôle). Les auteurs ont postulé que la perception de l’appropriation varie selon l’idéologie politique. L’étude utilise un devis expérimental <span class="math inline">\(3 \times 2 \times 2\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(LKUK24_S4, <span class="at">package =</span> <span class="st">"hecedsm"</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Vérifier la répartition d'observations en sous-groupes</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">xtabs</span>(<span class="sc">~</span>politideo <span class="sc">+</span> chefdax <span class="sc">+</span> brandaction,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> LKUK24_S4)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; , , brandaction = peeking</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;               chefdax</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; politideo      not black black</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   conservative        33    36</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   liberal             87    84</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; , , brandaction = permission</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;               chefdax</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; politideo      not black black</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   conservative        42    34</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   liberal             77    84</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; , , brandaction = control</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;               chefdax</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; politideo      not black black</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   conservative        38    32</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   liberal             79    85</span></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Les facteurs sont croisés et il y a des réplications</span></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="co"># On ajuste un modèle d'ANOVA à trois facteurs (avec toutes les interactions)</span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(appropriation <span class="sc">~</span> politideo <span class="sc">*</span> chefdax <span class="sc">*</span> brandaction,</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> LKUK24_S4)</span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculer les estimations des moyennes marginales </span></span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a><span class="co"># pour chacun des 12 sous-groupes</span></span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>emm <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(mod, </span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>        <span class="at">specs =</span> <span class="fu">c</span>(<span class="st">"chefdax"</span>, <span class="st">"brandaction"</span>, <span class="st">"politideo"</span>))</span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Créer un diagramme d'interaction</span></span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a><span class="fu">emmip</span>(<span class="at">object =</span> emm, </span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>        <span class="at">formula =</span> brandaction <span class="sc">~</span> chefdax <span class="sc">|</span> politideo, </span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>        <span class="at">CIs =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"prédicteur linéaire"</span>,</span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>     <span class="at">x =</span> <span class="st">"niveaux de chefdax"</span>)</span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Tableau d'ANOVA (type 2)</span></span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>anova_tab <span class="ot">&lt;-</span> car<span class="sc">::</span><span class="fu">Anova</span>(mod, <span class="at">type =</span> <span class="dv">2</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="regression-lineaire_files/figure-html/unnamed-chunk-39-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Pour l’ANOVA à <span class="math inline">\(K\)</span> facteurs, nous commençons toujours par estimer le modèle complet avec toutes les interactions (à condition qu’il y ait suffisamment de données pour estimer ces dernières, ce qui implique qu’il y ait des répétitions). Si cette dernière est significative, nous pouvons fixer un ou plusieurs niveaux de facteurs et comparer les autres.</p>
+<div class="cell" data-layout-align="center">
+<div id="tbl-anova-LKUK24" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-anova-LKUK24-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tableau&nbsp;4.9: Tableau d’analyse de variance (décomposition de type 2) pour l’étude 4 de <span class="citation" data-cites="Lin.Kim.Uduehi.Keinan:2024">Lin et al. (<a href="references.html#ref-Lin.Kim.Uduehi.Keinan:2024" role="doc-biblioref">2024</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-anova-LKUK24-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 44%">
+<col style="width: 25%">
+<col style="width: 5%">
+<col style="width: 10%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">terme</th>
+<th style="text-align: right;">somme des carrés</th>
+<th style="text-align: right;">ddl</th>
+<th style="text-align: right;">stat</th>
+<th style="text-align: left;">valeur-p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">politideo</td>
+<td style="text-align: right;">48.49</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">21.35</td>
+<td style="text-align: left;">&lt;0.001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">chefdax</td>
+<td style="text-align: right;">473.72</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">208.61</td>
+<td style="text-align: left;">&lt;0.001</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">brandaction</td>
+<td style="text-align: right;">34.24</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">7.54</td>
+<td style="text-align: left;">&lt;0.001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">politideo:chefdax</td>
+<td style="text-align: right;">65.00</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">28.63</td>
+<td style="text-align: left;">&lt;0.001</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">politideo:brandaction</td>
+<td style="text-align: right;">1.56</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.34</td>
+<td style="text-align: left;">0.71</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">chefdax:brandaction</td>
+<td style="text-align: right;">0.62</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.14</td>
+<td style="text-align: left;">0.87</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">politideo:chefdax:brandaction</td>
+<td style="text-align: right;">0.66</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.15</td>
+<td style="text-align: left;">0.86</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Residuals</td>
+<td style="text-align: right;">1587.33</td>
+<td style="text-align: right;">699</td>
+<td style="text-align: right;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Si on considère le <a href="#tbl-anova-LKUK24" class="quarto-xref">Tableau&nbsp;<span>4.9</span></a>, nous constatons qu’il n’y a pas d’interaction à trois voies et, si l’on omet cette dernière et que l’on se concentre sur les niveaux inférieurs, une seule interaction à deux voies entre l’idéologie politique et la race du chef Dax.Nous ne pouvons pas interpréter la valeur <span class="math inline">\(p\)</span> pour l’effet principal de <code>brandaction</code>, mais nous pouvons examiner les moyennes marginales.</p>
+<p>Sur la base des données, nous réduirons les données à une ANOVA à une voie comparant les trois niveaux de <code>brandaction</code> et à une ANOVA à deux facteurs, <span class="math inline">\(2 \times 2\)</span> pour <code>chefdax</code> et <code>politideo</code>. Les résultats sont obtenus en calculant la moyenne pour le facteur manquant, mais en estimant l’écart-type du modèle complet.</p>
+<p>Nous souhaitons comparer la perception de la race du chef Dax (noir ou non), car la cuisine <em>soul</em> est plus susceptible d’être associée à l’appropriation culturelle si le chef Dax n’est pas noir. Nous procédons avec <code>emmeans</code> en calculant les moyennes marginales séparément pour chacune des quatre sous-catégories, mais nous comparons la race du chef Dax séparément pour les libéraux et les conservateurs en raison de la présence de l’interaction.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(LKUK24_S4, <span class="at">package =</span> <span class="st">"hecedsm"</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(appropriation <span class="sc">~</span> politideo <span class="sc">*</span> chefdax <span class="sc">*</span> brandaction,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>   <span class="at">data =</span> LKUK24_S4)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Moyennes marginales pour </span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co"># idéologie politique/ethnicité du Chef Dax</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculer les effets simples séparément</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co">#  pour chaque idéologie politique</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(mod, </span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">specs =</span> <span class="st">"chefdax"</span>, </span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">by =</span> <span class="st">"politideo"</span>,</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">contrast =</span> <span class="st">"pairwise"</span>)</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; politideo = conservative:</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  chefdax   emmean     SE  df lower.CL upper.CL</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  not black   2.38 0.1425 699     2.11     2.66</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  black       1.68 0.1494 699     1.38     1.97</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; politideo = liberal:</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  chefdax   emmean     SE  df lower.CL upper.CL</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  not black   3.60 0.0968 699     3.41     3.79</span></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  black       1.57 0.0947 699     1.38     1.75</span></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Results are averaged over the levels of: brandaction </span></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Confidence level used: 0.95</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Nous constatons que les libéraux sont beaucoup plus susceptibles de considérer le livre de cuisine du chef Dax comme un exemple d’appropriation culturelle s’il n’est pas noir; il y a peu de preuves d’une différence entre les conservateurs et les libéraux lorsque le chef Dax est noir. On peut calculer les effets marginaux pour idéologie (afro-Américain ou pas). Les deux différences sont statistiquement significatives, mais la différence est beaucoup plus marquée pour les répondants de gauche.</p>
+<p>Pour <code>brandaction</code>, nous supposons que les participants verront le fait de copier furtivement moins favorablement que si le chef Dax demandait l’autorisation de publier la recette. Il est difficile de connaître l’effet du groupe contrôle, car on ne mentionne pas comment la recette a été acquise.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Effet marginal (effet principal) pour brandaction</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>emm_brand <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(mod, <span class="at">specs =</span> <span class="fu">c</span>(<span class="st">"brandaction"</span>)) </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>emm_brand</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  brandaction emmean    SE  df lower.CL upper.CL</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  peeking       2.56 0.107 699     2.35     2.77</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  permission    2.29 0.105 699     2.09     2.50</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  control       2.07 0.108 699     1.86     2.28</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Results are averaged over the levels of: politideo, chefdax </span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Confidence level used: 0.95</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Test F conjoint pour l'effet principale de brandaction</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>emm_brand <span class="sc">|&gt;</span> <span class="fu">pairs</span>() <span class="sc">|&gt;</span> <span class="fu">joint_tests</span>()</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  model term df1 df2 F.ratio p.value</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  contrast     2 699   5.090  0.0064</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Un test <span class="math inline">\(F\)</span> conjoint, obtenu en ramenant le devis à une ANOVA à un facteur, montre qu’il existe effectivement des différences. C’est le groupe contrôle qui a la moyenne la plus basse.</p>
+</div>
+</section>
+<section id="géométrie-des-moindres-carrés" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="géométrie-des-moindres-carrés"><span class="header-section-number">4.7</span> Géométrie des moindres carrés</h2>
+<div id="rem-geometry" class="proof remark">
+<p><span class="proof-title"><em>Remarque 4.9</em>. </span></p>
+<div id="rem-geometry" class="proof remark">
+<p><span class="proof-title"><em>Remarque 4.9</em> (Géométrie). </span>Le vecteur de valeurs ajustées <span class="math inline">\(\widehat{\boldsymbol{y}} =\mathbf{X} \widehat{\boldsymbol{\beta}} = \mathbf{H}_{\mathbf{X}}\boldsymbol{y}\)</span> est la projection du vecteur réponse <span class="math inline">\(\boldsymbol{y}\)</span> dans l’espace linéaire engendré par les colonnes de <span class="math inline">\(\mathbf{X}\)</span>. La matrice chapeau <span class="math inline">\(\mathbf{H}_{\mathbf{X}} = \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\)</span> est une matrice de projection orthogonale, car <span class="math inline">\(\mathbf{H}_{\mathbf{X}}=\mathbf{H}_{\mathbf{X}}^\top\)</span> et <span class="math inline">\(\mathbf{H}_{\mathbf{X}}\mathbf{H}_{\mathbf{X}} = \mathbf{H}_{\mathbf{X}}\)</span>. Ainsi, <span class="math inline">\(\mathbf{H}_{\mathbf{X}}\mathbf{X} = \mathbf{X}\)</span>. Puisque le vecteur de résidus ordinaires <span class="math inline">\(\boldsymbol{e} = (e_1, \ldots, e_n)^\top\)</span>, qui apparaît dans la somme des erreurs quadratiques, est définie comme <span class="math inline">\(\boldsymbol{y} - \widehat{\boldsymbol{y}}\)</span> et <span class="math inline">\(\widehat{\boldsymbol{y}}=\mathbf{X}\boldsymbol{\beta}\)</span>, de simples manipulations algébriques montrent que le produit scalaire entre les résidus ordinaires et les valeurs ajustées est nul, puisque <span class="math display">\[\begin{align*}
+\widehat{\boldsymbol{y}}^\top\boldsymbol{e} &amp;= \widehat{\boldsymbol{\beta}}^\top \mathbf{X}^\top (\boldsymbol{y}- \mathbf{X} \widehat{\boldsymbol{\beta}})
+\\&amp;= \boldsymbol{y}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top(\boldsymbol{y} - \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y})\\&amp;=\boldsymbol{y}^\top\mathbf{H}_{\mathbf{X}}\boldsymbol{y} - \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y}
+\\&amp;= 0
+\end{align*}\]</span> où nous utilisons la définition de <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span> et <span class="math inline">\(\boldsymbol{e} = \boldsymbol{y} - \widehat{\boldsymbol{y}}\)</span> sur la première ligne, puis on substitut l’estimateur des MCO <span class="math inline">\(\widehat{\boldsymbol{\beta}} = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\boldsymbol{y}\)</span> avant de distribuer les termes du produit. Une dérivation similaire montre que <span class="math inline">\(\mathbf{X}^\top\boldsymbol{e}=\boldsymbol{0}_{p+1}\)</span>. Les résidus ordinaires sont donc orthogonaux à la fois à la matrice du modèle <span class="math inline">\(\mathbf{X}\)</span> et aux valeurs ajustées <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span>.</p>
+</div>
+<div id="cor-cor" class="theorem corollary">
+<p><span class="theorem-title"><strong>Corollaire 4.1 (Orthogonalité des résidus et des valeurs ajustées)</strong></span> Une conséquence directe de ces résultats est le fait que la corrélation linéaire entre <span class="math inline">\(\boldsymbol{e}\)</span> et <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span> est nulle. Cette propriété servira lors de l’élaboration de diagnostics graphiques.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-zerocor" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-zerocor-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="regression-lineaire_files/figure-html/fig-zerocor-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-zerocor-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.11: Diagramme des résidus en fonction des valeurs ajustées (à gauche) et de la variable explicative <code>service</code> (à droite) pour la régression linéaire des données <code>college</code>. L’ordonnée à l’origine et la pente des régressions linéaires simples sont nulles.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="cor-zeromean" class="theorem corollary">
+<p><span class="theorem-title"><strong>Corollaire 4.2 (Moyenne des résidus nulle)</strong></span> Puisque le produit scalaire est zéro, la moyenne de <span class="math inline">\(\boldsymbol{e}\)</span> doit être zéro pour autant que <span class="math inline">\(\mathbf{1}_n\)</span> est dans l’espace linéaire engendré par <span class="math inline">\(\mathbf{X}\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(salaire <span class="sc">~</span> sexe <span class="sc">+</span> echelon <span class="sc">+</span> domaine <span class="sc">+</span> service, <span class="at">data =</span> college)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Corrélation nulle</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(college, <span class="fu">cor</span>(<span class="fu">resid</span>(mod), service))</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1.26e-17</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(<span class="fu">resid</span>(mod), <span class="fu">fitted</span>(mod))</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2.32e-17</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Moyenne des résidus ordinaires est nulle</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">resid</span>(mod))</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -5.6e-16</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Puisque les aléas avaient moyenne théorique de zéro, on veut forcer les résidus ordinaires à avoir une moyenne empirique de zéro en incluant l’ordonnée à l’origine.</p>
+</div>
+<div id="rem-invariance" class="proof remark">
+<p><span class="proof-title"><em>Remarque 4.8</em> (Invariance). </span>Une conséquence directe de l’expression de l’estimateur des MCO en terme de matrice de projection est que les valeurs ajustées <span class="math inline">\(\widehat{y}_i\)</span> pour deux matrices de modèle <span class="math inline">\(\mathbf{X}_a\)</span> et <span class="math inline">\(\mathbf{X}_b\)</span> sont les mêmes si elles engendrent le même espace linéaire, comme dans <a href="#exm-baumann-dummies" class="quarto-xref">Exemple&nbsp;<span>4.9</span></a>; seule l’interprétation des coefficients change. Si nous incluons une ordonnée à l’origine, nous obtenons le même résultat si les colonnes explicatives sont centrées sur la moyenne.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>modA <span class="ot">&lt;-</span> <span class="fu">lm</span>(salaire <span class="sc">~</span> sexe <span class="sc">+</span> echelon <span class="sc">+</span> service, <span class="at">data =</span> college)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>modB <span class="ot">&lt;-</span> <span class="fu">lm</span>(salaire <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> sexe <span class="sc">+</span> echelon <span class="sc">+</span> service, <span class="co"># Enlever l'ordonnée à l'origine</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">data =</span> college <span class="sc">|&gt;</span> </span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>            dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">service =</span> <span class="fu">scale</span>(service)), <span class="co"># Centrer-réduire une variable</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">contrasts =</span> <span class="fu">list</span>(<span class="at">echelon =</span> contr.sum)) <span class="co"># changer la paramétrisation</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">model.matrix</span>(modA), <span class="at">n =</span> <span class="dv">3</span>L)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   (Intercept) sexefemme echelonaggrege echelontitulaire service</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1           1         0              0                1      18</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2           1         0              0                1      16</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3           1         0              0                0       3</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">model.matrix</span>(modB), <span class="at">n =</span> <span class="dv">3</span>L)</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   sexehomme sexefemme echelon1 echelon2 service</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1         1         0       -1       -1  0.0296</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2         1         0       -1       -1 -0.1241</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3         1         0        1        0 -1.1237</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Invariance du modèle</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="fu">isTRUE</span>(<span class="fu">all.equal</span>(<span class="fu">fitted</span>(modA), <span class="fu">fitted</span>(modB)))</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>La valeur de <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span> est telle qu’elle maximise la corrélation entre <span class="math inline">\(\boldsymbol{y}\)</span> et <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span>. Dans le cas d’une variable catégorielle unique, nous obtiendrons des valeurs ajustées <span class="math inline">\(\widehat{y}\)</span> qui correspondent à la moyenne de l’échantillon de chaque groupe.</p>
+</div>
+<section id="résidus" class="level3" data-number="4.7.1">
+<h3 data-number="4.7.1" class="anchored" data-anchor-id="résidus"><span class="header-section-number">4.7.1</span> Résidus</h3>
+<p>Les résidus sont les prédictions des aléas <span class="math inline">\(\varepsilon\)</span>, et représentent la différence entre la valeur observée de la réponse <span class="math inline">\(Y_i\)</span> et sa prédiction. Les résidus ordinaires sont définis comme <span class="math display">\[\begin{align*}
+e_i=Y_i-\widehat{Y}_i, \qquad i =1, \ldots, n.
+\end{align*}\]</span> La somme des résidus ordinaire est toujours zéro par construction si on inclut une ordonnée à l’origine, ce qui donne que <span class="math inline">\(\overline{e} = 0\)</span>.</p>
+<p>Toutes les observations ne contribuent pas de la même manière à l’ajustement de l’hyperplan ajusté. La géométrie des moindres carrés montre que les résidus sont orthogonaux aux valeurs ajustées, et que <span class="math inline">\(\boldsymbol{e} = (\mathbf{I}_n-\mathbf{H}_{\mathbf{X}})\boldsymbol{Y}\)</span>, où <span class="math inline">\(\mathbf{H}_{\mathbf{X}}=\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\)</span> est une matrice de projection de dimension <span class="math inline">\(n \times n\)</span> qui génère un sous-espace vectoriel de dimension <span class="math inline">\((p+1)\)</span> décrouvrant toutes les combinaisons linéaires des colonnes de <span class="math inline">\(\mathbf{X}\)</span>, dénoté <span class="math inline">\(\mathscr{S}(\mathbf{X})\)</span>. Si <span class="math inline">\(\mathsf{Va}(\boldsymbol{Y}) = \sigma^2\mathbf{I}_n\)</span>, il en découle que <span class="math inline">\(\mathsf{Va}(\boldsymbol{e})=\sigma^2(\mathbf{I}_n-\mathbf{H}_{\mathbf{X}})\)</span> parce que <span class="math inline">\(\mathbf{I}_n-\mathbf{H}_{\mathbf{X}}\)</span> est une matrice de projection orthogonale, donc idempotente et symmérique. Puisque la matrice <span class="math inline">\(\mathbf{I}_n-\mathbf{H}_{\mathbf{X}}\)</span> a rang <span class="math inline">\(n-p-1\)</span>, les résidus ordinaires ne sont pas indépendants les uns des autres.</p>
+<p>Si les aléas sont indépendants et homoscédastiques, les résidus ordinaires <span class="math inline">\(e_i\)</span> ont une variance de <span class="math inline">\(\sigma^2(1-h_{i})\)</span>, où le terme de levier <span class="math inline">\(h_i =(\mathbf{H}_{\mathbf{X}})_{ii} = \mathbf{x}_i (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{x}_i\)</span> est le <span class="math inline">\(i\)</span>e élément de la diagonale de la matrice de projection <span class="math inline">\(\mathbf{H}_{\mathbf{X}}\)</span> et <span class="math inline">\(\mathbf{x}_i\)</span> est comme à l’accoutumée la <span class="math inline">\(i\)</span>e ligne de la matrice du modèle qui correspond à l’observation <span class="math inline">\(i\)</span>.</p>
+<p>Nous concluons donc que les résidus ordinaires n’ont pas tous le même écart-type et qu’ils ne sont pas indépendants. Ceci est problématique, car nous ne pouvons pas faire de comparaisons de leurs lois: les points ayant un faible effet de levier s’écartent davantage du modèle ajusté que les autres. Pour pallier ce problème, nous pouvons normaliser les résidus de façon à ce que chacun ait la même variance sous l’hypothèse nulle d’erreurs homoscédastiques indépendantes — les termes d’effet de levier <span class="math inline">\(h_i\)</span> sont facilement calculés à partir de la matrice du modèle <span class="math inline">\(\mathbf{X}\)</span>.</p>
+<p>La seule question qui subsiste est celle de l’estimation de la variance. Si nous utilisons la <span class="math inline">\(i\)</span>e observation pour estimer à la fois le résidu et la variance, nous introduisons une dépendance supplémentaire. Une meilleure solution consiste à supprimer la <span class="math inline">\(i\)</span>e observation et à réajuster le modèle avec les <span class="math inline">\(n-1\)</span> observations restantes pour obtenir <span class="math inline">\(S^2_{(-i)}\)</span> (il existe des formules explicites qui font qu’il n’est pas nécessaire d’ajuster <span class="math inline">\(n\)</span> modèles linéaires). Les résidus studentisés externes <span class="math inline">\(r_i = e_i/\{s_{(-i)}(1-h_i)\}\)</span>, également appelés résidus studentisés par la méthode du canif, ne sont pas indépendants, mais ils sont une loi marginale identique de Student avec <span class="math inline">\(n-p-2\)</span> degrés de liberté. Ils peuvent être obtenus dans <strong>R</strong> avec la commande <code>rstudent</code>.</p>
+<p>Quand utiliser quels résidus? Par construction, le vecteur des résidus ordinaires <span class="math inline">\(\boldsymbol{e}\)</span> est orthogonal aux valeurs ajustées <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span> et également à chaque colonne de la matrice du modèle <span class="math inline">\(\mathbf{X}\)</span>: cela signifie qu’une simple régression linéaire de <span class="math inline">\(\boldsymbol{e}\)</span> avec n’importe laquelle de ces covariables donne une ordonnée à l’origine et une pente toutes deux nulles. Ainsi, les modèles résiduels dus à des interactions oubliées, à des termes non linéaires, etc. pourraient être détectés à partir de diagrammes de paires de résidus ordinaires en fonction des variables explicatives.</p>
+<p>Bien que les résidus studentisés externes <span class="math inline">\(r_i\)</span> ne soient pas orthogonaux, ils ne sont pas très différents quand <span class="math inline">\(n\)</span> est grand par rapport à <span class="math inline">\(p\)</span>. On peut utiliser les résidus <span class="math inline">\(\boldsymbol{r}\)</span> pour vérifier l’égalité de la variance et les hypothèses de distribution (par exemple, à l’aide d’un diagramme quantile-quantile).</p>
+<div id="def-r2" class="theorem definition">
+<p><span class="theorem-title"><strong>Définition 4.6 (Coefficient de détermination)</strong></span> Lorsque nous spécifions un modèle, les aléas <span class="math inline">\(\boldsymbol{\varepsilon}\)</span> servent à tenir compte du fait qu’aucune relation linéaire exacte ne caractérise les données Une fois que nous avons ajusté un modèle, nous estimons la variance <span class="math inline">\(\sigma^2\)</span>; on peut alors se demander quelle part de la variance totale de l’échantillon est expliquée par le modèle.</p>
+<p>La somme totale des carrés, définie comme la somme des carrés des résidus du modèle à ordonnée à l’origine uniquement, sert de comparaison — le modèle le plus simple que nous puissions trouver impliquerait chaque observation par la moyenne de l’échantillon de la réponse, ce qui donne la variance expliquée <span class="math inline">\(\mathsf{SC}_c = \sum_{i=1}^n (y_i - \overline{y})^2\)</span>. Nous pouvons ensuite comparer la variance des données originales avec celle des résidus du modèle avec la matrice de covariables <span class="math inline">\(\mathbf{X}\)</span>, définie comme <span class="math inline">\(\mathsf{SC}_e =\sum_{i=1}^n e_i^2\)</span> avec <span class="math inline">\(e_i = y_i - \widehat{\beta}_0 - \sum_{j=1}^p \widehat{\beta}_jX_j\)</span>. Nous définissons le coefficient de détermination <span class="math inline">\(R^2\)</span>, comme suit <span class="math display">\[\begin{align*}
+R^2 &amp;=1- \frac{\mathsf{SC}_e}{\mathsf{SC}_c} = \frac{\sum_{i=1}^n (y_i - \overline{y})^2- \sum_{i=1}^n e_i^2}{\sum_{i=1}^n (y_i - \overline{y})^2}.
+\end{align*}\]</span> Une autre décomposition montre que <span class="math inline">\(R^2 = \mathsf{cor}^2(\boldsymbol{y}, \widehat{\boldsymbol{y}})\)</span>, c’est-à-dire que le coefficient de détermination peut être interprété comme le carré de la corrélation linéaire de Pearson (<a href="introduction.html#def-correlation-Pearson" class="quarto-xref">Définition&nbsp;<span>1.3</span></a>) entre la réponse <span class="math inline">\(\boldsymbol{y}\)</span> et les valeurs ajustées <span class="math inline">\(\widehat{\boldsymbol{y}}\)</span>.</p>
+</div>
+<p>Il est important de noter que le <span class="math inline">\(R^2\)</span> n’est pas un critère de qualité de l’ajustement, tout comme la log-vraisemblance. En effet, certain phénomènes sont intrinsèquement complexes et même un bon modèle ne parviendra pas à rendre compte d’une grande partie de la variabilité de la réponse. Ce n’est pas non plus parce que le <span class="math inline">\(R^2\)</span> est faible que <span class="math inline">\(Y\)</span> et et les variables explicatives <span class="math inline">\(X_j\)</span> sont indépendantes, comme l’illustre la <a href="introduction.html#fig-datasaurus" class="quarto-xref">Figure&nbsp;<span>1.2</span></a>.</p>
+<p>En outre, il est possible de gonfler la valeur de <span class="math inline">\(R^2\)</span> en incluant davantage de variables explicatives et en rendant le modèle plus complexe, ce qui améliore la vraisemblance et <span class="math inline">\(R^2\)</span>. En effet, le coefficient n’est pas décroissant dans la dimension de <span class="math inline">\(\mathbf{X}\)</span>, de sorte qu’un modèle comportant <span class="math inline">\(p+1\)</span> de covariables aura nécessairement des valeurs de <span class="math inline">\(R^2\)</span> plus élevées que si l’on n’incluait que <span class="math inline">\(p\)</span> de ces variables explicatives. Pour comparer les modèles, il est préférable d’utiliser des critères d’information ou de s’appuyer sur la performance prédictive si tel est l’objectif de la régression. Enfin, un modèle avec un <span class="math inline">\(R^2\)</span> élevé peut impliquer une corrélation élevée, mais <a href="http://www.tylervigen.com/spurious-correlations">la relation peut être fallacieuse</a> : la régression linéaire ne produit pas de modèles causaux!</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
 <div id="ref-Baumann:1992" class="csl-entry" role="listitem">
 Baumann, James F., Nancy Seifert-Kessell, et Leah A. Jones. 1992. <span>«&nbsp;Effect of Think-Aloud Instruction on Elementary Students’ Comprehension Monitoring Abilities&nbsp;»</span>. <em>Journal of Reading Behavior</em> 24 (2): 143‑72. <a href="https://doi.org/10.1080/10862969209547770">https://doi.org/10.1080/10862969209547770</a>.
 </div>
+<div id="ref-Crump.Navarro.Suzuki:2019" class="csl-entry" role="listitem">
+Crump, M. J. C., D. J. Navarro, et J. Suzuki. 2019. <em>Answering Questions with Data: Introductory Statistics for Psychology Students</em>. <a href="https://doi.org/10.17605/OSF.IO/JZE52">https://doi.org/10.17605/OSF.IO/JZE52</a>.
+</div>
 <div id="ref-Lee.Choi:2019" class="csl-entry" role="listitem">
 Lee, Kiljae, et Jungsil Choi. 2019. <span>«&nbsp;Image-text inconsistency effect on product evaluation in online retailing&nbsp;»</span>. <em>Journal of Retailing and Consumer Services</em> 49: 279‑88. <a href="https://doi.org/10.1016/j.jretconser.2019.03.015">https://doi.org/10.1016/j.jretconser.2019.03.015</a>.
 </div>
+<div id="ref-Lin.Kim.Uduehi.Keinan:2024" class="csl-entry" role="listitem">
+Lin, Jason D, Nicole You Jeung Kim, Esther Uduehi, et Anat Keinan. 2024. <span>«&nbsp;Culture for Sale: Unpacking Consumer Perceptions of Cultural Appropriation&nbsp;»</span>. <em>Journal of Consumer Research</em>. <a href="https://doi.org/10.1093/jcr/ucad076">https://doi.org/10.1093/jcr/ucad076</a>.
+</div>
 <div id="ref-Moon.VanEpps:2023" class="csl-entry" role="listitem">
 Moon, Alice, et Eric M VanEpps. 2023. <span>«&nbsp;Giving Suggestions: Using Quantity Requests to Increase Donations&nbsp;»</span>. <em>Journal of Consumer Research</em> 50 (1): 190‑210. <a href="https://doi.org/10.1093/jcr/ucac047">https://doi.org/10.1093/jcr/ucac047</a>.
+</div>
+<div id="ref-Sharma.Tully.Cryder:2021" class="csl-entry" role="listitem">
+Sharma, Eesha, Stephanie Tully, et Cynthia Cryder. 2021. <span>«&nbsp;Psychological Ownership of (Borrowed) Money&nbsp;»</span>. <em>Journal of Marketing Research</em> 58 (3): 497‑514. <a href="https://doi.org/10.1177/0022243721993816">https://doi.org/10.1177/0022243721993816</a>.
 </div>
 <div id="ref-Sokolova:2023" class="csl-entry" role="listitem">
 Sokolova, Tatiana, Aradhna Krishna, et Tim Döring. 2023. <span>«&nbsp;Paper Meets Plastic: The Perceived Environmental Friendliness of Product Packaging&nbsp;»</span>. <em>Journal of Consumer Research</em> 50 (3): 468‑91. <a href="https://doi.org/10.1093/jcr/ucad008">https://doi.org/10.1093/jcr/ucad008</a>.

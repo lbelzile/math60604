@@ -332,12 +332,14 @@
 \floatname{codelisting}{Énumération}
 \newcommand*\listoflistings{\listof{codelisting}{Liste des énumérations}}
 \usepackage{amsthm}
+\theoremstyle{plain}
+\newtheorem{corollary}{Corollaire}[chapter]
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}[chapter]
 \theoremstyle{definition}
 \newtheorem{definition}{Définition}[chapter]
 \theoremstyle{definition}
 \newtheorem{example}{Exemple}[chapter]
-\theoremstyle{plain}
-\newtheorem{proposition}{Proposition}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Preuve}}
 \newtheorem*{remark}{Remarque}
@@ -378,7 +380,7 @@
 
 \title{MATH 60604 - Modélisation statistique}
 \author{Léo Belzile}
-\date{2024-09-19}
+\date{2024-10-08}
 
 \begin{document}
 
@@ -1684,7 +1686,7 @@ l'apprentissage en vase clos des recettes plutôt que d'essayer de
 comprendre les bases de la cuisine et de faire des liens. Ce chapitre se
 concentre sur la compréhension des concepts-clés liées aux tests.
 
-\begin{tcolorbox}[enhanced jigsaw, coltitle=black, rightrule=.15mm, left=2mm, leftrule=.75mm, colback=white, bottomrule=.15mm, arc=.35mm, colbacktitle=quarto-callout-important-color!10!white, bottomtitle=1mm, toptitle=1mm, titlerule=0mm, colframe=quarto-callout-important-color-frame, breakable, opacityback=0, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Objectifs d'apprentissage}, toprule=.15mm, opacitybacktitle=0.6]
+\begin{tcolorbox}[enhanced jigsaw, opacityback=0, bottomrule=.15mm, coltitle=black, opacitybacktitle=0.6, titlerule=0mm, toprule=.15mm, breakable, arc=.35mm, colbacktitle=quarto-callout-important-color!10!white, rightrule=.15mm, colframe=quarto-callout-important-color-frame, bottomtitle=1mm, left=2mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Objectifs d'apprentissage}, leftrule=.75mm, toptitle=1mm, colback=white]
 
 \begin{itemize}
 \tightlist
@@ -2372,7 +2374,7 @@ probabilité d'obtenir une valeur de la statistique de test égale ou même
 plus grande que celle qu'on a observée dans l'échantillon, si
 \(\mathscr{H}_0\) est vraie.
 
-\begin{tcolorbox}[enhanced jigsaw, coltitle=black, rightrule=.15mm, left=2mm, leftrule=.75mm, colback=white, bottomrule=.15mm, arc=.35mm, colbacktitle=quarto-callout-caution-color!10!white, bottomtitle=1mm, toptitle=1mm, titlerule=0mm, colframe=quarto-callout-caution-color-frame, breakable, opacityback=0, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Mise en garde}, toprule=.15mm, opacitybacktitle=0.6]
+\begin{tcolorbox}[enhanced jigsaw, opacityback=0, bottomrule=.15mm, coltitle=black, opacitybacktitle=0.6, titlerule=0mm, toprule=.15mm, breakable, arc=.35mm, colbacktitle=quarto-callout-caution-color!10!white, rightrule=.15mm, colframe=quarto-callout-caution-color-frame, bottomtitle=1mm, left=2mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Mise en garde}, leftrule=.75mm, toptitle=1mm, colback=white]
 
 L'\href{https://doi.org/10.1080/00031305.2016.1154108}{\emph{American
 Statistical Association (ASA)} a publié une liste de principes}
@@ -2960,7 +2962,7 @@ Ce chapitre traite de modélisation statistique et d'inférence basée sur
 la vraisemblance, la méthodologie la plus populaire dans le monde de la
 statistique.
 
-\begin{tcolorbox}[enhanced jigsaw, coltitle=black, rightrule=.15mm, left=2mm, leftrule=.75mm, colback=white, bottomrule=.15mm, arc=.35mm, colbacktitle=quarto-callout-important-color!10!white, bottomtitle=1mm, toptitle=1mm, titlerule=0mm, colframe=quarto-callout-important-color-frame, breakable, opacityback=0, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, toprule=.15mm, opacitybacktitle=0.6]
+\begin{tcolorbox}[enhanced jigsaw, opacityback=0, bottomrule=.15mm, coltitle=black, opacitybacktitle=0.6, titlerule=0mm, toprule=.15mm, breakable, arc=.35mm, colbacktitle=quarto-callout-important-color!10!white, rightrule=.15mm, colframe=quarto-callout-important-color-frame, bottomtitle=1mm, left=2mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, leftrule=.75mm, toptitle=1mm, colback=white]
 
 \textbf{Objectifs d'apprentissage}
 
@@ -4630,7 +4632,7 @@ explicatif postulé d'intérêt.
 coefficients}\label{interpruxe9tation-des-coefficients}
 
 La spécification de la moyenne est \begin{align*}
-\mathsf{E}(Y_i \mid \boldsymbol{X}_i = \boldsymbol{x}_i) = \beta_0 + \beta_1 x_{i1} + \ldots + \beta_p x_{ip}.
+\mathsf{E}(Y_i \mid \boldsymbol{X}_i = \boldsymbol{x}_i) = \beta_0 + \beta_1 x_{i1} + \cdots + \beta_p x_{ip}.
 \end{align*} L'\textbf{ordonnée à l'origine} \(\beta_0\) est la
 \textbf{valeur moyenne de \(Y\)} lorsque toutes les variables
 explicatives du modèles sont nulles, soit
@@ -4964,7 +4966,7 @@ Il n'est pas toujours possible de fixer la valeur des autres colonnes de
 des fonctions d'une même variable explicative. Par exemple, on pourrait
 par exemple considérer un polynôme d'ordre \(k\) (ordinairement, on va
 prendre \(k\leq 3\)), \begin{align*}
-\mathsf{E}(Y \mid X=x)=\beta_0+ \beta_1 x+ \beta_2 x^2 + \ldots +\beta_k x^k.
+\mathsf{E}(Y \mid X=x)=\beta_0+ \beta_1 x+ \beta_2 x^2 + \cdots +\beta_k x^k.
 \end{align*} Si l'on inclut un terme d'ordre \(k\), \(x^k\), il faut
 \textbf{toujours} inclure les termes d'ordre inférieur
 \(1, x, \ldots, x^{k-1}\) pour l'interprétabilité du modèle résultant
@@ -5323,7 +5325,8 @@ Student-\(t\), à l'aide du pivot \begin{align*}
 \begin{align*}
 \mathrm{x}^*\widehat{\boldsymbol{\beta}}\pm \mathfrak{t}_{n-p-1}(\alpha/2)\sqrt{S^2\{1+\mathrm{x}^*(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}^{*\top}\}}.
 \end{align*} Des calculs similaires pour les \textbf{intervalles de
-confiance} ponctuels pour la moyenne donnent \begin{align*}
+confiance} ponctuels pour la moyenne \(\mathrm{x}^*\boldsymbol{\beta}\)
+donnent \begin{align*}
 \mathrm{x}^*\widehat{\boldsymbol{\beta}}\pm \mathfrak{t}_{n-p-1}(\alpha/2)\sqrt{S^2\mathrm{x}^*(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}^{*\top}}.
 \end{align*} Les deux formules diffèrent uniquement au niveau de la
 variabilité.
@@ -5564,15 +5567,15 @@ pour obtenir cette configuration). L'hypothèse globale spécifie que
 \((p-k)\) des paramètres \(\beta\) sont nuls. Le \emph{modèle restreint}
 correspondant à l'hypothèse nulle ne contient que les covariables pour
 lesquelles \(\beta_j \neq 0\), \begin{align*}
-\mathbb{M}_0: Y=\beta_0+\beta_1 x_1 + \ldots + \beta_k x_k + \varepsilon.
-\end{align*} Soit \(\mathsf{SS}_e(\mathbb{M}_1)\) la somme du carré des
+\mathbb{M}_0: Y=\beta_0+\beta_1 x_1 + \cdots + \beta_k x_k + \varepsilon.
+\end{align*} Soit \(\mathsf{SC}_e(\mathbb{M}_1)\) la somme du carré des
 résidus du modèle complet \(\mathbb{M}_1\), \begin{align*}
 \mathsf{SC}_e(\mathbb{M}_1)=\sum_{i=1}^n (Y_i-\widehat{Y}_i^{\mathbb{M}_1})^2,
 \end{align*} où \(\hat{Y}_i^{\mathbb{M}_1}\) est la \(i\)e valeur
 ajustée du modèle \(\mathbb{M}_1\). On définit de la même façon la somme
-du carré des résidus, \(\mathsf{SS}_e(\mathbb{M}_0)\), pour le modèle
+du carré des résidus, \(\mathsf{SC}_e(\mathbb{M}_0)\), pour le modèle
 \(\mathbb{M}_0\). Logiquement,
-\(\mathsf{SS}_e(\mathbb{M}_0) \geq \mathsf{SS}_e(\mathbb{M}_1)\).
+\(\mathsf{SC}_e(\mathbb{M}_0) \geq \mathsf{SC}_e(\mathbb{M}_1)\).
 
 La statistique \(F\) est \begin{align*}
 F=\frac{\{\mathsf{SC}_e(\mathbb{M}_0)-\mathsf{SC}_e(\mathbb{M}_1)\}/(p-k)}{\mathsf{SC}_e(\mathbb{M}_1)/(n-p-1)}.
@@ -6123,6 +6126,1046 @@ service & -0.089 & 0.112 & -0.8 & 0.43 \\
 
 \end{example}
 
+\section{Plans factoriels et
+interactions}\label{plans-factoriels-et-interactions}
+
+Le modèle additif pour la moyenne spécifie que l'effet marginal d'une
+variable ( y compris pour les variables catégorielles) est indépendant
+des autres. Nous pouvons souhaiter assouplir cette hypothèse en incluant
+des \textbf{termes d'interaction}.
+
+\begin{definition}[Interaction]\protect\hypertarget{def-interaction}{}\label{def-interaction}
+
+On parle d'\textbf{interaction} lorsque des combinaisons de variables
+explicatives affectent la variable réponse différemment que lorsqu'elles
+sont considérées individuellement. Si \(X_j\) et \(X_k\) interagissent,
+l'effet marginal de \(\mathsf{E}(Y \mid \boldsymbol{X})\) par rapport à
+\(X_j\) est une fonction de \(X_k\), et vice-versa.
+
+\end{definition}
+
+On s'attarde au cas où au moins une des variables est catégorielle
+(facteur).
+
+\begin{example}[Primes d'assurances et
+interactions]\protect\hypertarget{exm-assurance-interaction}{}\label{exm-assurance-interaction}
+
+On considère la relation entre \texttt{fumeur} et l'indice de masse
+corporel pour la détermination de primes d'assurance. Les fumeurs dont
+l'indice de masse corporelle (IMC) est égal ou supérieur à 30 paient une
+prime élevée, mais il semble que le montant de la prime augmente de
+façon linéaire en fonction de l'IMC. Cette tarification ne semble pas
+s'appliquer aux non-fumeurs.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-insuranceinter1-1.pdf}
+
+}
+
+\caption{\label{fig-insuranceinter1}Nuage de points des données
+\texttt{assurance} avec les frais en fonction de l'\texttt{imc}, selon
+le status \texttt{fumeur}.}
+
+\end{figure}%
+
+\end{example}
+
+\begin{example}[Intention
+d'achat]\protect\hypertarget{exm-intention}{}\label{exm-intention}
+
+On considère un exemple avec des données bidons \texttt{interaction}. Le
+modèle additif (sans interaction) a pour moyenne \begin{align*}
+\mathsf{E}(\texttt{intention} \mid \cdot)=\beta_0 + \beta_1 \texttt{sexe} + \beta_2 \texttt{fixation},
+\end{align*} où \(\texttt{sexe=1}\) pour les femmes et
+\(\texttt{sexe=0}\) pour les hommes
+
+L'effet de la variable continue \texttt{fixation} est identique pour les
+deux sexes. De même, l'effet de la variable binaire est supposé être le
+même pour toutes les valeurs possibles de la variable continue. Nous
+pouvons le voir sur le graphique, car la différence entre les lignes
+représente l'effet de \(\texttt{sexe}\), est le même pour toutes les
+valeurs de \(\texttt{fixation}\); les lignes sont \emph{parallèles} :
+voir le panneau gauche de Figure~\ref{fig-interaction-slope}.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-interaction-slope-1.pdf}
+
+}
+
+\caption{\label{fig-interaction-slope}Nuages de points et droites
+ajustées pour un modèle sans interaction (gauche) et avec interaction
+(droite).}
+
+\end{figure}%
+
+Pour ajuster une pente différente par sexe, on crée une nouvelle
+variable égale au produit \(\texttt{fixation}\times\texttt{sexe}\) et on
+l'ajoute à notre modèle, \begin{align*}
+\mathsf{E}(\texttt{intention} \mid \cdot)= \beta_0 + \beta_1 \texttt{sexe} + \beta_2\texttt{fixation}  + \beta_3 \texttt{fixation}\cdot \texttt{sexe}.
+\end{align*}
+
+Selon la valeur de \(\texttt{sexe}\), on obtient \begin{align*}
+\mathsf{E}(\texttt{intention} \mid \cdot) = 
+\begin{cases}
+(\beta_0 + \beta_1) + (\beta_2 + \beta_3)\texttt{fixation}, & \texttt{sexe}=1 \text{ (femme)},\\
+  \beta_0 + \beta_2 \texttt{fixation}, & \texttt{sexe}=0 \text{ (homme)}.
+\end{cases}
+\end{align*} L'interprétation des coefficients du modèle se fait comme
+d'habitude avec la paramétrisation (traitement):
+
+\begin{itemize}
+\tightlist
+\item
+  \(\beta_0\) est l'intention d'achat moyenne lorsque le temps de
+  fixation est nul pour les hommes,
+\item
+  \(\beta_1\) est la différence d'ordonnée à l'origine entre les femmes
+  et les hommes (différence d'intention d'achat moyenne entre femmes et
+  hommes quand le temps de fixation est nul),
+\item
+  \(\beta_2\) est l'augmentation unitaire de l'intention d'achat par
+  seconde de fixation pour les hommes,
+\item
+  \(\beta_3\) est la différence de pente entre les femmes et les hommes
+  (différence d'intention d'achat moyenne femmes vs hommes pour une
+  augmentation d'une seconde de fixation).
+\end{itemize}
+
+Tester la significativité de l'interaction revient à vérifier si
+\(\mathscr{H}_0: \beta_3=0\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data}\NormalTok{(interaction, }\AttributeTok{package =} \StringTok{"hecmodstat"}\NormalTok{)}
+\CommentTok{\# Pour spécifier une interaction, utiliser :}
+\NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(intention }\SpecialCharTok{\textasciitilde{}}\NormalTok{ sexe }\SpecialCharTok{+}\NormalTok{ fixation }\SpecialCharTok{+}\NormalTok{  sexe}\SpecialCharTok{:}\NormalTok{fixation, }
+          \AttributeTok{data =}\NormalTok{ interaction)}
+\CommentTok{\# Un raccourci est sexe*fixation, qui donne la même chose}
+\FunctionTok{summary}\NormalTok{(mod)}\SpecialCharTok{$}\NormalTok{coefficients}
+\CommentTok{\#\textgreater{}               Estimate Std. Error t value Pr(\textgreater{}|t|)}
+\CommentTok{\#\textgreater{} (Intercept)      2.741      0.282    9.73 1.02e{-}16}
+\CommentTok{\#\textgreater{} sexe             1.312      0.380    3.45 7.74e{-}04}
+\CommentTok{\#\textgreater{} fixation         0.504      0.153    3.29 1.33e{-}03}
+\CommentTok{\#\textgreater{} sexe:fixation    2.135      0.200   10.69 5.61e{-}19}
+\end{Highlighting}
+\end{Shaded}
+
+Le modèle avec interaction est significativement meilleur, ce qui
+signifie que l'effet du temps de fixation sur l'intention d'achat varie
+en fonction du sexe.
+
+\end{example}
+
+\begin{refremark}[Principe de marginalité]
+Tous les termes d'ordre inférieurs devraient être inclus si
+l'interaction est présente.
+
+Par exemple, on ne retirera pas \(\texttt{fixation}\) tout en conservant
+le terme d'interaction \(\texttt{fixation*sexe}\), même si on ne rejette
+pas \(\mathscr{H}_0:\beta_2=0\), puisqu'autrement \begin{align*}
+&\mathsf{E}(\texttt{intention} \mid \cdot) =
+\begin{cases}
+(\beta_0 + \beta_1) + \beta_3\texttt{fixation}, & \texttt{sexe}=1 \text{ (femme)},\\
+  \beta_0, &\texttt{sexe}=0 \text{ (homme)};                 
+\end{cases}
+\end{align*} cela implique que l'intention d'achat est constante pour
+les hommes, quel que soit le temps de fixation.
+
+Comme le choix de catégorie de référence est arbitraire, changer la
+variable indicatrice \texttt{sexe} pour \(\texttt{0}\) pour les femmes,
+\(\texttt{1}\) pour les hommes, donnerait un autre modèle et
+potentiellement des inférences différentes. De ce fait, on ne considère
+jamais le retrait d'un effet principal si la variable est incluse dans
+une interaction. Le principe de \textbf{marginalité} suppose que tous
+les termes d'ordre inférieurs devraient être inclus.
+
+\label{rem-marginalite}
+
+\end{refremark}
+
+Le concept d'interaction se généralise à des variables catégorielles
+avec plus de deux niveaux. Dans ce cas, on doit considérer la
+statistique \(F\) pour l'ajout/l'élimination afin de vérifier la
+significativité de l'interaction dans son ensemble.
+
+\begin{definition}[Analyse de
+variance]\protect\hypertarget{def-anova}{}\label{def-anova}
+
+Une analyse de variance est un modèle linéaire dans lequel la moyenne
+est une fonction de variables explicatives catégorielles. Si nous
+disposons de données pour toutes les combinaisons différentes de
+facteurs, les facteurs sont \textbf{croisés} et nous pouvons envisager
+d'inclure leurs interactions.
+
+\end{definition}
+
+Considérons un modèle d'analyse de variance à deux facteurs, disons
+\(A\) et \(B\), lesquels ont respectivement \(n_a\) et \(n_b\) niveaux.
+Le modèle avec interaction s'écrit
+
+\begin{equation}\phantomsection\label{eq-twowayasoneway}{
+\underset{\text{réponse}\vphantom{b}}{Y_{ijk}} = \underset{\text{moyenne de sous-groupe}}{\mu_{ij}} + \underset{\text{aléa}}{\varepsilon_{ijk}}
+}\end{equation} où
+
+\begin{itemize}
+\tightlist
+\item
+  \(Y_{ijk}\) est le \(k\)e mesure du \(i\)e niveau du facteur \(A\) et
+  du \(j\)e niveau du facteur \(B\), disons \((a_i, b_j)\)
+\item
+  \(\mu_{ij}\) est la moyenne théorique du sous-groupe \((a_i, b_j)\)
+\item
+  \(\varepsilon_{ijk}\) sont des termes d'aléas indépendants de moyenne
+  zéro et d'écart-type \(\sigma\).
+\end{itemize}
+
+Dans un devis factoriel complet avec interaction, on peut écrire
+l'espérance de la variable réponse
+\(\mathsf{E}(Y \mid A=a_i, B=b_j) = \mu_{ij}\). Ce modèle peut être vu
+comme une analyse de variance à un facteur doté de \(n_an_b\) niveaux.
+Cette observation peut être utile pour spécifier les poids de contrastes
+linéaires ou lorsqu'il existe un groupe de contrôle supplémentaire dans
+un cadre expérimental. Toutefois, la structure permet de spécifier les
+hypothèses d'intérêt.
+
+Nous pouvons l'exprimer de manière équivalente en termes d'ordonnée à
+l'origine, d'effets principaux de l'une ou l'autre variable et de termes
+d'interaction. Le modèle additif, sans interaction, a une moyenne pour
+la cellule \((i,j)\) de
+
+\begin{align*}
+\mathsf{E}(Y_{ij} \mid A = a_i, B=b_j) = \mu + \alpha_i + \beta_j.
+\end{align*}
+
+Nous pouvons envisager des simplifications de modèle de bas en haut. La
+suppression de l'interaction conduit à un modèle avec
+\(1 + (n_a-1) + (n_b-1)\) paramètres, par rapport à \(n_a \times n_b\)
+pour le modèle avec l'interaction. Nous pouvons utiliser un test \(F\)
+pour vérifier la significativité de ce dernier. Si les facteurs
+n'interagissent pas, la moyenne dans la cellule est donnée par la somme
+des effets principaux. Ce n'est qu'après avoir supprimé ce terme que
+nous pouvons déterminer si toutes les moyennes des lignes ou des
+colonnes sont identiques.
+
+:::
+
+Bien que des tests formels soient nécessaires pour vérifier les
+interactions, le concept peut être mieux compris en examinant des
+graphiques.
+
+\begin{definition}[Diagramme
+d'interaction]\protect\hypertarget{def-interactionplot}{}\label{def-interactionplot}
+
+Nous pouvons essayer de détecter visuellement les interactions en
+traçant la réponse (moyenne) en fonction de l'une des covariables, en
+utilisant ce que l'on appelle un \textbf{diagramme d'interaction}.
+Lorsqu'il y a plus de deux variables catégorielles, nous pouvons
+utiliser des couleurs, des symboles ou des panneaux pour représenter les
+catégories. L'absence d'interaction dans ces diagrammes implique des
+lignes parallèles, mais il faut tenir compte de l'incertitude.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=1\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-2by2-1.pdf}
+
+}
+
+\caption{\label{fig-2by2}Diagramme d'interactions pour un devis 2 par 2.
+Image adaptée de la Figure 10.2 de Crump, Navarro, et Suzuki
+(\citeproc{ref-Crump.Navarro.Suzuki:2019}{2019}) par Matthew Crump
+(licence CC BY-SA 4.0).}
+
+\end{figure}%
+
+\end{definition}
+
+\begin{definition}[Effets simples et effets
+principaux]\protect\hypertarget{def-simple}{}\label{def-simple}
+
+Lorsqu'il n'y a pas d'interactions, il est logique de faire abstraction
+d'une ou plusieurs variables et de considérer les \textbf{effets
+marginaux}, obtenus en regroupant les données des facteurs omis, en
+calculant la moyenne équipondérée des sous-groupes. Supposons, par
+exemple, que nous soyons intéressés par la comparaison des niveaux de
+\(A\). Lorsque les interactions entre \(A\) et \(B\) ne sont pas
+significatives, nous pouvons considérer des termes d'ordre inférieur et
+rapporter les \textbf{moyennes marginales estimées} et les contrastes
+entre les moyennes de \(A\). Si l'interaction avec \(B\) a un impact,
+nous pouvons plutôt calculer la moyenne de la sous-cellule
+\(A \mid B=b_j\), et de la même manière pour les contrastes. Nous
+distinguons donc les cas suivants :
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{effets simples}: différences entre les niveaux d'un élément
+  dans une combinaison fixe d'autres éléments. Les effets simples
+  consistent à comparer les moyennes des cellules dans une ligne ou une
+  colonne donnée.
+\item
+  \textbf{effets principaux} : différences par rapport à la moyenne pour
+  chaque condition d'un facteur. Les effets principaux sont des moyennes
+  de lignes ou de colonnes.
+\end{itemize}
+
+\end{definition}
+
+\begin{example}[Effet psychologique
+d'emprunt]\protect\hypertarget{exm-STC21-twoway}{}\label{exm-STC21-twoway}
+
+L'étude complémentaire 5 de Sharma, Tully, et Cryder
+(\citeproc{ref-Sharma.Tully.Cryder:2021}{2021}) vérifie la perception
+psychologique de l'emprunt en fonction du terme employé pour désigner le
+montant monétaire. Les auteurs ont effectué une comparaison deux par
+deux inter-sujets (ANOVA à deux facteurs) en faisant varier le type de
+dette (si l'argent était proposé sous forme de crédit (\texttt{credit})
+ou prêt (\texttt{loan}), de même que le type d'achat pour lequel
+l'argent serait utilisé, soit dépenses discrétionnaires
+(\texttt{discretionary}) ou pour combler à des besoins essentiels
+(\texttt{need}). La réponse est la moyenne de (a) la probabilité et de
+(b) l'intérêt pour le produit, toutes deux mesurés à l'aide d'une
+échelle de Likert allant de 1 à 9.
+
+Le modèle pour la moyenne avec interaction peut être écrit en utilisant
+la paramétrisation usuelle comme suit \begin{align*}
+\texttt{likelihood} &= \beta_0 + \beta_1\mathbf{1}_{\texttt{purchase=need}} + \beta_2\mathbf{1}_{\texttt{debttype=loan}} \\&\quad+ \beta_3\mathbf{1}_{\texttt{purchase=need}}\mathbf{1}_{\texttt{debttype=loan}} + \varepsilon
+\end{align*}
+
+On peut calculer la moyenne de chaque groupe et déduire l'interprétation
+des coefficients:
+
+\begin{itemize}
+\tightlist
+\item
+  \(\mu_1 = \beta_0\) pour \texttt{purchase=discretionnary} et
+  \texttt{debttype=credit}
+\item
+  \(\mu_2 = \beta_0 + \beta_1\) pour \texttt{purchase=need} et
+  \texttt{debttype=credit}
+\item
+  \(\mu_1 = \beta_0 + \beta_2\) pour \texttt{purchase=discretionnary} et
+  \texttt{debttype=loan}
+\item
+  \(\mu_2 = \beta_0 + \beta_1 + \beta_2 + \beta_3\) pour
+  \texttt{purchase=need} et \texttt{debttype=loan}
+\end{itemize}
+
+Ainsi, \(\beta_3\) représente la différence des moyennes
+\(\mu_1 + \mu_4 - \mu_2 - \mu_3\).
+
+Sharma, Tully, et Cryder (\citeproc{ref-Sharma.Tully.Cryder:2021}{2021})
+a ajusté un modèle avec deux facteurs, chacun avec deux niveaux, et leur
+interaction. Comme il y a une moyenne globale et deux effets principaux
+(différence supplémentaire de moyenne pour les deux facteurs
+\texttt{debttype} et \texttt{purchase}), l'interaction a un degré de
+liberté puisque nous passons d'un modèle avec trois paramètres à un
+modèle qui a une moyenne différente pour chacun des quatre sous-groupes.
+
+La raison pour laquelle on teste d'abord la présence d'interaction est
+que, si l'effet d'un facteur dépend du niveau de l'autre, comme le
+montre Figure~\ref{fig-2by2}, il faut alors comparer l'étiquette du type
+de dette séparément pour chaque type d'achat et vice-versa à l'aide
+d'effets simples. Si l'interaction n'est pas significative, nous pouvons
+regrouper les observations pour obtenir une ANOVA à un facteur, ce qui
+donne les comparaisons marginales avec les effets principaux.
+
+L'ajustement du modèle incluant l'interaction entre les facteurs
+garantit que nous conservons l'hypothèse d'additivité et que nos
+conclusions ne sont pas trompeuses: le prix à payer est l'estimation de
+paramètres moyens supplémentaires, ce qui n'est pas un problème si vous
+recueillez suffisamment de données, mais peut être critique lorsque la
+collecte de données est extrêmement coûteuse et que seules quelques
+observations sont disponibles pour chaque sous-groupe.
+
+Dans \textbf{R}, on inclut les deux facteurs et leurs interactions avec
+\texttt{reponse\ \textasciitilde{}\ facteurA\ *\ facteurB}, le symbole
+\texttt{*} indiquant que les deux interagissent, un raccourci pour
+\texttt{facteuA\ +\ facteurB\ +\ facteurA:facteurB}; dans un modèle avec
+seulement les effets principaux, on sépare les facteurs par un
+\texttt{+} pour obtenir le modèle additif.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Données de l\textquotesingle{}étude supp. 5}
+\CommentTok{\# de Sharma, Tully, et Cryder (2021)}
+\FunctionTok{data}\NormalTok{(STC21\_SS5, }\AttributeTok{package =} \StringTok{"hecedsm"}\NormalTok{)}
+\CommentTok{\# La fonction \textquotesingle{}aov\textquotesingle{} sert à ajuste des ANOVA}
+\CommentTok{\# Équivalent à "lm" avec variables catégorielles, contrasts somme nulle}
+\NormalTok{modlin\_STC21 }\OtherTok{\textless{}{-}} \FunctionTok{aov}\NormalTok{(}
+\NormalTok{    likelihood }\SpecialCharTok{\textasciitilde{}}\NormalTok{ purchase}\SpecialCharTok{*}\NormalTok{debttype, }
+    \AttributeTok{data =}\NormalTok{ STC21\_SS5)}
+\CommentTok{\# Calculer le décompte par sous{-}catégorie (données débalancées)}
+\FunctionTok{xtabs}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{ purchase }\SpecialCharTok{+}\NormalTok{ debttype, }\AttributeTok{data =}\NormalTok{ STC21\_SS5)}
+\CommentTok{\#\textgreater{}                debttype}
+\CommentTok{\#\textgreater{} purchase        credit loan}
+\CommentTok{\#\textgreater{}   discretionary    392  359}
+\CommentTok{\#\textgreater{}   need             361  389}
+\CommentTok{\# Calcul de la moyenne globale/lignes/colonnes/cellules}
+\NormalTok{moy\_groupes }\OtherTok{\textless{}{-}} \FunctionTok{model.tables}\NormalTok{(modlin\_STC21, }\AttributeTok{type =} \StringTok{"means"}\NormalTok{)}
+
+\CommentTok{\# Tableau d\textquotesingle{}ANOVA avec effets de type 2}
+\NormalTok{car}\SpecialCharTok{::}\FunctionTok{Anova}\NormalTok{(modlin\_STC21, }\AttributeTok{type =} \DecValTok{2}\NormalTok{)}
+\CommentTok{\#\textgreater{} Anova Table (Type II tests)}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} Response: likelihood}
+\CommentTok{\#\textgreater{}                   Sum Sq   Df F value  Pr(\textgreater{}F)    }
+\CommentTok{\#\textgreater{} purchase             752    1   98.21 \textless{} 2e{-}16 ***}
+\CommentTok{\#\textgreater{} debttype              92    1   12.04 0.00054 ***}
+\CommentTok{\#\textgreater{} purchase:debttype     14    1    1.79 0.18171    }
+\CommentTok{\#\textgreater{} Residuals          11467 1497                    }
+\CommentTok{\#\textgreater{} {-}{-}{-}}
+\CommentTok{\#\textgreater{} Signif. codes:  0 \textquotesingle{}***\textquotesingle{} 0.001 \textquotesingle{}**\textquotesingle{} 0.01 \textquotesingle{}*\textquotesingle{} 0.05 \textquotesingle{}.\textquotesingle{} 0.1 \textquotesingle{} \textquotesingle{} 1}
+\end{Highlighting}
+\end{Shaded}
+
+L'interaction n'étant pas significative, nous pouvons n'interpréter que
+l'effet principal de la fixation.
+
+Cette différence de moyenne conditionnelle est appelée effet marginal,
+car elle est obtenue en calculant la moyenne de toutes les
+sous-catégories pour un même niveau du facteur. Le modèle estime
+cependant la variance sur la base des résidus du modèle d'interaction
+complet avec quatre moyennes de cellules, et diffère donc de celui
+obtenu en exécutant (à tort) un modèle avec seulement \texttt{purchase}
+comme variable explicative.
+
+Dans le tableau d'analyse de la variance, nous nous concentrons
+exclusivement sur la dernière ligne avec la somme des carrés pour
+l'interaction \texttt{purchase:debttype}. La statistique \(F\) est 1.79;
+avec la loi de référence \(\mathsf{Fisher}\) (1, 1497), on obtient une
+valeur-\(p\) de 0.18 alors il n'y a pas de preuve que l'effet du libellé
+pour l'achat dépende du type de dette.
+
+On peut donc regrouper les données et étudier uniquement l'effet du
+libellé (prêt \texttt{loan} ou \texttt{credit}) en combinant les données
+pour les types d'achats, une des comparaisons planifiées des annexes en
+ligne. Pour ce faire, on utilise la fonction \texttt{emmeans} du paquet
+éponyme en spécifiant le nom du ou des facteurs d'intérêts (ceux que
+l'on veut conserver) avec l'argument \texttt{specs}. Par défaut, on
+calcule les moyennes marginales estimées, l'argument
+\texttt{contr\ =\ "pairwise"} indique que l'on veut en plus les
+différences deux à deux, ici le seul contraste possible pour des
+différences entre deux facteurs.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Comparisons deux à deux au sein des niveaux de "purchase"}
+\CommentTok{\# Effets simples}
+\NormalTok{emmeans}\SpecialCharTok{::}\FunctionTok{emmeans}\NormalTok{(modlin\_STC21, }
+                 \AttributeTok{specs =} \StringTok{"purchase"}\NormalTok{,}
+                 \AttributeTok{contr =} \StringTok{"pairwise"}\NormalTok{)}
+\CommentTok{\#\textgreater{} $emmeans}
+\CommentTok{\#\textgreater{}  purchase      emmean    SE   df lower.CL upper.CL}
+\CommentTok{\#\textgreater{}  discretionary   4.17 0.101 1497     3.97     4.36}
+\CommentTok{\#\textgreater{}  need            5.58 0.101 1497     5.39     5.78}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} Results are averaged over the levels of: debttype }
+\CommentTok{\#\textgreater{} Confidence level used: 0.95 }
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} $contrasts}
+\CommentTok{\#\textgreater{}  contrast             estimate    SE   df t.ratio p.value}
+\CommentTok{\#\textgreater{}  discretionary {-} need    {-}1.42 0.143 1497  {-}9.910  \textless{}.0001}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} Results are averaged over the levels of: debttype}
+\CommentTok{\# Diagramme d\textquotesingle{}interaction}
+\NormalTok{emmeans}\SpecialCharTok{::}\FunctionTok{emmip}\NormalTok{(modlin\_STC21, }
+\NormalTok{               purchase }\SpecialCharTok{\textasciitilde{}}\NormalTok{ debttype, }
+               \AttributeTok{CIs =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-interaction-ST-1.pdf}
+
+}
+
+\caption{\label{fig-interaction-ST}Diagramme d'interaction pour les
+données de l'étude S5 de Sharma, Tully, et Cryder
+(\citeproc{ref-Sharma.Tully.Cryder:2021}{2021}).}
+
+\end{figure}%
+
+\end{example}
+
+\begin{refremark}[Décomposition de sommes des carrés]
+Il existe différentes décompositions de la somme des carrés (type I, II
+et III) pour la comparaison des modèles emboîtés dans les tableaux
+d'analyse de la variance.
+
+Ces décompositions testent différents modèles à l'aide des statistiques
+\(F\), avec le même dénominateur basé sur l'estimation de l'écart-type,
+mesuré avec \(S_2\), de la sortie du modèle complet. Le numérateur est
+la différence dans la somme des carrés. Toutes les décompositions
+concordent lorsque le plan d'expérience est \textbf{équilibré}, ce qui
+signifie que chaque cellule a le même nombre de réplications \(n_r\), de
+sorte que le nombre total d'observations est \(n = n_an_bn_r\).
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2065}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2935}}@{}}
+
+\caption{\label{tbl-ssdecompo}Décomposition de la somme des carrés dans
+les tableaux d'ANOVA (termes de l'hypothèse nulle vs l'alternative).}
+
+\tabularnewline
+
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+type I
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+type II
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+type III
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\(\boldsymbol{A}\) & intercept vs \(A\) & \(B\) vs \((A,B)\) &
+\((B, A:B)\) vs \((A,B, A:B)\) \\
+\(\boldsymbol{B}\) & \(A\) vs \((A,B)\) & \(A\) vs \((A,B)\) &
+\((A, A:B)\) vs \((A,B,A:B)\) \\
+\(\boldsymbol{A:B}\) & \((A,B)\) vs \((A,B,A:B)\) & \((A,B)\) vs
+\((A,B,A:B)\) & \((A,B)\) vs \((A,B,A:B)\) \\
+
+\end{longtable}
+
+Tableau~\ref{tbl-ssdecompo} montre les différentes sommes des erreurs
+quadratiques des modèles, avec les termes entre parenthèses indiquant
+quels termes sont inclus (\(A:B\) désigne l'interaction).
+
+La décomposition de type I, la valeur par défaut du générique
+\texttt{anova}, utilise l'ordre dans lequel les termes sont spécifiés,
+disons \(A\), \(B\), \(AB\), et compare donc sur la première ligne
+l'amélioration dans le modèle de la moyenne seule avec \(A\), puis sur
+la deuxième ligne le test pour \(B\) compare le modèle avec les deux
+effets principaux \(A\) et \(B\) avec seulement \(A\). Étant donné que
+l'ordre dans lequel les facteurs sont spécifiés est arbitraire, cette
+décomposition est arbitraire et donc non pertinente.
+
+La décomposition de type II considère les termes de même niveau dans la
+hiérarchie, de sorte que les tests pour les effets principaux sont
+\(A + B\) vs \(A\), \(A+B\) vs \(B\) et celui de l'interaction est
+\(A\times B\) vs \(A, B\). Il s'agit de l'option par défaut si l'on
+souhaite considérer les effets principaux lorsque l'interaction n'est
+pas significative.
+
+La décomposition de type III, popularisée par SAS et souvent choisie par
+défaut dans les logiciels, prend en compte tous les autres termes, et
+testerait donc les effets principaux comme \(A + B + A\times B\) vs
+\(B + A\times B\). Cette méthode ne respecte pas le principe de
+marginalité et doit donc être évitée. Les tests pour \(A\) ou \(B\) ne
+doivent pas être utilisés.
+
+Les trois méthodes donnent le même résultat et la même comparaison pour
+le dernier niveau avec l'interaction.
+
+\label{rem-sumofsquare}
+
+\end{refremark}
+
+Toutes les discussions relatives à une ANOVA à deux voies s'appliquent à
+des plans d'expérience à \(K\) facteurs. Cependant, le fléau de la
+dimensionnalité rend plus difficile la collecte d'observations dans
+chaque cellule. Toute ANOVA à plusieurs facteurs peut être ramenée à une
+ANOVA à un facteur: ceci est particulièrement utile lorsqu'il y a un
+groupe de contrôle qui n'est pas lié aux niveaux des facteurs, étant
+donné qu'il n'y a pas de manipulation. L'utilisation des contrastes
+devient critique puisque nous pouvons écrire n'importe quel test pour
+les effets principaux, les interactions, etc.
+
+\begin{example}[Perception d'appropriation culturelle par idéologie
+politique]\protect\hypertarget{exm-LKUK24}{}\label{exm-LKUK24}
+
+On considère un modèle d'ANOVA à trois facteurs de Lin et al.
+(\citeproc{ref-Lin.Kim.Uduehi.Keinan:2024}{2024}). Leur étude 4
+s'intéresse à l'appropriation culturelle pour une recette de \emph{soul
+food}, un courant afro-américain, parue dans le livre du ``Chef Dax''.
+Les auteurs manipulent l'ethnicité du chef, afro-Américain ou pas, et la
+façon dont la recette a été obtenue (furtivement, en demandant la
+permission ou sans mention dans le cas du groupe contrôle). Les auteurs
+ont postulé que la perception de l'appropriation varie selon l'idéologie
+politique. L'étude utilise un devis expérimental
+\(3 \times 2 \times 2\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data}\NormalTok{(LKUK24\_S4, }\AttributeTok{package =} \StringTok{"hecedsm"}\NormalTok{)}
+\CommentTok{\# Vérifier la répartition d\textquotesingle{}observations en sous{-}groupes}
+\FunctionTok{xtabs}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{politideo }\SpecialCharTok{+}\NormalTok{ chefdax }\SpecialCharTok{+}\NormalTok{ brandaction,}
+          \AttributeTok{data =}\NormalTok{ LKUK24\_S4)}
+\CommentTok{\#\textgreater{} , , brandaction = peeking}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{}               chefdax}
+\CommentTok{\#\textgreater{} politideo      not black black}
+\CommentTok{\#\textgreater{}   conservative        33    36}
+\CommentTok{\#\textgreater{}   liberal             87    84}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} , , brandaction = permission}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{}               chefdax}
+\CommentTok{\#\textgreater{} politideo      not black black}
+\CommentTok{\#\textgreater{}   conservative        42    34}
+\CommentTok{\#\textgreater{}   liberal             77    84}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} , , brandaction = control}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{}               chefdax}
+\CommentTok{\#\textgreater{} politideo      not black black}
+\CommentTok{\#\textgreater{}   conservative        38    32}
+\CommentTok{\#\textgreater{}   liberal             79    85}
+\CommentTok{\# Les facteurs sont croisés et il y a des réplications}
+\CommentTok{\# On ajuste un modèle d\textquotesingle{}ANOVA à trois facteurs (avec toutes les interactions)}
+\NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(appropriation }\SpecialCharTok{\textasciitilde{}}\NormalTok{ politideo }\SpecialCharTok{*}\NormalTok{ chefdax }\SpecialCharTok{*}\NormalTok{ brandaction,}
+          \AttributeTok{data =}\NormalTok{ LKUK24\_S4)}
+\CommentTok{\# Calculer les estimations des moyennes marginales }
+\CommentTok{\# pour chacun des 12 sous{-}groupes}
+\NormalTok{emm }\OtherTok{\textless{}{-}} \FunctionTok{emmeans}\NormalTok{(mod, }
+        \AttributeTok{specs =} \FunctionTok{c}\NormalTok{(}\StringTok{"chefdax"}\NormalTok{, }\StringTok{"brandaction"}\NormalTok{, }\StringTok{"politideo"}\NormalTok{))}
+\CommentTok{\# Créer un diagramme d\textquotesingle{}interaction}
+\FunctionTok{emmip}\NormalTok{(}\AttributeTok{object =}\NormalTok{ emm, }
+        \AttributeTok{formula =}\NormalTok{ brandaction }\SpecialCharTok{\textasciitilde{}}\NormalTok{ chefdax }\SpecialCharTok{|}\NormalTok{ politideo, }
+        \AttributeTok{CIs =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{+}
+\FunctionTok{labs}\NormalTok{(}\AttributeTok{y =} \StringTok{"prédicteur linéaire"}\NormalTok{,}
+     \AttributeTok{x =} \StringTok{"niveaux de chefdax"}\NormalTok{)}
+\CommentTok{\# Tableau d\textquotesingle{}ANOVA (type 2)}
+\NormalTok{anova\_tab }\OtherTok{\textless{}{-}}\NormalTok{ car}\SpecialCharTok{::}\FunctionTok{Anova}\NormalTok{(mod, }\AttributeTok{type =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/unnamed-chunk-39-1.pdf}
+\end{center}
+
+Pour l'ANOVA à \(K\) facteurs, nous commençons toujours par estimer le
+modèle complet avec toutes les interactions (à condition qu'il y ait
+suffisamment de données pour estimer ces dernières, ce qui implique
+qu'il y ait des répétitions). Si cette dernière est significative, nous
+pouvons fixer un ou plusieurs niveaux de facteurs et comparer les
+autres.
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.4478}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2537}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.0597}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1045}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1343}}@{}}
+
+\caption{\label{tbl-anova-LKUK24}Tableau d'analyse de variance
+(décomposition de type 2) pour l'étude 4 de Lin et al.
+(\citeproc{ref-Lin.Kim.Uduehi.Keinan:2024}{2024}).}
+
+\tabularnewline
+
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+terme
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+somme des carrés
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+ddl
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+stat
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+valeur-p
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+politideo & 48.49 & 1 & 21.35 & \textless0.001 \\
+chefdax & 473.72 & 1 & 208.61 & \textless0.001 \\
+brandaction & 34.24 & 2 & 7.54 & \textless0.001 \\
+politideo:chefdax & 65.00 & 1 & 28.63 & \textless0.001 \\
+politideo:brandaction & 1.56 & 2 & 0.34 & 0.71 \\
+chefdax:brandaction & 0.62 & 2 & 0.14 & 0.87 \\
+politideo:chefdax:brandaction & 0.66 & 2 & 0.15 & 0.86 \\
+Residuals & 1587.33 & 699 & & \\
+
+\end{longtable}
+
+Si on considère le Tableau~\ref{tbl-anova-LKUK24}, nous constatons qu'il
+n'y a pas d'interaction à trois voies et, si l'on omet cette dernière et
+que l'on se concentre sur les niveaux inférieurs, une seule interaction
+à deux voies entre l'idéologie politique et la race du chef Dax.Nous ne
+pouvons pas interpréter la valeur \(p\) pour l'effet principal de
+\texttt{brandaction}, mais nous pouvons examiner les moyennes
+marginales.
+
+Sur la base des données, nous réduirons les données à une ANOVA à une
+voie comparant les trois niveaux de \texttt{brandaction} et à une ANOVA
+à deux facteurs, \(2 \times 2\) pour \texttt{chefdax} et
+\texttt{politideo}. Les résultats sont obtenus en calculant la moyenne
+pour le facteur manquant, mais en estimant l'écart-type du modèle
+complet.
+
+Nous souhaitons comparer la perception de la race du chef Dax (noir ou
+non), car la cuisine \emph{soul} est plus susceptible d'être associée à
+l'appropriation culturelle si le chef Dax n'est pas noir. Nous procédons
+avec \texttt{emmeans} en calculant les moyennes marginales séparément
+pour chacune des quatre sous-catégories, mais nous comparons la race du
+chef Dax séparément pour les libéraux et les conservateurs en raison de
+la présence de l'interaction.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data}\NormalTok{(LKUK24\_S4, }\AttributeTok{package =} \StringTok{"hecedsm"}\NormalTok{)}
+\FunctionTok{library}\NormalTok{(emmeans)}
+\NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(appropriation }\SpecialCharTok{\textasciitilde{}}\NormalTok{ politideo }\SpecialCharTok{*}\NormalTok{ chefdax }\SpecialCharTok{*}\NormalTok{ brandaction,}
+   \AttributeTok{data =}\NormalTok{ LKUK24\_S4)}
+\CommentTok{\# Moyennes marginales pour }
+\CommentTok{\# idéologie politique/ethnicité du Chef Dax}
+\CommentTok{\# Calculer les effets simples séparément}
+\CommentTok{\#  pour chaque idéologie politique}
+\FunctionTok{emmeans}\NormalTok{(mod, }
+         \AttributeTok{specs =} \StringTok{"chefdax"}\NormalTok{, }
+         \AttributeTok{by =} \StringTok{"politideo"}\NormalTok{,}
+         \AttributeTok{contrast =} \StringTok{"pairwise"}\NormalTok{)}
+\CommentTok{\#\textgreater{} politideo = conservative:}
+\CommentTok{\#\textgreater{}  chefdax   emmean     SE  df lower.CL upper.CL}
+\CommentTok{\#\textgreater{}  not black   2.38 0.1425 699     2.11     2.66}
+\CommentTok{\#\textgreater{}  black       1.68 0.1494 699     1.38     1.97}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} politideo = liberal:}
+\CommentTok{\#\textgreater{}  chefdax   emmean     SE  df lower.CL upper.CL}
+\CommentTok{\#\textgreater{}  not black   3.60 0.0968 699     3.41     3.79}
+\CommentTok{\#\textgreater{}  black       1.57 0.0947 699     1.38     1.75}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} Results are averaged over the levels of: brandaction }
+\CommentTok{\#\textgreater{} Confidence level used: 0.95}
+\end{Highlighting}
+\end{Shaded}
+
+Nous constatons que les libéraux sont beaucoup plus susceptibles de
+considérer le livre de cuisine du chef Dax comme un exemple
+d'appropriation culturelle s'il n'est pas noir; il y a peu de preuves
+d'une différence entre les conservateurs et les libéraux lorsque le chef
+Dax est noir. On peut calculer les effets marginaux pour idéologie
+(afro-Américain ou pas). Les deux différences sont statistiquement
+significatives, mais la différence est beaucoup plus marquée pour les
+répondants de gauche.
+
+Pour \texttt{brandaction}, nous supposons que les participants verront
+le fait de copier furtivement moins favorablement que si le chef Dax
+demandait l'autorisation de publier la recette. Il est difficile de
+connaître l'effet du groupe contrôle, car on ne mentionne pas comment la
+recette a été acquise.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Effet marginal (effet principal) pour brandaction}
+\NormalTok{emm\_brand }\OtherTok{\textless{}{-}} \FunctionTok{emmeans}\NormalTok{(mod, }\AttributeTok{specs =} \FunctionTok{c}\NormalTok{(}\StringTok{"brandaction"}\NormalTok{)) }
+\NormalTok{emm\_brand}
+\CommentTok{\#\textgreater{}  brandaction emmean    SE  df lower.CL upper.CL}
+\CommentTok{\#\textgreater{}  peeking       2.56 0.107 699     2.35     2.77}
+\CommentTok{\#\textgreater{}  permission    2.29 0.105 699     2.09     2.50}
+\CommentTok{\#\textgreater{}  control       2.07 0.108 699     1.86     2.28}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} Results are averaged over the levels of: politideo, chefdax }
+\CommentTok{\#\textgreater{} Confidence level used: 0.95}
+\CommentTok{\# Test F conjoint pour l\textquotesingle{}effet principale de brandaction}
+\NormalTok{emm\_brand }\SpecialCharTok{|\textgreater{}} \FunctionTok{pairs}\NormalTok{() }\SpecialCharTok{|\textgreater{}} \FunctionTok{joint\_tests}\NormalTok{()}
+\CommentTok{\#\textgreater{}  model term df1 df2 F.ratio p.value}
+\CommentTok{\#\textgreater{}  contrast     2 699   5.090  0.0064}
+\end{Highlighting}
+\end{Shaded}
+
+Un test \(F\) conjoint, obtenu en ramenant le devis à une ANOVA à un
+facteur, montre qu'il existe effectivement des différences. C'est le
+groupe contrôle qui a la moyenne la plus basse.
+
+\end{example}
+
+\section{Géométrie des moindres
+carrés}\label{guxe9omuxe9trie-des-moindres-carruxe9s}
+
+\begin{refremark}
+\leavevmode
+
+\begin{refremark}[Géométrie]
+Le vecteur de valeurs ajustées
+\(\widehat{\boldsymbol{y}} =\mathbf{X} \widehat{\boldsymbol{\beta}} = \mathbf{H}_{\mathbf{X}}\boldsymbol{y}\)
+est la projection du vecteur réponse \(\boldsymbol{y}\) dans l'espace
+linéaire engendré par les colonnes de \(\mathbf{X}\). La matrice chapeau
+\(\mathbf{H}_{\mathbf{X}} = \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\)
+est une matrice de projection orthogonale, car
+\(\mathbf{H}_{\mathbf{X}}=\mathbf{H}_{\mathbf{X}}^\top\) et
+\(\mathbf{H}_{\mathbf{X}}\mathbf{H}_{\mathbf{X}} = \mathbf{H}_{\mathbf{X}}\).
+Ainsi, \(\mathbf{H}_{\mathbf{X}}\mathbf{X} = \mathbf{X}\). Puisque le
+vecteur de résidus ordinaires
+\(\boldsymbol{e} = (e_1, \ldots, e_n)^\top\), qui apparaît dans la somme
+des erreurs quadratiques, est définie comme
+\(\boldsymbol{y} - \widehat{\boldsymbol{y}}\) et
+\(\widehat{\boldsymbol{y}}=\mathbf{X}\boldsymbol{\beta}\), de simples
+manipulations algébriques montrent que le produit scalaire entre les
+résidus ordinaires et les valeurs ajustées est nul, puisque
+\begin{align*}
+\widehat{\boldsymbol{y}}^\top\boldsymbol{e} &= \widehat{\boldsymbol{\beta}}^\top \mathbf{X}^\top (\boldsymbol{y}- \mathbf{X} \widehat{\boldsymbol{\beta}})
+\\&= \boldsymbol{y}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top(\boldsymbol{y} - \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y})\\&=\boldsymbol{y}^\top\mathbf{H}_{\mathbf{X}}\boldsymbol{y} - \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y}
+\\&= 0
+\end{align*} où nous utilisons la définition de
+\(\widehat{\boldsymbol{y}}\) et
+\(\boldsymbol{e} = \boldsymbol{y} - \widehat{\boldsymbol{y}}\) sur la
+première ligne, puis on substitut l'estimateur des MCO
+\(\widehat{\boldsymbol{\beta}} = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\boldsymbol{y}\)
+avant de distribuer les termes du produit. Une dérivation similaire
+montre que \(\mathbf{X}^\top\boldsymbol{e}=\boldsymbol{0}_{p+1}\). Les
+résidus ordinaires sont donc orthogonaux à la fois à la matrice du
+modèle \(\mathbf{X}\) et aux valeurs ajustées
+\(\widehat{\boldsymbol{y}}\).
+
+\label{rem-geometry}
+
+\end{refremark}
+
+\begin{corollary}[Orthogonalité des résidus et des valeurs
+ajustées]\protect\hypertarget{cor-cor}{}\label{cor-cor}
+
+Une conséquence directe de ces résultats est le fait que la corrélation
+linéaire entre \(\boldsymbol{e}\) et \(\widehat{\boldsymbol{y}}\) est
+nulle. Cette propriété servira lors de l'élaboration de diagnostics
+graphiques.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-zerocor-1.pdf}
+
+}
+
+\caption{\label{fig-zerocor}Diagramme des résidus en fonction des
+valeurs ajustées (à gauche) et de la variable explicative
+\texttt{service} (à droite) pour la régression linéaire des données
+\texttt{college}. L'ordonnée à l'origine et la pente des régressions
+linéaires simples sont nulles.}
+
+\end{figure}%
+
+\end{corollary}
+
+\begin{corollary}[Moyenne des résidus
+nulle]\protect\hypertarget{cor-zeromean}{}\label{cor-zeromean}
+
+Puisque le produit scalaire est zéro, la moyenne de \(\boldsymbol{e}\)
+doit être zéro pour autant que \(\mathbf{1}_n\) est dans l'espace
+linéaire engendré par \(\mathbf{X}\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(salaire }\SpecialCharTok{\textasciitilde{}}\NormalTok{ sexe }\SpecialCharTok{+}\NormalTok{ echelon }\SpecialCharTok{+}\NormalTok{ domaine }\SpecialCharTok{+}\NormalTok{ service, }\AttributeTok{data =}\NormalTok{ college)}
+\CommentTok{\# Corrélation nulle}
+\FunctionTok{with}\NormalTok{(college, }\FunctionTok{cor}\NormalTok{(}\FunctionTok{resid}\NormalTok{(mod), service))}
+\CommentTok{\#\textgreater{} [1] 1.26e{-}17}
+\FunctionTok{cor}\NormalTok{(}\FunctionTok{resid}\NormalTok{(mod), }\FunctionTok{fitted}\NormalTok{(mod))}
+\CommentTok{\#\textgreater{} [1] 2.32e{-}17}
+\CommentTok{\# Moyenne des résidus ordinaires est nulle}
+\FunctionTok{mean}\NormalTok{(}\FunctionTok{resid}\NormalTok{(mod))}
+\CommentTok{\#\textgreater{} [1] {-}5.6e{-}16}
+\end{Highlighting}
+\end{Shaded}
+
+Puisque les aléas avaient moyenne théorique de zéro, on veut forcer les
+résidus ordinaires à avoir une moyenne empirique de zéro en incluant
+l'ordonnée à l'origine.
+
+\end{corollary}
+
+\begin{refremark}[Invariance]
+Une conséquence directe de l'expression de l'estimateur des MCO en terme
+de matrice de projection est que les valeurs ajustées \(\widehat{y}_i\)
+pour deux matrices de modèle \(\mathbf{X}_a\) et \(\mathbf{X}_b\) sont
+les mêmes si elles engendrent le même espace linéaire, comme dans
+Exemple~\ref{exm-baumann-dummies}; seule l'interprétation des
+coefficients change. Si nous incluons une ordonnée à l'origine, nous
+obtenons le même résultat si les colonnes explicatives sont centrées sur
+la moyenne.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{modA }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(salaire }\SpecialCharTok{\textasciitilde{}}\NormalTok{ sexe }\SpecialCharTok{+}\NormalTok{ echelon }\SpecialCharTok{+}\NormalTok{ service, }\AttributeTok{data =}\NormalTok{ college)}
+\NormalTok{modB }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(salaire }\SpecialCharTok{\textasciitilde{}} \DecValTok{0} \SpecialCharTok{+}\NormalTok{ sexe }\SpecialCharTok{+}\NormalTok{ echelon }\SpecialCharTok{+}\NormalTok{ service, }\CommentTok{\# Enlever l\textquotesingle{}ordonnée à l\textquotesingle{}origine}
+           \AttributeTok{data =}\NormalTok{ college }\SpecialCharTok{|\textgreater{}} 
+\NormalTok{            dplyr}\SpecialCharTok{::}\FunctionTok{mutate}\NormalTok{(}\AttributeTok{service =} \FunctionTok{scale}\NormalTok{(service)), }\CommentTok{\# Centrer{-}réduire une variable}
+           \AttributeTok{contrasts =} \FunctionTok{list}\NormalTok{(}\AttributeTok{echelon =}\NormalTok{ contr.sum)) }\CommentTok{\# changer la paramétrisation}
+\FunctionTok{head}\NormalTok{(}\FunctionTok{model.matrix}\NormalTok{(modA), }\AttributeTok{n =} \DecValTok{3}\NormalTok{L)}
+\CommentTok{\#\textgreater{}   (Intercept) sexefemme echelonaggrege echelontitulaire service}
+\CommentTok{\#\textgreater{} 1           1         0              0                1      18}
+\CommentTok{\#\textgreater{} 2           1         0              0                1      16}
+\CommentTok{\#\textgreater{} 3           1         0              0                0       3}
+\FunctionTok{head}\NormalTok{(}\FunctionTok{model.matrix}\NormalTok{(modB), }\AttributeTok{n =} \DecValTok{3}\NormalTok{L)}
+\CommentTok{\#\textgreater{}   sexehomme sexefemme echelon1 echelon2 service}
+\CommentTok{\#\textgreater{} 1         1         0       {-}1       {-}1  0.0296}
+\CommentTok{\#\textgreater{} 2         1         0       {-}1       {-}1 {-}0.1241}
+\CommentTok{\#\textgreater{} 3         1         0        1        0 {-}1.1237}
+\CommentTok{\# Invariance du modèle}
+\FunctionTok{isTRUE}\NormalTok{(}\FunctionTok{all.equal}\NormalTok{(}\FunctionTok{fitted}\NormalTok{(modA), }\FunctionTok{fitted}\NormalTok{(modB)))}
+\CommentTok{\#\textgreater{} [1] TRUE}
+\end{Highlighting}
+\end{Shaded}
+
+\label{rem-invariance}
+
+\end{refremark}
+
+La valeur de \(\widehat{\boldsymbol{\beta}}\) est telle qu'elle maximise
+la corrélation entre \(\boldsymbol{y}\) et \(\widehat{\boldsymbol{y}}\).
+Dans le cas d'une variable catégorielle unique, nous obtiendrons des
+valeurs ajustées \(\widehat{y}\) qui correspondent à la moyenne de
+l'échantillon de chaque groupe.
+
+\label{rem-geometry}
+
+\end{refremark}
+
+\subsection{Résidus}\label{ruxe9sidus}
+
+Les résidus sont les prédictions des aléas \(\varepsilon\), et
+représentent la différence entre la valeur observée de la réponse
+\(Y_i\) et sa prédiction. Les résidus ordinaires sont définis comme
+\begin{align*}
+e_i=Y_i-\widehat{Y}_i, \qquad i =1, \ldots, n.
+\end{align*} La somme des résidus ordinaire est toujours zéro par
+construction si on inclut une ordonnée à l'origine, ce qui donne que
+\(\overline{e} = 0\).
+
+Toutes les observations ne contribuent pas de la même manière à
+l'ajustement de l'hyperplan ajusté. La géométrie des moindres carrés
+montre que les résidus sont orthogonaux aux valeurs ajustées, et que
+\(\boldsymbol{e} = (\mathbf{I}_n-\mathbf{H}_{\mathbf{X}})\boldsymbol{Y}\),
+où
+\(\mathbf{H}_{\mathbf{X}}=\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\)
+est une matrice de projection de dimension \(n \times n\) qui génère un
+sous-espace vectoriel de dimension \((p+1)\) décrouvrant toutes les
+combinaisons linéaires des colonnes de \(\mathbf{X}\), dénoté
+\(\mathscr{S}(\mathbf{X})\). Si
+\(\mathsf{Va}(\boldsymbol{Y}) = \sigma^2\mathbf{I}_n\), il en découle
+que
+\(\mathsf{Va}(\boldsymbol{e})=\sigma^2(\mathbf{I}_n-\mathbf{H}_{\mathbf{X}})\)
+parce que \(\mathbf{I}_n-\mathbf{H}_{\mathbf{X}}\) est une matrice de
+projection orthogonale, donc idempotente et symmérique. Puisque la
+matrice \(\mathbf{I}_n-\mathbf{H}_{\mathbf{X}}\) a rang \(n-p-1\), les
+résidus ordinaires ne sont pas indépendants les uns des autres.
+
+Si les aléas sont indépendants et homoscédastiques, les résidus
+ordinaires \(e_i\) ont une variance de \(\sigma^2(1-h_{i})\), où le
+terme de levier
+\(h_i =(\mathbf{H}_{\mathbf{X}})_{ii} = \mathbf{x}_i (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{x}_i\)
+est le \(i\)e élément de la diagonale de la matrice de projection
+\(\mathbf{H}_{\mathbf{X}}\) et \(\mathbf{x}_i\) est comme à l'accoutumée
+la \(i\)e ligne de la matrice du modèle qui correspond à l'observation
+\(i\).
+
+Nous concluons donc que les résidus ordinaires n'ont pas tous le même
+écart-type et qu'ils ne sont pas indépendants. Ceci est problématique,
+car nous ne pouvons pas faire de comparaisons de leurs lois: les points
+ayant un faible effet de levier s'écartent davantage du modèle ajusté
+que les autres. Pour pallier ce problème, nous pouvons normaliser les
+résidus de façon à ce que chacun ait la même variance sous l'hypothèse
+nulle d'erreurs homoscédastiques indépendantes --- les termes d'effet de
+levier \(h_i\) sont facilement calculés à partir de la matrice du modèle
+\(\mathbf{X}\).
+
+La seule question qui subsiste est celle de l'estimation de la variance.
+Si nous utilisons la \(i\)e observation pour estimer à la fois le résidu
+et la variance, nous introduisons une dépendance supplémentaire. Une
+meilleure solution consiste à supprimer la \(i\)e observation et à
+réajuster le modèle avec les \(n-1\) observations restantes pour obtenir
+\(S^2_{(-i)}\) (il existe des formules explicites qui font qu'il n'est
+pas nécessaire d'ajuster \(n\) modèles linéaires). Les résidus
+studentisés externes \(r_i = e_i/\{s_{(-i)}(1-h_i)\}\), également
+appelés résidus studentisés par la méthode du canif, ne sont pas
+indépendants, mais ils sont une loi marginale identique de Student avec
+\(n-p-2\) degrés de liberté. Ils peuvent être obtenus dans \textbf{R}
+avec la commande \texttt{rstudent}.
+
+Quand utiliser quels résidus? Par construction, le vecteur des résidus
+ordinaires \(\boldsymbol{e}\) est orthogonal aux valeurs ajustées
+\(\widehat{\boldsymbol{y}}\) et également à chaque colonne de la matrice
+du modèle \(\mathbf{X}\): cela signifie qu'une simple régression
+linéaire de \(\boldsymbol{e}\) avec n'importe laquelle de ces
+covariables donne une ordonnée à l'origine et une pente toutes deux
+nulles. Ainsi, les modèles résiduels dus à des interactions oubliées, à
+des termes non linéaires, etc. pourraient être détectés à partir de
+diagrammes de paires de résidus ordinaires en fonction des variables
+explicatives.
+
+Bien que les résidus studentisés externes \(r_i\) ne soient pas
+orthogonaux, ils ne sont pas très différents quand \(n\) est grand par
+rapport à \(p\). On peut utiliser les résidus \(\boldsymbol{r}\) pour
+vérifier l'égalité de la variance et les hypothèses de distribution (par
+exemple, à l'aide d'un diagramme quantile-quantile).
+
+\begin{definition}[Coefficient de
+détermination]\protect\hypertarget{def-r2}{}\label{def-r2}
+
+Lorsque nous spécifions un modèle, les aléas
+\(\boldsymbol{\varepsilon}\) servent à tenir compte du fait qu'aucune
+relation linéaire exacte ne caractérise les données Une fois que nous
+avons ajusté un modèle, nous estimons la variance \(\sigma^2\); on peut
+alors se demander quelle part de la variance totale de l'échantillon est
+expliquée par le modèle.
+
+La somme totale des carrés, définie comme la somme des carrés des
+résidus du modèle à ordonnée à l'origine uniquement, sert de comparaison
+--- le modèle le plus simple que nous puissions trouver impliquerait
+chaque observation par la moyenne de l'échantillon de la réponse, ce qui
+donne la variance expliquée
+\(\mathsf{SC}_c = \sum_{i=1}^n (y_i - \overline{y})^2\). Nous pouvons
+ensuite comparer la variance des données originales avec celle des
+résidus du modèle avec la matrice de covariables \(\mathbf{X}\), définie
+comme \(\mathsf{SC}_e =\sum_{i=1}^n e_i^2\) avec
+\(e_i = y_i - \widehat{\beta}_0 - \sum_{j=1}^p \widehat{\beta}_jX_j\).
+Nous définissons le coefficient de détermination \(R^2\), comme suit
+\begin{align*}
+R^2 &=1- \frac{\mathsf{SC}_e}{\mathsf{SC}_c} = \frac{\sum_{i=1}^n (y_i - \overline{y})^2- \sum_{i=1}^n e_i^2}{\sum_{i=1}^n (y_i - \overline{y})^2}.
+\end{align*} Une autre décomposition montre que
+\(R^2 = \mathsf{cor}^2(\boldsymbol{y}, \widehat{\boldsymbol{y}})\),
+c'est-à-dire que le coefficient de détermination peut être interprété
+comme le carré de la corrélation linéaire de Pearson
+(Définition~\ref{def-correlation-Pearson}) entre la réponse
+\(\boldsymbol{y}\) et les valeurs ajustées \(\widehat{\boldsymbol{y}}\).
+
+\end{definition}
+
+Il est important de noter que le \(R^2\) n'est pas un critère de qualité
+de l'ajustement, tout comme la log-vraisemblance. En effet, certain
+phénomènes sont intrinsèquement complexes et même un bon modèle ne
+parviendra pas à rendre compte d'une grande partie de la variabilité de
+la réponse. Ce n'est pas non plus parce que le \(R^2\) est faible que
+\(Y\) et et les variables explicatives \(X_j\) sont indépendantes, comme
+l'illustre la Figure~\ref{fig-datasaurus}.
+
+En outre, il est possible de gonfler la valeur de \(R^2\) en incluant
+davantage de variables explicatives et en rendant le modèle plus
+complexe, ce qui améliore la vraisemblance et \(R^2\). En effet, le
+coefficient n'est pas décroissant dans la dimension de \(\mathbf{X}\),
+de sorte qu'un modèle comportant \(p+1\) de covariables aura
+nécessairement des valeurs de \(R^2\) plus élevées que si l'on
+n'incluait que \(p\) de ces variables explicatives. Pour comparer les
+modèles, il est préférable d'utiliser des critères d'information ou de
+s'appuyer sur la performance prédictive si tel est l'objectif de la
+régression. Enfin, un modèle avec un \(R^2\) élevé peut impliquer une
+corrélation élevée, mais
+\href{http://www.tylervigen.com/spurious-correlations}{la relation peut
+être fallacieuse} : la régression linéaire ne produit pas de modèles
+causaux!
+
 \bookmarksetup{startatroot}
 
 \chapter*{Bibliographie}\label{bibliographie}
@@ -6151,6 +7194,11 @@ Brucks, Melanie S., et Jonathan Levav. 2022. {«~Virtual communication
 curbs creative idea generation~»}. \emph{Nature} 605 (7908): 108‑12.
 \url{https://doi.org/10.1038/s41586-022-04643-y}.
 
+\bibitem[\citeproctext]{ref-Crump.Navarro.Suzuki:2019}
+Crump, M. J. C., D. J. Navarro, et J. Suzuki. 2019. \emph{Answering
+Questions with Data: Introductory Statistics for Psychology Students}.
+\url{https://doi.org/10.17605/OSF.IO/JZE52}.
+
 \bibitem[\citeproctext]{ref-Davison:2003}
 Davison, A. C. 2003. \emph{Statistical Models}. Cambridge University
 Press.
@@ -6172,6 +7220,12 @@ on product evaluation in online retailing~»}. \emph{Journal of Retailing
 and Consumer Services} 49: 279‑88.
 \url{https://doi.org/10.1016/j.jretconser.2019.03.015}.
 
+\bibitem[\citeproctext]{ref-Lin.Kim.Uduehi.Keinan:2024}
+Lin, Jason D, Nicole You Jeung Kim, Esther Uduehi, et Anat Keinan. 2024.
+{«~Culture for Sale: Unpacking Consumer Perceptions of Cultural
+Appropriation~»}. \emph{Journal of Consumer Research}.
+\url{https://doi.org/10.1093/jcr/ucad076}.
+
 \bibitem[\citeproctext]{ref-Liu.Rim.Min.Min:2023}
 Liu, Peggy J., SoYon Rim, Lauren Min, et Kate E. Min. 2023. {«~The
 surprise of reaching out: Appreciated more than we think.~»}
@@ -6191,6 +7245,12 @@ Research} 50 (1): 190‑210. \url{https://doi.org/10.1093/jcr/ucac047}.
 Rosen, B., et T. H. Jerdee. 1974. {«~Influence of sex role stereotypes
 on personnel decisions.~»} \emph{Journal of Applied Psychology} 59:
 9‑14.
+
+\bibitem[\citeproctext]{ref-Sharma.Tully.Cryder:2021}
+Sharma, Eesha, Stephanie Tully, et Cynthia Cryder. 2021.
+{«~Psychological Ownership of (Borrowed) Money~»}. \emph{Journal of
+Marketing Research} 58 (3): 497‑514.
+\url{https://doi.org/10.1177/0022243721993816}.
 
 \bibitem[\citeproctext]{ref-Sokolova:2023}
 Sokolova, Tatiana, Aradhna Krishna, et Tim Döring. 2023. {«~Paper Meets
