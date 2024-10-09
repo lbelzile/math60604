@@ -332,14 +332,14 @@
 \floatname{codelisting}{Énumération}
 \newcommand*\listoflistings{\listof{codelisting}{Liste des énumérations}}
 \usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem{example}{Exemple}[chapter]
+\theoremstyle{definition}
+\newtheorem{definition}{Définition}[chapter]
 \theoremstyle{plain}
 \newtheorem{corollary}{Corollaire}[chapter]
 \theoremstyle{plain}
 \newtheorem{proposition}{Proposition}[chapter]
-\theoremstyle{definition}
-\newtheorem{definition}{Définition}[chapter]
-\theoremstyle{definition}
-\newtheorem{example}{Exemple}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Preuve}}
 \newtheorem*{remark}{Remarque}
@@ -380,7 +380,7 @@
 
 \title{MATH 60604 - Modélisation statistique}
 \author{Léo Belzile}
-\date{2024-10-08}
+\date{2024-10-09}
 
 \begin{document}
 
@@ -794,6 +794,16 @@ convergente, la \textbf{variance} est \begin{align*}
 L'écart-type est défini comme la racine carrée de la variance,
 \(\mathsf{sd}(Y)=\sqrt{\mathsf{Va}(Y)}\): elle est exprimé dans les
 mêmes unités que celle de \(Y\) et donc plus facilement interprétable.
+
+\begin{example}[]\protect\hypertarget{exm-moments-des}{}\label{exm-moments-des}
+
+Considérons une variable aléatoire discrète \(Y\) pour la somme de deux
+lancers de dés à six faces. L'espérance de \(g(Y)=Y^2\) est
+\begin{align*}
+\mathsf{E}(Y^2) &= (2^2 + 12^2) \times \frac{1}{36} + (3^2 + 11^2) \times  \frac{2}{36} + (4^2 + 10^2) \\&\;\times  \frac{3}{36} + (5^2 +9^2) \times  \frac{4}{36} + (6^2 + 8^2) \times  \frac{5}{36} \\& + 7^2 \times  \frac{6}{36}= \frac{329}{6}.
+\end{align*}
+
+\end{example}
 
 La notion de moments peut être généralisé à des vecteurs. Si
 \(\boldsymbol{Y}\) est un \(n\)-vecteur, comprenant par exemple dans le
@@ -1686,7 +1696,7 @@ l'apprentissage en vase clos des recettes plutôt que d'essayer de
 comprendre les bases de la cuisine et de faire des liens. Ce chapitre se
 concentre sur la compréhension des concepts-clés liées aux tests.
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, bottomrule=.15mm, coltitle=black, opacitybacktitle=0.6, titlerule=0mm, toprule=.15mm, breakable, arc=.35mm, colbacktitle=quarto-callout-important-color!10!white, rightrule=.15mm, colframe=quarto-callout-important-color-frame, bottomtitle=1mm, left=2mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Objectifs d'apprentissage}, leftrule=.75mm, toptitle=1mm, colback=white]
+\begin{tcolorbox}[enhanced jigsaw, leftrule=.75mm, colbacktitle=quarto-callout-important-color!10!white, arc=.35mm, bottomtitle=1mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Objectifs d'apprentissage}, toprule=.15mm, rightrule=.15mm, bottomrule=.15mm, breakable, colframe=quarto-callout-important-color-frame, opacityback=0, toptitle=1mm, colback=white, titlerule=0mm, left=2mm, opacitybacktitle=0.6, coltitle=black]
 
 \begin{itemize}
 \tightlist
@@ -2374,7 +2384,7 @@ probabilité d'obtenir une valeur de la statistique de test égale ou même
 plus grande que celle qu'on a observée dans l'échantillon, si
 \(\mathscr{H}_0\) est vraie.
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, bottomrule=.15mm, coltitle=black, opacitybacktitle=0.6, titlerule=0mm, toprule=.15mm, breakable, arc=.35mm, colbacktitle=quarto-callout-caution-color!10!white, rightrule=.15mm, colframe=quarto-callout-caution-color-frame, bottomtitle=1mm, left=2mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Mise en garde}, leftrule=.75mm, toptitle=1mm, colback=white]
+\begin{tcolorbox}[enhanced jigsaw, leftrule=.75mm, colbacktitle=quarto-callout-caution-color!10!white, arc=.35mm, bottomtitle=1mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Mise en garde}, toprule=.15mm, rightrule=.15mm, bottomrule=.15mm, breakable, colframe=quarto-callout-caution-color-frame, opacityback=0, toptitle=1mm, colback=white, titlerule=0mm, left=2mm, opacitybacktitle=0.6, coltitle=black]
 
 L'\href{https://doi.org/10.1080/00031305.2016.1154108}{\emph{American
 Statistical Association (ASA)} a publié une liste de principes}
@@ -2962,7 +2972,7 @@ Ce chapitre traite de modélisation statistique et d'inférence basée sur
 la vraisemblance, la méthodologie la plus populaire dans le monde de la
 statistique.
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, bottomrule=.15mm, coltitle=black, opacitybacktitle=0.6, titlerule=0mm, toprule=.15mm, breakable, arc=.35mm, colbacktitle=quarto-callout-important-color!10!white, rightrule=.15mm, colframe=quarto-callout-important-color-frame, bottomtitle=1mm, left=2mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, leftrule=.75mm, toptitle=1mm, colback=white]
+\begin{tcolorbox}[enhanced jigsaw, leftrule=.75mm, colbacktitle=quarto-callout-important-color!10!white, arc=.35mm, bottomtitle=1mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, toprule=.15mm, rightrule=.15mm, bottomrule=.15mm, breakable, colframe=quarto-callout-important-color-frame, opacityback=0, toptitle=1mm, colback=white, titlerule=0mm, left=2mm, opacitybacktitle=0.6, coltitle=black]
 
 \textbf{Objectifs d'apprentissage}
 
@@ -7166,6 +7176,668 @@ corrélation élevée, mais
 être fallacieuse} : la régression linéaire ne produit pas de modèles
 causaux!
 
+\subsection{Colinéarité}\label{colinuxe9arituxe9}
+
+Le postulat de linéarité peut être interprétée au sens large comme
+signifiant que toutes les covariables pertinentes ont été incluses et
+que leur effet est correctement spécifié dans l'équation de la moyenne.
+L'ajout de covariables superflues à un modèle a un impact limité: si la
+corrélation (partielle) entre un vecteur colonne \(\boldsymbol{X}_k\) et
+la variable réponse \(\boldsymbol{Y}\) est nulle, alors \(\beta_k=0\) et
+le coefficient estimé \(\widehat{\beta}_k \approx 0\) parce que les
+estimateurs des moindres carrés sont sans biais. Si nous incluons de
+nombreuses variables inutiles, disons \(k\), le manque de parcimonie
+peut toutefois rendre l'interprétation plus difficile. Le prix à payer
+pour inclure \(k\) de variables explicatives supplémentaires est une
+augmentation de la variance des estimateurs
+\(\widehat{\boldsymbol{\beta}}\).
+
+Dans les études observationnelles, il est néanmoins préférable d'inclure
+davantage de variables que d'oublier des variables explicatives clés: si
+nous omettons une variable prédictive importante, son effet peut être
+capturé par d'autres \textbf{variables confondantes}, qui sont corréléws
+avec à la fois les variables omises et la réponse et qui causent les
+deux. Par exemple, le modèle linéaire simple (ou le test \(t\) à deux
+échantillons) pour le salaire en fonction du sexe pour les données de
+salaires dans un collège n'est pas valide parce que l'échelon académique
+est un facteur confondant pour les différences selon le sexe. Comme il y
+a plus d'hommes que de femmes professeurs titulaires, la différence de
+salaire moyen entre les hommes et les femmes est plus élevée de
+l'échantillon qu'elle ne l'est réellement. Une façon d'en tenir compte
+est d'inclure des variables de contrôle (telles que l'échelon), dont
+l'effet ne nous intéresse pas forcément, mais qui sont nécessaires pour
+que le modèle soit adéquat. Nous aurions également pu utiliser la
+stratification, c'est-à-dire tester la discrimination salariale au sein
+de chaque échelon académique. C'est la raison pour laquelle des
+variables sociodémographiques (sexe, âge, niveau d'éducation, etc.) sont
+collectées dans le cadre des études.
+
+Un modèle linéaire n'est pas un {[}modèle causal{]}
+(https://xkcd.com/552/): il ne fait que capturer la corrélation linéaire
+entre une variable explicative et la réponse. Lorsqu'il y a plus d'une
+variable explicative, l'effet de \(X_j\) est fonction de ce qui n'a pas
+déjà été expliqué par les autres variables explicatives, disons
+\(\boldsymbol{X}_{-j}\). Ainsi, si nous ne parvenons pas à rejeter
+\(\mathscr{H}_0:\beta_j=0\) en faveur de l'alternative
+\(\mathscr{H}_1 : \beta_j \neq 0\), nous pouvons seulement dire qu'il
+n'y a pas d'association \emph{linéaire} significative entre \(X_j\) et
+\(Y\) une fois que l'effet des autres variables incluses dans le modèle
+a été pris en compte. Il existe donc deux scénarios: soit la réponse
+n'est pas corrélée à \(X_j\) (cas inintéressant, mais facile à repérer
+en traçant les deux ou en calculant la corrélation linéaire), soit il
+existe une forte corrélation entre \(X_j\) et à la fois la réponse \(Y\)
+et (certaines) des autres variables explicatives \(X_1, \ldots, X_p\).
+Ce problème est appelé (multi)\textbf{colinéarité}.
+
+L'un des inconvénients de la colinéarité est la diminution de la
+précision des estimateurs de paramètres. En présence de variables
+explicatives colinéaires, de nombreuses combinaisons linéaires des
+covariables représentent presque aussi bien la réponse. En raison du
+manque (ou presque) d'identifiabilité, les coefficients estimés
+deviennent numériquement instables, ce qui entraîne une augmentation des
+erreurs-type des paramètres. Les valeurs prédites ou ajustées ne sont
+pas affectées. En général, les coefficients de régression peuvent
+changer radicalement lorsque de nouvelles observations sont incluses
+dans le modèle, ou lorsque nous incluons ou supprimons des variables
+explicatives. Les coefficients \(\beta\) individuels peuvent ne pas être
+statistiquement significatifs, mais le test \(F\) global indiquera que
+certaines covariables sont pertinentes pour expliquer la réponse.
+Toutefois, ce serait également le cas s'il y avait des prédicteurs avec
+un signal fort, de sorte que ni l'un ni l'autre n'est susceptible d'être
+utile pour détecter les problèmes.
+
+Le \textbf{diagramme de régression partielle} montre à l'aide d'un nuage
+de points la relation entre la réponse \(Y\) et une variable explicative
+\(X_j\) après la prise en compte de l'effet linéaire des autres
+variables. Il est obtenu en faisant une régressant à tour de rôle
+\(X_j\) et \(Y\) sur les autres colonnes de la matrice du modèle, et en
+calculant les résidus. Le théorème de Frisch--Waugh--Lovell montre que
+la pente \(\widehat{\beta}_j\) de la régression linéaire simple entre
+les résidus \(\boldsymbol{e}_{Y}^{-j}\) et \(\boldsymbol{e}_{X_j}^{-j}\)
+est la même que celle du modèle complet. Si on ne voit pas de relation
+linéaire dans le graphique (pente presque nulle) et que la corrélation
+entre \(X_j\) et \(Y\) était très forte, cela est typiquement indicateur
+de colinéarité.
+
+Une idée similaire peut être utilisée pour voir quelle part de \(X_j\)
+est déjà expliquée par les autres variables. Nous définissons le facteur
+\textbf{facteur d'inflation de la variance} comme
+\(\mathsf{FIV}(j)=(1-R^2(j))^{-1}\), où \(R^2(j)\) est le coefficient de
+détermination du modèle obtenu en régressant \(X_j\) sur toutes les
+autres variables explicatives, c'est-à-dire, \begin{align*}
+X_j = \beta^{\star}_0 + \beta^{\star}_1 X_1 + \cdots + \beta^{\star}_{j-1} X_{j-1} + \beta^{\star}_{j+1} X_{j+1} + \cdots + \beta^{\star}_pX_p + \varepsilon^{\star}
+\end{align*} Par définition, \(R^2(j)\) donne la proportion de la
+variance de \(X_j\) expliquée par les autres variables explicatives. Un
+facteur d'inflation de la variance élevé est un indicateur de
+colinéarité: typiquement les valeurs avec une corrélation de plus de
+90\%, ou \(\mathsf{FIV}>10\), nécessitent une attention particulière.
+Les valeurs dans les centaines ou les milliers représentent des cas
+pathologiques. Pour les variables catégorielles, la définition du
+facteur d'inflation de la variance donnerait normalement une valeur
+différente pour chaque niveau; une alternative est le facteur
+d'inflation de la variance généralisée (\citeproc{ref-Fox:1992}{Fox et
+Monette 1992}).
+
+Que doit-on faire s'il y a de la colinéarité ? Si l'objectif de l'étude
+est de développer un modèle prédictif et que nous ne sommes pas
+intéressés par les paramètres eux-mêmes, alors nous n'avons rien à
+faire. La colinéarité n'est pas un problème pour le modèle global: c'est
+seulement un problème pour les effets individuels des variables. Leur
+effet conjoint est toujours présent dans le modèle, quelle que soit la
+manière dont les effets individuels sont combinés.
+
+Si nous nous intéressons aux estimations des paramètres individuels, par
+exemple pour voir comment (et dans quelle mesure) les variables
+prédictives expliquent le comportement de \(Y\), les choses se
+compliquent. La colinéarité n'affecte que les variables qui sont
+fortement corrélées les unes aux autres, de sorte que nous ne nous
+préoccupons que si elle affecte une ou plusieurs des variables qui nous
+intéressent. Il n'y a malheureusement pas de bonne solution à ce
+problème. On pourrait
+
+\begin{itemize}
+\tightlist
+\item
+  essayer d'obtenir plus de données, afin de réduire les effets de
+  colinéarité apparaissant dans des échantillons spécifiques ou dus à la
+  petite taille de l'échantillon.
+\item
+  créer un score composite en combinant d'une manière ou d'une autre les
+  variables présentant une colinéarité.
+\item
+  supprimer une ou plusieurs des variables colinéaires. Vous devez en
+  revanche faire attention à ne pas vous retrouver avec un modèle mal
+  spécifié.
+\item
+  utiliser la régression pénalisée si \(\mathbf{X}^\top\mathbf{X}\)
+  n'est (presque) pas inversible, cela peut restaurer l'unicité de la
+  solution. Les pénalités introduisent un biais, mais peuvent réduire la
+  variance des estimateurs \(\boldsymbol{\beta}\). Les choix populaires
+  incluent la régression en crête (avec une pénalité de \(l_2\)), lasso
+  (pénalité de \(l_1\)), mais ceux-ci requièrent un ajustement pour
+  l'inférence post-sélection
+\end{itemize}
+
+Quelle que soit la méthode utilisée, il est important de comprendre
+qu'il peut être très difficile (et parfois impossible) d'isoler l'effet
+individuel d'une variable explicative fortement corrélée avec d'autres.
+
+\begin{example}[Colinéarité des données de
+\texttt{college}]\protect\hypertarget{exm-collegedatcollineaire}{}\label{exm-collegedatcollineaire}
+
+On considère l'analyse des données sur l'inéquité salariale dans un
+college, en incluant cette fois \texttt{annees}, le nombre d'années
+depuis l'obtiention du doctorat. On peut penser que, à moins qu'un(e)
+professeur(e) ait entamé sa carrière dans une autre institution
+d'enseignement, le nombre d'années de service sera fortement lié à ces
+derniers. De fait, la corrélation linéaire entre \texttt{service} et
+\texttt{annees} est 0.91. Cette corrélation n'est pas problématique
+puisque le \(\mathsf{FIV}\) pour \(\texttt{sexe}\) (voir le
+Tableau~\ref{tbl-vif-college}) n'est pas élevé et l'inclusion sert à
+éviter les variables confondantes et réduire l'incertitude.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=1\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-addedvariableplots-1.pdf}
+
+}
+
+\caption{\label{fig-addedvariableplots}Diagramme de régression partielle
+pour le nombre d'années de service et le nombre d'années depuis le
+doctorat.}
+
+\end{figure}%
+
+\begin{longtable}[]{@{}rrrrr@{}}
+
+\caption{\label{tbl-vif-college}Facteur d'inflation de la variance
+généralisés pour les données \texttt{college}.}
+
+\tabularnewline
+
+\toprule\noalign{}
+echelon & domaine & sexe & service & annees \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+2.01 & 1.06 & 1.03 & 5.92 & 7.52 \\
+
+\end{longtable}
+
+\end{example}
+
+\subsection{Levier et aberrances}\label{levier-et-aberrances}
+
+L'effet de levier \(h_i\) de l'observation \(i\) mesure son impact sur
+l'ajustement par les moindres carrés, puisque nous pouvons écrire
+\(h_i = \partial \widehat{y}_i/\partial y_i\). Les valeurs de l'effet de
+levier nous indiquent l'impact de chaque point sur l'ajustement : elles
+sont strictement positives, avec une borne inférieure de \(1/n\) et une
+borne supérieure de \(1\). La somme des leviers est
+\(\sum_{i=1}^n h_i=p+1\) : dans un bon modèle, chaque point a
+approximativement la même contribution, avec un poids moyen de
+\((p+1)/n\).
+
+Les points à fort effet de levier sont ceux qui présentent des
+combinaisons inhabituelles de variables explicatives. Une observation
+\textbf{influente} (\(h_i\approx 1\)) tire l'hyperplan ajusté vers
+elle-même de sorte que \(\hat{y}_i \approx y_i\). En règle générale, les
+points avec \(h_i> 2(p+1)/n\) doivent être examinés de près.
+
+Il est important de faire la distinction entre les observations
+\textbf{influentes} (qui ont une valeur \(\mathbf{x}\) inhabituelle,
+c'est-à-dire éloignée de la moyenne générale) et les \textbf{aberrances}
+(valeur inhabituelle de la réponse \(y\)). Si une observation est à la
+fois une valeur aberrante et a un effet de levier élevé, elle est
+problématique.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-outliers-1.pdf}
+
+}
+
+\caption{\label{fig-outliers}Valeur aberrante (gauche) et observation
+influente (droite, valeur de \(x\) la plus à droite).}
+
+\end{figure}%
+
+Si les observations influentes peuvent être détectées en inspectant le
+levier de chaque observation, les valeurs aberrantes sont plus
+difficiles à diagnostiquer. Une valeur aberrante se distingue du reste
+des observations, soit parce qu'elle a une valeur de réponse habituelle,
+soit parce qu'elle se situe loin de la surface de régression. En gros,
+une valeur aberrante est une valeur inhabituelle de \(Y\) pour une
+combinaison donnée de \(\mathbf{X}\) qui se distingue des autres. Les
+valeurs aberrantes peuvent être détectées au cours de l'analyse
+exploratoire des données ou dans les diagrammes de résidus (valeurs
+élevées de \(|e_i|\) dans les diagrammes des valeurs ajustées par
+rapport aux valeurs résiduelles) ou dans les diagrammes de régression
+partielle. On pourrait éventuellement tester si un résidu studentisé
+externe est une valeur aberrante (en tenant compte du fait que nous ne
+prendrions en considération que les valeurs les plus élevées). On peut
+également considérer la distance de Cook, \(C_j\), une statistique
+donnant la distance à l'échelle entre les valeurs ajustées
+\(hat{\boldsymbol{y}}\) et les valeurs ajustées pour le modèle avec
+toutes les observations sauf la \(j\)e, \(\hat{\boldsymbol{y}}^{(-j)}\),
+\begin{align*}
+C_j = \frac{1}{(p+1)S^2} \sum_{i=1}^n \left\{\hat{y}_i - \hat{y}_{i}^{(-j)}\right\}^2
+\end{align*} Des valeurs élevées de \(C_j\) indiquent que son résidu
+ordinaire \(e_j\) est important par rapport aux autres observations ou
+que son effet de levier \(h_j\) est élevé. Une règle empirique consiste
+à considérer les points pour lesquels \(C_j > 4/(n-p-1)\). En pratique,
+si deux observations sont aberrantes et se situent dans la même région,
+leur distance de Cook sera réduite de moitié.
+
+Les observations aberrantes et influentes ne doivent pas être négligées
+parce qu'elles ne sont pas conformes au modèle, mais doivent faire
+l'objet d'un examen plus approfondi. Elles peuvent motiver une
+modélisation plus poussée des caractéristiques non prises en compte. Il
+est également utile de vérifier les erreurs d'enregistrement dans les
+données (qui peuvent être écartées sans risque). Dans les très grands
+échantillons, l'impact d'une seule valeur aberrante est, espérons-le,
+limité. Les transformations de la réponse peuvent contribuer à réduire
+le caractère aberrant. Sinon, il est possible d'utiliser d'autres
+fonctions objectives que le critère des moindres carrés ordinaires
+(telles que celles employées dans la régression robuste); celles-ci
+pondèrent les observations extrêmes, au détriment de l'efficacité.
+
+\section{Postulats du modèle et
+diagnostics}\label{postulats-du-moduxe8le-et-diagnostics}
+
+Cette section passe en revue les postulats du modèle énoncés pour
+permettre l'inférence statistique à l'aide du modèle linéaire et des
+différents résidus qui servent d'éléments de base pour les diagnostics
+graphiques. Nous étudions les conséquences de la violation de ces
+postulats et décrivons des stratégies d'atténuation potentielles, dont
+beaucoup sont abordées dans d'autres chapitres.
+
+Jusqu'à présent, nous avons ajusté des modèles et testé la
+significativité des coefficients sans valider notre modèle. La fiabilité
+des valeurs \(p\) et des intervalles de confiance dépend de la validité
+(approximative) des postulats du modèle, qui découlent toutes de
+l'hypothèse sur les alés, supposée indépendantes et identiquement
+distribuées avec
+\(\varepsilon_i \stackrel{\cdot}{\sim} \mathsf{normale}(0, \sigma^2)\).
+Cette description mathématique compacte peut être décomposée en quatre
+postulats principaux: Il y a quatre postulats principaux du modèle
+linéaire de la forme
+\[Y_i \mid \mathbf{x}_i \sim \mathsf{normale}(\mathbf{x}_i\boldsymbol{\beta}, \sigma^2)\]
+
+\begin{itemize}
+\tightlist
+\item
+  linéarité et additivité: la moyenne de \(Y_i \mid \mathbf{x}_i\) est
+  \(\beta_0 + \beta_1x_{i1} + \cdots + \beta_p x_{ip}\),
+\item
+  homoscédasticité: la variance des observations \(\sigma^2\) est
+  constante,
+\item
+  indépendence des observations (conditionnellement aux covariables),
+\item
+  normalité.
+\end{itemize}
+
+Lorsque nous effectuons un test d'hypothèse et que nous ne rejetons pas
+l'hypothèse nulle, c'est soit parce qu'elle est vraie, soit par manque
+de preuves. Il en va de même pour la vérification de la validité des
+postulats du modèle: le raisonnement scientifique veut que nous ne
+puissions pas savoir avec certitude si ces derniers sont vrais. Notre
+stratégie consiste donc à utiliser les implications des hypothèses du
+modèle linéaire pour créer des outils de diagnostics graphiques, afin de
+s'assurer qu'il n'y a pas de violation flagrante des postulats.
+Toutefois, il est important de se garder de surinterpréter les
+diagnostics graphiques: l'oeil humain est très doué pour trouver des
+schémas inexistants.
+
+\subsection{Postulat de linéarité et
+d'additivité}\label{postulat-de-linuxe9arituxe9-et-dadditivituxe9}
+
+Le postulat de linéarité signifie que le modèle moyen est correctement
+spécifié, que toutes les covariables pertinentes ont été incluses et que
+leur effet est correctement spécifié (y compris les effets non linéaires
+et les interactions). L'additivité sous-tend que le modèle peut être
+exprimé comme la somme de moyenne plus aléa. Pour vérifier que la
+surface de réponse du modèle linéaire est adéquate, nous dessinons un
+nuage de points de \(e_i\) en fonction de \(\widehat{y}_i\) ou
+\(x_{ij}\) (pour \(j=1, \ldots, p\)). Étant donné que la corrélation
+linéaire entre \(\boldsymbol{e}\) et \(\widehat{\boldsymbol{y}}\) (ou
+\(\boldsymbol{e}\) et \(\mathbf{X}_j\)) est nulle par construction, les
+modèles (par exemple, tendance quadratique, cycles, points de
+changement) sont indicatifs d'une mauvaise spécification du modèle pour
+la moyenne. Il est possible d'ajouter une courbe de lissage de tels
+effets. La Figure~\ref{fig-regdiaglin} montre trois diagrammes de
+résidus. On cherche une tendance locale dans l'axe des ordonnées \(y\),
+pas sur l'axe des abcisses.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-regdiaglin-1.pdf}
+
+}
+
+\caption{\label{fig-regdiaglin}Diagrammes des résidus par rapport aux
+valeurs ajustées. Les deux premiers diagrammes ne montrent aucun écart
+par rapport à la linéarité (moyenne locale nulle). Le troisième
+diagramme montre une tendance quadratique évidente, ce qui suggère que
+le modèle moyen est mal spécifié. Notez que la distribution de la valeur
+ajustée n'est pas nécessairement uniforme, comme dans le deuxième
+panneau.}
+
+\end{figure}%
+
+S'il existe une structure résiduelle dans les graphiques des résidus
+ordinaires en fonction (a) des valeurs ajustées ou (b) des variables
+explicatives, un modèle plus complexe peut être ajusté, y compris un
+contenant des interactions, des fonctions non linéaires, etc. Si l'effet
+d'une variable explicative est clairement non linéaire et compliqué, des
+termes de lissage peuvent être ajoutés (nous ne couvrirons pas les
+modèles additifs généralisés dans ce cours).
+
+La représentation graphique des résidus en fonction des variables
+explicatives omises peut également servir à vérifier que tout le pouvoir
+explicatif de la covariable omise est déjà expliqué par les colonnes de
+\(\mathbf{X}\).
+
+Si une variable importante a été omise et n'est pas disponible dans
+l'ensemble de données, l'effet de cette variable est capturé à la fois
+par les erreurs (la partie orthogonale à la matrice du modèle
+\(\mathbf{X}\), c'est-à-dire inexpliquée par les covariables incluses
+dans le modèle) et la partie restante est capturée par d'autres
+variables explicatives du modèle qui sont corrélées avec la variable
+omise. Ces variables peuvent agir comme des facteurs de confusion. Dans
+les deux cas, il n'y a pas grand-chose à faire si les données relatives
+à la variable omise ne sont pas disponibles, mais des connaissances
+spécifiques au sujet peuvent aider à donner un sens aux résultats.
+
+\subsection{Postulat
+d'homoscédasticité}\label{postulat-dhomoscuxe9dasticituxe9}
+
+Si la variance des aléas est la même pour toutes les observations
+(homoscédasticité), celle des observations \(Y\) est également
+constante. Les scénarios les plus courants d'hétéroscédasticité sont des
+augmentations de la variance avec la réponse, ou bien une variance qui
+dépend de variables explicatives \(\mathbf{X}\), notamment des variables
+catégorielles.
+
+Si les aléas (ou variables réponses) sont hétéroscédastiques (variance
+non constante), les effets estimés des variables (les paramètres
+\(\beta\)) sont toujours valables dans le sens où l'estimateur des
+moindres carrés ordinaires \(\widehat{\boldsymbol{\beta}}\) est sans
+biais. Cependant, les erreurs types estimées des \(\widehat{\beta}\) ne
+sont plus fiables et, par conséquent, les intervalles de confiance et
+les tests d'hypothèse pour les paramètres du modèle seront incorrects.
+En effet, si la variance des erreurs diffère d'une observation à
+l'autre, nous allons estimer une moyenne des différents termes de
+variance. Les erreurs types de chaque terme sont incorrectes (trop
+petites ou trop grandes) et les conclusions des tests (valeurs \(p\))
+seront erronées car les formules des statistiques des tests \(t\) et
+\(F\) incluent des estimations de \(hat{\sigma}^2\).
+
+L'examen de nuages de points des résidus studentisés externes en
+fonction des régresseurs (ou des valeurs ajustées), appelé diagrammes de
+niveau et de dispersion, est instructif --- par exemple, nous voyons
+souvent un modèle en entonnoir lorsqu'il y a une augmentation de la
+variance dans le tracé des résidus studentisés externes en fonction de
+la valeur ajustée, ou encore dans les boîtes à moustache pour une
+variable catégorielle comme dans la Figure~\ref{fig-diagfitvalhomosce}.
+Cependant, si nous voulons ajuster un lissage local pour observer les
+tendances, il est préférable de tracer la valeur absolue des résidus
+\(r\) en fonction des régresseurs ou du nombre d'observations.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-diagfitvalhomosce-1.pdf}
+
+}
+
+\caption{\label{fig-diagfitvalhomosce}Diagrammes des résidus studentisés
+externes en fonction des valeurs ajustées (gauche) et d'une variable
+catégorielle (droite).}
+
+\end{figure}%
+
+Une extension évidente du modèle linéaire consiste à permettre à la
+variance de varier en fonction des variables explicatives, généralement
+des covariables catégorielles. Cela est facile à faire en modifiant la
+vraisemblance et nous couvrirons cette approche plus en détail.
+
+Nous pouvons effectuer des tests d'hypothèse pour l'hypothèse
+d'homogénéité (égalité) de la variance. Les tests les plus couramment
+utilisés sont le test de Bartlett, un test du rapport de vraisemblance
+sous l'hypothèse que les données sont tirées d'une loi normale, avec une
+correction de Bartlett pour améliorer l'approximation \(\chi^2\) de la
+distribution nulle. Ce test est cependant sensible aux écarts à la
+normalité, et tend à rejeter même quand la variance est constante. Le
+deuxième test le plus répandu est le test de Levene (une alternative
+plus robuste, moins sensible aux valeurs aberrantes). Pour les deux
+tests, la distribution nulle est
+\(\mathscr{H}_0 : \sigma^2_1 = \cdots = \sigma^2_K\) contre
+l'alternative qu'au moins deux diffèrent. La statistique du test de
+Bartlett a une distribution nulle \(\chi^2\) avec \(K-1\) degrés de
+liberté, alors que le test de Levene a une distribution \(F\) avec
+(\(K-1\), \(n-K\)) degrés de liberté: il est équivalent au calcul de la
+statistique \(F\) de l'ANOVA à un facteur avec la valeur absolue des
+résidus centrés, \(|y_{ik} - \widehat{\mu}_k|\), comme observations. Un
+test populaire plus général est le test de Breusch et Pagan
+(\citeproc{ref-Breusch.Pagan:1979}{1979}), qui est un test du score pour
+un modèle de régression linéaire pour le carré des résidus ordinaires
+\(e_i^2\). Comme les autres tests de score, ce dernier ne nécessite pas
+d'ajustement du modèle avec des variances inégales, mais on doit choisir
+quelles variables explicatives mettre dans le modèle.
+
+\begin{example}[Violation du postulat
+d'homoscédasticité]\protect\hypertarget{exm-heterogeneity}{}\label{exm-heterogeneity}
+
+~
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-simuWelchnull-1.pdf}
+
+}
+
+\caption{\label{fig-simuWelchnull}Histogramme de la loi nulle des
+valeurs-\(p\) obtenues par simulation à l'aide du test-\(t\) à deux
+échantillons (à gauche) et du test-\(t\) de Welch (à droite), sur la
+base de 10 000 simulations. Chaque échantillon simulé se compose de 50
+observations provenant d'une distribution \(\mathsf{normale}(0, 1)\) et
+de 10 observations provenant d'une distribution
+\(\mathsf{normale}(0, 9)\). La loi uniforme sous \(\mathscr{H}_0\)
+aurait 5 \% dans chacune des 20 cases utilisées pour l'affichage.}
+
+\end{figure}%
+
+Qu'arrive-t-il si la variance est inégale? Considérons un problème
+simple de comparaison de moyennes entre deux groupes, qui revient à
+effectuer un \(t\)-test pour deux échantillons. Nous avons simulé 50
+observations à partir d'une loi \(\mathsf{normale}(0, 1)\) et 10
+observations à partir d'une loi \(\mathsf{normale}(0, 9)\), en comparant
+la distribution des valeurs \(p\) pour les statistiques du test de Welch
+et du test \(t\). En revanche, nous rejetons 0\% du temps avec le
+test-\(t\) : il s'agit d'une grande proportion de prémisses erronées
+Bien que la distorsion du niveau du test ne soit pas toujours aussi
+frappante, l'hétérogénéité doit être prise en compte dans l'élaboration
+du modèle en exigeant des tailles d'échantillon suffisantes (lorsque les
+coûts le permettent) dans chaque groupe pour pouvoir estimer la variance
+de manière fiable dans chaque sous-groupe et à l'aide d'une statistique
+adéquate.
+
+\end{example}
+
+Souvent, une variance inégale se produit parce que le modèle n'est pas
+additif. Vous pouvez utiliser des transformations stabilisant la
+variance (par exemple, pour des effets multiplicatifs) afin de garantir
+une variance à peu près égale dans chaque groupe. Dans ce cas de figure,
+une transformation logarithmique (ou une transformation de Box--Cox)
+peut aider à stabiliser la variance, mais il faut que la réponse soit
+positive. Une autre option consiste à utiliser un modèle adapté au type
+de réponse que vous avez (y compris les données de décompte et les
+données binaires). Enfin, il peut être nécessaire de modéliser
+explicitement la variance dans des modèles plus complexes (y compris les
+mesures répétées) lorsqu'il y a un effet d'apprentissage au fil du temps
+et que la variabilité diminue en conséquence. Consultez un expert si
+nécessaire.
+
+Les économistes utilisent fréquemment des estimateurs \textbf{sandwich}
+(\citeproc{ref-White:1980}{White 1980}), en remplaçant l'estimateur
+usuel de la matrice de covariance des \(\widehat{\boldsymbol{\beta}}\),
+d'ordinaire \(S^2(\mathbf{X}^\top\mathbf{X})^{-1}\), par un estimateur
+sandwich de la forme
+\[\widehat{\mathsf{Va}}_{\mathsf{HCE}}(\boldsymbol{\widehat{\beta}}) = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\boldsymbol{\Omega}\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\]
+avec \(\boldsymbol{\Omega}\) une matrice diagonale. Les choix populaires
+pour des matrices convergente en cas d'hétéroscédasticité matrices
+(\citeproc{ref-McKinnon.White:1985}{MacKinnon et White 1985}), utilisent
+\(\mathrm{diag}(\boldsymbol{\Omega})_i = e_i^2/(1-h_{ii})^2\), dans le
+cas de la matrice \(\mathrm{HC}_3\).
+
+\subsection{Postulat d'indépendance}\label{postulat-dinduxe9pendance}
+
+Habituellement, l'indépendance des observations découle directement du
+type d'échantillonnage utilisé --- cette hypothèse est implicitement
+vraie si les observations représentent un \emph{échantillon aléatoire}
+de la population. Ce n'est généralement pas le cas pour les données
+longitudinales, qui contiennent des mesures répétées des mêmes individus
+au fil du temps. De même, les séries temporelles ne sont pas constituées
+d'observations indépendantes. Si nous voulons inclure tous les points
+temporels dans l'analyse, nous devons tenir compte de l'éventuelle
+dépendance (corrélation) entre les observations.
+
+Quel est l'impact de la dépendance entre les mesures? D'un point de vue
+heuristique, les mesures corrélées contiennent moins d'informations que
+les mesures indépendantes. Dans le cas le plus extrême, il n'y a pas
+d'information supplémentaire et les mesures sont identiques, mais le
+fait de les ajouter plusieurs fois gonfle indûment la la taille de
+l'échantillon. Si nous ignorons la corrélation, les erreurs-type
+estimées sont trop petites, car la taille effective de l'échantillon est
+inférieure au nombre d'observations. Cela enfle la statistique et
+conduit à des rejets plus fréquents des hypothèses nulles, par erreur.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-plotLevelIndep-1.pdf}
+
+}
+
+\caption{\label{fig-plotLevelIndep}Taux de rejet de l'hypothèse nulle
+pour le test \(F\) d'égalité des moyennes pour une ANOVA à une voie avec
+des données générées en groupes de cinq avec une moyenne et une variance
+constantes, à partir d'un modèle d'équicorrélation (les observations à
+l'intérieur d'un groupe sont corrélées, les observations entre les
+groupes sont indépendantes). Le niveau nominal du test est de 5\%.}
+
+\end{figure}%
+
+Le manque d'indépendance peut également avoir des conséquences
+dramatiques sur l'inférence et conduire à de fausses conclusions: la
+Figure~\ref{fig-plotLevelIndep} montre un exemple avec des échantillons
+corrélés au sein d'un groupe (ou, de manière équivalente, des mesures
+répétées d'individus) avec cinq observations par groupe. L'axe des
+ordonnées montre la proportion de fois où l'hypothèse nulle est rejetée
+alors qu'elle ne devrait l'être en principe que 5\% du temps. Ici, comme
+les données sont générées à partir du modèle nul (moyenne égale) avec
+une variance égale, l'inflation du nombre d'erreurs de type I est
+alarmante et l'inflation du niveau du test est substantielle même avec
+une corrélation très limitée entre les mesures.
+
+La première source de dépendance est constituée par les données
+groupées, c'est-à-dire les mesures prises sur des sujets qui ne sont pas
+indépendants les uns des autres (famille, groupes, etc.) On distingue
+entre \textbf{données longitudinales}, qui sont des mesures répétées
+sont effectuées sur les mêmes sujets (quelques points temporels) et
+\textbf{séries chronologiques}, dont la longueur et la fréquence
+d'échantillonage est plus élevée. Les séries temporelles nécessitent des
+modèles spécifiques qui ne sont pas abordés dans ce cours. En raison de
+l'autocorrélation, les erreurs positives ont tendance à être suivies
+d'erreurs positives, etc. Nous pouvons tracer les résidus en fonction du
+temps et un nuage de points des résidus retardés \(e_i\) par rapport à
+\(e_{i-1}\) (\(i=2, \ldots, n\)).
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-timeresidplot-1.pdf}
+
+}
+
+\caption{\label{fig-timeresidplot}Nuage de point de résidus versus les
+résidus décalés d'une observation: il n'y a aucune preuve d'indépendance
+dans le panneau de gauche, alors que le panneau de droite montre des
+résidus positivement corrélés.}
+
+\end{figure}%
+
+Toutefois, les diagrammes de résidus décalés ne montrent que la
+dépendance au premier décalage entre les observations. Pour les séries
+temporelles, nous pouvons utiliser un corrélogramme, c'est-à-dire un
+diagramme à bandes de la corrélation entre deux observations distantes
+de \(h\) unités en fonction du décalage
+\(h\).(\citeproc{ref-Brockwell.Davis:2016}{Brockwell et Davis 2016},
+Definition 1.4.4).
+
+Pour \(y_1, \ldots, y_n\) et des pas de décalages \(h=0, 1, \ldots\),
+l'autocorrélation au pas de temps \(h\) est \begin{align*}
+r(h) = \frac{\gamma(h)}{\gamma(0)}, \qquad \gamma(h) = \frac{1}{n}\sum_{i=1}^{n-|h|} (y_i-\overline{y})(y_{i+h} - \overline{y})
+\end{align*}
+
+Si la série est corrélée, l'autocorrélation de l'échantillon se situera
+probablement en dehors des intervalles de confiance ponctuels, comme le
+montre la Figure~\ref{fig-correlogram}. La présence d'autocorrélation
+nécessite de modéliser la corrélation entre les observations de manière
+explicite à l'aide d'outils spécifiques issus de la littérature sur les
+séries temporelles. Nous examinerons toutefois les modèles
+\(\mathsf{AR}(1)\) dans le cadre du chapitre sur les données
+longitudinales. Voir {[}Forecasting : Principles and Practice, section
+5.3{]} (https://otexts.com/fpp2/regression-evaluation.html) pour plus de
+détails.
+
+Lorsque les observations sont positivement corrélées, les erreurs-types
+estimées indiquées par le logiciel sont trop petites. Cela signifie que
+nous sommes trop confiants et que nous rejetterons l'hypothèse nulle
+plus souvent que nous ne le devrions si l'hypothèse nulle était vraie
+(erreur de type I gonflée, plus de faux positifs).
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-correlogram-1.pdf}
+
+}
+
+\caption{\label{fig-correlogram}Corrélogramme d'observations
+indépendantes (à gauche) et des résidus ordinaires du modèle
+log-linéaire ajusté aux données sur le traffic aérien (à droite). Alors
+que le modèle moyen de ce dernier est apparemment correctement spécifié,
+il existe une dépendance résiduelle entre les observations mensuelles et
+annuelles (décalage de \(h=12\) mois). Les lignes traitillées en bleu
+indiquent un intervalle de confiance ponctuels approximatifs à 95 \%
+pour un bruit blanc (observations non corrélées).}
+
+\end{figure}%
+
+Comment prendre en compte la dépendance entre observations? L'idée
+principale est de modéliser la corrélation et la variance, en partant du
+vecteur complet d'observations et en supposant que
+\[\boldsymbol{Y} \mid \mathbf{X} \sim \mathsf{normale}_n(\mathbf{X}\boldsymbol{\beta}, \boldsymbol{\Sigma})\]
+avec un modèle pour la matrice de variance de dimension \(n \times n\),
+disons \(\boldsymbol{\Sigma}\), qui sera paramétré en fonction de
+\(\boldsymbol{\psi}\).
+
 \bookmarksetup{startatroot}
 
 \chapter*{Bibliographie}\label{bibliographie}
@@ -7181,6 +7853,16 @@ Baumann, James F., Nancy Seifert-Kessell, et Leah A. Jones. 1992.
 Comprehension Monitoring Abilities~»}. \emph{Journal of Reading
 Behavior} 24 (2): 143‑72.
 \url{https://doi.org/10.1080/10862969209547770}.
+
+\bibitem[\citeproctext]{ref-Breusch.Pagan:1979}
+Breusch, T. S., et A. R. Pagan. 1979. {«~A Simple Test for
+Heteroscedasticity and Random Coefficient Variation~»}.
+\emph{Econometrica} 47 (5): 1287‑94.
+\url{http://www.jstor.org/stable/1911963}.
+
+\bibitem[\citeproctext]{ref-Brockwell.Davis:2016}
+Brockwell, P. J., et R. A. Davis. 2016. \emph{Introduction to Time
+Series and Forecasting}. Springer Texts in Statistics. Springer.
 
 \bibitem[\citeproctext]{ref-Brodeur:2021}
 Brodeur, Mathieu, Perrine Ruer, Pierre-Majorique Léger, et Sylvain
@@ -7209,6 +7891,11 @@ Formats: When Integrating Purchase and Quantity Decisions Increases
 Sales~»}. \emph{Marketing Science} 42 (1): 87‑109.
 \url{https://doi.org/10.1287/mksc.2022.1364}.
 
+\bibitem[\citeproctext]{ref-Fox:1992}
+Fox, John, et Georges Monette. 1992. {«~Generalized Collinearity
+Diagnostics~»}. \emph{Journal of the American Statistical Association}
+87 (417): 178‑83. \url{https://doi.org/10.1080/01621459.1992.10475190}.
+
 \bibitem[\citeproctext]{ref-Student:1908}
 Gosset, William Sealy. 1908. {«~The probable error of a mean~»}.
 \emph{Biometrika} 6 (1): 1‑25.
@@ -7231,6 +7918,12 @@ Liu, Peggy J., SoYon Rim, Lauren Min, et Kate E. Min. 2023. {«~The
 surprise of reaching out: Appreciated more than we think.~»}
 \emph{Journal of Personality and Social Psychology} 124 (4): 754‑71.
 \url{https://doi.org/10.1037/pspi0000402}.
+
+\bibitem[\citeproctext]{ref-McKinnon.White:1985}
+MacKinnon, James G, et Halbert White. 1985. {«~Some
+heteroskedasticity-consistent covariance matrix estimators with improved
+finite sample properties~»}. \emph{Journal of Econometrics} 29 (3):
+305‑25. \url{https://doi.org/10.1016/0304-4076(85)90158-7}.
 
 \bibitem[\citeproctext]{ref-McCullagh.Nelder:1989}
 McCullagh, P., et J. A. Nelder. 1989. \emph{Generalized linear models}.
@@ -7262,6 +7955,12 @@ Packaging~»}. \emph{Journal of Consumer Research} 50 (3): 468‑91.
 Venables, William N. 2000. {«~Exegeses on Linear Models~»}. In
 \emph{S-PLUS User's Conference}. Washington, D.C.
 \url{https://www.stats.ox.ac.uk/pub/MASS3/Exegeses.pdf}.
+
+\bibitem[\citeproctext]{ref-White:1980}
+White, Halbert. 1980. {«~A Heteroskedasticity-Consistent Covariance
+Matrix Estimator and a Direct Test for Heteroskedasticity~»}.
+\emph{Econometrica} 48 (4): 817‑38.
+\url{https://doi.org/10.2307/1912934}.
 
 \end{CSLReferences}
 

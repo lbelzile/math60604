@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.1">
+<meta name="generator" content="quarto-1.5.56">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -378,6 +378,11 @@ Figure&nbsp;1.1: Fonctions de répartition (panneau supérieur) et fonctions de 
 \mathsf{Va}(Y)&amp;=\int_{\mathbb{R}} (y-\mu)^2 f(y) \mathrm{d} y \\&amp;=\mathsf{E}\{Y-\mathsf{E}(Y)\}^2 \\&amp;= \mathsf{E}(Y^2) - \{\mathsf{E}(Y)\}^2.
 \end{align*}\]</span></p>
 <p>L’écart-type est défini comme la racine carrée de la variance, <span class="math inline">\(\mathsf{sd}(Y)=\sqrt{\mathsf{Va}(Y)}\)</span>: elle est exprimé dans les mêmes unités que celle de <span class="math inline">\(Y\)</span> et donc plus facilement interprétable.</p>
+<div id="exm-moments-des" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 1.2</strong></span> Considérons une variable aléatoire discrète <span class="math inline">\(Y\)</span> pour la somme de deux lancers de dés à six faces. L’espérance de <span class="math inline">\(g(Y)=Y^2\)</span> est <span class="math display">\[\begin{align*}
+\mathsf{E}(Y^2) &amp;= (2^2 + 12^2) \times \frac{1}{36} + (3^2 + 11^2) \times  \frac{2}{36} + (4^2 + 10^2) \\&amp;\;\times  \frac{3}{36} + (5^2 +9^2) \times  \frac{4}{36} + (6^2 + 8^2) \times  \frac{5}{36} \\&amp; + 7^2 \times  \frac{6}{36}= \frac{329}{6}.
+\end{align*}\]</span></p>
+</div>
 <p>La notion de moments peut être généralisé à des vecteurs. Si <span class="math inline">\(\boldsymbol{Y}\)</span> est un <span class="math inline">\(n\)</span>-vecteur, comprenant par exemple dans le cadre d’une régression des mesures d’un ensemble d’observations, alors l’espérance est calculée composante par composante,</p>
 <p><span class="math display">\[\begin{align*}
 \mathsf{E}(\boldsymbol{Y}) &amp;= \boldsymbol{\mu}=
@@ -445,7 +450,7 @@ Figure&nbsp;1.2: Trois jeux de données de <code>datasauRus</code>, avec une cor
 \end{align*}\]</span> L’estimateur est non biaisé si <span class="math inline">\(\mathsf{biais}(\hat{\theta})=0\)</span>.</p>
 </div>
 <div id="exm-estimateurs-non-biaises" class="theorem example">
-<p><span class="theorem-title"><strong>Exemple 1.2 (Estimateurs sans biais)</strong></span> L’estimateur sans biais de l’espérance de <span class="math inline">\(Y\)</span> pour un échantillon aléatoire simple <span class="math inline">\(Y_1, \ldots, Y_n\)</span> est la moyenne empirique <span class="math inline">\(\overline{Y}_n = n^{-1} \sum_{i=1}^n Y_i\)</span> et celui de la variance <span class="math inline">\(S_n = (n-1)^{-1} \sum_{i=1}^n (Y_i-\overline{Y})^2\)</span>.</p>
+<p><span class="theorem-title"><strong>Exemple 1.3 (Estimateurs sans biais)</strong></span> L’estimateur sans biais de l’espérance de <span class="math inline">\(Y\)</span> pour un échantillon aléatoire simple <span class="math inline">\(Y_1, \ldots, Y_n\)</span> est la moyenne empirique <span class="math inline">\(\overline{Y}_n = n^{-1} \sum_{i=1}^n Y_i\)</span> et celui de la variance <span class="math inline">\(S_n = (n-1)^{-1} \sum_{i=1}^n (Y_i-\overline{Y})^2\)</span>.</p>
 </div>
 <p>Un estimateur sans biais est souhaitable, mais pas toujours optimal. Quelquefois, il n’existe pas d’estimateur non-biaisé pour un paramètre! Dans plusieurs cas, on cherche un estimateur qui minimise l’erreur quadratique moyenne.</p>
 <p>Souvent, on cherche à balancer le biais et la variance: rappelez-vous qu’un estimateur est une variable aléatoire (étant une fonction de variables aléatoires) et qu’il est lui-même variable: même s’il est sans biais, la valeur numérique obtenue fluctuera d’un échantillon à l’autre.</p>
@@ -476,7 +481,7 @@ Figure&nbsp;1.2: Trois jeux de données de <code>datasauRus</code>, avec une cor
 </ul>
 <p>Plus généralement, on aura accès à des données aggrégées.</p>
 <div id="exm-loibinom" class="theorem example">
-<p><span class="theorem-title"><strong>Exemple 1.3 (Loi binomiale)</strong></span> Si les données représentent la somme d’événements Bernoulli indépendants, la loi du nombre de réussites <span class="math inline">\(Y\)</span> pour un nombre d’essais donné <span class="math inline">\(m\)</span> est dite <a href="https://fr.wikipedia.org/wiki/Loi_binomiale">binomiale</a>, dénotée <span class="math inline">\(\mathsf{Bin}(m, p)\)</span>; sa fonction de masse est <span class="math display">\[\begin{align*}
+<p><span class="theorem-title"><strong>Exemple 1.4 (Loi binomiale)</strong></span> Si les données représentent la somme d’événements Bernoulli indépendants, la loi du nombre de réussites <span class="math inline">\(Y\)</span> pour un nombre d’essais donné <span class="math inline">\(m\)</span> est dite <a href="https://fr.wikipedia.org/wiki/Loi_binomiale">binomiale</a>, dénotée <span class="math inline">\(\mathsf{Bin}(m, p)\)</span>; sa fonction de masse est <span class="math display">\[\begin{align*}
 \mathsf{Pr}(Y=y) = \binom{m}{y}p^y (1-p)^{1-y}, \quad y=0, 1.
 \end{align*}\]</span> La vraisemblance pour un échantillon de la loi binomiale est (à constante de normalisation près qui ne dépend pas de <span class="math inline">\(p\)</span>) la même que pour un échantillon aléatoire de <span class="math inline">\(m\)</span> variables Bernoulli indépendantes. L’espérance d’une variable binomiale est <span class="math inline">\(\mathsf{E}(Y)=mp\)</span> et la variance <span class="math inline">\(\mathsf{Va}(Y)=mp(1-p)\)</span>.</p>
 </div>
@@ -503,12 +508,12 @@ Par exemple, on pourrait modéliser le nombre de visites d'une maison en vente a
 
 -->
 <div id="exm-loipoisson" class="theorem example">
-<p><span class="theorem-title"><strong>Exemple 1.4 (Loi de Poisson)</strong></span> Si la probabilité d’un événement Bernoulli est petite et qu’il est rare d’obtenir un succès dans le sens où <span class="math inline">\(mp \to \lambda\)</span> quand le nombre d’essais <span class="math inline">\(m\)</span> augmente, alors le nombre de succès suit approximateivement une loi de Poisson de fonction de masse <span class="math display">\[\begin{align*}
+<p><span class="theorem-title"><strong>Exemple 1.5 (Loi de Poisson)</strong></span> Si la probabilité d’un événement Bernoulli est petite et qu’il est rare d’obtenir un succès dans le sens où <span class="math inline">\(mp \to \lambda\)</span> quand le nombre d’essais <span class="math inline">\(m\)</span> augmente, alors le nombre de succès suit approximateivement une loi de Poisson de fonction de masse <span class="math display">\[\begin{align*}
 \mathsf{Pr}(Y=y) = \frac{\exp(-\lambda)\lambda^y}{\Gamma(y+1)}, \quad y=0, 1, 2, \ldots
 \end{align*}\]</span> où <span class="math inline">\(\Gamma(\cdot)\)</span> dénote la fonction gamma, et <span class="math inline">\(\Gamma(y+1) = y!\)</span> si <span class="math inline">\(y\)</span> est un entier. Le paramètre <span class="math inline">\(\lambda\)</span> de la loi de Poisson représente à la fois l’espérance et la variance de la variable, c’est-à-dire que <span class="math inline">\(\mathsf{E}(Y)=\mathsf{Va}(Y)=\lambda\)</span>.</p>
 </div>
 <div id="exm-loibinneg" class="theorem example">
-<p><span class="theorem-title"><strong>Exemple 1.5 (Loi binomiale négative)</strong></span> On considère une série d’essais Bernoulli de probabilité de succès <span class="math inline">\(p\)</span> jusqu’à l’obtention de <span class="math inline">\(m\)</span> succès. Soit <span class="math inline">\(Y\)</span>, le nombre d’échecs: puisque la dernière réalisation doit forcément être un succès, mais que l’ordre des succès/échecs précédents n’importe pas, la fonction de masse de la loi binomiale négative est <span class="math display">\[\begin{align*}
+<p><span class="theorem-title"><strong>Exemple 1.6 (Loi binomiale négative)</strong></span> On considère une série d’essais Bernoulli de probabilité de succès <span class="math inline">\(p\)</span> jusqu’à l’obtention de <span class="math inline">\(m\)</span> succès. Soit <span class="math inline">\(Y\)</span>, le nombre d’échecs: puisque la dernière réalisation doit forcément être un succès, mais que l’ordre des succès/échecs précédents n’importe pas, la fonction de masse de la loi binomiale négative est <span class="math display">\[\begin{align*}
 \mathsf{Pr}(Y=y)= \binom{m-1+y}{y} p^m (1-p)^{y}.
 \end{align*}\]</span></p>
 <p>La loi binomiale négative apparaît également si on considère la loi non-conditionnelle du modèle hiérarchique gamma-Poisson, dans lequel on suppose que le paramètre de la moyenne de la loi Poisson est aussi aléatoire, c’est-à-dire <span class="math inline">\(Y \mid \Lambda=\lambda \sim \mathsf{Po}(\lambda)\)</span> et <span class="math inline">\(\Lambda\)</span> suit une loi gamma de paramètre de forme <span class="math inline">\(r\)</span> et de paramètre d’échelle <span class="math inline">\(\theta\)</span>, dont la densité est <span class="math display">\[\begin{align*}
