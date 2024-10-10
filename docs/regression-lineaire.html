@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.56">
+<meta name="generator" content="quarto-1.6.1">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -283,6 +283,8 @@ window.Quarto = {
   <li><a href="#postulat-de-linéarité-et-dadditivité" id="toc-postulat-de-linéarité-et-dadditivité" class="nav-link" data-scroll-target="#postulat-de-linéarité-et-dadditivité"><span class="header-section-number">4.8.1</span> Postulat de linéarité et d’additivité</a></li>
   <li><a href="#postulat-dhomoscédasticité" id="toc-postulat-dhomoscédasticité" class="nav-link" data-scroll-target="#postulat-dhomoscédasticité"><span class="header-section-number">4.8.2</span> Postulat d’homoscédasticité</a></li>
   <li><a href="#postulat-dindépendance" id="toc-postulat-dindépendance" class="nav-link" data-scroll-target="#postulat-dindépendance"><span class="header-section-number">4.8.3</span> Postulat d’indépendance</a></li>
+  <li><a href="#postulat-de-normalité" id="toc-postulat-de-normalité" class="nav-link" data-scroll-target="#postulat-de-normalité"><span class="header-section-number">4.8.4</span> Postulat de normalité</a></li>
+  <li><a href="#sec-transfo" id="toc-sec-transfo" class="nav-link" data-scroll-target="#sec-transfo"><span class="header-section-number">4.8.5</span> Transformation de la variable réponse</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/lbelzile/math60604/edit/master/regression-lineaire.qmd" class="toc-action"><i class="bi bi-github"></i>Éditer cette page</a></li></ul></div></nav>
@@ -836,7 +838,7 @@ i(\boldsymbol{\beta}, \sigma^2) =
 \mathrm{x}^*\widehat{\boldsymbol{\beta}}\pm \mathfrak{t}_{n-p-1}(\alpha/2)\sqrt{S^2\mathrm{x}^*(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}^{*\top}}.
 \end{align*}\]</span> Les deux formules diffèrent uniquement au niveau de la variabilité.</p>
 <div id="exm-sokolova-pred" class="theorem example">
-<p><span class="theorem-title"><strong>Exemple 4.12 (Prédiction pour une régression linéaire simple)</strong></span> Considérons les données de l’<a href="#exm-sokolova" class="quarto-xref">Exemple&nbsp;<span>4.5</span></a>. On ajuste un modèle de régression linéaire simple avec <span class="math inline">\(\texttt{pef} = \beta_0 + \beta_1 \texttt{proportion} + \varepsilon\)</span>, où <span class="math inline">\(\varepsilon \sim \mathsf{normal}(0,\sigma^2)\)</span> et on suppose les observations indépendantes.</p>
+<p><span class="theorem-title"><strong>Exemple 4.12 (Prédiction pour une régression linéaire simple)</strong></span> Considérons les données de l’<a href="#exm-sokolova" class="quarto-xref">Exemple&nbsp;<span>4.5</span></a>. On ajuste un modèle de régression linéaire simple avec <span class="math inline">\(\texttt{pef} = \beta_0 + \beta_1 \texttt{proportion} + \varepsilon\)</span>, où <span class="math inline">\(\varepsilon \sim \mathsf{normale}(0,\sigma^2)\)</span> et on suppose les observations indépendantes.</p>
 <p>La <a href="#fig-predinterval" class="quarto-xref">Figure&nbsp;<span>4.6</span></a> montre les bandes d’incertitude ponctuelles pour une simple régression linéaire des données de <span class="citation" data-cites="Sokolova:2023">Sokolova, Krishna, et Döring (<a href="references.html#ref-Sokolova:2023" role="doc-biblioref">2023</a>)</span> en fonction de la <code>proportion</code> de carton par rapport au plastique, les valeurs les plus élevées indiquant un emballage avec plus de carton superflu. Le modèle ne tient pas compte du fait que notre réponse provient d’une distribution discrète limitée avec des valeurs entières allant de 1 à 7, et que les ratios testés dans l’expérience sont 0 (pas de carton), 0.5, 1 et 2 uniquement. La droite centrale donne la prédiction des individus lorsque nous faisons varier la proportion carton/plastique. En examinant les formules des intervalles de confiance et de prédiction, il est clair que les bandes ne sont pas linéaires (nous considérons la racine carrée d’une fonction qui implique les prédicteurs), mais il n’est pas évident visuellement que l’incertitude augmente au fur et à mesure que l’on s’éloigne de la moyenne des prédicteurs.</p>
 <p>Il est plus facile de s’en rendre compte en reproduisant les courbes potentielles qui auraient pu se produire avec des données différentes: la <a href="#fig-predinterval" class="quarto-xref">Figure&nbsp;<span>4.6</span></a> montre les nouvelles pentes potentielles générées à partir de la distribution normale asymptotique des estimateurs <span class="math inline">\(\widehat{\boldsymbol{\beta}}\)</span>. La forme hyperbolique n’est pas surprenante: nous pivotons essentiellement les courbes à partir de la <code>pef</code>/<code>proportion</code> moyenne, et leur potentiel de déviation est d’autant plus élevé que nous nous éloignons de la moyenne dans chaque direction. Les intervalles de prédiction (gris pâle) sont très larges et couvrent essentiellement l’ensemble des valeurs potentielles de l’échelle de Likert sur la perception du respect de l’environnement, à l’exception de quelques observations. En revanche, les intervalles de confiance pour la moyenne sont assez étroits, en raison de la taille importante de l’échantillon. On constate également que les courbes s’en écartent peu.</p>
 <div class="cell" data-layout-align="center">
@@ -1003,7 +1005,7 @@ R &amp;= 2( \ell_{\mathbb{M}_1} - \ell_{\mathbb{M}_0}) \\&amp;= n\ln\{\mathsf{SC
 <p>Les contrastes encodent la question de recherche : si <span class="math inline">\(c_i\)</span> représente le poids de la moyenne du groupe <span class="math inline">\(\mu_i\)</span> <span class="math inline">\((i=1, \ldots, K)\)</span>, alors nous pouvons écrire le contraste comme <span class="math inline">\(C = c_1 \mu_1 + \cdots + c_K \mu_K\)</span> avec l’hypothèse nulle <span class="math inline">\(\mathscr{H}_0 : C=a\)</span> pour une alternative bilatérale. L’estimation du contraste linéaire est obtenue en remplaçant la moyenne inconnue de la population <span class="math inline">\(\mu_i\)</span> par la moyenne de l’échantillon de ce groupe, <span class="math inline">\(\widehat{\mu}_i = \overline{y}_{i}\)</span>. Nous pouvons facilement obtenir l’erreur type de la combinaison linéaire <span class="math inline">\(C\)</span>. La formule, l’erreur type, en supposant une taille de sous-échantillon de <span class="math inline">\(n_1, \ldots, n_K\)</span> et une variance commune <span class="math inline">\(\sigma^2\)</span>, est la racine carrée de <span class="math display">\[\begin{align*}
 \mathsf{Va}(\widehat{C}) = \widehat{\sigma}^2\left(\frac{c_1^2}{n_1} + \cdots + \frac{c_K^2}{n_K}\right).
 \end{align*}\]</span> Nous pouvons alors construire une statistique <span class="math inline">\(t\)</span> comme d’habitude en examinant la différence entre notre valeur postulée et la moyenne pondérée observée, convenablement normalisée. Si le test global <span class="math inline">\(F\)</span> conduit au rejet de la valeur nulle, il existe au moins un contraste significatif au même niveau. Lorsque les vecteurs de contraste sont orthogonaux, les tests ne sont pas corrélés. Mathématiquement, si nous laissons <span class="math inline">\(c_{i}\)</span> et <span class="math inline">\(c^{*}_{i}\)</span> désigner les poids attachés à la moyenne du groupe <span class="math inline">\(i\)</span> comprenant <span class="math inline">\(n_i\)</span> observations, les contrastes sont orthogonaux si <span class="math inline">\(c_{1}c^{*}_{1}/n_1 + \cdots + c_{K}c^{*}_K/n_K = 0\)</span> ; si l’échantillon est équilibré avec le même nombre d’observations dans chaque groupe, <span class="math inline">\(n/K = n_1 =\cdots = n_K\)</span>, nous pouvons considérer le produit scalaire des deux vecteurs de contrastes et négliger la taille des sous-échantillons.</p>
-<p>Si nous avons <span class="math inline">\(K\)</span> groupes, il y a <span class="math inline">\(K-1\)</span> contrastes pour les différences deux à deux, le dernier étant capturé par la moyenne de l’échantillon pour l’effet global<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. Si nous nous intéressons uniquement à la différence entre groupes (par opposition à l’effet global de tous les traitements), nous imposons une contrainte de somme à zéro sur les poids, de sorte que <span class="math inline">\(c_1 + \cdots + c_K=0\)</span>.</p>
+<p>Si nous avons <span class="math inline">\(K\)</span> groupes, il y a <span class="math inline">\(K-1\)</span> contrastes pour les différences deux à deux, le dernier étant capturé par la moyenne de l’échantillon pour l’effet global. Si nous nous intéressons uniquement à la différence entre groupes (par opposition à l’effet global de tous les traitements), nous imposons une contrainte de somme à zéro sur les poids, de sorte que <span class="math inline">\(c_1 + \cdots + c_K=0\)</span>.</p>
 </section>
 <section id="exemples-de-tests" class="level3" data-number="4.5.2">
 <h3 data-number="4.5.2" class="anchored" data-anchor-id="exemples-de-tests"><span class="header-section-number">4.5.2</span> Exemples de tests</h3>
@@ -2136,7 +2138,7 @@ Figure&nbsp;4.13: Valeur aberrante (gauche) et observation influente (droite, va
 </div>
 </div>
 </div>
-<p>Si les observations influentes peuvent être détectées en inspectant le levier de chaque observation, les valeurs aberrantes sont plus difficiles à diagnostiquer. Une valeur aberrante se distingue du reste des observations, soit parce qu’elle a une valeur de réponse habituelle, soit parce qu’elle se situe loin de la surface de régression. En gros, une valeur aberrante est une valeur inhabituelle de <span class="math inline">\(Y\)</span> pour une combinaison donnée de <span class="math inline">\(\mathbf{X}\)</span> qui se distingue des autres. Les valeurs aberrantes peuvent être détectées au cours de l’analyse exploratoire des données ou dans les diagrammes de résidus (valeurs élevées de <span class="math inline">\(|e_i|\)</span> dans les diagrammes des valeurs ajustées par rapport aux valeurs résiduelles) ou dans les diagrammes de régression partielle. On pourrait éventuellement tester si un résidu studentisé externe est une valeur aberrante (en tenant compte du fait que nous ne prendrions en considération que les valeurs les plus élevées). On peut également considérer la distance de Cook, <span class="math inline">\(C_j\)</span>, une statistique donnant la distance à l’échelle entre les valeurs ajustées <span class="math inline">\(hat{\boldsymbol{y}}\)</span> et les valeurs ajustées pour le modèle avec toutes les observations sauf la <span class="math inline">\(j\)</span>e, <span class="math inline">\(\hat{\boldsymbol{y}}^{(-j)}\)</span>, <span class="math display">\[\begin{align*}
+<p>Si les observations influentes peuvent être détectées en inspectant le levier de chaque observation, les valeurs aberrantes sont plus difficiles à diagnostiquer. Une valeur aberrante se distingue du reste des observations, soit parce qu’elle a une valeur de réponse habituelle, soit parce qu’elle se situe loin de la surface de régression. En gros, une valeur aberrante est une valeur inhabituelle de <span class="math inline">\(Y\)</span> pour une combinaison donnée de <span class="math inline">\(\mathbf{X}\)</span> qui se distingue des autres. Les valeurs aberrantes peuvent être détectées au cours de l’analyse exploratoire des données ou dans les diagrammes de résidus (valeurs élevées de <span class="math inline">\(|e_i|\)</span> dans les diagrammes des valeurs ajustées par rapport aux valeurs résiduelles) ou dans les diagrammes de régression partielle. On pourrait éventuellement tester si un résidu studentisé externe est une valeur aberrante (en tenant compte du fait que nous ne prendrions en considération que les valeurs les plus élevées). On peut également considérer la distance de Cook, <span class="math inline">\(C_j\)</span>, une statistique donnant la distance à l’échelle entre les valeurs ajustées <span class="math inline">\(\hat{\boldsymbol{y}}\)</span> et les valeurs ajustées pour le modèle avec toutes les observations sauf la <span class="math inline">\(j\)</span>e, <span class="math inline">\(\hat{\boldsymbol{y}}^{(-j)}\)</span>, <span class="math display">\[\begin{align*}
 C_j = \frac{1}{(p+1)S^2} \sum_{i=1}^n \left\{\hat{y}_i - \hat{y}_{i}^{(-j)}\right\}^2
 \end{align*}\]</span> Des valeurs élevées de <span class="math inline">\(C_j\)</span> indiquent que son résidu ordinaire <span class="math inline">\(e_j\)</span> est important par rapport aux autres observations ou que son effet de levier <span class="math inline">\(h_j\)</span> est élevé. Une règle empirique consiste à considérer les points pour lesquels <span class="math inline">\(C_j &gt; 4/(n-p-1)\)</span>. En pratique, si deux observations sont aberrantes et se situent dans la même région, leur distance de Cook sera réduite de moitié.</p>
 <p>Les observations aberrantes et influentes ne doivent pas être négligées parce qu’elles ne sont pas conformes au modèle, mais doivent faire l’objet d’un examen plus approfondi. Elles peuvent motiver une modélisation plus poussée des caractéristiques non prises en compte. Il est également utile de vérifier les erreurs d’enregistrement dans les données (qui peuvent être écartées sans risque). Dans les très grands échantillons, l’impact d’une seule valeur aberrante est, espérons-le, limité. Les transformations de la réponse peuvent contribuer à réduire le caractère aberrant. Sinon, il est possible d’utiliser d’autres fonctions objectives que le critère des moindres carrés ordinaires (telles que celles employées dans la régression robuste); celles-ci pondèrent les observations extrêmes, au détriment de l’efficacité.</p>
@@ -2254,7 +2256,7 @@ Figure&nbsp;4.18: Nuage de point de résidus versus les résidus décalés d’u
 <p>Pour <span class="math inline">\(y_1, \ldots, y_n\)</span> et des pas de décalages <span class="math inline">\(h=0, 1, \ldots\)</span>, l’autocorrélation au pas de temps <span class="math inline">\(h\)</span> est <span class="math display">\[\begin{align*}
 r(h) = \frac{\gamma(h)}{\gamma(0)}, \qquad \gamma(h) = \frac{1}{n}\sum_{i=1}^{n-|h|} (y_i-\overline{y})(y_{i+h} - \overline{y})
 \end{align*}\]</span></p>
-<p>Si la série est corrélée, l’autocorrélation de l’échantillon se situera probablement en dehors des intervalles de confiance ponctuels, comme le montre la <a href="#fig-correlogram" class="quarto-xref">Figure&nbsp;<span>4.19</span></a>. La présence d’autocorrélation nécessite de modéliser la corrélation entre les observations de manière explicite à l’aide d’outils spécifiques issus de la littérature sur les séries temporelles. Nous examinerons toutefois les modèles <span class="math inline">\(\mathsf{AR}(1)\)</span> dans le cadre du chapitre sur les données longitudinales. Voir [Forecasting : Principles and Practice, section 5.3] (https://otexts.com/fpp2/regression-evaluation.html) pour plus de détails.</p>
+<p>Si la série est corrélée, l’autocorrélation de l’échantillon se situera probablement en dehors des intervalles de confiance ponctuels, comme le montre la <a href="#fig-correlogram" class="quarto-xref">Figure&nbsp;<span>4.19</span></a>. La présence d’autocorrélation nécessite de modéliser la corrélation entre les observations de manière explicite à l’aide d’outils spécifiques issus de la littérature sur les séries temporelles. Nous examinerons toutefois les modèles <span class="math inline">\(\mathsf{AR}(1)\)</span> dans le cadre du chapitre sur les données longitudinales. Voir <a href="https://otexts.com/fpp2/regression-evaluation.html">Forecasting : Principles and Practice, section 5.3</a> pour plus de détails.</p>
 <p>Lorsque les observations sont positivement corrélées, les erreurs-types estimées indiquées par le logiciel sont trop petites. Cela signifie que nous sommes trop confiants et que nous rejetterons l’hypothèse nulle plus souvent que nous ne le devrions si l’hypothèse nulle était vraie (erreur de type I gonflée, plus de faux positifs).</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -2271,11 +2273,189 @@ Figure&nbsp;4.19: Corrélogramme d’observations indépendantes (à gauche) et 
 </div>
 </div>
 <p>Comment prendre en compte la dépendance entre observations? L’idée principale est de modéliser la corrélation et la variance, en partant du vecteur complet d’observations et en supposant que <span class="math display">\[\boldsymbol{Y} \mid \mathbf{X} \sim \mathsf{normale}_n(\mathbf{X}\boldsymbol{\beta}, \boldsymbol{\Sigma})\]</span> avec un modèle pour la matrice de variance de dimension <span class="math inline">\(n \times n\)</span>, disons <span class="math inline">\(\boldsymbol{\Sigma}\)</span>, qui sera paramétré en fonction de <span class="math inline">\(\boldsymbol{\psi}\)</span>.</p>
+</section>
+<section id="postulat-de-normalité" class="level3" data-number="4.8.4">
+<h3 data-number="4.8.4" class="anchored" data-anchor-id="postulat-de-normalité"><span class="header-section-number">4.8.4</span> Postulat de normalité</h3>
+<p>Le postulat de normalité des aléas est commode, mais pas strictement nécessaire dans la majorité des cas pour la validité des tests sur les coefficients ou les énoncés reliés à la moyenne prédite. Si les aléas suivent une loi normale, les estimateurs des moindres carrés et du maximum de vraisemblance de <span class="math inline">\(\boldsymbol{\beta}\)</span> coïncident. Les estimateurs du maximum de vraisemblance de <span class="math inline">\(\boldsymbol{\beta}\)</span> sont asymptotiquement normaux sous de faibles conditions sur la matrice du modèle et les <span class="math inline">\(t\)</span>-tests sont étonnamment robustes et ne sont pas affectés par un écart par rapport au postulat de normalité. Cela signifie que l’inférence est valable avec de grands échantillons, quelle que soit la distribution des erreurs/résidus (même si la loi nulle n’est pas exacte). L’inférence sera valable avec de grands échantillons même si les aléas ne sont pas normaux à cause du théorème de la limite centrale. Il est important de garder à l’esprit que, pour les variables explicatives catégorielles, la taille de l’échantillon dans chaque sous-groupe doit être suffisamment importante pour que le théorème de la limite centrale s’applique, puisque les coefficients représentent la moyenne du sous-groupe. En revanche, les résultats et tests qui capitalisent sur la loi des aléas (par exemple, les tests pour les aberrances basés sur le maximum des résidus studentisés, ou les intervalles de prédictions) seront probablement trompeurs.</p>
+<p>Parfois, des transformations peuvent améliorer la normalité : si les données sont asymétriques à droite et que la variable réponse est strictement positive, un modèle log-linéaire peut être plus adéquat <a href="#sec-transfo" class="quarto-xref"><span>Section 4.8.5</span></a>. Ceci peut être évalué en regardant le diagramme quantile-quantile des résidus studentisés externes. Si la réponse <span class="math inline">\(Y\)</span> n’est pas continue (y compris les données binaires, proportionnelles ou de dénombrement), les modèles linéaires généralisés sont plus appropriés.</p>
+<p>Si l’aléa <span class="math inline">\(\varepsilon_i \sim \mathsf{normale}(0, \sigma^2)\)</span>, alors les résidus studentisés externes devraient suivre une distribution de Student, avec <span class="math inline">\(r_i \sim \mathsf{Student}(n-p-2)\)</span> (identiquement distribués, mais non indépendants). Un diagramme quantile-quantile de Student peut donc être utilisé pour vérifier le postulat. Gardez à l’esprit que si le modèle de la moyenne ou de la variance n’est pas correctement spécifié, certains résidus peuvent incorporer les effets résiduels.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-qqplotresid" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-qqplotresid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="regression-lineaire_files/figure-html/fig-qqplotresid-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-qqplotresid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.20: Histogramme et estimation de densité par lissage de noyau (gauche) et diagramme quantile-quantile Student (droite). Le panneau de gauche montre la loi théorique Student (en bleu) pour comparaison. Le panneau de droite présente des intervalles de confiance ponctuels à 95% calculés à l’aide d’un autoamorçage paramétrique.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Les graphiques quantile-quantile sont abordés dans la <a href="introduction.html#def-diagramme-qq" class="quarto-xref">Définition&nbsp;<span>1.14</span></a>, mais leur interprétation nécessite de la pratique. Par exemple, la <a href="#fig-qqplotsbad" class="quarto-xref">Figure&nbsp;<span>4.21</span></a> montre de nombreux scénarios courants qui peuvent être détectés à l’aide de diagrammes quantile-quantile. Les données discrètes sont responsables des motifs en escalier, les données asymétriques à droite ont des quantiles bas trop élevés et des quantiles hauts trop bas par rapport aux positions de tracé, les données à ailes lourdes ont des observations élevées de part et d’autre et les données bimodales conduisent à des sauts dans le tracé.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-qqplotsbad" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-qqplotsbad-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="regression-lineaire_files/figure-html/fig-qqplotsbad-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-qqplotsbad-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.21: Diagrammes quantiles-quantiles de données discrète (coin supérieur gauche), à ailes lourdes (coin supérieur droit), asymmétrique à droite (coin inférieur gauche) et bimodales (coin inférieur droit).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div id="exm-diagplotcollege" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 4.24 (Diagnostics graphiques pour l’inéquité salariale)</strong></span> On considère le modèle pour les données <code>college</code> avec toutes les observations (sans interaction) pour voir si les postulats tiennent la route.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-diagplotscollege" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-diagplotscollege-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="regression-lineaire_files/figure-html/fig-diagplotscollege-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-diagplotscollege-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.22: Diagnostic plots for the college data example: ordinary residuals against fitted values (top left), absolute value of the jacknnife studentized residuals against fitted values (top right), box and whiskers plot of jacknnife studentized residuals (bottom left) and detrended Student quantile-quantile plot (bottom right). There is clear group heteroscedasticity.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Sur la base des graphiques de <a href="#fig-diagplotscollege" class="quarto-xref">Figure&nbsp;<span>4.22</span></a>, nous constatons qu’il existe une hétéroscédasticité au sein des échelons. Comme le nombre d’années pour les adjoint(e)s est limité et que tous les professeurs assistants ont été embauchés au cours des six dernières années, il y a moins de disparité dans leurs revenus. Il est important de ne pas confondre le modèle sur l’axe <span class="math inline">\(x\)</span> pour la valeur ajustée (en raison de l’effet important du rang et du domaine, tous deux variables catégorielles) avec les modèles dans les résidus (aucun n’est apparent). La correction de l’hétéroscédasticité permettrait de corriger les résidus et d’améliorer l’aspect du graphique quantile-quantile.</p>
+<p>On effectue quelques tests avec les résidus studentisés externes pour les données <code>college</code> pour valider ce que les diagnostics graphiques indiquent.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">rstudent</span>(modlin1_college)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Test F de Levene</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">leveneTest</span>(r <span class="sc">~</span> echelon, <span class="at">center =</span> <span class="st">"mean"</span>, <span class="at">data =</span> college)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Levene's Test for Homogeneity of Variance (center = "mean")</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        Df F value Pr(&gt;F)    </span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; group   2      50 &lt;2e-16 ***</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       394                   </span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Test du score avec Breusch-Pagan</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">ncvTest</span>(modlin1_college, <span class="at">var.formula =</span>  <span class="sc">~</span> echelon)</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Non-constant Variance Score Test </span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Variance formula: ~ echelon </span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Chisquare = 70.2, Df = 2, p = 6e-16</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Pour les données de collège, on spécifie donc plutôt <span class="math inline">\(Y_i \sim \mathsf{normale}(\mathbf{x}_i\boldsymbol{\beta}, \sigma^2_{\texttt{echelon}_i})\)</span> avec un paramètre de variance spécifique à l’échelon. Cela semble corriger l’hétéroscédasticité.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme) <span class="co"># modèles mixtes et structures de corrélation</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>modlin.college2 <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">gls</span>(</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> salaire <span class="sc">~</span> echelon <span class="sc">+</span> domaine <span class="sc">+</span> sexe <span class="sc">+</span> service, <span class="co"># spécification de la moyenne</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">weights =</span> nlme<span class="sc">::</span><span class="fu">varIdent</span>(<span class="at">form =</span> <span class="sc">~</span><span class="dv">1</span> <span class="sc">|</span> echelon), <span class="co"># variance constante par échelon</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> college)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(modlin.college2)</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(modlin.college2)</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Analysis of Deviance Table (Type II tests)</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Response: salaire</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         Df  Chisq Pr(&gt;Chisq)    </span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; echelon  2 363.50     &lt;2e-16 ***</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; domaine  1  91.04     &lt;2e-16 ***</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sexe     1   1.80      0.180    </span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; service  1   2.97      0.085 .  </span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="regression-lineaire_files/figure-html/unnamed-chunk-59-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Le modèle est ajusté par maximum de vraisemblance restreint avec la fonction <code>gls</code> du paquet <code>nlme</code>. La modification semble suffisante pour capturer l’hétéroscédasticité dans le diagramme des résidus standardisés vs valeurs ajustées.</p>
+<p>On pourrait aussi essayer d’utiliser la matrice sandwich, en remplaçant l’estimateur de <span class="math inline">\(\mathsf{Va}(\widehat{\boldsymbol{\beta}})\)</span> par <span class="math inline">\(\widehat{\mathsf{Va}}_{\mathsf{HCE}}(\boldsymbol{\widehat{\beta}})\)</span> dans la formule des tests de Wald. Ici, c’est option n’est pas recommandée car moins efficace.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Matrice de covariance sandwich</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>vcov_HCE <span class="ot">&lt;-</span> car<span class="sc">::</span><span class="fu">hccm</span>(modlin1_college)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Statistiques de Wald</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>lmtest<span class="sc">::</span><span class="fu">coeftest</span>(modlin1_college, <span class="at">vcov. =</span> vcov_HCE)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="sec-transfo" class="level3" data-number="4.8.5">
+<h3 data-number="4.8.5" class="anchored"><span class="header-section-number">4.8.5</span> Transformation de la variable réponse</h3>
+<p>Si la réponse est strictement positive, certaines options peuvent atténuer le manque d’additivité, plus particulièrement les relations multiplicatives entre la moyenne et la variance. Si les données sont asymétriques et que la réponse est strictement positive, un modèle log-linéaire peut être plus approprié et les paramètres peuvent être interprétés.</p>
+<p>Écrivons le modèle log-linéaire <span class="math display">\[\begin{align*}
+\ln Y = \beta_0+ \beta_1 X_1 +\cdots + \beta_pX_p + \varepsilon;
+\end{align*}\]</span> à l’échelle originale de la variable réponse, cela représente <span class="math display">\[\begin{align*}
+Y &amp;= \exp\left(\beta_0 +\beta_1 X_1 +\cdots + \beta_pX_p\right)\cdot \exp(\varepsilon),
+\end{align*}\]</span> et donc <span class="math display">\[\begin{align*}
+\mathsf{E}(Y \mid \mathbf{X}) = \exp(\beta_0 +\beta_1 X_1 +\cdots + \beta_pX_p) \times \mathsf{E}\{\exp(\varepsilon) \mid \mathbf{X}\}.
+\end{align*}\]</span> Si <span class="math inline">\(\varepsilon \mid \mathbf{x} \sim \mathsf{normale}(\mu,\sigma^2)\)</span>, alors <span class="math inline">\(\mathsf{E}\{\exp(\varepsilon) \mid \mathbf{x}\}= \exp(\mu+\sigma^2/2)\)</span> et <span class="math inline">\(\exp(\varepsilon)\)</span> suit une loi lognormale. Une augmentation d’une unité de <span class="math inline">\(X_j\)</span> mène à une augmentation moyenne de <span class="math inline">\(\beta_j\)</span> de <span class="math inline">\(\ln Y\)</span> sans interaction ni terme nonlinéaire pour <span class="math inline">\(X_j\)</span>, et cela se traduit par un facteur multiplicatif de <span class="math inline">\(\exp(\beta_j)\)</span> à l’échelle de <span class="math inline">\(Y\)</span>. Si <span class="math inline">\(\beta_j=0\)</span>, <span class="math inline">\(\exp(\beta_j)=1\)</span> et il n’y a pas de changement, si <span class="math inline">\(\beta_j &lt; 0\)</span>, <span class="math inline">\(\exp(\beta_j)&lt;1\)</span> et la moyenne décroît avec <span class="math inline">\(X_j\)</span>, et si <span class="math inline">\(\beta_j &gt; 0\)</span>, <span class="math inline">\(\exp(\beta_j)&gt;1\)</span> et la moyenne augmente avec <span class="math inline">\(X_j\)</span>.</p>
+<p>Comparez le rapport <span class="math display">\[\begin{align*}
+\frac{\mathsf{E}(Y \mid X_1=x+1, X_2, \ldots, X_p)}{\mathsf{E}(Y \mid X_1=x,  X_2, \ldots, X_p)} = \frac{\exp\{\beta_1(x+1)\}}{\exp(\beta_1 x)} = \exp(\beta_1).
+\end{align*}\]</span> Ainsi, <span class="math inline">\(\exp(\beta_1)\)</span> donne le rapport des moyennes de <span class="math inline">\(Y\)</span> quand <span class="math inline">\(X_1=x+1\)</span> par rapport à <span class="math inline">\(X_1=x\)</span>, <em>ceteris paribus</em> (avec les restrictions habituelles). L’interprétation (par rapport à la référence, dépend du signe de <span class="math inline">\(\beta_j\)</span>: le pourcentage de diminution est <span class="math inline">\(1-\exp(\beta_j)\)</span> si <span class="math inline">\(\beta_j &lt;0\)</span> et le pourcentage d’augmentation est <span class="math inline">\(\exp(\beta_j)-1\)</span> si <span class="math inline">\(\beta_j&gt;0\)</span>.</p>
+<p>Parfois, on veut considérer une transformation à la fois de la réponse et d’une variable explicative positive continue, un modèle log-log. Considérons le cas où on prend le logarithme de <span class="math inline">\(Y\)</span> et <span class="math inline">\(X_1\)</span>, avec <span class="math display">\[\begin{align*}
+Y= X_1^{\beta_1}\exp(\beta_0 + \beta_2X_2 + \cdots + \beta_pX_p + \varepsilon)
+\end{align*}\]</span> En prenant la dérivée par rapport à <span class="math inline">\(X_1&gt;0\)</span>, on obtient <span class="math display">\[\begin{align*}
+\frac{\partial Y}{\partial X_1}&amp;= \beta_1 X_1^{\beta_1-1}\exp(\beta_0 + \beta_2X_2 + \cdots + \beta_pX_p + \varepsilon)\\&amp;= \frac{\beta_1 Y}{X_1}
+\end{align*}\]</span> et réarranger cette expression nous donne <span class="math display">\[\begin{align*}
+\frac{\partial X_1}{X_1}\beta_1 = \frac{\partial Y}{Y};
+\end{align*}\]</span> une mesure <strong>d’élasticité partielle</strong>: le coefficient <span class="math inline">\(\beta_1\)</span> est un pourcentage de changement de <span class="math inline">\(Y\)</span> pour chaque pourcentage d’augmentation de <span class="math inline">\(X_1\)</span>, <em>ceteris paribus</em>.</p>
+<div id="exm-loglog" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 4.25 (Modèle de Cobb-Douglas)</strong></span> Considérons par exemple la fonction de production Cobb–Douglas <span class="citation" data-cites="Douglas:1976">(<a href="references.html#ref-Douglas:1976" role="doc-biblioref">Douglas 1976</a>)</span>, qui spécifie que la production économique <span class="math inline">\(Y\)</span> est liée au travail <span class="math inline">\(L\)</span> et au capital <span class="math inline">\(C\)</span> par l’intermédiaire de <span class="math inline">\(\mathsf{E}(Y \mid L, C) = \beta_0C^{\beta}L^{1-\beta}\)</span> avec <span class="math inline">\(\beta \ dans (0,1)\)</span>.Si nous prenons les logarithmes des deux côtés (puisque tous les arguments sont positifs), alors <span class="math inline">\(\mathsf{E}(\ln Y \mid L, C) = \beta_0^* + \beta_1 \ln C + (1-\beta_1)\ln L\)</span>. Nous pourrions ajuster un modèle linéaire avec la réponse <span class="math inline">\(\ln Y - \ln L\)</span> et la variable explicative <span class="math inline">\(\ln C - \ln L\)</span>, pour obtenir une estimation du coefficient <span class="math inline">\(\beta_1\)</span>, tandis que <span class="math inline">\(\beta_0^*=\ln \beta_0\)</span>. Une optimisation sous contrainte serait potentiellement nécessaire pour estimer les paramètres du modèle linéaire résultant si les estimations se situent en dehors de l’espace des paramètres.</p>
+</div>
+<div id="prp-boxcox" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 4.6 (Transformation de Box–Cox)</strong></span> Avec des données strictement positives, on peut utiliser une transformation de Box–Cox <span class="citation" data-cites="Box.Cox:1964">(<a href="references.html#ref-Box.Cox:1964" role="doc-biblioref">Box et Cox 1964</a>)</span>, <span class="math display">\[\begin{align*}
+y(\lambda)= \begin{cases}
+(y^{\lambda}-1)/\lambda, &amp; \lambda \neq 0\\
+\ln(y), &amp; \lambda=0.
+\end{cases}
+\end{align*}\]</span> Les cas de figure <span class="math inline">\(\lambda=-1\)</span> (inverse), <span class="math inline">\(\lambda=1\)</span> (identité) et <span class="math inline">\(\lambda=0\)</span> (logarithme) sont les plus importants car les modèles résultants sont interprétables.</p>
+<p>Si on suppose que <span class="math inline">\(\boldsymbol{Y}(\lambda) \sim \mathsf{normale}(\mathbf{X}\boldsymbol{\beta}, \sigma^2 \mathbf{I}_n)\)</span>, alors la vraisemblance est <span class="math display">\[\begin{align*}
+L(\lambda, \boldsymbol{\beta}, \sigma; \boldsymbol{y}, \mathbf{X}) &amp;= (2\pi\sigma^2)^{-n/2} J(\lambda, \boldsymbol{y}) \times\\&amp; \quad \exp \left[ - \frac{1}{2\sigma^2}\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}^\top\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}\right],
+\end{align*}\]</span> où <span class="math inline">\(J\)</span> dénote le Jacobien de la transformation Box–Cox, <span class="math inline">\(J(\lambda, \boldsymbol{y})=\prod_{i=1}^n y_i^{\lambda-1}\)</span>.</p>
+<section id="profilage-de-lambda" class="level2" data-number="4.9">
+<h2 data-number="4.9" class="anchored" data-anchor-id="profilage-de-lambda"><span class="header-section-number">4.9</span> Profilage de <span class="math inline">\(\lambda\)</span></h2>
+<p>Pour chaque valeur de <span class="math inline">\(\lambda\)</span>, on obtient les estimateurs du maximum de vraisemblance usuels en remplaçant <span class="math inline">\(\boldsymbol{y}\)</span> par <span class="math inline">\(\boldsymbol{y}(\lambda)\)</span>.</p>
+<p>La log vraisemblance profilée pour <span class="math inline">\(\lambda\)</span> est <span class="math display">\[\begin{align*}
+\ell_{\mathsf{p}}(\lambda) = -\frac{n}{2}\ln(2\pi \widehat{\sigma}^2_\lambda) - \frac{n}{2} + (\lambda - 1)\sum_{i=1}^n \ln(y_i)
+\end{align*}\]</span></p>
+<p>Nous ne pouvons pas comparer les modèles ajustés à <span class="math inline">\(Y_i\)</span> par rapport à <span class="math inline">\(\ln Y_i\)</span> en utilisant, par exemple, des critères d’information ou des tests, parce que les modèles ont des réponses différentes. Nous pouvons toutefois utiliser la vraisemblance de Box–Cox, qui inclut le <strong>Jacobien</strong> de la transformation, pour évaluer la qualité de l’ajustement et comparer le modèle avec <span class="math inline">\(\lambda=1\)</span> par rapport à <span class="math inline">\(\lambda=0\)</span>.</p>
+<p>La transformation de Box-Cox n’est pas une panacée et doit être réservée aux cas où la transformation réduit l’hétéroscédasticité (variance inégale) ou crée une relation linéaire entre les explications et la réponse : la théorie fournit une explication convaincante des données. Plutôt qu’un choix <em>ad hoc</em> de transformation, on pourrait prendre une transformation logarithmique si la valeur 0$ est incluse dans l’intervalle de confiance à 95%, car cela améliore l’interprétabilité.</p>
+</section>
+</div>
+<div id="exm-poisonboxcox" class="theorem example">
+<p><span class="theorem-title"><strong>Exemple 4.26 (Transformation de Box–Cox pour données sur les poisons)</strong></span> <span class="citation" data-cites="Box.Cox:1964">Box et Cox (<a href="references.html#ref-Box.Cox:1964" role="doc-biblioref">1964</a>)</span> modélisent le temps de survie de 48 animaux sur la base d’un essai aléatoire. Les données sur les <code>poisons</code> sont équilibrées, 3 poisons ayant été administrés avec 4 traitements à 4 animaux chacun. Nous pourrions envisager une ANOVA à deux facteurs sans interaction, étant donné le peu d’observations pour chaque combinaison. Le modèle s’écrit alors <span class="math display">\[\begin{align*}
+Y &amp;= \beta_0 + \beta_1 \texttt{poison}_2 + \beta_2\texttt{poison}_3  +\beta_3\texttt{treatment}_2 \\ &amp;\qquad+ \beta_4\texttt{treatment}_3
++\beta_5\texttt{treatment}_4 + \varepsilon
+\end{align*}\]</span></p>
+<p>Le tracé des valeurs ajustées par rapport aux résidus montre que le modèle n’est pas additif (panneau du milieu de la <a href="#fig-poisonplots" class="quarto-xref">Figure&nbsp;<span>4.23</span></a>); il y a également des indications que la variance augmente avec la réponse moyenne. Le modèle est inadéquat: les temps de survie les plus faibles sont sous-estimés, ce qui signifie que les résidus sont positifs, de même que les réponses moyennes. Un test formel de non-additivité indique également la non-additivité <span class="citation" data-cites="Davison:2003">(<a href="references.html#ref-Davison:2003" role="doc-biblioref">Davison 2003</a>, Exemple 8.24)</span>. Dans l’ensemble, l’ajustement du modèle est médiocre et toute conclusion tirée de celui-ci est douteuse.</p>
+<p>On pourrait envisager d’utiliser un Box–Cox pour trouver une transformation appropriée des résidus afin d’améliorer la normalité. Une analyse des résidus dans les quatre premiers graphiques de <a href="#fig-poisonplots" class="quarto-xref">Figure&nbsp;<span>4.23</span></a> montre des signes d’hétéroscédasticité en fonction du poison et du traitement. Ceci est évident en regardant le graphique des résidus ordinaires, qui montre une augmentation de la variance avec le temps de survie. Le tracé quantile-quantile dans le tracé du milieu à droite montre quelques signes d’écart par rapport à la normalité, mais la non-linéarité et l’hétéroscédasticité le masquent.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-poisonplots" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-poisonplots-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="regression-lineaire_files/figure-html/fig-poisonplots-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-poisonplots-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.23: Diagnostics graphiques pour les données de poisons. Panneau du haut: vraisemblance profilée pour <span class="math inline">\(\lambda\)</span>. Panneau du milieu: (<span class="math inline">\(\lambda=1\)</span>, temps de survie) et du bas <span class="math inline">\((\lambda=-1\)</span>, vitesse d’absorption). Les diagnostics pour les modèles représentent les résidus ordinaires versus valeurs ajustées et diagramme quantile-quantile des résidus studentisés.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>L’intervalle de confiance à 95% basé sur la log-vraisemblance profilée pour le paramètre du modèle Box–Cox contient <span class="math inline">\(\lambda=-1\)</span>. La réciproque de la variable réponse <span class="math inline">\(Y^{-1}\)</span> indique la vitesse d’action du poison, selon le type et le traitement. Les diagnostics graphiques de ce modèles, présentés dans le panneau du bas de la <a href="#fig-poisonplots" class="quarto-xref">Figure&nbsp;<span>4.23</span></a> ne montrent aucune structure résiduelle.</p>
+</div>
+<!--
+La régression linéaire est le modèle statistique le plus connu et le plus utilisé.  Le nom peut sembler réducteur, mais de nombreux tests statistiques (*t*-tests, ANOVA, Wilcoxon, Kruskal--Wallis) [peuvent être formulés à l'aide d'une régression linéaire] (https://lindeloev.github.io/tests-as-linear/linear_tests_cheat_sheet.pdf), tandis que [des modèles aussi divers que les arbres, les composantes principales et les réseaux neuronaux profonds ne sont que des modèles de régression linéaire déguisés] (https://threadreaderapp.com/thread/1286420597505892352.html). Ce qui change sous le capot d'un modèle à l'autre, c'est la méthode d'optimisation (par exemple, les moindres carrés ordinaires, l'optimisation sous contrainte ou la descente de gradient stochastique) et le choix des variables explicatives entrant dans le modèle (bases de splines pour la régression non paramétrique, variable indicatrice sélectionnée via une recherche glouton pour les arbres, fonctions d'activation pour les réseaux neuronaux).
+-->
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
 <div id="ref-Baumann:1992" class="csl-entry" role="listitem">
 Baumann, James F., Nancy Seifert-Kessell, et Leah A. Jones. 1992. <span>«&nbsp;Effect of Think-Aloud Instruction on Elementary Students’ Comprehension Monitoring Abilities&nbsp;»</span>. <em>Journal of Reading Behavior</em> 24 (2): 143‑72. <a href="https://doi.org/10.1080/10862969209547770">https://doi.org/10.1080/10862969209547770</a>.
+</div>
+<div id="ref-Box.Cox:1964" class="csl-entry" role="listitem">
+Box, G. E. P., et D. R. Cox. 1964. <span>«&nbsp;An Analysis of Transformations&nbsp;»</span>. <em>Journal of the Royal Statistical Society: Series B (Methodological)</em> 26 (2): 211‑43. <a href="https://doi.org/10.1111/j.2517-6161.1964.tb00553.x">https://doi.org/10.1111/j.2517-6161.1964.tb00553.x</a>.
 </div>
 <div id="ref-Breusch.Pagan:1979" class="csl-entry" role="listitem">
 Breusch, T. S., et A. R. Pagan. 1979. <span>«&nbsp;A Simple Test for Heteroscedasticity and Random Coefficient Variation&nbsp;»</span>. <em>Econometrica</em> 47 (5): 1287‑94. <a href="http://www.jstor.org/stable/1911963">http://www.jstor.org/stable/1911963</a>.
@@ -2285,6 +2465,12 @@ Brockwell, P. J., et R. A. Davis. 2016. <em>Introduction to Time Series and Fore
 </div>
 <div id="ref-Crump.Navarro.Suzuki:2019" class="csl-entry" role="listitem">
 Crump, M. J. C., D. J. Navarro, et J. Suzuki. 2019. <em>Answering Questions with Data: Introductory Statistics for Psychology Students</em>. <a href="https://doi.org/10.17605/OSF.IO/JZE52">https://doi.org/10.17605/OSF.IO/JZE52</a>.
+</div>
+<div id="ref-Davison:2003" class="csl-entry" role="listitem">
+Davison, A. C. 2003. <em>Statistical Models</em>. Cambridge University Press.
+</div>
+<div id="ref-Douglas:1976" class="csl-entry" role="listitem">
+Douglas, Paul H. 1976. <span>«&nbsp;The <span>Cobb–Douglas</span> Production Function Once Again: Its History, Its Testing, and Some New Empirical Values&nbsp;»</span>. <em>Journal of Political Economy</em> 84 (5): 903‑15. <a href="http://www.jstor.org/stable/1830435">http://www.jstor.org/stable/1830435</a>.
 </div>
 <div id="ref-Fox:1992" class="csl-entry" role="listitem">
 Fox, John, et Georges Monette. 1992. <span>«&nbsp;Generalized Collinearity Diagnostics&nbsp;»</span>. <em>Journal of the American Statistical Association</em> 87 (417): 178‑83. <a href="https://doi.org/10.1080/01621459.1992.10475190">https://doi.org/10.1080/01621459.1992.10475190</a>.
@@ -2315,12 +2501,6 @@ White, Halbert. 1980. <span>«&nbsp;A Heteroskedasticity-Consistent Covariance M
 </div>
 </div>
 </section>
-</section>
-<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn1"><p>La contrainte <span class="math inline">\(c_1 + \cdots + c_K=0\)</span> garantit que les contrastes linéaires sont orthogonaux à la moyenne, qui a un poids <span class="math inline">\(c_i=n_i/n\)</span> et pour les échantillons équilibrés <span class="math inline">\(c_i =1/n\)</span>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
 </section>
 
 </main> <!-- /main -->

@@ -332,14 +332,14 @@
 \floatname{codelisting}{Énumération}
 \newcommand*\listoflistings{\listof{codelisting}{Liste des énumérations}}
 \usepackage{amsthm}
-\theoremstyle{definition}
-\newtheorem{example}{Exemple}[chapter]
-\theoremstyle{definition}
-\newtheorem{definition}{Définition}[chapter]
-\theoremstyle{plain}
-\newtheorem{corollary}{Corollaire}[chapter]
 \theoremstyle{plain}
 \newtheorem{proposition}{Proposition}[chapter]
+\theoremstyle{definition}
+\newtheorem{example}{Exemple}[chapter]
+\theoremstyle{plain}
+\newtheorem{corollary}{Corollaire}[chapter]
+\theoremstyle{definition}
+\newtheorem{definition}{Définition}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Preuve}}
 \newtheorem*{remark}{Remarque}
@@ -1696,7 +1696,7 @@ l'apprentissage en vase clos des recettes plutôt que d'essayer de
 comprendre les bases de la cuisine et de faire des liens. Ce chapitre se
 concentre sur la compréhension des concepts-clés liées aux tests.
 
-\begin{tcolorbox}[enhanced jigsaw, leftrule=.75mm, colbacktitle=quarto-callout-important-color!10!white, arc=.35mm, bottomtitle=1mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Objectifs d'apprentissage}, toprule=.15mm, rightrule=.15mm, bottomrule=.15mm, breakable, colframe=quarto-callout-important-color-frame, opacityback=0, toptitle=1mm, colback=white, titlerule=0mm, left=2mm, opacitybacktitle=0.6, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colback=white, toptitle=1mm, colframe=quarto-callout-important-color-frame, rightrule=.15mm, arc=.35mm, toprule=.15mm, coltitle=black, breakable, colbacktitle=quarto-callout-important-color!10!white, bottomrule=.15mm, bottomtitle=1mm, titlerule=0mm, opacityback=0, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Objectifs d'apprentissage}, left=2mm, leftrule=.75mm, opacitybacktitle=0.6]
 
 \begin{itemize}
 \tightlist
@@ -2384,7 +2384,7 @@ probabilité d'obtenir une valeur de la statistique de test égale ou même
 plus grande que celle qu'on a observée dans l'échantillon, si
 \(\mathscr{H}_0\) est vraie.
 
-\begin{tcolorbox}[enhanced jigsaw, leftrule=.75mm, colbacktitle=quarto-callout-caution-color!10!white, arc=.35mm, bottomtitle=1mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Mise en garde}, toprule=.15mm, rightrule=.15mm, bottomrule=.15mm, breakable, colframe=quarto-callout-caution-color-frame, opacityback=0, toptitle=1mm, colback=white, titlerule=0mm, left=2mm, opacitybacktitle=0.6, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colback=white, toptitle=1mm, colframe=quarto-callout-caution-color-frame, rightrule=.15mm, arc=.35mm, toprule=.15mm, coltitle=black, breakable, colbacktitle=quarto-callout-caution-color!10!white, bottomrule=.15mm, bottomtitle=1mm, titlerule=0mm, opacityback=0, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Mise en garde}, left=2mm, leftrule=.75mm, opacitybacktitle=0.6]
 
 L'\href{https://doi.org/10.1080/00031305.2016.1154108}{\emph{American
 Statistical Association (ASA)} a publié une liste de principes}
@@ -2972,7 +2972,7 @@ Ce chapitre traite de modélisation statistique et d'inférence basée sur
 la vraisemblance, la méthodologie la plus populaire dans le monde de la
 statistique.
 
-\begin{tcolorbox}[enhanced jigsaw, leftrule=.75mm, colbacktitle=quarto-callout-important-color!10!white, arc=.35mm, bottomtitle=1mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, toprule=.15mm, rightrule=.15mm, bottomrule=.15mm, breakable, colframe=quarto-callout-important-color-frame, opacityback=0, toptitle=1mm, colback=white, titlerule=0mm, left=2mm, opacitybacktitle=0.6, coltitle=black]
+\begin{tcolorbox}[enhanced jigsaw, colback=white, toptitle=1mm, colframe=quarto-callout-important-color-frame, rightrule=.15mm, arc=.35mm, toprule=.15mm, coltitle=black, breakable, colbacktitle=quarto-callout-important-color!10!white, bottomrule=.15mm, bottomtitle=1mm, titlerule=0mm, opacityback=0, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, left=2mm, leftrule=.75mm, opacitybacktitle=0.6]
 
 \textbf{Objectifs d'apprentissage}
 
@@ -5347,7 +5347,7 @@ simple]\protect\hypertarget{exm-sokolova-pred}{}\label{exm-sokolova-pred}
 Considérons les données de l'Exemple~\ref{exm-sokolova}. On ajuste un
 modèle de régression linéaire simple avec
 \(\texttt{pef} = \beta_0 + \beta_1 \texttt{proportion} + \varepsilon\),
-où \(\varepsilon \sim \mathsf{normal}(0,\sigma^2)\) et on suppose les
+où \(\varepsilon \sim \mathsf{normale}(0,\sigma^2)\) et on suppose les
 observations indépendantes.
 
 La Figure~\ref{fig-predinterval} montre les bandes d'incertitude
@@ -5688,13 +5688,10 @@ des sous-échantillons.
 
 Si nous avons \(K\) groupes, il y a \(K-1\) contrastes pour les
 différences deux à deux, le dernier étant capturé par la moyenne de
-l'échantillon pour l'effet global\footnote{La contrainte
-  \(c_1 + \cdots + c_K=0\) garantit que les contrastes linéaires sont
-  orthogonaux à la moyenne, qui a un poids \(c_i=n_i/n\) et pour les
-  échantillons équilibrés \(c_i =1/n\).}. Si nous nous intéressons
-uniquement à la différence entre groupes (par opposition à l'effet
-global de tous les traitements), nous imposons une contrainte de somme à
-zéro sur les poids, de sorte que \(c_1 + \cdots + c_K=0\).
+l'échantillon pour l'effet global. Si nous nous intéressons uniquement à
+la différence entre groupes (par opposition à l'effet global de tous les
+traitements), nous imposons une contrainte de somme à zéro sur les
+poids, de sorte que \(c_1 + \cdots + c_K=0\).
 
 \subsection{Exemples de tests}\label{exemples-de-tests}
 
@@ -7423,7 +7420,7 @@ externe est une valeur aberrante (en tenant compte du fait que nous ne
 prendrions en considération que les valeurs les plus élevées). On peut
 également considérer la distance de Cook, \(C_j\), une statistique
 donnant la distance à l'échelle entre les valeurs ajustées
-\(hat{\boldsymbol{y}}\) et les valeurs ajustées pour le modèle avec
+\(\hat{\boldsymbol{y}}\) et les valeurs ajustées pour le modèle avec
 toutes les observations sauf la \(j\)e, \(\hat{\boldsymbol{y}}^{(-j)}\),
 \begin{align*}
 C_j = \frac{1}{(p+1)S^2} \sum_{i=1}^n \left\{\hat{y}_i - \hat{y}_{i}^{(-j)}\right\}^2
@@ -7801,9 +7798,9 @@ nécessite de modéliser la corrélation entre les observations de manière
 explicite à l'aide d'outils spécifiques issus de la littérature sur les
 séries temporelles. Nous examinerons toutefois les modèles
 \(\mathsf{AR}(1)\) dans le cadre du chapitre sur les données
-longitudinales. Voir {[}Forecasting : Principles and Practice, section
-5.3{]} (https://otexts.com/fpp2/regression-evaluation.html) pour plus de
-détails.
+longitudinales. Voir
+\href{https://otexts.com/fpp2/regression-evaluation.html}{Forecasting :
+Principles and Practice, section 5.3} pour plus de détails.
 
 Lorsque les observations sont positivement corrélées, les erreurs-types
 estimées indiquées par le logiciel sont trop petites. Cela signifie que
@@ -7838,6 +7835,386 @@ avec un modèle pour la matrice de variance de dimension \(n \times n\),
 disons \(\boldsymbol{\Sigma}\), qui sera paramétré en fonction de
 \(\boldsymbol{\psi}\).
 
+\subsection{Postulat de normalité}\label{postulat-de-normalituxe9}
+
+Le postulat de normalité des aléas est commode, mais pas strictement
+nécessaire dans la majorité des cas pour la validité des tests sur les
+coefficients ou les énoncés reliés à la moyenne prédite. Si les aléas
+suivent une loi normale, les estimateurs des moindres carrés et du
+maximum de vraisemblance de \(\boldsymbol{\beta}\) coïncident. Les
+estimateurs du maximum de vraisemblance de \(\boldsymbol{\beta}\) sont
+asymptotiquement normaux sous de faibles conditions sur la matrice du
+modèle et les \(t\)-tests sont étonnamment robustes et ne sont pas
+affectés par un écart par rapport au postulat de normalité. Cela
+signifie que l'inférence est valable avec de grands échantillons, quelle
+que soit la distribution des erreurs/résidus (même si la loi nulle n'est
+pas exacte). L'inférence sera valable avec de grands échantillons même
+si les aléas ne sont pas normaux à cause du théorème de la limite
+centrale. Il est important de garder à l'esprit que, pour les variables
+explicatives catégorielles, la taille de l'échantillon dans chaque
+sous-groupe doit être suffisamment importante pour que le théorème de la
+limite centrale s'applique, puisque les coefficients représentent la
+moyenne du sous-groupe. En revanche, les résultats et tests qui
+capitalisent sur la loi des aléas (par exemple, les tests pour les
+aberrances basés sur le maximum des résidus studentisés, ou les
+intervalles de prédictions) seront probablement trompeurs.
+
+Parfois, des transformations peuvent améliorer la normalité : si les
+données sont asymétriques à droite et que la variable réponse est
+strictement positive, un modèle log-linéaire peut être plus adéquat
+Section~\ref{sec-transfo}. Ceci peut être évalué en regardant le
+diagramme quantile-quantile des résidus studentisés externes. Si la
+réponse \(Y\) n'est pas continue (y compris les données binaires,
+proportionnelles ou de dénombrement), les modèles linéaires généralisés
+sont plus appropriés.
+
+Si l'aléa \(\varepsilon_i \sim \mathsf{normale}(0, \sigma^2)\), alors
+les résidus studentisés externes devraient suivre une distribution de
+Student, avec \(r_i \sim \mathsf{Student}(n-p-2)\) (identiquement
+distribués, mais non indépendants). Un diagramme quantile-quantile de
+Student peut donc être utilisé pour vérifier le postulat. Gardez à
+l'esprit que si le modèle de la moyenne ou de la variance n'est pas
+correctement spécifié, certains résidus peuvent incorporer les effets
+résiduels.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-qqplotresid-1.pdf}
+
+}
+
+\caption{\label{fig-qqplotresid}Histogramme et estimation de densité par
+lissage de noyau (gauche) et diagramme quantile-quantile Student
+(droite). Le panneau de gauche montre la loi théorique Student (en bleu)
+pour comparaison. Le panneau de droite présente des intervalles de
+confiance ponctuels à 95\% calculés à l'aide d'un autoamorçage
+paramétrique.}
+
+\end{figure}%
+
+Les graphiques quantile-quantile sont abordés dans la
+Définition~\ref{def-diagramme-qq}, mais leur interprétation nécessite de
+la pratique. Par exemple, la Figure~\ref{fig-qqplotsbad} montre de
+nombreux scénarios courants qui peuvent être détectés à l'aide de
+diagrammes quantile-quantile. Les données discrètes sont responsables
+des motifs en escalier, les données asymétriques à droite ont des
+quantiles bas trop élevés et des quantiles hauts trop bas par rapport
+aux positions de tracé, les données à ailes lourdes ont des observations
+élevées de part et d'autre et les données bimodales conduisent à des
+sauts dans le tracé.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-qqplotsbad-1.pdf}
+
+}
+
+\caption{\label{fig-qqplotsbad}Diagrammes quantiles-quantiles de données
+discrète (coin supérieur gauche), à ailes lourdes (coin supérieur
+droit), asymmétrique à droite (coin inférieur gauche) et bimodales (coin
+inférieur droit).}
+
+\end{figure}%
+
+\begin{example}[Diagnostics graphiques pour l'inéquité
+salariale]\protect\hypertarget{exm-diagplotcollege}{}\label{exm-diagplotcollege}
+
+On considère le modèle pour les données \texttt{college} avec toutes les
+observations (sans interaction) pour voir si les postulats tiennent la
+route.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-diagplotscollege-1.pdf}
+
+}
+
+\caption{\label{fig-diagplotscollege}Diagnostic plots for the college
+data example: ordinary residuals against fitted values (top left),
+absolute value of the jacknnife studentized residuals against fitted
+values (top right), box and whiskers plot of jacknnife studentized
+residuals (bottom left) and detrended Student quantile-quantile plot
+(bottom right). There is clear group heteroscedasticity.}
+
+\end{figure}%
+
+Sur la base des graphiques de Figure~\ref{fig-diagplotscollege}, nous
+constatons qu'il existe une hétéroscédasticité au sein des échelons.
+Comme le nombre d'années pour les adjoint(e)s est limité et que tous les
+professeurs assistants ont été embauchés au cours des six dernières
+années, il y a moins de disparité dans leurs revenus. Il est important
+de ne pas confondre le modèle sur l'axe \(x\) pour la valeur ajustée (en
+raison de l'effet important du rang et du domaine, tous deux variables
+catégorielles) avec les modèles dans les résidus (aucun n'est apparent).
+La correction de l'hétéroscédasticité permettrait de corriger les
+résidus et d'améliorer l'aspect du graphique quantile-quantile.
+
+On effectue quelques tests avec les résidus studentisés externes pour
+les données \texttt{college} pour valider ce que les diagnostics
+graphiques indiquent.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{r }\OtherTok{\textless{}{-}} \FunctionTok{rstudent}\NormalTok{(modlin1\_college)}
+\CommentTok{\# Test F de Levene}
+\NormalTok{car}\SpecialCharTok{::}\FunctionTok{leveneTest}\NormalTok{(r }\SpecialCharTok{\textasciitilde{}}\NormalTok{ echelon, }\AttributeTok{center =} \StringTok{"mean"}\NormalTok{, }\AttributeTok{data =}\NormalTok{ college)}
+\CommentTok{\#\textgreater{} Levene\textquotesingle{}s Test for Homogeneity of Variance (center = "mean")}
+\CommentTok{\#\textgreater{}        Df F value Pr(\textgreater{}F)    }
+\CommentTok{\#\textgreater{} group   2      50 \textless{}2e{-}16 ***}
+\CommentTok{\#\textgreater{}       394                   }
+\CommentTok{\#\textgreater{} {-}{-}{-}}
+\CommentTok{\#\textgreater{} Signif. codes:  0 \textquotesingle{}***\textquotesingle{} 0.001 \textquotesingle{}**\textquotesingle{} 0.01 \textquotesingle{}*\textquotesingle{} 0.05 \textquotesingle{}.\textquotesingle{} 0.1 \textquotesingle{} \textquotesingle{} 1}
+\CommentTok{\# Test du score avec Breusch{-}Pagan}
+\NormalTok{car}\SpecialCharTok{::}\FunctionTok{ncvTest}\NormalTok{(modlin1\_college, }\AttributeTok{var.formula =}  \SpecialCharTok{\textasciitilde{}}\NormalTok{ echelon)}
+\CommentTok{\#\textgreater{} Non{-}constant Variance Score Test }
+\CommentTok{\#\textgreater{} Variance formula: \textasciitilde{} echelon }
+\CommentTok{\#\textgreater{} Chisquare = 70.2, Df = 2, p = 6e{-}16}
+\end{Highlighting}
+\end{Shaded}
+
+Pour les données de collège, on spécifie donc plutôt
+\(Y_i \sim \mathsf{normale}(\mathbf{x}_i\boldsymbol{\beta}, \sigma^2_{\texttt{echelon}_i})\)
+avec un paramètre de variance spécifique à l'échelon. Cela semble
+corriger l'hétéroscédasticité.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(nlme) }\CommentTok{\# modèles mixtes et structures de corrélation}
+\NormalTok{modlin.college2 }\OtherTok{\textless{}{-}}\NormalTok{ nlme}\SpecialCharTok{::}\FunctionTok{gls}\NormalTok{(}
+  \AttributeTok{model =}\NormalTok{ salaire }\SpecialCharTok{\textasciitilde{}}\NormalTok{ echelon }\SpecialCharTok{+}\NormalTok{ domaine }\SpecialCharTok{+}\NormalTok{ sexe }\SpecialCharTok{+}\NormalTok{ service, }\CommentTok{\# spécification de la moyenne}
+  \AttributeTok{weights =}\NormalTok{ nlme}\SpecialCharTok{::}\FunctionTok{varIdent}\NormalTok{(}\AttributeTok{form =} \SpecialCharTok{\textasciitilde{}}\DecValTok{1} \SpecialCharTok{|}\NormalTok{ echelon), }\CommentTok{\# variance constante par échelon}
+  \AttributeTok{data =}\NormalTok{ college)}
+\FunctionTok{plot}\NormalTok{(modlin.college2)}
+\NormalTok{car}\SpecialCharTok{::}\FunctionTok{Anova}\NormalTok{(modlin.college2)}
+\CommentTok{\#\textgreater{} Analysis of Deviance Table (Type II tests)}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} Response: salaire}
+\CommentTok{\#\textgreater{}         Df  Chisq Pr(\textgreater{}Chisq)    }
+\CommentTok{\#\textgreater{} echelon  2 363.50     \textless{}2e{-}16 ***}
+\CommentTok{\#\textgreater{} domaine  1  91.04     \textless{}2e{-}16 ***}
+\CommentTok{\#\textgreater{} sexe     1   1.80      0.180    }
+\CommentTok{\#\textgreater{} service  1   2.97      0.085 .  }
+\CommentTok{\#\textgreater{} {-}{-}{-}}
+\CommentTok{\#\textgreater{} Signif. codes:  0 \textquotesingle{}***\textquotesingle{} 0.001 \textquotesingle{}**\textquotesingle{} 0.01 \textquotesingle{}*\textquotesingle{} 0.05 \textquotesingle{}.\textquotesingle{} 0.1 \textquotesingle{} \textquotesingle{} 1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/unnamed-chunk-59-1.pdf}
+\end{center}
+
+Le modèle est ajusté par maximum de vraisemblance restreint avec la
+fonction \texttt{gls} du paquet \texttt{nlme}. La modification semble
+suffisante pour capturer l'hétéroscédasticité dans le diagramme des
+résidus standardisés vs valeurs ajustées.
+
+On pourrait aussi essayer d'utiliser la matrice sandwich, en remplaçant
+l'estimateur de \(\mathsf{Va}(\widehat{\boldsymbol{\beta}})\) par
+\(\widehat{\mathsf{Va}}_{\mathsf{HCE}}(\boldsymbol{\widehat{\beta}})\)
+dans la formule des tests de Wald. Ici, c'est option n'est pas
+recommandée car moins efficace.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Matrice de covariance sandwich}
+\NormalTok{vcov\_HCE }\OtherTok{\textless{}{-}}\NormalTok{ car}\SpecialCharTok{::}\FunctionTok{hccm}\NormalTok{(modlin1\_college)}
+\CommentTok{\# Statistiques de Wald}
+\NormalTok{lmtest}\SpecialCharTok{::}\FunctionTok{coeftest}\NormalTok{(modlin1\_college, }\AttributeTok{vcov. =}\NormalTok{ vcov\_HCE)}
+\end{Highlighting}
+\end{Shaded}
+
+\end{example}
+
+\subsection{Transformation de la variable réponse}\label{sec-transfo}
+
+Si la réponse est strictement positive, certaines options peuvent
+atténuer le manque d'additivité, plus particulièrement les relations
+multiplicatives entre la moyenne et la variance. Si les données sont
+asymétriques et que la réponse est strictement positive, un modèle
+log-linéaire peut être plus approprié et les paramètres peuvent être
+interprétés.
+
+Écrivons le modèle log-linéaire \begin{align*}
+\ln Y = \beta_0+ \beta_1 X_1 +\cdots + \beta_pX_p + \varepsilon;
+\end{align*} à l'échelle originale de la variable réponse, cela
+représente \begin{align*}
+Y &= \exp\left(\beta_0 +\beta_1 X_1 +\cdots + \beta_pX_p\right)\cdot \exp(\varepsilon),
+\end{align*} et donc \begin{align*}
+\mathsf{E}(Y \mid \mathbf{X}) = \exp(\beta_0 +\beta_1 X_1 +\cdots + \beta_pX_p) \times \mathsf{E}\{\exp(\varepsilon) \mid \mathbf{X}\}.
+\end{align*} Si
+\(\varepsilon \mid \mathbf{x} \sim \mathsf{normale}(\mu,\sigma^2)\),
+alors
+\(\mathsf{E}\{\exp(\varepsilon) \mid \mathbf{x}\}= \exp(\mu+\sigma^2/2)\)
+et \(\exp(\varepsilon)\) suit une loi lognormale. Une augmentation d'une
+unité de \(X_j\) mène à une augmentation moyenne de \(\beta_j\) de
+\(\ln Y\) sans interaction ni terme nonlinéaire pour \(X_j\), et cela se
+traduit par un facteur multiplicatif de \(\exp(\beta_j)\) à l'échelle de
+\(Y\). Si \(\beta_j=0\), \(\exp(\beta_j)=1\) et il n'y a pas de
+changement, si \(\beta_j < 0\), \(\exp(\beta_j)<1\) et la moyenne
+décroît avec \(X_j\), et si \(\beta_j > 0\), \(\exp(\beta_j)>1\) et la
+moyenne augmente avec \(X_j\).
+
+Comparez le rapport \begin{align*}
+\frac{\mathsf{E}(Y \mid X_1=x+1, X_2, \ldots, X_p)}{\mathsf{E}(Y \mid X_1=x,  X_2, \ldots, X_p)} = \frac{\exp\{\beta_1(x+1)\}}{\exp(\beta_1 x)} = \exp(\beta_1).
+\end{align*} Ainsi, \(\exp(\beta_1)\) donne le rapport des moyennes de
+\(Y\) quand \(X_1=x+1\) par rapport à \(X_1=x\), \emph{ceteris paribus}
+(avec les restrictions habituelles). L'interprétation (par rapport à la
+référence, dépend du signe de \(\beta_j\): le pourcentage de diminution
+est \(1-\exp(\beta_j)\) si \(\beta_j <0\) et le pourcentage
+d'augmentation est \(\exp(\beta_j)-1\) si \(\beta_j>0\).
+
+Parfois, on veut considérer une transformation à la fois de la réponse
+et d'une variable explicative positive continue, un modèle log-log.
+Considérons le cas où on prend le logarithme de \(Y\) et \(X_1\), avec
+\begin{align*}
+Y= X_1^{\beta_1}\exp(\beta_0 + \beta_2X_2 + \cdots + \beta_pX_p + \varepsilon)
+\end{align*} En prenant la dérivée par rapport à \(X_1>0\), on obtient
+\begin{align*}
+\frac{\partial Y}{\partial X_1}&= \beta_1 X_1^{\beta_1-1}\exp(\beta_0 + \beta_2X_2 + \cdots + \beta_pX_p + \varepsilon)\\&= \frac{\beta_1 Y}{X_1}
+\end{align*} et réarranger cette expression nous donne \begin{align*}
+\frac{\partial X_1}{X_1}\beta_1 = \frac{\partial Y}{Y};
+\end{align*} une mesure \textbf{d'élasticité partielle}: le coefficient
+\(\beta_1\) est un pourcentage de changement de \(Y\) pour chaque
+pourcentage d'augmentation de \(X_1\), \emph{ceteris paribus}.
+
+\begin{example}[Modèle de
+Cobb-Douglas]\protect\hypertarget{exm-loglog}{}\label{exm-loglog}
+
+Considérons par exemple la fonction de production Cobb--Douglas
+(\citeproc{ref-Douglas:1976}{Douglas 1976}), qui spécifie que la
+production économique \(Y\) est liée au travail \(L\) et au capital
+\(C\) par l'intermédiaire de
+\(\mathsf{E}(Y \mid L, C) = \beta_0C^{\beta}L^{1-\beta}\) avec
+\(\beta \ dans (0,1)\).Si nous prenons les logarithmes des deux côtés
+(puisque tous les arguments sont positifs), alors
+\(\mathsf{E}(\ln Y \mid L, C) = \beta_0^* + \beta_1 \ln C + (1-\beta_1)\ln L\).
+Nous pourrions ajuster un modèle linéaire avec la réponse
+\(\ln Y - \ln L\) et la variable explicative \(\ln C - \ln L\), pour
+obtenir une estimation du coefficient \(\beta_1\), tandis que
+\(\beta_0^*=\ln \beta_0\). Une optimisation sous contrainte serait
+potentiellement nécessaire pour estimer les paramètres du modèle
+linéaire résultant si les estimations se situent en dehors de l'espace
+des paramètres.
+
+\end{example}
+
+\begin{proposition}[Transformation de
+Box--Cox]\protect\hypertarget{prp-boxcox}{}\label{prp-boxcox}
+
+Avec des données strictement positives, on peut utiliser une
+transformation de Box--Cox (\citeproc{ref-Box.Cox:1964}{Box et Cox
+1964}), \begin{align*}
+y(\lambda)= \begin{cases}
+(y^{\lambda}-1)/\lambda, & \lambda \neq 0\\
+\ln(y), & \lambda=0.
+\end{cases}
+\end{align*} Les cas de figure \(\lambda=-1\) (inverse), \(\lambda=1\)
+(identité) et \(\lambda=0\) (logarithme) sont les plus importants car
+les modèles résultants sont interprétables.
+
+Si on suppose que
+\(\boldsymbol{Y}(\lambda) \sim \mathsf{normale}(\mathbf{X}\boldsymbol{\beta}, \sigma^2 \mathbf{I}_n)\),
+alors la vraisemblance est \begin{align*}
+L(\lambda, \boldsymbol{\beta}, \sigma; \boldsymbol{y}, \mathbf{X}) &= (2\pi\sigma^2)^{-n/2} J(\lambda, \boldsymbol{y}) \times\\& \quad \exp \left[ - \frac{1}{2\sigma^2}\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}^\top\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}\right],
+\end{align*} où \(J\) dénote le Jacobien de la transformation Box--Cox,
+\(J(\lambda, \boldsymbol{y})=\prod_{i=1}^n y_i^{\lambda-1}\).
+
+\section{\texorpdfstring{Profilage de
+\(\lambda\)}{Profilage de \textbackslash lambda}}\label{profilage-de-lambda}
+
+Pour chaque valeur de \(\lambda\), on obtient les estimateurs du maximum
+de vraisemblance usuels en remplaçant \(\boldsymbol{y}\) par
+\(\boldsymbol{y}(\lambda)\).
+
+La log vraisemblance profilée pour \(\lambda\) est \begin{align*}
+\ell_{\mathsf{p}}(\lambda) = -\frac{n}{2}\ln(2\pi \widehat{\sigma}^2_\lambda) - \frac{n}{2} + (\lambda - 1)\sum_{i=1}^n \ln(y_i)
+\end{align*}
+
+Nous ne pouvons pas comparer les modèles ajustés à \(Y_i\) par rapport à
+\(\ln Y_i\) en utilisant, par exemple, des critères d'information ou des
+tests, parce que les modèles ont des réponses différentes. Nous pouvons
+toutefois utiliser la vraisemblance de Box--Cox, qui inclut le
+\textbf{Jacobien} de la transformation, pour évaluer la qualité de
+l'ajustement et comparer le modèle avec \(\lambda=1\) par rapport à
+\(\lambda=0\).
+
+La transformation de Box-Cox n'est pas une panacée et doit être réservée
+aux cas où la transformation réduit l'hétéroscédasticité (variance
+inégale) ou crée une relation linéaire entre les explications et la
+réponse : la théorie fournit une explication convaincante des données.
+Plutôt qu'un choix \emph{ad hoc} de transformation, on pourrait prendre
+une transformation logarithmique si la valeur 0\$ est incluse dans
+l'intervalle de confiance à 95\%, car cela améliore l'interprétabilité.
+
+\end{proposition}
+
+\begin{example}[Transformation de Box--Cox pour données sur les
+poisons]\protect\hypertarget{exm-poisonboxcox}{}\label{exm-poisonboxcox}
+
+Box et Cox (\citeproc{ref-Box.Cox:1964}{1964}) modélisent le temps de
+survie de 48 animaux sur la base d'un essai aléatoire. Les données sur
+les \texttt{poisons} sont équilibrées, 3 poisons ayant été administrés
+avec 4 traitements à 4 animaux chacun. Nous pourrions envisager une
+ANOVA à deux facteurs sans interaction, étant donné le peu
+d'observations pour chaque combinaison. Le modèle s'écrit alors
+\begin{align*}
+Y &= \beta_0 + \beta_1 \texttt{poison}_2 + \beta_2\texttt{poison}_3  +\beta_3\texttt{treatment}_2 \\ &\qquad+ \beta_4\texttt{treatment}_3
++\beta_5\texttt{treatment}_4 + \varepsilon
+\end{align*}
+
+Le tracé des valeurs ajustées par rapport aux résidus montre que le
+modèle n'est pas additif (panneau du milieu de la
+Figure~\ref{fig-poisonplots}); il y a également des indications que la
+variance augmente avec la réponse moyenne. Le modèle est inadéquat: les
+temps de survie les plus faibles sont sous-estimés, ce qui signifie que
+les résidus sont positifs, de même que les réponses moyennes. Un test
+formel de non-additivité indique également la non-additivité
+(\citeproc{ref-Davison:2003}{Davison 2003}, Exemple 8.24). Dans
+l'ensemble, l'ajustement du modèle est médiocre et toute conclusion
+tirée de celui-ci est douteuse.
+
+On pourrait envisager d'utiliser un Box--Cox pour trouver une
+transformation appropriée des résidus afin d'améliorer la normalité. Une
+analyse des résidus dans les quatre premiers graphiques de
+Figure~\ref{fig-poisonplots} montre des signes d'hétéroscédasticité en
+fonction du poison et du traitement. Ceci est évident en regardant le
+graphique des résidus ordinaires, qui montre une augmentation de la
+variance avec le temps de survie. Le tracé quantile-quantile dans le
+tracé du milieu à droite montre quelques signes d'écart par rapport à la
+normalité, mais la non-linéarité et l'hétéroscédasticité le masquent.
+
+\begin{figure}[ht!]
+
+\centering{
+
+\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-poisonplots-1.pdf}
+
+}
+
+\caption{\label{fig-poisonplots}Diagnostics graphiques pour les données
+de poisons. Panneau du haut: vraisemblance profilée pour \(\lambda\).
+Panneau du milieu: (\(\lambda=1\), temps de survie) et du bas
+\((\lambda=-1\), vitesse d'absorption). Les diagnostics pour les modèles
+représentent les résidus ordinaires versus valeurs ajustées et diagramme
+quantile-quantile des résidus studentisés.}
+
+\end{figure}%
+
+L'intervalle de confiance à 95\% basé sur la log-vraisemblance profilée
+pour le paramètre du modèle Box--Cox contient \(\lambda=-1\). La
+réciproque de la variable réponse \(Y^{-1}\) indique la vitesse d'action
+du poison, selon le type et le traitement. Les diagnostics graphiques de
+ce modèles, présentés dans le panneau du bas de la
+Figure~\ref{fig-poisonplots} ne montrent aucune structure résiduelle.
+
+\end{example}
+
 \bookmarksetup{startatroot}
 
 \chapter*{Bibliographie}\label{bibliographie}
@@ -7853,6 +8230,12 @@ Baumann, James F., Nancy Seifert-Kessell, et Leah A. Jones. 1992.
 Comprehension Monitoring Abilities~»}. \emph{Journal of Reading
 Behavior} 24 (2): 143‑72.
 \url{https://doi.org/10.1080/10862969209547770}.
+
+\bibitem[\citeproctext]{ref-Box.Cox:1964}
+Box, G. E. P., et D. R. Cox. 1964. {«~An Analysis of Transformations~»}.
+\emph{Journal of the Royal Statistical Society: Series B
+(Methodological)} 26 (2): 211‑43.
+\url{https://doi.org/10.1111/j.2517-6161.1964.tb00553.x}.
 
 \bibitem[\citeproctext]{ref-Breusch.Pagan:1979}
 Breusch, T. S., et A. R. Pagan. 1979. {«~A Simple Test for
@@ -7884,6 +8267,12 @@ Questions with Data: Introductory Statistics for Psychology Students}.
 \bibitem[\citeproctext]{ref-Davison:2003}
 Davison, A. C. 2003. \emph{Statistical Models}. Cambridge University
 Press.
+
+\bibitem[\citeproctext]{ref-Douglas:1976}
+Douglas, Paul H. 1976. {«~The {Cobb--Douglas} Production Function Once
+Again: Its History, Its Testing, and Some New Empirical Values~»}.
+\emph{Journal of Political Economy} 84 (5): 903‑15.
+\url{http://www.jstor.org/stable/1830435}.
 
 \bibitem[\citeproctext]{ref-Duke.Amir:2023}
 Duke, Kristen E., et On Amir. 2023. {«~The Importance of Selling

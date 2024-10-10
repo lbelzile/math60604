@@ -1,242 +1,87 @@
 
+### Transformation de la variable réponse {#sec-transfo}
 
-### Normality assumption
-
-The normality assumption is mostly for convenience: if the errors are assumed normally distributed, then the least square and the maximum likelihood estimators of $\boldsymbol{\beta}$ coincide.
-The maximum likelihood estimators of $\boldsymbol{\beta}$ are asymptotically normal under mild conditions on the model matrix and $t$-tests are surprisingly robust and unaffected by departure from the normality assumption. This means that inference is valid in large samples, regardless of the distribution of the errors/residuals (even if the null distribution are not exact). It is important to keep in mind that, for categorical explanatory variables, the sample size in each group must be sufficiently large for the central limit theorem to kick in since coefficients represent group average.
-
-Sometimes, transformations can improve normality: if the data is right-skewed and the response is strictly positive, a log-linear model may be more adequate [@sec-transfo]. This can be assessed by looking at the quantile-quantile plot of the externally studentized residuals. If the response $Y$ is not continuous (including binary, proportion or count data), linear models give misleading answers and generalized linear models are more suitable.
+Si la réponse est strictement positive, certaines options peuvent atténuer le manque d'additivité, plus particulièrement les relations multiplicatives entre la moyenne et la variance. Si les données sont asymétriques et que la réponse est strictement positive, un modèle log-linéaire peut être plus approprié et les paramètres peuvent être interprétés.
 
 
-
-The inference will be valid for large samples even if the errors are not normally distributed by virtue of the central limit theorem. If the errors $\varepsilon_i \sim \mathsf{normale}(0, \sigma^2)$, then the jacknnife studentized residuals should follow a Student distribution, with $r_i \sim \mathsf{Student}(n-p-2)$, (identically distributed, but not independent). A Student quantile-quantile plot can thus be used to check the assumption (and for $n$ large, the normal plotting positions could be used as approximation if $n-p> 50$). One can also plot a histogram of the residuals. Keep in mind that if the mean model is not correctly specified, some residuals may incorporate effect of leftover covariates.
-
-```{r}
-#| label: fig-qqplotresid
-#| cache: true
-#| echo: false
-#| fig-cap: Histogram (left) and Student quantile-quantile plot (right) of the jackknife
-#|   studentized residuals. The left panel includes a kernel density estimate (black),
-#|   with the density of Student distribution (blue) superimposed. The right panel includes
-#|   pointwise 95\% confidence bands calculated using a bootstrap.
-par(pch = 19, col = scales::alpha("black", 0.8), bty = "l")
-par(mar=c(3.1, 3.1, 1, 1), mgp=c(1.7, 0.6, 0), font.main=1, cex.main=0.8)
-par(mfrow = c(1,2))
-library(car)
-library(qqplotr, warn.conflicts = FALSE)
-set.seed(1234)
-di <- "t"
-dp <- list(df = lm2$df.residual)
-de <- TRUE
-g2 <- ggplot(data = data.frame(sample = rstudent(lm2)), mapping = aes(sample = sample)) +
- stat_qq_band(distribution = di, detrend = de, bandType = "boot", B = 9999, dparams = dp) +
- stat_qq_line(distribution = di, detrend = de) +
- stat_qq_point(distribution = di, detrend = de) +
- labs(x = "theoretical t quantiles", y = "jackknife studentized residuals\n minus theoretical quantiles")
-g1 <- ggplot(data = data.frame(x = rstudent(lm2)), aes(x=x)) +
-  geom_histogram(aes(x=x, y = after_stat(density))) +
-  stat_function(fun = "dt", args = list(df = lm2$df.residual), col = hecblue) +
-  geom_density() + labs(x = "jackknife studentized residuals")
-g1 + g2
-```
-
-
-Quantile-quantile plots are discussed in @def-qqplot but their interpretation requires training. For example, @fig-qqplotsbad shows many common scenarios that can be diagnosed using quantile-quantile plots: discrete data is responsible for staircase patterns, positively skewed data has too high low quantiles and too low high quantiles relative to the plotting positions, heavy tailed data have high observations in either tails and bimodal data leads to jumps in the plot.
-
-```{r}
-#| label: fig-qqplotsbad
-#| cache: true
-#| echo: false
-#| fig-cap: Quantile-quantile plots of non-normal data, showing typical look of behaviour
-#|   of discrete (top left), heavy tailed  (top right), skewed (bottom left) and bimodal
-#|   data (bottom right).
-set.seed(1234)
-par(pch = 19, col = scales::alpha("black", 0.8), bty = "l")
-par(mar=c(3.1, 3.1, 1, 1), mgp=c(1.7, 0.6, 0), font.main=1, cex.main=0.8)
-par(mfrow= c(2,2))
-qqPlot(scale(rgeom(n = 100, prob = 0.5)),
-       xlab = "theoretical quantiles",
-       ylab = "empirical quantiles",
-       col.lines=hecblue, id = FALSE)
-set.seed(123)
-qqPlot(scale(rt(200, df = 3)),
-       xlab = "theoretical quantiles",
-       ylab = "empirical quantiles",
-       col.lines=hecblue, id = FALSE)
-set.seed(432)
-qqPlot(scale(rgamma(100,shape = 2)),
-       xlab = "theoretical quantiles",
-       ylab = "empirical quantiles",
-       col.lines=hecblue, id = FALSE)
-set.seed(432)
-qqPlot(scale(c(rnorm(100,-3),rnorm(100,3))),
-       xlab = "theoretical quantiles",
-       ylab = "empirical quantiles",
-       col.lines=hecblue, id = FALSE)
-```
-
-:::{#exm-diagplotcollege}
-
-## Diagnostic plots for the $\texttt{college}$ data.
-
-We can look at the `college` data to see if the linear model assumptions hold.
-
-
-```{r}
-#| label: fig-diagplotscollege
-#| cache: true
-#| echo: false
-#| fig-cap: 'Diagnostic plots for the college data example: ordinary residuals against
-#|   fitted values (top left), absolute value of the jacknnife studentized residuals
-#|   against fitted values (top right), box and whiskers plot of jacknnife studentized
-#|   residuals (bottom left) and detrended Student quantile-quantile plot (bottom right).
-#|   There is clear group heteroscedasticity.'
-
-library(qqplotr, warn.conflicts = FALSE)
-lmcoll <- lm(salary ~ years + service + rank + sex + field, data = college)
-
-resdat <- data.frame(rstudent = rstudent(lmcoll),
-                     resid = resid(lmcoll),
-                     fitted = fitted(lmcoll),
-                     rank = college$rank,
-                     service = college$service)
-gd1 <- ggplot(resdat, aes(x = fitted, y = resid)) +
-        geom_point() +
-  labs(x = "fitted values", y = "ordinary residuals")
-      # geom_smooth(method = "loess", size = 1.5)
-gd2 <- ggplot(resdat, aes(x = fitted, y = abs(rstudent))) +
-        geom_point() +
-      labs(x = "fitted values",
-           y = "|jackknife studentized residuals|")
-gd3 <- ggplot(resdat, aes(x = rank, y = rstudent)) +
-      geom_boxplot() + labs(y = "jackknife studentized residuals")
-di <- "t"
-dp <- list(df = lmcoll$df.residual-1)
-de <- TRUE
-gd4 <- ggplot(data = resdat, aes(sample = rstudent)) +
- stat_qq_band(distribution = di, dparams = dp,
-              detrend = de, identity = TRUE,
-              bandType = "boot", B = 9999) +
- stat_qq_line(distribution = di, dparams = dp,
-              detrend = de, identity = TRUE) +
- stat_qq_point(distribution = di, dparams = dp,
-               detrend = de, identity = TRUE) +
- labs(x = "theoretical quantiles",
-      y = "empirical minus\n theoretical quantiles")
-
-(gd1 + gd2) / (gd3 + gd4)
-```
-
-Sur la base des graphiques de @fig-diagplotscollege, nous constatons qu'il existe une hétéroscédasticité au sein des échelons. Comme le nombre d'années pour les adjoint(e)s est limité et que tous les professeurs assistants ont été embauchés au cours des six dernières années, il y a moins de disparité dans leurs revenus. Il est important de ne pas confondre le modèle sur l'axe $x$ pour la valeur ajustée (en raison de l'effet important du rang et du domaine, tous deux variables catégorielles) avec les modèles dans les résidus (aucun n'est apparent). La correction de l'hétéroscédasticité permettrait de corriger les résidus et d'améliorer l'aspect du graphique quantile-quantile.
-
-On effectue quelques tests avec les résidus studentisés externes pour les données `college` pour valider ce que les diagnostics graphiques indiquent.
-
-```{r}
-#| eval: true
-#| echo: true
-r <- rstudent(modlin1_college)
-# Test F de Levene
-car::leveneTest(r ~ echelon, center = "mean", data = college)
-# Test du score avec Breusch-Pagan
-car::ncvTest(modlin1_college, var.formula =  ~ echelon)
-```
-
-Pour les données de collège, on spécifie donc plutôt $Y_i \sim \mathsf{normale}(\mathbf{x}_i\boldsymbol{\beta}, \sigma^2_{\texttt{echelon}_i})$ avec un paramètre de variance spécifique à l'échelon. Cela semble corriger l'hétéroscédasticité.
-
-
-```{r}
-#| eval: true
-#| echo: true
-#| fig-align: 'center'
-library(nlme) # modèles mixtes et structures de corrélation
-modlin.college2 <- nlme::gls(
-  model = salaire ~ echelon + domaine + sexe + service, # spécification de la moyenne
-  weights = nlme::varIdent(form = ~1 | echelon), # variance constante par échelon
-  data = college)
-plot(modlin.college2)
-```
-
-Le modèle est ajusté par maximum de vraisemblance restreint avec la fonction `gls`  du paquet `nlme`. La modification semble suffisante pour capturer l'hétéroscédasticité dans le diagramme des résidus standardisés vs valeurs ajustées
-
-:::
-
-## Extensions of the model
-
-### Transformation of the response {#sec-transfo}
-
-If the response is strictly positive, there are some options that can alleviate lack of additivity, more specifically multiplicative mean-variance relationships.If the data is right-skewed and the response is strictly positive, a log-linear model may be more adequate and the parameters can be interpreted.
-
-
-We can rewrite the log-linear model in the original response scale as
+Écrivons le modèle log-linéaire
 \begin{align*}
-Y &= \exp\left(\beta_0+\sum_{j=1}^p\beta_jX_j +  \varepsilon \right) \\&= \exp\left(\beta_0+ \sum_{j=1}^p\beta_jX_j\right)\cdot \exp(\varepsilon),
+\ln Y = \beta_0+ \beta_1 X_1 +\cdots + \beta_pX_p + \varepsilon;
 \end{align*}
-and thus
+à l'échelle originale de la variable réponse, cela représente
+\begin{align*}
+Y &= \exp\left(\beta_0 +\beta_1 X_1 +\cdots + \beta_pX_p\right)\cdot \exp(\varepsilon),
+\end{align*}
+et donc
 \begin{align*}
 \mathsf{E}(Y \mid \mathbf{X}) = \exp(\beta_0 +\beta_1 X_1 +\cdots + \beta_pX_p) \times \mathsf{E}\{\exp(\varepsilon) \mid \mathbf{X}\}.
 \end{align*}
+Si $\varepsilon \mid \mathbf{x} \sim \mathsf{normal}(\mu,\sigma^2)$, alors $\mathsf{E}\{\exp(\varepsilon) \mid \mathbf{x}\}= \exp(\mu+\sigma^2/2)$ et $\exp(\varepsilon)$ suit une loi lognormale. Une augmentation d'une unité de $X_j$ mène à une augmentation moyenne de $\beta_j$ de $\ln Y$ sans interaction ni terme nonlinéaire pour $X_j$, et cela se traduit par un facteur multiplicatif de $\exp(\beta_j)$ à l'échelle de $Y$. Si $\beta_j=0$, $\exp(\beta_j)=1$ et il n'y a pas de changement, si $\beta_j < 0$, $\exp(\beta_j)<1$ et la moyenne décroît avec $X_j$, et si $\beta_j > 0$, $\exp(\beta_j)>1$ et la moyenne augmente avec $X_j$.
 
-
-If $\varepsilon \mid \mathbf{X} \sim \mathsf{normale}(\mu,\sigma^2)$, then $\mathsf{E}\{\exp(\varepsilon) \mid \mathbf{X}\}= \exp(\mu+\sigma^2/2)$ and $\exp(\varepsilon)$ follows a log-normal distribution.
-
-An increase of one unit of $X_j$ leads to a $\beta_j$ increase of $\ln Y$ without interaction or nonlinear term for $X_j$, and this translates into a multiplicative increase of a factor $\exp(\beta_j)$ on the original data scale for $Y$. Indeed, we can compare the ratio of $\mathsf{E}(Y \mid X_1=x+1)$ to $\mathsf{E}(Y \mid X_1=x)$,
+Comparez le rapport de $\mathsf{E}(Y \mid X_1=x+1)$ à $\mathsf{E}(Y \mid X_1=x)$,
 \begin{align*}
 \frac{\mathsf{E}(Y \mid X_1=x+1, X_2, \ldots, X_p)}{\mathsf{E}(Y \mid X_1=x,  X_2, \ldots, X_p)} = \frac{\exp\{\beta_1(x+1)\}}{\exp(\beta_1 x)} = \exp(\beta_1).
 \end{align*}
-Thus, $\exp(\beta_1)$ represents the ratio of the mean of $Y$ when $X_1=x+1$ in comparison to that when $X_1=x$, *ceteris paribus* (and provided this statement is meaningful). If $\beta_j=0$, the multiplicative factor one is the identity, whereas negative values of the regression coefficient $\beta_j<0$ leads to $\exp(\beta_j)<1$. The percentage change is $1-\exp(\beta_j)$ if $\beta_j <0$ and $\exp(\beta_j)-1$ if $\beta_j>0$
+Ainsi, $\exp(\beta_1)$ donne le rapport des moyennes de $Y$ quand $X_1=x+1$ par rapport à $X_1=x$, *ceteris paribus* (avec les restrictions habituelles). L'interprétation (par rapport à la référence, dépend du signe de $\beta_j$: le pourcentage de diminution est $1-\exp(\beta_j)$ si $\beta_j <0$ et le pourcentage d'augmentation est $\exp(\beta_j)-1$ si $\beta_j>0$.
 
 
-Sometimes, we may wish to consider a log transformation of both the response and some of the continuous positive explanatories, when this make sense (a so-called log-log model). Consider the case where both $Y$ and $X_1$ is log-transformed, so the equation for the mean on the original data scale reads
+Parfois, on veut considérer une transformation à la fois de la réponse et d'une variable explicative positive continue, un modèle log-log. Considérons le cas où on prend le logarithme de $Y$ et $X_1$, avec
 \begin{align*}
 Y= X_1^{\beta_1}\exp(\beta_0 + \beta_2X_2 + \cdots + \beta_pX_p + \varepsilon)
 \end{align*}
-Taking the derivative of the left hand side with respect to $X_1>0$, we get
+En prenant la dérivée par rapport à $X_1>0$, on obtient
 \begin{align*}
-\frac{\partial Y}{\partial X_1}&= \beta_1 X_1^{\beta_1-1}\exp(\beta_0 + \beta_2X_2 + \cdots + \beta_pX_p + \varepsilon)
-\\&= \frac{\beta_1 Y}{X_1}
+\frac{\partial Y}{\partial X_1}&= \beta_1 X_1^{\beta_1-1}\exp(\beta_0 + \beta_2X_2 + \cdots + \beta_pX_p + \varepsilon)= \frac{\beta_1 Y}{X_1}
 \end{align*}
-and thus we can rearrange the expression so that
+et réarranger cette expression nous donne
 \begin{align*}
 \frac{\partial X_1}{X_1}\beta_1 = \frac{\partial Y}{Y};
 \end{align*}
-this is a partial **elasticity**, so $\beta_1$ is interpreted as a $\beta_1$ percentage change in $Y$ for each percentage increase of $X_1$, *ceteris paribus*.
+une mesure **d'élasticité partielle**: le coefficient $\beta_1$ est un pourcentage de changement de $Y$ pour chaque pourcentage d'augmentation de $X_1$, *ceteris paribus*.
 
 :::{#exm-loglog}
 
-## Log-log model
+## Modèle de Cobb-Douglas
 
-Consider for example the Cobb--Douglas production function [@Douglas:1976], which specifies that economic output $Y$ is related to labour $L$ and capital $C$ via $\mathsf{E}(Y \mid L, C) = \beta_0C^{\beta}L^{1-\beta}$ with $\beta \in (0,1)$. If we take logarithms on both sides (since all arguments are positive), then 
-$\mathsf{E}(\ln Y \mid L, C) = \beta_0^* + \beta_1 \ln C + (1-\beta_1)\ln L$. We could fit a linear model with response $\ln Y - \ln L$ and explanatory variable $\ln C - \ln L$, to obtain an estimate of the coefficient $\beta_1$, while $\beta_0^*=\ln \beta_0$. A constrained optimization would be potentially necessary to estimate the model parameters of the resulting linear model if the estimates lie outside of the parameter space.
+Considérons par exemple la fonction de production Cobb--Douglas [@Douglas:1976], qui spécifie que la production économique $Y$ est liée au travail $L$ et au capital $C$ par l'intermédiaire de $\mathsf{E}(Y \mid L, C) = \beta_0C^{\beta}L^{1-\beta}$ avec $\beta \ dans (0,1)$.Si nous prenons les logarithmes des deux côtés (puisque tous les arguments sont positifs), alors 
+$\mathsf{E}(\ln Y \mid L, C) = \beta_0^* + \beta_1 \ln C + (1-\beta_1)\ln L$. Nous pourrions ajuster un modèle linéaire avec la réponse $\ln Y - \ln L$ et la variable explicative $\ln C - \ln L$, pour obtenir une estimation du coefficient $\beta_1$, tandis que $\beta_0^*=\ln \beta_0$. Une optimisation sous contrainte serait potentiellement nécessaire pour estimer les paramètres du modèle linéaire résultant si les estimations se situent en dehors de l'espace des paramètres.
 
 :::
 
 :::{#prp-boxcox}
 
-## Box--Cox transformation
+## Transformation de Box--Cox
 
-If the data are strictly positive, one can consider a Box--Cox transformation,
+Avec des données strictement positives, on peut utiliser une transformation de Box--Cox [@Box.Cox:1964],
 \begin{align*}
 y(\lambda)= \begin{cases}
 (y^{\lambda}-1)/\lambda, & \lambda \neq 0\\
 \ln(y), & \lambda=0.
 \end{cases}
 \end{align*}
-The cases $\lambda=-1$ (inverse), $\lambda=1$ (identity) and $\lambda=0$ (log-linear model) are perhaps the most important because they yield interpretable models.
+Les cas de figure $\lambda=-1$ (inverse), $\lambda=1$ (identité) et $\lambda=0$ (logarithme) sont les plus importants car les modèles résultants sont interprétables.
 
-If we assume that $\boldsymbol{Y}(\lambda) \sim \mathsf{normale}(\mathbf{X}\boldsymbol{\beta}, \sigma^2 \mathbf{I}_n)$, then the likelihood is
+
+Si on suppose que $\boldsymbol{Y}(\lambda) \sim \mathsf{normal}(\mathbf{X}\boldsymbol{\beta}, \sigma^2 \mathbf{I}_n)$, alors la vraisemblance est
 \begin{align*}
 L(\lambda, \boldsymbol{\beta}, \sigma; \boldsymbol{y}, \mathbf{X}) &= (2\pi\sigma^2)^{-n/2} J(\lambda, \boldsymbol{y}) \times\\& \quad \exp \left[ - \frac{1}{2\sigma^2}\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}^\top\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}\right],
 \end{align*}
-where $J$ denotes the Jacobian of the Box--Cox transformation, $J(\lambda, \boldsymbol{y})=\prod_{i=1}^n y_i^{\lambda-1}$.
-For each given value of $\lambda$, the maximum likelihood estimator is that of the usual regression model, with $\boldsymbol{y}$ replaced by $\boldsymbol{y}(\lambda)$, namely $\widehat{\boldsymbol{\beta}}_\lambda = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y}(\lambda)$ and $\widehat{\sigma}^2_\lambda = n^{-1}\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}^\top\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}$.
+où $J$ dénote le Jacobien de la transformation Box--Cox, $J(\lambda, \boldsymbol{y})=\prod_{i=1}^n y_i^{\lambda-1}$.
 
-The profile log likelihood is
+## Profilage de $\lambda$
+
+Pour chaque valeur de $\lambda$, on obtient les estimateurs du maximum de vraisemblance usuels en remplaçant $\boldsymbol{y}$ par $\boldsymbol{y}(\lambda)$.
+
+La log vraisemblance profilée pour $\lambda$ est
 \begin{align*}
 \ell_{\mathsf{p}}(\lambda) = -\frac{n}{2}\ln(2\pi \widehat{\sigma}^2_\lambda) - \frac{n}{2} + (\lambda - 1)\sum_{i=1}^n \ln(y_i)
 \end{align*}
-The maximum profile likelihood estimator is the value $\lambda$ minimizes the sum of squared residuals from the linear model with $\boldsymbol{y}(\lambda)$ as response.
 
-The Box--Cox is not a panacea and should be reserved to cases where the transformation reduces heteroscedasticity (unequal variance) or creates a linear relation between explanatories and response: theory provides a cogent explanation of the data. Rather than an *ad hoc* choice of transformation, one could choose a log transformation if the value $0$ is included within the 95% confidence interval since this improves interpretability.
+Nous ne pouvons pas comparer les modèles ajustés à $Y_i$ par rapport à $\ln Y_i$ en utilisant, par exemple, des critères d'information ou des tests, parce que les modèles ont des réponses différentes. Nous pouvons toutefois utiliser la vraisemblance de Box--Cox, qui inclut le **Jacobien** de la transformation, pour évaluer la qualité de l'ajustement et comparer le modèle avec $\lambda=1$ par rapport à $\lambda=0$.
+
+
+
+La transformation de Box-Cox n'est pas une panacée et doit être réservée aux cas où la transformation réduit l'hétéroscédasticité (variance inégale) ou crée une relation linéaire entre les explications et la réponse : la théorie fournit une explication convaincante des données. Plutôt qu'un choix *ad hoc* de transformation, on pourrait prendre une transformation logarithmique si la valeur 0$ est incluse dans l'intervalle de confiance à 95%, car cela améliore l'interprétabilité.
 
 :::
 
@@ -244,34 +89,26 @@ The Box--Cox is not a panacea and should be reserved to cases where the transfor
 
 :::{#exm-poisonboxcox}
 
-## Box--Cox transform for the `poison` data
+## Transformation de Box--Cox pour données sur les poisons
 
-@Box.Cox:1964 considered survival time for 48 animals based on a randomized trial; these data are analyzed in Example 8.25 of @Davison:2003. Three poisons were administered with four treatments; each factor combination contained four animals, chosen at random. There is strong evidence that both the choice of poison and treatment affect survival time.
 
-We could consider a two-way analysis of variance model for these data without interaction, given the few observations for each combination. The model would be of the form
+@Box.Cox:1964 modélisent le temps de survie de 48 animaux sur la base d'un essai aléatoire. Les données sur les `poisons` sont équilibrées, 3 poisons ayant été administrés avec 4 traitements à 4 animaux chacun. Nous pourrions envisager une ANOVA à deux facteurs sans interaction, étant donné le peu d'observations pour chaque combinaison. Le modèle s'écrit alors
 \begin{align*}
 Y &= \beta_0 + \beta_1 \texttt{poison}_2 + \beta_2\texttt{poison}_3  +\beta_3\texttt{treatment}_2 \\ &\qquad+ \beta_4\texttt{treatment}_3
 +\beta_5\texttt{treatment}_4 + \varepsilon
 \end{align*}
 
-The plot of fitted values against residuals shows that the model is not additive; there is also indications that the variance increases with the mean response. The model is inadequate: lowest survival times are underpredicted, meaning the residuals are positive and likewise the middle responses is positive. A formal test of non-additivity based on constructed variables  further point towards non-additivity [@Davison:2003, Example 8.24]. Overall, the model fit is poor and any conclusion drawn from it dubious.
 
+Le tracé des valeurs ajustées par rapport aux résidus montre que le modèle n'est pas additif (panneau du milieu de la @fig-poisonplots); il y a également des indications que la variance augmente avec la réponse moyenne. Le modèle est inadéquat: les temps de survie les plus faibles sont sous-estimés, ce qui signifie que les résidus sont positifs, de même que les réponses moyennes. Un test formel de non-additivité indique également la non-additivité [@Davison:2003, Exemple 8.24]. Dans l'ensemble, l'ajustement du modèle est médiocre et toute conclusion tirée de celui-ci est douteuse.
 
-
-One could consider using a Box--Cox to find a suitable transformation of the residuals so as to improve normality. An analysis of residuals in the top four plots of @fig-poisonplots show evidence of heteroscedasticity as a function of either poison and treatment. This is evident by looking at the plot of ordinary residuals, which displays increase in variance with the survival time. The quantile-quantile plot in the middle right plot shows some evidence of departure from the normality, but the non-linearity and heteroscedasticity obscure this. 
-
-The bottom left panel of @fig-poisonplots shows the profile log likelihood for the Box--Cox transform parameter, suggesting a value of $\lambda=-1$ would be within the 95\% confidence interval. This choice has the benefit of being interpretable, as the reciprocal response $Y^{-1}$ corresponds to the speed of action of the poison depending on both poison type and treatment. The diagnostics plot at the bottom right of @fig-poisonplots also indicate that the model for the reciprocal has no residual structure and the variance appears constant. 
+On pourrait envisager d'utiliser un Box--Cox pour trouver une transformation appropriée des résidus afin d'améliorer la normalité. Une analyse des résidus dans les quatre premiers graphiques de @fig-poisonplots montre des signes d'hétéroscédasticité en fonction du poison et du traitement. Ceci est évident en regardant le graphique des résidus ordinaires, qui montre une augmentation de la variance avec le temps de survie. Le tracé quantile-quantile dans le tracé du milieu à droite montre quelques signes d'écart par rapport à la normalité, mais la non-linéarité et l'hétéroscédasticité le masquent. 
 
 ```{r}
 #| label: fig-poisonplots
 #| echo: false
 #| eval: true
-#| cache: true
-#| fig-cap: "Diagnostic plots for the poison data: ordinary residuals (jittered)
-#|   for the linear model for survival time as a function of poison and treatment (top), 
-#|   fitted values against residuals (middle left), detrended quantile-quantile plot of residuals (middle right), profile log likelihood of $\\lambda$ for the Box--Cox model transformation (bottom left) and fitted values against residuals (bottom right) after reciprocal transformation."
-#| fig-height: 6
-
+#| fig-cap: "Diagnostics graphiques pour les données de poisons. Panneau du haut: vraisemblance profilée pour $\\lambda$. Panneau du milieu: ($\\lambda=1$, temps de survie) et du bas $(\\lambda=-1$, vitesse d'absorption). Les diagnostics pour les modèles représentent les résidus ordinaires versus valeurs ajustées et diagramme quantile-quantile des résidus studentisés. "
+#| fig-align: 'center'
 poisons <- SMPracticals::poisons
 poisonlm1 <- lm(time ~ poison + treat, data = poisons)
 poisonlm2 <- lm(I(1/time) ~ poison + treat, data = poisons)
@@ -283,19 +120,13 @@ poisons$rstudent2 <- rstudent(poisonlm2)
 poisons$fitted1 <- fitted(poisonlm1)
 poisons$fitted2 <- fitted(poisonlm2)
 g1 <- ggplot(data = poisons) +
-  geom_point(aes(x = poison, y = resid1), position = position_jitter(width = 0.05)) +
-  labs(y = "ordinary residuals")
-g2 <- ggplot(data = poisons) +
-  geom_point(aes(x = treat, y = resid1), position = position_jitter(width = 0.05)) +
-  labs(y = "ordinary residuals", x = "treatment")
-g3 <- ggplot(data = poisons) +
   geom_point(aes(x = fitted1, y = resid1), position = position_jitter(width = 0.05)) +
-  labs(y = "ordinary residuals", x = "fitted values")
+  labs(y = "résidus ordinaires", x = "valeurs ajustées")
 dp <- list(df=poisonlm1$df.residual-1)
 di <- "t"
-de <- TRUE
+de <- FALSE
 library(qqplotr)
-g4 <- ggplot(data = poisons, aes(sample = rstudent1)) +
+g2 <- ggplot(data = poisons, aes(sample = rstudent1)) +
  stat_qq_band(distribution = di, dparams = dp,
               detrend = de, identity = TRUE,
               bandType = "boot", B = 9999) +
@@ -303,11 +134,21 @@ g4 <- ggplot(data = poisons, aes(sample = rstudent1)) +
               detrend = de, identity = TRUE) +
  stat_qq_point(distribution = di, dparams = dp,
                detrend = de, identity = TRUE) +
- labs(x = "theoretical quantiles",
-      y = "empirical minus\n theoretical quantiles")
-g5 <- ggplot(data = poisons) +
+ labs(x = "quantiles théoriques",
+      y = "quantiles empiriques")
+g4 <- ggplot(data = poisons, aes(sample = rstudent2)) +
+ stat_qq_band(distribution = di, dparams = dp,
+              detrend = de, identity = TRUE,
+              bandType = "boot", B = 9999) +
+ stat_qq_line(distribution = di, dparams = dp,
+              detrend = de, identity = TRUE) +
+ stat_qq_point(distribution = di, dparams = dp,
+               detrend = de, identity = TRUE) +
+ labs(x = "quantiles théoriques",
+      y = "quantiles empiriques")
+g3 <- ggplot(data = poisons) +
   geom_point(aes(x = fitted2, y = resid2), position = position_jitter(width = 0.05)) +
-  labs(y = "ordinary residuals", x = "fitted values")
+  labs(y = "résidus ordinaires", x = "valeurs ajustées")
 boxcox_gg <- function(fitted.lm, showlambda = TRUE, lambdaSF = 3, grid = seq(-2,2, by = 0.1), scale.factor = 0.5) {
       boxcox_object <- MASS::boxcox(fitted.lm, lambda = grid, plotit = FALSE)
     x <- unlist(boxcox_object$x)
@@ -325,13 +166,13 @@ boxcox_gg <- function(fitted.lm, showlambda = TRUE, lambdaSF = 3, grid = seq(-2,
     conf_lo <- round(min(accept_range), lambdaSF)
     conf_hi <- round(max(accept_range), lambdaSF)
     plot <- ggplot(data = boxcox_unlist) + geom_segment(aes(x = xstart,
-        y = ystart, xend = xend, yend = yend), size = scale.factor) +
-        labs(x = expression(lambda), y = "profile log likelihood") +
+        y = ystart, xend = xend, yend = yend), linewidth = scale.factor) +
+        labs(x = expression(lambda), y = "log vraisemblance profilée") +
         geom_vline(xintercept = best_lambda, linetype = "dotted",
-            size = scale.factor/2) + geom_vline(xintercept = conf_lo,
-        linetype = "dotted", size = scale.factor/2) + geom_vline(xintercept = conf_hi,
-        linetype = "dotted", size = scale.factor/2) + geom_hline(yintercept = y[min(accept_inds)],
-        linetype = "dotted", size = scale.factor/2)
+            linewidth = scale.factor/2) + geom_vline(xintercept = conf_lo,
+        linetype = "dotted", linewidth = scale.factor/2) + geom_vline(xintercept = conf_hi,
+        linetype = "dotted", linewidth = scale.factor/2) + geom_hline(yintercept = y[min(accept_inds)],
+        linetype = "dotted", linewidth = scale.factor/2)
     if (showlambda) {
         return(plot +
                  annotate("text", x = best_lambda, label = as.character(rounded_lambda), y = min_y) +
@@ -342,17 +183,15 @@ boxcox_gg <- function(fitted.lm, showlambda = TRUE, lambdaSF = 3, grid = seq(-2,
         return(plot)
     }
 }
-g6 <- boxcox_gg(poisonlm1, grid = seq(-1.5,0.1, by = 0.01))
-(g1 + g2)/ (g3 + g4) / (g6 + g5)
+g5 <- boxcox_gg(poisonlm1, grid = seq(-1.5,0.1, by = 0.01))
+ g5 / (g1 + g2) / (g3 + g4)
 ```
+
+
+L'intervalle de confiance à 95\% basé sur la log-vraisemblance profilée pour le paramètre du modèle Box--Cox contient $\lambda=-1$. La réciproque de la variable réponse $Y^{-1}$ indique la vitesse d'action du poison, selon le type et le traitement. Les diagnostics graphiques de ce modèles, présentés dans le panneau du bas de la @fig-poisonplots ne montrent aucune structure résiduelle.
+
 :::
 
-
-
-
-## Concluding remarks
-
-
+<!--
 Linear regression is the most famous and the most widely used statistical model around.  The name may appear reductive, but many tests statistics (*t*-tests, ANOVA, Wilcoxon, Kruskal--Wallis) [can be formulated using a linear regression](https://lindeloev.github.io/tests-as-linear/linear_tests_cheat_sheet.pdf), while [models as diverse as trees, principal components and deep neural networks are just linear regression model in disguise](https://threadreaderapp.com/thread/1286420597505892352.html). What changes under the hood between one fancy model to the next are the optimization method (e.g., ordinary least squares, constrained optimization or stochastic gradient descent) and the choice of explanatory variables entering the model (spline basis for nonparametric regression, indicator variable selected via a greedy search for trees, activation functions for neural networks).
-
 -->

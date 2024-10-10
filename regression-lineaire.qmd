@@ -798,7 +798,7 @@ Les deux formules diffèrent uniquement au niveau de la variabilité.
 
 ## Prédiction pour une régression linéaire simple
 
-Considérons les données de l'@exm-sokolova. On ajuste un modèle de régression linéaire simple avec $\texttt{pef} = \beta_0 + \beta_1 \texttt{proportion} + \varepsilon$, où $\varepsilon \sim \mathsf{normal}(0,\sigma^2)$ et on suppose les observations indépendantes.
+Considérons les données de l'@exm-sokolova. On ajuste un modèle de régression linéaire simple avec $\texttt{pef} = \beta_0 + \beta_1 \texttt{proportion} + \varepsilon$, où $\varepsilon \sim \mathsf{normale}(0,\sigma^2)$ et on suppose les observations indépendantes.
 
 
 La @fig-predinterval  montre les bandes d'incertitude ponctuelles pour une simple régression linéaire des données de @Sokolova:2023 en fonction de la `proportion` de carton par rapport au plastique, les valeurs les plus élevées indiquant un emballage avec plus de carton superflu. Le modèle ne tient pas compte du fait que notre réponse provient d'une distribution discrète limitée avec des valeurs entières allant de 1 à 7, et que les ratios testés dans l'expérience sont 0 (pas de carton), 0.5, 1 et 2 uniquement. La droite centrale donne la prédiction des individus lorsque nous faisons varier la proportion carton/plastique. En examinant les formules des intervalles de confiance et de prédiction, il est clair que les bandes ne sont pas linéaires (nous considérons la racine carrée d'une fonction qui implique les prédicteurs), mais il n'est pas évident visuellement que l'incertitude augmente au fur et à mesure que l'on s'éloigne de la moyenne des prédicteurs.
@@ -1008,7 +1008,7 @@ Les contrastes encodent la question de recherche : si $c_i$ représente le poids
 Nous pouvons alors construire une statistique $t$ comme d'habitude en examinant la différence entre notre valeur postulée et la moyenne pondérée observée, convenablement normalisée. Si le test global $F$ conduit au rejet de la valeur nulle, il existe au moins un contraste significatif au même niveau.
 Lorsque les vecteurs de contraste sont orthogonaux, les tests ne sont pas corrélés. Mathématiquement, si nous laissons $c_{i}$ et $c^{*}_{i}$ désigner les poids attachés à la moyenne du groupe $i$ comprenant $n_i$ observations, les contrastes sont orthogonaux si $c_{1}c^{*}_{1}/n_1 + \cdots + c_{K}c^{*}_K/n_K = 0$ ; si l'échantillon est équilibré avec le même nombre d'observations dans chaque groupe, $n/K = n_1 =\cdots = n_K$, nous pouvons considérer le produit scalaire des deux vecteurs de contrastes et négliger la taille des sous-échantillons.
 
-Si nous avons $K$ groupes, il y a $K-1$ contrastes pour les différences deux à deux, le dernier étant capturé par la moyenne de l'échantillon pour l'effet global^[La contrainte $c_1 + \cdots + c_K=0$ garantit que les contrastes linéaires sont orthogonaux à la moyenne, qui a un poids $c_i=n_i/n$ et pour les échantillons équilibrés $c_i =1/n$.]. Si nous nous intéressons uniquement à la différence entre groupes (par opposition à l'effet global de tous les traitements), nous imposons une contrainte de somme à zéro sur les poids, de sorte que $c_1 + \cdots + c_K=0$.
+Si nous avons $K$ groupes, il y a $K-1$ contrastes pour les différences deux à deux, le dernier étant capturé par la moyenne de l'échantillon pour l'effet global. Si nous nous intéressons uniquement à la différence entre groupes (par opposition à l'effet global de tous les traitements), nous imposons une contrainte de somme à zéro sur les poids, de sorte que $c_1 + \cdots + c_K=0$.
 
 ### Exemples de tests
 
@@ -2118,7 +2118,7 @@ ggplot(data = dat, aes(x=x, y=y), colour=group) +
 
 Si les observations influentes peuvent être détectées en inspectant le levier de chaque observation, les valeurs aberrantes sont plus difficiles à diagnostiquer. Une valeur aberrante se distingue du reste des observations, soit parce qu'elle a une valeur de réponse habituelle, soit parce qu'elle se situe loin de la surface de régression.
 En gros, une valeur aberrante est une valeur inhabituelle de $Y$ pour une combinaison donnée de $\mathbf{X}$ qui se distingue des autres.
-Les valeurs aberrantes peuvent être détectées au cours de l'analyse exploratoire des données ou dans les diagrammes de résidus (valeurs élevées de $|e_i|$ dans les diagrammes des valeurs ajustées par rapport aux valeurs résiduelles) ou dans les diagrammes de régression partielle. On pourrait éventuellement tester si un résidu studentisé externe est une valeur aberrante (en tenant compte du fait que nous ne prendrions en considération que les valeurs les plus élevées). On peut également considérer la distance de Cook, $C_j$, une statistique donnant la distance à l'échelle entre les valeurs ajustées $hat{\boldsymbol{y}}$ et les valeurs ajustées pour le modèle avec toutes les observations sauf la $j$e, $\hat{\boldsymbol{y}}^{(-j)}$,
+Les valeurs aberrantes peuvent être détectées au cours de l'analyse exploratoire des données ou dans les diagrammes de résidus (valeurs élevées de $|e_i|$ dans les diagrammes des valeurs ajustées par rapport aux valeurs résiduelles) ou dans les diagrammes de régression partielle. On pourrait éventuellement tester si un résidu studentisé externe est une valeur aberrante (en tenant compte du fait que nous ne prendrions en considération que les valeurs les plus élevées). On peut également considérer la distance de Cook, $C_j$, une statistique donnant la distance à l'échelle entre les valeurs ajustées $\hat{\boldsymbol{y}}$ et les valeurs ajustées pour le modèle avec toutes les observations sauf la $j$e, $\hat{\boldsymbol{y}}^{(-j)}$,
 \begin{align*}
 C_j = \frac{1}{(p+1)S^2} \sum_{i=1}^n \left\{\hat{y}_i - \hat{y}_{i}^{(-j)}\right\}^2
 \end{align*}
@@ -2397,7 +2397,7 @@ Pour $y_1, \ldots, y_n$ et des pas de décalages $h=0, 1, \ldots$, l'autocorrél
 r(h) = \frac{\gamma(h)}{\gamma(0)}, \qquad \gamma(h) = \frac{1}{n}\sum_{i=1}^{n-|h|} (y_i-\overline{y})(y_{i+h} - \overline{y})
 \end{align*}
 
-Si la série est corrélée, l'autocorrélation de l'échantillon se situera probablement en dehors des intervalles de confiance ponctuels, comme le montre la @fig-correlogram. La présence d'autocorrélation nécessite de modéliser la corrélation entre les observations de manière explicite à l'aide d'outils spécifiques issus de la littérature sur les séries temporelles. Nous examinerons toutefois les modèles $\mathsf{AR}(1)$ dans le cadre du chapitre sur les données longitudinales. Voir [Forecasting : Principles and Practice, section 5.3] (https://otexts.com/fpp2/regression-evaluation.html) pour plus de détails.
+Si la série est corrélée, l'autocorrélation de l'échantillon se situera probablement en dehors des intervalles de confiance ponctuels, comme le montre la @fig-correlogram. La présence d'autocorrélation nécessite de modéliser la corrélation entre les observations de manière explicite à l'aide d'outils spécifiques issus de la littérature sur les séries temporelles. Nous examinerons toutefois les modèles $\mathsf{AR}(1)$ dans le cadre du chapitre sur les données longitudinales. Voir [Forecasting : Principles and Practice, section 5.3](https://otexts.com/fpp2/regression-evaluation.html) pour plus de détails.
 
 Lorsque les observations sont positivement corrélées, les erreurs-types estimées indiquées par le logiciel sont trop petites. Cela signifie que nous sommes trop confiants et que nous rejetterons l'hypothèse nulle plus souvent que nous ne le devrions si l'hypothèse nulle était vraie (erreur de type I gonflée, plus de faux positifs).
 
@@ -2416,3 +2416,371 @@ g0 + g1
 
 Comment prendre en compte la dépendance entre observations? L'idée principale est de modéliser la corrélation et la variance, en partant du vecteur complet d'observations et en supposant que $$\boldsymbol{Y} \mid \mathbf{X} \sim \mathsf{normale}_n(\mathbf{X}\boldsymbol{\beta}, \boldsymbol{\Sigma})$$ avec un modèle pour la matrice de variance de dimension $n \times n$, disons $\boldsymbol{\Sigma}$, qui sera paramétré en fonction de $\boldsymbol{\psi}$.
 
+
+
+### Postulat de normalité
+
+Le postulat de normalité des aléas est commode, mais pas strictement nécessaire dans la majorité des cas pour la validité des tests sur les coefficients ou les énoncés reliés à la moyenne prédite. Si les aléas suivent une loi normale, les estimateurs des moindres carrés et du maximum de vraisemblance de $\boldsymbol{\beta}$ coïncident.
+Les estimateurs du maximum de vraisemblance de $\boldsymbol{\beta}$ sont asymptotiquement normaux sous de faibles conditions sur la matrice du modèle et les $t$-tests sont étonnamment robustes et ne sont pas affectés par un écart par rapport au postulat de normalité. Cela signifie que l'inférence est valable avec de grands échantillons, quelle que soit la distribution des erreurs/résidus (même si la loi nulle n'est pas exacte). L'inférence sera valable avec de grands échantillons même si les aléas ne sont pas normaux à cause du théorème de la limite centrale. Il est important de garder à l'esprit que, pour les variables explicatives catégorielles, la taille de l'échantillon dans chaque sous-groupe doit être suffisamment importante pour que le théorème de la limite centrale s'applique, puisque les coefficients représentent la moyenne du sous-groupe. En revanche, les résultats et tests qui capitalisent sur la loi des aléas (par exemple, les tests pour les aberrances basés sur le maximum des résidus studentisés, ou les intervalles de prédictions) seront probablement trompeurs.
+
+
+Parfois, des transformations peuvent améliorer la normalité : si les données sont asymétriques à droite et que la variable réponse est strictement positive, un modèle log-linéaire peut être plus adéquat [@sec-transfo]. Ceci peut être évalué en regardant le diagramme quantile-quantile des résidus studentisés externes. Si la réponse $Y$ n'est pas continue (y compris les données binaires, proportionnelles ou de dénombrement), les modèles linéaires généralisés sont plus appropriés.
+
+
+Si l'aléa $\varepsilon_i \sim \mathsf{normale}(0, \sigma^2)$, alors les résidus studentisés externes devraient suivre une distribution de Student, avec $r_i \sim \mathsf{Student}(n-p-2)$ (identiquement distribués, mais non indépendants). Un diagramme quantile-quantile de Student peut donc être utilisé pour vérifier le postulat. Gardez à l'esprit que si le modèle de la moyenne ou de la variance n'est pas correctement spécifié, certains résidus peuvent incorporer les effets résiduels.
+
+```{r}
+#| label: fig-qqplotresid
+#| cache: true
+#| echo: false
+#| fig-cap: Histogramme et estimation de densité par lissage de noyau (gauche) et diagramme quantile-quantile Student (droite). Le panneau de gauche montre la loi théorique Student (en bleu) pour comparaison. Le panneau de droite présente des intervalles de confiance ponctuels à 95% calculés à l'aide d'un autoamorçage paramétrique.
+par(pch = 19, col = scales::alpha("black", 0.8), bty = "l")
+par(mar=c(3.1, 3.1, 1, 1), mgp=c(1.7, 0.6, 0), font.main=1, cex.main=0.8)
+par(mfrow = c(1,2))
+library(car)
+library(qqplotr, warn.conflicts = FALSE)
+set.seed(1234)
+di <- "t"
+dp <- list(df = lm2$df.residual)
+de <- FALSE
+g2 <- ggplot(data = data.frame(sample = rstudent(lm2)), mapping = aes(sample = sample)) +
+ stat_qq_band(distribution = di, detrend = de, bandType = "boot", B = 9999, dparams = dp) +
+ stat_qq_line(distribution = di, detrend = de) +
+ stat_qq_point(distribution = di, detrend = de) +
+ labs(x = "quantiles théoriques", y = "résidus studentisés externes")
+g1 <- ggplot(data = data.frame(x = rstudent(lm2)), aes(x=x)) +
+  geom_histogram(aes(x=x, y = after_stat(density))) +
+  stat_function(fun = "dt", args = list(df = lm2$df.residual), col = hecbleu) +
+  geom_density() + labs(x = "résidus studentisés externes", y = "densité")
+g1 + g2
+```
+
+
+Les graphiques quantile-quantile sont abordés dans la @def-diagramme-qq, mais leur interprétation nécessite de la pratique. Par exemple, la @fig-qqplotsbad montre de nombreux scénarios courants qui peuvent être détectés à l'aide de diagrammes quantile-quantile. Les données discrètes sont responsables des motifs en escalier, les données asymétriques à droite ont des quantiles bas trop élevés et des quantiles hauts trop bas par rapport aux positions de tracé, les données à ailes lourdes ont des observations élevées de part et d'autre et les données bimodales conduisent à des sauts dans le tracé.
+
+```{r}
+#| label: fig-qqplotsbad
+#| cache: true
+#| echo: false
+#| fig-cap: Diagrammes quantiles-quantiles de données discrète (coin supérieur gauche), à ailes lourdes (coin supérieur droit), asymmétrique à droite (coin inférieur gauche) et bimodales (coin inférieur droit).
+set.seed(1234)
+par(pch = 19, col = scales::alpha("black", 0.8), bty = "l")
+par(mar=c(3.1, 3.1, 1, 1), mgp=c(1.7, 0.6, 0), font.main=1, cex.main=0.8)
+par(mfrow= c(2,2))
+qqPlot(scale(rgeom(n = 100, prob = 0.5)),
+       xlab = "quantiles théoriques",
+       ylab = "quantiles empiriques",
+       col.lines=hecbleu, id = FALSE)
+set.seed(123)
+qqPlot(scale(rt(200, df = 3)),
+       xlab = "quantiles théoriques",
+       ylab = "quantiles empiriques",
+       col.lines=hecbleu, id = FALSE)
+set.seed(432)
+qqPlot(scale(rgamma(100,shape = 2)),
+       xlab = "quantiles théoriques",
+       ylab = "quantiles empiriques",
+       col.lines=hecbleu, id = FALSE)
+set.seed(432)
+qqPlot(scale(c(rnorm(100,-3),rnorm(100,3))),
+       xlab = "quantiles théoriques",
+       ylab = "quantiles empiriques",
+       col.lines=hecbleu, id = FALSE)
+```
+
+:::{#exm-diagplotcollege}
+
+## Diagnostics graphiques pour l'inéquité salariale
+
+On considère le modèle pour les données `college` avec toutes les observations (sans interaction) pour voir si les postulats tiennent la route.
+
+
+```{r}
+#| label: fig-diagplotscollege
+#| cache: true
+#| echo: false
+#| fig-cap: 'Diagnostic plots for the college data example: ordinary residuals against
+#|   fitted values (top left), absolute value of the jacknnife studentized residuals
+#|   against fitted values (top right), box and whiskers plot of jacknnife studentized
+#|   residuals (bottom left) and detrended Student quantile-quantile plot (bottom right).
+#|   There is clear group heteroscedasticity.'
+
+library(qqplotr, warn.conflicts = FALSE)
+lmcoll <- lm(salaire ~ annees + service + echelon + sexe + domaine, data = college)
+
+resdat <- data.frame(rstudent = rstudent(lmcoll),
+                     resid = resid(lmcoll),
+                     fitted = fitted(lmcoll),
+                     echelon = college$echelon,
+                     service = college$service)
+gd1 <- ggplot(resdat, aes(x = fitted, y = resid)) +
+        geom_point() +
+  labs(x = "valeurs ajustées", y = "résidus ordinaires")
+      # geom_smooth(method = "loess", size = 1.5)
+gd2 <- ggplot(resdat, aes(x = fitted, y = abs(rstudent))) +
+        geom_point() +
+      labs(x = "valeurs ajustées",
+           y = "|résidus studentisés externes|")
+gd3 <- ggplot(resdat, aes(x = echelon, y = rstudent)) +
+      geom_boxplot() + labs(x = "échelon", y = "résidus studentisés externes")
+di <- "t"
+dp <- list(df = lmcoll$df.residual-1)
+de <- FALSE
+gd4 <- ggplot(data = resdat, aes(sample = rstudent)) +
+ stat_qq_band(distribution = di, dparams = dp,
+              detrend = de, identity = TRUE,
+              bandType = "boot", B = 9999) +
+ stat_qq_line(distribution = di, dparams = dp,
+              detrend = de, identity = TRUE) +
+ stat_qq_point(distribution = di, dparams = dp,
+               detrend = de, identity = TRUE) +
+ labs(x = "theoretical quantiles",
+      y = "empirical quantiles")
+
+(gd1 + gd2) / (gd3 + gd4)
+```
+
+Sur la base des graphiques de @fig-diagplotscollege, nous constatons qu'il existe une hétéroscédasticité au sein des échelons. Comme le nombre d'années pour les adjoint(e)s est limité et que tous les professeurs assistants ont été embauchés au cours des six dernières années, il y a moins de disparité dans leurs revenus. Il est important de ne pas confondre le modèle sur l'axe $x$ pour la valeur ajustée (en raison de l'effet important du rang et du domaine, tous deux variables catégorielles) avec les modèles dans les résidus (aucun n'est apparent). La correction de l'hétéroscédasticité permettrait de corriger les résidus et d'améliorer l'aspect du graphique quantile-quantile.
+
+On effectue quelques tests avec les résidus studentisés externes pour les données `college` pour valider ce que les diagnostics graphiques indiquent.
+
+```{r}
+#| eval: true
+#| echo: true
+r <- rstudent(modlin1_college)
+# Test F de Levene
+car::leveneTest(r ~ echelon, center = "mean", data = college)
+# Test du score avec Breusch-Pagan
+car::ncvTest(modlin1_college, var.formula =  ~ echelon)
+```
+
+Pour les données de collège, on spécifie donc plutôt $Y_i \sim \mathsf{normale}(\mathbf{x}_i\boldsymbol{\beta}, \sigma^2_{\texttt{echelon}_i})$ avec un paramètre de variance spécifique à l'échelon. Cela semble corriger l'hétéroscédasticité.
+
+
+```{r}
+#| eval: true
+#| echo: true
+#| fig-align: 'center'
+library(nlme) # modèles mixtes et structures de corrélation
+modlin.college2 <- nlme::gls(
+  model = salaire ~ echelon + domaine + sexe + service, # spécification de la moyenne
+  weights = nlme::varIdent(form = ~1 | echelon), # variance constante par échelon
+  data = college)
+plot(modlin.college2)
+car::Anova(modlin.college2)
+```
+
+Le modèle est ajusté par maximum de vraisemblance restreint avec la fonction `gls`  du paquet `nlme`. La modification semble suffisante pour capturer l'hétéroscédasticité dans le diagramme des résidus standardisés vs valeurs ajustées.
+
+
+On pourrait aussi essayer d'utiliser la matrice sandwich, en remplaçant l'estimateur de $\mathsf{Va}(\widehat{\boldsymbol{\beta}})$ par $\widehat{\mathsf{Va}}_{\mathsf{HCE}}(\boldsymbol{\widehat{\beta}})$ dans la formule des tests de Wald. Ici, c'est option n'est pas recommandée car moins efficace.
+
+```{r}
+#| echo: true
+#| eval: false
+# Matrice de covariance sandwich
+vcov_HCE <- car::hccm(modlin1_college)
+# Statistiques de Wald
+lmtest::coeftest(modlin1_college, vcov. = vcov_HCE)
+```
+
+:::
+
+
+
+### Transformation de la variable réponse {#sec-transfo}
+
+Si la réponse est strictement positive, certaines options peuvent atténuer le manque d'additivité, plus particulièrement les relations multiplicatives entre la moyenne et la variance. Si les données sont asymétriques et que la réponse est strictement positive, un modèle log-linéaire peut être plus approprié et les paramètres peuvent être interprétés.
+
+
+Écrivons le modèle log-linéaire
+\begin{align*}
+\ln Y = \beta_0+ \beta_1 X_1 +\cdots + \beta_pX_p + \varepsilon;
+\end{align*}
+à l'échelle originale de la variable réponse, cela représente
+\begin{align*}
+Y &= \exp\left(\beta_0 +\beta_1 X_1 +\cdots + \beta_pX_p\right)\cdot \exp(\varepsilon),
+\end{align*}
+et donc
+\begin{align*}
+\mathsf{E}(Y \mid \mathbf{X}) = \exp(\beta_0 +\beta_1 X_1 +\cdots + \beta_pX_p) \times \mathsf{E}\{\exp(\varepsilon) \mid \mathbf{X}\}.
+\end{align*}
+Si $\varepsilon \mid \mathbf{x} \sim \mathsf{normale}(\mu,\sigma^2)$, alors $\mathsf{E}\{\exp(\varepsilon) \mid \mathbf{x}\}= \exp(\mu+\sigma^2/2)$ et $\exp(\varepsilon)$ suit une loi lognormale. Une augmentation d'une unité de $X_j$ mène à une augmentation moyenne de $\beta_j$ de $\ln Y$ sans interaction ni terme nonlinéaire pour $X_j$, et cela se traduit par un facteur multiplicatif de $\exp(\beta_j)$ à l'échelle de $Y$. Si $\beta_j=0$, $\exp(\beta_j)=1$ et il n'y a pas de changement, si $\beta_j < 0$, $\exp(\beta_j)<1$ et la moyenne décroît avec $X_j$, et si $\beta_j > 0$, $\exp(\beta_j)>1$ et la moyenne augmente avec $X_j$.
+
+Comparez le rapport 
+\begin{align*}
+\frac{\mathsf{E}(Y \mid X_1=x+1, X_2, \ldots, X_p)}{\mathsf{E}(Y \mid X_1=x,  X_2, \ldots, X_p)} = \frac{\exp\{\beta_1(x+1)\}}{\exp(\beta_1 x)} = \exp(\beta_1).
+\end{align*}
+Ainsi, $\exp(\beta_1)$ donne le rapport des moyennes de $Y$ quand $X_1=x+1$ par rapport à $X_1=x$, *ceteris paribus* (avec les restrictions habituelles). L'interprétation (par rapport à la référence, dépend du signe de $\beta_j$: le pourcentage de diminution est $1-\exp(\beta_j)$ si $\beta_j <0$ et le pourcentage d'augmentation est $\exp(\beta_j)-1$ si $\beta_j>0$.
+
+
+Parfois, on veut considérer une transformation à la fois de la réponse et d'une variable explicative positive continue, un modèle log-log. Considérons le cas où on prend le logarithme de $Y$ et $X_1$, avec
+\begin{align*}
+Y= X_1^{\beta_1}\exp(\beta_0 + \beta_2X_2 + \cdots + \beta_pX_p + \varepsilon)
+\end{align*}
+En prenant la dérivée par rapport à $X_1>0$, on obtient
+\begin{align*}
+\frac{\partial Y}{\partial X_1}&= \beta_1 X_1^{\beta_1-1}\exp(\beta_0 + \beta_2X_2 + \cdots + \beta_pX_p + \varepsilon)\\&= \frac{\beta_1 Y}{X_1}
+\end{align*}
+et réarranger cette expression nous donne
+\begin{align*}
+\frac{\partial X_1}{X_1}\beta_1 = \frac{\partial Y}{Y};
+\end{align*}
+une mesure **d'élasticité partielle**: le coefficient $\beta_1$ est un pourcentage de changement de $Y$ pour chaque pourcentage d'augmentation de $X_1$, *ceteris paribus*.
+
+:::{#exm-loglog}
+
+## Modèle de Cobb-Douglas
+
+Considérons par exemple la fonction de production Cobb--Douglas [@Douglas:1976], qui spécifie que la production économique $Y$ est liée au travail $L$ et au capital $C$ par l'intermédiaire de $\mathsf{E}(Y \mid L, C) = \beta_0C^{\beta}L^{1-\beta}$ avec $\beta \ dans (0,1)$.Si nous prenons les logarithmes des deux côtés (puisque tous les arguments sont positifs), alors 
+$\mathsf{E}(\ln Y \mid L, C) = \beta_0^* + \beta_1 \ln C + (1-\beta_1)\ln L$. Nous pourrions ajuster un modèle linéaire avec la réponse $\ln Y - \ln L$ et la variable explicative $\ln C - \ln L$, pour obtenir une estimation du coefficient $\beta_1$, tandis que $\beta_0^*=\ln \beta_0$. Une optimisation sous contrainte serait potentiellement nécessaire pour estimer les paramètres du modèle linéaire résultant si les estimations se situent en dehors de l'espace des paramètres.
+
+:::
+
+:::{#prp-boxcox}
+
+## Transformation de Box--Cox
+
+Avec des données strictement positives, on peut utiliser une transformation de Box--Cox [@Box.Cox:1964],
+\begin{align*}
+y(\lambda)= \begin{cases}
+(y^{\lambda}-1)/\lambda, & \lambda \neq 0\\
+\ln(y), & \lambda=0.
+\end{cases}
+\end{align*}
+Les cas de figure $\lambda=-1$ (inverse), $\lambda=1$ (identité) et $\lambda=0$ (logarithme) sont les plus importants car les modèles résultants sont interprétables.
+
+
+Si on suppose que $\boldsymbol{Y}(\lambda) \sim \mathsf{normale}(\mathbf{X}\boldsymbol{\beta}, \sigma^2 \mathbf{I}_n)$, alors la vraisemblance est
+\begin{align*}
+L(\lambda, \boldsymbol{\beta}, \sigma; \boldsymbol{y}, \mathbf{X}) &= (2\pi\sigma^2)^{-n/2} J(\lambda, \boldsymbol{y}) \times\\& \quad \exp \left[ - \frac{1}{2\sigma^2}\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}^\top\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}\right],
+\end{align*}
+où $J$ dénote le Jacobien de la transformation Box--Cox, $J(\lambda, \boldsymbol{y})=\prod_{i=1}^n y_i^{\lambda-1}$.
+
+## Profilage de $\lambda$
+
+Pour chaque valeur de $\lambda$, on obtient les estimateurs du maximum de vraisemblance usuels en remplaçant $\boldsymbol{y}$ par $\boldsymbol{y}(\lambda)$.
+
+La log vraisemblance profilée pour $\lambda$ est
+\begin{align*}
+\ell_{\mathsf{p}}(\lambda) = -\frac{n}{2}\ln(2\pi \widehat{\sigma}^2_\lambda) - \frac{n}{2} + (\lambda - 1)\sum_{i=1}^n \ln(y_i)
+\end{align*}
+
+Nous ne pouvons pas comparer les modèles ajustés à $Y_i$ par rapport à $\ln Y_i$ en utilisant, par exemple, des critères d'information ou des tests, parce que les modèles ont des réponses différentes. Nous pouvons toutefois utiliser la vraisemblance de Box--Cox, qui inclut le **Jacobien** de la transformation, pour évaluer la qualité de l'ajustement et comparer le modèle avec $\lambda=1$ par rapport à $\lambda=0$.
+
+
+
+La transformation de Box-Cox n'est pas une panacée et doit être réservée aux cas où la transformation réduit l'hétéroscédasticité (variance inégale) ou crée une relation linéaire entre les explications et la réponse : la théorie fournit une explication convaincante des données. Plutôt qu'un choix *ad hoc* de transformation, on pourrait prendre une transformation logarithmique si la valeur 0$ est incluse dans l'intervalle de confiance à 95%, car cela améliore l'interprétabilité.
+
+:::
+
+
+
+:::{#exm-poisonboxcox}
+
+## Transformation de Box--Cox pour données sur les poisons
+
+
+@Box.Cox:1964 modélisent le temps de survie de 48 animaux sur la base d'un essai aléatoire. Les données sur les `poisons` sont équilibrées, 3 poisons ayant été administrés avec 4 traitements à 4 animaux chacun. Nous pourrions envisager une ANOVA à deux facteurs sans interaction, étant donné le peu d'observations pour chaque combinaison. Le modèle s'écrit alors
+\begin{align*}
+Y &= \beta_0 + \beta_1 \texttt{poison}_2 + \beta_2\texttt{poison}_3  +\beta_3\texttt{treatment}_2 \\ &\qquad+ \beta_4\texttt{treatment}_3
++\beta_5\texttt{treatment}_4 + \varepsilon
+\end{align*}
+
+
+Le tracé des valeurs ajustées par rapport aux résidus montre que le modèle n'est pas additif (panneau du milieu de la @fig-poisonplots); il y a également des indications que la variance augmente avec la réponse moyenne. Le modèle est inadéquat: les temps de survie les plus faibles sont sous-estimés, ce qui signifie que les résidus sont positifs, de même que les réponses moyennes. Un test formel de non-additivité indique également la non-additivité [@Davison:2003, Exemple 8.24]. Dans l'ensemble, l'ajustement du modèle est médiocre et toute conclusion tirée de celui-ci est douteuse.
+
+On pourrait envisager d'utiliser un Box--Cox pour trouver une transformation appropriée des résidus afin d'améliorer la normalité. Une analyse des résidus dans les quatre premiers graphiques de @fig-poisonplots montre des signes d'hétéroscédasticité en fonction du poison et du traitement. Ceci est évident en regardant le graphique des résidus ordinaires, qui montre une augmentation de la variance avec le temps de survie. Le tracé quantile-quantile dans le tracé du milieu à droite montre quelques signes d'écart par rapport à la normalité, mais la non-linéarité et l'hétéroscédasticité le masquent. 
+
+```{r}
+#| label: fig-poisonplots
+#| echo: false
+#| eval: true
+#| fig-cap: "Diagnostics graphiques pour les données de poisons. Panneau du haut: vraisemblance profilée pour $\\lambda$. Panneau du milieu: ($\\lambda=1$, temps de survie) et du bas $(\\lambda=-1$, vitesse d'absorption). Les diagnostics pour les modèles représentent les résidus ordinaires versus valeurs ajustées et diagramme quantile-quantile des résidus studentisés. "
+#| fig-align: 'center'
+poisons <- SMPracticals::poisons
+poisonlm1 <- lm(time ~ poison + treat, data = poisons)
+poisonlm2 <- lm(I(1/time) ~ poison + treat, data = poisons)
+
+poisons$resid1 <- resid(poisonlm1)
+poisons$rstudent1 <- rstudent(poisonlm1)
+poisons$resid2 <- resid(poisonlm2)
+poisons$rstudent2 <- rstudent(poisonlm2)
+poisons$fitted1 <- fitted(poisonlm1)
+poisons$fitted2 <- fitted(poisonlm2)
+g1 <- ggplot(data = poisons) +
+  geom_point(aes(x = fitted1, y = resid1), position = position_jitter(width = 0.05)) +
+  labs(y = "résidus ordinaires", x = "valeurs ajustées")
+dp <- list(df=poisonlm1$df.residual-1)
+di <- "t"
+de <- FALSE
+library(qqplotr)
+g2 <- ggplot(data = poisons, aes(sample = rstudent1)) +
+ stat_qq_band(distribution = di, dparams = dp,
+              detrend = de, identity = TRUE,
+              bandType = "boot", B = 9999) +
+ stat_qq_line(distribution = di, dparams = dp,
+              detrend = de, identity = TRUE) +
+ stat_qq_point(distribution = di, dparams = dp,
+               detrend = de, identity = TRUE) +
+ labs(x = "quantiles théoriques",
+      y = "quantiles empiriques")
+g4 <- ggplot(data = poisons, aes(sample = rstudent2)) +
+ stat_qq_band(distribution = di, dparams = dp,
+              detrend = de, identity = TRUE,
+              bandType = "boot", B = 9999) +
+ stat_qq_line(distribution = di, dparams = dp,
+              detrend = de, identity = TRUE) +
+ stat_qq_point(distribution = di, dparams = dp,
+               detrend = de, identity = TRUE) +
+ labs(x = "quantiles théoriques",
+      y = "quantiles empiriques")
+g3 <- ggplot(data = poisons) +
+  geom_point(aes(x = fitted2, y = resid2), position = position_jitter(width = 0.05)) +
+  labs(y = "résidus ordinaires", x = "valeurs ajustées")
+boxcox_gg <- function(fitted.lm, showlambda = TRUE, lambdaSF = 3, grid = seq(-2,2, by = 0.1), scale.factor = 0.5) {
+      boxcox_object <- MASS::boxcox(fitted.lm, lambda = grid, plotit = FALSE)
+    x <- unlist(boxcox_object$x)
+    y <- unlist(boxcox_object$y)
+    xstart <- x[-1]
+    ystart <- y[-1]
+    xend <- x[-(length(x))]
+    yend <- y[-(length(y))]
+    boxcox_unlist <- data.frame(xstart, ystart, xend, yend)
+    best_lambda <- x[which.max(y)]
+    rounded_lambda <- round(best_lambda, lambdaSF)
+    min_y <- min(y)
+    accept_inds <- which(y > max(y) - 1/2 * qchisq(0.95, 1))
+    accept_range <- x[accept_inds]
+    conf_lo <- round(min(accept_range), lambdaSF)
+    conf_hi <- round(max(accept_range), lambdaSF)
+    plot <- ggplot(data = boxcox_unlist) + geom_segment(aes(x = xstart,
+        y = ystart, xend = xend, yend = yend), linewidth = scale.factor) +
+        labs(x = expression(lambda), y = "log vraisemblance profilée") +
+        geom_vline(xintercept = best_lambda, linetype = "dotted",
+            linewidth = scale.factor/2) + geom_vline(xintercept = conf_lo,
+        linetype = "dotted", linewidth = scale.factor/2) + geom_vline(xintercept = conf_hi,
+        linetype = "dotted", linewidth = scale.factor/2) + geom_hline(yintercept = y[min(accept_inds)],
+        linetype = "dotted", linewidth = scale.factor/2)
+    if (showlambda) {
+        return(plot +
+                 annotate("text", x = best_lambda, label = as.character(rounded_lambda), y = min_y) +
+              annotate("text", x = conf_lo, label = as.character(conf_lo), y = min_y) +
+              annotate("text", x = conf_hi,
+            label = as.character(conf_hi), y = min_y))
+    } else {
+        return(plot)
+    }
+}
+g5 <- boxcox_gg(poisonlm1, grid = seq(-1.5,0.1, by = 0.01))
+ g5 / (g1 + g2) / (g3 + g4)
+```
+
+
+L'intervalle de confiance à 95\% basé sur la log-vraisemblance profilée pour le paramètre du modèle Box--Cox contient $\lambda=-1$. La réciproque de la variable réponse $Y^{-1}$ indique la vitesse d'action du poison, selon le type et le traitement. Les diagnostics graphiques de ce modèles, présentés dans le panneau du bas de la @fig-poisonplots ne montrent aucune structure résiduelle.
+
+:::
+
+<!--
+La régression linéaire est le modèle statistique le plus connu et le plus utilisé.  Le nom peut sembler réducteur, mais de nombreux tests statistiques (*t*-tests, ANOVA, Wilcoxon, Kruskal--Wallis) [peuvent être formulés à l'aide d'une régression linéaire] (https://lindeloev.github.io/tests-as-linear/linear_tests_cheat_sheet.pdf), tandis que [des modèles aussi divers que les arbres, les composantes principales et les réseaux neuronaux profonds ne sont que des modèles de régression linéaire déguisés] (https://threadreaderapp.com/thread/1286420597505892352.html). Ce qui change sous le capot d'un modèle à l'autre, c'est la méthode d'optimisation (par exemple, les moindres carrés ordinaires, l'optimisation sous contrainte ou la descente de gradient stochastique) et le choix des variables explicatives entrant dans le modèle (bases de splines pour la régression non paramétrique, variable indicatrice sélectionnée via une recherche glouton pour les arbres, fonctions d'activation pour les réseaux neuronaux).
+-->
