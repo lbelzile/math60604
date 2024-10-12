@@ -333,13 +333,13 @@
 \newcommand*\listoflistings{\listof{codelisting}{Liste des énumérations}}
 \usepackage{amsthm}
 \theoremstyle{plain}
-\newtheorem{proposition}{Proposition}[chapter]
-\theoremstyle{definition}
-\newtheorem{example}{Exemple}[chapter]
-\theoremstyle{plain}
 \newtheorem{corollary}{Corollaire}[chapter]
 \theoremstyle{definition}
+\newtheorem{example}{Exemple}[chapter]
+\theoremstyle{definition}
 \newtheorem{definition}{Définition}[chapter]
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Preuve}}
 \newtheorem*{remark}{Remarque}
@@ -380,7 +380,7 @@
 
 \title{MATH 60604 - Modélisation statistique}
 \author{Léo Belzile}
-\date{2024-10-09}
+\date{2024-10-12}
 
 \begin{document}
 
@@ -1026,7 +1026,7 @@ indépendants, la loi du nombre de réussites \(Y\) pour un nombre
 d'essais donné \(m\) est dite
 \href{https://fr.wikipedia.org/wiki/Loi_binomiale}{binomiale}, dénotée
 \(\mathsf{Bin}(m, p)\); sa fonction de masse est \begin{align*}
-\mathsf{Pr}(Y=y) = \binom{m}{y}p^y (1-p)^{1-y}, \quad y=0, 1.
+\mathsf{Pr}(Y=y) = \binom{m}{y}p^y (1-p)^{m-y}, \quad y=0, 1, \ldots, m.
 \end{align*} La vraisemblance pour un échantillon de la loi binomiale
 est (à constante de normalisation près qui ne dépend pas de \(p\)) la
 même que pour un échantillon aléatoire de \(m\) variables Bernoulli
@@ -1696,7 +1696,7 @@ l'apprentissage en vase clos des recettes plutôt que d'essayer de
 comprendre les bases de la cuisine et de faire des liens. Ce chapitre se
 concentre sur la compréhension des concepts-clés liées aux tests.
 
-\begin{tcolorbox}[enhanced jigsaw, colback=white, toptitle=1mm, colframe=quarto-callout-important-color-frame, rightrule=.15mm, arc=.35mm, toprule=.15mm, coltitle=black, breakable, colbacktitle=quarto-callout-important-color!10!white, bottomrule=.15mm, bottomtitle=1mm, titlerule=0mm, opacityback=0, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Objectifs d'apprentissage}, left=2mm, leftrule=.75mm, opacitybacktitle=0.6]
+\begin{tcolorbox}[enhanced jigsaw, colbacktitle=quarto-callout-important-color!10!white, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Objectifs d'apprentissage}, leftrule=.75mm, opacityback=0, colframe=quarto-callout-important-color-frame, breakable, toprule=.15mm, coltitle=black, toptitle=1mm, colback=white, bottomrule=.15mm, bottomtitle=1mm, titlerule=0mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
 
 \begin{itemize}
 \tightlist
@@ -2384,7 +2384,7 @@ probabilité d'obtenir une valeur de la statistique de test égale ou même
 plus grande que celle qu'on a observée dans l'échantillon, si
 \(\mathscr{H}_0\) est vraie.
 
-\begin{tcolorbox}[enhanced jigsaw, colback=white, toptitle=1mm, colframe=quarto-callout-caution-color-frame, rightrule=.15mm, arc=.35mm, toprule=.15mm, coltitle=black, breakable, colbacktitle=quarto-callout-caution-color!10!white, bottomrule=.15mm, bottomtitle=1mm, titlerule=0mm, opacityback=0, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Mise en garde}, left=2mm, leftrule=.75mm, opacitybacktitle=0.6]
+\begin{tcolorbox}[enhanced jigsaw, colbacktitle=quarto-callout-caution-color!10!white, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Mise en garde}, leftrule=.75mm, opacityback=0, colframe=quarto-callout-caution-color-frame, breakable, toprule=.15mm, coltitle=black, toptitle=1mm, colback=white, bottomrule=.15mm, bottomtitle=1mm, titlerule=0mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
 
 L'\href{https://doi.org/10.1080/00031305.2016.1154108}{\emph{American
 Statistical Association (ASA)} a publié une liste de principes}
@@ -2972,7 +2972,7 @@ Ce chapitre traite de modélisation statistique et d'inférence basée sur
 la vraisemblance, la méthodologie la plus populaire dans le monde de la
 statistique.
 
-\begin{tcolorbox}[enhanced jigsaw, colback=white, toptitle=1mm, colframe=quarto-callout-important-color-frame, rightrule=.15mm, arc=.35mm, toprule=.15mm, coltitle=black, breakable, colbacktitle=quarto-callout-important-color!10!white, bottomrule=.15mm, bottomtitle=1mm, titlerule=0mm, opacityback=0, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, left=2mm, leftrule=.75mm, opacitybacktitle=0.6]
+\begin{tcolorbox}[enhanced jigsaw, colbacktitle=quarto-callout-important-color!10!white, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, leftrule=.75mm, opacityback=0, colframe=quarto-callout-important-color-frame, breakable, toprule=.15mm, coltitle=black, toptitle=1mm, colback=white, bottomrule=.15mm, bottomtitle=1mm, titlerule=0mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
 
 \textbf{Objectifs d'apprentissage}
 

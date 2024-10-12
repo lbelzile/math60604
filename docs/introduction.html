@@ -482,7 +482,7 @@ Figure&nbsp;1.2: Trois jeux de données de <code>datasauRus</code>, avec une cor
 <p>Plus généralement, on aura accès à des données aggrégées.</p>
 <div id="exm-loibinom" class="theorem example">
 <p><span class="theorem-title"><strong>Exemple 1.4 (Loi binomiale)</strong></span> Si les données représentent la somme d’événements Bernoulli indépendants, la loi du nombre de réussites <span class="math inline">\(Y\)</span> pour un nombre d’essais donné <span class="math inline">\(m\)</span> est dite <a href="https://fr.wikipedia.org/wiki/Loi_binomiale">binomiale</a>, dénotée <span class="math inline">\(\mathsf{Bin}(m, p)\)</span>; sa fonction de masse est <span class="math display">\[\begin{align*}
-\mathsf{Pr}(Y=y) = \binom{m}{y}p^y (1-p)^{1-y}, \quad y=0, 1.
+\mathsf{Pr}(Y=y) = \binom{m}{y}p^y (1-p)^{m-y}, \quad y=0, 1, \ldots, m.
 \end{align*}\]</span> La vraisemblance pour un échantillon de la loi binomiale est (à constante de normalisation près qui ne dépend pas de <span class="math inline">\(p\)</span>) la même que pour un échantillon aléatoire de <span class="math inline">\(m\)</span> variables Bernoulli indépendantes. L’espérance d’une variable binomiale est <span class="math inline">\(\mathsf{E}(Y)=mp\)</span> et la variance <span class="math inline">\(\mathsf{Va}(Y)=mp(1-p)\)</span>.</p>
 </div>
 <p>On peut ainsi considérer le nombre de personnes qui ont obtenu leur permis de conduire parmi <span class="math inline">\(m\)</span> candidat(e)s ou le nombre de clients sur <span class="math inline">\(m\)</span> qui ont passé une commande de plus de 10$ dans un magasin.</p>

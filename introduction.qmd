@@ -291,7 +291,7 @@ Plus généralement, on aura accès à des données aggrégées.
 
 Si les données représentent la somme d'événements Bernoulli indépendants, la loi du nombre de réussites $Y$ pour un nombre d'essais donné $m$ est dite [binomiale](https://fr.wikipedia.org/wiki/Loi_binomiale), dénotée $\mathsf{Bin}(m, p)$; sa fonction de masse est
 \begin{align*}
-\mathsf{Pr}(Y=y) = \binom{m}{y}p^y (1-p)^{1-y}, \quad y=0, 1.
+\mathsf{Pr}(Y=y) = \binom{m}{y}p^y (1-p)^{m-y}, \quad y=0, 1, \ldots, m.
 \end{align*}
 La vraisemblance pour un échantillon de la loi binomiale est (à constante de normalisation près qui ne dépend pas de $p$) la même que pour un échantillon aléatoire de $m$ variables Bernoulli indépendantes. L'espérance d'une variable binomiale est $\mathsf{E}(Y)=mp$ et la variance $\mathsf{Va}(Y)=mp(1-p)$. 
 
