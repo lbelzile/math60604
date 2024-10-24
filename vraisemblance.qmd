@@ -761,7 +761,7 @@ g1 + g2
 Puisque les erreurs-types de paramètres dépendent de la paramétrisation, les intervalles de confiance de Wald ne sont pas invariants à ces transformations. Par exemple, si on veut des intervalles de confiance pour une fonction $g(\boldsymbol{\theta})$ qui n'est pas linéaire, alors en général.
 $\mathsf{IC}_{W}\{g(\theta)\} \neq g\{\mathsf{IC}_{W}(\theta)\}.$
 
-Par exemple, considérons le modèle exponentiel. Nous pouvons inverser la statistique du test de Wald pour obtenir un intervalle de confiance symétrique à 95% pour $\phi = g(\lambda) = \exp(-60/\lambda),$ $ [`r phi_hat - qnorm(0.975)*se_phi`,$ $`r phi_hat + qnorm(0.975)*se_phi`].$ Si nous devions naïvement transformer l'intervalle de confiance pour $\lambda$ en un pour $\phi$ en appliquant la fonction $g(\cdot)$ à chaque borne, nous obtiendrions plutôt $[`r exp(-60/(mean(attente) - qnorm(0.975)*mean(attente)/sqrt(length(attente))))`,$ $`r exp(-60/(mean(attente) + qnorm(0.975)*mean(attente)/sqrt(length(attente))))`],$ Bien que la différence soit minime ici, cela met en évidence l'invariance. L'approximation gaussienne qui sous-tend le test de Wald est fiable si la loi d'échantillonnage de la vraisemblance est presque quadratique, ce qui se produit lorsque la fonction de vraisemblance est à peu près symétrique de part et d'autre de l'estimateur du maximum de vraisemblance.
+Par exemple, considérons le modèle exponentiel. Nous pouvons inverser la statistique du test de Wald pour obtenir un intervalle de confiance symétrique à 95% pour $\phi = g(\lambda) = \exp(-60/\lambda),$ $[`r phi_hat - qnorm(0.975)*se_phi`,`r phi_hat + qnorm(0.975)*se_phi`].$ Si nous devions naïvement transformer l'intervalle de confiance pour $\lambda$ en un pour $\phi$ en appliquant la fonction $g(\cdot)$ à chaque borne, nous obtiendrions plutôt $[`r exp(-60/(mean(attente) - qnorm(0.975)*mean(attente)/sqrt(length(attente))))`,$ $`r exp(-60/(mean(attente) + qnorm(0.975)*mean(attente)/sqrt(length(attente))))`],$ Bien que la différence soit minime ici, cela met en évidence l'invariance. L'approximation gaussienne qui sous-tend le test de Wald est fiable si la loi d'échantillonnage de la vraisemblance est presque quadratique, ce qui se produit lorsque la fonction de vraisemblance est à peu près symétrique de part et d'autre de l'estimateur du maximum de vraisemblance.
 
 :::
 
@@ -933,35 +933,6 @@ g1 + g2
 :::
 
 L'estimateur du maximum de vraisemblance du profil se comporte comme une vraisemblance normale pour la plupart des quantités d'intérêt et nous pouvons dériver des statistiques de test et des intervalles de confiance de la manière habituelle. Un exemple célèbre de profil de vraisemblance est la fonction de risque proportionnel de Cox couvert dans le [chapitre 7](#survie).
-
-:::{#exm-boxcox}
-
-## Transformation de Box--Cox
-
-Parfois, le postulat de normalité de l'erreur dans une régression linéaire ne tient pas. Si les données sont strictement positives, on peut envisager une transformation de Box-Cox,
-\begin{align*}
-y(\lambda)= \begin{cases}
-(y^{\lambda}-1)/\lambda, & \lambda \neq 0\\
-\ln(y), & \lambda=0.
-\end{cases}
-\end{align*}
-
-Si on postule que $\boldsymbol{Y}(\lambda) \sim \mathsf{normale}(\mathbf{X}\boldsymbol{\beta}, \sigma^2 \mathbf{I}_n)$, alors la log-vraisemblance s'écrit
-\begin{align*}
-L(\lambda, \boldsymbol{\beta}, \sigma; \boldsymbol{y}, \mathbf{X}) &= (2\pi\sigma^2)^{-n/2} J(\lambda, \boldsymbol{y}) \times\\& \quad \exp \left[ - \frac{1}{2\sigma^2}\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}^\top\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}\right],
-\end{align*}
-où $J$ dénote le jacobien de la transformation de Box--Cox, $J(\lambda, \boldsymbol{y})=\prod_{i=1}^n y_i^{\lambda-1}$.
-Pour chaque valeur de $\lambda$, l'estimateur du maximum de vraisemblance est le même que celle de la régression linéaire, mais où $\boldsymbol{y}$ est remplacée par $\boldsymbol{y}(\lambda)$, soit $\widehat{\boldsymbol{\beta}}_\lambda = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y}(\lambda)$ and $\widehat{\sigma}^2_\lambda = n^{-1}\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}^\top\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}$.
-
-La log-vraisemblance profilée est donc
-\begin{align*}
-\ell_{\mathsf{p}}(\lambda) = -\frac{n}{2}\ln(2\pi \widehat{\sigma}^2_\lambda) - \frac{n}{2} + (\lambda - 1)\sum_{i=1}^n \ln(y_i)
-\end{align*}
-L'estimateur du maximum de vraisemblance profilée est la valeur $\lambda$ qui minimise la somme des carrés des résidus du modèle linéaire avec $\boldsymbol{y}(\lambda)$ comme réponse.
-
-La transformation de Box--Cox n'est pas une solution miracle et doit être réservée aux cas où la transformation réduit l'hétéroscédasticité (variance inégale) ou crée une relation linéaire entre les explications et la réponse. La théorie fournit une explication convaincante des données avec, par exemple, la fonction de production Cobb-Douglas utilisée en économie qui peut être linéarisée par une transformation logarithmique. Plutôt que de choisir une transformation *ad hoc*, on pourrait choisir une transformation logarithmique si la valeur 0$ est incluse dans l'intervalle de confiance à 95%, car cela améliore l'interprétabilité.
-
-:::
 
 
 

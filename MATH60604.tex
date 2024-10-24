@@ -332,12 +332,12 @@
 \floatname{codelisting}{Énumération}
 \newcommand*\listoflistings{\listof{codelisting}{Liste des énumérations}}
 \usepackage{amsthm}
-\theoremstyle{plain}
-\newtheorem{corollary}{Corollaire}[chapter]
-\theoremstyle{definition}
-\newtheorem{example}{Exemple}[chapter]
 \theoremstyle{definition}
 \newtheorem{definition}{Définition}[chapter]
+\theoremstyle{definition}
+\newtheorem{example}{Exemple}[chapter]
+\theoremstyle{plain}
+\newtheorem{corollary}{Corollaire}[chapter]
 \theoremstyle{plain}
 \newtheorem{proposition}{Proposition}[chapter]
 \theoremstyle{remark}
@@ -380,7 +380,7 @@
 
 \title{MATH 60604 - Modélisation statistique}
 \author{Léo Belzile}
-\date{2024-10-12}
+\date{2024-10-24}
 
 \begin{document}
 
@@ -1696,7 +1696,7 @@ l'apprentissage en vase clos des recettes plutôt que d'essayer de
 comprendre les bases de la cuisine et de faire des liens. Ce chapitre se
 concentre sur la compréhension des concepts-clés liées aux tests.
 
-\begin{tcolorbox}[enhanced jigsaw, colbacktitle=quarto-callout-important-color!10!white, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Objectifs d'apprentissage}, leftrule=.75mm, opacityback=0, colframe=quarto-callout-important-color-frame, breakable, toprule=.15mm, coltitle=black, toptitle=1mm, colback=white, bottomrule=.15mm, bottomtitle=1mm, titlerule=0mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
+\begin{tcolorbox}[enhanced jigsaw, bottomtitle=1mm, colbacktitle=quarto-callout-important-color!10!white, leftrule=.75mm, toprule=.15mm, opacityback=0, colback=white, bottomrule=.15mm, colframe=quarto-callout-important-color-frame, breakable, opacitybacktitle=0.6, coltitle=black, arc=.35mm, titlerule=0mm, toptitle=1mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Objectifs d'apprentissage}, rightrule=.15mm, left=2mm]
 
 \begin{itemize}
 \tightlist
@@ -2384,7 +2384,7 @@ probabilité d'obtenir une valeur de la statistique de test égale ou même
 plus grande que celle qu'on a observée dans l'échantillon, si
 \(\mathscr{H}_0\) est vraie.
 
-\begin{tcolorbox}[enhanced jigsaw, colbacktitle=quarto-callout-caution-color!10!white, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Mise en garde}, leftrule=.75mm, opacityback=0, colframe=quarto-callout-caution-color-frame, breakable, toprule=.15mm, coltitle=black, toptitle=1mm, colback=white, bottomrule=.15mm, bottomtitle=1mm, titlerule=0mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
+\begin{tcolorbox}[enhanced jigsaw, bottomtitle=1mm, colbacktitle=quarto-callout-caution-color!10!white, leftrule=.75mm, toprule=.15mm, opacityback=0, colback=white, bottomrule=.15mm, colframe=quarto-callout-caution-color-frame, breakable, opacitybacktitle=0.6, coltitle=black, arc=.35mm, titlerule=0mm, toptitle=1mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Mise en garde}, rightrule=.15mm, left=2mm]
 
 L'\href{https://doi.org/10.1080/00031305.2016.1154108}{\emph{American
 Statistical Association (ASA)} a publié une liste de principes}
@@ -2972,7 +2972,7 @@ Ce chapitre traite de modélisation statistique et d'inférence basée sur
 la vraisemblance, la méthodologie la plus populaire dans le monde de la
 statistique.
 
-\begin{tcolorbox}[enhanced jigsaw, colbacktitle=quarto-callout-important-color!10!white, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, leftrule=.75mm, opacityback=0, colframe=quarto-callout-important-color-frame, breakable, toprule=.15mm, coltitle=black, toptitle=1mm, colback=white, bottomrule=.15mm, bottomtitle=1mm, titlerule=0mm, arc=.35mm, rightrule=.15mm, left=2mm, opacitybacktitle=0.6]
+\begin{tcolorbox}[enhanced jigsaw, bottomtitle=1mm, colbacktitle=quarto-callout-important-color!10!white, leftrule=.75mm, toprule=.15mm, opacityback=0, colback=white, bottomrule=.15mm, colframe=quarto-callout-important-color-frame, breakable, opacitybacktitle=0.6, coltitle=black, arc=.35mm, titlerule=0mm, toptitle=1mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, rightrule=.15mm, left=2mm]
 
 \textbf{Objectifs d'apprentissage}
 
@@ -3864,16 +3864,16 @@ alors en général.
 
 Par exemple, considérons le modèle exponentiel. Nous pouvons inverser la
 statistique du test de Wald pour obtenir un intervalle de confiance
-symétrique à 95\% pour \(\phi = g(\lambda) = \exp(-60/\lambda),\) \$
-{[}0.061,\$ \(0.191].\) Si nous devions naïvement transformer
-l'intervalle de confiance pour \(\lambda\) en un pour \(\phi\) en
-appliquant la fonction \(g(\cdot)\) à chaque borne, nous obtiendrions
-plutôt \([0.063,\) \(0.19],\) Bien que la différence soit minime ici,
-cela met en évidence l'invariance. L'approximation gaussienne qui
-sous-tend le test de Wald est fiable si la loi d'échantillonnage de la
-vraisemblance est presque quadratique, ce qui se produit lorsque la
-fonction de vraisemblance est à peu près symétrique de part et d'autre
-de l'estimateur du maximum de vraisemblance.
+symétrique à 95\% pour \(\phi = g(\lambda) = \exp(-60/\lambda),\)
+\([0.061,0.191].\) Si nous devions naïvement transformer l'intervalle de
+confiance pour \(\lambda\) en un pour \(\phi\) en appliquant la fonction
+\(g(\cdot)\) à chaque borne, nous obtiendrions plutôt \([0.063,\)
+\(0.19],\) Bien que la différence soit minime ici, cela met en évidence
+l'invariance. L'approximation gaussienne qui sous-tend le test de Wald
+est fiable si la loi d'échantillonnage de la vraisemblance est presque
+quadratique, ce qui se produit lorsque la fonction de vraisemblance est
+à peu près symétrique de part et d'autre de l'estimateur du maximum de
+vraisemblance.
 
 \label{rem-invariance-wald-intervalle}
 
@@ -4124,50 +4124,6 @@ pouvons dériver des statistiques de test et des intervalles de confiance
 de la manière habituelle. Un exemple célèbre de profil de vraisemblance
 est la fonction de risque proportionnel de Cox couvert dans le
 \hyperref[survie]{chapitre 7}.
-
-\begin{example}[Transformation de
-Box--Cox]\protect\hypertarget{exm-boxcox}{}\label{exm-boxcox}
-
-Parfois, le postulat de normalité de l'erreur dans une régression
-linéaire ne tient pas. Si les données sont strictement positives, on
-peut envisager une transformation de Box-Cox, \begin{align*}
-y(\lambda)= \begin{cases}
-(y^{\lambda}-1)/\lambda, & \lambda \neq 0\\
-\ln(y), & \lambda=0.
-\end{cases}
-\end{align*}
-
-Si on postule que
-\(\boldsymbol{Y}(\lambda) \sim \mathsf{normale}(\mathbf{X}\boldsymbol{\beta}, \sigma^2 \mathbf{I}_n)\),
-alors la log-vraisemblance s'écrit \begin{align*}
-L(\lambda, \boldsymbol{\beta}, \sigma; \boldsymbol{y}, \mathbf{X}) &= (2\pi\sigma^2)^{-n/2} J(\lambda, \boldsymbol{y}) \times\\& \quad \exp \left[ - \frac{1}{2\sigma^2}\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}^\top\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}\right],
-\end{align*} où \(J\) dénote le jacobien de la transformation de
-Box--Cox, \(J(\lambda, \boldsymbol{y})=\prod_{i=1}^n y_i^{\lambda-1}\).
-Pour chaque valeur de \(\lambda\), l'estimateur du maximum de
-vraisemblance est le même que celle de la régression linéaire, mais où
-\(\boldsymbol{y}\) est remplacée par \(\boldsymbol{y}(\lambda)\), soit
-\(\widehat{\boldsymbol{\beta}}_\lambda = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y}(\lambda)\)
-and
-\(\widehat{\sigma}^2_\lambda = n^{-1}\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}^\top\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}\).
-
-La log-vraisemblance profilée est donc \begin{align*}
-\ell_{\mathsf{p}}(\lambda) = -\frac{n}{2}\ln(2\pi \widehat{\sigma}^2_\lambda) - \frac{n}{2} + (\lambda - 1)\sum_{i=1}^n \ln(y_i)
-\end{align*} L'estimateur du maximum de vraisemblance profilée est la
-valeur \(\lambda\) qui minimise la somme des carrés des résidus du
-modèle linéaire avec \(\boldsymbol{y}(\lambda)\) comme réponse.
-
-La transformation de Box--Cox n'est pas une solution miracle et doit
-être réservée aux cas où la transformation réduit l'hétéroscédasticité
-(variance inégale) ou crée une relation linéaire entre les explications
-et la réponse. La théorie fournit une explication convaincante des
-données avec, par exemple, la fonction de production Cobb-Douglas
-utilisée en économie qui peut être linéarisée par une transformation
-logarithmique. Plutôt que de choisir une transformation \emph{ad hoc},
-on pourrait choisir une transformation logarithmique si la valeur 0\$
-est incluse dans l'intervalle de confiance à 95\%, car cela améliore
-l'interprétabilité.
-
-\end{example}
 
 \section{Critères d'information}\label{crituxe8res-dinformation}
 
@@ -6056,7 +6012,7 @@ proportion & moyenne & erreur-type & ddl & borne inf. & borne sup.\\
 
 \end{longtable}
 
-\begin{longtable}[t]{lrrrrr}
+\begin{longtable}[t]{lrrrrl}
 
 \caption{\label{tbl-print-contrast-PEF}Estimations des contrastes pour
 les différences de PEF relativement à plastique seulement.}
@@ -6066,9 +6022,9 @@ les différences de PEF relativement à plastique seulement.}
 \toprule
 contraste & estimation & erreur-type & ddl & stat & valeur-p\\
 \midrule
-refvshalf & -0.75 & 0.13 & 798 & -5.71 & 0\\
-refvsone & -0.90 & 0.13 & 798 & -6.89 & 0\\
-refvstwo & -1.18 & 0.13 & 798 & -9.20 & 0\\
+refvsdemi & -0.75 & 0.13 & 798 & -5.71 & < 0.001\\
+refvsun & -0.90 & 0.13 & 798 & -6.89 & < 0.001\\
+refvsdeux & -1.18 & 0.13 & 798 & -9.20 & < 0.001\\
 \bottomrule
 
 \end{longtable}
@@ -6359,8 +6315,6 @@ n'interagissent pas, la moyenne dans la cellule est donnée par la somme
 des effets principaux. Ce n'est qu'après avoir supprimé ce terme que
 nous pouvons déterminer si toutes les moyennes des lignes ou des
 colonnes sont identiques.
-
-:::
 
 Bien que des tests formels soient nécessaires pour vérifier les
 interactions, le concept peut être mieux compris en examinant des
@@ -6747,9 +6701,10 @@ politique. L'étude utilise un devis expérimental
 \CommentTok{\# Créer un diagramme d\textquotesingle{}interaction}
 \FunctionTok{emmip}\NormalTok{(}\AttributeTok{object =}\NormalTok{ emm, }
         \AttributeTok{formula =}\NormalTok{ brandaction }\SpecialCharTok{\textasciitilde{}}\NormalTok{ chefdax }\SpecialCharTok{|}\NormalTok{ politideo, }
-        \AttributeTok{CIs =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{+}
-\FunctionTok{labs}\NormalTok{(}\AttributeTok{y =} \StringTok{"prédicteur linéaire"}\NormalTok{,}
-     \AttributeTok{x =} \StringTok{"niveaux de chefdax"}\NormalTok{)}
+        \AttributeTok{CIs =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{+} 
+\NormalTok{  MetBrewer}\SpecialCharTok{::}\FunctionTok{scale\_color\_met\_d}\NormalTok{(}\AttributeTok{name =} \StringTok{"Hiroshige"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{y =} \StringTok{"prédicteur linéaire"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"niveaux de chefdax"}\NormalTok{)}
 \CommentTok{\# Tableau d\textquotesingle{}ANOVA (type 2)}
 \NormalTok{anova\_tab }\OtherTok{\textless{}{-}}\NormalTok{ car}\SpecialCharTok{::}\FunctionTok{Anova}\NormalTok{(mod, }\AttributeTok{type =} \DecValTok{2}\NormalTok{)}
 \end{Highlighting}
@@ -8107,9 +8062,10 @@ des paramètres.
 \begin{proposition}[Transformation de
 Box--Cox]\protect\hypertarget{prp-boxcox}{}\label{prp-boxcox}
 
-Avec des données strictement positives, on peut utiliser une
-transformation de Box--Cox (\citeproc{ref-Box.Cox:1964}{Box et Cox
-1964}), \begin{align*}
+Parfois, le postulat de normalité de l'erreur dans une régression
+linéaire ne tient pas. Avec des données strictement positives, on peut
+envisager une transformation de Box--Cox
+(\citeproc{ref-Box.Cox:1964}{Box et Cox 1964}), \begin{align*}
 y(\lambda)= \begin{cases}
 (y^{\lambda}-1)/\lambda, & \lambda \neq 0\\
 \ln(y), & \lambda=0.
@@ -8123,18 +8079,19 @@ Si on suppose que
 alors la vraisemblance est \begin{align*}
 L(\lambda, \boldsymbol{\beta}, \sigma; \boldsymbol{y}, \mathbf{X}) &= (2\pi\sigma^2)^{-n/2} J(\lambda, \boldsymbol{y}) \times\\& \quad \exp \left[ - \frac{1}{2\sigma^2}\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}^\top\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}\right],
 \end{align*} où \(J\) dénote le Jacobien de la transformation Box--Cox,
-\(J(\lambda, \boldsymbol{y})=\prod_{i=1}^n y_i^{\lambda-1}\).
+\(J(\lambda, \boldsymbol{y})=\prod_{i=1}^n y_i^{\lambda-1}\). Pour
+chaque valeur de \(\lambda\), l'estimateur du maximum de vraisemblance
+est le même que celle de la régression linéaire, mais où
+\(\boldsymbol{y}\) est remplacée par \(\boldsymbol{y}(\lambda)\), soit
+\(\widehat{\boldsymbol{\beta}}_\lambda = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y}(\lambda)\)
+and
+\(\widehat{\sigma}^2_\lambda = n^{-1}\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}^\top\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}\).
 
-\section{\texorpdfstring{Profilage de
-\(\lambda\)}{Profilage de \textbackslash lambda}}\label{profilage-de-lambda}
-
-Pour chaque valeur de \(\lambda\), on obtient les estimateurs du maximum
-de vraisemblance usuels en remplaçant \(\boldsymbol{y}\) par
-\(\boldsymbol{y}(\lambda)\).
-
-La log vraisemblance profilée pour \(\lambda\) est \begin{align*}
+La log-vraisemblance profilée est donc \begin{align*}
 \ell_{\mathsf{p}}(\lambda) = -\frac{n}{2}\ln(2\pi \widehat{\sigma}^2_\lambda) - \frac{n}{2} + (\lambda - 1)\sum_{i=1}^n \ln(y_i)
-\end{align*}
+\end{align*} L'estimateur du maximum de vraisemblance profilée est la
+valeur \(\lambda\) qui minimise la somme des carrés des résidus du
+modèle linéaire avec \(\boldsymbol{y}(\lambda)\) comme réponse.
 
 Nous ne pouvons pas comparer les modèles ajustés à \(Y_i\) par rapport à
 \(\ln Y_i\) en utilisant, par exemple, des critères d'information ou des
@@ -8144,13 +8101,16 @@ toutefois utiliser la vraisemblance de Box--Cox, qui inclut le
 l'ajustement et comparer le modèle avec \(\lambda=1\) par rapport à
 \(\lambda=0\).
 
-La transformation de Box-Cox n'est pas une panacée et doit être réservée
-aux cas où la transformation réduit l'hétéroscédasticité (variance
-inégale) ou crée une relation linéaire entre les explications et la
-réponse : la théorie fournit une explication convaincante des données.
-Plutôt qu'un choix \emph{ad hoc} de transformation, on pourrait prendre
-une transformation logarithmique si la valeur 0\$ est incluse dans
-l'intervalle de confiance à 95\%, car cela améliore l'interprétabilité.
+La transformation de Box--Cox n'est pas une solution miracle et doit
+être réservée aux cas où la transformation réduit l'hétéroscédasticité
+(variance inégale) ou crée une relation linéaire entre les explications
+et la réponse. La théorie fournit une explication convaincante des
+données avec, par exemple, la fonction de production Cobb-Douglas
+utilisée en économie qui peut être linéarisée par une transformation
+logarithmique. Plutôt que de choisir une transformation \emph{ad hoc},
+on pourrait choisir une transformation logarithmique si la valeur 0\$
+est incluse dans l'intervalle de confiance à 95\%, car cela améliore
+l'interprétabilité.
 
 \end{proposition}
 

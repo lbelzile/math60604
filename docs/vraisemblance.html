@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.1">
+<meta name="generator" content="quarto-1.5.56">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -663,7 +663,7 @@ Figure&nbsp;3.4: Diagrammes quantile-quantile des modèles exponentiel (gauche) 
 </div>
 <div id="rem-invariance-wald-intervalle" class="proof remark">
 <p><span class="proof-title"><em>Remarque 3.1</em> (Absence d’invariance des intervalles de confiance de Wald). </span>Puisque les erreurs-types de paramètres dépendent de la paramétrisation, les intervalles de confiance de Wald ne sont pas invariants à ces transformations. Par exemple, si on veut des intervalles de confiance pour une fonction <span class="math inline">\(g(\boldsymbol{\theta})\)</span> qui n’est pas linéaire, alors en général. <span class="math inline">\(\mathsf{IC}_{W}\{g(\theta)\} \neq g\{\mathsf{IC}_{W}(\theta)\}.\)</span></p>
-<p>Par exemple, considérons le modèle exponentiel. Nous pouvons inverser la statistique du test de Wald pour obtenir un intervalle de confiance symétrique à 95% pour <span class="math inline">\(\phi = g(\lambda) = \exp(-60/\lambda),\)</span> $ [0.061,$ <span class="math inline">\(0.191].\)</span> Si nous devions naïvement transformer l’intervalle de confiance pour <span class="math inline">\(\lambda\)</span> en un pour <span class="math inline">\(\phi\)</span> en appliquant la fonction <span class="math inline">\(g(\cdot)\)</span> à chaque borne, nous obtiendrions plutôt <span class="math inline">\([0.063,\)</span> <span class="math inline">\(0.19],\)</span> Bien que la différence soit minime ici, cela met en évidence l’invariance. L’approximation gaussienne qui sous-tend le test de Wald est fiable si la loi d’échantillonnage de la vraisemblance est presque quadratique, ce qui se produit lorsque la fonction de vraisemblance est à peu près symétrique de part et d’autre de l’estimateur du maximum de vraisemblance.</p>
+<p>Par exemple, considérons le modèle exponentiel. Nous pouvons inverser la statistique du test de Wald pour obtenir un intervalle de confiance symétrique à 95% pour <span class="math inline">\(\phi = g(\lambda) = \exp(-60/\lambda),\)</span> <span class="math inline">\([0.061,0.191].\)</span> Si nous devions naïvement transformer l’intervalle de confiance pour <span class="math inline">\(\lambda\)</span> en un pour <span class="math inline">\(\phi\)</span> en appliquant la fonction <span class="math inline">\(g(\cdot)\)</span> à chaque borne, nous obtiendrions plutôt <span class="math inline">\([0.063,\)</span> <span class="math inline">\(0.19],\)</span> Bien que la différence soit minime ici, cela met en évidence l’invariance. L’approximation gaussienne qui sous-tend le test de Wald est fiable si la loi d’échantillonnage de la vraisemblance est presque quadratique, ce qui se produit lorsque la fonction de vraisemblance est à peu près symétrique de part et d’autre de l’estimateur du maximum de vraisemblance.</p>
 </div>
 <p>Le test du rapport de vraisemblance est invariant par rapport aux reparamétrages préservant les intérêts, de sorte que la statistique de test pour <span class="math inline">\(\mathscr{H}_0: \phi=\phi_0\)</span> et <span class="math inline">\(\mathscr{H}_0: \lambda = -60/\ln(\phi_0)\)</span> est la même. Les intervalles de confiance de Wald peuvent être comparées à celles (meilleures) obtenues à l’aide du test du rapport de vraisemblance. Ces dernières sont obtenues par une recherche numérique des limites de <span class="math display">\[\begin{align*}
 \left\{\theta: 2\{\ell(\widehat{\boldsymbol{\theta}}) - \ell(\boldsymbol{\theta})\} \leq \chi^2_p(1-\alpha)\right\},
@@ -805,21 +805,6 @@ Figure&nbsp;3.5: Racine directionnelle du rapport de vraisemblance (gauche) et l
 </div>
 </div>
 <p>L’estimateur du maximum de vraisemblance du profil se comporte comme une vraisemblance normale pour la plupart des quantités d’intérêt et nous pouvons dériver des statistiques de test et des intervalles de confiance de la manière habituelle. Un exemple célèbre de profil de vraisemblance est la fonction de risque proportionnel de Cox couvert dans le <a href="#survie">chapitre 7</a>.</p>
-<div id="exm-boxcox" class="theorem example">
-<p><span class="theorem-title"><strong>Exemple 3.14 (Transformation de Box–Cox)</strong></span> Parfois, le postulat de normalité de l’erreur dans une régression linéaire ne tient pas. Si les données sont strictement positives, on peut envisager une transformation de Box-Cox, <span class="math display">\[\begin{align*}
-y(\lambda)= \begin{cases}
-(y^{\lambda}-1)/\lambda, &amp; \lambda \neq 0\\
-\ln(y), &amp; \lambda=0.
-\end{cases}
-\end{align*}\]</span></p>
-<p>Si on postule que <span class="math inline">\(\boldsymbol{Y}(\lambda) \sim \mathsf{normale}(\mathbf{X}\boldsymbol{\beta}, \sigma^2 \mathbf{I}_n)\)</span>, alors la log-vraisemblance s’écrit <span class="math display">\[\begin{align*}
-L(\lambda, \boldsymbol{\beta}, \sigma; \boldsymbol{y}, \mathbf{X}) &amp;= (2\pi\sigma^2)^{-n/2} J(\lambda, \boldsymbol{y}) \times\\&amp; \quad \exp \left[ - \frac{1}{2\sigma^2}\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}^\top\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}\right],
-\end{align*}\]</span> où <span class="math inline">\(J\)</span> dénote le jacobien de la transformation de Box–Cox, <span class="math inline">\(J(\lambda, \boldsymbol{y})=\prod_{i=1}^n y_i^{\lambda-1}\)</span>. Pour chaque valeur de <span class="math inline">\(\lambda\)</span>, l’estimateur du maximum de vraisemblance est le même que celle de la régression linéaire, mais où <span class="math inline">\(\boldsymbol{y}\)</span> est remplacée par <span class="math inline">\(\boldsymbol{y}(\lambda)\)</span>, soit <span class="math inline">\(\widehat{\boldsymbol{\beta}}_\lambda = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y}(\lambda)\)</span> and <span class="math inline">\(\widehat{\sigma}^2_\lambda = n^{-1}\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}^\top\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}\)</span>.</p>
-<p>La log-vraisemblance profilée est donc <span class="math display">\[\begin{align*}
-\ell_{\mathsf{p}}(\lambda) = -\frac{n}{2}\ln(2\pi \widehat{\sigma}^2_\lambda) - \frac{n}{2} + (\lambda - 1)\sum_{i=1}^n \ln(y_i)
-\end{align*}\]</span> L’estimateur du maximum de vraisemblance profilée est la valeur <span class="math inline">\(\lambda\)</span> qui minimise la somme des carrés des résidus du modèle linéaire avec <span class="math inline">\(\boldsymbol{y}(\lambda)\)</span> comme réponse.</p>
-<p>La transformation de Box–Cox n’est pas une solution miracle et doit être réservée aux cas où la transformation réduit l’hétéroscédasticité (variance inégale) ou crée une relation linéaire entre les explications et la réponse. La théorie fournit une explication convaincante des données avec, par exemple, la fonction de production Cobb-Douglas utilisée en économie qui peut être linéarisée par une transformation logarithmique. Plutôt que de choisir une transformation <em>ad hoc</em>, on pourrait choisir une transformation logarithmique si la valeur 0$ est incluse dans l’intervalle de confiance à 95%, car cela améliore l’interprétabilité.</p>
-</div>
 </section>
 <section id="critères-dinformation" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="critères-dinformation"><span class="header-section-number">3.5</span> Critères d’information</h2>
