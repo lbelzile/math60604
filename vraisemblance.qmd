@@ -509,7 +509,7 @@ V_phi <- dphi(lambda_hat)^2 * V_lambda
 Nous considérons une hypothèse nulle $\mathscr{H}_0$ qui impose des restrictions sur les valeurs possibles de $\boldsymbol{\theta}$, par rapport à une alternative sans contrainte $\mathscr{H}_1.$ Nous avons besoin de deux modèles **emboîtés** : un modèle *complet* et un modèle *réduit*, pour lequel l'espace des paramèteres est un sous-ensemble du modèle complet suite à l'imposition des $q$ restrictions. Par exemple, la loi exponentielle est un cas particulier de la loi de Weibull si $\alpha=1$.
 
 
- L'hypothèse nulle $\mathscr{H}_0$ testée est "le modèle réduit est une **simplification adéquate** du modèle complet". Soit $\widehat{\boldsymbol{\theta}}_0$ les EMV contraints pour le modèle sous l'hypothèse nulle, et $\widehat{\boldsymbol{\theta}}$ les EMV du modèle complet. La vraisemblance fournit trois classes principales de statistiques pour tester cette hypothèse, soit
+L'hypothèse nulle $\mathscr{H}_0$ testée est "le modèle réduit est une **simplification adéquate** du modèle complet". Soit $\widehat{\boldsymbol{\theta}}_0$ les EMV contraints pour le modèle sous l'hypothèse nulle, et $\widehat{\boldsymbol{\theta}}$ les EMV du modèle complet. La vraisemblance fournit trois classes principales de statistiques pour tester cette hypothèse, soit
 
 - les statistiques des tests du rapport de vraisemblance, notées $R,$ qui mesurent la différence de log vraisemblance (distance verticale) entre $\ell(\widehat{\boldsymbol{\theta}})$ et $\ell(\widehat{\boldsymbol{\theta}}_0).$
 - les statistiques des tests de Wald, notées $W,$ qui considèrent la distance horizontale normalisée entre $\widehat{\boldsymbol{\theta}}$ et $\widehat{\boldsymbol{\theta}}_0.$
@@ -535,11 +535,57 @@ où $\boldsymbol{\theta}_0$ est la valeur nulle postulée du paramètre avec $q$
 Asymptotiquement, toutes les statistiques de test sont équivalentes (dans le sens où elles conduisent aux mêmes conclusions sur $\mathscr{H}_0$), mais elles ne sont pas identiques. Sous $\mathscr{H}_0$, les trois statistiques de test suivent une loi asymptotique $\chi^2_q$, où les degrés de liberté $q$ indiquent le nombre de restrictions.
 
 
+:::{#rem-loinulle}
+
+## Procédures de tests et formes quadratiques
+
+D'où provient cette loi $\chi^2_q$? Considérons pour faire simple le cas où $q=2$ restrictions sont imposées dans un modèle avec $p=2$ paramètres (par ex., la loi de Weibull) et le test de Wald. La loi asymptotique de l'estimateur du maximum de vraisemblance dicte que $\widehat{\boldsymbol{\theta}} \stackrel{\cdot}{\sim} \mathsf{normale}_p\{\boldsymbol{\theta}, i^{-1}(\boldsymbol{\theta})\}$, et on peut obtenir des ellipses de confiance pour un test en remplaçant l'information de Fisher $i(\boldsymbol{\theta})$ par un estimateur convergent comme $j(\widehat{\boldsymbol{\theta}})$: on obtient alors le panneau de gauche de la @fig-ellipses. 
+
+Si on postule $\boldsymbol{\theta} = \boldsymbol{\theta}_0$, il suffit de considérer où la valeur tombe sur le diagramme et le niveau de l'ellipse correspondante. Plutôt, on peut standardiser et considérer la variable standardisée $\boldsymbol{\vartheta} =j^{1/2}(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)$, dont les courbes de contour sont circulaires. Pour réduire le problème, on considère le carré du rayon $W = \vartheta_1^2 + \vartheta_2^2=(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)^\top j(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)$, qui suit une loi $\chi^2_2$. On peut ainsi facilement déterminer si la valeur suggérée pour le paramètre $\boldsymbol{\theta}_0$ est rare sous l'hypothèse nulle, comme dans le panneau de droite de la @fig-ellipses, puisque tous les valeurs rares deviennent des rayons.
+
+```{r}
+#| eval: true
+#| echo: false
+#| label: fig-ellipses
+#| fig-cap: "Courbes de contour elliptiques pour la loi asymptotique normale multidimensionnelle des EMV (gauche) et densité du carré du rayon des variables standardisés $\\boldsymbol{\\vartheta}$, avec les niveaux des quantiles correspondant indiqués par des traits (droite)."
+# x <- seq(0, 7, length.out = 101)
+# y <- seq(31, 34, length.out = 101)
+# z <- matrix(
+#         mvtnorm::dmvnorm(x = expand.grid(x, y), 
+#                          mean = fitweibull$estimate, 
+#                          sigma = vmat_weibull, 
+#                          log = TRUE), 
+#         nrow = 101)
+radius <- sqrt(qchisq(p = seq(0.9, 0.1, by = -0.1), df = 2))
+# image(x = x, y = y, z = z, col = viridis::plasma(n = 11), breaks = log(c(1e-4, radius, 1e4)))
+par(mfrow = c(1,2), mar = c(4,4,0.5,0.5), bty = "l")
+for (r in seq_along(radius)) {
+  car::ellipse(grid = FALSE,
+  center = opt_weibull$par,
+  shape = vmat_weibull,
+  radius = radius[r],
+  add = ifelse(r == 1, FALSE, TRUE),
+  draw = TRUE,
+  col = "black",
+  xlab = "forme",
+  ylab = "échelle",
+  ylim = c(2, 3.2), 
+  xlim = c(29, 36.5)
+  ) 
+}
+curve(dchisq(x, df = 2), from = 0, to = 10, xaxs = "i", yaxs = "i", 
+ylim = c(0, 0.55), xlab = "rayon au carré", ylab = "densité")
+rug(qchisq(p = seq(0.1, 0.9, by = 0.1), df = 2))
+
+```
+
+:::
+
 Si $\theta$ est un scalaire (cas $q=1$), des versions directionnelles de ces statistiques existent, 
 \begin{align*}
 w(\theta_0)&=(\widehat{\theta}-\theta_0)/\mathsf{se}(\widehat{\theta}) &&(\text{Wald}) \\
 r({\theta_0}) &= \mathrm{sign}(\widehat{\theta}-\theta)\left[2
-\left\{\ell(\widehat{\theta})-\ell(\theta)\right\}\right]^{1/2} &&(\text{racine directionnelle de vraisemblance}) \\
+\left\{\ell(\widehat{\theta})-\ell(\theta)\right\}\right]^{1/2} &&(\text{rapport de vraisemblance}) \\
 s(\theta_0)&=i^{-1/2}(\theta_0)U(\theta_0) &&(\text{score}) 
 \end{align*}
 
@@ -912,7 +958,7 @@ g1 <- ggplot(data = prof,
      mapping = aes(x = mu, y = r)) +
   geom_abline(intercept = 0, slope = 1) +
   geom_line() + 
-  geom_hline(yintercept = qnorm(0.025, 0.975),
+  geom_hline(yintercept = qnorm(c(0.025, 0.975)),
             linetype = "dashed") + 
   labs(x = expression(paste("espérance ", mu)),
        y = "racine directionnelle de vraisemblance")
