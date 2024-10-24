@@ -1232,9 +1232,9 @@ anovamod <- lm(pef ~ factor(proportion), data = SKD23_S2A) # one-way ANOVA
 # anova(linmod, anovamod) # compare models (two restrictions)
 margmean <- anovamod |>  emmeans::emmeans(specs = "proportion") # group means
 contrastlist <- list( # specify contrast vectors
-   refvshalf = c(1, -1, 0, 0),
-   refvsone =  c(1, 0, -1, 0),
-   refvstwo =  c(1, 0, 0, -1))
+   refvsdemi = c(1, -1, 0, 0),
+   refvsun=  c(1, 0, -1, 0),
+   refvsdeux =  c(1, 0, 0, -1))
 contrast <- margmean |> emmeans::contrast( # compute contrasts relative to reference
  method = contrastlist)
 ```
@@ -1264,6 +1264,8 @@ knitr::kable(margmean,
 #| echo: false
 #| eval: true
 #| tbl-cap: "Estimations des contrastes pour les différences de PEF relativement à plastique seulement."
+contrast <- as.data.frame(contrast)
+contrast$p.value <- rep("< 0.001", 3)
 kable(contrast,
       booktabs = TRUE,
       digits = c(2,2,2,0,2,2),
@@ -1792,9 +1794,10 @@ emm <- emmeans(mod,
 # Créer un diagramme d'interaction
 emmip(object = emm, 
         formula = brandaction ~ chefdax | politideo, 
-        CIs = TRUE) +
-labs(y = "prédicteur linéaire",
-     x = "niveaux de chefdax")
+        CIs = TRUE) + 
+  MetBrewer::scale_color_met_d(name = "Hiroshige") +
+  labs(y = "prédicteur linéaire",
+       x = "niveaux de chefdax")
 # Tableau d'ANOVA (type 2)
 anova_tab <- car::Anova(mod, type = 2)
 ```
@@ -2358,7 +2361,7 @@ ggplot() +
   coord_cartesian(xlim = c(0, max(rho)),
                   ylim = c(0, 1),
                   expand = FALSE) +
-  scale_color_viridis_d() +
+  MetBrewer::scale_color_met_d(name = "Hiroshige") +
   theme_minimal() +
   theme(legend.position = "bottom")
 ```
