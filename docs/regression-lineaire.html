@@ -286,6 +286,7 @@ window.Quarto = {
   <li><a href="#postulat-de-normalité" id="toc-postulat-de-normalité" class="nav-link" data-scroll-target="#postulat-de-normalité"><span class="header-section-number">4.8.4</span> Postulat de normalité</a></li>
   <li><a href="#sec-transfo" id="toc-sec-transfo" class="nav-link" data-scroll-target="#sec-transfo"><span class="header-section-number">4.8.5</span> Transformation de la variable réponse</a></li>
   </ul></li>
+  <li><a href="#remarque-finale" id="toc-remarque-finale" class="nav-link" data-scroll-target="#remarque-finale"><span class="header-section-number">4.10</span> Remarque finale</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/lbelzile/math60604/edit/master/regression-lineaire.qmd" class="toc-action"><i class="bi bi-github"></i>Éditer cette page</a></li></ul></div></nav>
     </div>
@@ -2445,9 +2446,11 @@ Figure&nbsp;4.23: Diagnostics graphiques pour les données de poisons. Panneau d
 </div>
 <p>L’intervalle de confiance à 95% basé sur la log-vraisemblance profilée pour le paramètre du modèle Box–Cox contient <span class="math inline">\(\lambda=-1\)</span>. La réciproque de la variable réponse <span class="math inline">\(Y^{-1}\)</span> indique la vitesse d’action du poison, selon le type et le traitement. Les diagnostics graphiques de ce modèles, présentés dans le panneau du bas de la <a href="#fig-poisonplots" class="quarto-xref">Figure&nbsp;<span>4.23</span></a> ne montrent aucune structure résiduelle.</p>
 </div>
-<!--
-La régression linéaire est le modèle statistique le plus connu et le plus utilisé.  Le nom peut sembler réducteur, mais de nombreux tests statistiques (*t*-tests, ANOVA, Wilcoxon, Kruskal--Wallis) [peuvent être formulés à l'aide d'une régression linéaire] (https://lindeloev.github.io/tests-as-linear/linear_tests_cheat_sheet.pdf), tandis que [des modèles aussi divers que les arbres, les composantes principales et les réseaux neuronaux profonds ne sont que des modèles de régression linéaire déguisés] (https://threadreaderapp.com/thread/1286420597505892352.html). Ce qui change sous le capot d'un modèle à l'autre, c'est la méthode d'optimisation (par exemple, les moindres carrés ordinaires, l'optimisation sous contrainte ou la descente de gradient stochastique) et le choix des variables explicatives entrant dans le modèle (bases de splines pour la régression non paramétrique, variable indicatrice sélectionnée via une recherche glouton pour les arbres, fonctions d'activation pour les réseaux neuronaux).
--->
+</section>
+</section>
+<section id="remarque-finale" class="level2" data-number="4.10">
+<h2 data-number="4.10" class="anchored" data-anchor-id="remarque-finale"><span class="header-section-number">4.10</span> Remarque finale</h2>
+<p>La régression linéaire est le modèle statistique le plus connu et le plus utilisé. Le nom peut sembler réducteur, mais de nombreux tests statistiques (<em>t</em>-tests, ANOVA, Wilcoxon, Kruskal–Wallis) [peuvent être formulés à l’aide d’une régression linéaire] (https://lindeloev.github.io/tests-as-linear/linear_tests_cheat_sheet.pdf), tandis que [des modèles aussi divers que les arbres, les composantes principales et les réseaux neuronaux profonds ne sont que des modèles de régression linéaire déguisés] (https://threadreaderapp.com/thread/1286420597505892352.html). Ce qui change sous le capot d’un modèle à l’autre, c’est la méthode d’optimisation (par exemple, les moindres carrés ordinaires, l’optimisation sous contrainte ou la descente de gradient stochastique) et le choix des variables explicatives entrant dans le modèle (bases de splines pour la régression non paramétrique, variable indicatrice sélectionnée via une recherche glouton pour les arbres, fonctions d’activation pour les réseaux neuronaux).</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
@@ -2500,7 +2503,6 @@ Venables, William N. 2000. <span>«&nbsp;Exegeses on Linear Models&nbsp;»</span
 White, Halbert. 1980. <span>«&nbsp;A Heteroskedasticity-Consistent Covariance Matrix Estimator and a Direct Test for Heteroskedasticity&nbsp;»</span>. <em>Econometrica</em> 48 (4): 817‑38. <a href="https://doi.org/10.2307/1912934">https://doi.org/10.2307/1912934</a>.
 </div>
 </div>
-</section>
 </section>
 
 </main> <!-- /main -->

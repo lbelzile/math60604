@@ -2781,6 +2781,9 @@ L'intervalle de confiance à 95\% basé sur la log-vraisemblance profilée pour 
 
 :::
 
-<!--
+
+
+## Remarque finale
+
 La régression linéaire est le modèle statistique le plus connu et le plus utilisé.  Le nom peut sembler réducteur, mais de nombreux tests statistiques (*t*-tests, ANOVA, Wilcoxon, Kruskal--Wallis) [peuvent être formulés à l'aide d'une régression linéaire] (https://lindeloev.github.io/tests-as-linear/linear_tests_cheat_sheet.pdf), tandis que [des modèles aussi divers que les arbres, les composantes principales et les réseaux neuronaux profonds ne sont que des modèles de régression linéaire déguisés] (https://threadreaderapp.com/thread/1286420597505892352.html). Ce qui change sous le capot d'un modèle à l'autre, c'est la méthode d'optimisation (par exemple, les moindres carrés ordinaires, l'optimisation sous contrainte ou la descente de gradient stochastique) et le choix des variables explicatives entrant dans le modèle (bases de splines pour la régression non paramétrique, variable indicatrice sélectionnée via une recherche glouton pour les arbres, fonctions d'activation pour les réseaux neuronaux).
--->
+

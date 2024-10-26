@@ -48,6 +48,11 @@ format:
     code-copy: true
     default-image-extension: png
     bibliography: math60604.bib
+    grid:
+      sidebar-width: 200px
+      body-width: 1100px
+      margin-width: 200px
+      gutter-width: 1.5rem
   pdf:
     documentclass: scrbook
     latex_documents:
@@ -60,10 +65,10 @@ format:
       - before-body.tex
     include-in-header: preamble.tex
     include-before-body: pagecouverture.tex
-    pdf-engine: pdflatex
+    pdf-engine: lualatex
     citation-package: natbib
     keep-tex: true
-    biblio-style: apalike2
+    biblio-style: apalike-fr
     link-citations: true
     default-image-extension: pdf
 

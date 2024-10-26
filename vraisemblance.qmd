@@ -295,23 +295,45 @@ La log-vraisemblance d'un échantillon aléatoire simple de taille $n$ dont la r
 \end{align*}
 Le gradient de cette fonction est^[Par exemple, en utilisant une calculatrice symbolique.]
 \begin{align*}
-U(\lambda, \alpha) = \begin{pmatrix}\frac{\partial \ell(\lambda, \alpha)}{\partial \lambda} \\
-\frac{\partial \ell(\lambda, \alpha)}{\partial \alpha} \end{pmatrix} &= 
+U(\lambda, \alpha) &= \begin{pmatrix}\frac{\partial \ell(\lambda, \alpha)}{\partial \lambda} \\
+\frac{\partial \ell(\lambda, \alpha)}{\partial \alpha} \end{pmatrix} 
+\\&= 
 \begin{pmatrix}
  -\frac{n\alpha}{\lambda} +\alpha\lambda^{-\alpha-1}\sum_{i=1}^n y_i^\alpha
  \\
- \frac{n}{\alpha} - n \ln(\lambda) + \sum_{i=1}^n \ln y_i  - \sum_{i=1}^n \left(\frac{y_i}{\lambda}\right)^{\alpha} \times\ln\left(\frac{y_i}{\lambda}\right).
+ \frac{n}{\alpha} + \sum_{i=1}^n \ln\left(\frac{y_i}{\lambda}\right)  - \sum_{i=1}^n \left(\frac{y_i}{\lambda}\right)^{\alpha} \times\ln\left(\frac{y_i}{\lambda}\right).
  \end{pmatrix}
 \end{align*}
-et l'information observée est 
+et l'information observée est  la matrice $2 \times 2$ 
 \begin{align*}
 j(\lambda, \alpha) &= - \begin{pmatrix}
 \frac{\partial^2 \ell(\lambda, \alpha)}{\partial \lambda^2} &  \frac{\partial^2 \ell(\lambda, \alpha)}{\partial \lambda \partial \alpha} \\ \frac{\partial^2 \ell(\lambda, \alpha)}{\partial \alpha \partial \lambda} & \frac{\partial^2 \ell(\lambda, \alpha)}{\partial \alpha^2}
-\end{pmatrix} 
-\\&= \begin{pmatrix}
-\lambda^{-2}\left\{-n\alpha + \alpha(\alpha+1)\sum_{i=1}^n (y_i/\lambda)^2\right\} & \lambda^{-1}\sum_{i=1}^n [1-(y_i/\lambda)^\alpha\{1+\alpha\ln(y_i/\lambda)\}]\\ \lambda^{-1}\sum_{i=1}^n [1-(y_i/\lambda)^\alpha\{1+\alpha\ln(y_i/\lambda)\}]& n\alpha^{-2} + \sum_{i=1}^n (y_i/\lambda)^\alpha \{\ln(y_i/\theta)\}^2
-\end{pmatrix}
+\end{pmatrix}  = \begin{pmatrix} j_{\lambda, \lambda} & j_{\lambda, \alpha} \\ j_{\lambda, \alpha} & j_{\alpha, \alpha} \end{pmatrix}
+\end{align*} 
+dont les entrées sont
+\begin{align*}
+j_{\lambda, \lambda} &= \lambda^{-2}\left\{-n\alpha + \alpha(\alpha+1)\sum_{i=1}^n (y_i/\lambda)^\alpha\right\} \\
+j_{\lambda, \alpha} &= \lambda^{-1}\sum_{i=1}^n [1-(y_i/\lambda)^\alpha\{1+\alpha\ln(y_i/\lambda)\}] \\
+j_{\alpha,\alpha} &= n\alpha^{-2} + \sum_{i=1}^n (y_i/\lambda)^\alpha \{\ln(y_i/\lambda)\}^2
 \end{align*}
+Pour calculer l'information de Fisher, on calcule l'espérance de $\mathsf{E}\{(Y/\lambda)^\alpha\}$, $\mathsf{E}[(Y/\lambda)^\alpha\ln\{(Y/\lambda)^\alpha\}]$ et $\mathsf{E}[(Y/\lambda)^\alpha\ln^2\{(Y/\lambda)^\alpha\}]$. Par définition,
+\begin{align*}
+\mathsf{E}\left\{(Y/\lambda)^\alpha\right\} & = \int_0^\infty (x/\lambda)^\alpha \frac{\alpha}{\lambda^\alpha} x^{\alpha-1}\exp\left\{-(x/\lambda)^\alpha\right\} \mathrm{d} x \\
+ &= \int_0^\infty s\exp(-s) \mathrm{d} s =1
+\end{align*}
+après le changement de variable $S = (Y/\lambda)^\alpha\sim \mathsf{Exp}(1)$. Les deux autres intégrales sont tabulées dans @Gradshteyn.Ryzhik:2014, et valent $1-\gamma$ et $\gamma^2-2\gamma + \pi^2/6$, respectivement, où $\gamma \approx `r -digamma(1)`$ est la constante d'Euler--Mascherroni.
+<!-- \begin{align*} -->
+<!-- \mathsf{E}\left\{S\} &= \int_0^\infty s\exp(-s) \mathrm{d} s \\ -->
+<!-- \mathsf{E}\left\{S\} &= \int_0^\infty s^{2/\alpha}\exp(-s) \mathrm{d} s \\ -->
+<!-- \mathsf{E}\left\{S\} &= \int_0^\infty s\ln\exp(-s) \mathrm{d} s \\ -->
+<!-- \end{align*} -->
+Les entrées de la matrice d'information de Fisher d'un échantillon aléatoire simple Weibull sont
+\begin{align*}
+i_{\lambda, \lambda} & = n \lambda^{-2}\alpha\left\{ (\alpha+1)-1\right\} \\
+i_{\lambda, \alpha} & = -n\lambda^{-1} (1-\gamma) \\
+i_{\alpha, \alpha} & = n\alpha^{-2}(1 + \gamma^2-2\gamma+\pi^2/6) 
+\end{align*}
+L'information pour un échantillon de variables indépendantes et identiquement distribuées est $n$ fois celle d'une seule variable, et l'information s'accumule à un taux linéaire.
 
 :::
 
@@ -356,7 +378,8 @@ data(attente, package = "hecstatmod")
 nll_weibull <- function(pars, y) {
   # Gérer le cas de paramètres négatifs (impossible)
   if (isTRUE(any(pars <= 0))) {
-    return(1e10) # retourner une valeur large finie (pour éviter les messages d'avertissement)
+    return(1e10) # retourner une valeur large finie
+# (pour éviter les messages d'avertissement)
   }
   - sum(dweibull(
     x = y,
@@ -365,7 +388,7 @@ nll_weibull <- function(pars, y) {
     log = TRUE
   ))
 }
-# Gradient du négatif de la fonction de log vraisemblance Weibull
+# Gradient du négatif de la log vraisemblance Weibull
 gr_nll_weibull <- function(pars, y) {
   scale <- pars[1]
   shape <- pars[2]
@@ -381,7 +404,8 @@ gr_nll_weibull <- function(pars, y) {
 # Utiliser les EMV du modèle exponentiel pour l'initialisation
 valinit <- c(mean(attente), 1)
 # Vérifier préalablement que le gradient est correct!
-# La commande retourne TRUE si la dérivée numérique égale sa version analytique à tolérance donnée
+# La commande retourne TRUE si la dérivée numérique 
+# égale sa version analytique à tolérance donnée
 isTRUE(all.equal(
   numDeriv::grad(nll_weibull, x = valinit, y = attente),
   gr_nll_weibull(pars = valinit, y = attente),
@@ -392,14 +416,17 @@ opt_weibull <- optim(
   par = valinit,
   # valeurs initiales
   fn = nll_weibull,
-  # passer la fonction à optimiser, son premier argument doit être le vecteur de paramètres
+  # passer la fonction à optimiser, son premier argument 
+ # doit être le vecteur de paramètres
   gr = gr_nll_weibull,
   # gradient (optionnel)
   method = "BFGS",
-  # algorithme BFGS est basé sur le gradient, une alternative robuste est"Nelder"
+  # algorithme BFGS est basé sur le gradient, 
+  # une alternative robuste est "Nelder"
   y = attente,
   # vecteur d'observations passées en argument additionnel à "fn"
-  hessian = TRUE # retourner la matrice de dérivée secondes évaluée aux EMV
+  hessian = TRUE 
+# retourner la matrice de dérivée secondes évaluée aux EMV
 ) 
 # Alternative avec un Newton
 # nlm(f = nll_weibull, p = valinit, hessian = TRUE, y = attente)
@@ -537,10 +564,10 @@ Asymptotiquement, toutes les statistiques de test sont équivalentes (dans le se
 
 Si $\theta$ est un scalaire (cas $q=1$), des versions directionnelles de ces statistiques existent, 
 \begin{align*}
-w(\theta_0)&=(\widehat{\theta}-\theta_0)/\mathsf{se}(\widehat{\theta}) &&(\text{Wald}) \\
+w(\theta_0)&=(\widehat{\theta}-\theta_0)/\mathsf{se}(\widehat{\theta})  \\
 r({\theta_0}) &= \mathrm{sign}(\widehat{\theta}-\theta)\left[2
-\left\{\ell(\widehat{\theta})-\ell(\theta)\right\}\right]^{1/2} &&(\text{racine directionnelle de vraisemblance}) \\
-s(\theta_0)&=i^{-1/2}(\theta_0)U(\theta_0) &&(\text{score}) 
+\left\{\ell(\widehat{\theta})-\ell(\theta)\right\}\right]^{1/2}  \\
+s(\theta_0)&=i^{-1/2}(\theta_0)U(\theta_0)
 \end{align*}
 
 Sous cette forme, si l'hypothèse nulle $\mathscr{H}_0: \theta = \theta_0$ est vraie, alors $w(\theta_0)\stackrel{\cdot}{\sim} \mathsf{normale}(0,1)$, etc.
@@ -864,6 +891,51 @@ prof_alpha_weibull <- function(par, y = attente) {
 
 :::
 
+
+
+:::{#exm-weibull-scoretest}
+
+## Tests de rapport de vraisemblance et du score pour comparer modèles exponentiels et Weibull
+
+On peut procéder pour le calcul du test du score, mais l'entrée pour le paramètre d'échelle du vecteur de score $U({\widehat{\lambda}_1}, 0)$ est nulle quand $\alpha=1$. L'estimateur contraint $\widehat{\lambda}_1=\overline{y}$.
+
+
+```{r}
+#| eval: true
+#| echo: true
+#| code-fold: true
+## Test du score
+# Matrice de Fisher pour échantillon de taille 1
+info_weib <- function(echelle, forme){ 
+  i11 <- forme*((forme + 1) - 1)/(echelle^2)
+  i12 <- -(1+digamma(1))/echelle
+  i22 <- (1+digamma(1)^2+2*digamma(1)+pi^2/6)/(forme^2)
+  matrix(c(i11, i12, i12, i22), nrow = 2, ncol = 2)
+}
+# Statistique du score
+score_stat <- function(echelle, forme, xdat){
+  score_w <- -gr_nll_weibull(c(echelle, forme), y = xdat)
+  finfo_w <- length(xdat)*info_weib(echelle, forme)
+  as.numeric(t(score_w) %*% solve(finfo_w) %*% score_w)
+  # équivalent à score_w[2]^2 * solve(finfo_w)[2,2]
+}
+S <- score_stat(echelle = mean(attente), forme = 1, xdat = attente)
+valp_score <- pchisq(S, df = 1, lower.tail = FALSE)
+
+## Statistique du rapport de vraisemblance
+ll_weib <- function(xdat, echelle, forme){
+  sum(dweibull(x = xdat, scale = echelle, shape = forme, log = TRUE))
+}
+ll1 <- ll_weib(xdat = attente, echelle = mle_weibull[1], forme = mle_weibull[2])
+ll0 <- ll_weib(xdat = attente, echelle = mean(attente), forme = 1)
+lrt <- 2*(ll1-ll0)
+valp_lrt <- pchisq(lrt, df = 1, lower.tail = FALSE)
+```
+
+Bien que les statistiques soient asymptotiquement équivalentes et se comportent toutes deux comme une variable khi-deux à nu degré de liberté, leurs valeurs numériques diffèrent: `r round(lrt, 2)` pour le test de rapport de vraisemblance profilée, vs `r round(S, 2)` pour le test du score.  Les deux statistiques indiquent sans ambiguïté un départ du modèle exponentiel.
+
+:::
+
 :::{#exm-profile-mean-weibull}
 
 ## Log-vraisemblance profilée pour l'espérance d'une loi Weibull
@@ -879,35 +951,39 @@ Pour obtenir les intervalles de confiance d'un paramètre scalaire, il existe un
 #| code-fold: true
 #| fig-cap: "Racine directionnelle du rapport de vraisemblance (gauche) et log vraisemblance profilée (droite) en fonction de l'espérance $\\mu$ pour un modèle Weibull."
 #| fig-align: 'center'
-# Compute the MLE for the expected value via plug-in
+# Calcul des EMV pour l'espérance par substitution
 mu_hat <- mle_weibull[1]*gamma(1+1/mle_weibull[2])
-# Create a profile function
+# Créer une fonction pour le profil
 prof_weibull_mu <- function(mu){
-  # For given value of mu
+  # Pour chaque valeur de mu
   alpha_mu <- function(mu){ 
-  # Find the profile by optimizing (line search) for fixed mu and the best alpha
+  # Trouver l'estimaté optimal de mu (par recherche linéaire)
+  #  pour chaque valeur de mu
      opt <- optimize(f = function(alpha, mu){
-     # minimize the negative log likelihood
+     # minimiser le négatif de la log vraisemblance
       nll_weibull(c(mu/gamma(1+1/alpha), alpha), y = attente)}, 
    mu = mu, 
-  interval = c(0.1,10) #search region
+  interval = c(0.1,10) #région de la recherche
   )
-  # Return the value of the negative log likelihood and alpha_mu
+  # Retourner la valeur du négatif log vraisemblance et alpha_mu
   return(c(nll = opt$objective, alpha = opt$minimum))
   }
-  # Create a data frame with mu and the other parameters
+  # Crée une base de donnée avec mu et les autres paramètres
   data.frame(mu = mu, t(sapply(mu, function(m){alpha_mu(m)})))
 }
-# Create a data frame with the profile  
+# Créer une base de donnée avec la vraisemblance profilée
 prof <- prof_weibull_mu(seq(22, 35, length.out = 101L))
-# Compute signed likelihood root r
+# Calculer la racine directionnelle de R, disons r
 prof$r <- sign(prof$mu - mu_hat)*sqrt(2*(prof$nll - opt_weibull$value))
 
-# Trick: fit a spline to obtain the predictions with mu as a function of r
-# Then use this to predict the value at which we intersect the normal quantiles
+# Truc: ajuster un spline cubique pour obtenir les prédictions de mu en fonction de r
+# et utiliser ce modèle pour prédire les valeurs auxquelles la
+#  courbe intersecte les quantiles de la loi normale standard
 fit.r <- stats::smooth.spline(x = cbind(prof$r, prof$mu), cv = FALSE)
 pr <- predict(fit.r, qnorm(c(0.025, 0.975)))$y
-# Plot the signed likelihood root - near linear indicates quadratic
+# Tracer la racine directionnelle de log vraisemblance - 
+# Si le tracé est linéaire, cela indique que la vraisemblance
+# profilée est quadratique (normale)
 g1 <- ggplot(data = prof,
      mapping = aes(x = mu, y = r)) +
   geom_abline(intercept = 0, slope = 1) +
@@ -916,7 +992,7 @@ g1 <- ggplot(data = prof,
             linetype = "dashed") + 
   labs(x = expression(paste("espérance ", mu)),
        y = "racine directionnelle de vraisemblance")
-# Create a plot of the profile
+# Créer un graphique de la log vraisemblance profilée
 g2 <- ggplot(data = prof,
        mapping = aes(x = mu, y = opt_weibull$value - nll)) + 
   geom_line() +
