@@ -1232,9 +1232,9 @@ anovamod <- lm(pef ~ factor(proportion), data = SKD23_S2A) # one-way ANOVA
 # anova(linmod, anovamod) # compare models (two restrictions)
 margmean <- anovamod |>  emmeans::emmeans(specs = "proportion") # group means
 contrastlist <- list( # specify contrast vectors
-   refvshalf = c(1, -1, 0, 0),
-   refvsone =  c(1, 0, -1, 0),
-   refvstwo =  c(1, 0, 0, -1))
+   refvsdemi = c(1, -1, 0, 0),
+   refvsun=  c(1, 0, -1, 0),
+   refvsdeux =  c(1, 0, 0, -1))
 contrast <- margmean |> emmeans::contrast( # compute contrasts relative to reference
  method = contrastlist)
 ```
@@ -1264,6 +1264,8 @@ knitr::kable(margmean,
 #| echo: false
 #| eval: true
 #| tbl-cap: "Estimations des contrastes pour les différences de PEF relativement à plastique seulement."
+contrast <- as.data.frame(contrast)
+contrast$p.value <- rep("< 0.001", 3)
 kable(contrast,
       booktabs = TRUE,
       digits = c(2,2,2,0,2,2),
@@ -1550,7 +1552,6 @@ $$\sum_{i=1}^{n_a} \alpha_i=0, \quad \sum_{j=1}^{n_b} \beta_j=0, \quad  \sum_{j=
 
 Nous pouvons envisager des simplifications de modèle de bas en haut. La suppression de l'interaction conduit à un modèle avec $1 + (n_a-1) + (n_b-1)$ paramètres, par rapport à $n_a \times n_b$ pour le modèle avec l'interaction. Nous pouvons utiliser un test $F$ pour vérifier la significativité de ce dernier. Si les facteurs n'interagissent pas, la moyenne dans la cellule est donnée par la somme des effets principaux. Ce n'est qu'après avoir supprimé ce terme que nous pouvons déterminer si toutes les moyennes des lignes ou des colonnes sont identiques.
 
-:::
 
 Bien que des tests formels soient nécessaires pour vérifier les interactions, le concept peut être mieux compris en examinant des graphiques.
 
@@ -1792,9 +1793,10 @@ emm <- emmeans(mod,
 # Créer un diagramme d'interaction
 emmip(object = emm, 
         formula = brandaction ~ chefdax | politideo, 
-        CIs = TRUE) +
-labs(y = "prédicteur linéaire",
-     x = "niveaux de chefdax")
+        CIs = TRUE) + 
+  MetBrewer::scale_color_met_d(name = "Hiroshige") +
+  labs(y = "prédicteur linéaire",
+       x = "niveaux de chefdax")
 # Tableau d'ANOVA (type 2)
 anova_tab <- car::Anova(mod, type = 2)
 ```
@@ -2358,7 +2360,7 @@ ggplot() +
   coord_cartesian(xlim = c(0, max(rho)),
                   ylim = c(0, 1),
                   expand = FALSE) +
-  scale_color_viridis_d() +
+  MetBrewer::scale_color_met_d(name = "Hiroshige") +
   theme_minimal() +
   theme(legend.position = "bottom")
 ```
@@ -2641,7 +2643,8 @@ $\mathsf{E}(\ln Y \mid L, C) = \beta_0^* + \beta_1 \ln C + (1-\beta_1)\ln L$. No
 
 ## Transformation de Box--Cox
 
-Avec des données strictement positives, on peut utiliser une transformation de Box--Cox [@Box.Cox:1964],
+
+Parfois, le postulat de normalité de l'erreur dans une régression linéaire ne tient pas. Avec des données strictement positives, on peut envisager une transformation de Box--Cox [@Box.Cox:1964],
 \begin{align*}
 y(\lambda)= \begin{cases}
 (y^{\lambda}-1)/\lambda, & \lambda \neq 0\\
@@ -2655,25 +2658,20 @@ Si on suppose que $\boldsymbol{Y}(\lambda) \sim \mathsf{normale}(\mathbf{X}\bold
 \begin{align*}
 L(\lambda, \boldsymbol{\beta}, \sigma; \boldsymbol{y}, \mathbf{X}) &= (2\pi\sigma^2)^{-n/2} J(\lambda, \boldsymbol{y}) \times\\& \quad \exp \left[ - \frac{1}{2\sigma^2}\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}^\top\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}\right],
 \end{align*}
-où $J$ dénote le Jacobien de la transformation Box--Cox, $J(\lambda, \boldsymbol{y})=\prod_{i=1}^n y_i^{\lambda-1}$.
+où $J$ dénote le Jacobien de la transformation Box--Cox, $J(\lambda, \boldsymbol{y})=\prod_{i=1}^n y_i^{\lambda-1}$. Pour chaque valeur de $\lambda$, l'estimateur du maximum de vraisemblance est le même que celle de la régression linéaire, mais où $\boldsymbol{y}$ est remplacée par $\boldsymbol{y}(\lambda)$, soit $\widehat{\boldsymbol{\beta}}_\lambda = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y}(\lambda)$ and $\widehat{\sigma}^2_\lambda = n^{-1}\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}^\top\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}$.
 
-## Profilage de $\lambda$
-
-Pour chaque valeur de $\lambda$, on obtient les estimateurs du maximum de vraisemblance usuels en remplaçant $\boldsymbol{y}$ par $\boldsymbol{y}(\lambda)$.
-
-La log vraisemblance profilée pour $\lambda$ est
+La log-vraisemblance profilée est donc
 \begin{align*}
 \ell_{\mathsf{p}}(\lambda) = -\frac{n}{2}\ln(2\pi \widehat{\sigma}^2_\lambda) - \frac{n}{2} + (\lambda - 1)\sum_{i=1}^n \ln(y_i)
 \end{align*}
+L'estimateur du maximum de vraisemblance profilée est la valeur $\lambda$ qui minimise la somme des carrés des résidus du modèle linéaire avec $\boldsymbol{y}(\lambda)$ comme réponse.
 
 Nous ne pouvons pas comparer les modèles ajustés à $Y_i$ par rapport à $\ln Y_i$ en utilisant, par exemple, des critères d'information ou des tests, parce que les modèles ont des réponses différentes. Nous pouvons toutefois utiliser la vraisemblance de Box--Cox, qui inclut le **Jacobien** de la transformation, pour évaluer la qualité de l'ajustement et comparer le modèle avec $\lambda=1$ par rapport à $\lambda=0$.
 
 
-
-La transformation de Box-Cox n'est pas une panacée et doit être réservée aux cas où la transformation réduit l'hétéroscédasticité (variance inégale) ou crée une relation linéaire entre les explications et la réponse : la théorie fournit une explication convaincante des données. Plutôt qu'un choix *ad hoc* de transformation, on pourrait prendre une transformation logarithmique si la valeur 0$ est incluse dans l'intervalle de confiance à 95%, car cela améliore l'interprétabilité.
+La transformation de Box--Cox n'est pas une solution miracle et doit être réservée aux cas où la transformation réduit l'hétéroscédasticité (variance inégale) ou crée une relation linéaire entre les explications et la réponse. La théorie fournit une explication convaincante des données avec, par exemple, la fonction de production Cobb-Douglas utilisée en économie qui peut être linéarisée par une transformation logarithmique. Plutôt que de choisir une transformation *ad hoc*, on pourrait choisir une transformation logarithmique si la valeur 0$ est incluse dans l'intervalle de confiance à 95%, car cela améliore l'interprétabilité.
 
 :::
-
 
 
 :::{#exm-poisonboxcox}

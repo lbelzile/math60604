@@ -286,7 +286,7 @@ window.Quarto = {
   <li><a href="#postulat-de-normalité" id="toc-postulat-de-normalité" class="nav-link" data-scroll-target="#postulat-de-normalité"><span class="header-section-number">4.8.4</span> Postulat de normalité</a></li>
   <li><a href="#sec-transfo" id="toc-sec-transfo" class="nav-link" data-scroll-target="#sec-transfo"><span class="header-section-number">4.8.5</span> Transformation de la variable réponse</a></li>
   </ul></li>
-  <li><a href="#remarque-finale" id="toc-remarque-finale" class="nav-link" data-scroll-target="#remarque-finale"><span class="header-section-number">4.10</span> Remarque finale</a></li>
+  <li><a href="#remarque-finale" id="toc-remarque-finale" class="nav-link" data-scroll-target="#remarque-finale"><span class="header-section-number">4.9</span> Remarque finale</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/lbelzile/math60604/edit/master/regression-lineaire.qmd" class="toc-action"><i class="bi bi-github"></i>Éditer cette page</a></li></ul></div></nav>
     </div>
@@ -1365,33 +1365,33 @@ Tableau&nbsp;4.7: Estimations des contrastes pour les différences de PEF relati
 <th style="text-align: right;" data-quarto-table-cell-role="th">erreur-type</th>
 <th style="text-align: right;" data-quarto-table-cell-role="th">ddl</th>
 <th style="text-align: right;" data-quarto-table-cell-role="th">stat</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">valeur-p</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">valeur-p</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">refvshalf</td>
+<td style="text-align: left;">refvsdemi</td>
 <td style="text-align: right;">-0.75</td>
 <td style="text-align: right;">0.13</td>
 <td style="text-align: right;">798</td>
 <td style="text-align: right;">-5.71</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: left;">&lt; 0.001</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">refvsone</td>
+<td style="text-align: left;">refvsun</td>
 <td style="text-align: right;">-0.90</td>
 <td style="text-align: right;">0.13</td>
 <td style="text-align: right;">798</td>
 <td style="text-align: right;">-6.89</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: left;">&lt; 0.001</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">refvstwo</td>
+<td style="text-align: left;">refvsdeux</td>
 <td style="text-align: right;">-1.18</td>
 <td style="text-align: right;">0.13</td>
 <td style="text-align: right;">798</td>
 <td style="text-align: right;">-9.20</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: left;">&lt; 0.001</td>
 </tr>
 </tbody>
 </table>
@@ -1596,7 +1596,6 @@ The model formulation in terms of difference from the global average or main eff
 $$\sum_{i=1}^{n_a} \alpha_i=0, \quad \sum_{j=1}^{n_b} \beta_j=0, \quad  \sum_{j=1}^{n_b} (\alpha\beta)_{ij}=0, \quad \sum_{i=1}^{n_a} (\alpha\beta)_{ij}=0.$$
 -->
 <p>Nous pouvons envisager des simplifications de modèle de bas en haut. La suppression de l’interaction conduit à un modèle avec <span class="math inline">\(1 + (n_a-1) + (n_b-1)\)</span> paramètres, par rapport à <span class="math inline">\(n_a \times n_b\)</span> pour le modèle avec l’interaction. Nous pouvons utiliser un test <span class="math inline">\(F\)</span> pour vérifier la significativité de ce dernier. Si les facteurs n’interagissent pas, la moyenne dans la cellule est donnée par la somme des effets principaux. Ce n’est qu’après avoir supprimé ce terme que nous pouvons déterminer si toutes les moyennes des lignes ou des colonnes sont identiques.</p>
-<p>:::</p>
 <p>Bien que des tests formels soient nécessaires pour vérifier les interactions, le concept peut être mieux compris en examinant des graphiques.</p>
 <div id="def-interactionplot" class="theorem definition">
 <p><span class="theorem-title"><strong>Définition 4.4 (Diagramme d’interaction)</strong></span> Nous pouvons essayer de détecter visuellement les interactions en traçant la réponse (moyenne) en fonction de l’une des covariables, en utilisant ce que l’on appelle un <strong>diagramme d’interaction</strong>. Lorsqu’il y a plus de deux variables catégorielles, nous pouvons utiliser des couleurs, des symboles ou des panneaux pour représenter les catégories. L’absence d’interaction dans ces diagrammes implique des lignes parallèles, mais il faut tenir compte de l’incertitude.</p>
@@ -1809,11 +1808,12 @@ Tableau&nbsp;4.8: Décomposition de la somme des carrés dans les tableaux d’A
 <span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Créer un diagramme d'interaction</span></span>
 <span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a><span class="fu">emmip</span>(<span class="at">object =</span> emm, </span>
 <span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>        <span class="at">formula =</span> brandaction <span class="sc">~</span> chefdax <span class="sc">|</span> politideo, </span>
-<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>        <span class="at">CIs =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
-<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"prédicteur linéaire"</span>,</span>
-<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>     <span class="at">x =</span> <span class="st">"niveaux de chefdax"</span>)</span>
-<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Tableau d'ANOVA (type 2)</span></span>
-<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>anova_tab <span class="ot">&lt;-</span> car<span class="sc">::</span><span class="fu">Anova</span>(mod, <span class="at">type =</span> <span class="dv">2</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>        <span class="at">CIs =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> </span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>  MetBrewer<span class="sc">::</span><span class="fu">scale_color_met_d</span>(<span class="at">name =</span> <span class="st">"Hiroshige"</span>) <span class="sc">+</span></span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"prédicteur linéaire"</span>,</span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"niveaux de chefdax"</span>)</span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Tableau d'ANOVA (type 2)</span></span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>anova_tab <span class="ot">&lt;-</span> car<span class="sc">::</span><span class="fu">Anova</span>(mod, <span class="at">type =</span> <span class="dv">2</span>)</span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -2381,7 +2381,7 @@ Figure&nbsp;4.22: Diagnostic plots for the college data example: ordinary residu
 </div>
 </section>
 <section id="sec-transfo" class="level3" data-number="4.8.5">
-<h3 data-number="4.8.5" class="anchored"><span class="header-section-number">4.8.5</span> Transformation de la variable réponse</h3>
+<h3 data-number="4.8.5" class="anchored" data-anchor-id="sec-transfo"><span class="header-section-number">4.8.5</span> Transformation de la variable réponse</h3>
 <p>Si la réponse est strictement positive, certaines options peuvent atténuer le manque d’additivité, plus particulièrement les relations multiplicatives entre la moyenne et la variance. Si les données sont asymétriques et que la réponse est strictement positive, un modèle log-linéaire peut être plus approprié et les paramètres peuvent être interprétés.</p>
 <p>Écrivons le modèle log-linéaire <span class="math display">\[\begin{align*}
 \ln Y = \beta_0+ \beta_1 X_1 +\cdots + \beta_pX_p + \varepsilon;
@@ -2404,7 +2404,7 @@ Y= X_1^{\beta_1}\exp(\beta_0 + \beta_2X_2 + \cdots + \beta_pX_p + \varepsilon)
 <p><span class="theorem-title"><strong>Exemple 4.25 (Modèle de Cobb-Douglas)</strong></span> Considérons par exemple la fonction de production Cobb–Douglas <span class="citation" data-cites="Douglas:1976">(<a href="references.html#ref-Douglas:1976" role="doc-biblioref">Douglas 1976</a>)</span>, qui spécifie que la production économique <span class="math inline">\(Y\)</span> est liée au travail <span class="math inline">\(L\)</span> et au capital <span class="math inline">\(C\)</span> par l’intermédiaire de <span class="math inline">\(\mathsf{E}(Y \mid L, C) = \beta_0C^{\beta}L^{1-\beta}\)</span> avec <span class="math inline">\(\beta \ dans (0,1)\)</span>.Si nous prenons les logarithmes des deux côtés (puisque tous les arguments sont positifs), alors <span class="math inline">\(\mathsf{E}(\ln Y \mid L, C) = \beta_0^* + \beta_1 \ln C + (1-\beta_1)\ln L\)</span>. Nous pourrions ajuster un modèle linéaire avec la réponse <span class="math inline">\(\ln Y - \ln L\)</span> et la variable explicative <span class="math inline">\(\ln C - \ln L\)</span>, pour obtenir une estimation du coefficient <span class="math inline">\(\beta_1\)</span>, tandis que <span class="math inline">\(\beta_0^*=\ln \beta_0\)</span>. Une optimisation sous contrainte serait potentiellement nécessaire pour estimer les paramètres du modèle linéaire résultant si les estimations se situent en dehors de l’espace des paramètres.</p>
 </div>
 <div id="prp-boxcox" class="theorem proposition">
-<p><span class="theorem-title"><strong>Proposition 4.6 (Transformation de Box–Cox)</strong></span> Avec des données strictement positives, on peut utiliser une transformation de Box–Cox <span class="citation" data-cites="Box.Cox:1964">(<a href="references.html#ref-Box.Cox:1964" role="doc-biblioref">Box et Cox 1964</a>)</span>, <span class="math display">\[\begin{align*}
+<p><span class="theorem-title"><strong>Proposition 4.6 (Transformation de Box–Cox)</strong></span> Parfois, le postulat de normalité de l’erreur dans une régression linéaire ne tient pas. Avec des données strictement positives, on peut envisager une transformation de Box–Cox <span class="citation" data-cites="Box.Cox:1964">(<a href="references.html#ref-Box.Cox:1964" role="doc-biblioref">Box et Cox 1964</a>)</span>, <span class="math display">\[\begin{align*}
 y(\lambda)= \begin{cases}
 (y^{\lambda}-1)/\lambda, &amp; \lambda \neq 0\\
 \ln(y), &amp; \lambda=0.
@@ -2412,16 +2412,12 @@ y(\lambda)= \begin{cases}
 \end{align*}\]</span> Les cas de figure <span class="math inline">\(\lambda=-1\)</span> (inverse), <span class="math inline">\(\lambda=1\)</span> (identité) et <span class="math inline">\(\lambda=0\)</span> (logarithme) sont les plus importants car les modèles résultants sont interprétables.</p>
 <p>Si on suppose que <span class="math inline">\(\boldsymbol{Y}(\lambda) \sim \mathsf{normale}(\mathbf{X}\boldsymbol{\beta}, \sigma^2 \mathbf{I}_n)\)</span>, alors la vraisemblance est <span class="math display">\[\begin{align*}
 L(\lambda, \boldsymbol{\beta}, \sigma; \boldsymbol{y}, \mathbf{X}) &amp;= (2\pi\sigma^2)^{-n/2} J(\lambda, \boldsymbol{y}) \times\\&amp; \quad \exp \left[ - \frac{1}{2\sigma^2}\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}^\top\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}\right],
-\end{align*}\]</span> où <span class="math inline">\(J\)</span> dénote le Jacobien de la transformation Box–Cox, <span class="math inline">\(J(\lambda, \boldsymbol{y})=\prod_{i=1}^n y_i^{\lambda-1}\)</span>.</p>
-<section id="profilage-de-lambda" class="level2" data-number="4.9">
-<h2 data-number="4.9" class="anchored" data-anchor-id="profilage-de-lambda"><span class="header-section-number">4.9</span> Profilage de <span class="math inline">\(\lambda\)</span></h2>
-<p>Pour chaque valeur de <span class="math inline">\(\lambda\)</span>, on obtient les estimateurs du maximum de vraisemblance usuels en remplaçant <span class="math inline">\(\boldsymbol{y}\)</span> par <span class="math inline">\(\boldsymbol{y}(\lambda)\)</span>.</p>
-<p>La log vraisemblance profilée pour <span class="math inline">\(\lambda\)</span> est <span class="math display">\[\begin{align*}
+\end{align*}\]</span> où <span class="math inline">\(J\)</span> dénote le Jacobien de la transformation Box–Cox, <span class="math inline">\(J(\lambda, \boldsymbol{y})=\prod_{i=1}^n y_i^{\lambda-1}\)</span>. Pour chaque valeur de <span class="math inline">\(\lambda\)</span>, l’estimateur du maximum de vraisemblance est le même que celle de la régression linéaire, mais où <span class="math inline">\(\boldsymbol{y}\)</span> est remplacée par <span class="math inline">\(\boldsymbol{y}(\lambda)\)</span>, soit <span class="math inline">\(\widehat{\boldsymbol{\beta}}_\lambda = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y}(\lambda)\)</span> and <span class="math inline">\(\widehat{\sigma}^2_\lambda = n^{-1}\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}^\top\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}\)</span>.</p>
+<p>La log-vraisemblance profilée est donc <span class="math display">\[\begin{align*}
 \ell_{\mathsf{p}}(\lambda) = -\frac{n}{2}\ln(2\pi \widehat{\sigma}^2_\lambda) - \frac{n}{2} + (\lambda - 1)\sum_{i=1}^n \ln(y_i)
-\end{align*}\]</span></p>
+\end{align*}\]</span> L’estimateur du maximum de vraisemblance profilée est la valeur <span class="math inline">\(\lambda\)</span> qui minimise la somme des carrés des résidus du modèle linéaire avec <span class="math inline">\(\boldsymbol{y}(\lambda)\)</span> comme réponse.</p>
 <p>Nous ne pouvons pas comparer les modèles ajustés à <span class="math inline">\(Y_i\)</span> par rapport à <span class="math inline">\(\ln Y_i\)</span> en utilisant, par exemple, des critères d’information ou des tests, parce que les modèles ont des réponses différentes. Nous pouvons toutefois utiliser la vraisemblance de Box–Cox, qui inclut le <strong>Jacobien</strong> de la transformation, pour évaluer la qualité de l’ajustement et comparer le modèle avec <span class="math inline">\(\lambda=1\)</span> par rapport à <span class="math inline">\(\lambda=0\)</span>.</p>
-<p>La transformation de Box-Cox n’est pas une panacée et doit être réservée aux cas où la transformation réduit l’hétéroscédasticité (variance inégale) ou crée une relation linéaire entre les explications et la réponse : la théorie fournit une explication convaincante des données. Plutôt qu’un choix <em>ad hoc</em> de transformation, on pourrait prendre une transformation logarithmique si la valeur 0$ est incluse dans l’intervalle de confiance à 95%, car cela améliore l’interprétabilité.</p>
-</section>
+<p>La transformation de Box–Cox n’est pas une solution miracle et doit être réservée aux cas où la transformation réduit l’hétéroscédasticité (variance inégale) ou crée une relation linéaire entre les explications et la réponse. La théorie fournit une explication convaincante des données avec, par exemple, la fonction de production Cobb-Douglas utilisée en économie qui peut être linéarisée par une transformation logarithmique. Plutôt que de choisir une transformation <em>ad hoc</em>, on pourrait choisir une transformation logarithmique si la valeur 0$ est incluse dans l’intervalle de confiance à 95%, car cela améliore l’interprétabilité.</p>
 </div>
 <div id="exm-poisonboxcox" class="theorem example">
 <p><span class="theorem-title"><strong>Exemple 4.26 (Transformation de Box–Cox pour données sur les poisons)</strong></span> <span class="citation" data-cites="Box.Cox:1964">Box et Cox (<a href="references.html#ref-Box.Cox:1964" role="doc-biblioref">1964</a>)</span> modélisent le temps de survie de 48 animaux sur la base d’un essai aléatoire. Les données sur les <code>poisons</code> sont équilibrées, 3 poisons ayant été administrés avec 4 traitements à 4 animaux chacun. Nous pourrions envisager une ANOVA à deux facteurs sans interaction, étant donné le peu d’observations pour chaque combinaison. Le modèle s’écrit alors <span class="math display">\[\begin{align*}
@@ -2448,8 +2444,8 @@ Figure&nbsp;4.23: Diagnostics graphiques pour les données de poisons. Panneau d
 </div>
 </section>
 </section>
-<section id="remarque-finale" class="level2" data-number="4.10">
-<h2 data-number="4.10" class="anchored" data-anchor-id="remarque-finale"><span class="header-section-number">4.10</span> Remarque finale</h2>
+<section id="remarque-finale" class="level2" data-number="4.9">
+<h2 data-number="4.9" class="anchored" data-anchor-id="remarque-finale"><span class="header-section-number">4.9</span> Remarque finale</h2>
 <p>La régression linéaire est le modèle statistique le plus connu et le plus utilisé. Le nom peut sembler réducteur, mais de nombreux tests statistiques (<em>t</em>-tests, ANOVA, Wilcoxon, Kruskal–Wallis) [peuvent être formulés à l’aide d’une régression linéaire] (https://lindeloev.github.io/tests-as-linear/linear_tests_cheat_sheet.pdf), tandis que [des modèles aussi divers que les arbres, les composantes principales et les réseaux neuronaux profonds ne sont que des modèles de régression linéaire déguisés] (https://threadreaderapp.com/thread/1286420597505892352.html). Ce qui change sous le capot d’un modèle à l’autre, c’est la méthode d’optimisation (par exemple, les moindres carrés ordinaires, l’optimisation sous contrainte ou la descente de gradient stochastique) et le choix des variables explicatives entrant dans le modèle (bases de splines pour la régression non paramétrique, variable indicatrice sélectionnée via une recherche glouton pour les arbres, fonctions d’activation pour les réseaux neuronaux).</p>
 
 
