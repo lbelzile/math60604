@@ -551,11 +551,11 @@ L'hypothèse nulle $\mathscr{H}_0$ testée est "le modèle réduit est une **sim
 knitr::include_graphics('images/likelihood_tests_fr.png')
 ```
 
-Les trois principales classes de statistiques permettant de tester une hypothèse nulle simple $\mathscr{H}_0 : \boldsymbol{\theta}=\boldsymbol{\theta}_0$ par rapport à l'hypothèse alternative $\mathscr{H}_a : \boldsymbol{\theta} \neq \boldsymbol{\theta}_0$ sont 
+Les trois principales classes de statistiques permettant de tester une hypothèse nulle simple $\mathscr{H}_0 : \boldsymbol{\theta}=\boldsymbol{\theta}_0$ par rapport à l'hypothèse alternative $\mathscr{H}_a : \boldsymbol{\theta} \neq \boldsymbol{\theta}_0$ sont le test de Wald $W$, le rapport de vraisemblance $R$ et le test du score de Rao $S$, définis comme
 \begin{align*}
- W(\boldsymbol{\theta}_0) &= (\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)^\top j(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0), &&(\text{Wald}) \\
- R(\boldsymbol{\theta}_0) &= 2 \left\{ \ell(\widehat{\boldsymbol{\theta}})-\ell(\boldsymbol{\theta}_0)\right\}, &&(\text{rapport de vraisemblance})\\
- S(\boldsymbol{\theta}_0) &= U^\top(\boldsymbol{\theta}_0)i^{-1}(\boldsymbol{\theta}_0)U(\boldsymbol{\theta}_0), && (\text{score})
+ W(\boldsymbol{\theta}_0) &= (\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)^\top j(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0), \\
+ R(\boldsymbol{\theta}_0) &= 2 \left\{ \ell(\widehat{\boldsymbol{\theta}})-\ell(\boldsymbol{\theta}_0)\right\},\\
+ S(\boldsymbol{\theta}_0) &= U^\top(\boldsymbol{\theta}_0)i^{-1}(\boldsymbol{\theta}_0)U(\boldsymbol{\theta}_0), 
 \end{align*}
 où $\boldsymbol{\theta}_0$ est la valeur nulle postulée du paramètre avec $q$ restrictions. Si $q \neq p$, alors on remplace $\boldsymbol{\theta}_0$ par l'estimation contrainte $\widehat{\boldsymbol{\theta}}_0$.
 
@@ -612,8 +612,8 @@ Si $\theta$ est un scalaire (cas $q=1$), des versions directionnelles de ces sta
 \begin{align*}
 w(\theta_0)&=(\widehat{\theta}-\theta_0)/\mathsf{se}(\widehat{\theta})  \\
 r({\theta_0}) &= \mathrm{sign}(\widehat{\theta}-\theta)\left[2
-\left\{\ell(\widehat{\theta})-\ell(\theta)\right\}\right]^{1/2} &&(\text{rapport de vraisemblance}) \\
-s(\theta_0)&=i^{-1/2}(\theta_0)U(\theta_0) &&(\text{score}) 
+\left\{\ell(\widehat{\theta})-\ell(\theta)\right\}\right]^{1/2}  \\
+s(\theta_0)&=i^{-1/2}(\theta_0)U(\theta_0) 
 \end{align*}
 
 Sous cette forme, si l'hypothèse nulle $\mathscr{H}_0: \theta = \theta_0$ est vraie, alors $w(\theta_0)\stackrel{\cdot}{\sim} \mathsf{normale}(0,1)$, etc.

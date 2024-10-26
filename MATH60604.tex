@@ -334,10 +334,10 @@
 \usepackage{amsthm}
 \theoremstyle{definition}
 \newtheorem{example}{Exemple}[chapter]
-\theoremstyle{definition}
-\newtheorem{definition}{Définition}[chapter]
 \theoremstyle{plain}
 \newtheorem{corollary}{Corollaire}[chapter]
+\theoremstyle{definition}
+\newtheorem{definition}{Définition}[chapter]
 \theoremstyle{plain}
 \newtheorem{proposition}{Proposition}[chapter]
 \theoremstyle{remark}
@@ -1696,7 +1696,7 @@ l'apprentissage en vase clos des recettes plutôt que d'essayer de
 comprendre les bases de la cuisine et de faire des liens. Ce chapitre se
 concentre sur la compréhension des concepts-clés liées aux tests.
 
-\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-important-color-frame, breakable, opacitybacktitle=0.6, leftrule=.75mm, coltitle=black, toptitle=1mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Objectifs d'apprentissage}, toprule=.15mm, colback=white, bottomtitle=1mm, rightrule=.15mm, opacityback=0, left=2mm, colbacktitle=quarto-callout-important-color!10!white]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, leftrule=.75mm, opacitybacktitle=0.6, breakable, bottomtitle=1mm, colback=white, toptitle=1mm, arc=.35mm, coltitle=black, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Objectifs d'apprentissage}, rightrule=.15mm, bottomrule=.15mm, toprule=.15mm, opacityback=0]
 
 \begin{itemize}
 \tightlist
@@ -2384,7 +2384,7 @@ probabilité d'obtenir une valeur de la statistique de test égale ou même
 plus grande que celle qu'on a observée dans l'échantillon, si
 \(\mathscr{H}_0\) est vraie.
 
-\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-caution-color-frame, breakable, opacitybacktitle=0.6, leftrule=.75mm, coltitle=black, toptitle=1mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Mise en garde}, toprule=.15mm, colback=white, bottomtitle=1mm, rightrule=.15mm, opacityback=0, left=2mm, colbacktitle=quarto-callout-caution-color!10!white]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, leftrule=.75mm, opacitybacktitle=0.6, breakable, bottomtitle=1mm, colback=white, toptitle=1mm, arc=.35mm, coltitle=black, colbacktitle=quarto-callout-caution-color!10!white, colframe=quarto-callout-caution-color-frame, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Mise en garde}, rightrule=.15mm, bottomrule=.15mm, toprule=.15mm, opacityback=0]
 
 L'\href{https://doi.org/10.1080/00031305.2016.1154108}{\emph{American
 Statistical Association (ASA)} a publié une liste de principes}
@@ -2972,7 +2972,7 @@ Ce chapitre traite de modélisation statistique et d'inférence basée sur
 la vraisemblance, la méthodologie la plus populaire dans le monde de la
 statistique.
 
-\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-important-color-frame, breakable, opacitybacktitle=0.6, leftrule=.75mm, coltitle=black, toptitle=1mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, toprule=.15mm, colback=white, bottomtitle=1mm, rightrule=.15mm, opacityback=0, left=2mm, colbacktitle=quarto-callout-important-color!10!white]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, leftrule=.75mm, opacitybacktitle=0.6, breakable, bottomtitle=1mm, colback=white, toptitle=1mm, arc=.35mm, coltitle=black, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, rightrule=.15mm, bottomrule=.15mm, toprule=.15mm, opacityback=0]
 
 \textbf{Objectifs d'apprentissage}
 
@@ -3753,10 +3753,11 @@ hypothèse nulle simple
 \(\mathscr{H}_0 : \boldsymbol{\theta}=\boldsymbol{\theta}_0\) par
 rapport à l'hypothèse alternative
 \(\mathscr{H}_a : \boldsymbol{\theta} \neq \boldsymbol{\theta}_0\) sont
-\begin{align*}
- W(\boldsymbol{\theta}_0) &= (\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)^\top j(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0), &&(\text{Wald}) \\
- R(\boldsymbol{\theta}_0) &= 2 \left\{ \ell(\widehat{\boldsymbol{\theta}})-\ell(\boldsymbol{\theta}_0)\right\}, &&(\text{rapport de vraisemblance})\\
- S(\boldsymbol{\theta}_0) &= U^\top(\boldsymbol{\theta}_0)i^{-1}(\boldsymbol{\theta}_0)U(\boldsymbol{\theta}_0), && (\text{score})
+le test de Wald \(W\), le rapport de vraisemblance \(R\) et le test du
+score de Rao \(S\), définis comme \begin{align*}
+ W(\boldsymbol{\theta}_0) &= (\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)^\top j(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0), \\
+ R(\boldsymbol{\theta}_0) &= 2 \left\{ \ell(\widehat{\boldsymbol{\theta}})-\ell(\boldsymbol{\theta}_0)\right\},\\
+ S(\boldsymbol{\theta}_0) &= U^\top(\boldsymbol{\theta}_0)i^{-1}(\boldsymbol{\theta}_0)U(\boldsymbol{\theta}_0), 
 \end{align*} où \(\boldsymbol{\theta}_0\) est la valeur nulle postulée
 du paramètre avec \(q\) restrictions. Si \(q \neq p\), alors on remplace
 \(\boldsymbol{\theta}_0\) par l'estimation contrainte
@@ -3818,8 +3819,8 @@ Si \(\theta\) est un scalaire (cas \(q=1\)), des versions
 directionnelles de ces statistiques existent, \begin{align*}
 w(\theta_0)&=(\widehat{\theta}-\theta_0)/\mathsf{se}(\widehat{\theta})  \\
 r({\theta_0}) &= \mathrm{sign}(\widehat{\theta}-\theta)\left[2
-\left\{\ell(\widehat{\theta})-\ell(\theta)\right\}\right]^{1/2} &&(\text{rapport de vraisemblance}) \\
-s(\theta_0)&=i^{-1/2}(\theta_0)U(\theta_0) &&(\text{score}) 
+\left\{\ell(\widehat{\theta})-\ell(\theta)\right\}\right]^{1/2}  \\
+s(\theta_0)&=i^{-1/2}(\theta_0)U(\theta_0) 
 \end{align*}
 
 Sous cette forme, si l'hypothèse nulle

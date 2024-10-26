@@ -613,10 +613,10 @@ Figure&nbsp;3.2: Fonction de log vraisemblance et illustrations des éléments d
 </div>
 </div>
 </div>
-<p>Les trois principales classes de statistiques permettant de tester une hypothèse nulle simple <span class="math inline">\(\mathscr{H}_0 : \boldsymbol{\theta}=\boldsymbol{\theta}_0\)</span> par rapport à l’hypothèse alternative <span class="math inline">\(\mathscr{H}_a : \boldsymbol{\theta} \neq \boldsymbol{\theta}_0\)</span> sont <span class="math display">\[\begin{align*}
-W(\boldsymbol{\theta}_0) &amp;= (\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)^\top j(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0), &amp;&amp;(\text{Wald}) \\
-R(\boldsymbol{\theta}_0) &amp;= 2 \left\{ \ell(\widehat{\boldsymbol{\theta}})-\ell(\boldsymbol{\theta}_0)\right\}, &amp;&amp;(\text{rapport de vraisemblance})\\
-S(\boldsymbol{\theta}_0) &amp;= U^\top(\boldsymbol{\theta}_0)i^{-1}(\boldsymbol{\theta}_0)U(\boldsymbol{\theta}_0), &amp;&amp; (\text{score})
+<p>Les trois principales classes de statistiques permettant de tester une hypothèse nulle simple <span class="math inline">\(\mathscr{H}_0 : \boldsymbol{\theta}=\boldsymbol{\theta}_0\)</span> par rapport à l’hypothèse alternative <span class="math inline">\(\mathscr{H}_a : \boldsymbol{\theta} \neq \boldsymbol{\theta}_0\)</span> sont le test de Wald <span class="math inline">\(W\)</span>, le rapport de vraisemblance <span class="math inline">\(R\)</span> et le test du score de Rao <span class="math inline">\(S\)</span>, définis comme <span class="math display">\[\begin{align*}
+W(\boldsymbol{\theta}_0) &amp;= (\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)^\top j(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0), \\
+R(\boldsymbol{\theta}_0) &amp;= 2 \left\{ \ell(\widehat{\boldsymbol{\theta}})-\ell(\boldsymbol{\theta}_0)\right\},\\
+S(\boldsymbol{\theta}_0) &amp;= U^\top(\boldsymbol{\theta}_0)i^{-1}(\boldsymbol{\theta}_0)U(\boldsymbol{\theta}_0),
 \end{align*}\]</span> où <span class="math inline">\(\boldsymbol{\theta}_0\)</span> est la valeur nulle postulée du paramètre avec <span class="math inline">\(q\)</span> restrictions. Si <span class="math inline">\(q \neq p\)</span>, alors on remplace <span class="math inline">\(\boldsymbol{\theta}_0\)</span> par l’estimation contrainte <span class="math inline">\(\widehat{\boldsymbol{\theta}}_0\)</span>.</p>
 <p>Asymptotiquement, toutes les statistiques de test sont équivalentes (dans le sens où elles conduisent aux mêmes conclusions sur <span class="math inline">\(\mathscr{H}_0\)</span>), mais elles ne sont pas identiques. Sous <span class="math inline">\(\mathscr{H}_0\)</span>, les trois statistiques de test suivent une loi asymptotique <span class="math inline">\(\chi^2_q\)</span>, où les degrés de liberté <span class="math inline">\(q\)</span> indiquent le nombre de restrictions.</p>
 <div id="rem-loinulle" class="proof remark">
@@ -640,8 +640,8 @@ Figure&nbsp;3.3: Courbes de contour elliptiques pour la loi asymptotique normale
 <p>Si <span class="math inline">\(\theta\)</span> est un scalaire (cas <span class="math inline">\(q=1\)</span>), des versions directionnelles de ces statistiques existent, <span class="math display">\[\begin{align*}
 w(\theta_0)&amp;=(\widehat{\theta}-\theta_0)/\mathsf{se}(\widehat{\theta})  \\
 r({\theta_0}) &amp;= \mathrm{sign}(\widehat{\theta}-\theta)\left[2
-\left\{\ell(\widehat{\theta})-\ell(\theta)\right\}\right]^{1/2} &amp;&amp;(\text{rapport de vraisemblance}) \\
-s(\theta_0)&amp;=i^{-1/2}(\theta_0)U(\theta_0) &amp;&amp;(\text{score})
+\left\{\ell(\widehat{\theta})-\ell(\theta)\right\}\right]^{1/2}  \\
+s(\theta_0)&amp;=i^{-1/2}(\theta_0)U(\theta_0)
 \end{align*}\]</span></p>
 <p>Sous cette forme, si l’hypothèse nulle <span class="math inline">\(\mathscr{H}_0: \theta = \theta_0\)</span> est vraie, alors <span class="math inline">\(w(\theta_0)\stackrel{\cdot}{\sim} \mathsf{normale}(0,1)\)</span>, etc.</p>
 <p>La statistique du test du rapport de vraisemblance est normalement la plus puissante des trois tests (et donc préférable selon ce critère); la statistique est aussi invariante aux reparamétrages. La statistique de score <span class="math inline">\(S\)</span>, moins utilisée, nécessite le calcul du score et de l’information de Fisher, mais n’est évaluée que sous <span class="math inline">\(\mathscr{H}_0\)</span> (car par définition <span class="math inline">\(U(\widehat{\theta})=0\)</span>), elle peut donc être utile dans les problèmes où les calculs de l’estimateur du maximum de vraisemblance sous l’alternative sont coûteux ou impossibles. Le test de Wald est le plus facile à dériver, mais son taux de couverture empirique peut laisser à désirer si la loi d’échantillonnage de <span class="math inline">\(\widehat{\boldsymbol{\theta}}\)</span> est fortement asymétrique.</p>
