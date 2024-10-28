@@ -333,13 +333,13 @@
 \newcommand*\listoflistings{\listof{codelisting}{Liste des énumérations}}
 \usepackage{amsthm}
 \theoremstyle{definition}
-\newtheorem{example}{Exemple}[chapter]
-\theoremstyle{plain}
-\newtheorem{corollary}{Corollaire}[chapter]
-\theoremstyle{definition}
 \newtheorem{definition}{Définition}[chapter]
 \theoremstyle{plain}
 \newtheorem{proposition}{Proposition}[chapter]
+\theoremstyle{definition}
+\newtheorem{example}{Exemple}[chapter]
+\theoremstyle{plain}
+\newtheorem{corollary}{Corollaire}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Preuve}}
 \newtheorem*{remark}{Remarque}
@@ -380,7 +380,7 @@
 
 \title{MATH 60604 - Modélisation statistique}
 \author{Léo Belzile}
-\date{2024-10-26}
+\date{2024-10-28}
 
 \begin{document}
 
@@ -1696,7 +1696,7 @@ l'apprentissage en vase clos des recettes plutôt que d'essayer de
 comprendre les bases de la cuisine et de faire des liens. Ce chapitre se
 concentre sur la compréhension des concepts-clés liées aux tests.
 
-\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, leftrule=.75mm, opacitybacktitle=0.6, breakable, bottomtitle=1mm, colback=white, toptitle=1mm, arc=.35mm, coltitle=black, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Objectifs d'apprentissage}, rightrule=.15mm, bottomrule=.15mm, toprule=.15mm, opacityback=0]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, colbacktitle=quarto-callout-important-color!10!white, coltitle=black, colframe=quarto-callout-important-color-frame, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Objectifs d'apprentissage}, titlerule=0mm, opacitybacktitle=0.6, breakable, opacityback=0, colback=white, toptitle=1mm, bottomtitle=1mm, arc=.35mm, bottomrule=.15mm, leftrule=.75mm, toprule=.15mm, rightrule=.15mm]
 
 \begin{itemize}
 \tightlist
@@ -2384,7 +2384,7 @@ probabilité d'obtenir une valeur de la statistique de test égale ou même
 plus grande que celle qu'on a observée dans l'échantillon, si
 \(\mathscr{H}_0\) est vraie.
 
-\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, leftrule=.75mm, opacitybacktitle=0.6, breakable, bottomtitle=1mm, colback=white, toptitle=1mm, arc=.35mm, coltitle=black, colbacktitle=quarto-callout-caution-color!10!white, colframe=quarto-callout-caution-color-frame, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Mise en garde}, rightrule=.15mm, bottomrule=.15mm, toprule=.15mm, opacityback=0]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, colbacktitle=quarto-callout-caution-color!10!white, coltitle=black, colframe=quarto-callout-caution-color-frame, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Mise en garde}, titlerule=0mm, opacitybacktitle=0.6, breakable, opacityback=0, colback=white, toptitle=1mm, bottomtitle=1mm, arc=.35mm, bottomrule=.15mm, leftrule=.75mm, toprule=.15mm, rightrule=.15mm]
 
 L'\href{https://doi.org/10.1080/00031305.2016.1154108}{\emph{American
 Statistical Association (ASA)} a publié une liste de principes}
@@ -2972,7 +2972,7 @@ Ce chapitre traite de modélisation statistique et d'inférence basée sur
 la vraisemblance, la méthodologie la plus populaire dans le monde de la
 statistique.
 
-\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, leftrule=.75mm, opacitybacktitle=0.6, breakable, bottomtitle=1mm, colback=white, toptitle=1mm, arc=.35mm, coltitle=black, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, rightrule=.15mm, bottomrule=.15mm, toprule=.15mm, opacityback=0]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, colbacktitle=quarto-callout-important-color!10!white, coltitle=black, colframe=quarto-callout-important-color-frame, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, titlerule=0mm, opacitybacktitle=0.6, breakable, opacityback=0, colback=white, toptitle=1mm, bottomtitle=1mm, arc=.35mm, bottomrule=.15mm, leftrule=.75mm, toprule=.15mm, rightrule=.15mm]
 
 \textbf{Objectifs d'apprentissage}
 
@@ -4276,42 +4276,99 @@ petit la valeur du critère d'information, le meilleur le modèle.
 
 Notez que les critères d'information ne constituent pas des tests
 d'hypothèse formels sur les paramètres, mais qu'ils peuvent être
-utilisés pour comparer des modèles non imbriqués (mais ils sont alors
-très imprécis!) Ces outils fonctionnent sous des conditions de
-régularité et les critères d'information estimés sont assez bruyants, de
-sorte que les comparaisons pour les modèles non emboîtés sont
-hasardeuses bien que populaires. Si nous voulons comparer la
-vraisemblance de différents modèles de probabilité, nous devons nous
-assurer qu'ils incluent une constante de normalisation\footnote{Les
-  logiciels enlèvent parfois les termes ou constantes qui ne sont pas
-  des fonctions des paramètres.}. Le \(\mathsf{BIC}\) est plus strict
-que le \(\mathsf{AIC}\), car sa pénalité augmente avec la taille de
-l'échantillon, ce qui permet de sélectionner des modèles plus
-parsimonieux. Le \(\mathsf{BIC}\) est un critère \textbf{convergent}, ce
-qui signifie qu'il choisira le vrai modèle parmi un ensemble de modèles
-avec une probabilité de 1 lorsque \(n \to \infty\) si ce dernier fait
-partie du catalogue de modèles à comparer. En pratique, cela présente
-peu d'intérêt si l'on suppose que tous les modèles sont des
-approximations de la réalité (il est peu probable que le vrai modèle
-soit inclus dans ceux que nous considérons). Pour sa part,
-\(\mathsf{AIC}\) sélectionne souvent des modèles trop compliqués dans
-les grands échantillons, alors que \(\mathsf{BIC}\) choisit des modèles
-trop simples.
+utilisés pour comparer des modèles non emboîtés (mais ils sont alors
+très imprécis!)
 
+\begin{example}[Comparaison de modèles non-emboîtés pour les temps
+d'attente]\protect\hypertarget{exm-aic}{}\label{exm-aic}
+
+On a considéré deux familles de lois paramétriques, soit exponentielle
+et Weibull, pour les temps d'attente. D'autres lois pour des données
+continues et positives incluent la loi lognormale et la loi gamma.
+
+On peut ajuster ces modèles par maximum de vraisemblance à l'aide de la
+routine \texttt{fitdistr} du paquet \texttt{MASS}. Tous les modèles, à
+l'exception du modèle exponentiel, ont deux paramètres et donc les mêmes
+pénalités pour l'AIC et le BIC. Le modèle Weibull a les plus petites
+valeurs des critères d'information, et un diagramme quantile-quantile
+(omis) indique que les observations les plus grandes sont mieux
+capturées qu'avec une loi gamma.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod0 }\OtherTok{\textless{}{-}}\NormalTok{ MASS}\SpecialCharTok{::}\FunctionTok{fitdistr}\NormalTok{(}\AttributeTok{x =}\NormalTok{ attente, }\AttributeTok{densfun =} \StringTok{"exponential"}\NormalTok{)}
+\NormalTok{mod1 }\OtherTok{\textless{}{-}}\NormalTok{ MASS}\SpecialCharTok{::}\FunctionTok{fitdistr}\NormalTok{(}\AttributeTok{x =}\NormalTok{ attente, }\AttributeTok{densfun =} \StringTok{"gamma"}\NormalTok{)}
+\NormalTok{mod2 }\OtherTok{\textless{}{-}}\NormalTok{ MASS}\SpecialCharTok{::}\FunctionTok{fitdistr}\NormalTok{(}\AttributeTok{x =}\NormalTok{ attente, }\AttributeTok{densfun =} \StringTok{"weibull"}\NormalTok{)}
+\NormalTok{mod3 }\OtherTok{\textless{}{-}}\NormalTok{ MASS}\SpecialCharTok{::}\FunctionTok{fitdistr}\NormalTok{(}\AttributeTok{x =}\NormalTok{ attente, }\AttributeTok{densfun =} \StringTok{"lognormal"}\NormalTok{)}
+\FunctionTok{c}\NormalTok{(}\StringTok{"exp"} \OtherTok{=} \FunctionTok{AIC}\NormalTok{(mod0), }
+  \StringTok{"gamma"} \OtherTok{=} \FunctionTok{AIC}\NormalTok{(mod1), }
+  \StringTok{"weibull"} \OtherTok{=} \FunctionTok{AIC}\NormalTok{(mod2),}
+  \StringTok{"lognormal"} \OtherTok{=} \FunctionTok{AIC}\NormalTok{(mod3))}
+\CommentTok{\#\textgreater{}       exp     gamma   weibull lognormal }
+\CommentTok{\#\textgreater{}       543       488       485       496}
+\end{Highlighting}
+\end{Shaded}
+
+\end{example}
+
+Ces outils fonctionnent sous des conditions de régularité et les
+critères d'information estimés sont assez bruyants, de sorte que les
+comparaisons pour les modèles non emboîtés sont hasardeuses bien que
+populaires. Si nous voulons comparer la vraisemblance de différents
+modèles de probabilité, nous devons nous assurer qu'ils incluent une
+constante de normalisation\footnote{Les logiciels enlèvent parfois les
+  termes ou constantes qui ne sont pas des fonctions des paramètres.}.
+Le \(\mathsf{BIC}\) est plus strict que le \(\mathsf{AIC}\), car sa
+pénalité augmente avec la taille de l'échantillon, ce qui permet de
+sélectionner des modèles plus parsimonieux. Le \(\mathsf{BIC}\) est un
+critère \textbf{convergent}, ce qui signifie qu'il choisira le vrai
+modèle parmi un ensemble de modèles avec une probabilité de 1 lorsque
+\(n \to \infty\) si ce dernier fait partie du catalogue de modèles à
+comparer. En pratique, cela présente peu d'intérêt si l'on suppose que
+tous les modèles sont des approximations de la réalité (il est peu
+probable que le vrai modèle soit inclus dans ceux que nous considérons).
+Pour sa part, \(\mathsf{AIC}\) sélectionne souvent des modèles trop
+compliqués dans les grands échantillons, alors que \(\mathsf{BIC}\)
+choisit des modèles trop simples.
+
+\begin{refremark}[Transformation de variables]
 Une mise en garde s'impose: s'il est possible de comparer des modèles de
 régression non emboîtés à l'aide de critères d'information, ceux-ci ne
 peuvent être utilisés que lorsque la variable de réponse est la même.
-Vous pouvez comparer une régression de Poisson avec une régression
-linéaire pour une réponse \(Y\) en utilisant des critères d'information
-à condition d'inclure toutes les constantes de normalisation dans votre
-modèle. Les logiciels omettent souvent les termes constants; cela n'a
-pas d'impact lorsque vous comparez des modèles avec les mêmes facteurs
-constants, mais cela a de l'importance lorsque ceux-ci diffèrent.
-Cependant, \textbf{on ne peut pas} les comparer à un modèle log-linéaire
-avec une réponse \(\ln(Y)\). Les comparaisons entre les modèles
-log-linéaires et linéaires ne sont valables que si vous utilisez la
-vraisemblance de Box--Cox, car elle inclut le jacobien de la
-transformation.
+Pour démontrer ce point, on ajuste une loi normale au logarithme des
+temps d'attente, équivalent au modèle lognormal \texttt{mod3} de
+l'Exemple~\ref{exm-aic}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod4 }\OtherTok{\textless{}{-}}\NormalTok{ MASS}\SpecialCharTok{::}\FunctionTok{fitdistr}\NormalTok{(}\AttributeTok{x =} \FunctionTok{log}\NormalTok{(attente), }\AttributeTok{densfun =} \StringTok{"normal"}\NormalTok{)}
+\CommentTok{\# En raison de la transformation, }
+\CommentTok{\# la log vraisemblance est différente}
+\FunctionTok{logLik}\NormalTok{(mod4) }\SpecialCharTok{{-}} \FunctionTok{logLik}\NormalTok{(mod3)}
+\CommentTok{\#\textgreater{} \textquotesingle{}log Lik.\textquotesingle{} 202 (df=2)}
+\CommentTok{\# Le jacobien de la transformation est (d/dy log(y) = 1/y)}
+\CommentTok{\# et donc on doit ajouter {-}log(y) de contribution à chaque obs.}
+\FunctionTok{sum}\NormalTok{(}\SpecialCharTok{{-}}\FunctionTok{log}\NormalTok{(attente))}
+\CommentTok{\#\textgreater{} [1] {-}202}
+\end{Highlighting}
+\end{Shaded}
+
+Ainsi, \textbf{on ne peut pas} comparer un modèle pour \(Y\) à un modèle
+log-linéaire avec une réponse \(\ln(Y)\) sans prendre en compte la
+transformation. Les comparaisons entre les modèles log-linéaires et
+linéaires ne sont valables que si vous utilisez la vraisemblance de
+Box--Cox, ou si vous incluez le jacobien de la transformation.
+
+\label{rem-warning-transformation}
+
+\end{refremark}
+
+Autre mise en garde: les logiciels omettent souvent les constantes de
+normalisation (par exemple, le \((2\pi)^{-1/2}\) pour la loi normale);
+cela n'a pas d'impact lorsque vous comparez des modèles avec les mêmes
+facteurs constants, mais cela a de l'importance lorsque ceux-ci
+diffèrent, par exemple si vous comparez une régression de Poisson avec
+une régression linéaire pour une réponse \(Y\).
 
 \bookmarksetup{startatroot}
 

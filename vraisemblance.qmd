@@ -1072,8 +1072,59 @@ Les critères d'information combinent la log vraisemblance, qui mesure l'adéqua
 \end{align*}
 où $p$ dénote le nombre de paramètres du modèle. Le plus petit la valeur du critère d'information, le meilleur le modèle.
 
-Notez que les critères d'information ne constituent pas des tests d'hypothèse formels sur les paramètres, mais qu'ils peuvent être utilisés pour comparer des modèles non imbriqués (mais ils sont alors très imprécis!) 
+Notez que les critères d'information ne constituent pas des tests d'hypothèse formels sur les paramètres, mais qu'ils peuvent être utilisés pour comparer des modèles non emboîtés (mais ils sont alors très imprécis!) 
+
+
+:::{#exm-aic}
+
+## Comparaison de modèles non-emboîtés pour les temps d'attente
+
+On a considéré deux familles de lois paramétriques, soit exponentielle et Weibull, pour les temps d'attente. D'autres lois pour des données continues et positives incluent la loi lognormale et la loi gamma.
+
+On peut ajuster ces modèles par maximum de vraisemblance à l'aide de la routine `fitdistr` du paquet `MASS`. Tous les modèles, à l'exception du modèle exponentiel, ont deux paramètres et donc les mêmes pénalités pour l'AIC et le BIC. Le modèle Weibull a les plus petites valeurs des critères d'information, et un diagramme quantile-quantile (omis) indique que les observations les plus grandes sont mieux capturées qu'avec une loi gamma.
+
+```{r}
+#| eval: true
+#| echo: true
+#| warning: false
+mod0 <- MASS::fitdistr(x = attente, densfun = "exponential")
+mod1 <- MASS::fitdistr(x = attente, densfun = "gamma")
+mod2 <- MASS::fitdistr(x = attente, densfun = "weibull")
+mod3 <- MASS::fitdistr(x = attente, densfun = "lognormal")
+c("exp" = AIC(mod0), 
+  "gamma" = AIC(mod1), 
+  "weibull" = AIC(mod2),
+  "lognormal" = AIC(mod3))
+```
+
+:::
+
+
+
 Ces outils fonctionnent sous des conditions de régularité et les critères d'information estimés sont assez bruyants, de sorte que les comparaisons pour les modèles non emboîtés sont hasardeuses bien que populaires. Si nous voulons comparer la vraisemblance de différents modèles de probabilité, nous devons nous assurer qu'ils incluent une constante de normalisation^[Les logiciels enlèvent parfois les termes ou constantes qui ne sont pas des fonctions des paramètres.]. Le $\mathsf{BIC}$ est plus strict que le $\mathsf{AIC}$, car sa pénalité augmente avec la taille de l'échantillon, ce qui permet de sélectionner des modèles plus parsimonieux. Le $\mathsf{BIC}$ est un critère **convergent**, ce qui signifie qu'il choisira le vrai modèle parmi un ensemble de modèles avec une probabilité de 1 lorsque $n \to \infty$ si ce dernier fait partie du catalogue de modèles à comparer. En pratique, cela présente peu d'intérêt si l'on suppose que tous les modèles sont des approximations de la réalité (il est peu probable que le vrai modèle soit inclus dans ceux que nous considérons). Pour sa part, $\mathsf{AIC}$ sélectionne souvent des modèles trop compliqués dans les grands échantillons, alors que $\mathsf{BIC}$ choisit des modèles trop simples.
 
-Une mise en garde s'impose: s'il est possible de comparer des modèles de régression non emboîtés à l'aide de critères d'information, ceux-ci ne peuvent être utilisés que lorsque la variable de réponse est la même. Vous pouvez comparer une régression de Poisson avec une régression linéaire pour une réponse $Y$ en utilisant des critères d'information à condition d'inclure toutes les constantes de normalisation dans votre modèle. Les logiciels omettent souvent les termes constants; cela n'a pas d'impact lorsque vous comparez des modèles avec les mêmes facteurs constants, mais cela a de l'importance lorsque ceux-ci diffèrent. Cependant, **on ne peut pas** les comparer à un modèle log-linéaire avec une réponse $\ln(Y)$. Les comparaisons entre les modèles log-linéaires et linéaires ne sont valables que si vous utilisez la vraisemblance de Box--Cox, car elle inclut le jacobien de la transformation.
 
+
+:::{#rem-warning-transformation}
+
+## Transformation de variables
+
+Une mise en garde s'impose: s'il est possible de comparer des modèles de régression non emboîtés à l'aide de critères d'information, ceux-ci ne peuvent être utilisés que lorsque la variable de réponse est la même. Pour démontrer ce point, on ajuste une loi normale au logarithme des temps d'attente, équivalent au modèle lognormal  `mod3` de l'@exm-aic.
+
+```{r}
+#| eval: true
+#| echo: true
+mod4 <- MASS::fitdistr(x = log(attente), densfun = "normal")
+# En raison de la transformation, 
+# la log vraisemblance est différente
+logLik(mod3) - logLik(mod4)
+# Le jacobien de la transformation est (d/dy log(y) = 1/y)
+# et donc on doit ajouter -log(y) de contribution à chaque obs.
+sum(-log(attente))
+```
+
+Ainsi, **on ne peut pas** comparer un modèle pour $Y$ à un modèle log-linéaire avec une réponse $\ln(Y)$ sans prendre en compte la transformation. Les comparaisons entre les modèles log-linéaires et linéaires ne sont valables que si vous utilisez la vraisemblance de Box--Cox, ou si vous incluez le jacobien de la transformation.
+
+:::
+
+Autre mise en garde: les logiciels omettent souvent les constantes de normalisation (par exemple, le $(2\pi)^{-1/2}$ pour la loi normale); cela n'a pas d'impact lorsque vous comparez des modèles avec les mêmes facteurs constants, mais cela a de l'importance lorsque ceux-ci diffèrent, par exemple si vous comparez une régression de Poisson avec une régression linéaire pour une réponse $Y$.
