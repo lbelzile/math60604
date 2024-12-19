@@ -119,15 +119,17 @@
 \makesavenoteenv{longtable}
 \usepackage{graphicx}
 \makeatletter
-\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
-\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
-\makeatother
-% Scale images if necessary, so that they will not overflow the page
-% margins by default, and it is still possible to overwrite the defaults
-% using explicit options in \includegraphics[width, height, ...]{}
-\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
 % Set default figure placement to htbp
-\makeatletter
 \def\fps@figure{htbp}
 \makeatother
 % definitions for citeproc citations
@@ -332,14 +334,14 @@
 \floatname{codelisting}{Énumération}
 \newcommand*\listoflistings{\listof{codelisting}{Liste des énumérations}}
 \usepackage{amsthm}
+\theoremstyle{plain}
+\newtheorem{corollary}{Corollaire}[chapter]
 \theoremstyle{definition}
 \newtheorem{definition}{Définition}[chapter]
-\theoremstyle{plain}
-\newtheorem{proposition}{Proposition}[chapter]
 \theoremstyle{definition}
 \newtheorem{example}{Exemple}[chapter]
 \theoremstyle{plain}
-\newtheorem{corollary}{Corollaire}[chapter]
+\newtheorem{proposition}{Proposition}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Preuve}}
 \newtheorem*{remark}{Remarque}
@@ -363,9 +365,6 @@
 % get rid of language-specific shorthands (see #6817):
 \let\LanguageShortHands\languageshorthands
 \def\languageshorthands#1{}
-\ifLuaTeX
-  \usepackage{selnolig}  % disable illegal ligatures
-\fi
 \usepackage{bookmark}
 
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
@@ -380,7 +379,7 @@
 
 \title{MATH 60604 - Modélisation statistique}
 \author{Léo Belzile}
-\date{2024-10-28}
+\date{2024-12-19}
 
 \begin{document}
 
@@ -755,7 +754,7 @@ fonction de répartition est ainsi définie comme
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{images/02-ttest-DF_illustration_fr.png}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{images/02-ttest-DF_illustration_fr.png}
 
 }
 
@@ -911,7 +910,7 @@ puisqu'elles permettent de dessiner un dinosaure ou une étoile.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{introduction_files/figure-pdf/fig-datasaurus-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{introduction_files/figure-pdf/fig-datasaurus-1.pdf}
 
 }
 
@@ -1125,7 +1124,7 @@ f(x) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}x^{\alpha-1}(1-x)
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{introduction_files/figure-pdf/fig-densite-beta-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{introduction_files/figure-pdf/fig-densite-beta-1.pdf}
 
 }
 
@@ -1170,7 +1169,7 @@ est aussi le mode de la distribution.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{introduction_files/figure-pdf/fig-normal-loc-echelle-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{introduction_files/figure-pdf/fig-normal-loc-echelle-1.pdf}
 
 }
 
@@ -1257,7 +1256,7 @@ suit une loi Student-\(t\) avec \(n-1\) degrés de liberté.
 
 \centering{
 
-\includegraphics[width=0.5\textwidth,height=\textheight]{introduction_files/figure-pdf/fig-densite-Student-1.pdf}
+\includegraphics[width=0.5\linewidth,height=\textheight,keepaspectratio]{introduction_files/figure-pdf/fig-densite-Student-1.pdf}
 
 }
 
@@ -1312,7 +1311,7 @@ mesurer les proportions) --- ce n'est pas de la tarte!
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{introduction_files/figure-pdf/fig-barplotrenfe-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{introduction_files/figure-pdf/fig-barplotrenfe-1.pdf}
 
 }
 
@@ -1346,7 +1345,7 @@ hauteur de l'histogramme nous renseigne sur leur fréquence relative.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{introduction_files/figure-pdf/fig-histrenfe-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{introduction_files/figure-pdf/fig-histrenfe-1.pdf}
 
 }
 
@@ -1380,7 +1379,7 @@ Elle représente graphiquement cinq statistiques descriptives.
 
 \begin{figure}[ht!]
 
-{\centering \includegraphics[width=0.85\textwidth,height=\textheight]{images/01-intro-boiteamoustache.pdf}
+{\centering \includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{images/01-intro-boiteamoustache.pdf}
 
 }
 
@@ -1400,7 +1399,7 @@ dans la Figure~\ref{fig-histboxplot}.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{introduction_files/figure-pdf/fig-histboxplot-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{introduction_files/figure-pdf/fig-histboxplot-1.pdf}
 
 }
 
@@ -1427,7 +1426,7 @@ compartiments hexagonaux contenant 10 000 points.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{introduction_files/figure-pdf/fig-nuagedepoints-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{introduction_files/figure-pdf/fig-nuagedepoints-1.pdf}
 
 }
 
@@ -1479,7 +1478,7 @@ uniforme \(\{\mathrm{rang}(Y_i)/(n+1), \widehat{F}(Y_i)\}\).
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{introduction_files/figure-pdf/fig-diagrammeqq2-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{introduction_files/figure-pdf/fig-diagrammeqq2-1.pdf}
 
 }
 
@@ -1603,7 +1602,7 @@ opérés par la Renfe.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{introduction_files/figure-pdf/fig-renfeclt-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{introduction_files/figure-pdf/fig-renfeclt-1.pdf}
 
 }
 
@@ -1628,7 +1627,7 @@ troisième, et ainsi de suite.
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{introduction_files/figure-pdf/fig-renfemeanCLT-1.pdf}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{introduction_files/figure-pdf/fig-renfemeanCLT-1.pdf}
 
 }
 
@@ -1696,7 +1695,7 @@ l'apprentissage en vase clos des recettes plutôt que d'essayer de
 comprendre les bases de la cuisine et de faire des liens. Ce chapitre se
 concentre sur la compréhension des concepts-clés liées aux tests.
 
-\begin{tcolorbox}[enhanced jigsaw, left=2mm, colbacktitle=quarto-callout-important-color!10!white, coltitle=black, colframe=quarto-callout-important-color-frame, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Objectifs d'apprentissage}, titlerule=0mm, opacitybacktitle=0.6, breakable, opacityback=0, colback=white, toptitle=1mm, bottomtitle=1mm, arc=.35mm, bottomrule=.15mm, leftrule=.75mm, toprule=.15mm, rightrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, breakable, opacitybacktitle=0.6, colback=white, toptitle=1mm, titlerule=0mm, colframe=quarto-callout-important-color-frame, left=2mm, opacityback=0, bottomtitle=1mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Objectifs d'apprentissage}, coltitle=black, leftrule=.75mm, colbacktitle=quarto-callout-important-color!10!white, arc=.35mm, rightrule=.15mm, toprule=.15mm]
 
 \begin{itemize}
 \tightlist
@@ -1737,7 +1736,7 @@ de données incorrectes.
 
 \centering{
 
-\includegraphics[width=0.6\textwidth,height=\textheight]{images/xkcd2569_hypothesis_generation.png}
+\includegraphics[width=0.6\linewidth,height=\textheight,keepaspectratio]{images/xkcd2569_hypothesis_generation.png}
 
 }
 
@@ -1805,7 +1804,7 @@ d'autres termes,
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{images/estimand.jpg}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{images/estimand.jpg}
 
 }
 
@@ -1817,7 +1816,7 @@ d'autres termes,
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{images/estimator.jpg}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{images/estimator.jpg}
 
 }
 
@@ -1829,7 +1828,7 @@ d'autres termes,
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{images/estimate.jpg}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{images/estimate.jpg}
 
 }
 
@@ -1863,7 +1862,7 @@ comme le montre si bien la Figure~\ref{fig-xkcd605}.
 
 \centering{
 
-\includegraphics[width=0.7\textwidth,height=\textheight]{images/xkcd2581_health_stats.png}
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{images/xkcd2581_health_stats.png}
 
 }
 
@@ -1890,7 +1889,7 @@ moyennes) tout en tenant compte du bruit de fond.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{inference_files/figure-pdf/fig-samplevar-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{inference_files/figure-pdf/fig-samplevar-1.pdf}
 
 }
 
@@ -1947,7 +1946,7 @@ probabilité d'être tiré.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{inference_files/figure-pdf/fig-unifsamp1-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{inference_files/figure-pdf/fig-unifsamp1-1.pdf}
 
 }
 
@@ -1993,7 +1992,7 @@ un obstacle à l'obtention d'une distribution uniforme.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{inference_files/figure-pdf/fig-uniformsamp2-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{inference_files/figure-pdf/fig-uniformsamp2-1.pdf}
 
 }
 
@@ -2172,7 +2171,7 @@ l'alternative, l'obtention de petites valeurs\(-\)p est plus plausible.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{inference_files/figure-pdf/fig-power-plots-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{inference_files/figure-pdf/fig-power-plots-1.pdf}
 
 }
 
@@ -2273,7 +2272,7 @@ obtenues pour un échantillon donné.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{inference_files/figure-pdf/fig-intconf-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{inference_files/figure-pdf/fig-intconf-1.pdf}
 
 }
 
@@ -2345,9 +2344,9 @@ l'hydrochloroquine, un antipaludique, soit efficace face au virus de la
 Covid19).
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
-  >{\centering\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
-  >{\centering\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\centering\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\centering\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 \textbf{Décision} \textbackslash{} \textbf{vrai modèle}
@@ -2384,7 +2383,7 @@ probabilité d'obtenir une valeur de la statistique de test égale ou même
 plus grande que celle qu'on a observée dans l'échantillon, si
 \(\mathscr{H}_0\) est vraie.
 
-\begin{tcolorbox}[enhanced jigsaw, left=2mm, colbacktitle=quarto-callout-caution-color!10!white, coltitle=black, colframe=quarto-callout-caution-color-frame, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Mise en garde}, titlerule=0mm, opacitybacktitle=0.6, breakable, opacityback=0, colback=white, toptitle=1mm, bottomtitle=1mm, arc=.35mm, bottomrule=.15mm, leftrule=.75mm, toprule=.15mm, rightrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, breakable, opacitybacktitle=0.6, colback=white, toptitle=1mm, titlerule=0mm, colframe=quarto-callout-caution-color-frame, left=2mm, opacityback=0, bottomtitle=1mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Mise en garde}, coltitle=black, leftrule=.75mm, colbacktitle=quarto-callout-caution-color!10!white, arc=.35mm, rightrule=.15mm, toprule=.15mm]
 
 L'\href{https://doi.org/10.1080/00031305.2016.1154108}{\emph{American
 Statistical Association (ASA)} a publié une liste de principes}
@@ -2461,7 +2460,7 @@ facile de rejeter l'hypothèse nulle en faveur de l'alternative.
 
 \centering{
 
-\includegraphics[width=1\textwidth,height=\textheight]{inference_files/figure-pdf/fig-puissance-1.pdf}
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{inference_files/figure-pdf/fig-puissance-1.pdf}
 
 }
 
@@ -2671,7 +2670,7 @@ probabilité d'être promu) (pourquoi ?)
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{inference_files/figure-pdf/fig-infer-odds-ratio-permutation-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{inference_files/figure-pdf/fig-infer-odds-ratio-permutation-1.pdf}
 
 }
 
@@ -2935,7 +2934,7 @@ comparaison, c'est autant de preuves contre l'hypothèse nulle.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{inference_files/figure-pdf/fig-renfepermut-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{inference_files/figure-pdf/fig-renfepermut-1.pdf}
 
 }
 
@@ -2972,7 +2971,7 @@ Ce chapitre traite de modélisation statistique et d'inférence basée sur
 la vraisemblance, la méthodologie la plus populaire dans le monde de la
 statistique.
 
-\begin{tcolorbox}[enhanced jigsaw, left=2mm, colbacktitle=quarto-callout-important-color!10!white, coltitle=black, colframe=quarto-callout-important-color-frame, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, titlerule=0mm, opacitybacktitle=0.6, breakable, opacityback=0, colback=white, toptitle=1mm, bottomtitle=1mm, arc=.35mm, bottomrule=.15mm, leftrule=.75mm, toprule=.15mm, rightrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, breakable, opacitybacktitle=0.6, colback=white, toptitle=1mm, titlerule=0mm, colframe=quarto-callout-important-color-frame, left=2mm, opacityback=0, bottomtitle=1mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, coltitle=black, leftrule=.75mm, colbacktitle=quarto-callout-important-color!10!white, arc=.35mm, rightrule=.15mm, toprule=.15mm]
 
 \textbf{Objectifs d'apprentissage}
 
@@ -3023,7 +3022,7 @@ positives, notre modèle doit donc tenir compte de cette caractéristique.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{vraisemblance_files/figure-pdf/fig-attente-hist-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{vraisemblance_files/figure-pdf/fig-attente-hist-1.pdf}
 
 }
 
@@ -3738,7 +3737,7 @@ statistiques pour tester cette hypothèse, soit
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{images/likelihood_tests_fr.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{images/likelihood_tests_fr.pdf}
 
 }
 
@@ -3799,7 +3798,7 @@ rayons.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{vraisemblance_files/figure-pdf/fig-ellipses-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{vraisemblance_files/figure-pdf/fig-ellipses-1.pdf}
 
 }
 
@@ -3843,7 +3842,7 @@ peut laisser à désirer si la loi d'échantillonnage de
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{vraisemblance_files/figure-pdf/fig-weibull-profile-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{vraisemblance_files/figure-pdf/fig-weibull-profile-1.pdf}
 
 }
 
@@ -3915,7 +3914,7 @@ suggère que l'ajustement du modèle est adéquat.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{vraisemblance_files/figure-pdf/fig-qqplots-weibull-exp-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{vraisemblance_files/figure-pdf/fig-qqplots-weibull-exp-1.pdf}
 
 }
 
@@ -4233,7 +4232,7 @@ quantile d'une variable aléatoire \(\chi^2_1\).
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{vraisemblance_files/figure-pdf/fig-profile-mu-weibull-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{vraisemblance_files/figure-pdf/fig-profile-mu-weibull-1.pdf}
 
 }
 
@@ -4344,8 +4343,8 @@ l'Exemple~\ref{exm-aic}.
 \NormalTok{mod4 }\OtherTok{\textless{}{-}}\NormalTok{ MASS}\SpecialCharTok{::}\FunctionTok{fitdistr}\NormalTok{(}\AttributeTok{x =} \FunctionTok{log}\NormalTok{(attente), }\AttributeTok{densfun =} \StringTok{"normal"}\NormalTok{)}
 \CommentTok{\# En raison de la transformation, }
 \CommentTok{\# la log vraisemblance est différente}
-\FunctionTok{logLik}\NormalTok{(mod4) }\SpecialCharTok{{-}} \FunctionTok{logLik}\NormalTok{(mod3)}
-\CommentTok{\#\textgreater{} \textquotesingle{}log Lik.\textquotesingle{} 202 (df=2)}
+\FunctionTok{logLik}\NormalTok{(mod3) }\SpecialCharTok{{-}} \FunctionTok{logLik}\NormalTok{(mod4)}
+\CommentTok{\#\textgreater{} \textquotesingle{}log Lik.\textquotesingle{} {-}202 (df=2)}
 \CommentTok{\# Le jacobien de la transformation est (d/dy log(y) = 1/y)}
 \CommentTok{\# et donc on doit ajouter {-}log(y) de contribution à chaque obs.}
 \FunctionTok{sum}\NormalTok{(}\SpecialCharTok{{-}}\FunctionTok{log}\NormalTok{(attente))}
@@ -4647,7 +4646,7 @@ salaires varient sur cette échelle.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-edacollege-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{regression-lineaire_files/figure-pdf/fig-edacollege-1.pdf}
 
 }
 
@@ -4854,7 +4853,7 @@ puisque cette hypothèse nulle correspond à \(\mathscr{H}_0: \beta_1=0\).
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-donation-moon-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{regression-lineaire_files/figure-pdf/fig-donation-moon-1.pdf}
 
 }
 
@@ -5041,12 +5040,12 @@ Le modèle linéaire postulé s'écrit
 \end{align*}
 
 \begin{longtable}[]{@{}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1667}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1667}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1667}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1667}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1667}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1667}}@{}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}@{}}
 
 \caption{\label{tbl-collegecoefs}Estimations des coefficients du modèle
 linéaire pour les données \(\texttt{college}\) (en dollars USD, arrondis
@@ -5153,7 +5152,7 @@ qui n'inclut que puissance.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-autoquad2d-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{regression-lineaire_files/figure-pdf/fig-autoquad2d-1.pdf}
 
 }
 
@@ -5188,7 +5187,7 @@ représenté en gris dans la Figure~\ref{fig-hyperplan}.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{images/hyperplan_auto.png}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{images/hyperplan_auto.png}
 
 }
 
@@ -5229,7 +5228,7 @@ entre les observations \(y_i\) et les \textbf{valeurs ajustées}
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-vertdist-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{regression-lineaire_files/figure-pdf/fig-vertdist-1.pdf}
 
 }
 
@@ -5317,7 +5316,7 @@ Le modèle de régression linéaire spécifie que les observations
 sont indépendantes. Le modèle linéaire a \(p+2\) paramètres
 (\(\boldsymbol{\beta}\) et \(\sigma^2\)) et la log-vraisemblance est,
 abstraction faite des termes constants, \begin{align*}
-\ell(\boldsymbol{\beta}, \sigma)&\propto-\frac{n}{2} \ln (\sigma^2) -\frac{1}{2\sigma^2}\left\{(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\right\}^2.
+\ell(\boldsymbol{\beta}, \sigma)&\propto-\frac{n}{2} \ln (\sigma^2) -\frac{1}{2\sigma^2}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}).
 \end{align*} Maximiser la log-vraisemblance par rapport à
 \(\boldsymbol{\beta}\) revient à minimiser la somme du carré des erreurs
 \(\sum_{i=1}^n (y_i - \mathbf{x}_i\boldsymbol{\beta})^2\), quelle que
@@ -5526,7 +5525,7 @@ que les courbes s'en écartent peu.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-predinterval-1.png}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{regression-lineaire_files/figure-pdf/fig-predinterval-1.png}
 
 }
 
@@ -6308,7 +6307,7 @@ s'appliquer aux non-fumeurs.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-insuranceinter1-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{regression-lineaire_files/figure-pdf/fig-insuranceinter1-1.pdf}
 
 }
 
@@ -6341,7 +6340,7 @@ voir le panneau gauche de Figure~\ref{fig-interaction-slope}.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-interaction-slope-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{regression-lineaire_files/figure-pdf/fig-interaction-slope-1.pdf}
 
 }
 
@@ -6519,7 +6518,7 @@ lignes parallèles, mais il faut tenir compte de l'incertitude.
 
 \centering{
 
-\includegraphics[width=1\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-2by2-1.pdf}
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{regression-lineaire_files/figure-pdf/fig-2by2-1.pdf}
 
 }
 
@@ -6732,7 +6731,7 @@ différences entre deux facteurs.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-interaction-ST-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{regression-lineaire_files/figure-pdf/fig-interaction-ST-1.pdf}
 
 }
 
@@ -6758,10 +6757,10 @@ signifie que chaque cellule a le même nombre de réplications \(n_r\), de
 sorte que le nombre total d'observations est \(n = n_an_bn_r\).
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2065}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2500}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2500}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2935}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2065}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2935}}@{}}
 
 \caption{\label{tbl-ssdecompo}Décomposition de la somme des carrés dans
 les tableaux d'ANOVA (termes de l'hypothèse nulle vs l'alternative).}
@@ -6895,7 +6894,7 @@ politique. L'étude utilise un devis expérimental
 \end{Shaded}
 
 \begin{center}
-\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/unnamed-chunk-39-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{regression-lineaire_files/figure-pdf/unnamed-chunk-39-1.pdf}
 \end{center}
 
 Pour l'ANOVA à \(K\) facteurs, nous commençons toujours par estimer le
@@ -6906,11 +6905,11 @@ pouvons fixer un ou plusieurs niveaux de facteurs et comparer les
 autres.
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.4478}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2537}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.0597}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1045}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1343}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.4478}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2537}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.0597}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1045}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1343}}@{}}
 
 \caption{\label{tbl-anova-LKUK24}Tableau d'analyse de variance
 (décomposition de type 2) pour l'étude 4 de Lin et al.
@@ -7091,7 +7090,7 @@ graphiques.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-zerocor-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{regression-lineaire_files/figure-pdf/fig-zerocor-1.pdf}
 
 }
 
@@ -7476,7 +7475,7 @@ Tableau~\ref{tbl-vif-college}) n'est pas élevé et l'inclusion sert à
 
 \centering{
 
-\includegraphics[width=1\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-addedvariableplots-1.pdf}
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{regression-lineaire_files/figure-pdf/fig-addedvariableplots-1.pdf}
 
 }
 
@@ -7534,7 +7533,7 @@ problématique.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-outliers-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{regression-lineaire_files/figure-pdf/fig-outliers-1.pdf}
 
 }
 
@@ -7655,7 +7654,7 @@ pas sur l'axe des abcisses.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-regdiaglin-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{regression-lineaire_files/figure-pdf/fig-regdiaglin-1.pdf}
 
 }
 
@@ -7732,7 +7731,7 @@ tendances, il est préférable de tracer la valeur absolue des résidus
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-diagfitvalhomosce-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{regression-lineaire_files/figure-pdf/fig-diagfitvalhomosce-1.pdf}
 
 }
 
@@ -7780,7 +7779,7 @@ d'homoscédasticité]\protect\hypertarget{exm-heterogeneity}{}\label{exm-heterog
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-simuWelchnull-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{regression-lineaire_files/figure-pdf/fig-simuWelchnull-1.pdf}
 
 }
 
@@ -7864,7 +7863,7 @@ conduit à des rejets plus fréquents des hypothèses nulles, par erreur.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-plotLevelIndep-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{regression-lineaire_files/figure-pdf/fig-plotLevelIndep-1.pdf}
 
 }
 
@@ -7906,7 +7905,7 @@ temps et un nuage de points des résidus retardés \(e_i\) par rapport à
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-timeresidplot-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{regression-lineaire_files/figure-pdf/fig-timeresidplot-1.pdf}
 
 }
 
@@ -7951,7 +7950,7 @@ plus souvent que nous ne le devrions si l'hypothèse nulle était vraie
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-correlogram-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{regression-lineaire_files/figure-pdf/fig-correlogram-1.pdf}
 
 }
 
@@ -8020,7 +8019,7 @@ résiduels.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-qqplotresid-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{regression-lineaire_files/figure-pdf/fig-qqplotresid-1.pdf}
 
 }
 
@@ -8048,7 +8047,7 @@ sauts dans le tracé.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-qqplotsbad-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{regression-lineaire_files/figure-pdf/fig-qqplotsbad-1.pdf}
 
 }
 
@@ -8070,7 +8069,7 @@ route.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-diagplotscollege-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{regression-lineaire_files/figure-pdf/fig-diagplotscollege-1.pdf}
 
 }
 
@@ -8145,7 +8144,7 @@ corriger l'hétéroscédasticité.
 \end{Shaded}
 
 \begin{center}
-\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/unnamed-chunk-59-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{regression-lineaire_files/figure-pdf/unnamed-chunk-59-1.pdf}
 \end{center}
 
 Le modèle est ajusté par maximum de vraisemblance restreint avec la
@@ -8337,7 +8336,7 @@ normalité, mais la non-linéarité et l'hétéroscédasticité le masquent.
 
 \centering{
 
-\includegraphics[width=0.85\textwidth,height=\textheight]{regression-lineaire_files/figure-pdf/fig-poisonplots-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{regression-lineaire_files/figure-pdf/fig-poisonplots-1.pdf}
 
 }
 

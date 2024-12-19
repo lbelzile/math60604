@@ -669,7 +669,7 @@ Nous pourrions également envisager l'estimation du maximum de vraisemblance. @p
 Le modèle de régression linéaire spécifie que les observations $Y_i \sim \mathsf{normale}(\mathbf{x}_i\boldsymbol{\beta}, \sigma^2)$ sont indépendantes. 
 Le modèle linéaire a $p+2$ paramètres ($\boldsymbol{\beta}$ et $\sigma^2$) et la log-vraisemblance est, abstraction faite des termes constants,
 \begin{align*}
-\ell(\boldsymbol{\beta}, \sigma)&\propto-\frac{n}{2} \ln (\sigma^2) -\frac{1}{2\sigma^2}\left\{(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\right\}^2.
+\ell(\boldsymbol{\beta}, \sigma)&\propto-\frac{n}{2} \ln (\sigma^2) -\frac{1}{2\sigma^2}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}).
 \end{align*}
 Maximiser la log-vraisemblance par rapport à $\boldsymbol{\beta}$ revient à minimiser la somme du carré des erreurs $\sum_{i=1}^n (y_i - \mathbf{x}_i\boldsymbol{\beta})^2$, quelle que soit la valeur de  $\sigma$, et on recouvre $\widehat{\boldsymbol{\beta}}$. L'estimateur du maximum de vraisemblance de la variance  $\widehat{\sigma}^2$ est
 \begin{align*}
