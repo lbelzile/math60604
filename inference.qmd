@@ -598,7 +598,7 @@ knitr::kable(table1b,
 ```
 
 
-L'hypothèse nulle qui nous intéresse ici est que le sexe n'a pas d'impact, de sorte que la probabilité de promotion est la même pour les hommes et les femmes. Soit $p_{\text{h}}$ et $p_{\text{f}}$ ces probabilités respectives; nous pouvons donc écrire mathématiquement l'hypothèse nulle comme $\mathscr{H}_0: p_{\text{h}} = p_{\text{f}}$ contre l'alternative $\mathscr{H}_a: p_{\text{h}} \neq p_{\text{f}}$.
+L'hypothèse nulle qui nous intéresse ici est que le sexe n'a pas d'impact, de sorte que la probabilité de promotion est la même pour les hommes et les femmes. Soit $p_{\text{h}}$ et $p_{\text{f}}$ ces probabilités respectives; nous pouvons donc écrire mathématiquement l'hypothèse nulle comme $\mathscr{H}_0: p_{\text{h}} = p_{\text{f}}$ contre l'alternative $\mathscr{H}_a: p_{\text{h}} \neq p_{\text{f}}.$
 
 La statistique de test généralement employée pour les tableaux de contingence est un test du chi carré^[Si vous avez suivi des cours de modélisation avancés, il s'agit d'un test de score obtenu en ajustant une régression de Poisson avec `sexe` et `action` comme covariables; l'hypothèse nulle correspondant à l'absence de terme d'interaction entre les deux.], qui compare les proportions globales de promotion de chaque sous-groupe. La proportion de l'échantillon pour les hommes est de 32/42 = \~76%, contre 19/49 =\~49% pour les femmes. Bien que cette différence de 16 % semble importante, elle pourrait être trompeuse: l'erreur type pour les proportions de l'échantillon est d'environ 3.2 % pour les hommes et 3.4 % pour les femmes.
 
@@ -615,7 +615,7 @@ obs_stat <- chisq.test(x = dat_exper1,
                        correct = FALSE)
 ```
 
-Si les effectifs de chaque cellule sont importants, la distribution nulle du test du chi-deux est bien approximée par une distribution de $\chi^2$. La sortie du test comprend la valeur de la statistique, $`r as.numeric(round(obs_stat$statistic, 2))`,$ les degrés de liberté de l'approximation $\chi^2$ et la valeur _p_, qui donne la probabilité qu'un tirage aléatoire d'une distribution $\chi^2_1$ soit plus grand que la statistique de test observée **en supposant que l'hypothèse nulle est vraie**. La valeur _p_ est très petite, $`r round(obs_stat$p.value,4)`$, ce qui signifie qu'il est très peu probable qu'un tel résultat soit le fruit du hasard s'il n'y a pas eu de discrimination fondée sur le sexe.
+Si les effectifs de chaque cellule sont importants, la distribution nulle du test du chi-deux est bien approximée par une distribution de $\chi^2.$ La sortie du test comprend la valeur de la statistique, $`r as.numeric(round(obs_stat$statistic, 2))`,$ les degrés de liberté de l'approximation $\chi^2$ et la valeur _p_, qui donne la probabilité qu'un tirage aléatoire d'une distribution $\chi^2_1$ soit plus grand que la statistique de test observée **en supposant que l'hypothèse nulle est vraie**. La valeur _p_ est très petite, $`r round(obs_stat$p.value,4)`,$ ce qui signifie qu'il est très peu probable qu'un tel résultat soit le fruit du hasard s'il n'y a pas eu de discrimination fondée sur le sexe.
 
 
 
@@ -698,7 +698,7 @@ L'article concluait (à la lumière de ce qui précède et d'autres expériences
 
 **Récapitulatif**
 
-- Paramètres du modèle: probabilité de promotion pour les hommes et les femmes, respectivement $p_{\text{h}}$ et $p_{\text{f}}$.
+- Paramètres du modèle: probabilité de promotion pour les hommes et les femmes, respectivement $p_{\text{h}}$ et $p_{\text{f}}.$
 - Hypothèses: pas de discrimination fondée sur le sexe, ce qui signifie une probabilité de promotion égale (hypothèse nulle
 $\mathscr{H}_0: p_{\text{h}}=p_{\text{f}},$ contre hypothèse alternative $\mathscr{H}_a: p_{\text{h}}\neq p_{\text{f}}$).
 - Statistique de test: (1) test du khi-deux pour les tableaux de contingence et (2) rapport de cotes.
@@ -832,7 +832,7 @@ où $\texttt{video}=0$ si la paire se trouve dans la même pièce et $\texttt{vi
 
 Le nombre moyen d'idées pour la vidéoconférence est donc $\exp(\beta_1)$ multiplié par celui du face à face: l'estimation du facteur multiplicatif est $\exp(\beta_1)$ est $`r papaja::print_num(exp(coef(negbin)[2]))`$ `r papaja::print_confint(exp(confint(negbin)[2,]),enclose_math = TRUE)`.
 
-L'absence de différence entre les conditions expérimentales se traduit par l'hypothèse nulle $\mathscr{H}_0: \beta_1=0$ vs $\mathscr{H}_0: \beta_1 \neq 0$ ou, de manière équivalente, $\mathscr{H}_0: \exp(\beta_1)=1$. Le test du rapport de vraisemblance comparant le modèle de régression avec et sans $\texttt{video}$ la statistique est $R=`r papaja::printnum(LRT_negbin)`$ (valeur-$p$ basée sur $\chi^2_1$ de $`r papaja::print_p(pval_negbin)`$). Nous concluons que le nombre moyen d'idées est différent, les statistiques sommaires suggérant que les paires virtuelles génèrent moins d'idées.
+L'absence de différence entre les conditions expérimentales se traduit par l'hypothèse nulle $\mathscr{H}_0: \beta_1=0$ vs $\mathscr{H}_0: \beta_1 \neq 0$ ou, de manière équivalente, $\mathscr{H}_0: \exp(\beta_1)=1.$ Le test du rapport de vraisemblance comparant le modèle de régression avec et sans $\texttt{video}$ la statistique est $R=`r papaja::printnum(LRT_negbin)`$ (valeur-$p$ basée sur $\chi^2_1$ de $`r papaja::print_p(pval_negbin)`$). Nous concluons que le nombre moyen d'idées est différent, les statistiques sommaires suggérant que les paires virtuelles génèrent moins d'idées.
 
 
 Si nous avions eu recours à un test-$t$ pour deux échantillons indépendants, nous aurions trouvé une différence moyenne dans le nombre d'idées créatives de `r papaja::apa_print(ttest_BL22)$full_result`.

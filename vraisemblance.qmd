@@ -109,7 +109,7 @@ La fonction de densité conjointe ne se factorise que pour les données indépen
 \begin{align*}
 f(\boldsymbol{y}) = f(y_1) \times f(y_2 \mid y_1) \times \ldots f(y_n \mid y_1, \ldots, y_n)
 \end{align*}
-en termes de densitées conditionnelles. Une telle décomposition est particulièrement utile pour les séries temporelles, où les données sont ordonnées du temps $1$ au temps $n$ et où les modèles relient généralement l'observation $y_n$ à son passé. Par exemple, le processus $\mathsf{AR}(1)$ stipule que $Y_t \mid Y_{t-1}=y_{t-1} \sim \mathsf{normale}(\alpha + \beta y_{t-1}, \sigma^2)$ et nous pouvons simplifier la log-vraisemblance en utilisant la propriété de Markov, qui stipule que la réalisation actuelle dépend du passé, $Y_t \mid Y_1, \ldots, Y_{t-1},$ uniquement à travers la valeur la plus récente $Y_{t-1}$. La log-vraisemblance devient donc
+en termes de densitées conditionnelles. Une telle décomposition est particulièrement utile pour les séries temporelles, où les données sont ordonnées du temps $1$ au temps $n$ et où les modèles relient généralement l'observation $y_n$ à son passé. Par exemple, le processus $\mathsf{AR}(1)$ stipule que $Y_t \mid Y_{t-1}=y_{t-1} \sim \mathsf{normale}(\alpha + \beta y_{t-1}, \sigma^2)$ et nous pouvons simplifier la log-vraisemblance en utilisant la propriété de Markov, qui stipule que la réalisation actuelle dépend du passé, $Y_t \mid Y_1, \ldots, Y_{t-1},$ uniquement à travers la valeur la plus récente $Y_{t-1}.$ La log-vraisemblance devient donc
 \begin{align*}
 \ell(\boldsymbol{\theta}) = \ln f(y_1) + \sum_{i=2}^n f(y_i \mid y_{i-1}).
 \end{align*}
@@ -128,7 +128,7 @@ L'**estimateur du maximum de vraisemblance** (EMV) $\widehat{\boldsymbol{\theta}
 Le logarithme naturel $\ln$ est une transformation monotone, il est donc préférable de calculer les EMV sur l'échelle logarithmique pour éviter les imprécisions numériques et maximiser de manière équivalente la log-vraisemblance $\ell(\boldsymbol{\theta}; \boldsymbol{y}) = \ln L(\boldsymbol{\theta}; \boldsymbol{y}).$^[Puisque dans la plupart des cas on a un produit de densités, prendre le logarithme transforme un produit de termes potentiellement petits en une somme de log densités, ce qui est plus facile côté dérivation et plus stable du point de vue du calcul numérique.]
 :::
 
-Si nous supposons que notre modèle est correct, nous nous attendons à observer ce qui a été réalisé, et nous trouvons donc le vecteur de paramètres qui rend l'échantillon le plus susceptible d'avoir été généré par notre modèle. Plusieurs propriétés de l'estimateur du maximum de vraisemblance le rendent intéressant pour l'inférence. L'estimateur du maximum de vraisemblance est efficace, c'est-à-dire qu'il présente l'erreur quadratique moyenne asymptotique la plus faible de tous les estimateurs. L'estimateur du maximum de vraisemblance est également **convergent**, c'est-à-dire qu'il approche de la vraie valeur du paramètre inconnu à mesure que la taille de l'échantillon augmente (asymptotiquement sans biais).
+Si nous supposons que notre modèle est correct, nous nous attendons à observer ce qui a été réalisé, et nous trouvons donc le vecteur de paramètres qui rend l'échantillon le plus susceptible d'avoir été généré par notre modèle. Plusieurs propriétés de l'estimateur du maximum de vraisemblance le rendent intéressant pour l'inférence. L'estimateur du maximum de vraisemblance est efficace, c'est-à-dire qu'il présente l'erreur quadratique moyenne asymptotique la plus faible de tous les estimateurs. L'estimateur du maximum de vraisemblance est également **cohérent**, c'est-à-dire qu'il approche de la vraie valeur du paramètre inconnu à mesure que la taille de l'échantillon augmente (asymptotiquement sans biais, convergence en probabilité).
 
 La plupart du temps, nous allons recourir à des routines d'optimisation numérique pour trouver la valeur de l'estimation du maximum de vraisemblance, ou parfois dériver des expressions explicites pour l'estimateur, à partir de la log-vraisemblance. Le panneau de droite de @fig-attente-hist montre la log-vraisemblance exponentielle, qui atteint un maximum à $\widehat{\lambda}=`r mean(attente)`$ secondes, la moyenne de l'échantillon des observations. La fonction diminue de part et d'autre de ces valeurs à mesure que les données deviennent moins compatibles avec le modèle. Compte tenu de l'échelle pour la log-vraisemblance, ici pour un petit échantillon, il est facile de voir que l'optimisation directe de la fonction de vraisemblance (plutôt que de son logarithme naturel) pourrait conduire à un débordement numérique, puisque $\exp(-270) \approx 5.5 \times 10^{-118},$ et que les valeurs logarithmiques inférieures à $-746$ seraient arrondies à zéro.
 
@@ -144,7 +144,7 @@ Si on calcule la dérivée première et que l'on fixe cette dernière à zéro, 
 \begin{align*}
 \frac{\mathrm{d} \ell(\lambda)}{\mathrm{d} \lambda}  = -\frac{n}{\lambda} + \frac{1}{\lambda^2} \sum_{i=1}^n y_i = 0.
 \end{align*}
-En réarrangeant cette expression pour amener $-n/\lambda$ à droite de l'égalité, et en multipliant les deux côtés par $\lambda^2>0,$ on obtient que le point d'inflexion se situe à $\widehat{\lambda} = \sum_{i=1}^n y_i / n.$ La dérivée deuxième de la log vraisemblance est $\mathrm{d}^2 \ell(\lambda)/\mathrm{d} \lambda^2 = n(\lambda^{-2} - 2\lambda^{-3}\overline{y}),$ et si on évalue cette dernière à $\lambda = \overline{y}$, on trouve une valeur négative, $-n/\overline{y}^2.$ Cela confirme que $\widehat{\lambda}$ est la valeur où la fonction atteint son maximum.
+En réarrangeant cette expression pour amener $-n/\lambda$ à droite de l'égalité, et en multipliant les deux côtés par $\lambda^2>0,$ on obtient que le point d'inflexion se situe à $\widehat{\lambda} = \sum_{i=1}^n y_i / n.$ La dérivée deuxième de la log vraisemblance est $\mathrm{d}^2 \ell(\lambda)/\mathrm{d} \lambda^2 = n(\lambda^{-2} - 2\lambda^{-3}\overline{y}),$ et si on évalue cette dernière à $\lambda = \overline{y},$ on trouve une valeur négative, $-n/\overline{y}^2.$ Cela confirme que $\widehat{\lambda}$ est la valeur où la fonction atteint son maximum.
 
 :::
 
@@ -152,7 +152,7 @@ En réarrangeant cette expression pour amener $-n/\lambda$ à droite de l'égali
 :::{#exm-emv-normal}
 
 ## Échantillons de loi normale
-Supposons que nous disposions de $n$ observations de loi normale de paramètres de moyenne $\mu$ et de variance $\sigma^2$, où $Y_i \sim \mathsf{normale}(\mu, \sigma^2)$ sont indépendants. 
+Supposons que nous disposions de $n$ observations de loi normale de paramètres de moyenne $\mu$ et de variance $\sigma^2,$ où $Y_i \sim \mathsf{normale}(\mu, \sigma^2)$ sont indépendants. 
 Rappelons que la densité de la loi normale est
 \begin{align*}
 f(y; \mu, \sigma^2)=\frac{1}{(2\pi \sigma^2)^{1/2}}\exp\left\{-\frac{1}{2\sigma^2}(x-\mu)^2\right\}.
@@ -171,11 +171,11 @@ On peut montrer que les estimateurs du maximum de vraisemblance pour les deux pa
 \widehat{\mu}=\overline{Y}=\frac{1}{n} \sum_{i=1}^n Y_i, \qquad \widehat{\sigma}^2=\frac{1}{n}\sum_{i=1}^n (Y_i-\overline{Y})^2.
 \end{align*}
 
-Le fait que l'estimateur de la moyenne théorique $\mu$ soit la moyenne de l'échantillon est assez intuitif et on peut montrer que l'estimateur est sans biais pour $\mu$. L'estimateur sans biais de la variance de l'échantillon est
+Le fait que l'estimateur de la moyenne théorique $\mu$ soit la moyenne de l'échantillon est assez intuitif et on peut montrer que l'estimateur est sans biais pour $\mu.$ L'estimateur sans biais de la variance de l'échantillon est
 \begin{align*}
 S^2=\frac{1}{n-1} \sum_{i=1}^n (Y_i-\overline{Y})^2.
 \end{align*}
-Puisque $\widehat{\sigma}^2=(n-1)/n S^2$, il s'ensuit que l'estimateur du maximum de vraisemblance de $\sigma^2$ est biaisé, mais les deux estimateurs sont convergents et s'approcheront donc de la vraie valeur $\sigma^2$ pour $n$ suffisamment grand.
+Puisque $\widehat{\sigma}^2=(n-1)/n S^2,$ il s'ensuit que l'estimateur du maximum de vraisemblance de $\sigma^2$ est biaisé, mais les deux estimateurs sont cohérents et s'approcheront donc de la vraie valeur $\sigma^2$ pour $n$ suffisamment grand.
 
 :::
 
@@ -183,32 +183,32 @@ Puisque $\widehat{\sigma}^2=(n-1)/n S^2$, il s'ensuit que l'estimateur du maximu
 
 ## Moindres carrés ordinaires
 
-Le cas des données normalement distribuées est intimement lié à la régression linéaire et aux moindres carrés ordinaires: en supposant la normalité des erreurs, les estimateurs des moindres carrés de $\boldsymbol{\beta}$ coïncident avec l'estimateur du maximum de vraisemblance de $\boldsymbol{\beta}$.
+Le cas des données normalement distribuées est intimement lié à la régression linéaire et aux moindres carrés ordinaires: en supposant la normalité des erreurs, les estimateurs des moindres carrés de $\boldsymbol{\beta}$ coïncident avec l'estimateur du maximum de vraisemblance de $\boldsymbol{\beta}.$
 
-Le modèle de régression linéaire spécifie que $Y_i \sim \mathsf{normale}(\mathbf{X}_i\boldsymbol{\beta}, \sigma^2)$, ou de manière équivalente
+Le modèle de régression linéaire spécifie que $Y_i \sim \mathsf{normale}(\mathbf{X}_i\boldsymbol{\beta}, \sigma^2),$ ou de manière équivalente
 \begin{align*}
 Y_i=\beta_0+\beta_1 \mathrm{X}_{i1}+\beta_2 \mathrm{X}_{i2}+\ldots +\beta_p \mathrm{X}_{ip} + \varepsilon_i, \qquad  (i=1, \ldots, n),
 \end{align*}
-avec des aléas $\varepsilon_i \sim \mathsf{normale}(0, \sigma^2)$.
+avec des aléas $\varepsilon_i \sim \mathsf{normale}(0, \sigma^2).$
 Le modèle linéaire a $p+2$ paramètres ($\boldsymbol{\beta}$ et $\sigma^2$) et la log-vraisemblance est
 \begin{align*}
-\ell(\boldsymbol{\theta})&=-\frac{n}{2} \ln(2\pi)-\frac{n}{2} \ln (\sigma^2) -\frac{1}{2\sigma^2}\left\{(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\right\}^2.
+\ell(\boldsymbol{\theta})&=-\frac{n}{2} \ln(2\pi)-\frac{n}{2} \ln (\sigma^2) -\frac{(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{2\sigma^2}.
 \end{align*}
-Maximiser la log-vraisemblance par rapport à $\boldsymbol{\beta}$ équivaut à
-minimiser la somme des erreurs quadratiques $\|\boldsymbol{y} - \widehat{\boldsymbol{y}}\|^2$. Cette fonction objective étant la même que celle des moindres carrés, il s'ensuit que l'estimateur des moindres carrés $\widehat{\boldsymbol{\beta}}$ pour les paramètres de la moyenne est aussi l'estimateur du maximum de vraisemblance si les aléas ont la même variance $\sigma^2$, quelle que soit la valeur de cette dernière. L'estimateur du maximum de vraisemblance $\widehat{\sigma}^2$ est donc
+Si on dénote par $\widehat{\boldsymbol{y}}=\mathbf{X}\widehat{\boldsymbol{\beta}}$ les prédictions du modèle, maximiser la log-vraisemblance par rapport à $\boldsymbol{\beta}$ équivaut à
+minimiser la somme des erreurs quadratiques $\|\boldsymbol{y} - \widehat{\boldsymbol{y}}\|^2.$ Cette fonction objective étant la même que celle des moindres carrés, il s'ensuit que l'estimateur des moindres carrés $\widehat{\boldsymbol{\beta}}$ pour les paramètres de la moyenne est aussi l'estimateur du maximum de vraisemblance si les aléas ont la même variance $\sigma^2,$ quelle que soit la valeur de cette dernière. L'estimateur du maximum de vraisemblance $\widehat{\sigma}^2$ est donc
 \begin{align*}
 \widehat{\sigma}^2=\max_{\sigma^2} \ell(\widehat{\boldsymbol{\beta}}, \sigma^2).
 \end{align*}
-La log-vraisemblance, en omettant tout terme ou constante qui n'est pas fonction de $\sigma^2$, est
+La log-vraisemblance, en omettant tout terme ou constante qui n'est pas fonction de $\sigma^2,$ est
 \begin{align*}
 \ell(\widehat{\boldsymbol{\beta}}, \sigma^2)
-&\propto-\frac{1}{2}\left\{n\ln\sigma^2+\frac{1}{\sigma^2}(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})\right\}.
+&\propto-\frac{n\ln\sigma^2}{2}-\frac{1}{2\sigma^2}(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}}).
 \end{align*}
-En différenciant chaque terme par rapport à $\sigma^2$ et en fixant le gradient à zéro, on obtient l'estimateur du maximum de vraisemblance
+En dérivant chaque terme par rapport à $\sigma^2$ et en fixant le gradient à zéro, on obtient l'estimateur du maximum de vraisemblance
 \begin{align*}
 \widehat{\sigma}^2=\frac{1}{n}(\boldsymbol{Y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{Y}-\mathbf{X}\hat{\boldsymbol{\beta}})= \frac{1}{n} \sum_{i=1}^n e_i^2= \frac{\mathsf{SS}_e}{n};
 \end{align*}
-où $\mathsf{SS}_e$ est la somme des carrés des résidus. L'estimateur sans biais habituel de $\sigma^2$ calculé par le logiciel est $S^2=\mathsf{SS}_e/(n-p-1)$, où le dénominateur est la taille de l'échantillon $n$ moins le nombre de paramètres de la moyenne $\boldsymbol{\beta}$, soit $p+1$.
+où $\mathsf{SS}_e$ est la somme des carrés des résidus. L'estimateur sans biais habituel de $\sigma^2$ calculé par le logiciel est $S^2=\mathsf{SS}_e/(n-p-1),$ où le dénominateur est la taille de l'échantillon $n$ moins le nombre de paramètres de la moyenne $\boldsymbol{\beta},$ soit $p+1.$
 
 :::
 
@@ -249,7 +249,7 @@ Sous des conditions de régularité, l'**information de Fisher** est
 \begin{align*}
 i(\boldsymbol{\theta}) = \mathsf{E}\left\{U(\boldsymbol{\theta}; \boldsymbol{Y}) U(\boldsymbol{\theta}; \boldsymbol{Y})^\top\right\} = \mathsf{E}\left\{j(\boldsymbol{\theta}; \boldsymbol{Y})\right\}
 \end{align*}
-La différence est qu'on prend l'espérance de chaque fonction des observations à l'intérieur des entrées de la matrice. Quand elle évaluée au point $\widehat{\boldsymbol{\theta}}$, l'information de Fisher mesure la variance du score, ou la courbure de ce dernier. La matrice de Fisher et la matrice d'information sont toutes deux symmétriques.
+La différence est qu'on prend l'espérance de chaque fonction des observations à l'intérieur des entrées de la matrice. Quand elle évaluée au point $\widehat{\boldsymbol{\theta}},$ l'information de Fisher mesure la variance du score, ou la courbure de ce dernier. La matrice de Fisher et la matrice d'information sont toutes deux symmétriques.
 
 :::
 
@@ -257,12 +257,12 @@ La différence est qu'on prend l'espérance de chaque fonction des observations 
 
 ## Information pour le modèle exponentiel
 
-L'information de Fisher et observée pour un échantillon aléatoire simple du modèle exponentiel, $Y_1, \ldots, Y_n,$, paramétré en terme d'échelle $\lambda,$ est
+L'information de Fisher et observée pour un échantillon aléatoire simple du modèle exponentiel, $Y_1, \ldots, Y_n,,$ paramétré en terme d'échelle $\lambda,$ est
 \begin{align*}
 j(\lambda; \boldsymbol{y}) &= -\frac{\partial^2 \ell(\lambda)}{\partial \lambda^2} = \frac{n}{\lambda^{2}} + \frac{2}{n\lambda^{3}}\sum_{i=1}^n y_i \\
 i(\lambda) &= \frac{n}{\lambda^{2}} + \frac{2}{n\lambda^{3}}\sum_{i=1}^n \mathsf{E}(Y_i)  = \frac{n}{\lambda^{2}}
 \end{align*}
-puisque $\mathsf{E}(Y_i) = \lambda$ et que l'espérance est un opérateur linéaire. On trouve que $i(\widehat{\lambda}) = j(\widehat{\lambda}) = n/\overline{y}^2$, mais cette égalité ne tient qu'à l'EMV.
+puisque $\mathsf{E}(Y_i) = \lambda$ et que l'espérance est un opérateur linéaire. On trouve que $i(\widehat{\lambda}) = j(\widehat{\lambda}) = n/\overline{y}^2,$ mais cette égalité ne tient qu'à l'EMV.
 
 :::
 
@@ -289,7 +289,7 @@ La fonction quantile, qui est l'inverse de la fonction de répartition, est $Q(p
 
 ## Score et information d'une loi Weibull
 
-La log-vraisemblance d'un échantillon aléatoire simple de taille $n$ dont la réalisation est dénotée $y_1, \ldots, y_n$, tirée d'une loi  $\mathsf{Weibull}(\lambda, \alpha)$, est
+La log-vraisemblance d'un échantillon aléatoire simple de taille $n$ dont la réalisation est dénotée $y_1, \ldots, y_n,$ tirée d'une loi  $\mathsf{Weibull}(\lambda, \alpha),$ est
 \begin{align*}
 \ell(\lambda, \alpha) = n \ln(\alpha) - n\alpha\ln(\lambda) + (\alpha-1) \sum_{i=1}^n \ln y_i  - \lambda^{-\alpha}\sum_{i=1}^n y_i^\alpha.
 \end{align*}
@@ -316,12 +316,12 @@ j_{\lambda, \lambda} &= \lambda^{-2}\left\{-n\alpha + \alpha(\alpha+1)\sum_{i=1}
 j_{\lambda, \alpha} &= \lambda^{-1}\sum_{i=1}^n [1-(y_i/\lambda)^\alpha\{1+\alpha\ln(y_i/\lambda)\}] \\
 j_{\alpha,\alpha} &= n\alpha^{-2} + \sum_{i=1}^n (y_i/\lambda)^\alpha \{\ln(y_i/\lambda)\}^2
 \end{align*}
-Pour calculer l'information de Fisher, on calcule l'espérance de $\mathsf{E}\{(Y/\lambda)^\alpha\}$, $\mathsf{E}[(Y/\lambda)^\alpha\ln\{(Y/\lambda)^\alpha\}]$ et $\mathsf{E}[(Y/\lambda)^\alpha\ln^2\{(Y/\lambda)^\alpha\}]$. Par définition,
+Pour calculer l'information de Fisher, on calcule l'espérance de $\mathsf{E}\{(Y/\lambda)^\alpha\},$ $\mathsf{E}[(Y/\lambda)^\alpha\ln\{(Y/\lambda)^\alpha\}]$ et $\mathsf{E}[(Y/\lambda)^\alpha\ln^2\{(Y/\lambda)^\alpha\}].$ Par définition,
 \begin{align*}
 \mathsf{E}\left\{(Y/\lambda)^\alpha\right\} & = \int_0^\infty (x/\lambda)^\alpha \frac{\alpha}{\lambda^\alpha} x^{\alpha-1}\exp\left\{-(x/\lambda)^\alpha\right\} \mathrm{d} x \\
  &= \int_0^\infty s\exp(-s) \mathrm{d} s =1
 \end{align*}
-après le changement de variable $S = (Y/\lambda)^\alpha\sim \mathsf{Exp}(1)$. Les deux autres intégrales sont tabulées dans @Gradshteyn.Ryzhik:2014, et valent $1-\gamma$ et $\gamma^2-2\gamma + \pi^2/6$, respectivement, où $\gamma \approx `r -digamma(1)`$ est la constante d'Euler--Mascherroni.
+après le changement de variable $S = (Y/\lambda)^\alpha\sim \mathsf{Exp}(1).$ Les deux autres intégrales sont tabulées dans @Gradshteyn.Ryzhik:2014, et valent $1-\gamma$ et $\gamma^2-2\gamma + \pi^2/6,$ respectivement, où $\gamma \approx `r -digamma(1)`$ est la constante d'Euler--Mascherroni.
 <!-- \begin{align*} -->
 <!-- \mathsf{E}\left\{S\} &= \int_0^\infty s\exp(-s) \mathrm{d} s \\ -->
 <!-- \mathsf{E}\left\{S\} &= \int_0^\infty s^{2/\alpha}\exp(-s) \mathrm{d} s \\ -->
@@ -341,7 +341,7 @@ L'information pour un échantillon de variables indépendantes et identiquement 
 
 ## Optimisation basée sur le gradient
 
-Pour obtenir l'estimateur du maximum de vraisemblance, nous trouverons généralement la valeur du vecteur $\boldsymbol{\theta}$ qui résout le vecteur de score, c'est-à-dire $U(\widehat{\boldsymbol{\theta}})=\boldsymbol{0}_p.$ Cela revient à résoudre simultanément un système de $p$ équations en fixant à zéro la dérivée première par rapport à chaque élément de $\boldsymbol{\theta}$. Si $j(\widehat{\boldsymbol{\theta}})$ est une matrice définie positive (c'est-à-dire que toutes ses valeurs propres sont positives), alors le vecteur $\widehat{\boldsymbol{\theta}}$ maximise la fonction de log-vraisemblance et est l'estimateur du maximum de vraisemblance.
+Pour obtenir l'estimateur du maximum de vraisemblance, nous trouverons généralement la valeur du vecteur $\boldsymbol{\theta}$ qui résout le vecteur de score, c'est-à-dire $U(\widehat{\boldsymbol{\theta}})=\boldsymbol{0}_p.$ Cela revient à résoudre simultanément un système de $p$ équations en fixant à zéro la dérivée première par rapport à chaque élément de $\boldsymbol{\theta}.$ Si $j(\widehat{\boldsymbol{\theta}})$ est une matrice définie positive (c'est-à-dire que toutes ses valeurs propres sont positives), alors le vecteur $\widehat{\boldsymbol{\theta}}$ maximise la fonction de log-vraisemblance et est l'estimateur du maximum de vraisemblance.
 
 Nous pouvons utiliser une variante de l'algorithme de Newton--Raphson si la vraisemblance est trois fois différentiable et si l'estimateur du maximum de vraisemblance ne se trouve pas sur la frontière de l'espace des paramètres. Si nous considérons une valeur initiale $\boldsymbol{\theta}^{\dagger},$ alors une expansion en série de Taylor du premier ordre de la vraisemblance du score dans un voisinage $\boldsymbol{\theta}^{\dagger}$ de l'EMV $\widehat{\boldsymbol{\theta}}$ donne
 \begin{align*}
@@ -354,7 +354,7 @@ En réarrangeant cette expression pour isoler $\widehat{\boldsymbol{\theta}}$ (p
 \widehat{\boldsymbol{\theta}} \stackrel{\cdot}{\simeq} \boldsymbol{\theta}^{\dagger} + 
 j^{-1}(\boldsymbol{\theta}^{\dagger})U(\boldsymbol{\theta}^{\dagger}).
 \end{align*}
-Cela suggère l'utilisation d'une procédure itérative: à partir d'une valeur de départ $\boldsymbol{\theta}^{\dagger}$ dans le voisinage du mode, on applique le schéma de mise à jour jusqu'à ce que le gradient soit approximativement nul. Si la valeur est éloignée du mode, l'algorithme peut diverger. Pour éviter cela, nous pouvons multiplier le terme $j^{-1}(\boldsymbol{\theta}^{\dagger})U(\boldsymbol{\theta}^{\dagger})$ par un facteur d'amortissement $c<1$. Une variante de l'algorithme, appelée score de Fisher, utilise l'information de Fisher $i(\boldsymbol{\theta})$ au lieu de l'information observée, $j(\boldsymbol{\theta}),$ pour des raisons de stabilité numérique et pour éviter les situations où cette dernière n'est pas définie positive. Il s'agit de la routine d'optimisation utilisée dans la fonction `glm` de **R**.
+Cela suggère l'utilisation d'une procédure itérative: à partir d'une valeur de départ $\boldsymbol{\theta}^{\dagger}$ dans le voisinage du mode, on applique le schéma de mise à jour jusqu'à ce que le gradient soit approximativement nul. Si la valeur est éloignée du mode, l'algorithme peut diverger. Pour éviter cela, nous pouvons multiplier le terme $j^{-1}(\boldsymbol{\theta}^{\dagger})U(\boldsymbol{\theta}^{\dagger})$ par un facteur d'amortissement $c<1.$ Une variante de l'algorithme, appelée score de Fisher, utilise l'information de Fisher $i(\boldsymbol{\theta})$ au lieu de l'information observée, $j(\boldsymbol{\theta}),$ pour des raisons de stabilité numérique et pour éviter les situations où cette dernière n'est pas définie positive. Il s'agit de la routine d'optimisation utilisée dans la fonction `glm` de **R**.
 
 :::
 
@@ -372,7 +372,7 @@ Nous nous tournons vers l'optimisation numérique pour obtenir l'estimation du m
 #| echo: true
 #| code-fold: true
 # Charger les données
-data(attente, package = "hecstatmod")
+data(attente, package = "hecmodstat")
 
 # Négatif de la log vraisemblance pour un échantillon Weibull
 nll_weibull <- function(pars, y) {
@@ -456,7 +456,7 @@ On peut utiliser ce résultat pour obtenir une approximation à la loi d'échant
 \begin{align*}
 \widehat{\boldsymbol{\theta}} \stackrel{\cdot}{\sim} \mathsf{normale}_p\{\boldsymbol{\theta}_0, i^{-1}(\boldsymbol{\theta})\}
 \end{align*}
-ou la matrice de covariance est l'inverse de l'information de Fisher. En pratique, puisque la valeur des paramètres $\boldsymbol{\theta}_0$ est inconnue, on remplace la covariance soit par $i^{-1}(\widehat{\boldsymbol{\theta}})$ ou par l'inverse de l'information observée,  $j^{-1}(\widehat{\boldsymbol{\theta}}).$ Cela est justifié par le fait que les deux matrices d'informations $i(\widehat{\boldsymbol{\theta}})$ et $j(\widehat{\boldsymbol{\theta}})$ convergent vers $i(\boldsymbol{\theta})$ quand $n \to \infty$.
+ou la matrice de covariance est l'inverse de l'information de Fisher. En pratique, puisque la valeur des paramètres $\boldsymbol{\theta}_0$ est inconnue, on remplace la covariance soit par $i^{-1}(\widehat{\boldsymbol{\theta}})$ ou par l'inverse de l'information observée,  $j^{-1}(\widehat{\boldsymbol{\theta}}).$ Cela est justifié par le fait que les deux matrices d'informations $i(\widehat{\boldsymbol{\theta}})$ et $j(\widehat{\boldsymbol{\theta}})$ convergent vers $i(\boldsymbol{\theta})$ quand $n \to \infty.$
 
 Au fur et à mesure que la taille de l'échantillon augmente, l'estimateur du maximum de vraisemblance $\widehat{\boldsymbol{\theta}}$ devient centré autour de la valeur $\boldsymbol{\theta}_0$ qui minimise l'écart entre le modèle et le véritable processus de génération des données. Dans les grands échantillons, la loi d'échantillonnage de l'estimateur du maximum de vraisemblance est approximativement quadratique.
 
@@ -474,7 +474,7 @@ where $R(\boldsymbol{\theta}_0) \stackrel{\cdot}{\sim} \chi^2_p.$
 
 ## Matrice de covariance et erreurs-type pour le modèle de Weibull
 
-Nous utilisons la sortie de notre procédure d'optimisation pour obtenir la matrice d'information observée et les erreurs-type pour les paramètres du modèle de Weibull. Ces dernières sont simplement la racine carrée des entrées diagonales de l'information observée évaluée aux EMV, $[\mathrm{diag}\{j^{-1}(\widehat{\boldsymbol{\theta}})\}]^{1/2}$.
+Nous utilisons la sortie de notre procédure d'optimisation pour obtenir la matrice d'information observée et les erreurs-type pour les paramètres du modèle de Weibull. Ces dernières sont simplement la racine carrée des entrées diagonales de l'information observée évaluée aux EMV, $[\mathrm{diag}\{j^{-1}(\widehat{\boldsymbol{\theta}})\}]^{1/2}.$
 
 ```{r}
 #| eval: true
@@ -495,7 +495,7 @@ Une fois que l'on a les estimations du maximum de vraisemblance et les erreurs-t
 
 ## Normalité asymptotique et  transformations
 
-Le résultat de normalité asymptotique peut être utilisé pour dériver les erreurs standard pour d'autres quantités d'intérêt. Si $\phi = g(\boldsymbol{\theta})$ est une fonction différentiable de $\boldsymbol{\theta}$ dont le gradient est non-nul lorsque évalué à $\widehat{\boldsymbol{\theta}}$, alors 
+Le résultat de normalité asymptotique peut être utilisé pour dériver les erreurs standard pour d'autres quantités d'intérêt. Si $\phi = g(\boldsymbol{\theta})$ est une fonction différentiable de $\boldsymbol{\theta}$ dont le gradient est non-nul lorsque évalué à $\widehat{\boldsymbol{\theta}},$ alors 
 $\widehat{\phi} \stackrel{\cdot}{\sim}\mathsf{normale}(\phi_0, \mathrm{V}_\phi),$ with $\mathrm{V}_\phi = \nabla \phi^\top \mathbf{V}_{\boldsymbol{\theta}} \nabla \phi,$ où $\nabla \phi=[\partial \phi/\partial \theta_1, \ldots, \partial \phi/\partial \theta_p]^\top.$ La matrice de covariance et le gradient sont évalués aux estimations du maximum de vraisemblance $\widehat{\boldsymbol{\theta}}.$ Ce résultat se généralise aux fonctions vectorielles $\boldsymbol{\phi} \in \mathbb{R}^k$ pour $k \leq p,$ où $\nabla \phi$ est la jacobienne de la transformation.
 
 :::
@@ -533,14 +533,14 @@ V_phi <- dphi(lambda_hat)^2 * V_lambda
 
 ## Tests dérivés de la vraisemblance {#sec-testsvrais}
 
-Nous considérons une hypothèse nulle $\mathscr{H}_0$ qui impose des restrictions sur les valeurs possibles de $\boldsymbol{\theta}$, par rapport à une alternative sans contrainte $\mathscr{H}_1.$ Nous avons besoin de deux modèles **emboîtés** : un modèle *complet* et un modèle *réduit*, pour lequel l'espace des paramèteres est un sous-ensemble du modèle complet suite à l'imposition des $q$ restrictions. Par exemple, la loi exponentielle est un cas particulier de la loi de Weibull si $\alpha=1$.
+Nous considérons une hypothèse nulle $\mathscr{H}_0$ qui impose des restrictions sur les valeurs possibles de $\boldsymbol{\theta},$ par rapport à une alternative sans contrainte $\mathscr{H}_1.$ Nous avons besoin de deux modèles **emboîtés** : un modèle *complet* et un modèle *réduit*, pour lequel l'espace des paramèteres est un sous-ensemble du modèle complet suite à l'imposition des $q$ restrictions. Par exemple, la loi exponentielle est un cas particulier de la loi de Weibull si $\alpha=1.$
 
 
 L'hypothèse nulle $\mathscr{H}_0$ testée est "le modèle réduit est une **simplification adéquate** du modèle complet". Soit $\widehat{\boldsymbol{\theta}}_0$ les EMV contraints pour le modèle sous l'hypothèse nulle, et $\widehat{\boldsymbol{\theta}}$ les EMV du modèle complet. La vraisemblance fournit trois classes principales de statistiques pour tester cette hypothèse, soit
 
 - les statistiques des tests du rapport de vraisemblance, notées $R,$ qui mesurent la différence de log vraisemblance (distance verticale) entre $\ell(\widehat{\boldsymbol{\theta}})$ et $\ell(\widehat{\boldsymbol{\theta}}_0).$
 - les statistiques des tests de Wald, notées $W,$ qui considèrent la distance horizontale normalisée entre $\widehat{\boldsymbol{\theta}}$ et $\widehat{\boldsymbol{\theta}}_0.$
-- les statistiques des tests de score de Rao, notées $S,$ qui examinent le gradient repondéré de $\ell,$ évaluée *uniquement* à $\widehat{\boldsymbol{\theta}}_0$.
+- les statistiques des tests de score de Rao, notées $S,$ qui examinent le gradient repondéré de $\ell,$ évaluée *uniquement* à $\widehat{\boldsymbol{\theta}}_0.$
 
 
 
@@ -551,30 +551,30 @@ L'hypothèse nulle $\mathscr{H}_0$ testée est "le modèle réduit est une **sim
 knitr::include_graphics('images/likelihood_tests_fr.png')
 ```
 
-Les trois principales classes de statistiques permettant de tester une hypothèse nulle simple $\mathscr{H}_0 : \boldsymbol{\theta}=\boldsymbol{\theta}_0$ par rapport à l'hypothèse alternative $\mathscr{H}_a : \boldsymbol{\theta} \neq \boldsymbol{\theta}_0$ sont le test de Wald $W$, le rapport de vraisemblance $R$ et le test du score de Rao $S$, définis comme
+Les trois principales classes de statistiques permettant de tester une hypothèse nulle simple $\mathscr{H}_0 : \boldsymbol{\theta}=\boldsymbol{\theta}_0$ par rapport à l'hypothèse alternative $\mathscr{H}_a : \boldsymbol{\theta} \neq \boldsymbol{\theta}_0$ sont le test de Wald $W,$ le rapport de vraisemblance $R$ et le test du score de Rao $S,$ définis comme
 \begin{align*}
  W(\boldsymbol{\theta}_0) &= (\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)^\top j(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0), \\
  R(\boldsymbol{\theta}_0) &= 2 \left\{ \ell(\widehat{\boldsymbol{\theta}})-\ell(\boldsymbol{\theta}_0)\right\},\\
  S(\boldsymbol{\theta}_0) &= U^\top(\boldsymbol{\theta}_0)i^{-1}(\boldsymbol{\theta}_0)U(\boldsymbol{\theta}_0), 
 \end{align*}
-où $\boldsymbol{\theta}_0$ est la valeur nulle postulée du paramètre avec $q$ restrictions. Si $q \neq p$, alors on remplace $\boldsymbol{\theta}_0$ par l'estimation contrainte $\widehat{\boldsymbol{\theta}}_0$.
+où $\boldsymbol{\theta}_0$ est la valeur nulle postulée du paramètre avec $q$ restrictions. Si $q \neq p,$ alors on remplace $\boldsymbol{\theta}_0$ par l'estimation contrainte $\widehat{\boldsymbol{\theta}}_0.$
 
-Asymptotiquement, toutes les statistiques de test sont équivalentes (dans le sens où elles conduisent aux mêmes conclusions sur $\mathscr{H}_0$), mais elles ne sont pas identiques. Sous $\mathscr{H}_0$, les trois statistiques de test suivent une loi asymptotique $\chi^2_q$, où les degrés de liberté $q$ indiquent le nombre de restrictions.
+Asymptotiquement, toutes les statistiques de test sont équivalentes (dans le sens où elles conduisent aux mêmes conclusions sur $\mathscr{H}_0$), mais elles ne sont pas identiques. Sous $\mathscr{H}_0,$ les trois statistiques de test suivent une loi asymptotique $\chi^2_q,$ où les degrés de liberté $q$ indiquent le nombre de restrictions.
 
 
 :::{#rem-loinulle}
 
 ## Procédures de tests et formes quadratiques
 
-D'où provient cette loi $\chi^2_q$? Considérons pour faire simple le cas où $q=2$ restrictions sont imposées dans un modèle avec $p=2$ paramètres (par ex., la loi de Weibull) et le test de Wald. La loi asymptotique de l'estimateur du maximum de vraisemblance dicte que $\widehat{\boldsymbol{\theta}} \stackrel{\cdot}{\sim} \mathsf{normale}_p\{\boldsymbol{\theta}, i^{-1}(\boldsymbol{\theta})\}$, et on peut obtenir des ellipses de confiance pour un test en remplaçant l'information de Fisher $i(\boldsymbol{\theta})$ par un estimateur convergent comme $j(\widehat{\boldsymbol{\theta}})$: on obtient alors le panneau de gauche de la @fig-ellipses. 
+D'où provient cette loi $\chi^2_q$? Considérons pour faire simple le cas où $q=2$ restrictions sont imposées dans un modèle avec $p=2$ paramètres (par ex., la loi de Weibull) et le test de Wald. La loi asymptotique de l'estimateur du maximum de vraisemblance dicte que $\widehat{\boldsymbol{\theta}} \stackrel{\cdot}{\sim} \mathsf{normale}_p\{\boldsymbol{\theta}, i^{-1}(\boldsymbol{\theta})\},$ et on peut obtenir des ellipses de confiance pour un test en remplaçant l'information de Fisher $i(\boldsymbol{\theta})$ par un estimateur cohérent comme $j(\widehat{\boldsymbol{\theta}})$: on obtient alors le panneau de gauche de la @fig-ellipses. 
 
-Si on postule $\boldsymbol{\theta} = \boldsymbol{\theta}_0$, il suffit de considérer où la valeur tombe sur le diagramme et le niveau de l'ellipse correspondante. Plutôt, on peut standardiser et considérer la variable standardisée $\boldsymbol{\vartheta} =j^{1/2}(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)$, dont les courbes de contour sont circulaires. Pour réduire le problème, on considère le carré du rayon $W = \vartheta_1^2 + \vartheta_2^2=(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)^\top j(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)$, qui suit une loi $\chi^2_2$. On peut ainsi facilement déterminer si la valeur suggérée pour le paramètre $\boldsymbol{\theta}_0$ est rare sous l'hypothèse nulle, comme dans le panneau de droite de la @fig-ellipses, puisque tous les valeurs rares deviennent des rayons.
+Si on postule $\boldsymbol{\theta} = \boldsymbol{\theta}_0,$ il suffit de considérer où la valeur tombe sur le diagramme et le niveau de l'ellipse correspondante. Plutôt, on peut standardiser et considérer la variable standardisée $\boldsymbol{\vartheta} =j^{1/2}(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0),$ dont les courbes de contour sont circulaires. Pour réduire le problème, on considère le carré du rayon $W = \vartheta_1^2 + \vartheta_2^2=(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)^\top j(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0),$ qui suit une loi $\chi^2_2.$ On peut ainsi facilement déterminer si la valeur suggérée pour le paramètre $\boldsymbol{\theta}_0$ est rare sous l'hypothèse nulle, comme dans le panneau de droite de la @fig-ellipses, puisque tous les valeurs rares deviennent des rayons.
 
 ```{r}
 #| eval: true
 #| echo: false
 #| label: fig-ellipses
-#| fig-cap: "Courbes de contour elliptiques pour la loi asymptotique normale multidimensionnelle des EMV (gauche) et densité du carré du rayon des variables standardisés $\\boldsymbol{\\vartheta}$, avec les niveaux des quantiles correspondant indiqués par des traits (droite)."
+#| fig-cap: "Courbes de contour elliptiques pour la loi asymptotique normale multidimensionnelle des EMV (gauche) et densité du carré du rayon des variables standardisés $\\boldsymbol{\\vartheta},$ avec les niveaux des quantiles correspondant indiqués par des traits (droite)."
 # x <- seq(0, 7, length.out = 101)
 # y <- seq(31, 34, length.out = 101)
 # z <- matrix(
@@ -616,15 +616,15 @@ r({\theta_0}) &= \mathrm{sign}(\widehat{\theta}-\theta)\left[2
 s(\theta_0)&=i^{-1/2}(\theta_0)U(\theta_0) 
 \end{align*}
 
-Sous cette forme, si l'hypothèse nulle $\mathscr{H}_0: \theta = \theta_0$ est vraie, alors $w(\theta_0)\stackrel{\cdot}{\sim} \mathsf{normale}(0,1)$, etc.
+Sous cette forme, si l'hypothèse nulle $\mathscr{H}_0: \theta = \theta_0$ est vraie, alors $w(\theta_0)\stackrel{\cdot}{\sim} \mathsf{normale}(0,1),$ etc.
 
-La statistique du test du rapport de vraisemblance est normalement la plus puissante des trois tests (et donc préférable selon ce critère); la statistique est aussi invariante aux reparamétrages. La statistique de score $S$, moins utilisée, nécessite le calcul du score et de l'information de Fisher, mais n'est évaluée que sous $\mathscr{H}_0$ (car par définition $U(\widehat{\theta})=0$), elle peut donc être utile dans les problèmes où les calculs de l'estimateur du maximum de vraisemblance sous l'alternative sont coûteux ou impossibles. Le test de Wald est le plus facile à dériver, mais son taux de couverture empirique peut laisser à désirer si la loi d'échantillonnage de $\widehat{\boldsymbol{\theta}}$ est fortement asymétrique.
+La statistique du test du rapport de vraisemblance est normalement la plus puissante des trois tests (et donc préférable selon ce critère); la statistique est aussi invariante aux reparamétrages. La statistique de score $S,$ moins utilisée, nécessite le calcul du score et de l'information de Fisher, mais n'est évaluée que sous $\mathscr{H}_0$ (car par définition $U(\widehat{\theta})=0$), elle peut donc être utile dans les problèmes où les calculs de l'estimateur du maximum de vraisemblance sous l'alternative sont coûteux ou impossibles. Le test de Wald est le plus facile à dériver, mais son taux de couverture empirique peut laisser à désirer si la loi d'échantillonnage de $\widehat{\boldsymbol{\theta}}$ est fortement asymétrique.
 
 
 
 ```{r}
 #| label: fig-weibull-profile
-#| fig-cap: "Log-vraisemblance profilée pour $\\alpha$, représentée par un trait gris traitillé (gauche) et par une coupe transversale (droite). Le panneau de gauche montre la surface de log-vraisemblance pour le modèle de Weibull avec des régions de confiance de 10%, 20%, \\ldots, 90% du rapport de vraisemblance (courbes de contour blanches). Les valeurs de log vraisemblance les plus élevées sont indiquées par des couleurs plus foncées, et la valeur des estimations du maximum de vraisemblance par une croix. La vraisemblance profilée du panneau de droite a été décalée verticalement pour que sa valeur maximale soit zéro; les lignes horizontales traitillées indiquent les valeurs pour les intervalles de confiance à 95% et 99%. "
+#| fig-cap: "Log-vraisemblance profilée pour $\\alpha,$ représentée par un trait gris traitillé (gauche) et par une coupe transversale (droite). Le panneau de gauche montre la surface de log-vraisemblance pour le modèle de Weibull avec des régions de confiance de 10%, 20%, \\ldots, 90% du rapport de vraisemblance (courbes de contour blanches). Les valeurs de log vraisemblance les plus élevées sont indiquées par des couleurs plus foncées, et la valeur des estimations du maximum de vraisemblance par une croix. La vraisemblance profilée du panneau de droite a été décalée verticalement pour que sa valeur maximale soit zéro; les lignes horizontales traitillées indiquent les valeurs pour les intervalles de confiance à 95% et 99%. "
 #| fig-align: 'center'
 #| eval: true
 #| echo: false
@@ -744,7 +744,7 @@ labs(x = expression(paste("paramètre de forme ", alpha)),
 g1 + g2
 ```
 
-La statistique de Wald $W$ est la plus courante. Les intervalles de confiance bilatéraux de niveau $(1-\alpha)$ de Wald pour les paramètres de $\boldsymbol{\theta}$, où pour $\theta_j$ $(j=1, \ldots, p)$,
+La statistique de Wald $W$ est la plus courante. Les intervalles de confiance bilatéraux de niveau $(1-\alpha)$ de Wald pour les paramètres de $\boldsymbol{\theta},$ où pour $\theta_j$ $(j=1, \ldots, p),$
 \begin{align*}
 \widehat{\theta}_j \pm \mathfrak{z}_{1-\alpha/2}\mathrm{se}(\widehat{\theta}_j),
 \end{align*}
@@ -755,7 +755,7 @@ avec $\mathfrak{z}_{1-\alpha/2}$ le quantile $1-\alpha/2$ d'une loi normale stan
 ## Test de Wald pour comparer les modèles Weibull et exponentiel
 
 
-Nous pouvons tester si la loi exponentielle est une simplification adéquate de la loi de Weibull en imposant la restriction $\mathscr{H}_0: \alpha=1$. Nous comparons les statistiques de Wald $W$ à un $\chi^2_1$.  Puisque $\alpha$ est un paramètre de la loi Weibull, nous avons les erreurs-type gratuitement.
+Nous pouvons tester si la loi exponentielle est une simplification adéquate de la loi de Weibull en imposant la restriction $\mathscr{H}_0: \alpha=1.$ Nous comparons les statistiques de Wald $W$ à un $\chi^2_1.$  Puisque $\alpha$ est un paramètre de la loi Weibull, nous avons les erreurs-type gratuitement.
 
 ```{r}
 #| eval: true
@@ -844,7 +844,7 @@ Les intervalles de confiance de Wald peuvent être comparées à celles (meilleu
 \begin{align*}
 \left\{\theta: 2\{\ell(\widehat{\boldsymbol{\theta}}) - \ell(\boldsymbol{\theta})\} \leq \chi^2_p(1-\alpha)\right\},
 \end{align*}
-où $\chi^2_p(1-\alpha)$ est le quantile de niveau $(1-\alpha)$ de la loi $\chi^2_p$. De tels intervalles, pour $\alpha = 0.1, \ldots, 0.9$, sont tracés sur la @fig-weibull-profile (courbes de contour). Si $\boldsymbol{\theta}$ est un $p$-vecteur $(p> 1)$, alors les intervalles de confiance pour $\theta_i$ sont dérivés à partir de la vraisemblance profilée. Les intervalles de confiance basés sur la statistique du rapport de vraisemblance sont **invariants aux reparamétrages**, donc $\mathsf{IC}_{R}\{g(\theta)\} = g\{\mathsf{IC}_{R}(\theta)\}.$ Comme la vraisemblance est nulle si la valeur d'un paramètre se situe en dehors de l'espace des paramètres $\boldsymbol{\Theta}$, les intervalles n'incluent que les valeurs plausibles de $\theta.$ En général, les intervalles sont asymétriques et présentent de meilleures taux de couverture.
+où $\chi^2_p(1-\alpha)$ est le quantile de niveau $(1-\alpha)$ de la loi $\chi^2_p.$ De tels intervalles, pour $\alpha = 0.1, \ldots, 0.9,$ sont tracés sur la @fig-weibull-profile (courbes de contour). Si $\boldsymbol{\theta}$ est un $p$-vecteur $(p> 1),$ alors les intervalles de confiance pour $\theta_i$ sont dérivés à partir de la vraisemblance profilée. Les intervalles de confiance basés sur la statistique du rapport de vraisemblance sont **invariants aux reparamétrages**, donc $\mathsf{IC}_{R}\{g(\theta)\} = g\{\mathsf{IC}_{R}(\theta)\}.$ Comme la vraisemblance est nulle si la valeur d'un paramètre se situe en dehors de l'espace des paramètres $\boldsymbol{\Theta},$ les intervalles n'incluent que les valeurs plausibles de $\theta.$ En général, les intervalles sont asymétriques et présentent de meilleures taux de couverture.
 
 ```{r}
 #| label: lrt-confint
@@ -901,7 +901,7 @@ Parfois, nous pouvons vouloir effectuer des tests d'hypothèse ou dériver des i
 ## Log-vraisemblance profilée
 
 
-Soit un modèle paramétrique avec log-vraisemblance $\ell(\boldsymbol{\theta})$, dont le vecteur de paramètres de dimension $p$ $\boldsymbol{\theta}=(\boldsymbol{\psi}, \boldsymbol{\varphi})$ peut être séparé en un sous-vecteur de longueur $q$ contenant les paramètres d'intérêts, disons $\boldsymbol{\psi}$ et un sous-vecteur de longueur $(p-q)$ contenant les paramètres de nuisance $\boldsymbol{\varphi}.$
+Soit un modèle paramétrique avec log-vraisemblance $\ell(\boldsymbol{\theta}),$ dont le vecteur de paramètres de dimension $p$ $\boldsymbol{\theta}=(\boldsymbol{\psi}, \boldsymbol{\varphi})$ peut être séparé en un sous-vecteur de longueur $q$ contenant les paramètres d'intérêts, disons $\boldsymbol{\psi}$ et un sous-vecteur de longueur $(p-q)$ contenant les paramètres de nuisance $\boldsymbol{\varphi}.$
 
 La log-vraisemblance profilée $\ell_{\mathsf{p}}$ est une fonction de $\boldsymbol{\psi}$ qui est obtenue en maximisant la log-vraisemblance ponctuellement à chaque valeur fixe $\boldsymbol{\psi}_0$ sur le vecteur de nuisance $\boldsymbol{\varphi}_{\psi_0},$
 \begin{align*}
@@ -917,7 +917,7 @@ Considérons le paramètre de forme $\psi \equiv\alpha$ comme paramètre d'inté
 \begin{align*}
 \widehat{\lambda}_\alpha = \left( \frac{1}{n}\sum_{i=1}^n y_i^\alpha\right)^{1/\alpha}.
 \end{align*}
-Si on substitue cette valeur dans la log-vraisemblance, on obtient une fonction de $\alpha$ uniquement, ce qui réduit également le problème d'optimisation pour les EMV d'une loi Weibull à une recherche linéaire le long de $\ell_{\mathsf{p}}(\alpha)$. Le panneau de gauche de @fig-weibull-profile montre la crête le long de la direction de $\alpha$ correspondant à la surface de log-vraisemblance. Si l'on considère ces courbes de niveau comme celles d'une carte topographique, la log-vraisemblance profilée correspond dans ce cas à une marche le long de la crête des deux montagnes dans la direction $\psi$, le panneau de droite montrant le gain/la perte d'altitude. Le profil d'élévation correspondant à droite de @fig-weibull-profile avec les points de coupure pour les intervalles de confiance basés sur le rapport de vraisemblance<. Nous devrions obtenir numériquement, à l'aide d'un algorithme de recherche lin/aire, les limites de l'intervalle de confiance de part et d'autre de $\widehat{\alpha}$, mais il est clair que $\alpha=1$ n'est pas dans l'intervalle de 99%.
+Si on substitue cette valeur dans la log-vraisemblance, on obtient une fonction de $\alpha$ uniquement, ce qui réduit également le problème d'optimisation pour les EMV d'une loi Weibull à une recherche linéaire le long de $\ell_{\mathsf{p}}(\alpha).$ Le panneau de gauche de @fig-weibull-profile montre la crête le long de la direction de $\alpha$ correspondant à la surface de log-vraisemblance. Si l'on considère ces courbes de niveau comme celles d'une carte topographique, la log-vraisemblance profilée correspond dans ce cas à une marche le long de la crête des deux montagnes dans la direction $\psi,$ le panneau de droite montrant le gain/la perte d'altitude. Le profil d'élévation correspondant à droite de @fig-weibull-profile avec les points de coupure pour les intervalles de confiance basés sur le rapport de vraisemblance<. Nous devrions obtenir numériquement, à l'aide d'un algorithme de recherche lin/aire, les limites de l'intervalle de confiance de part et d'autre de $\widehat{\alpha},$ mais il est clair que $\alpha=1$ n'est pas dans l'intervalle de 99%.
 
 
 ```{r}
@@ -943,7 +943,7 @@ prof_alpha_weibull <- function(par, y = attente) {
 
 ## Tests de rapport de vraisemblance et du score pour comparer modèles exponentiels et Weibull
 
-On peut procéder pour le calcul du test du score, mais l'entrée pour le paramètre d'échelle du vecteur de score $U({\widehat{\lambda}_1}, 0)$ est nulle quand $\alpha=1$. L'estimateur contraint $\widehat{\lambda}_1=\overline{y}$.
+On peut procéder pour le calcul du test du score, mais l'entrée pour le paramètre d'échelle du vecteur de score $U({\widehat{\lambda}_1}, 0)$ est nulle quand $\alpha=1.$ L'estimateur contraint $\widehat{\lambda}_1=\overline{y}.$
 
 
 ```{r}
@@ -986,9 +986,9 @@ Bien que les statistiques soient asymptotiquement équivalentes et se comportent
 
 ## Log-vraisemblance profilée pour l'espérance d'une loi Weibull
 
-Nous pouvons également utiliser l'optimisation numérique pour calculer la log-vraisemblance profilée d'une fonction des paramètres. Supposons que nous soyons intéressés par le temps moyen d'attente théorique. Selon le modèle Weibull, cette valeur est $\mu = \mathsf{E}(Y) = \lambda\Gamma(1+1/\alpha)$. À cet effet, nous reparamétrons le modèle en termes de $(\mu, \alpha)$, où $\lambda=\mu/\Gamma(1+1/\alpha)$. Nous créons ensuite une fonction qui optimise la log-vraisemblance pour une valeur fixe de $\mu$, puis renvoie $\widehat{\alpha}_{\mu}$, $\mu$ et $\ell_{\mathrm{p}}(\mu)$.
+Nous pouvons également utiliser l'optimisation numérique pour calculer la log-vraisemblance profilée d'une fonction des paramètres. Supposons que nous soyons intéressés par le temps moyen d'attente théorique. Selon le modèle Weibull, cette valeur est $\mu = \mathsf{E}(Y) = \lambda\Gamma(1+1/\alpha).$ À cet effet, nous reparamétrons le modèle en termes de $(\mu, \alpha),$ où $\lambda=\mu/\Gamma(1+1/\alpha).$ Nous créons ensuite une fonction qui optimise la log-vraisemblance pour une valeur fixe de $\mu,$ puis renvoie $\widehat{\alpha}_{\mu},$ $\mu$ et $\ell_{\mathrm{p}}(\mu).$
 
-Pour obtenir les intervalles de confiance d'un paramètre scalaire, il existe une astuce qui permet de s'en tirer avec une évaluation sommaire, pour autant que la log-vraisemblance profilée soit relativement lisse. Nous calculons la racine directionnelle du rapport de vraisemblance, $r(\psi) = \mathrm{sign}(\psi - \widehat{\psi})\{2\ell_{\mathrm{p}}(\widehat{\psi}) -2 \ell_{\mathrm{p}}(\psi)\}^{1/2}$ sur une grille fine de valeurs de $\psi$, puis nous ajustons une spline de lissage, une régression avec variable réponse $y=\psi$ et variable explicative $x=r(\psi)$. Nous prédisons ensuite la courbe aux quantiles normaux $\mathfrak{z}_{\alpha/2}$ et $\mathfrak{z}_{1-\alpha/2}$, et renvoyons ces valeurs sous forme d'intervalle de confiance. La @fig-profile-mu-weibull montre comment ces valeurs correspondent aux points de coupure sur l'échelle du logarithme du rapport de vraisemblance, où la ligne verticale est donnée par $-\mathfrak{c}(1-\alpha)/2$ où $\mathfrak{c}$ représente le quantile d'une variable aléatoire $\chi^2_1$.
+Pour obtenir les intervalles de confiance d'un paramètre scalaire, il existe une astuce qui permet de s'en tirer avec une évaluation sommaire, pour autant que la log-vraisemblance profilée soit relativement lisse. Nous calculons la racine directionnelle du rapport de vraisemblance, $r(\psi) = \mathrm{sign}(\psi - \widehat{\psi})\{2\ell_{\mathrm{p}}(\widehat{\psi}) -2 \ell_{\mathrm{p}}(\psi)\}^{1/2}$ sur une grille fine de valeurs de $\psi,$ puis nous ajustons une spline de lissage, une régression avec variable réponse $y=\psi$ et variable explicative $x=r(\psi).$ Nous prédisons ensuite la courbe aux quantiles normaux $\mathfrak{z}_{\alpha/2}$ et $\mathfrak{z}_{1-\alpha/2},$ et renvoyons ces valeurs sous forme d'intervalle de confiance. La @fig-profile-mu-weibull montre comment ces valeurs correspondent aux points de coupure sur l'échelle du logarithme du rapport de vraisemblance, où la ligne verticale est donnée par $-\mathfrak{c}(1-\alpha)/2$ où $\mathfrak{c}$ représente le quantile d'une variable aléatoire $\chi^2_1.$
 
 ```{r}
 #| eval: true
@@ -1063,7 +1063,7 @@ L'estimateur du maximum de vraisemblance du profil se comporte comme une vraisem
 
 La vraisemblance peut également servir d'élément de base pour la comparaison des modèles : plus $\ell(\boldsymbol{\widehat{\theta}})$ est grand, meilleure est l'adéquation.  Cependant, la vraisemblance ne tient pas compte de la complexité du modèle dans le sens où des modèles plus complexes avec plus de paramètres conduisent à une vraisemblance plus élevée. Cela ne pose pas de problème pour la comparaison de modèles emboîtés à l'aide du test du rapport de vraisemblance, car nous ne tenons compte que de l'amélioration relative de l'adéquation.  Il existe un risque de **surajustement** si l'on ne tient compte que de la vraisemblance d'un modèle.
 
-<!-- Software often reports $-2\ell(\boldsymbol{\widehat{\theta}})$, often (improperly) termed **deviance**. -->
+<!-- Software often reports $-2\ell(\boldsymbol{\widehat{\theta}}),$ often (improperly) termed **deviance**. -->
 
 Les critères d'information combinent la log vraisemblance, qui mesure l'adéquation du modèle aux données, avec une pénalité pour le nombre de paramètres. Les plus fréquents sont les critères d'information d'Akaike (AIC) et bayésien  (BIC),
 \begin{align*}
@@ -1101,7 +1101,7 @@ c("exp" = AIC(mod0),
 
 
 
-Ces outils fonctionnent sous des conditions de régularité et les critères d'information estimés sont assez bruyants, de sorte que les comparaisons pour les modèles non emboîtés sont hasardeuses bien que populaires. Si nous voulons comparer la vraisemblance de différents modèles de probabilité, nous devons nous assurer qu'ils incluent une constante de normalisation^[Les logiciels enlèvent parfois les termes ou constantes qui ne sont pas des fonctions des paramètres.]. Le $\mathsf{BIC}$ est plus strict que le $\mathsf{AIC}$, car sa pénalité augmente avec la taille de l'échantillon, ce qui permet de sélectionner des modèles plus parsimonieux. Le $\mathsf{BIC}$ est un critère **convergent**, ce qui signifie qu'il choisira le vrai modèle parmi un ensemble de modèles avec une probabilité de 1 lorsque $n \to \infty$ si ce dernier fait partie du catalogue de modèles à comparer. En pratique, cela présente peu d'intérêt si l'on suppose que tous les modèles sont des approximations de la réalité (il est peu probable que le vrai modèle soit inclus dans ceux que nous considérons). Pour sa part, $\mathsf{AIC}$ sélectionne souvent des modèles trop compliqués dans les grands échantillons, alors que $\mathsf{BIC}$ choisit des modèles trop simples.
+Ces outils fonctionnent sous des conditions de régularité et les critères d'information estimés sont assez bruyants, de sorte que les comparaisons pour les modèles non emboîtés sont hasardeuses bien que populaires. Si nous voulons comparer la vraisemblance de différents modèles de probabilité, nous devons nous assurer qu'ils incluent une constante de normalisation^[Les logiciels enlèvent parfois les termes ou constantes qui ne sont pas des fonctions des paramètres.]. Le $\mathsf{BIC}$ est plus strict que le $\mathsf{AIC},$ car sa pénalité augmente avec la taille de l'échantillon, ce qui permet de sélectionner des modèles plus parsimonieux. Le $\mathsf{BIC}$ est un critère **cohérent**, ce qui signifie qu'il choisira le vrai modèle parmi un ensemble de modèles avec une probabilité de 1 lorsque $n \to \infty$ si ce dernier fait partie du catalogue de modèles à comparer. En pratique, cela présente peu d'intérêt si l'on suppose que tous les modèles sont des approximations de la réalité (il est peu probable que le vrai modèle soit inclus dans ceux que nous considérons). Pour sa part, $\mathsf{AIC}$ sélectionne souvent des modèles trop compliqués dans les grands échantillons, alors que $\mathsf{BIC}$ choisit des modèles trop simples.
 
 
 
@@ -1127,4 +1127,4 @@ Ainsi, **on ne peut pas** comparer un modèle pour $Y$ à un modèle log-linéai
 
 :::
 
-Autre mise en garde: les logiciels omettent souvent les constantes de normalisation (par exemple, le $(2\pi)^{-1/2}$ pour la loi normale); cela n'a pas d'impact lorsque vous comparez des modèles avec les mêmes facteurs constants, mais cela a de l'importance lorsque ceux-ci diffèrent, par exemple si vous comparez une régression de Poisson avec une régression linéaire pour une réponse $Y$.
+Autre mise en garde: les logiciels omettent souvent les constantes de normalisation (par exemple, le $(2\pi)^{-1/2}$ pour la loi normale); cela n'a pas d'impact lorsque vous comparez des modèles avec les mêmes facteurs constants, mais cela a de l'importance lorsque ceux-ci diffèrent, par exemple si vous comparez une régression de Poisson avec une régression linéaire pour une réponse $Y.$

@@ -335,13 +335,13 @@
 \newcommand*\listoflistings{\listof{codelisting}{Liste des énumérations}}
 \usepackage{amsthm}
 \theoremstyle{plain}
+\newtheorem{proposition}{Proposition}[chapter]
+\theoremstyle{plain}
 \newtheorem{corollary}{Corollaire}[chapter]
 \theoremstyle{definition}
-\newtheorem{definition}{Définition}[chapter]
-\theoremstyle{definition}
 \newtheorem{example}{Exemple}[chapter]
-\theoremstyle{plain}
-\newtheorem{proposition}{Proposition}[chapter]
+\theoremstyle{definition}
+\newtheorem{definition}{Définition}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Preuve}}
 \newtheorem*{remark}{Remarque}
@@ -379,7 +379,7 @@
 
 \title{MATH 60604 - Modélisation statistique}
 \author{Léo Belzile}
-\date{2024-12-19}
+\date{2025-06-06}
 
 \begin{document}
 
@@ -481,7 +481,7 @@ préalablement à d'autres fins, on parle de données
 Par modèle, on entendra la spécification d'une loi aléatoire pour les
 données et une équation reliant les paramètres ou l'espérance
 conditionnelle d'une variable réponse \(Y\) à un ensemble de variables
-explicatives \(\mathbf{X}\). Ce modèle peut servir à des fins de
+explicatives \(\mathbf{X}.\) Ce modèle peut servir à des fins de
 prédiction (modèle prédictif) ou pour tester des hypothèses de recherche
 concernant les effets de ces variables (modèle explicatif). Ces deux
 objectifs ne sont pas mutuellement exclusifs même si on fait parfois une
@@ -725,7 +725,7 @@ aléatoire.
 On dénote les variables aléatoires par des lettres majuscules, et leurs
 réalisations par des minuscules: par exemple,
 \(Y \sim \mathsf{normale}(\mu, \sigma^2)\) indique que \(Y\) suit une
-loi normale de paramètres \(\mu \in \mathbb{R}\) et \(\sigma > 0\). On
+loi normale de paramètres \(\mu \in \mathbb{R}\) et \(\sigma > 0.\) On
 parle de famille de lois si la valeur des paramètres ne sont pas
 spécifiées; si on fixe plutôt ces dernière, on obtient une
 représentation qui encode les probabilité.
@@ -735,20 +735,20 @@ densité]\protect\hypertarget{def-repartition}{}\label{def-repartition}
 
 La \textbf{fonction de répartition} \(F(y)\) donne la probabilité
 cumulative qu'un événement n'excède pas une variable donnée,
-\(F(y) = \mathsf{Pr}(Y \leq y)\). Si la variable \(Y\) prend des valeurs
+\(F(y) = \mathsf{Pr}(Y \leq y).\) Si la variable \(Y\) prend des valeurs
 discrètes, alors on utilise la \textbf{fonction de masse}
 \(f(y)=\mathsf{Pr}(Y=y)\) qui donne la probabilité pour chacune des
-valeurs de \(y\). Si la variable \(Y\) est continue, aucune valeur
+valeurs de \(y.\) Si la variable \(Y\) est continue, aucune valeur
 numérique de \(y\) n'a de probabilité non-nulle et \(\Pr(Y=y) = 0\) pour
-toute valeur réelle \(y\); la \textbf{densité}, aussi dénotée \(f(x)\),
+toute valeur réelle \(y\); la \textbf{densité}, aussi dénotée \(f(x),\)
 est une fonction est non-négative et satisfait
 \(\int_{\mathbb{R}} f(x) \mathrm{d}x=1\): elle décrit la probabilité
-d'obtenir un résultat dans un ensemble donné des réels \(\mathbb{R}\),
+d'obtenir un résultat dans un ensemble donné des réels \(\mathbb{R},\)
 pour n'importe lequel intervalle. La densité sert à estimer la
 probabilité que la variable continue \(Y\) appartienne à un ensemble
-\(B\), via \(\mathsf{Pr}(Y \in B) = \int_B f(y) \mathrm{d} y\); la
+\(B,\) via \(\mathsf{Pr}(Y \in B) = \int_B f(y) \mathrm{d} y\); la
 fonction de répartition est ainsi définie comme
-\(F(y) = \int_{-\infty}^y f(x) \mathrm{d} x\).
+\(F(y) = \int_{-\infty}^y f(x) \mathrm{d} x.\)
 
 \begin{figure}[ht!]
 
@@ -776,16 +776,16 @@ modèle.
 \begin{definition}[Moments]\protect\hypertarget{def-moments}{}\label{def-moments}
 
 Soit \(Y\) une variable aléatoire de fonction de densité (ou de masse)
-\(f(x)\). On définit l'espérance d'une variable aléatoire \(Y\) comme
+\(f(x).\) On définit l'espérance d'une variable aléatoire \(Y\) comme
 \begin{align*}
 \mathsf{E}(Y)=\int_{\mathbb{R}} y f(y) \mathrm{d} y.
 \end{align*} L'espérance est la « moyenne théorique», ou moment de
 premier ordre : dans le cas discret,
-\(\mu = \mathsf{E}(Y)=\sum_{y \in \mathcal{y}} y \mathsf{Pr}(y=y)\), où
+\(\mu = \mathsf{E}(Y)=\sum_{y \in \mathcal{y}} y \mathsf{Pr}(y=y),\) où
 \(\mathcal{Y}\) représente le support de la loi, à savoir les valeurs
-qui peuvent prendre \(Y\). Plus généralement, l'espérance d'une fonction
+qui peuvent prendre \(Y.\) Plus généralement, l'espérance d'une fonction
 \(g(y)\) pour une variable aléatoire \(Y\) est simplement l'intégrale de
-\(g(y)\) pondérée par la densité \(f(y)\). De même, si l'intégrale est
+\(g(y)\) pondérée par la densité \(f(y).\) De même, si l'intégrale est
 convergente, la \textbf{variance} est \begin{align*}
 \mathsf{Va}(Y)&=\int_{\mathbb{R}} (y-\mu)^2 f(y) \mathrm{d} y \\&=\mathsf{E}\{Y-\mathsf{E}(Y)\}^2 \\&= \mathsf{E}(Y^2) - \{\mathsf{E}(Y)\}^2.
 \end{align*}
@@ -817,17 +817,17 @@ l'espérance est calculée composante par composante,
 \mathsf{E}(Y_n)
 \end{pmatrix}^\top
 \end{align*} tandis que la matrice \(n \times n\) de deuxième moments
-centrés de \(\boldsymbol{Y}\), dite matrice de variance ou matrice de
+centrés de \(\boldsymbol{Y},\) dite matrice de variance ou matrice de
 \textbf{covariance}, est \begin{align*}
 \mathsf{Va}(\boldsymbol{Y}) &= \boldsymbol{\Sigma} = \begin{pmatrix} \mathsf{Va}(Y_1) & \mathsf{Co}(Y_1, Y_2)  & \cdots & \mathsf{Co}(Y_1, Y_n) \\
 \mathsf{Co}(Y_2, Y_1) & \mathsf{Va}(Y_2) & \ddots & \vdots \\
 \vdots & \ddots & \ddots & \vdots \\
 \mathsf{Co}(Y_n, Y_1) & \mathsf{Co}(Y_n, Y_2) &\cdots & \mathsf{Va}(Y_n)
 \end{pmatrix}
-\end{align*} Le \(i\)e élément diagonal de \(\boldsymbol{\Sigma}\),
-\(\sigma_{ii}=\sigma_i^2\), est la variance de \(Y_i\), tandis que les
+\end{align*} Le \(i\)e élément diagonal de \(\boldsymbol{\Sigma},\)
+\(\sigma_{ii}=\sigma_i^2,\) est la variance de \(Y_i,\) tandis que les
 éléments hors de la diagonale, \(\sigma_{ij}=\sigma_{ji}\)
-\((i \neq j)\), sont les covariances des paires \begin{align*}
+\((i \neq j),\) sont les covariances des paires \begin{align*}
 \mathsf{Co}(Y_i, Y_j) = \int_{\mathbb{R}^2} (y_i-\mu_i)(y_j-\mu_j) f_{Y_i, Y_j}(y_i, y_j) \mathrm{d} y_i \mathrm{d} y_j.
 \end{align*} Par construction, la matrice de covariance
 \(\boldsymbol{\Sigma}\) est symmétrique. Il est d'usage de considérer la
@@ -857,8 +857,8 @@ même groupe (ou du même individu pour les mesures répétées) dans le
 \begin{definition}[Corrélation linéaire de
 Pearson]\protect\hypertarget{def-correlation-Pearson}{}\label{def-correlation-Pearson}
 
-Le coefficient de corrélation linéaire entre \(X_j\) et \(X_k\), que
-l'on note \(r_{j, k}\), cherche à mesurer la force de la relation
+Le coefficient de corrélation linéaire entre \(X_j\) et \(X_k,\) que
+l'on note \(r_{j, k},\) cherche à mesurer la force de la relation
 linéaire entre deux variables, c'est-à-dire à quantifier à quel point
 les observations sont alignées autour d'une droite. Le coefficient de
 corrélation est \begin{align*}
@@ -878,7 +878,7 @@ linéaire \(r\) sont les suivantes:
   \(r=1\) (respectivement \(r=-1\)) si et seulement si les \(n\)
   observations sont exactement alignées sur une droite de pente positive
   (négative). C'est-à-dire, s'il existe deux constantes \(a\) et \(b>0\)
-  (\(b<0\)) telles que \(y_i=a+b x_i\) pour tout \(i=1, \ldots, n\).
+  (\(b<0\)) telles que \(y_i=a+b x_i\) pour tout \(i=1, \ldots, n.\)
 \end{enumerate}
 
 Règle générale,
@@ -927,7 +927,7 @@ Le biais d'un estimateur \(\hat{\theta}\) pour un paramètre \(\theta\)
 est \begin{align*}
 \mathsf{biais}(\hat{\theta})=\mathsf{E}(\hat{\theta})- \theta
 \end{align*} L'estimateur est non biaisé si
-\(\mathsf{biais}(\hat{\theta})=0\).
+\(\mathsf{biais}(\hat{\theta})=0.\)
 
 \end{definition}
 
@@ -937,7 +937,7 @@ biais]\protect\hypertarget{exm-estimateurs-non-biaises}{}\label{exm-estimateurs-
 L'estimateur sans biais de l'espérance de \(Y\) pour un échantillon
 aléatoire simple \(Y_1, \ldots, Y_n\) est la moyenne empirique
 \(\overline{Y}_n = n^{-1} \sum_{i=1}^n Y_i\) et celui de la variance
-\(S_n = (n-1)^{-1} \sum_{i=1}^n (Y_i-\overline{Y})^2\).
+\(S_n = (n-1)^{-1} \sum_{i=1}^n (Y_i-\overline{Y})^2.\)
 
 \end{example}
 
@@ -982,10 +982,10 @@ Bernoulli]\protect\hypertarget{def-loibern}{}\label{def-loibern}
 On considère un phénomène binaire, comme le lancer d'une pièce de
 monnaie (pile/face). De manière générale, on associe les deux
 possibilités à succès/échec et on suppose que la probabilité de
-``succès'' est \(p\). Par convention, on représente les échecs (non) par
+``succès'' est \(p.\) Par convention, on représente les échecs (non) par
 des zéros et les réussites (oui) par des uns. Donc, si la variable \(Y\)
-vaut \(0\) ou \(1\), alors \(\mathsf{Pr}(Y=1)=p\) et la probabilité
-complémentaire est \(\mathsf{Pr}(Y=0)=1-p\). La fonction de masse de la
+vaut \(0\) ou \(1,\) alors \(\mathsf{Pr}(Y=1)=p\) et la probabilité
+complémentaire est \(\mathsf{Pr}(Y=0)=1-p.\) La fonction de masse de la
 \href{https://fr.wikipedia.org/wiki/Loi_de_Bernoulli}{loi Bernoulli}
 s'écrit de façon plus compacte \begin{align*}
 \mathsf{Pr}(Y=y) = p^y (1-p)^{1-y}, \quad y=0, 1.
@@ -994,7 +994,7 @@ s'écrit de façon plus compacte \begin{align*}
 \end{definition}
 
 Un calcul rapide montre que \(\mathsf{E}(Y)=p\) et
-\(\mathsf{Va}(Y)=p(1-p)\). Effectivement, \begin{align*}
+\(\mathsf{Va}(Y)=p(1-p).\) Effectivement, \begin{align*}
 \mathsf{E}(Y) = \mathsf{E}(Y^2) = p \cdot 1 + (1-p) \cdot 0 = p.
 \end{align*}
 
@@ -1030,7 +1030,7 @@ d'essais donné \(m\) est dite
 est (à constante de normalisation près qui ne dépend pas de \(p\)) la
 même que pour un échantillon aléatoire de \(m\) variables Bernoulli
 indépendantes. L'espérance d'une variable binomiale est
-\(\mathsf{E}(Y)=mp\) et la variance \(\mathsf{Va}(Y)=mp(1-p)\).
+\(\mathsf{E}(Y)=mp\) et la variance \(\mathsf{Va}(Y)=mp(1-p).\)
 
 \end{example}
 
@@ -1065,7 +1065,7 @@ approximateivement une loi de Poisson de fonction de masse
 \end{align*} où \(\Gamma(\cdot)\) dénote la fonction gamma, et
 \(\Gamma(y+1) = y!\) si \(y\) est un entier. Le paramètre \(\lambda\) de
 la loi de Poisson représente à la fois l'espérance et la variance de la
-variable, c'est-à-dire que \(\mathsf{E}(Y)=\mathsf{Va}(Y)=\lambda\).
+variable, c'est-à-dire que \(\mathsf{E}(Y)=\mathsf{Va}(Y)=\lambda.\)
 
 \end{example}
 
@@ -1073,7 +1073,7 @@ variable, c'est-à-dire que \(\mathsf{E}(Y)=\mathsf{Va}(Y)=\lambda\).
 négative]\protect\hypertarget{exm-loibinneg}{}\label{exm-loibinneg}
 
 On considère une série d'essais Bernoulli de probabilité de succès \(p\)
-jusqu'à l'obtention de \(m\) succès. Soit \(Y\), le nombre d'échecs:
+jusqu'à l'obtention de \(m\) succès. Soit \(Y,\) le nombre d'échecs:
 puisque la dernière réalisation doit forcément être un succès, mais que
 l'ordre des succès/échecs précédents n'importe pas, la fonction de masse
 de la loi binomiale négative est \begin{align*}
@@ -1086,7 +1086,7 @@ suppose que le paramètre de la moyenne de la loi Poisson est aussi
 aléatoire, c'est-à-dire
 \(Y \mid \Lambda=\lambda \sim \mathsf{Po}(\lambda)\) et \(\Lambda\) suit
 une loi gamma de paramètre de forme \(r\) et de paramètre d'échelle
-\(\theta\), dont la densité est \begin{align*}
+\(\theta,\) dont la densité est \begin{align*}
 f(x) = \theta^{-r}x^{r-1}\exp(-x/\theta)/\Gamma(r).\end{align*} Le
 nombre d'événements suit alors une loi binomiale négative.
 
@@ -1096,7 +1096,7 @@ la fonction de masse \begin{align*}
 \mathsf{Pr}(Y=y)=\frac{\Gamma(y+r)}{\Gamma(y+1)\Gamma(r)} \left(\frac{r}{r + \mu} \right)^{r} \left(\frac{\mu}{r+\mu}\right)^y,
 \end{align*} où \(\Gamma\) dénote la fonction gamma. Dans cette
 paramétrisation, la moyenne théorique et la variance sont
-\(\mathsf{E}(Y)=\mu\) et \(\mathsf{Va}(Y)=\mu+k\mu^2\), où \(k=1/r\). La
+\(\mathsf{E}(Y)=\mu\) et \(\mathsf{Va}(Y)=\mu+k\mu^2,\) où \(k=1/r.\) La
 variance d'une variable binomiale négative est \emph{supérieure} à sa
 moyenne et le modèle est utilisé comme alternative à la loi de Poisson
 pour modéliser la surdispersion.
@@ -1107,7 +1107,7 @@ pour modéliser la surdispersion.
 
 On considère plusieurs lois de variables aléatoires continues; certaines
 servent de lois pour des tests d'hypothèse et découlent du théorème
-central limite (notamment les lois normales, Student, Fisher ou \(F\),
+central limite (notamment les lois normales, Student, Fisher ou \(F,\)
 et khi-deux).
 
 \begin{definition}[Loi
@@ -1115,10 +1115,10 @@ beta]\protect\hypertarget{def-loibeta}{}\label{def-loibeta}
 
 La loi beta \(\mathsf{Beta}(\alpha, \beta)\) est une loi sur
 l'intervalle \([0,1]\) avec paramètres de forme \(\alpha>0\) et
-\(\beta>0\). Sa densité est \begin{align*}
+\(\beta>0.\) Sa densité est \begin{align*}
 f(x) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}x^{\alpha-1}(1-x)^{1-\beta}, \qquad x \in [0,1].
-\end{align*} Le cas \(\alpha=\beta=1\), dénotée également
-\(\mathsf{unif}(0,1)\), correspond à la loi standard uniforme.
+\end{align*} Le cas \(\alpha=\beta=1,\) dénotée également
+\(\mathsf{unif}(0,1),\) correspond à la loi standard uniforme.
 
 \begin{figure}[ht!]
 
@@ -1142,13 +1142,13 @@ La loi exponentielle figure de manière proéminente dans l'étude des
 temps d'attente pour les phénomènes Poisson et en analyse de survie. Une
 caractéristique clé de la loi est son absence de mémoire:
 \(\Pr(Y \geq y + u \mid Y > u) = \Pr(Y > u)\) pour \(Y > 0\) et
-\(y, u>0\).
+\(y, u>0.\)
 
 La fonction de répartition de la loi exponentielle
-\(Y \sim \mathsf{Exp}(\beta)\) où \(\beta>0\), est
+\(Y \sim \mathsf{Exp}(\beta)\) où \(\beta>0,\) est
 \(F(x) = 1-\exp(-\beta x)\) et sa fonction de densité est
-\(f(x) =\beta\exp(-\beta x)\) pour \(x >0\). La moyenne théorique de la
-loi est \(\beta\).
+\(f(x) =\beta\exp(-\beta x)\) pour \(x >0.\) La moyenne théorique de la
+loi est \(\beta.\)
 
 \end{definition}
 
@@ -1159,10 +1159,10 @@ De loin la plus continue des distributions, la loi normale intervient
 dans le théorème central limite, qui dicte le comportement aléatoire de
 la moyenne de grand échantillons. La loi normale est pleinement
 caractérisée par son espérance \(\mu \in \mathbb{R}\) et son écart-type
-\(\sigma>0\). Loi symmétrique autour de \(\mu\), c'est une famille de
+\(\sigma>0.\) Loi symmétrique autour de \(\mu,\) c'est une famille de
 localisation et d'échelle. Sa fonction de densité, \begin{align*}
 f(x) = (2\pi\sigma^2)^{-1/2} \exp \left\{ - \frac{(x-\mu)^2}{2\sigma^2}\right\}, \qquad x \in \mathbb{R}.
-\end{align*} en forme de cloche, est symmétrique autour de \(\mu\), qui
+\end{align*} en forme de cloche, est symmétrique autour de \(\mu,\) qui
 est aussi le mode de la distribution.
 
 \begin{figure}[ht!]
@@ -1181,10 +1181,10 @@ différents (droite).}
 
 The distribution function of the normal distribution is not available in
 closed-form. La loi normale est une famille de localisation échelle: si
-\(Y \sim \mathsf{normale}(\mu, \sigma^2)\), alors
-\(Z = (Y-\mu)/\sigma \sim \mathsf{normale}(0,1)\). Inversement, si
-\(Z \sim \mathsf{normale}(0,1)\), alors
-\(Y = \mu + \sigma Z \sim \mathsf{normale}(\mu, \sigma^2)\).
+\(Y \sim \mathsf{normale}(\mu, \sigma^2),\) alors
+\(Z = (Y-\mu)/\sigma \sim \mathsf{normale}(0,1).\) Inversement, si
+\(Z \sim \mathsf{normale}(0,1),\) alors
+\(Y = \mu + \sigma Z \sim \mathsf{normale}(\mu, \sigma^2).\)
 
 Nous verrons aussi l'extension multidimensionnelle de la loi normale: un
 \(d\) vecteur
@@ -1195,7 +1195,7 @@ f(\boldsymbol{x}) = (2\pi)^{-d/2} |\boldsymbol{\Sigma}|^{-1/2} \exp \left\{ - \f
 
 Le vecteur de moyenne \(\boldsymbol{\mu}\) contient l'espérance de
 chaque composante, tandis que \(\boldsymbol{\Sigma}\) est la matrice de
-covariance de \(\boldsymbol{Y}\). Une propriété unique à la loi normale
+covariance de \(\boldsymbol{Y}.\) Une propriété unique à la loi normale
 (muldimensionnelle) est le lien entre indépendance et matrice de
 covariance: si \(Y_i\) et \(Y_j\) sont indépendants, alors l'entrée
 \((i,j)\) hors diagonale de \(\boldsymbol{\Sigma}\) est nulle.
@@ -1217,14 +1217,14 @@ f(x; \nu) = \frac{1}{2^{\nu/2}\Gamma(\nu/2)}x^{\nu/2-1}\exp(-x/2),\qquad x >0.
 \end{align*} Elle est obtenue pour \(\nu\) entier en prenant la somme de
 variables normales centrées et réduites au carré: si
 \(Y_i \stackrel{\mathrm{iid}}{\sim}\mathsf{normale}(0,1)\) pour
-\(i=1, \ldots, k\), alors \(\sum_{i=1}^k Y_i^2 \sim \chi^2_k\).
-L'espérance de la loi \(\chi^2_k\) est \(k\).
+\(i=1, \ldots, k,\) alors \(\sum_{i=1}^k Y_i^2 \sim \chi^2_k.\)
+L'espérance de la loi \(\chi^2_k\) est \(k.\)
 
 \end{definition}
 
 Si on considère un échantillon aléatoire et identiquement distribution
 de \(n\) observations de lois normales, alors la variance empirique
-repondérée satisfait \((n-1)S^2/\sigma^2 \sim \chi^2_{n-1}\).
+repondérée satisfait \((n-1)S^2/\sigma^2 \sim \chi^2_{n-1}.\)
 
 \begin{definition}[Loi
 Student-\(t\)]\protect\hypertarget{def-loistudent}{}\label{def-loistudent}
@@ -1235,21 +1235,21 @@ localisation et d'échelle de densité symmétrique. On la dénote
 
 Son nom provient d'un article de William Gosset sous le pseudonyme
 Student (\citeproc{ref-Student:1908}{Gosset 1908}), qui a introduit la
-loi comme approximation au comportement de la statistique \(t\). La
+loi comme approximation au comportement de la statistique \(t.\) La
 densité d'une loi Student standard avec \(\nu\) degrés de liberté est
 \begin{align*}
 f(y; \nu) = \frac{\Gamma \left( \frac{\nu+1}{2}\right)}{\Gamma\left(\frac{\nu}{2}\right)
 \sqrt{\nu\pi}}\left(1+\frac{y^{2}}{\nu}\right)^{-\frac{\nu+1}{2}}.
 \end{align*} La loi a des ailes à décroissance polynomiale, est
-symmétrique autour de zéro et unimodale. Quand \(\nu \to \infty\), on
+symmétrique autour de zéro et unimodale. Quand \(\nu \to \infty,\) on
 recouvre une loi normale, mais les ailes sont plus lourdes que la loi
 normale. Effectivement, seuls les \(\nu-1\) premiers moments de la
 distribution existent: la loi \(\mathsf{Student}(2)\) n'a pas de
 variance.
 
 Si les \(n\) observations indépendantes et identiquement distribuées
-\(Y_i \sim \mathsf{normale}(\mu, \sigma^2)\), alors la moyenne empirique
-centrée, divisée par la variance empirique, \((\overline{Y}-\mu)/S^2\),
+\(Y_i \sim \mathsf{normale}(\mu, \sigma^2),\) alors la moyenne empirique
+centrée, divisée par la variance empirique, \((\overline{Y}-\mu)/S^2,\)
 suit une loi Student-\(t\) avec \(n-1\) degrés de liberté.
 
 \begin{figure}[ht!]
@@ -1263,7 +1263,7 @@ suit une loi Student-\(t\) avec \(n-1\) degrés de liberté.
 \caption{\label{fig-densite-Student}Comparaison de la densité
 Student-\(t\) versus normale pour différents degrés de liberté avec
 \(\nu=2\) (pointillé), \(\nu=10\) (traitillé) et la loi normale
-(\(\nu = \infty)\).}
+(\(\nu = \infty).\)}
 
 \end{figure}%
 
@@ -1272,21 +1272,21 @@ Student-\(t\) versus normale pour différents degrés de liberté avec
 \begin{definition}[Loi de
 Fisher]\protect\hypertarget{def-loiF}{}\label{def-loiF}
 
-La loi de Fisher, ou loi \(F\), sert à déterminer le comportement en
+La loi de Fisher, ou loi \(F,\) sert à déterminer le comportement en
 grand échantillon de statistiques de test pour la comparaison de
 plusieurs moyennes (analyse de variance) sous un postulat de normalité
 des observations.
 
-La loi \(F\), dite de Fisher et dénotée
-\(\mathsf{Fisher}(\nu_1, \nu_2)\), est obtenue en divisant deux
+La loi \(F,\) dite de Fisher et dénotée
+\(\mathsf{Fisher}(\nu_1, \nu_2),\) est obtenue en divisant deux
 variables khi-deux indépendantes de degrés de liberté \(\nu_1\) et
-\(\nu_2\). Spécifiquement, si \(Y_1 \sim \chi^2_{\nu_1}\) et
-\(Y_2 \sim \chi^2_{\nu_2}\), alors \begin{align*}
+\(\nu_2.\) Spécifiquement, si \(Y_1 \sim \chi^2_{\nu_1}\) et
+\(Y_2 \sim \chi^2_{\nu_2},\) alors \begin{align*}
 F = \frac{Y_1/\nu_1}{Y_2/\nu_2} \sim \mathsf{Fisher}(\nu_1, \nu_2)
 \end{align*}
 
 La loi de Fisher tend vers une loi \(\chi^2_{\nu_1}\) quand
-\(\nu_2 \to \infty\).
+\(\nu_2 \to \infty.\)
 
 \end{definition}
 
@@ -1327,7 +1327,7 @@ certain nombre d'intervalle, en discrétisant l'ensemble des valeurs en
 classes pour obtenir un histogramme. Le nombre de classes dépendra du
 nombre d'observations si on veut que l'estimation ne soit pas impactée
 par le faible nombre d'observations par classe: règle générale, le
-nombre de classes ne devrait pas dépasser \(\sqrt{n}\), où \(n\) est le
+nombre de classes ne devrait pas dépasser \(\sqrt{n},\) où \(n\) est le
 nombre d'observations de l'échantillon. On obtiendra la fréquence de
 chaque classe, mais si on normalise l'histogramme (de façon à ce que
 l'aire sous les bandes verticales égale un), on obtient une
@@ -1362,13 +1362,13 @@ Elle représente graphiquement cinq statistiques descriptives.
 \begin{itemize}
 \tightlist
 \item
-  La boîte donne les 1e, 2e et 3e quartiles \(q_1, q_2, q_3\). Il y a
+  La boîte donne les 1e, 2e et 3e quartiles \(q_1, q_2, q_3.\) Il y a
   donc 50\% des observations sont au-dessus/en-dessous de la médiane
   \(q_2\) qui sépare en deux la boîte.
 \item
   La longueur des moustaches est moins de \(1.5\) fois l'écart
   interquartile \(q_3-q_1\) (tracée entre 3e quartile et le dernier
-  point plus petit que \(q_3+1.5(q_3-q_1)\), etc.)
+  point plus petit que \(q_3+1.5(q_3-q_1),\) etc.)
 \item
   Les observations au-delà des moustaches sont encerclées. Notez que
   plus le nombre d'observations est élevé, plus le nombres de valeurs
@@ -1444,13 +1444,13 @@ quantiles-quantiles]\protect\hypertarget{def-diagramme-qq}{}\label{def-diagramme
 Le diagramme quantile-quantile sert à vérifier l'adéquation du modèle et
 découle du constat suivant: si \(Y\) est une variable aléatoire continue
 et \(F\) sa fonction de répartition, alors l'application
-\(F(Y) \sim \mathsf{unif}(0,1)\), une loi uniforme standard. De la même
+\(F(Y) \sim \mathsf{unif}(0,1),\) une loi uniforme standard. De la même
 façon, appliquer la fonction quantile à une variable uniforme permet de
-simuler de la loi \(F\), et donc \(F^{-1}(U)\). Supposons un échantillon
-uniforme de taille \(n\). On peut démontrer que, pour des variables
+simuler de la loi \(F,\) et donc \(F^{-1}(U).\) Supposons un échantillon
+uniforme de taille \(n.\) On peut démontrer que, pour des variables
 continues, les statistiques d'ordre \(U_{(1)} \leq \cdots \leq U_{(n)}\)
 ont une loi marginale beta, avec
-\(U_{(k)} \sim \mathsf{Beta}(k, n+1-k)\) d'espérance \(k/(n+1)\).
+\(U_{(k)} \sim \mathsf{Beta}(k, n+1-k)\) d'espérance \(k/(n+1).\)
 
 Les paramètres de la loi \(F\) sont inconnus, mais on peut obtenir un
 estimateur \(\widehat{F}\) et appliquer la transformation inverse pour
@@ -1470,7 +1470,7 @@ statistiques d'ordre transformées
 Si le modèle est adéquat, les valeurs ordonnées devraient suivre une
 droite de pente unitaire qui passe par l'origine. Le diagramme
 probabilité-probabilité représente plutôt les données à l'échelle
-uniforme \(\{\mathrm{rang}(Y_i)/(n+1), \widehat{F}(Y_i)\}\).
+uniforme \(\{\mathrm{rang}(Y_i)/(n+1), \widehat{F}(Y_i)\}.\)
 
 \end{definition}
 
@@ -1509,7 +1509,7 @@ simple est par simulation, en répétant \(B\) fois les étapes suivantes
   \(\widehat{F}_{(b)}\)
 \item
   calculer et stocker les positions
-  \(\widehat{F}^{-1}_{(b)}\{i/(n+1)\}\).
+  \(\widehat{F}^{-1}_{(b)}\{i/(n+1)\}.\)
 \end{enumerate}
 
 Le résultat de cette opération sera une matrice \(n \times B\) de
@@ -1521,13 +1521,13 @@ entier.
 
 Pour l'intervalle de confiance ponctuel, chaque valeur représente une
 statistique et donc individuellement, la probabilité qu'une statistique
-d'ordre sorte de l'intervalle de confiance est \(\alpha\). En revanche,
+d'ordre sorte de l'intervalle de confiance est \(\alpha.\) En revanche,
 les statistiques d'ordres ne sont pas indépendantes et sont qui est plus
 ordonnées, ce qui fait qu'un point hors de l'intervalle risque de n'être
 pas isolé. Les intervalles présentés dans la
 Figure~\ref{fig-diagrammeqq2} sont donc ponctuels. La variabilité des
 statistiques d'ordre uniformes est plus grande autour de 1/2, mais
-celles des variables transformées dépend de \(F\).
+celles des variables transformées dépend de \(F.\)
 
 L'interprétation d'un diagramme quantile-quantile nécessite une bonne
 dose de pratique et de l'expérience:
@@ -1550,9 +1550,9 @@ convergence: plus on récolte d'information, plus notre estimateur
 devrait s'approcher de la valeur qu'on tente d'estimer.
 
 La loi des grands nombres établit que la moyenne empirique de \(n\)
-observations indépendantes de même espérance, \(\overline{Y}_n\), tend
-vers l'espérance commune des variables \(\mu\), où
-\(\overline{Y}_n \rightarrow \mu\). En gros, ce résultat nous dit que
+observations indépendantes de même espérance, \(\overline{Y}_n,\) tend
+vers l'espérance commune des variables \(\mu,\) où
+\(\overline{Y}_n \rightarrow \mu.\) En gros, ce résultat nous dit que
 l'on réussit à approximer de mieux en mieux la quantité d'intérêt quand
 la taille de l'échantillon (et donc la quantité d'information disponible
 sur le paramètre) augmente. La loi des grands nombres est très utile
@@ -1560,7 +1560,7 @@ dans les expériences Monte Carlo: on peut ainsi approximer par
 simulation la moyenne d'une fonction \(g(x)\) de variables aléatoires en
 simulant de façon répétée des variables \(Y\) indépendantes et
 identiquement distribuées et en prenant la moyenne empirique
-\(n^{-1} \sum_{i=1}^n g(Y_i)\).
+\(n^{-1} \sum_{i=1}^n g(Y_i).\)
 
 Si la loi des grands nombres nous renseigne sur le comportement limite
 ponctuel, il ne nous donne aucune information sur la variabilité de
@@ -1571,17 +1571,17 @@ vraie valeur du paramètre.
 
 Le théorème central limite dit que, pour un échantillon aléatoire de
 taille \(n\) dont les observations sont indépendantes et tirées d'une
-loi quelconque d'espérance \(\mu\) et de variance finie \(\sigma^2\),
-alors la moyenne empirique tend non seulement vers \(\mu\), mais à une
+loi quelconque d'espérance \(\mu\) et de variance finie \(\sigma^2,\)
+alors la moyenne empirique tend non seulement vers \(\mu,\) mais à une
 vitesse précise:
 
 \begin{itemize}
 \tightlist
 \item
-  l'estimateur \(\overline{Y}\) sera centré autour de \(\mu\),
+  l'estimateur \(\overline{Y}\) sera centré autour de \(\mu,\)
 \item
   l'erreur-type sera de \(\sigma/\sqrt{n}\); le taux de convergence est
-  donc de \(\sqrt{n}\). Ainsi, pour un échantillon de taille 100,
+  donc de \(\sqrt{n}.\) Ainsi, pour un échantillon de taille 100,
   l'erreur-type de la moyenne empirique sera 10 fois moindre que
   l'écart-type de la variable aléatoire sous-jacente.
 \item
@@ -1589,10 +1589,10 @@ vitesse précise:
 \end{itemize}
 
 Mathématiquement, le théorème central limite dicte que
-\(\sqrt{n}(\overline{Y}-\mu) \stackrel{\mathrm{d}}{\rightarrow} \mathsf{normale}(0, \sigma^2)\).
-Si \(n\) est grand (typiquement supérieur à \(30\), mais cette règle
+\(\sqrt{n}(\overline{Y}-\mu) \stackrel{\mathrm{d}}{\rightarrow} \mathsf{normale}(0, \sigma^2).\)
+Si \(n\) est grand (typiquement supérieur à \(30,\) mais cette règle
 dépend de la loi sous-jacente de \(Y\)), alors
-\(\overline{Y} \stackrel{\cdot}{\sim} \mathsf{normale}(\mu, \sigma^2/n)\).
+\(\overline{Y} \stackrel{\cdot}{\sim} \mathsf{normale}(\mu, \sigma^2/n).\)
 
 Comment interpréter ce résultat? On considère comme exemple le temps de
 trajet moyen de trains à haute vitesse AVE entre Madrid et Barcelone
@@ -1618,7 +1618,7 @@ affiché moyen pour le parcours, estimé sur la base de 9603 observations,
 est de 170 minutes et 41 secondes. La Figure~\ref{fig-renfeclt} montre
 la distribution empirique des données.
 
-Considérons maintenant des échantillons de taille \(n=10\). Dans notre
+Considérons maintenant des échantillons de taille \(n=10.\) Dans notre
 premier échantillon aléatoire, la durée moyenne affichée est 169.3
 minutes, elle est de 167 minutes dans le deuxième, de 157.9 dans le
 troisième, et ainsi de suite.
@@ -1643,14 +1643,14 @@ central limite.}
 \end{figure}%
 
 Supposons qu'on tire \(B=1000\) échantillons différents, chacun de
-taille \(n=5\), de notre ensemble, et qu'on calcule la moyenne de chacun
+taille \(n=5,\) de notre ensemble, et qu'on calcule la moyenne de chacun
 d'entre eux. Le graphique supérieur droit de la
 Figure~\ref{fig-renfemeanCLT} montre un de ces 1000 échantillons
 aléatoire de taille \(n=20\) tiré de notre base de données. Les autres
 graphiques de la Figure~\ref{fig-renfemeanCLT} illustrent l'effet de
 l'augmentation de la taille de l'échantillon: si l'approximation normale
-est approximative avec \(n=5\), la distribution des moyennes est
-virtuellement identique à partir de \(n=20\). Plus la moyenne est
+est approximative avec \(n=5,\) la distribution des moyennes est
+virtuellement identique à partir de \(n=20.\) Plus la moyenne est
 calculée à partir d'un grand échantillon (c'est-à-dire, plus \(n\)
 augmente), plus la qualité de l'approximation normale est meilleure et
 plus la courbe se concentre autour de la vraie moyenne; malgré le fait
@@ -1695,7 +1695,7 @@ l'apprentissage en vase clos des recettes plutôt que d'essayer de
 comprendre les bases de la cuisine et de faire des liens. Ce chapitre se
 concentre sur la compréhension des concepts-clés liées aux tests.
 
-\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, breakable, opacitybacktitle=0.6, colback=white, toptitle=1mm, titlerule=0mm, colframe=quarto-callout-important-color-frame, left=2mm, opacityback=0, bottomtitle=1mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Objectifs d'apprentissage}, coltitle=black, leftrule=.75mm, colbacktitle=quarto-callout-important-color!10!white, arc=.35mm, rightrule=.15mm, toprule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, breakable, colbacktitle=quarto-callout-important-color!10!white, toprule=.15mm, leftrule=.75mm, colframe=quarto-callout-important-color-frame, bottomtitle=1mm, left=2mm, coltitle=black, toptitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Objectifs d'apprentissage}, arc=.35mm, opacitybacktitle=0.6, colback=white, rightrule=.15mm, bottomrule=.15mm, opacityback=0]
 
 \begin{itemize}
 \tightlist
@@ -2383,7 +2383,7 @@ probabilité d'obtenir une valeur de la statistique de test égale ou même
 plus grande que celle qu'on a observée dans l'échantillon, si
 \(\mathscr{H}_0\) est vraie.
 
-\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, breakable, opacitybacktitle=0.6, colback=white, toptitle=1mm, titlerule=0mm, colframe=quarto-callout-caution-color-frame, left=2mm, opacityback=0, bottomtitle=1mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Mise en garde}, coltitle=black, leftrule=.75mm, colbacktitle=quarto-callout-caution-color!10!white, arc=.35mm, rightrule=.15mm, toprule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, breakable, colbacktitle=quarto-callout-caution-color!10!white, toprule=.15mm, leftrule=.75mm, colframe=quarto-callout-caution-color-frame, bottomtitle=1mm, left=2mm, coltitle=black, toptitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Mise en garde}, arc=.35mm, opacitybacktitle=0.6, colback=white, rightrule=.15mm, bottomrule=.15mm, opacityback=0]
 
 L'\href{https://doi.org/10.1080/00031305.2016.1154108}{\emph{American
 Statistical Association (ASA)} a publié une liste de principes}
@@ -2573,7 +2573,7 @@ d'impact, de sorte que la probabilité de promotion est la même pour les
 hommes et les femmes. Soit \(p_{\text{h}}\) et \(p_{\text{f}}\) ces
 probabilités respectives; nous pouvons donc écrire mathématiquement
 l'hypothèse nulle comme \(\mathscr{H}_0: p_{\text{h}} = p_{\text{f}}\)
-contre l'alternative \(\mathscr{H}_a: p_{\text{h}} \neq p_{\text{f}}\).
+contre l'alternative \(\mathscr{H}_a: p_{\text{h}} \neq p_{\text{f}}.\)
 
 La statistique de test généralement employée pour les tableaux de
 contingence est un test du chi carré\footnote{Si vous avez suivi des
@@ -2601,12 +2601,12 @@ en doute la véracité de l'hypothèse nulle.
 
 Si les effectifs de chaque cellule sont importants, la distribution
 nulle du test du chi-deux est bien approximée par une distribution de
-\(\chi^2\). La sortie du test comprend la valeur de la statistique,
+\(\chi^2.\) La sortie du test comprend la valeur de la statistique,
 \(10.79,\) les degrés de liberté de l'approximation \(\chi^2\) et la
 valeur \emph{p}, qui donne la probabilité qu'un tirage aléatoire d'une
 distribution \(\chi^2_1\) soit plus grand que la statistique de test
 observée \textbf{en supposant que l'hypothèse nulle est vraie}. La
-valeur \emph{p} est très petite, \(0.001\), ce qui signifie qu'il est
+valeur \emph{p} est très petite, \(0.001,\) ce qui signifie qu'il est
 très peu probable qu'un tel résultat soit le fruit du hasard s'il n'y a
 pas eu de discrimination fondée sur le sexe.
 
@@ -2705,7 +2705,7 @@ supervision du personnel.
 \tightlist
 \item
   Paramètres du modèle: probabilité de promotion pour les hommes et les
-  femmes, respectivement \(p_{\text{h}}\) et \(p_{\text{f}}\).
+  femmes, respectivement \(p_{\text{h}}\) et \(p_{\text{f}}.\)
 \item
   Hypothèses: pas de discrimination fondée sur le sexe, ce qui signifie
   une probabilité de promotion égale (hypothèse nulle
@@ -2864,7 +2864,7 @@ facteur multiplicatif est \(\exp(\beta_1)\) est \(0.85\) 95\% CI
 L'absence de différence entre les conditions expérimentales se traduit
 par l'hypothèse nulle \(\mathscr{H}_0: \beta_1=0\) vs
 \(\mathscr{H}_0: \beta_1 \neq 0\) ou, de manière équivalente,
-\(\mathscr{H}_0: \exp(\beta_1)=1\). Le test du rapport de vraisemblance
+\(\mathscr{H}_0: \exp(\beta_1)=1.\) Le test du rapport de vraisemblance
 comparant le modèle de régression avec et sans \(\texttt{video}\) la
 statistique est \(R=9.89\) (valeur-\(p\) basée sur \(\chi^2_1\) de
 \(.002\)). Nous concluons que le nombre moyen d'idées est différent, les
@@ -2971,7 +2971,7 @@ Ce chapitre traite de modélisation statistique et d'inférence basée sur
 la vraisemblance, la méthodologie la plus populaire dans le monde de la
 statistique.
 
-\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, breakable, opacitybacktitle=0.6, colback=white, toptitle=1mm, titlerule=0mm, colframe=quarto-callout-important-color-frame, left=2mm, opacityback=0, bottomtitle=1mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, coltitle=black, leftrule=.75mm, colbacktitle=quarto-callout-important-color!10!white, arc=.35mm, rightrule=.15mm, toprule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, breakable, colbacktitle=quarto-callout-important-color!10!white, toprule=.15mm, leftrule=.75mm, colframe=quarto-callout-important-color-frame, bottomtitle=1mm, left=2mm, coltitle=black, toptitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Important}, arc=.35mm, opacitybacktitle=0.6, colback=white, rightrule=.15mm, bottomrule=.15mm, opacityback=0]
 
 \textbf{Objectifs d'apprentissage}
 
@@ -3105,7 +3105,7 @@ exemple, le processus \(\mathsf{AR}(1)\) stipule que
 et nous pouvons simplifier la log-vraisemblance en utilisant la
 propriété de Markov, qui stipule que la réalisation actuelle dépend du
 passé, \(Y_t \mid Y_1, \ldots, Y_{t-1},\) uniquement à travers la valeur
-la plus récente \(Y_{t-1}\). La log-vraisemblance devient donc
+la plus récente \(Y_{t-1}.\) La log-vraisemblance devient donc
 \begin{align*}
 \ell(\boldsymbol{\theta}) = \ln f(y_1) + \sum_{i=2}^n f(y_i \mid y_{i-1}).
 \end{align*}
@@ -3139,9 +3139,9 @@ vraisemblance le rendent intéressant pour l'inférence. L'estimateur du
 maximum de vraisemblance est efficace, c'est-à-dire qu'il présente
 l'erreur quadratique moyenne asymptotique la plus faible de tous les
 estimateurs. L'estimateur du maximum de vraisemblance est également
-\textbf{convergent}, c'est-à-dire qu'il approche de la vraie valeur du
+\textbf{cohérent}, c'est-à-dire qu'il approche de la vraie valeur du
 paramètre inconnu à mesure que la taille de l'échantillon augmente
-(asymptotiquement sans biais).
+(asymptotiquement sans biais, convergence en probabilité).
 
 La plupart du temps, nous allons recourir à des routines d'optimisation
 numérique pour trouver la valeur de l'estimation du maximum de
@@ -3176,7 +3176,7 @@ dernière à zéro, on obtient \begin{align*}
 \(\widehat{\lambda} = \sum_{i=1}^n y_i / n.\) La dérivée deuxième de la
 log vraisemblance est
 \(\mathrm{d}^2 \ell(\lambda)/\mathrm{d} \lambda^2 = n(\lambda^{-2} - 2\lambda^{-3}\overline{y}),\)
-et si on évalue cette dernière à \(\lambda = \overline{y}\), on trouve
+et si on évalue cette dernière à \(\lambda = \overline{y},\) on trouve
 une valeur négative, \(-n/\overline{y}^2.\) Cela confirme que
 \(\widehat{\lambda}\) est la valeur où la fonction atteint son maximum.
 
@@ -3186,7 +3186,7 @@ une valeur négative, \(-n/\overline{y}^2.\) Cela confirme que
 normale]\protect\hypertarget{exm-emv-normal}{}\label{exm-emv-normal}
 
 Supposons que nous disposions de \(n\) observations de loi normale de
-paramètres de moyenne \(\mu\) et de variance \(\sigma^2\), où
+paramètres de moyenne \(\mu\) et de variance \(\sigma^2,\) où
 \(Y_i \sim \mathsf{normale}(\mu, \sigma^2)\) sont indépendants.
 Rappelons que la densité de la loi normale est \begin{align*}
 f(y; \mu, \sigma^2)=\frac{1}{(2\pi \sigma^2)^{1/2}}\exp\left\{-\frac{1}{2\sigma^2}(x-\mu)^2\right\}.
@@ -3203,12 +3203,12 @@ vraisemblance pour les deux paramètres sont \begin{align*}
 
 Le fait que l'estimateur de la moyenne théorique \(\mu\) soit la moyenne
 de l'échantillon est assez intuitif et on peut montrer que l'estimateur
-est sans biais pour \(\mu\). L'estimateur sans biais de la variance de
+est sans biais pour \(\mu.\) L'estimateur sans biais de la variance de
 l'échantillon est \begin{align*}
 S^2=\frac{1}{n-1} \sum_{i=1}^n (Y_i-\overline{Y})^2.
-\end{align*} Puisque \(\widehat{\sigma}^2=(n-1)/n S^2\), il s'ensuit que
+\end{align*} Puisque \(\widehat{\sigma}^2=(n-1)/n S^2,\) il s'ensuit que
 l'estimateur du maximum de vraisemblance de \(\sigma^2\) est biaisé,
-mais les deux estimateurs sont convergents et s'approcheront donc de la
+mais les deux estimateurs sont cohérents et s'approcheront donc de la
 vraie valeur \(\sigma^2\) pour \(n\) suffisamment grand.
 
 \end{example}
@@ -3220,41 +3220,43 @@ Le cas des données normalement distribuées est intimement lié à la
 régression linéaire et aux moindres carrés ordinaires: en supposant la
 normalité des erreurs, les estimateurs des moindres carrés de
 \(\boldsymbol{\beta}\) coïncident avec l'estimateur du maximum de
-vraisemblance de \(\boldsymbol{\beta}\).
+vraisemblance de \(\boldsymbol{\beta}.\)
 
 Le modèle de régression linéaire spécifie que
-\(Y_i \sim \mathsf{normale}(\mathbf{X}_i\boldsymbol{\beta}, \sigma^2)\),
+\(Y_i \sim \mathsf{normale}(\mathbf{X}_i\boldsymbol{\beta}, \sigma^2),\)
 ou de manière équivalente \begin{align*}
 Y_i=\beta_0+\beta_1 \mathrm{X}_{i1}+\beta_2 \mathrm{X}_{i2}+\ldots +\beta_p \mathrm{X}_{ip} + \varepsilon_i, \qquad  (i=1, \ldots, n),
 \end{align*} avec des aléas
-\(\varepsilon_i \sim \mathsf{normale}(0, \sigma^2)\). Le modèle linéaire
+\(\varepsilon_i \sim \mathsf{normale}(0, \sigma^2).\) Le modèle linéaire
 a \(p+2\) paramètres (\(\boldsymbol{\beta}\) et \(\sigma^2\)) et la
 log-vraisemblance est \begin{align*}
-\ell(\boldsymbol{\theta})&=-\frac{n}{2} \ln(2\pi)-\frac{n}{2} \ln (\sigma^2) -\frac{1}{2\sigma^2}\left\{(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\right\}^2.
-\end{align*} Maximiser la log-vraisemblance par rapport à
+\ell(\boldsymbol{\theta})&=-\frac{n}{2} \ln(2\pi)-\frac{n}{2} \ln (\sigma^2) -\frac{(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{2\sigma^2}.
+\end{align*} Si on dénote par
+\(\widehat{\boldsymbol{y}}=\mathbf{X}\widehat{\boldsymbol{\beta}}\) les
+prédictions du modèle, maximiser la log-vraisemblance par rapport à
 \(\boldsymbol{\beta}\) équivaut à minimiser la somme des erreurs
-quadratiques \(\|\boldsymbol{y} - \widehat{\boldsymbol{y}}\|^2\). Cette
+quadratiques \(\|\boldsymbol{y} - \widehat{\boldsymbol{y}}\|^2.\) Cette
 fonction objective étant la même que celle des moindres carrés, il
 s'ensuit que l'estimateur des moindres carrés
 \(\widehat{\boldsymbol{\beta}}\) pour les paramètres de la moyenne est
 aussi l'estimateur du maximum de vraisemblance si les aléas ont la même
-variance \(\sigma^2\), quelle que soit la valeur de cette dernière.
+variance \(\sigma^2,\) quelle que soit la valeur de cette dernière.
 L'estimateur du maximum de vraisemblance \(\widehat{\sigma}^2\) est donc
 \begin{align*}
 \widehat{\sigma}^2=\max_{\sigma^2} \ell(\widehat{\boldsymbol{\beta}}, \sigma^2).
 \end{align*} La log-vraisemblance, en omettant tout terme ou constante
-qui n'est pas fonction de \(\sigma^2\), est \begin{align*}
+qui n'est pas fonction de \(\sigma^2,\) est \begin{align*}
 \ell(\widehat{\boldsymbol{\beta}}, \sigma^2)
-&\propto-\frac{1}{2}\left\{n\ln\sigma^2+\frac{1}{\sigma^2}(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})\right\}.
-\end{align*} En différenciant chaque terme par rapport à \(\sigma^2\) et
-en fixant le gradient à zéro, on obtient l'estimateur du maximum de
+&\propto-\frac{n\ln\sigma^2}{2}-\frac{1}{2\sigma^2}(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}}).
+\end{align*} En dérivant chaque terme par rapport à \(\sigma^2\) et en
+fixant le gradient à zéro, on obtient l'estimateur du maximum de
 vraisemblance \begin{align*}
 \widehat{\sigma}^2=\frac{1}{n}(\boldsymbol{Y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{Y}-\mathbf{X}\hat{\boldsymbol{\beta}})= \frac{1}{n} \sum_{i=1}^n e_i^2= \frac{\mathsf{SS}_e}{n};
 \end{align*} où \(\mathsf{SS}_e\) est la somme des carrés des résidus.
 L'estimateur sans biais habituel de \(\sigma^2\) calculé par le logiciel
-est \(S^2=\mathsf{SS}_e/(n-p-1)\), où le dénominateur est la taille de
+est \(S^2=\mathsf{SS}_e/(n-p-1),\) où le dénominateur est la taille de
 l'échantillon \(n\) moins le nombre de paramètres de la moyenne
-\(\boldsymbol{\beta}\), soit \(p+1\).
+\(\boldsymbol{\beta},\) soit \(p+1.\)
 
 \end{example}
 
@@ -3317,7 +3319,7 @@ l'\textbf{information de Fisher} est \begin{align*}
 i(\boldsymbol{\theta}) = \mathsf{E}\left\{U(\boldsymbol{\theta}; \boldsymbol{Y}) U(\boldsymbol{\theta}; \boldsymbol{Y})^\top\right\} = \mathsf{E}\left\{j(\boldsymbol{\theta}; \boldsymbol{Y})\right\}
 \end{align*} La différence est qu'on prend l'espérance de chaque
 fonction des observations à l'intérieur des entrées de la matrice. Quand
-elle évaluée au point \(\widehat{\boldsymbol{\theta}}\), l'information
+elle évaluée au point \(\widehat{\boldsymbol{\theta}},\) l'information
 de Fisher mesure la variance du score, ou la courbure de ce dernier. La
 matrice de Fisher et la matrice d'information sont toutes deux
 symmétriques.
@@ -3328,13 +3330,13 @@ symmétriques.
 exponentiel]\protect\hypertarget{exm-exponentiel-info}{}\label{exm-exponentiel-info}
 
 L'information de Fisher et observée pour un échantillon aléatoire simple
-du modèle exponentiel, \(Y_1, \ldots, Y_n,\), paramétré en terme
+du modèle exponentiel, \(Y_1, \ldots, Y_n,,\) paramétré en terme
 d'échelle \(\lambda,\) est \begin{align*}
 j(\lambda; \boldsymbol{y}) &= -\frac{\partial^2 \ell(\lambda)}{\partial \lambda^2} = \frac{n}{\lambda^{2}} + \frac{2}{n\lambda^{3}}\sum_{i=1}^n y_i \\
 i(\lambda) &= \frac{n}{\lambda^{2}} + \frac{2}{n\lambda^{3}}\sum_{i=1}^n \mathsf{E}(Y_i)  = \frac{n}{\lambda^{2}}
 \end{align*} puisque \(\mathsf{E}(Y_i) = \lambda\) et que l'espérance
 est un opérateur linéaire. On trouve que
-\(i(\widehat{\lambda}) = j(\widehat{\lambda}) = n/\overline{y}^2\), mais
+\(i(\widehat{\lambda}) = j(\widehat{\lambda}) = n/\overline{y}^2,\) mais
 cette égalité ne tient qu'à l'EMV.
 
 \end{example}
@@ -3365,8 +3367,8 @@ Weibull inclut la loi exponentielle comme cas spécial quand
 Weibull]\protect\hypertarget{exm-weibull-emv}{}\label{exm-weibull-emv}
 
 La log-vraisemblance d'un échantillon aléatoire simple de taille \(n\)
-dont la réalisation est dénotée \(y_1, \ldots, y_n\), tirée d'une loi
-\(\mathsf{Weibull}(\lambda, \alpha)\), est \begin{align*}
+dont la réalisation est dénotée \(y_1, \ldots, y_n,\) tirée d'une loi
+\(\mathsf{Weibull}(\lambda, \alpha),\) est \begin{align*}
 \ell(\lambda, \alpha) = n \ln(\alpha) - n\alpha\ln(\lambda) + (\alpha-1) \sum_{i=1}^n \ln y_i  - \lambda^{-\alpha}\sum_{i=1}^n y_i^\alpha.
 \end{align*} Le gradient de cette fonction est\footnote{Par exemple, en
   utilisant une calculatrice symbolique.} \begin{align*}
@@ -3388,17 +3390,17 @@ j_{\lambda, \lambda} &= \lambda^{-2}\left\{-n\alpha + \alpha(\alpha+1)\sum_{i=1}
 j_{\lambda, \alpha} &= \lambda^{-1}\sum_{i=1}^n [1-(y_i/\lambda)^\alpha\{1+\alpha\ln(y_i/\lambda)\}] \\
 j_{\alpha,\alpha} &= n\alpha^{-2} + \sum_{i=1}^n (y_i/\lambda)^\alpha \{\ln(y_i/\lambda)\}^2
 \end{align*} Pour calculer l'information de Fisher, on calcule
-l'espérance de \(\mathsf{E}\{(Y/\lambda)^\alpha\}\),
+l'espérance de \(\mathsf{E}\{(Y/\lambda)^\alpha\},\)
 \(\mathsf{E}[(Y/\lambda)^\alpha\ln\{(Y/\lambda)^\alpha\}]\) et
-\(\mathsf{E}[(Y/\lambda)^\alpha\ln^2\{(Y/\lambda)^\alpha\}]\). Par
+\(\mathsf{E}[(Y/\lambda)^\alpha\ln^2\{(Y/\lambda)^\alpha\}].\) Par
 définition, \begin{align*}
 \mathsf{E}\left\{(Y/\lambda)^\alpha\right\} & = \int_0^\infty (x/\lambda)^\alpha \frac{\alpha}{\lambda^\alpha} x^{\alpha-1}\exp\left\{-(x/\lambda)^\alpha\right\} \mathrm{d} x \\
  &= \int_0^\infty s\exp(-s) \mathrm{d} s =1
 \end{align*} après le changement de variable
-\(S = (Y/\lambda)^\alpha\sim \mathsf{Exp}(1)\). Les deux autres
+\(S = (Y/\lambda)^\alpha\sim \mathsf{Exp}(1).\) Les deux autres
 intégrales sont tabulées dans Gradshteyn et Ryzhik
 (\citeproc{ref-Gradshteyn.Ryzhik:2014}{2014}), et valent \(1-\gamma\) et
-\(\gamma^2-2\gamma + \pi^2/6\), respectivement, où
+\(\gamma^2-2\gamma + \pi^2/6,\) respectivement, où
 \(\gamma \approx 0.577\) est la constante d'Euler--Mascherroni. Les
 entrées de la matrice d'information de Fisher d'un échantillon aléatoire
 simple Weibull sont \begin{align*}
@@ -3420,7 +3422,7 @@ vecteur de score, c'est-à-dire
 \(U(\widehat{\boldsymbol{\theta}})=\boldsymbol{0}_p.\) Cela revient à
 résoudre simultanément un système de \(p\) équations en fixant à zéro la
 dérivée première par rapport à chaque élément de
-\(\boldsymbol{\theta}\). Si \(j(\widehat{\boldsymbol{\theta}})\) est une
+\(\boldsymbol{\theta}.\) Si \(j(\widehat{\boldsymbol{\theta}})\) est une
 matrice définie positive (c'est-à-dire que toutes ses valeurs propres
 sont positives), alors le vecteur \(\widehat{\boldsymbol{\theta}}\)
 maximise la fonction de log-vraisemblance et est l'estimateur du maximum
@@ -3450,7 +3452,7 @@ le gradient soit approximativement nul. Si la valeur est éloignée du
 mode, l'algorithme peut diverger. Pour éviter cela, nous pouvons
 multiplier le terme
 \(j^{-1}(\boldsymbol{\theta}^{\dagger})U(\boldsymbol{\theta}^{\dagger})\)
-par un facteur d'amortissement \(c<1\). Une variante de l'algorithme,
+par un facteur d'amortissement \(c<1.\) Une variante de l'algorithme,
 appelée score de Fisher, utilise l'information de Fisher
 \(i(\boldsymbol{\theta})\) au lieu de l'information observée,
 \(j(\boldsymbol{\theta}),\) pour des raisons de stabilité numérique et
@@ -3492,7 +3494,7 @@ retournée.
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Charger les données}
-\FunctionTok{data}\NormalTok{(attente, }\AttributeTok{package =} \StringTok{"hecstatmod"}\NormalTok{)}
+\FunctionTok{data}\NormalTok{(attente, }\AttributeTok{package =} \StringTok{"hecmodstat"}\NormalTok{)}
 
 \CommentTok{\# Négatif de la log vraisemblance pour un échantillon Weibull}
 \NormalTok{nll\_weibull }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(pars, y) \{}
@@ -3604,7 +3606,7 @@ l'information observée, \(j^{-1}(\widehat{\boldsymbol{\theta}}).\) Cela
 est justifié par le fait que les deux matrices d'informations
 \(i(\widehat{\boldsymbol{\theta}})\) et
 \(j(\widehat{\boldsymbol{\theta}})\) convergent vers
-\(i(\boldsymbol{\theta})\) quand \(n \to \infty\).
+\(i(\boldsymbol{\theta})\) quand \(n \to \infty.\)
 
 Au fur et à mesure que la taille de l'échantillon augmente, l'estimateur
 du maximum de vraisemblance \(\widehat{\boldsymbol{\theta}}\) devient
@@ -3621,7 +3623,7 @@ Nous utilisons la sortie de notre procédure d'optimisation pour obtenir
 la matrice d'information observée et les erreurs-type pour les
 paramètres du modèle de Weibull. Ces dernières sont simplement la racine
 carrée des entrées diagonales de l'information observée évaluée aux EMV,
-\([\mathrm{diag}\{j^{-1}(\widehat{\boldsymbol{\theta}})\}]^{1/2}\).
+\([\mathrm{diag}\{j^{-1}(\widehat{\boldsymbol{\theta}})\}]^{1/2}.\)
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3649,7 +3651,7 @@ Le résultat de normalité asymptotique peut être utilisé pour dériver les
 erreurs standard pour d'autres quantités d'intérêt. Si
 \(\phi = g(\boldsymbol{\theta})\) est une fonction différentiable de
 \(\boldsymbol{\theta}\) dont le gradient est non-nul lorsque évalué à
-\(\widehat{\boldsymbol{\theta}}\), alors
+\(\widehat{\boldsymbol{\theta}},\) alors
 \(\widehat{\phi} \stackrel{\cdot}{\sim}\mathsf{normale}(\phi_0, \mathrm{V}_\phi),\)
 with
 \(\mathrm{V}_\phi = \nabla \phi^\top \mathbf{V}_{\boldsymbol{\theta}} \nabla \phi,\)
@@ -3700,13 +3702,13 @@ rapport au paramètre d'échelle est
 \section{Tests dérivés de la vraisemblance}\label{sec-testsvrais}
 
 Nous considérons une hypothèse nulle \(\mathscr{H}_0\) qui impose des
-restrictions sur les valeurs possibles de \(\boldsymbol{\theta}\), par
+restrictions sur les valeurs possibles de \(\boldsymbol{\theta},\) par
 rapport à une alternative sans contrainte \(\mathscr{H}_1.\) Nous avons
 besoin de deux modèles \textbf{emboîtés} : un modèle \emph{complet} et
 un modèle \emph{réduit}, pour lequel l'espace des paramèteres est un
 sous-ensemble du modèle complet suite à l'imposition des \(q\)
 restrictions. Par exemple, la loi exponentielle est un cas particulier
-de la loi de Weibull si \(\alpha=1\).
+de la loi de Weibull si \(\alpha=1.\)
 
 L'hypothèse nulle \(\mathscr{H}_0\) testée est ``le modèle réduit est
 une \textbf{simplification adéquate} du modèle complet''. Soit
@@ -3730,7 +3732,7 @@ statistiques pour tester cette hypothèse, soit
 \item
   les statistiques des tests de score de Rao, notées \(S,\) qui
   examinent le gradient repondéré de \(\ell,\) évaluée \emph{uniquement}
-  à \(\widehat{\boldsymbol{\theta}}_0\).
+  à \(\widehat{\boldsymbol{\theta}}_0.\)
 \end{itemize}
 
 \begin{figure}[ht!]
@@ -3752,21 +3754,21 @@ hypothèse nulle simple
 \(\mathscr{H}_0 : \boldsymbol{\theta}=\boldsymbol{\theta}_0\) par
 rapport à l'hypothèse alternative
 \(\mathscr{H}_a : \boldsymbol{\theta} \neq \boldsymbol{\theta}_0\) sont
-le test de Wald \(W\), le rapport de vraisemblance \(R\) et le test du
-score de Rao \(S\), définis comme \begin{align*}
+le test de Wald \(W,\) le rapport de vraisemblance \(R\) et le test du
+score de Rao \(S,\) définis comme \begin{align*}
  W(\boldsymbol{\theta}_0) &= (\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)^\top j(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0), \\
  R(\boldsymbol{\theta}_0) &= 2 \left\{ \ell(\widehat{\boldsymbol{\theta}})-\ell(\boldsymbol{\theta}_0)\right\},\\
  S(\boldsymbol{\theta}_0) &= U^\top(\boldsymbol{\theta}_0)i^{-1}(\boldsymbol{\theta}_0)U(\boldsymbol{\theta}_0), 
 \end{align*} où \(\boldsymbol{\theta}_0\) est la valeur nulle postulée
-du paramètre avec \(q\) restrictions. Si \(q \neq p\), alors on remplace
+du paramètre avec \(q\) restrictions. Si \(q \neq p,\) alors on remplace
 \(\boldsymbol{\theta}_0\) par l'estimation contrainte
-\(\widehat{\boldsymbol{\theta}}_0\).
+\(\widehat{\boldsymbol{\theta}}_0.\)
 
 Asymptotiquement, toutes les statistiques de test sont équivalentes
 (dans le sens où elles conduisent aux mêmes conclusions sur
 \(\mathscr{H}_0\)), mais elles ne sont pas identiques. Sous
-\(\mathscr{H}_0\), les trois statistiques de test suivent une loi
-asymptotique \(\chi^2_q\), où les degrés de liberté \(q\) indiquent le
+\(\mathscr{H}_0,\) les trois statistiques de test suivent une loi
+asymptotique \(\chi^2_q,\) où les degrés de liberté \(q\) indiquent le
 nombre de restrictions.
 
 \begin{refremark}[Procédures de tests et formes quadratiques]
@@ -3774,21 +3776,21 @@ D'où provient cette loi \(\chi^2_q\)? Considérons pour faire simple le
 cas où \(q=2\) restrictions sont imposées dans un modèle avec \(p=2\)
 paramètres (par ex., la loi de Weibull) et le test de Wald. La loi
 asymptotique de l'estimateur du maximum de vraisemblance dicte que
-\(\widehat{\boldsymbol{\theta}} \stackrel{\cdot}{\sim} \mathsf{normale}_p\{\boldsymbol{\theta}, i^{-1}(\boldsymbol{\theta})\}\),
+\(\widehat{\boldsymbol{\theta}} \stackrel{\cdot}{\sim} \mathsf{normale}_p\{\boldsymbol{\theta}, i^{-1}(\boldsymbol{\theta})\},\)
 et on peut obtenir des ellipses de confiance pour un test en remplaçant
 l'information de Fisher \(i(\boldsymbol{\theta})\) par un estimateur
-convergent comme \(j(\widehat{\boldsymbol{\theta}})\): on obtient alors
-le panneau de gauche de la Figure~\ref{fig-ellipses}.
+cohérent comme \(j(\widehat{\boldsymbol{\theta}})\): on obtient alors le
+panneau de gauche de la Figure~\ref{fig-ellipses}.
 
-Si on postule \(\boldsymbol{\theta} = \boldsymbol{\theta}_0\), il suffit
+Si on postule \(\boldsymbol{\theta} = \boldsymbol{\theta}_0,\) il suffit
 de considérer où la valeur tombe sur le diagramme et le niveau de
 l'ellipse correspondante. Plutôt, on peut standardiser et considérer la
 variable standardisée
-\(\boldsymbol{\vartheta} =j^{1/2}(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)\),
+\(\boldsymbol{\vartheta} =j^{1/2}(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0),\)
 dont les courbes de contour sont circulaires. Pour réduire le problème,
 on considère le carré du rayon
-\(W = \vartheta_1^2 + \vartheta_2^2=(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)^\top j(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)\),
-qui suit une loi \(\chi^2_2\). On peut ainsi facilement déterminer si la
+\(W = \vartheta_1^2 + \vartheta_2^2=(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0)^\top j(\widehat{\boldsymbol{\theta}})(\widehat{\boldsymbol{\theta}}-\boldsymbol{\theta}_0),\)
+qui suit une loi \(\chi^2_2.\) On peut ainsi facilement déterminer si la
 valeur suggérée pour le paramètre \(\boldsymbol{\theta}_0\) est rare
 sous l'hypothèse nulle, comme dans le panneau de droite de la
 Figure~\ref{fig-ellipses}, puisque tous les valeurs rares deviennent des
@@ -3804,7 +3806,7 @@ rayons.
 
 \caption{\label{fig-ellipses}Courbes de contour elliptiques pour la loi
 asymptotique normale multidimensionnelle des EMV (gauche) et densité du
-carré du rayon des variables standardisés \(\boldsymbol{\vartheta}\),
+carré du rayon des variables standardisés \(\boldsymbol{\vartheta},\)
 avec les niveaux des quantiles correspondant indiqués par des traits
 (droite).}
 
@@ -3824,12 +3826,12 @@ s(\theta_0)&=i^{-1/2}(\theta_0)U(\theta_0)
 
 Sous cette forme, si l'hypothèse nulle
 \(\mathscr{H}_0: \theta = \theta_0\) est vraie, alors
-\(w(\theta_0)\stackrel{\cdot}{\sim} \mathsf{normale}(0,1)\), etc.
+\(w(\theta_0)\stackrel{\cdot}{\sim} \mathsf{normale}(0,1),\) etc.
 
 La statistique du test du rapport de vraisemblance est normalement la
 plus puissante des trois tests (et donc préférable selon ce critère); la
 statistique est aussi invariante aux reparamétrages. La statistique de
-score \(S\), moins utilisée, nécessite le calcul du score et de
+score \(S,\) moins utilisée, nécessite le calcul du score et de
 l'information de Fisher, mais n'est évaluée que sous \(\mathscr{H}_0\)
 (car par définition \(U(\widehat{\theta})=0\)), elle peut donc être
 utile dans les problèmes où les calculs de l'estimateur du maximum de
@@ -3847,7 +3849,7 @@ peut laisser à désirer si la loi d'échantillonnage de
 }
 
 \caption{\label{fig-weibull-profile}Log-vraisemblance profilée pour
-\(\alpha\), représentée par un trait gris traitillé (gauche) et par une
+\(\alpha,\) représentée par un trait gris traitillé (gauche) et par une
 coupe transversale (droite). Le panneau de gauche montre la surface de
 log-vraisemblance pour le modèle de Weibull avec des régions de
 confiance de 10\%, 20\%, \ldots, 90\% du rapport de vraisemblance
@@ -3862,8 +3864,8 @@ les valeurs pour les intervalles de confiance à 95\% et 99\%.}
 
 La statistique de Wald \(W\) est la plus courante. Les intervalles de
 confiance bilatéraux de niveau \((1-\alpha)\) de Wald pour les
-paramètres de \(\boldsymbol{\theta}\), où pour \(\theta_j\)
-\((j=1, \ldots, p)\), \begin{align*}
+paramètres de \(\boldsymbol{\theta},\) où pour \(\theta_j\)
+\((j=1, \ldots, p),\) \begin{align*}
 \widehat{\theta}_j \pm \mathfrak{z}_{1-\alpha/2}\mathrm{se}(\widehat{\theta}_j),
 \end{align*} avec \(\mathfrak{z}_{1-\alpha/2}\) le quantile
 \(1-\alpha/2\) d'une loi normale standard. Pour un intervalle à 95\%, le
@@ -3877,8 +3879,8 @@ exponentiel]\protect\hypertarget{exm-weibull-exponentiel-sousmodele}{}\label{exm
 
 Nous pouvons tester si la loi exponentielle est une simplification
 adéquate de la loi de Weibull en imposant la restriction
-\(\mathscr{H}_0: \alpha=1\). Nous comparons les statistiques de Wald
-\(W\) à un \(\chi^2_1\). Puisque \(\alpha\) est un paramètre de la loi
+\(\mathscr{H}_0: \alpha=1.\) Nous comparons les statistiques de Wald
+\(W\) à un \(\chi^2_1.\) Puisque \(\alpha\) est un paramètre de la loi
 Weibull, nous avons les erreurs-type gratuitement.
 
 \begin{Shaded}
@@ -3962,17 +3964,17 @@ dernières sont obtenues par une recherche numérique des limites de
 \begin{align*}
 \left\{\theta: 2\{\ell(\widehat{\boldsymbol{\theta}}) - \ell(\boldsymbol{\theta})\} \leq \chi^2_p(1-\alpha)\right\},
 \end{align*} où \(\chi^2_p(1-\alpha)\) est le quantile de niveau
-\((1-\alpha)\) de la loi \(\chi^2_p\). De tels intervalles, pour
-\(\alpha = 0.1, \ldots, 0.9\), sont tracés sur la
+\((1-\alpha)\) de la loi \(\chi^2_p.\) De tels intervalles, pour
+\(\alpha = 0.1, \ldots, 0.9,\) sont tracés sur la
 Figure~\ref{fig-weibull-profile} (courbes de contour). Si
-\(\boldsymbol{\theta}\) est un \(p\)-vecteur \((p> 1)\), alors les
+\(\boldsymbol{\theta}\) est un \(p\)-vecteur \((p> 1),\) alors les
 intervalles de confiance pour \(\theta_i\) sont dérivés à partir de la
 vraisemblance profilée. Les intervalles de confiance basés sur la
 statistique du rapport de vraisemblance sont \textbf{invariants aux
 reparamétrages}, donc
 \(\mathsf{IC}_{R}\{g(\theta)\} = g\{\mathsf{IC}_{R}(\theta)\}.\) Comme
 la vraisemblance est nulle si la valeur d'un paramètre se situe en
-dehors de l'espace des paramètres \(\boldsymbol{\Theta}\), les
+dehors de l'espace des paramètres \(\boldsymbol{\Theta},\) les
 intervalles n'incluent que les valeurs plausibles de \(\theta.\) En
 général, les intervalles sont asymétriques et présentent de meilleures
 taux de couverture.
@@ -4028,7 +4030,7 @@ paramètres de nuisance sont intégrés est appelée vraisemblance profilée.
 profilée]\protect\hypertarget{def-logvraisemblance}{}\label{def-logvraisemblance}
 
 Soit un modèle paramétrique avec log-vraisemblance
-\(\ell(\boldsymbol{\theta})\), dont le vecteur de paramètres de
+\(\ell(\boldsymbol{\theta}),\) dont le vecteur de paramètres de
 dimension \(p\)
 \(\boldsymbol{\theta}=(\boldsymbol{\psi}, \boldsymbol{\varphi})\) peut
 être séparé en un sous-vecteur de longueur \(q\) contenant les
@@ -4059,19 +4061,19 @@ l'échelle qui maximise la log-vraisemblance pour un \(\alpha\) donné est
 \end{align*} Si on substitue cette valeur dans la log-vraisemblance, on
 obtient une fonction de \(\alpha\) uniquement, ce qui réduit également
 le problème d'optimisation pour les EMV d'une loi Weibull à une
-recherche linéaire le long de \(\ell_{\mathsf{p}}(\alpha)\). Le panneau
+recherche linéaire le long de \(\ell_{\mathsf{p}}(\alpha).\) Le panneau
 de gauche de Figure~\ref{fig-weibull-profile} montre la crête le long de
 la direction de \(\alpha\) correspondant à la surface de
 log-vraisemblance. Si l'on considère ces courbes de niveau comme celles
 d'une carte topographique, la log-vraisemblance profilée correspond dans
 ce cas à une marche le long de la crête des deux montagnes dans la
-direction \(\psi\), le panneau de droite montrant le gain/la perte
+direction \(\psi,\) le panneau de droite montrant le gain/la perte
 d'altitude. Le profil d'élévation correspondant à droite de
 Figure~\ref{fig-weibull-profile} avec les points de coupure pour les
 intervalles de confiance basés sur le rapport de vraisemblance\textless.
 Nous devrions obtenir numériquement, à l'aide d'un algorithme de
 recherche lin/aire, les limites de l'intervalle de confiance de part et
-d'autre de \(\widehat{\alpha}\), mais il est clair que \(\alpha=1\)
+d'autre de \(\widehat{\alpha},\) mais il est clair que \(\alpha=1\)
 n'est pas dans l'intervalle de 99\%.
 
 \begin{Shaded}
@@ -4097,8 +4099,8 @@ Weibull]\protect\hypertarget{exm-weibull-scoretest}{}\label{exm-weibull-scoretes
 
 On peut procéder pour le calcul du test du score, mais l'entrée pour le
 paramètre d'échelle du vecteur de score \(U({\widehat{\lambda}_1}, 0)\)
-est nulle quand \(\alpha=1\). L'estimateur contraint
-\(\widehat{\lambda}_1=\overline{y}\).
+est nulle quand \(\alpha=1.\) L'estimateur contraint
+\(\widehat{\lambda}_1=\overline{y}.\)
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4147,28 +4149,28 @@ Nous pouvons également utiliser l'optimisation numérique pour calculer
 la log-vraisemblance profilée d'une fonction des paramètres. Supposons
 que nous soyons intéressés par le temps moyen d'attente théorique. Selon
 le modèle Weibull, cette valeur est
-\(\mu = \mathsf{E}(Y) = \lambda\Gamma(1+1/\alpha)\). À cet effet, nous
-reparamétrons le modèle en termes de \((\mu, \alpha)\), où
-\(\lambda=\mu/\Gamma(1+1/\alpha)\). Nous créons ensuite une fonction qui
-optimise la log-vraisemblance pour une valeur fixe de \(\mu\), puis
-renvoie \(\widehat{\alpha}_{\mu}\), \(\mu\) et
-\(\ell_{\mathrm{p}}(\mu)\).
+\(\mu = \mathsf{E}(Y) = \lambda\Gamma(1+1/\alpha).\) À cet effet, nous
+reparamétrons le modèle en termes de \((\mu, \alpha),\) où
+\(\lambda=\mu/\Gamma(1+1/\alpha).\) Nous créons ensuite une fonction qui
+optimise la log-vraisemblance pour une valeur fixe de \(\mu,\) puis
+renvoie \(\widehat{\alpha}_{\mu},\) \(\mu\) et
+\(\ell_{\mathrm{p}}(\mu).\)
 
 Pour obtenir les intervalles de confiance d'un paramètre scalaire, il
 existe une astuce qui permet de s'en tirer avec une évaluation sommaire,
 pour autant que la log-vraisemblance profilée soit relativement lisse.
 Nous calculons la racine directionnelle du rapport de vraisemblance,
 \(r(\psi) = \mathrm{sign}(\psi - \widehat{\psi})\{2\ell_{\mathrm{p}}(\widehat{\psi}) -2 \ell_{\mathrm{p}}(\psi)\}^{1/2}\)
-sur une grille fine de valeurs de \(\psi\), puis nous ajustons une
+sur une grille fine de valeurs de \(\psi,\) puis nous ajustons une
 spline de lissage, une régression avec variable réponse \(y=\psi\) et
-variable explicative \(x=r(\psi)\). Nous prédisons ensuite la courbe aux
+variable explicative \(x=r(\psi).\) Nous prédisons ensuite la courbe aux
 quantiles normaux \(\mathfrak{z}_{\alpha/2}\) et
-\(\mathfrak{z}_{1-\alpha/2}\), et renvoyons ces valeurs sous forme
+\(\mathfrak{z}_{1-\alpha/2},\) et renvoyons ces valeurs sous forme
 d'intervalle de confiance. La Figure~\ref{fig-profile-mu-weibull} montre
 comment ces valeurs correspondent aux points de coupure sur l'échelle du
 logarithme du rapport de vraisemblance, où la ligne verticale est donnée
 par \(-\mathfrak{c}(1-\alpha)/2\) où \(\mathfrak{c}\) représente le
-quantile d'une variable aléatoire \(\chi^2_1\).
+quantile d'une variable aléatoire \(\chi^2_1.\)
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4317,11 +4319,11 @@ populaires. Si nous voulons comparer la vraisemblance de différents
 modèles de probabilité, nous devons nous assurer qu'ils incluent une
 constante de normalisation\footnote{Les logiciels enlèvent parfois les
   termes ou constantes qui ne sont pas des fonctions des paramètres.}.
-Le \(\mathsf{BIC}\) est plus strict que le \(\mathsf{AIC}\), car sa
+Le \(\mathsf{BIC}\) est plus strict que le \(\mathsf{AIC},\) car sa
 pénalité augmente avec la taille de l'échantillon, ce qui permet de
 sélectionner des modèles plus parsimonieux. Le \(\mathsf{BIC}\) est un
-critère \textbf{convergent}, ce qui signifie qu'il choisira le vrai
-modèle parmi un ensemble de modèles avec une probabilité de 1 lorsque
+critère \textbf{cohérent}, ce qui signifie qu'il choisira le vrai modèle
+parmi un ensemble de modèles avec une probabilité de 1 lorsque
 \(n \to \infty\) si ce dernier fait partie du catalogue de modèles à
 comparer. En pratique, cela présente peu d'intérêt si l'on suppose que
 tous les modèles sont des approximations de la réalité (il est peu
@@ -4367,7 +4369,7 @@ normalisation (par exemple, le \((2\pi)^{-1/2}\) pour la loi normale);
 cela n'a pas d'impact lorsque vous comparez des modèles avec les mêmes
 facteurs constants, mais cela a de l'importance lorsque ceux-ci
 diffèrent, par exemple si vous comparez une régression de Poisson avec
-une régression linéaire pour une réponse \(Y\).
+une régression linéaire pour une réponse \(Y.\)
 
 \bookmarksetup{startatroot}
 
@@ -4385,10 +4387,10 @@ modèle qui décrit la moyenne d'une \textbf{variable réponse} continue
 \(Y_i\) d'un échantillon aléatoire de taille \(n\) comme
 \textbf{fonction linéaire} des \textbf{variables explicatives}
 (également appelés prédicteurs, régresseurs ou covariables)
-\(X_1, \ldots, X_p\).
+\(X_1, \ldots, X_p.\)
 
-Dénotons par \(Y_i\) la valeur de \(Y\) pour le sujet \(i\), et
-\(X_{ij}\) la valeur de la \(j\)e variable explicative du sujet \(i\).
+Dénotons par \(Y_i\) la valeur de \(Y\) pour le sujet \(i,\) et
+\(X_{ij}\) la valeur de la \(j\)e variable explicative du sujet \(i.\)
 \begin{align}
 \underset{\text{moyenne conditionnelle}}{\mathsf{E}(Y_i \mid \boldsymbol{X}_i=\boldsymbol{x}_i)}=\mu_i=\underset{\substack{\text{combinaison linéaire (somme pondérée)}\\ \text{de variables explicatives}}}{\beta_0 + \beta_1x_{i1} + \cdots + \beta_p x_{ip}}\equiv \mathbf{x}_i\boldsymbol{\beta}.
 \end{align} où \(\mathbf{x}_i = (1, x_{i1}, \ldots, x_{ip})\) est un
@@ -4401,41 +4403,41 @@ implique simplement que l'on considère les régresseurs comme constant,
 ou connus à l'avance. Les coefficients \(\boldsymbol{\beta}\) sont les
 mêmes pour toutes les observations, mais le vecteurs de variables
 explicatives \(\mathbf{x}_i\) peut différer d'une observation à l'autre.
-Le modèle est \textbf{linéaire} en \(\beta_0, \ldots, \beta_p\), pas
+Le modèle est \textbf{linéaire} en \(\beta_0, \ldots, \beta_p,\) pas
 nécessairement dans les variables explicatives.
 
 Pour simplifier la notation, nous regroupons les observations dans un
 vecteur \(n\) \(\boldsymbol{Y}\) et les explications dans une matrice
 \(n \times (p+1)\) \(\mathbf{X}\) en concaténant une colonne de uns et
 les vecteurs de colonnes \(p\)
-\(\boldsymbol{X}_1, \ldots, \boldsymbol{X}_p\), chacun contenant les
+\(\boldsymbol{X}_1, \ldots, \boldsymbol{X}_p,\) chacun contenant les
 \(n\) observations des explications respectives. La matrice
 \(\mathbf{X}\) est appelée \textbf{matrice du modèle} (ou parfois
 matrice de devis dans un contexte expérimental), et sa \(i\)ème ligne
-est \(\mathbf{x}_i\).
+est \(\mathbf{x}_i.\)
 
 En supposant que la variable réponse provient d'une famille de
 localisation, nous pouvons réécrire le modèle linéaire en termes de la
 moyenne plus un aléa, \begin{align*}
 \underset{\text{observation}\vphantom{\mu_i}}{Y_i} = \underset{\text{moyenne } \mu_i}{\vphantom{Y_i}\mathbf{x}_i\boldsymbol{\beta}} + \underset{\text{aléa}\vphantom{\mu_i}}{\vphantom{Y_i}\varepsilon_i},
 \end{align*} où \(\varepsilon_i\) est le terme spécifique à
-l'observation \(i\). On assume que les aléas
+l'observation \(i.\) On assume que les aléas
 \(\varepsilon_1, \ldots \varepsilon_n\) sont indépendants et
 identiquement distribués, avec
 \(\mathsf{E}(\varepsilon_i \mid \mathbf{x}_i) = 0\) et
-\(\mathsf{Var}(\varepsilon_i \mid \mathbf{x}_i) = \sigma^2\). On fixe
+\(\mathsf{Var}(\varepsilon_i \mid \mathbf{x}_i) = \sigma^2.\) On fixe
 l'espérance de l'aléa à zéro car on postule qu'il n'y a pas d'erreur
 systématique. La variance \(\sigma^2\) sert à tenir compte du fait
-qu'aucune relation linéaire exacte ne lie \(\mathbf{x}_i\) et \(Y_i\),
+qu'aucune relation linéaire exacte ne lie \(\mathbf{x}_i\) et \(Y_i,\)
 ou que les mesures de \(Y_i\) sont variables.
 
 Le modèle linéaire normal ou gaussien spécifie que les réponses suivent
 une loi normale, avec
-\(Y_i \mid \boldsymbol{X}_i=\boldsymbol{x}_i \sim \mathsf{normale}(\mathbf{x}_i\boldsymbol{\beta}, \sigma^2)\).
+\(Y_i \mid \boldsymbol{X}_i=\boldsymbol{x}_i \sim \mathsf{normale}(\mathbf{x}_i\boldsymbol{\beta}, \sigma^2).\)
 La loi normale est une famille de localisation, de sorte que
 \(Y \sim \mathsf{normale}(\mu, \sigma^2)\) équivaut à la décomposition
 additive \(\mu + \varepsilon\) pour
-\(\varepsilon \sim \mathsf{normale}(0, \sigma^2)\).
+\(\varepsilon \sim \mathsf{normale}(0, \sigma^2).\)
 
 \subsection{Exemples}\label{exemples-1}
 
@@ -4458,7 +4460,7 @@ en fonction de la familiarité de la marque \texttt{familiarity}, un
 nombre entier allant de 1 à 7, et une variable binaire pour le facteur
 expérimental \texttt{consistency}, codé \texttt{0} pour des descriptions
 d'image/texte cohérentes et \texttt{1} si elles sont incohérentes. La
-matrice du modèle qui en résulte est alors de dimension \(96\times 3\).
+matrice du modèle qui en résulte est alors de dimension \(96\times 3.\)
 La réponse \texttt{prodeval} est fortement discrétisée.
 
 \begin{Shaded}
@@ -4520,8 +4522,8 @@ pré-intervention comme covariable. Les tests 1 étaient sur 16, mais
 celui administré après l'expérience a été rendu plus difficile pour
 éviter les cas d'étudiants obtenant des scores presque complets. La
 corrélation entre le pré-test et le post-test 1 est
-\((\widehat{\rho}_1=0.57)\), beaucoup plus forte que celle du second
-test \((\widehat{\rho}_2=0.21)\).
+\((\widehat{\rho}_1=0.57),\) beaucoup plus forte que celle du second
+test \((\widehat{\rho}_2=0.21).\)
 
 \end{example}
 
@@ -4700,7 +4702,7 @@ Il convient de vérifier pour les données de Moon et VanEpps
 collecte coïncide avec la structure. Puisque les personnes qui n'ont pas
 donné ne remplissent pas le champ pour le montant, ce dernier indique
 une valeur manquante. Tous les montants des dons sont entre 0.25\$ et
-25\$.
+25.\$
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4712,13 +4714,13 @@ une valeur manquante. Tous les montants des dons sont entre 0.25\$ et
 \CommentTok{\#\textgreater{}  $ condition: Factor w/ 2 levels "open{-}ended","quantity": 1 1 1 1 2 2 2 1 1 1 ...}
 \CommentTok{\#\textgreater{}  $ amount   : num [1:869] NA NA NA 10 5 NA 20 NA NA 25 ...}
 \FunctionTok{summary}\NormalTok{(MV23\_S1)}
-\CommentTok{\#\textgreater{}      before          donate          condition       amount    }
-\CommentTok{\#\textgreater{}  Min.   :0.000   Min.   :0.00   open{-}ended:407   Min.   : 0.2  }
-\CommentTok{\#\textgreater{}  1st Qu.:0.000   1st Qu.:0.00   quantity  :462   1st Qu.: 5.0  }
-\CommentTok{\#\textgreater{}  Median :1.000   Median :1.00                    Median :10.0  }
-\CommentTok{\#\textgreater{}  Mean   :0.596   Mean   :0.73                    Mean   :10.7  }
-\CommentTok{\#\textgreater{}  3rd Qu.:1.000   3rd Qu.:1.00                    3rd Qu.:15.0  }
-\CommentTok{\#\textgreater{}  Max.   :1.000   Max.   :1.00                    Max.   :25.0  }
+\CommentTok{\#\textgreater{}      before          donate          condition       amount     }
+\CommentTok{\#\textgreater{}  Min.   :0.000   Min.   :0.00   open{-}ended:407   Min.   : 0.25  }
+\CommentTok{\#\textgreater{}  1st Qu.:0.000   1st Qu.:0.00   quantity  :462   1st Qu.: 5.00  }
+\CommentTok{\#\textgreater{}  Median :1.000   Median :1.00                    Median :10.00  }
+\CommentTok{\#\textgreater{}  Mean   :0.596   Mean   :0.73                    Mean   :10.69  }
+\CommentTok{\#\textgreater{}  3rd Qu.:1.000   3rd Qu.:1.00                    3rd Qu.:15.00  }
+\CommentTok{\#\textgreater{}  Max.   :1.000   Max.   :1.00                    Max.   :25.00  }
 \CommentTok{\#\textgreater{}  NA\textquotesingle{}s   :1                                       NA\textquotesingle{}s   :235}
 \end{Highlighting}
 \end{Shaded}
@@ -4785,7 +4787,7 @@ La spécification de la moyenne est \begin{align*}
 \end{align*} L'\textbf{ordonnée à l'origine} \(\beta_0\) est la
 \textbf{valeur moyenne de \(Y\)} lorsque toutes les variables
 explicatives du modèles sont nulles, soit
-\(\boldsymbol{x}_i=\boldsymbol{0}_p\). \begin{align*}
+\(\boldsymbol{x}_i=\boldsymbol{0}_p.\) \begin{align*}
 \beta_0 &= \mathsf{E}(Y \mid X_1=0,X_2=0,\ldots,X_p=0) \\
 &= \beta_0 + \beta_1 \times 0 + \beta_2 \times 0 + \cdots + \beta_p \times 0
 \end{align*} Bien sur, il se peut que cette interprétation n'ait aucun
@@ -4796,7 +4798,7 @@ l'ordonnée à l'origine plus interprétable.
 En régression linéaire, le paramètre \(\beta_j\) mesure l'effet de la
 variable \(X_j\) sur la variable \(Y\) une fois que l'on tient compte
 des effets des autres variables explicatives. Pour chaque augmentation
-d'une unité de \(X_j\), la réponse \(Y\) augmente en moyenne de
+d'une unité de \(X_j,\) la réponse \(Y\) augmente en moyenne de
 \(\beta_j\) lorsque les autres variables demeurent inchangées,
 \begin{align*}
 \beta_j &= \mathsf{E}(Y \mid X_j= x_j+1, \boldsymbol{X}_{-j} = \boldsymbol{x}_{-j})  - \mathsf{E}(Y \mid \boldsymbol{X} = \boldsymbol{x}) \\
@@ -4807,15 +4809,15 @@ d'une unité de \(X_j\), la réponse \(Y\) augmente en moyenne de
 marginal]\protect\hypertarget{def-effet-marginal}{}\label{def-effet-marginal}
 
 On définit l'effet marginal comme la dérivée première de la moyenne
-conditionnelle par rapport à \(X_j\), soit
+conditionnelle par rapport à \(X_j,\) soit
 \[\text{effet marginal de }X_j =  \frac{\partial \mathsf{E}(Y \mid \boldsymbol{X})}{ \partial X_j}.\]
 Le coefficient \(\beta_j\) est aussi l'\emph{effet marginal} de la
-variable \(X_j\).
+variable \(X_j.\)
 
 \end{definition}
 
 Les variables indicatrices, qui prennent typiquement des valeurs de
-\(-1\), \(0\) et \(1\), servent à indiquer l'appartenance aux
+\(-1,\) \(0\) et \(1,\) servent à indiquer l'appartenance aux
 différentes modalités d'une variable catégorielle. Par exemple, pour une
 variable indicatrice binaire, nous pouvons créer une colonne dont les
 entrées sont \(1\) pour le groupe de traitement et \(0\) pour le groupe
@@ -4847,7 +4849,7 @@ moyenne du groupe traitement (\texttt{quantity}) est
 différence du montant moyen de dons entre le groupe \texttt{open-ended}
 et le groupe \texttt{quantity}. Cette paramétrisation est commode si on
 veut tester s'il y a une différence moyenne entre les deux groupes,
-puisque cette hypothèse nulle correspond à \(\mathscr{H}_0: \beta_1=0\).
+puisque cette hypothèse nulle correspond à \(\mathscr{H}_0: \beta_1=0.\)
 
 \begin{figure}[ht!]
 
@@ -4865,7 +4867,7 @@ demi-violin. Les cercles indiquent les moyennes de l'échantillon.}
 \end{figure}%
 
 Même si le modèle linéaire définit une droite, cette dernière ne peut
-être évaluée qu'à \(0\) ou \(1\); la Figure~\ref{fig-donation-moon}
+être évaluée qu'à \(0\) ou \(1;\) la Figure~\ref{fig-donation-moon}
 montre cette droite avec en plus un nuage de points des montants,
 décalés horizontalement, et de la densité pour chaque condition. Le
 point coloré indique la moyenne empirique, qui correspond aux
@@ -4949,16 +4951,16 @@ deux variables indicatrices binaires \texttt{groupDRTA} et
 \begin{itemize}
 \tightlist
 \item
-  \(\mu_{\texttt{DR}} = \beta_0\),
+  \(\mu_{\texttt{DR}} = \beta_0,\)
 \item
   \(\mu_{\texttt{DRTA}}=\beta_0 + \beta_1\) et
 \item
-  \(\mu_{\texttt{TA}} = \beta_0 + \beta_2\).
+  \(\mu_{\texttt{TA}} = \beta_0 + \beta_2.\)
 \end{itemize}
 
 Ainsi, \(\beta_1\) est la différence de moyenne entre les groupes
 \texttt{DRTA} et\texttt{DR}, et de la même façon
-\(\beta_2=\mu_{\texttt{TA}}- \mu_{\texttt{DR}}\).
+\(\beta_2=\mu_{\texttt{TA}}- \mu_{\texttt{DR}}.\)
 
 \end{example}
 
@@ -5005,11 +5007,11 @@ variables indicatrices, \texttt{group1} et \texttt{group2}, ainsi que
 l'ordonnée à l'origine. La valeur de \texttt{group1} est \(1\) si
 \texttt{group=DR}, \(0\) si \texttt{group=DRTA} et \(-1\) si
 \texttt{group=TA}. ous trouvons
-\(\mu_{\texttt{DR}} = \beta_0 + \beta_1\),
+\(\mu_{\texttt{DR}} = \beta_0 + \beta_1,\)
 \(\mu_{\texttt{DRTA}}=\beta_0 + \beta_2\) et
-\(\mu_{\texttt{TA}} = \beta_0 - \beta_1 - \beta_2\). Quelques
+\(\mu_{\texttt{TA}} = \beta_0 - \beta_1 - \beta_2.\) Quelques
 manipulations algébriques révèlent que
-\(\beta_0 = (\mu_{\texttt{DR}} +\mu_{\texttt{DRTA}}+\mu_{\texttt{TA}})/3\),
+\(\beta_0 = (\mu_{\texttt{DR}} +\mu_{\texttt{DRTA}}+\mu_{\texttt{TA}})/3,\)
 l'espérance équipondérée des différents niveaux. De manière générale,
 l'ordonnée à l'origine moins la somme de tous les autres coefficients
 liés aux facteurs.
@@ -5116,7 +5118,7 @@ des fonctions d'une même variable explicative. Par exemple, on pourrait
 par exemple considérer un polynôme d'ordre \(k\) (ordinairement, on va
 prendre \(k\leq 3\)), \begin{align*}
 \mathsf{E}(Y \mid X=x)=\beta_0+ \beta_1 x+ \beta_2 x^2 + \cdots +\beta_k x^k.
-\end{align*} Si l'on inclut un terme d'ordre \(k\), \(x^k\), il faut
+\end{align*} Si l'on inclut un terme d'ordre \(k,\) \(x^k,\) il faut
 \textbf{toujours} inclure les termes d'ordre inférieur
 \(1, x, \ldots, x^{k-1}\) pour l'interprétabilité du modèle résultant
 (autrement, cela revient à choisir un polynôme en imposant que certains
@@ -5124,7 +5126,7 @@ coefficients soient zéros). L'interprétation des effets des covariables
 nonlinéaires (même polynomiaux) est complexe parce qu'on ne peut pas «
 fixer la valeur des autres variables »: l'effet d'une augmentation d'une
 unité de \(x\) \emph{dépend de la valeur de cette dernière}. L'effet
-marginal de \(x\) est \(\beta_1 + \sum_{j=1}^{k-1}j \beta_{j+1}x^j\).
+marginal de \(x\) est \(\beta_1 + \sum_{j=1}^{k-1}j \beta_{j+1}x^j.\)
 
 L'utilisation de polynôme, plus flexibles, n'est généralement pas
 recommendée car ces derniers se généralisent mal hors de l'étendue
@@ -5165,7 +5167,7 @@ quadratique pour la puissance (gris), versus spline cubique pénalisée
 À vue d'oeil, l'ajustement quadratique est bon: nous verrons plus tard à
 l'aide de test si une simple droite aurait été suffisante. On voit aussi
 dans la Figure~\ref{fig-autoquad2d} que l'autonomie d'essence décroît
-rapidement quand la puissance croît entre \(0\) et \(189.35\), mais
+rapidement quand la puissance croît entre \(0\) et \(189.35,\) mais
 semble remonter légèrement par la suite pour les voitures qui un moteur
 de plus de 200 chevaux-vapeurs, ce que le modèle quadratique capture.
 Prenez garde en revanche à l'extrapolation là où vous n'avez pas de
@@ -5177,9 +5179,9 @@ coronavirus}).
 La représentation graphique du modèle polynomial de degré 2 présenté
 dans la Figure~\ref{fig-autoquad2d} peut sembler contre-intuitive, mais
 c'est une projection en 2D d'un plan 3D de coordonnées
-\(\beta_0 + \beta_1x-y +\beta_2z =0\), où \(x=\texttt{puissance}\),
-\(z=\texttt{puissance}^2\) et \(y=\texttt{autonomie}\). La physique et
-le bon-sens imposent la contrainte \(z = x^2\), et donc les valeurs
+\(\beta_0 + \beta_1x-y +\beta_2z =0,\) où \(x=\texttt{puissance},\)
+\(z=\texttt{puissance}^2\) et \(y=\texttt{autonomie}.\) La physique et
+le bon-sens imposent la contrainte \(z = x^2,\) et donc les valeurs
 ajustées vivent sur une courbe dans un sous-espace du plan ajusté,
 représenté en gris dans la Figure~\ref{fig-hyperplan}.
 
@@ -5192,7 +5194,7 @@ représenté en gris dans la Figure~\ref{fig-hyperplan}.
 }
 
 \caption{\label{fig-hyperplan}Représentation graphique 3D du modèle de
-régression linéaire pour les données \(\texttt{automobile}\).}
+régression linéaire pour les données \(\texttt{automobile}.\)}
 
 \end{figure}%
 
@@ -5201,13 +5203,13 @@ régression linéaire pour les données \(\texttt{automobile}\).}
 \section{Estimation des paramètres}\label{estimation-des-paramuxe8tres}
 
 Considérons un échantillon de \(n\) observations. On n'observe ni les
-aléas \(\boldsymbol{\varepsilon}\), ni les paramètres
+aléas \(\boldsymbol{\varepsilon},\) ni les paramètres
 \(\boldsymbol{\beta}\): il est donc impossible de recouvrer les (vrais)
 coefficients du modèle. Effectivement, le système d'équation spécifié
 par le modèle linéaire inclut \(n+p+1\) inconnues, mais uniquement \(n\)
 observations. Si on se concentre sur les \(p+1\) paramètres de moyenne
-et sur la variance \(\sigma^2\), nous pourrons estimer les paramètres
-généralement si \(n> p+2\), mais cela dépend de la spécification. Une
+et sur la variance \(\sigma^2,\) nous pourrons estimer les paramètres
+généralement si \(n> p+2,\) mais cela dépend de la spécification. Une
 infinité de plans pourraient passer dans le nuage de points; il faut
 donc choisir la meilleure droite (selon un critère donné). La section
 aborde le choix de ce critère et l'estimation des paramètres de la
@@ -5217,12 +5219,12 @@ moyenne.
 ordinaires}\label{moindres-carruxe9s-ordinaires-1}
 
 Soit une matrice de modèle \(\mathbf{X}\) et une formulation pour la
-moyenne avec \(\mathsf{E}(Y_i) = \mathbf{x}_i\boldsymbol{\beta}\). Les
+moyenne avec \(\mathsf{E}(Y_i) = \mathbf{x}_i\boldsymbol{\beta}.\) Les
 estimateurs des moindres carrés ordinaires
 \(\widehat{\boldsymbol{\beta}}=(\widehat{\beta}_0, \ldots, \widehat{\beta}_p)\)
 sont les paramètres qui minimisent simultanément la distance euclidienne
 entre les observations \(y_i\) et les \textbf{valeurs ajustées}
-\(\widehat{y}_i=\mathbf{x}_i\widehat{\boldsymbol{\beta}}\).
+\(\widehat{y}_i=\mathbf{x}_i\widehat{\boldsymbol{\beta}}.\)
 
 \begin{figure}[ht!]
 
@@ -5235,7 +5237,7 @@ entre les observations \(y_i\) et les \textbf{valeurs ajustées}
 \caption{\label{fig-vertdist}Résidus ordinaires \(e_i\) (vecteurs
 verticaux) ajoutés à la droit de régression dans l'espace \((x, y)\)
 (gauche) et l'ajustement de la variable réponse \(y_i\) en fonction des
-valeurs ajustées \(\widehat{y}_i\).}
+valeurs ajustées \(\widehat{y}_i.\)}
 
 \end{figure}%
 
@@ -5275,8 +5277,8 @@ L'estimateur des moindres carrés ordinaires résoud le problème
 d'optimisation non-contraint \begin{align*}
 \widehat{\boldsymbol{\beta}}=\min_{\boldsymbol{\beta} \in \mathbb{R}^{p+1}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}).
 \end{align*} On peut calculer la dérivée première par rapport à
-\(\boldsymbol{\beta}\), égaler à zéro et isoler le maximum pour obtenir
-une formule explicite pour \(\widehat{\boldsymbol{\beta}}\),
+\(\boldsymbol{\beta},\) égaler à zéro et isoler le maximum pour obtenir
+une formule explicite pour \(\widehat{\boldsymbol{\beta}},\)
 \begin{align*}
 \mathbf{0}_n&=\frac{\partial}{\partial\boldsymbol{\beta}}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})\\
 \\&=\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial \boldsymbol{\beta}}\frac{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}{\partial (\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})}\\
@@ -5286,12 +5288,12 @@ une formule explicite pour \(\widehat{\boldsymbol{\beta}}\),
 de dérivation en chaîne}; on peut ainsi distribuer les termes pour
 obtenir l'\emph{équation normale} \begin{align*}
  \mathbf{X}^\top \mathbf{X}\boldsymbol{\beta}&=\mathbf{X}^\top \boldsymbol{y}.
-\end{align*} Si \(\mathbf{X}\) est une matrice de rang \(p\), alors la
+\end{align*} Si \(\mathbf{X}\) est une matrice de rang \(p,\) alors la
 forme quadratique \(\mathbf{X}^\top \mathbf{X}\) est inversible et
 l'unique solution du problème d'optimisation est \begin{align*}
 \widehat{\boldsymbol{\beta}} = (\mathbf{X}^{\top} \mathbf{X})^{-1} \mathbf{X}^{\top} \boldsymbol{Y}.
 \end{align*} Si le rang de la matrice \(\mathbf{X}\) est dimension
-\(n \times (p+1)\) est de rang \(p+1\), l'unique solution du problème
+\(n \times (p+1)\) est de rang \(p+1,\) l'unique solution du problème
 d'optimisation est \begin{equation}\phantomsection\label{eq-ols}{
 \widehat{\boldsymbol{\beta}} = (\mathbf{X}^{\top} \mathbf{X})^{-1} \mathbf{X}^{\top} \boldsymbol{Y}.
 }\end{equation} Cet estimateur dit des \textbf{moindres carrés
@@ -5319,12 +5321,12 @@ abstraction faite des termes constants, \begin{align*}
 \ell(\boldsymbol{\beta}, \sigma)&\propto-\frac{n}{2} \ln (\sigma^2) -\frac{1}{2\sigma^2}(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta})^\top(\boldsymbol{y}-\mathbf{X}\boldsymbol{\beta}).
 \end{align*} Maximiser la log-vraisemblance par rapport à
 \(\boldsymbol{\beta}\) revient à minimiser la somme du carré des erreurs
-\(\sum_{i=1}^n (y_i - \mathbf{x}_i\boldsymbol{\beta})^2\), quelle que
-soit la valeur de \(\sigma\), et on recouvre
-\(\widehat{\boldsymbol{\beta}}\). L'estimateur du maximum de
+\(\sum_{i=1}^n (y_i - \mathbf{x}_i\boldsymbol{\beta})^2,\) quelle que
+soit la valeur de \(\sigma,\) et on recouvre
+\(\widehat{\boldsymbol{\beta}}.\) L'estimateur du maximum de
 vraisemblance de la variance \(\widehat{\sigma}^2\) est \begin{align*}
 \widehat{\sigma}^2=\mathrm{arg max}_{\sigma^2} \ell(\widehat{\boldsymbol{\beta}}, \sigma^2).
-\end{align*} La log-vraisemblance profilée de \(\sigma^2\), abstraction
+\end{align*} La log-vraisemblance profilée de \(\sigma^2,\) abstraction
 faite des constantes, est \begin{align*}
 \ell_{\mathrm{p}}(\sigma^2)
 &\propto-\frac{1}{2}\left\{n\ln\sigma^2+\frac{1}{\sigma^2}(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{\beta}})\right\}.
@@ -5339,7 +5341,7 @@ des carrés des résidus, \begin{align*}
 \end{align*} L'estimateur sans biais habituel de \(\sigma^2\) calculé
 par le logiciel est \[S^2=\mathsf{SC}_e/(n-p-1),
 \] où le dénominateur est la taille de l'échantillon \(n\) moins le
-nombre de paramètres de la moyenne \(\boldsymbol{\beta}\), soit \(p+1\).
+nombre de paramètres de la moyenne \(\boldsymbol{\beta},\) soit \(p+1.\)
 
 \end{proposition}
 
@@ -5359,7 +5361,7 @@ j(\widehat{\boldsymbol{\beta}}, \widehat{\sigma^2}) =
 \end{pmatrix}
 \end{align*} puisque \(\widehat{\sigma}^2=\mathsf{SC}_e/n\) et que les
 résidus sont orthogonaux à la matrice du modèle. Sachant que
-\(\mathsf{E}(Y \mid \mathbf{X})=\mathbf{X}\boldsymbol{\beta}\), la
+\(\mathsf{E}(Y \mid \mathbf{X})=\mathbf{X}\boldsymbol{\beta},\) la
 matrice d'information de Fisher est \begin{align*}
 i(\boldsymbol{\beta}, \sigma^2) = 
 \begin{pmatrix}
@@ -5368,10 +5370,10 @@ i(\boldsymbol{\beta}, \sigma^2) =
 \end{align*} Puisque la loi asymptotique de l'estimateur est normale,
 les EMV de \(\sigma^2\) et \(\boldsymbol{\beta}\) sont asymptotiquement
 indépendants car leur corrélation asymptotique est nulle.Pourvu que la
-matrice carrée \((p+1)\), \(\mathbf{X}^\top\mathbf{X}\) soit inversible,
+matrice carrée \((p+1),\) \(\mathbf{X}^\top\mathbf{X}\) soit inversible,
 la variance asymptotique des estimateurs est
 \(\mathsf{Var}(\widehat{\boldsymbol{\beta}})=\sigma^2(\mathbf{X}^\top\mathbf{X})^{-1}\)
-et \(\mathsf{Var}(\widehat{\sigma}^2) = 2\sigma^4/n\).
+et \(\mathsf{Var}(\widehat{\sigma}^2) = 2\sigma^4/n.\)
 
 \end{proposition}
 
@@ -5400,7 +5402,7 @@ vous permettent d'extraire des objets spécifiques des objets
 \texttt{fitted}, \texttt{model.matrix} renvoient les estimations des
 coefficients \(\widehat{\boldsymbol{\beta}},\) les résidus ordinaires
 \(\boldsymbol{e},\) les valeurs ajustées \(\widehat{\boldsymbol{y}}\) et
-la matrice du modèle \(\mathbf{X}\).
+la matrice du modèle \(\mathbf{X}.\)
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5433,24 +5435,24 @@ type, les valeurs \(t\) pour le test de Wald de l'hypothèse
 statistiques descriptives, portant sur la taille de l'échantillon, les
 degrés de liberté, etc. sont données au bas du tableau. Notez que la
 fonction \texttt{lm} utilise l'estimateur sans biais de la variance
-\(\sigma^2\).
+\(\sigma^2.\)
 
 \section{Prédictions}\label{sec-predictions-lm}
 
 Une fois les estimations des coefficients obtenues, on peut calculer les
 valeurs ajustées \(\widehat{\boldsymbol{y}}\) avec
-\(\mathbf{X}\widehat{\boldsymbol{\beta}}\), où \(\mathbf{X}\) dénote la
-matrice du modèle \(n \times (p+1)\). On peut aussi généraliser cette
+\(\mathbf{X}\widehat{\boldsymbol{\beta}},\) où \(\mathbf{X}\) dénote la
+matrice du modèle \(n \times (p+1).\) On peut aussi généraliser cette
 approche et obtenir une estimation de la moyenne pour n'importe quel
 vecteur lignes de covariables
-\(\mathbf{x}^* = (1, x^*_1, \ldots, x^*_p)\), sachant que
-\(\mathsf{E}(Y \mid \mathbf{x}^*)=\mathbf{x}^*\boldsymbol{\beta}\), en
+\(\mathbf{x}^* = (1, x^*_1, \ldots, x^*_p),\) sachant que
+\(\mathsf{E}(Y \mid \mathbf{x}^*)=\mathbf{x}^*\boldsymbol{\beta},\) en
 remplaçant les coefficients inconnus \(\boldsymbol{\beta}\) par leurs
-estimations \(\widehat{\boldsymbol{\beta}}\). Pour le modèle postulé,
+estimations \(\widehat{\boldsymbol{\beta}}.\) Pour le modèle postulé,
 c'est le meilleur prédicteur linéaire non-biaisé de la moyenne.
 
 Si l'on veut prédire la valeur d'une nouvelle observation, disons
-\(Y^*\), dont le vecteur de variables explicatives \(\mathbf{x}^*\) sont
+\(Y^*,\) dont le vecteur de variables explicatives \(\mathbf{x}^*\) sont
 connues, la prédiction sera donc
 \(\widehat{y}^* = \mathbf{x}^*\widehat{\boldsymbol{\beta}}\) parce que
 \begin{align*}
@@ -5467,7 +5469,7 @@ de celles utilisées pour estimer les coefficients, \begin{align*}
 \\&=\mathsf{Va}(Y^* \mid \mathbf{X}, \mathbf{x}^*) + \mathsf{Va}(\mathbf{x}^*\widehat{\boldsymbol{\beta}} \mid \mathbf{X}, \mathbf{x}^*)
 \\& = \sigma^2 + \sigma^2\mathbf{x}^{*\vphantom{\top}}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{x}^{*\top}.
 \end{align*} On peut baser les intervalles de prédictions sur la loi
-Student-\(t\), à l'aide du pivot \begin{align*}
+Student-\(t,\) à l'aide du pivot \begin{align*}
 \frac{Y^*-\mathrm{x}^*\widehat{\boldsymbol{\beta}}}{\sqrt{S^2\{1+\mathrm{x}^*(\mathbf{X}^\top\mathbf{X})^{-1}\mathrm{x}^{*\top}\}}}\sim \mathsf{Student}(n-p-1).
 \end{align*} On obtient l'\textbf{intervalle de prédiction} de niveau
 \(1-\alpha\) pour \(Y^*\) en inversant la statistique de test
@@ -5485,7 +5487,7 @@ simple]\protect\hypertarget{exm-sokolova-pred}{}\label{exm-sokolova-pred}
 
 Considérons les données de l'Exemple~\ref{exm-sokolova}. On ajuste un
 modèle de régression linéaire simple avec
-\(\texttt{pef} = \beta_0 + \beta_1 \texttt{proportion} + \varepsilon\),
+\(\texttt{pef} = \beta_0 + \beta_1 \texttt{proportion} + \varepsilon,\)
 où \(\varepsilon \sim \mathsf{normale}(0,\sigma^2)\) et on suppose les
 observations indépendantes.
 
@@ -5509,7 +5511,7 @@ Il est plus facile de s'en rendre compte en reproduisant les courbes
 potentielles qui auraient pu se produire avec des données différentes:
 la Figure~\ref{fig-predinterval} montre les nouvelles pentes
 potentielles générées à partir de la distribution normale asymptotique
-des estimateurs \(\widehat{\boldsymbol{\beta}}\). La forme hyperbolique
+des estimateurs \(\widehat{\boldsymbol{\beta}}.\) La forme hyperbolique
 n'est pas surprenante: nous pivotons essentiellement les courbes à
 partir de la \texttt{pef}/\texttt{proportion} moyenne, et leur potentiel
 de déviation est d'autant plus élevé que nous nous éloignons de la
@@ -5631,14 +5633,14 @@ résultat est exact si les observations sont normales. On peut aisément
 obtenir les erreurs-type des coefficients en remplaçant \(\sigma^2\) par
 un estimé; avec des données normales, on peut montrer que la somme du
 carré des erreurs \(\mathsf{SC}_e \sim \sigma^2\chi^2_{n-p-1}\) et
-\(\mathsf{SC}_e\) est indépendante de \(\widehat{\boldsymbol{\beta}}\).
+\(\mathsf{SC}_e\) est indépendante de \(\widehat{\boldsymbol{\beta}}.\)
 
 Dans un contexte inférentiel, il est souvent important de tester si
 l'effet d'une variable explicative est significatif : si \(x_j\) est
 binaire ou continu, le test pour \(\mathscr{H}_0 : \beta_j=0\)
-correspond à un effet marginal nul pour \(x_j\). Le modèle nul est une
+correspond à un effet marginal nul pour \(x_j.\) Le modèle nul est une
 régression linéaire dans laquelle nous supprimons la \((j+1)\)ème
-colonne de \(\mathbf{X}\).
+colonne de \(\mathbf{X}.\)
 
 \begin{proposition}[Tests de Wald en régression
 linéaire]\protect\hypertarget{prp-wald}{}\label{prp-wald}
@@ -5647,18 +5649,18 @@ Rappelons que la statistique du test de Wald pour l'hypothèse
 \(\mathscr{H}_0: \beta_j=b\) est
 \[W = \frac{\widehat{\beta}_j - b}{\mathsf{se}(\widehat{\beta}_j)}.\] La
 statistique du test de Wald est rapportée par la plupart des logiciels
-pour l'hypothèse \(b=0\). Puisque
-\(\mathsf{Var}(\widehat{\beta}_j) = \sigma^2 [(\mathbf{X}^\top\mathbf{X})^{-1}]_{j,j}\),
+pour l'hypothèse \(b=0.\) Puisque
+\(\mathsf{Var}(\widehat{\beta}_j) = \sigma^2 [(\mathbf{X}^\top\mathbf{X})^{-1}]_{j,j},\)
 nous pouvons estimer l'erreur type à partir de \(S^2\) et en déduire que
 la distribution de \(W\) sous l'hypothèse nulle est
-\(\mathsf{Student}(n-p-1)\). Cela explique la terminologie « \(t\)
+\(\mathsf{Student}(n-p-1).\) Cela explique la terminologie « \(t\)
 values » dans le tableau \texttt{summary}. Outre les estimations des
 coefficients, il est possible d'obtenir des intervalles de confiance
-basés sur Wald pour \(\beta_j\), qui comme à l'accoutumée sont de la
+basés sur Wald pour \(\beta_j,\) qui comme à l'accoutumée sont de la
 forme
-\(\widehat{\beta}_j \pm \mathfrak{t}_{n-p-1,\alpha/2} \mathsf{se}(\widehat{\beta}_j)\),
+\(\widehat{\beta}_j \pm \mathfrak{t}_{n-p-1,\alpha/2} \mathsf{se}(\widehat{\beta}_j),\)
 avec \(\mathfrak{t}_{n-p-1,\alpha/2}\) le quantile de niveau
-\(1-\alpha/2\) d'une loi \(\mathsf{Student}({n-p-1})\).
+\(1-\alpha/2\) d'une loi \(\mathsf{Student}({n-p-1}).\)
 
 \end{proposition}
 
@@ -5666,7 +5668,7 @@ avec \(\mathfrak{t}_{n-p-1,\alpha/2}\) le quantile de niveau
 
 Considérons les données de Exemple~\ref{exm-sokolova}. Si nous ajustons
 le modèle de régression linéaire simple, nous pouvons extraire les
-valeurs -\(p\) pour les tests de Wald ou tests-\(t\). Le test pour
+valeurs -\(p\) pour les tests de Wald ou tests-\(t.\) Le test pour
 l'ordonnée à l'origine est sans intérêt puisque les données sont
 mesurées sur une échelle de 1 à 7, de sorte que la réponse moyenne
 lorsque \texttt{proportion=0} ne peut être nulle. Le coefficient de
@@ -5715,31 +5717,31 @@ variables explicatives, \begin{align*}
 pour obtenir cette configuration). L'hypothèse globale spécifie que
 \((p-k)\) des paramètres \(\beta\) sont nuls. Le \emph{modèle restreint}
 correspondant à l'hypothèse nulle ne contient que les covariables pour
-lesquelles \(\beta_j \neq 0\), \begin{align*}
+lesquelles \(\beta_j \neq 0,\) \begin{align*}
 \mathbb{M}_0: Y=\beta_0+\beta_1 x_1 + \cdots + \beta_k x_k + \varepsilon.
 \end{align*} Soit \(\mathsf{SC}_e(\mathbb{M}_1)\) la somme du carré des
-résidus du modèle complet \(\mathbb{M}_1\), \begin{align*}
+résidus du modèle complet \(\mathbb{M}_1,\) \begin{align*}
 \mathsf{SC}_e(\mathbb{M}_1)=\sum_{i=1}^n (Y_i-\widehat{Y}_i^{\mathbb{M}_1})^2,
 \end{align*} où \(\hat{Y}_i^{\mathbb{M}_1}\) est la \(i\)e valeur
-ajustée du modèle \(\mathbb{M}_1\). On définit de la même façon la somme
-du carré des résidus, \(\mathsf{SC}_e(\mathbb{M}_0)\), pour le modèle
-\(\mathbb{M}_0\). Logiquement,
-\(\mathsf{SC}_e(\mathbb{M}_0) \geq \mathsf{SC}_e(\mathbb{M}_1)\).
+ajustée du modèle \(\mathbb{M}_1.\) On définit de la même façon la somme
+du carré des résidus, \(\mathsf{SC}_e(\mathbb{M}_0),\) pour le modèle
+\(\mathbb{M}_0.\) Logiquement,
+\(\mathsf{SC}_e(\mathbb{M}_0) \geq \mathsf{SC}_e(\mathbb{M}_1).\)
 
 La statistique \(F\) est \begin{align*}
 F=\frac{\{\mathsf{SC}_e(\mathbb{M}_0)-\mathsf{SC}_e(\mathbb{M}_1)\}/(p-k)}{\mathsf{SC}_e(\mathbb{M}_1)/(n-p-1)}.
-\end{align*} Sous \(\mathscr{H}_0\), la statistique \(F\) suit une loi
+\end{align*} Sous \(\mathscr{H}_0,\) la statistique \(F\) suit une loi
 de Fisher (Définition~\ref{def-loiF}) avec \((p-k)\) et \((n-p-1)\)
-degrés de liberté, \(\mathsf{Fisher}(p-k, n-p-1)\). Les degrés de
-libertés du numérateur, \(p-k\), indiquent le nombre de restrictions ou
+degrés de liberté, \(\mathsf{Fisher}(p-k, n-p-1).\) Les degrés de
+libertés du numérateur, \(p-k,\) indiquent le nombre de restrictions ou
 la différence du nombre de paramètres, tandis que celle du dénominateur,
 \(n-p-1\) est la taille de l'échantillons moins le nombre de paramères
-pour la moyenne du modèle \(\mathbb{M}_1\).
+pour la moyenne du modèle \(\mathbb{M}_1.\)
 
 \end{proposition}
 
 Quand la \(j\)e variable explicative est continue ou binaire, le test
-\(F\) est équivalent au test \(t\) pour \(\beta_j=0\). En effet, la
+\(F\) est équivalent au test \(t\) pour \(\beta_j=0.\) En effet, la
 statistique \(F\) est le carré de la statistique de Wald, et ils mènent
 à la même inférence --- les valeurs-\(p\) sont identiques. Bien qu'il
 soit rapporté dans les tableaux, le test pour \(\beta_0=0\) n'est pas
@@ -5761,8 +5763,8 @@ l'approximation \(\chi^2\) pour grand échantillon. Les tests \(t\) et
 \(F\) présentés ci-dessus pourraient donc tous deux être considérés
 comme des cas particuliers de \href{@sec-testsvrais}{tests de rapport de
 vraisemblance}, mais en utilisant Student-\(t\) contre la distribution
-normale lorsque \(p-k=1\), et \(\mathsf{Fisher}\) contre \(\chi^2\)
-lorsque \(p-k \ge 1\). Lorsque \(n\) est grand, les résultats sont à peu
+normale lorsque \(p-k=1,\) et \(\mathsf{Fisher}\) contre \(\chi^2\)
+lorsque \(p-k \ge 1.\) Lorsque \(n\) est grand, les résultats sont à peu
 près les mêmes.
 
 \label{rem-lrtvsF}
@@ -5795,19 +5797,19 @@ aspects particuliers des différences entre les traitements.
 Formellement, un contraste est une combinaison linéaire de moyennes: en
 clair, cela signifie que nous attribuons un poids à chaque moyenne de
 groupe et que nous les additionnons, puis que nous comparons ce résumé à
-une valeur postulée \(a\), généralement zéro.
+une valeur postulée \(a,\) généralement zéro.
 
 Les contrastes encodent la question de recherche : si \(c_i\) représente
-le poids de la moyenne du groupe \(\mu_i\) \((i=1, \ldots, K)\), alors
+le poids de la moyenne du groupe \(\mu_i\) \((i=1, \ldots, K),\) alors
 nous pouvons écrire le contraste comme
 \(C = c_1 \mu_1 + \cdots + c_K \mu_K\) avec l'hypothèse nulle
 \(\mathscr{H}_0 : C=a\) pour une alternative bilatérale. L'estimation du
 contraste linéaire est obtenue en remplaçant la moyenne inconnue de la
 population \(\mu_i\) par la moyenne de l'échantillon de ce groupe,
-\(\widehat{\mu}_i = \overline{y}_{i}\). Nous pouvons facilement obtenir
-l'erreur type de la combinaison linéaire \(C\). La formule, l'erreur
+\(\widehat{\mu}_i = \overline{y}_{i}.\) Nous pouvons facilement obtenir
+l'erreur type de la combinaison linéaire \(C.\) La formule, l'erreur
 type, en supposant une taille de sous-échantillon de
-\(n_1, \ldots, n_K\) et une variance commune \(\sigma^2\), est la racine
+\(n_1, \ldots, n_K\) et une variance commune \(\sigma^2,\) est la racine
 carrée de \begin{align*}
 \mathsf{Va}(\widehat{C}) = \widehat{\sigma}^2\left(\frac{c_1^2}{n_1} + \cdots + \frac{c_K^2}{n_K}\right).
 \end{align*} Nous pouvons alors construire une statistique \(t\) comme
@@ -5821,7 +5823,7 @@ la moyenne du groupe \(i\) comprenant \(n_i\) observations, les
 contrastes sont orthogonaux si
 \(c_{1}c^{*}_{1}/n_1 + \cdots + c_{K}c^{*}_K/n_K = 0\) ; si
 l'échantillon est équilibré avec le même nombre d'observations dans
-chaque groupe, \(n/K = n_1 =\cdots = n_K\), nous pouvons considérer le
+chaque groupe, \(n/K = n_1 =\cdots = n_K,\) nous pouvons considérer le
 produit scalaire des deux vecteurs de contrastes et négliger la taille
 des sous-échantillons.
 
@@ -5830,7 +5832,7 @@ différences deux à deux, le dernier étant capturé par la moyenne de
 l'échantillon pour l'effet global. Si nous nous intéressons uniquement à
 la différence entre groupes (par opposition à l'effet global de tous les
 traitements), nous imposons une contrainte de somme à zéro sur les
-poids, de sorte que \(c_1 + \cdots + c_K=0\).
+poids, de sorte que \(c_1 + \cdots + c_K=0.\)
 
 \subsection{Exemples de tests}\label{exemples-de-tests}
 
@@ -5840,7 +5842,7 @@ dons]\protect\hypertarget{exm-moonvaepps-test}{}\label{exm-moonvaepps-test}
 Considérons l'Exemple~\ref{exm-moon}, dans lequel nous testons les
 différences entre les montants libres (\texttt{open-ended}) et les
 montants suggérés (\texttt{quantity}). Le test qui nous intéresse est
-\(\mathscr{H}_0 : \beta_1=0\), où
+\(\mathscr{H}_0 : \beta_1=0,\) où
 \(\beta_1=\mu_{\texttt{oe}} - \mu_{\texttt{qty}}\) est la différence
 moyenne entre les groupes. Outre le fait que la différence est
 statistiquement significative au niveau de 5 \%, nous voulons également
@@ -5973,17 +5975,17 @@ Les deux hypothèses et contrastes de Baumann, Seifert-Kessell, et Jones
 \(\mathscr{H}_0: \mu_{\mathrm{TA}} + \mu_{\mathrm{DRTA}} = 2 \mu_{\mathrm{DRA}}\)
 ou \begin{align*}
 \mathscr{H}_0: - 2 \mu_{\mathrm{DR}} + \mu_{\mathrm{DRTA}} + \mu_{\mathrm{TA}} = 0.
-\end{align*} avec poids \(c_1=(-2, 1, 1)\); l'ordre des niveaux de
-traitement est (\(\mathrm{DRA}\), \(\mathrm{DRTA}\), \(\mathrm{TA}\)) et
+\end{align*} avec poids \(c_1=(-2, 1, 1);\) l'ordre des niveaux de
+traitement est (\(\mathrm{DRA},\) \(\mathrm{DRTA},\) \(\mathrm{TA}\)) et
 ce dernier doit correspond à celui des poids pour les contrastes. Ces
-derniers donnent les mêmes tests à multiple non-nul près, donc \(ac_1\),
+derniers donnent les mêmes tests à multiple non-nul près, donc \(ac_1,\)
 \(a \neq 0\) donne un résultat équivalent, par exemple \((2, -1, -1)\)
 ou \((1, -1/2, -1/2)\) fonctionnent. Si les estimations changent, les
 erreurs-types sont ajustées d'autant. Un vecteur de contrastes pour
-\(\mathscr{H}_0:  \mu_{\mathrm{TA}} = \mu_{\mathrm{DRTA}}\) est (\(0\),
-\(-1\), \(1\)): le zéro apparaît parce que la première composante,
+\(\mathscr{H}_0:  \mu_{\mathrm{TA}} = \mu_{\mathrm{DRTA}}\) est (\(0,\)
+\(-1,\) \(1\)): le zéro apparaît parce que la première composante,
 \(\mathrm{DRA}\) n'apparaît pas. Les deux contrastes sont orthogonaux
-puisque \((-2 \times 0) + (1 \times -1) + (1 \times 1) = 0\).
+puisque \((-2 \times 0) + (1 \times -1) + (1 \times 1) = 0.\)
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6051,11 +6053,11 @@ significative à niveau 5\%.
 Une autre hypothèse potentielle intéressante consiste à tester si le
 coefficient de \texttt{pretest1} est égal à l'unité. Cela équivaut à
 l'hypothèse \(b=1\) pour le test de Wald,
-\(w = (\widehat{\beta}_{\texttt{pretest1}}-1)/\mathsf{se}(\widehat{\beta}_{\texttt{pretest1}})= -3.024\),
+\(w = (\widehat{\beta}_{\texttt{pretest1}}-1)/\mathsf{se}(\widehat{\beta}_{\texttt{pretest1}})= -3.024,\)
 ou bien une comparaison de modèles avec le test \(F\) via
 \texttt{anova}, qui donne une statistique de test de \(F=9.143.\) On
-peut montrer que si \(Z \sim \mathsf{Student}(\nu)\), alors
-\(Z^2 \sim \mathsf{Fisher}(1, \nu)\), il s'ensuit que les deux tests
+peut montrer que si \(Z \sim \mathsf{Student}(\nu),\) alors
+\(Z^2 \sim \mathsf{Fisher}(1, \nu),\) il s'ensuit que les deux tests
 sont équivalents et que les valeurs-\(p\) sont exactement les mêmes.
 
 \end{example}
@@ -6078,7 +6080,7 @@ linéairement avec la proportion de carton par rapport au plastique),
 quatre groupes d'avoir des moyennes différentes. \begin{align*}
  &\mathsf{E}(\texttt{pef} \mid \texttt{proportion}) = \alpha_0 + \alpha_1 \mathbf{1}_{\texttt{proportion}=0.5} \\&\quad + \alpha_2 \mathbf{1}_{\texttt{proportion}=1} + \alpha_3\mathbf{1}_{\texttt{proportion}=2}.
 \end{align*} Si on veut obtenir l'hypothèse nulle en terme de
-contraintes sur les paramètres \(\boldsymbol{\alpha}\), on trouve
+contraintes sur les paramètres \(\boldsymbol{\alpha},\) on trouve
 \begin{align*}
 \mu_0 &= \beta_0=\alpha_0 \\
 \mu_{0.5} &= \beta_0 + 0.5 \beta_1 = \alpha_0 + \alpha_1\\
@@ -6086,9 +6088,9 @@ contraintes sur les paramètres \(\boldsymbol{\alpha}\), on trouve
 \mu_2 &= \beta_0 + 2 \beta_1= \alpha_0 + \alpha_3.
 \end{align*} Le test comparant la régression linéaire simple à l'analyse
 de la variance impose deux restrictions simultanées, avec
-\(\mathscr{H}_0 : \alpha_3 = 2\alpha_2= 4\alpha_1\), de sorte que la
+\(\mathscr{H}_0 : \alpha_3 = 2\alpha_2= 4\alpha_1,\) de sorte que la
 distribution nulle est \(\mathsf{Fisher}(2, 798)\) ou approximativement
-\(\chi^2_2\).
+\(\chi^2_2.\)
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6115,9 +6117,8 @@ distribution nulle est \(\mathsf{Fisher}(2, 798)\) ou approximativement
 \NormalTok{car}\SpecialCharTok{::}\FunctionTok{linearHypothesis}\NormalTok{(}\AttributeTok{model =}\NormalTok{ anovamod,}
    \AttributeTok{hypothesis =} \FunctionTok{rbind}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{),}
                       \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{)))}
-\CommentTok{\#\textgreater{} Linear hypothesis test}
 \CommentTok{\#\textgreater{} }
-\CommentTok{\#\textgreater{} Hypothesis:}
+\CommentTok{\#\textgreater{} Linear hypothesis test:}
 \CommentTok{\#\textgreater{} {-} 2 factor(proportion)0.5  + factor(proportion)1 = 0}
 \CommentTok{\#\textgreater{} {-} 2 factor(proportion)1  + factor(proportion)2 = 0}
 \CommentTok{\#\textgreater{} }
@@ -6144,7 +6145,7 @@ nous intéressons aux différences par paire, mais uniquement par rapport
 \mu_0 = \mu_{1} & \iff 1\mu_0 + 0\mu_{0.5} -1\mu_{1} + 0 \mu_{2} = 0\\
 \mu_0 = \mu_{2} & \iff 1\mu_0 + 0\mu_{0.5} + 0\mu_{1} -1 \mu_{2} = 0.
 \end{align*} Les vecteurs de poids pour les contrastes linéaires sont
-\((1, -1, 0, 0)\), \((1, 0, -1, 0)\) et \((1, 0, 0, -1)\) pour les
+\((1, -1, 0, 0),\) \((1, 0, -1, 0)\) et \((1, 0, 0, -1)\) pour les
 moyennes marginales.
 
 \begin{Shaded}
@@ -6241,8 +6242,8 @@ et \texttt{domaine} comme variables explicatives.
 
 Le seul test qui nous intéresse ici est
 \(\mathscr{H}_0 : \beta_{\texttt{sexe}} = 0\) contre l'alternative
-bilatérale \(\mathscr{H}_a : \beta_{\texttt{sexe}} \neq 0\). La
-statistique du test de Wald est \(1.23\), avec une valeur-\(p\) de
+bilatérale \(\mathscr{H}_a : \beta_{\texttt{sexe}} \neq 0.\) La
+statistique du test de Wald est \(1.23,\) avec une valeur-\(p\) de
 \(0.219\) basée sur une distribution Student-\(t\) avec \(391\) degrés
 de liberté. La valeur-\(p\) dans la sortie du test \(F\) est la même, et
 celle obtenue par le test du rapport de vraisemblance est la même
@@ -6251,7 +6252,7 @@ jusqu'à la deuxième décimale.
 \begin{longtable}[]{@{}lrrrr@{}}
 \caption{Tableau des estimations des coefficients de régression linéaire
 avec les erreurs-type associées, les tests de Wald et les valeurs \(p\)
-basées sur la distribution Student-\(t\).}\tabularnewline
+basées sur la distribution Student-\(t.\)}\tabularnewline
 \toprule\noalign{}
 term & estimation & erreur-type & stat de Wald & valeur-p \\
 \midrule\noalign{}
@@ -6286,7 +6287,7 @@ On parle d'\textbf{interaction} lorsque des combinaisons de variables
 explicatives affectent la variable réponse différemment que lorsqu'elles
 sont considérées individuellement. Si \(X_j\) et \(X_k\) interagissent,
 l'effet marginal de \(\mathsf{E}(Y \mid \boldsymbol{X})\) par rapport à
-\(X_j\) est une fonction de \(X_k\), et vice-versa.
+\(X_j\) est une fonction de \(X_k,\) et vice-versa.
 
 \end{definition}
 
@@ -6332,8 +6333,8 @@ L'effet de la variable continue \texttt{fixation} est identique pour les
 deux sexes. De même, l'effet de la variable binaire est supposé être le
 même pour toutes les valeurs possibles de la variable continue. Nous
 pouvons le voir sur le graphique, car la différence entre les lignes
-représente l'effet de \(\texttt{sexe}\), est le même pour toutes les
-valeurs de \(\texttt{fixation}\); les lignes sont \emph{parallèles} :
+représente l'effet de \(\texttt{sexe},\) est le même pour toutes les
+valeurs de \(\texttt{fixation};\) les lignes sont \emph{parallèles} :
 voir le panneau gauche de Figure~\ref{fig-interaction-slope}.
 
 \begin{figure}[ht!]
@@ -6356,7 +6357,7 @@ l'ajoute à notre modèle, \begin{align*}
 \mathsf{E}(\texttt{intention} \mid \cdot)= \beta_0 + \beta_1 \texttt{sexe} + \beta_2\texttt{fixation}  + \beta_3 \texttt{fixation}\cdot \texttt{sexe}.
 \end{align*}
 
-Selon la valeur de \(\texttt{sexe}\), on obtient \begin{align*}
+Selon la valeur de \(\texttt{sexe},\) on obtient \begin{align*}
 \mathsf{E}(\texttt{intention} \mid \cdot) = 
 \begin{cases}
 (\beta_0 + \beta_1) + (\beta_2 + \beta_3)\texttt{fixation}, & \texttt{sexe}=1 \text{ (femme)},\\
@@ -6384,7 +6385,7 @@ d'habitude avec la paramétrisation (traitement):
 \end{itemize}
 
 Tester la significativité de l'interaction revient à vérifier si
-\(\mathscr{H}_0: \beta_3=0\).
+\(\mathscr{H}_0: \beta_3=0.\)
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6413,8 +6414,8 @@ Tous les termes d'ordre inférieurs devraient être inclus si
 l'interaction est présente.
 
 Par exemple, on ne retirera pas \(\texttt{fixation}\) tout en conservant
-le terme d'interaction \(\texttt{fixation*sexe}\), même si on ne rejette
-pas \(\mathscr{H}_0:\beta_2=0\), puisqu'autrement \begin{align*}
+le terme d'interaction \(\texttt{fixation*sexe},\) même si on ne rejette
+pas \(\mathscr{H}_0:\beta_2=0,\) puisqu'autrement \begin{align*}
 &\mathsf{E}(\texttt{intention} \mid \cdot) =
 \begin{cases}
 (\beta_0 + \beta_1) + \beta_3\texttt{fixation}, & \texttt{sexe}=1 \text{ (femme)},\\
@@ -6452,7 +6453,7 @@ d'inclure leurs interactions.
 \end{definition}
 
 Considérons un modèle d'analyse de variance à deux facteurs, disons
-\(A\) et \(B\), lesquels ont respectivement \(n_a\) et \(n_b\) niveaux.
+\(A\) et \(B,\) lesquels ont respectivement \(n_a\) et \(n_b\) niveaux.
 Le modèle avec interaction s'écrit
 
 \begin{equation}\phantomsection\label{eq-twowayasoneway}{
@@ -6463,17 +6464,17 @@ Le modèle avec interaction s'écrit
 \tightlist
 \item
   \(Y_{ijk}\) est le \(k\)e mesure du \(i\)e niveau du facteur \(A\) et
-  du \(j\)e niveau du facteur \(B\), disons \((a_i, b_j)\)
+  du \(j\)e niveau du facteur \(B,\) disons \((a_i, b_j)\)
 \item
   \(\mu_{ij}\) est la moyenne théorique du sous-groupe \((a_i, b_j)\)
 \item
   \(\varepsilon_{ijk}\) sont des termes d'aléas indépendants de moyenne
-  zéro et d'écart-type \(\sigma\).
+  zéro et d'écart-type \(\sigma.\)
 \end{itemize}
 
 Dans un devis factoriel complet avec interaction, on peut écrire
 l'espérance de la variable réponse
-\(\mathsf{E}(Y \mid A=a_i, B=b_j) = \mu_{ij}\). Ce modèle peut être vu
+\(\mathsf{E}(Y \mid A=a_i, B=b_j) = \mu_{ij}.\) Ce modèle peut être vu
 comme une analyse de variance à un facteur doté de \(n_an_b\) niveaux.
 Cette observation peut être utile pour spécifier les poids de contrastes
 linéaires ou lorsqu'il existe un groupe de contrôle supplémentaire dans
@@ -6539,12 +6540,12 @@ d'une ou plusieurs variables et de considérer les \textbf{effets
 marginaux}, obtenus en regroupant les données des facteurs omis, en
 calculant la moyenne équipondérée des sous-groupes. Supposons, par
 exemple, que nous soyons intéressés par la comparaison des niveaux de
-\(A\). Lorsque les interactions entre \(A\) et \(B\) ne sont pas
+\(A.\) Lorsque les interactions entre \(A\) et \(B\) ne sont pas
 significatives, nous pouvons considérer des termes d'ordre inférieur et
 rapporter les \textbf{moyennes marginales estimées} et les contrastes
-entre les moyennes de \(A\). Si l'interaction avec \(B\) a un impact,
+entre les moyennes de \(A.\) Si l'interaction avec \(B\) a un impact,
 nous pouvons plutôt calculer la moyenne de la sous-cellule
-\(A \mid B=b_j\), et de la même manière pour les contrastes. Nous
+\(A \mid B=b_j,\) et de la même manière pour les contrastes. Nous
 distinguons donc les cas suivants :
 
 \begin{itemize}
@@ -6603,7 +6604,7 @@ des coefficients:
 \end{itemize}
 
 Ainsi, \(\beta_3\) représente la différence des moyennes
-\(\mu_1 + \mu_4 - \mu_2 - \mu_3\).
+\(\mu_1 + \mu_4 - \mu_2 - \mu_3.\)
 
 Sharma, Tully, et Cryder (\citeproc{ref-Sharma.Tully.Cryder:2021}{2021})
 a ajusté un modèle avec deux facteurs, chacun avec deux niveaux, et leur
@@ -6749,12 +6750,12 @@ et III) pour la comparaison des modèles emboîtés dans les tableaux
 d'analyse de la variance.
 
 Ces décompositions testent différents modèles à l'aide des statistiques
-\(F\), avec le même dénominateur basé sur l'estimation de l'écart-type,
-mesuré avec \(S_2\), de la sortie du modèle complet. Le numérateur est
+\(F,\) avec le même dénominateur basé sur l'estimation de l'écart-type,
+mesuré avec \(S_2,\) de la sortie du modèle complet. Le numérateur est
 la différence dans la somme des carrés. Toutes les décompositions
 concordent lorsque le plan d'expérience est \textbf{équilibré}, ce qui
-signifie que chaque cellule a le même nombre de réplications \(n_r\), de
-sorte que le nombre total d'observations est \(n = n_an_bn_r\).
+signifie que chaque cellule a le même nombre de réplications \(n_r,\) de
+sorte que le nombre total d'observations est \(n = n_an_bn_r.\)
 
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2065}}
@@ -6795,24 +6796,24 @@ quels termes sont inclus (\(A:B\) désigne l'interaction).
 
 La décomposition de type I, la valeur par défaut du générique
 \texttt{anova}, utilise l'ordre dans lequel les termes sont spécifiés,
-disons \(A\), \(B\), \(AB\), et compare donc sur la première ligne
-l'amélioration dans le modèle de la moyenne seule avec \(A\), puis sur
+disons \(A,\) \(B,\) \(AB,\) et compare donc sur la première ligne
+l'amélioration dans le modèle de la moyenne seule avec \(A,\) puis sur
 la deuxième ligne le test pour \(B\) compare le modèle avec les deux
-effets principaux \(A\) et \(B\) avec seulement \(A\). Étant donné que
+effets principaux \(A\) et \(B\) avec seulement \(A.\) Étant donné que
 l'ordre dans lequel les facteurs sont spécifiés est arbitraire, cette
 décomposition est arbitraire et donc non pertinente.
 
 La décomposition de type II considère les termes de même niveau dans la
 hiérarchie, de sorte que les tests pour les effets principaux sont
-\(A + B\) vs \(A\), \(A+B\) vs \(B\) et celui de l'interaction est
-\(A\times B\) vs \(A, B\). Il s'agit de l'option par défaut si l'on
+\(A + B\) vs \(A,\) \(A+B\) vs \(B\) et celui de l'interaction est
+\(A\times B\) vs \(A, B.\) Il s'agit de l'option par défaut si l'on
 souhaite considérer les effets principaux lorsque l'interaction n'est
 pas significative.
 
 La décomposition de type III, popularisée par SAS et souvent choisie par
 défaut dans les logiciels, prend en compte tous les autres termes, et
 testerait donc les effets principaux comme \(A + B + A\times B\) vs
-\(B + A\times B\). Cette méthode ne respecte pas le principe de
+\(B + A\times B.\) Cette méthode ne respecte pas le principe de
 marginalité et doit donc être évitée. Les tests pour \(A\) ou \(B\) ne
 doivent pas être utilisés.
 
@@ -6845,7 +6846,7 @@ façon dont la recette a été obtenue (furtivement, en demandant la
 permission ou sans mention dans le cas du groupe contrôle). Les auteurs
 ont postulé que la perception de l'appropriation varie selon l'idéologie
 politique. L'étude utilise un devis expérimental
-\(3 \times 2 \times 2\).
+\(3 \times 2 \times 2.\)
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6894,7 +6895,7 @@ politique. L'étude utilise un devis expérimental
 \end{Shaded}
 
 \begin{center}
-\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{regression-lineaire_files/figure-pdf/unnamed-chunk-39-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{regression-lineaire_files/figure-pdf/unnamed-chunk-16-1.pdf}
 \end{center}
 
 Pour l'ANOVA à \(K\) facteurs, nous commençons toujours par estimer le
@@ -6983,8 +6984,8 @@ la présence de l'interaction.
          \AttributeTok{contrast =} \StringTok{"pairwise"}\NormalTok{)}
 \CommentTok{\#\textgreater{} politideo = conservative:}
 \CommentTok{\#\textgreater{}  chefdax   emmean     SE  df lower.CL upper.CL}
-\CommentTok{\#\textgreater{}  not black   2.38 0.1425 699     2.11     2.66}
-\CommentTok{\#\textgreater{}  black       1.68 0.1494 699     1.38     1.97}
+\CommentTok{\#\textgreater{}  not black   2.38 0.1420 699     2.11     2.66}
+\CommentTok{\#\textgreater{}  black       1.68 0.1490 699     1.38     1.97}
 \CommentTok{\#\textgreater{} }
 \CommentTok{\#\textgreater{} politideo = liberal:}
 \CommentTok{\#\textgreater{}  chefdax   emmean     SE  df lower.CL upper.CL}
@@ -7017,7 +7018,7 @@ recette a été acquise.
 \NormalTok{emm\_brand }\OtherTok{\textless{}{-}} \FunctionTok{emmeans}\NormalTok{(mod, }\AttributeTok{specs =} \FunctionTok{c}\NormalTok{(}\StringTok{"brandaction"}\NormalTok{)) }
 \NormalTok{emm\_brand}
 \CommentTok{\#\textgreater{}  brandaction emmean    SE  df lower.CL upper.CL}
-\CommentTok{\#\textgreater{}  peeking       2.56 0.107 699     2.35     2.77}
+\CommentTok{\#\textgreater{}  peeking       2.56 0.108 699     2.35     2.77}
 \CommentTok{\#\textgreater{}  permission    2.29 0.105 699     2.09     2.50}
 \CommentTok{\#\textgreater{}  control       2.07 0.108 699     1.86     2.28}
 \CommentTok{\#\textgreater{} }
@@ -7046,17 +7047,17 @@ carrés}\label{guxe9omuxe9trie-des-moindres-carruxe9s}
 Le vecteur de valeurs ajustées
 \(\widehat{\boldsymbol{y}} =\mathbf{X} \widehat{\boldsymbol{\beta}} = \mathbf{H}_{\mathbf{X}}\boldsymbol{y}\)
 est la projection du vecteur réponse \(\boldsymbol{y}\) dans l'espace
-linéaire engendré par les colonnes de \(\mathbf{X}\). La matrice chapeau
+linéaire engendré par les colonnes de \(\mathbf{X}.\) La matrice chapeau
 \(\mathbf{H}_{\mathbf{X}} = \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\)
 est une matrice de projection orthogonale, car
 \(\mathbf{H}_{\mathbf{X}}=\mathbf{H}_{\mathbf{X}}^\top\) et
-\(\mathbf{H}_{\mathbf{X}}\mathbf{H}_{\mathbf{X}} = \mathbf{H}_{\mathbf{X}}\).
-Ainsi, \(\mathbf{H}_{\mathbf{X}}\mathbf{X} = \mathbf{X}\). Puisque le
+\(\mathbf{H}_{\mathbf{X}}\mathbf{H}_{\mathbf{X}} = \mathbf{H}_{\mathbf{X}}.\)
+Ainsi, \(\mathbf{H}_{\mathbf{X}}\mathbf{X} = \mathbf{X}.\) Puisque le
 vecteur de résidus ordinaires
-\(\boldsymbol{e} = (e_1, \ldots, e_n)^\top\), qui apparaît dans la somme
+\(\boldsymbol{e} = (e_1, \ldots, e_n)^\top,\) qui apparaît dans la somme
 des erreurs quadratiques, est définie comme
 \(\boldsymbol{y} - \widehat{\boldsymbol{y}}\) et
-\(\widehat{\boldsymbol{y}}=\mathbf{X}\boldsymbol{\beta}\), de simples
+\(\widehat{\boldsymbol{y}}=\mathbf{X}\boldsymbol{\beta},\) de simples
 manipulations algébriques montrent que le produit scalaire entre les
 résidus ordinaires et les valeurs ajustées est nul, puisque
 \begin{align*}
@@ -7069,10 +7070,10 @@ résidus ordinaires et les valeurs ajustées est nul, puisque
 première ligne, puis on substitut l'estimateur des MCO
 \(\widehat{\boldsymbol{\beta}} = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\boldsymbol{y}\)
 avant de distribuer les termes du produit. Une dérivation similaire
-montre que \(\mathbf{X}^\top\boldsymbol{e}=\boldsymbol{0}_{p+1}\). Les
+montre que \(\mathbf{X}^\top\boldsymbol{e}=\boldsymbol{0}_{p+1}.\) Les
 résidus ordinaires sont donc orthogonaux à la fois à la matrice du
 modèle \(\mathbf{X}\) et aux valeurs ajustées
-\(\widehat{\boldsymbol{y}}\).
+\(\widehat{\boldsymbol{y}}.\)
 
 \label{rem-geometry}
 
@@ -7109,19 +7110,19 @@ nulle]\protect\hypertarget{cor-zeromean}{}\label{cor-zeromean}
 
 Puisque le produit scalaire est zéro, la moyenne de \(\boldsymbol{e}\)
 doit être zéro pour autant que \(\mathbf{1}_n\) est dans l'espace
-linéaire engendré par \(\mathbf{X}\).
+linéaire engendré par \(\mathbf{X}.\)
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(salaire }\SpecialCharTok{\textasciitilde{}}\NormalTok{ sexe }\SpecialCharTok{+}\NormalTok{ echelon }\SpecialCharTok{+}\NormalTok{ domaine }\SpecialCharTok{+}\NormalTok{ service, }\AttributeTok{data =}\NormalTok{ college)}
 \CommentTok{\# Corrélation nulle}
 \FunctionTok{with}\NormalTok{(college, }\FunctionTok{cor}\NormalTok{(}\FunctionTok{resid}\NormalTok{(mod), service))}
-\CommentTok{\#\textgreater{} [1] 1.26e{-}17}
+\CommentTok{\#\textgreater{} [1] 4.56e{-}18}
 \FunctionTok{cor}\NormalTok{(}\FunctionTok{resid}\NormalTok{(mod), }\FunctionTok{fitted}\NormalTok{(mod))}
-\CommentTok{\#\textgreater{} [1] 2.32e{-}17}
+\CommentTok{\#\textgreater{} [1] 9.21e{-}17}
 \CommentTok{\# Moyenne des résidus ordinaires est nulle}
 \FunctionTok{mean}\NormalTok{(}\FunctionTok{resid}\NormalTok{(mod))}
-\CommentTok{\#\textgreater{} [1] {-}5.6e{-}16}
+\CommentTok{\#\textgreater{} [1] 1.36e{-}15}
 \end{Highlighting}
 \end{Shaded}
 
@@ -7149,15 +7150,15 @@ la moyenne.
 \NormalTok{            dplyr}\SpecialCharTok{::}\FunctionTok{mutate}\NormalTok{(}\AttributeTok{service =} \FunctionTok{scale}\NormalTok{(service)), }\CommentTok{\# Centrer{-}réduire une variable}
            \AttributeTok{contrasts =} \FunctionTok{list}\NormalTok{(}\AttributeTok{echelon =}\NormalTok{ contr.sum)) }\CommentTok{\# changer la paramétrisation}
 \FunctionTok{head}\NormalTok{(}\FunctionTok{model.matrix}\NormalTok{(modA), }\AttributeTok{n =} \DecValTok{3}\NormalTok{L)}
-\CommentTok{\#\textgreater{}   (Intercept) sexefemme echelonaggrege echelontitulaire service}
-\CommentTok{\#\textgreater{} 1           1         0              0                1      18}
-\CommentTok{\#\textgreater{} 2           1         0              0                1      16}
-\CommentTok{\#\textgreater{} 3           1         0              0                0       3}
+\CommentTok{\#\textgreater{}   (Intercept) sexe1 echelon1 echelon2 service}
+\CommentTok{\#\textgreater{} 1           1    {-}1       {-}1       {-}1      18}
+\CommentTok{\#\textgreater{} 2           1    {-}1       {-}1       {-}1      16}
+\CommentTok{\#\textgreater{} 3           1    {-}1        1        0       3}
 \FunctionTok{head}\NormalTok{(}\FunctionTok{model.matrix}\NormalTok{(modB), }\AttributeTok{n =} \DecValTok{3}\NormalTok{L)}
-\CommentTok{\#\textgreater{}   sexehomme sexefemme echelon1 echelon2 service}
-\CommentTok{\#\textgreater{} 1         1         0       {-}1       {-}1  0.0296}
-\CommentTok{\#\textgreater{} 2         1         0       {-}1       {-}1 {-}0.1241}
-\CommentTok{\#\textgreater{} 3         1         0        1        0 {-}1.1237}
+\CommentTok{\#\textgreater{}   sexefemme sexehomme echelon1 echelon2 service}
+\CommentTok{\#\textgreater{} 1         0         1       {-}1       {-}1  0.0296}
+\CommentTok{\#\textgreater{} 2         0         1       {-}1       {-}1 {-}0.1241}
+\CommentTok{\#\textgreater{} 3         0         1        1        0 {-}1.1237}
 \CommentTok{\# Invariance du modèle}
 \FunctionTok{isTRUE}\NormalTok{(}\FunctionTok{all.equal}\NormalTok{(}\FunctionTok{fitted}\NormalTok{(modA), }\FunctionTok{fitted}\NormalTok{(modB)))}
 \CommentTok{\#\textgreater{} [1] TRUE}
@@ -7169,7 +7170,7 @@ la moyenne.
 \end{refremark}
 
 La valeur de \(\widehat{\boldsymbol{\beta}}\) est telle qu'elle maximise
-la corrélation entre \(\boldsymbol{y}\) et \(\widehat{\boldsymbol{y}}\).
+la corrélation entre \(\boldsymbol{y}\) et \(\widehat{\boldsymbol{y}}.\)
 Dans le cas d'une variable catégorielle unique, nous obtiendrons des
 valeurs ajustées \(\widehat{y}\) qui correspondent à la moyenne de
 l'échantillon de chaque groupe.
@@ -7180,41 +7181,41 @@ l'échantillon de chaque groupe.
 
 \subsection{Résidus}\label{ruxe9sidus}
 
-Les résidus sont les prédictions des aléas \(\varepsilon\), et
+Les résidus sont les prédictions des aléas \(\varepsilon,\) et
 représentent la différence entre la valeur observée de la réponse
 \(Y_i\) et sa prédiction. Les résidus ordinaires sont définis comme
 \begin{align*}
 e_i=Y_i-\widehat{Y}_i, \qquad i =1, \ldots, n.
 \end{align*} La somme des résidus ordinaire est toujours zéro par
 construction si on inclut une ordonnée à l'origine, ce qui donne que
-\(\overline{e} = 0\).
+\(\overline{e} = 0.\)
 
 Toutes les observations ne contribuent pas de la même manière à
 l'ajustement de l'hyperplan ajusté. La géométrie des moindres carrés
 montre que les résidus sont orthogonaux aux valeurs ajustées, et que
-\(\boldsymbol{e} = (\mathbf{I}_n-\mathbf{H}_{\mathbf{X}})\boldsymbol{Y}\),
+\(\boldsymbol{e} = (\mathbf{I}_n-\mathbf{H}_{\mathbf{X}})\boldsymbol{Y},\)
 où
 \(\mathbf{H}_{\mathbf{X}}=\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\)
 est une matrice de projection de dimension \(n \times n\) qui génère un
 sous-espace vectoriel de dimension \((p+1)\) décrouvrant toutes les
-combinaisons linéaires des colonnes de \(\mathbf{X}\), dénoté
-\(\mathscr{S}(\mathbf{X})\). Si
-\(\mathsf{Va}(\boldsymbol{Y}) = \sigma^2\mathbf{I}_n\), il en découle
+combinaisons linéaires des colonnes de \(\mathbf{X},\) dénoté
+\(\mathscr{S}(\mathbf{X}).\) Si
+\(\mathsf{Va}(\boldsymbol{Y}) = \sigma^2\mathbf{I}_n,\) il en découle
 que
 \(\mathsf{Va}(\boldsymbol{e})=\sigma^2(\mathbf{I}_n-\mathbf{H}_{\mathbf{X}})\)
 parce que \(\mathbf{I}_n-\mathbf{H}_{\mathbf{X}}\) est une matrice de
 projection orthogonale, donc idempotente et symmérique. Puisque la
-matrice \(\mathbf{I}_n-\mathbf{H}_{\mathbf{X}}\) a rang \(n-p-1\), les
+matrice \(\mathbf{I}_n-\mathbf{H}_{\mathbf{X}}\) a rang \(n-p-1,\) les
 résidus ordinaires ne sont pas indépendants les uns des autres.
 
 Si les aléas sont indépendants et homoscédastiques, les résidus
-ordinaires \(e_i\) ont une variance de \(\sigma^2(1-h_{i})\), où le
+ordinaires \(e_i\) ont une variance de \(\sigma^2(1-h_{i}),\) où le
 terme de levier
 \(h_i =(\mathbf{H}_{\mathbf{X}})_{ii} = \mathbf{x}_i (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{x}_i\)
 est le \(i\)e élément de la diagonale de la matrice de projection
 \(\mathbf{H}_{\mathbf{X}}\) et \(\mathbf{x}_i\) est comme à l'accoutumée
 la \(i\)e ligne de la matrice du modèle qui correspond à l'observation
-\(i\).
+\(i.\)
 
 Nous concluons donc que les résidus ordinaires n'ont pas tous le même
 écart-type et qu'ils ne sont pas indépendants. Ceci est problématique,
@@ -7224,7 +7225,7 @@ que les autres. Pour pallier ce problème, nous pouvons normaliser les
 résidus de façon à ce que chacun ait la même variance sous l'hypothèse
 nulle d'erreurs homoscédastiques indépendantes --- les termes d'effet de
 levier \(h_i\) sont facilement calculés à partir de la matrice du modèle
-\(\mathbf{X}\).
+\(\mathbf{X}.\)
 
 La seule question qui subsiste est celle de l'estimation de la variance.
 Si nous utilisons la \(i\)e observation pour estimer à la fois le résidu
@@ -7233,7 +7234,7 @@ meilleure solution consiste à supprimer la \(i\)e observation et à
 réajuster le modèle avec les \(n-1\) observations restantes pour obtenir
 \(S^2_{(-i)}\) (il existe des formules explicites qui font qu'il n'est
 pas nécessaire d'ajuster \(n\) modèles linéaires). Les résidus
-studentisés externes \(r_i = e_i/\{s_{(-i)}(1-h_i)\}\), également
+studentisés externes \(r_i = e_i/\{s_{(-i)}(1-h_i)\},\) également
 appelés résidus studentisés par la méthode du canif, ne sont pas
 indépendants, mais ils sont une loi marginale identique de Student avec
 \(n-p-2\) degrés de liberté. Ils peuvent être obtenus dans \textbf{R}
@@ -7252,7 +7253,7 @@ explicatives.
 
 Bien que les résidus studentisés externes \(r_i\) ne soient pas
 orthogonaux, ils ne sont pas très différents quand \(n\) est grand par
-rapport à \(p\). On peut utiliser les résidus \(\boldsymbol{r}\) pour
+rapport à \(p.\) On peut utiliser les résidus \(\boldsymbol{r}\) pour
 vérifier l'égalité de la variance et les hypothèses de distribution (par
 exemple, à l'aide d'un diagramme quantile-quantile).
 
@@ -7262,7 +7263,7 @@ détermination]\protect\hypertarget{def-r2}{}\label{def-r2}
 Lorsque nous spécifions un modèle, les aléas
 \(\boldsymbol{\varepsilon}\) servent à tenir compte du fait qu'aucune
 relation linéaire exacte ne caractérise les données Une fois que nous
-avons ajusté un modèle, nous estimons la variance \(\sigma^2\); on peut
+avons ajusté un modèle, nous estimons la variance \(\sigma^2;\) on peut
 alors se demander quelle part de la variance totale de l'échantillon est
 expliquée par le modèle.
 
@@ -7271,20 +7272,20 @@ résidus du modèle à ordonnée à l'origine uniquement, sert de comparaison
 --- le modèle le plus simple que nous puissions trouver impliquerait
 chaque observation par la moyenne de l'échantillon de la réponse, ce qui
 donne la variance expliquée
-\(\mathsf{SC}_c = \sum_{i=1}^n (y_i - \overline{y})^2\). Nous pouvons
+\(\mathsf{SC}_c = \sum_{i=1}^n (y_i - \overline{y})^2.\) Nous pouvons
 ensuite comparer la variance des données originales avec celle des
-résidus du modèle avec la matrice de covariables \(\mathbf{X}\), définie
+résidus du modèle avec la matrice de covariables \(\mathbf{X},\) définie
 comme \(\mathsf{SC}_e =\sum_{i=1}^n e_i^2\) avec
-\(e_i = y_i - \widehat{\beta}_0 - \sum_{j=1}^p \widehat{\beta}_jX_j\).
-Nous définissons le coefficient de détermination \(R^2\), comme suit
+\(e_i = y_i - \widehat{\beta}_0 - \sum_{j=1}^p \widehat{\beta}_jX_j.\)
+Nous définissons le coefficient de détermination \(R^2,\) comme suit
 \begin{align*}
 R^2 &=1- \frac{\mathsf{SC}_e}{\mathsf{SC}_c} = \frac{\sum_{i=1}^n (y_i - \overline{y})^2- \sum_{i=1}^n e_i^2}{\sum_{i=1}^n (y_i - \overline{y})^2}.
 \end{align*} Une autre décomposition montre que
-\(R^2 = \mathsf{cor}^2(\boldsymbol{y}, \widehat{\boldsymbol{y}})\),
+\(R^2 = \mathsf{cor}^2(\boldsymbol{y}, \widehat{\boldsymbol{y}}),\)
 c'est-à-dire que le coefficient de détermination peut être interprété
 comme le carré de la corrélation linéaire de Pearson
 (Définition~\ref{def-correlation-Pearson}) entre la réponse
-\(\boldsymbol{y}\) et les valeurs ajustées \(\widehat{\boldsymbol{y}}\).
+\(\boldsymbol{y}\) et les valeurs ajustées \(\widehat{\boldsymbol{y}}.\)
 
 \end{definition}
 
@@ -7298,8 +7299,8 @@ l'illustre la Figure~\ref{fig-datasaurus}.
 
 En outre, il est possible de gonfler la valeur de \(R^2\) en incluant
 davantage de variables explicatives et en rendant le modèle plus
-complexe, ce qui améliore la vraisemblance et \(R^2\). En effet, le
-coefficient n'est pas décroissant dans la dimension de \(\mathbf{X}\),
+complexe, ce qui améliore la vraisemblance et \(R^2.\) En effet, le
+coefficient n'est pas décroissant dans la dimension de \(\mathbf{X},\)
 de sorte qu'un modèle comportant \(p+1\) de covariables aura
 nécessairement des valeurs de \(R^2\) plus élevées que si l'on
 n'incluait que \(p\) de ces variables explicatives. Pour comparer les
@@ -7321,11 +7322,11 @@ corrélation (partielle) entre un vecteur colonne \(\boldsymbol{X}_k\) et
 la variable réponse \(\boldsymbol{Y}\) est nulle, alors \(\beta_k=0\) et
 le coefficient estimé \(\widehat{\beta}_k \approx 0\) parce que les
 estimateurs des moindres carrés sont sans biais. Si nous incluons de
-nombreuses variables inutiles, disons \(k\), le manque de parcimonie
+nombreuses variables inutiles, disons \(k,\) le manque de parcimonie
 peut toutefois rendre l'interprétation plus difficile. Le prix à payer
 pour inclure \(k\) de variables explicatives supplémentaires est une
 augmentation de la variance des estimateurs
-\(\widehat{\boldsymbol{\beta}}\).
+\(\widehat{\boldsymbol{\beta}}.\)
 
 Dans les études observationnelles, il est néanmoins préférable d'inclure
 davantage de variables que d'oublier des variables explicatives clés: si
@@ -7352,16 +7353,16 @@ Un modèle linéaire n'est pas un {[}modèle causal{]}
 entre une variable explicative et la réponse. Lorsqu'il y a plus d'une
 variable explicative, l'effet de \(X_j\) est fonction de ce qui n'a pas
 déjà été expliqué par les autres variables explicatives, disons
-\(\boldsymbol{X}_{-j}\). Ainsi, si nous ne parvenons pas à rejeter
+\(\boldsymbol{X}_{-j}.\) Ainsi, si nous ne parvenons pas à rejeter
 \(\mathscr{H}_0:\beta_j=0\) en faveur de l'alternative
-\(\mathscr{H}_1 : \beta_j \neq 0\), nous pouvons seulement dire qu'il
+\(\mathscr{H}_1 : \beta_j \neq 0,\) nous pouvons seulement dire qu'il
 n'y a pas d'association \emph{linéaire} significative entre \(X_j\) et
 \(Y\) une fois que l'effet des autres variables incluses dans le modèle
 a été pris en compte. Il existe donc deux scénarios: soit la réponse
 n'est pas corrélée à \(X_j\) (cas inintéressant, mais facile à repérer
 en traçant les deux ou en calculant la corrélation linéaire), soit il
 existe une forte corrélation entre \(X_j\) et à la fois la réponse \(Y\)
-et (certaines) des autres variables explicatives \(X_1, \ldots, X_p\).
+et (certaines) des autres variables explicatives \(X_1, \ldots, X_p.\)
 Ce problème est appelé (multi)\textbf{colinéarité}.
 
 L'un des inconvénients de la colinéarité est la diminution de la
@@ -7397,7 +7398,7 @@ de colinéarité.
 Une idée similaire peut être utilisée pour voir quelle part de \(X_j\)
 est déjà expliquée par les autres variables. Nous définissons le facteur
 \textbf{facteur d'inflation de la variance} comme
-\(\mathsf{FIV}(j)=(1-R^2(j))^{-1}\), où \(R^2(j)\) est le coefficient de
+\(\mathsf{FIV}(j)=(1-R^2(j))^{-1},\) où \(R^2(j)\) est le coefficient de
 détermination du modèle obtenu en régressant \(X_j\) sur toutes les
 autres variables explicatives, c'est-à-dire, \begin{align*}
 X_j = \beta^{\star}_0 + \beta^{\star}_1 X_1 + \cdots + \beta^{\star}_{j-1} X_{j-1} + \beta^{\star}_{j+1} X_{j+1} + \cdots + \beta^{\star}_pX_p + \varepsilon^{\star}
@@ -7405,7 +7406,7 @@ X_j = \beta^{\star}_0 + \beta^{\star}_1 X_1 + \cdots + \beta^{\star}_{j-1} X_{j-
 variance de \(X_j\) expliquée par les autres variables explicatives. Un
 facteur d'inflation de la variance élevé est un indicateur de
 colinéarité: typiquement les valeurs avec une corrélation de plus de
-90\%, ou \(\mathsf{FIV}>10\), nécessitent une attention particulière.
+90\%, ou \(\mathsf{FIV}>10,\) nécessitent une attention particulière.
 Les valeurs dans les centaines ou les milliers représentent des cas
 pathologiques. Pour les variables catégorielles, la définition du
 facteur d'inflation de la variance donnerait normalement une valeur
@@ -7423,7 +7424,7 @@ manière dont les effets individuels sont combinés.
 
 Si nous nous intéressons aux estimations des paramètres individuels, par
 exemple pour voir comment (et dans quelle mesure) les variables
-prédictives expliquent le comportement de \(Y\), les choses se
+prédictives expliquent le comportement de \(Y,\) les choses se
 compliquent. La colinéarité n'affecte que les variables qui sont
 fortement corrélées les unes aux autres, de sorte que nous ne nous
 préoccupons que si elle affecte une ou plusieurs des variables qui nous
@@ -7447,7 +7448,7 @@ problème. On pourrait
   utiliser la régression pénalisée si \(\mathbf{X}^\top\mathbf{X}\)
   n'est (presque) pas inversible, cela peut restaurer l'unicité de la
   solution. Les pénalités introduisent un biais, mais peuvent réduire la
-  variance des estimateurs \(\boldsymbol{\beta}\). Les choix populaires
+  variance des estimateurs \(\boldsymbol{\beta}.\) Les choix populaires
   incluent la régression en crête (avec une pénalité de \(l_2\)), lasso
   (pénalité de \(l_1\)), mais ceux-ci requièrent un ajustement pour
   l'inférence post-sélection
@@ -7508,18 +7509,18 @@ echelon & domaine & sexe & service & annees \\
 
 L'effet de levier \(h_i\) de l'observation \(i\) mesure son impact sur
 l'ajustement par les moindres carrés, puisque nous pouvons écrire
-\(h_i = \partial \widehat{y}_i/\partial y_i\). Les valeurs de l'effet de
+\(h_i = \partial \widehat{y}_i/\partial y_i.\) Les valeurs de l'effet de
 levier nous indiquent l'impact de chaque point sur l'ajustement : elles
 sont strictement positives, avec une borne inférieure de \(1/n\) et une
-borne supérieure de \(1\). La somme des leviers est
+borne supérieure de \(1.\) La somme des leviers est
 \(\sum_{i=1}^n h_i=p+1\) : dans un bon modèle, chaque point a
 approximativement la même contribution, avec un poids moyen de
-\((p+1)/n\).
+\((p+1)/n.\)
 
 Les points à fort effet de levier sont ceux qui présentent des
 combinaisons inhabituelles de variables explicatives. Une observation
 \textbf{influente} (\(h_i\approx 1\)) tire l'hyperplan ajusté vers
-elle-même de sorte que \(\hat{y}_i \approx y_i\). En règle générale, les
+elle-même de sorte que \(\hat{y}_i \approx y_i.\) En règle générale, les
 points avec \(h_i> 2(p+1)/n\) doivent être examinés de près.
 
 Il est important de faire la distinction entre les observations
@@ -7556,16 +7557,16 @@ rapport aux valeurs résiduelles) ou dans les diagrammes de régression
 partielle. On pourrait éventuellement tester si un résidu studentisé
 externe est une valeur aberrante (en tenant compte du fait que nous ne
 prendrions en considération que les valeurs les plus élevées). On peut
-également considérer la distance de Cook, \(C_j\), une statistique
+également considérer la distance de Cook, \(C_j,\) une statistique
 donnant la distance à l'échelle entre les valeurs ajustées
 \(\hat{\boldsymbol{y}}\) et les valeurs ajustées pour le modèle avec
-toutes les observations sauf la \(j\)e, \(\hat{\boldsymbol{y}}^{(-j)}\),
+toutes les observations sauf la \(j\)e, \(\hat{\boldsymbol{y}}^{(-j)},\)
 \begin{align*}
 C_j = \frac{1}{(p+1)S^2} \sum_{i=1}^n \left\{\hat{y}_i - \hat{y}_{i}^{(-j)}\right\}^2
 \end{align*} Des valeurs élevées de \(C_j\) indiquent que son résidu
 ordinaire \(e_j\) est important par rapport aux autres observations ou
 que son effet de levier \(h_j\) est élevé. Une règle empirique consiste
-à considérer les points pour lesquels \(C_j > 4/(n-p-1)\). En pratique,
+à considérer les points pour lesquels \(C_j > 4/(n-p-1).\) En pratique,
 si deux observations sont aberrantes et se situent dans la même région,
 leur distance de Cook sera réduite de moitié.
 
@@ -7598,7 +7599,7 @@ des valeurs \(p\) et des intervalles de confiance dépend de la validité
 (approximative) des postulats du modèle, qui découlent toutes de
 l'hypothèse sur les alés, supposée indépendantes et identiquement
 distribuées avec
-\(\varepsilon_i \stackrel{\cdot}{\sim} \mathsf{normale}(0, \sigma^2)\).
+\(\varepsilon_i \stackrel{\cdot}{\sim} \mathsf{normale}(0, \sigma^2).\)
 Cette description mathématique compacte peut être décomposée en quatre
 postulats principaux: Il y a quatre postulats principaux du modèle
 linéaire de la forme
@@ -7608,7 +7609,7 @@ linéaire de la forme
 \tightlist
 \item
   linéarité et additivité: la moyenne de \(Y_i \mid \mathbf{x}_i\) est
-  \(\beta_0 + \beta_1x_{i1} + \cdots + \beta_p x_{ip}\),
+  \(\beta_0 + \beta_1x_{i1} + \cdots + \beta_p x_{ip},\)
 \item
   homoscédasticité: la variance des observations \(\sigma^2\) est
   constante,
@@ -7647,7 +7648,7 @@ modèles (par exemple, tendance quadratique, cycles, points de
 changement) sont indicatifs d'une mauvaise spécification du modèle pour
 la moyenne. Il est possible d'ajouter une courbe de lissage de tels
 effets. La Figure~\ref{fig-regdiaglin} montre trois diagrammes de
-résidus. On cherche une tendance locale dans l'axe des ordonnées \(y\),
+résidus. On cherche une tendance locale dans l'axe des ordonnées \(y,\)
 pas sur l'axe des abcisses.
 
 \begin{figure}[ht!]
@@ -7679,12 +7680,12 @@ modèles additifs généralisés dans ce cours).
 La représentation graphique des résidus en fonction des variables
 explicatives omises peut également servir à vérifier que tout le pouvoir
 explicatif de la covariable omise est déjà expliqué par les colonnes de
-\(\mathbf{X}\).
+\(\mathbf{X}.\)
 
 Si une variable importante a été omise et n'est pas disponible dans
 l'ensemble de données, l'effet de cette variable est capturé à la fois
 par les erreurs (la partie orthogonale à la matrice du modèle
-\(\mathbf{X}\), c'est-à-dire inexpliquée par les covariables incluses
+\(\mathbf{X},\) c'est-à-dire inexpliquée par les covariables incluses
 dans le modèle) et la partie restante est capturée par d'autres
 variables explicatives du modèle qui sont corrélées avec la variable
 omise. Ces variables peuvent agir comme des facteurs de confusion. Dans
@@ -7699,7 +7700,7 @@ Si la variance des aléas est la même pour toutes les observations
 (homoscédasticité), celle des observations \(Y\) est également
 constante. Les scénarios les plus courants d'hétéroscédasticité sont des
 augmentations de la variance avec la réponse, ou bien une variance qui
-dépend de variables explicatives \(\mathbf{X}\), notamment des variables
+dépend de variables explicatives \(\mathbf{X},\) notamment des variables
 catégorielles.
 
 Si les aléas (ou variables réponses) sont hétéroscédastiques (variance
@@ -7714,7 +7715,7 @@ l'autre, nous allons estimer une moyenne des différents termes de
 variance. Les erreurs types de chaque terme sont incorrectes (trop
 petites ou trop grandes) et les conclusions des tests (valeurs \(p\))
 seront erronées car les formules des statistiques des tests \(t\) et
-\(F\) incluent des estimations de \(hat{\sigma}^2\).
+\(F\) incluent des estimations de \(\widehat{\sigma}^2.\)
 
 L'examen de nuages de points des résidus studentisés externes en
 fonction des régresseurs (ou des valeurs ajustées), appelé diagrammes de
@@ -7760,13 +7761,13 @@ tests, la distribution nulle est
 l'alternative qu'au moins deux diffèrent. La statistique du test de
 Bartlett a une distribution nulle \(\chi^2\) avec \(K-1\) degrés de
 liberté, alors que le test de Levene a une distribution \(F\) avec
-(\(K-1\), \(n-K\)) degrés de liberté: il est équivalent au calcul de la
+(\(K-1,\) \(n-K\)) degrés de liberté: il est équivalent au calcul de la
 statistique \(F\) de l'ANOVA à un facteur avec la valeur absolue des
-résidus centrés, \(|y_{ik} - \widehat{\mu}_k|\), comme observations. Un
+résidus centrés, \(|y_{ik} - \widehat{\mu}_k|,\) comme observations. Un
 test populaire plus général est le test de Breusch et Pagan
 (\citeproc{ref-Breusch.Pagan:1979}{1979}), qui est un test du score pour
 un modèle de régression linéaire pour le carré des résidus ordinaires
-\(e_i^2\). Comme les autres tests de score, ce dernier ne nécessite pas
+\(e_i^2.\) Comme les autres tests de score, ce dernier ne nécessite pas
 d'ajustement du modèle avec des variances inégales, mais on doit choisir
 quelles variables explicatives mettre dans le modèle.
 
@@ -7789,7 +7790,7 @@ valeurs-\(p\) obtenues par simulation à l'aide du test-\(t\) à deux
 base de 10 000 simulations. Chaque échantillon simulé se compose de 50
 observations provenant d'une distribution \(\mathsf{normale}(0, 1)\) et
 de 10 observations provenant d'une distribution
-\(\mathsf{normale}(0, 9)\). La loi uniforme sous \(\mathscr{H}_0\)
+\(\mathsf{normale}(0, 9).\) La loi uniforme sous \(\mathscr{H}_0\)
 aurait 5 \% dans chacune des 20 cases utilisées pour l'affichage.}
 
 \end{figure}%
@@ -7798,9 +7799,9 @@ Qu'arrive-t-il si la variance est inégale? Considérons un problème
 simple de comparaison de moyennes entre deux groupes, qui revient à
 effectuer un \(t\)-test pour deux échantillons. Nous avons simulé 50
 observations à partir d'une loi \(\mathsf{normale}(0, 1)\) et 10
-observations à partir d'une loi \(\mathsf{normale}(0, 9)\), en comparant
+observations à partir d'une loi \(\mathsf{normale}(0, 9),\) en comparant
 la distribution des valeurs \(p\) pour les statistiques du test de Welch
-et du test \(t\). En revanche, nous rejetons 0\% du temps avec le
+et du test \(t.\) En revanche, nous rejetons 0\% du temps avec le
 test-\(t\) : il s'agit d'une grande proportion de prémisses erronées
 Bien que la distorsion du niveau du test ne soit pas toujours aussi
 frappante, l'hétérogénéité doit être prise en compte dans l'élaboration
@@ -7827,15 +7828,15 @@ nécessaire.
 
 Les économistes utilisent fréquemment des estimateurs \textbf{sandwich}
 (\citeproc{ref-White:1980}{White 1980}), en remplaçant l'estimateur
-usuel de la matrice de covariance des \(\widehat{\boldsymbol{\beta}}\),
-d'ordinaire \(S^2(\mathbf{X}^\top\mathbf{X})^{-1}\), par un estimateur
+usuel de la matrice de covariance des \(\widehat{\boldsymbol{\beta}},\)
+d'ordinaire \(S^2(\mathbf{X}^\top\mathbf{X})^{-1},\) par un estimateur
 sandwich de la forme
 \[\widehat{\mathsf{Va}}_{\mathsf{HCE}}(\boldsymbol{\widehat{\beta}}) = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\boldsymbol{\Omega}\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\]
 avec \(\boldsymbol{\Omega}\) une matrice diagonale. Les choix populaires
 pour des matrices convergente en cas d'hétéroscédasticité matrices
 (\citeproc{ref-McKinnon.White:1985}{MacKinnon et White 1985}), utilisent
-\(\mathrm{diag}(\boldsymbol{\Omega})_i = e_i^2/(1-h_{ii})^2\), dans le
-cas de la matrice \(\mathrm{HC}_3\).
+\(\mathrm{diag}(\boldsymbol{\Omega})_i = e_i^2/(1-h_{ii})^2,\) dans le
+cas de la matrice \(\mathrm{HC}_3.\)
 
 \subsection{Postulat d'indépendance}\label{postulat-dinduxe9pendance}
 
@@ -7921,10 +7922,10 @@ dépendance au premier décalage entre les observations. Pour les séries
 temporelles, nous pouvons utiliser un corrélogramme, c'est-à-dire un
 diagramme à bandes de la corrélation entre deux observations distantes
 de \(h\) unités en fonction du décalage
-\(h\).(\citeproc{ref-Brockwell.Davis:2016}{Brockwell et Davis 2016},
+\(h.\)(\citeproc{ref-Brockwell.Davis:2016}{Brockwell et Davis 2016},
 Definition 1.4.4).
 
-Pour \(y_1, \ldots, y_n\) et des pas de décalages \(h=0, 1, \ldots\),
+Pour \(y_1, \ldots, y_n\) et des pas de décalages \(h=0, 1, \ldots,\)
 l'autocorrélation au pas de temps \(h\) est \begin{align*}
 r(h) = \frac{\gamma(h)}{\gamma(0)}, \qquad \gamma(h) = \frac{1}{n}\sum_{i=1}^{n-|h|} (y_i-\overline{y})(y_{i+h} - \overline{y})
 \end{align*}
@@ -7969,9 +7970,9 @@ Comment prendre en compte la dépendance entre observations? L'idée
 principale est de modéliser la corrélation et la variance, en partant du
 vecteur complet d'observations et en supposant que
 \[\boldsymbol{Y} \mid \mathbf{X} \sim \mathsf{normale}_n(\mathbf{X}\boldsymbol{\beta}, \boldsymbol{\Sigma})\]
-avec un modèle pour la matrice de variance de dimension \(n \times n\),
-disons \(\boldsymbol{\Sigma}\), qui sera paramétré en fonction de
-\(\boldsymbol{\psi}\).
+avec un modèle pour la matrice de variance de dimension \(n \times n,\)
+disons \(\boldsymbol{\Sigma},\) qui sera paramétré en fonction de
+\(\boldsymbol{\psi}.\)
 
 \subsection{Postulat de normalité}\label{postulat-de-normalituxe9}
 
@@ -7986,27 +7987,26 @@ modèle et les \(t\)-tests sont étonnamment robustes et ne sont pas
 affectés par un écart par rapport au postulat de normalité. Cela
 signifie que l'inférence est valable avec de grands échantillons, quelle
 que soit la distribution des erreurs/résidus (même si la loi nulle n'est
-pas exacte). L'inférence sera valable avec de grands échantillons même
-si les aléas ne sont pas normaux à cause du théorème de la limite
-centrale. Il est important de garder à l'esprit que, pour les variables
-explicatives catégorielles, la taille de l'échantillon dans chaque
-sous-groupe doit être suffisamment importante pour que le théorème de la
-limite centrale s'applique, puisque les coefficients représentent la
-moyenne du sous-groupe. En revanche, les résultats et tests qui
-capitalisent sur la loi des aléas (par exemple, les tests pour les
-aberrances basés sur le maximum des résidus studentisés, ou les
+pas exacte), pourvu que l'espérance existe, à cause du théorème de la
+limite centrale. Il est important de garder à l'esprit que, pour les
+variables explicatives catégorielles, la taille de l'échantillon dans
+chaque sous-groupe doit être suffisamment importante pour que le
+théorème de la limite centrale s'applique, puisque les coefficients
+représentent la moyenne du sous-groupe. En revanche, les résultats et
+tests qui capitalisent sur la loi des aléas (par exemple, les tests pour
+les aberrances basés sur le maximum des résidus studentisés, ou les
 intervalles de prédictions) seront probablement trompeurs.
 
 Parfois, des transformations peuvent améliorer la normalité : si les
 données sont asymétriques à droite et que la variable réponse est
-strictement positive, un modèle log-linéaire peut être plus adéquat
-Section~\ref{sec-transfo}. Ceci peut être évalué en regardant le
+strictement positive, un modèle log-linéaire peut être plus adéquat;
+voir la Section~\ref{sec-transfo}. Ceci peut être évalué en regardant le
 diagramme quantile-quantile des résidus studentisés externes. Si la
 réponse \(Y\) n'est pas continue (y compris les données binaires,
 proportionnelles ou de dénombrement), les modèles linéaires généralisés
 sont plus appropriés.
 
-Si l'aléa \(\varepsilon_i \sim \mathsf{normale}(0, \sigma^2)\), alors
+Si l'aléa \(\varepsilon_i \sim \mathsf{normale}(0, \sigma^2),\) alors
 les résidus studentisés externes devraient suivre une distribution de
 Student, avec \(r_i \sim \mathsf{Student}(n-p-2)\) (identiquement
 distribués, mais non indépendants). Un diagramme quantile-quantile de
@@ -8073,12 +8073,13 @@ route.
 
 }
 
-\caption{\label{fig-diagplotscollege}Diagnostic plots for the college
-data example: ordinary residuals against fitted values (top left),
-absolute value of the jacknnife studentized residuals against fitted
-values (top right), box and whiskers plot of jacknnife studentized
-residuals (bottom left) and detrended Student quantile-quantile plot
-(bottom right). There is clear group heteroscedasticity.}
+\caption{\label{fig-diagplotscollege}Diagnostics graphiques pour les
+données e salaires dans les collèges: résidus ordinaires versus valeurs
+ajustées (coin supérieur gauche), valeur absolue des résidus studentisés
+avec la méthode du canif (coin supérieur droit), boîte à moustaches de
+ces mêmes résidus (coin inférieur gauche) et diagramme quantile-quantile
+des résidus après soustraction de la traîne (coin inférieur droit).
+L'hétéroscédasticité de groupe est bien visible.}
 
 \end{figure}%
 
@@ -8144,7 +8145,7 @@ corriger l'hétéroscédasticité.
 \end{Shaded}
 
 \begin{center}
-\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{regression-lineaire_files/figure-pdf/unnamed-chunk-59-1.pdf}
+\includegraphics[width=0.85\linewidth,height=\textheight,keepaspectratio]{regression-lineaire_files/figure-pdf/unnamed-chunk-22-1.pdf}
 \end{center}
 
 Le modèle est ajusté par maximum de vraisemblance restreint avec la
@@ -8186,40 +8187,40 @@ Y &= \exp\left(\beta_0 +\beta_1 X_1 +\cdots + \beta_pX_p\right)\cdot \exp(\varep
 \end{align*} et donc \begin{align*}
 \mathsf{E}(Y \mid \mathbf{X}) = \exp(\beta_0 +\beta_1 X_1 +\cdots + \beta_pX_p) \times \mathsf{E}\{\exp(\varepsilon) \mid \mathbf{X}\}.
 \end{align*} Si
-\(\varepsilon \mid \mathbf{x} \sim \mathsf{normale}(\mu,\sigma^2)\),
+\(\varepsilon \mid \mathbf{x} \sim \mathsf{normale}(\mu,\sigma^2),\)
 alors
 \(\mathsf{E}\{\exp(\varepsilon) \mid \mathbf{x}\}= \exp(\mu+\sigma^2/2)\)
 et \(\exp(\varepsilon)\) suit une loi lognormale. Une augmentation d'une
 unité de \(X_j\) mène à une augmentation moyenne de \(\beta_j\) de
-\(\ln Y\) sans interaction ni terme nonlinéaire pour \(X_j\), et cela se
+\(\ln Y\) sans interaction ni terme nonlinéaire pour \(X_j,\) et cela se
 traduit par un facteur multiplicatif de \(\exp(\beta_j)\) à l'échelle de
-\(Y\). Si \(\beta_j=0\), \(\exp(\beta_j)=1\) et il n'y a pas de
-changement, si \(\beta_j < 0\), \(\exp(\beta_j)<1\) et la moyenne
-décroît avec \(X_j\), et si \(\beta_j > 0\), \(\exp(\beta_j)>1\) et la
-moyenne augmente avec \(X_j\).
+\(Y.\) Si \(\beta_j=0,\) \(\exp(\beta_j)=1\) et il n'y a pas de
+changement, si \(\beta_j < 0,\) \(\exp(\beta_j)<1\) et la moyenne
+décroît avec \(X_j,\) et si \(\beta_j > 0,\) \(\exp(\beta_j)>1\) et la
+moyenne augmente avec \(X_j.\)
 
 Comparez le rapport \begin{align*}
 \frac{\mathsf{E}(Y \mid X_1=x+1, X_2, \ldots, X_p)}{\mathsf{E}(Y \mid X_1=x,  X_2, \ldots, X_p)} = \frac{\exp\{\beta_1(x+1)\}}{\exp(\beta_1 x)} = \exp(\beta_1).
 \end{align*} Ainsi, \(\exp(\beta_1)\) donne le rapport des moyennes de
-\(Y\) quand \(X_1=x+1\) par rapport à \(X_1=x\), \emph{ceteris paribus}
+\(Y\) quand \(X_1=x+1\) par rapport à \(X_1=x,\) \emph{ceteris paribus}
 (avec les restrictions habituelles). L'interprétation (par rapport à la
 référence, dépend du signe de \(\beta_j\): le pourcentage de diminution
 est \(1-\exp(\beta_j)\) si \(\beta_j <0\) et le pourcentage
-d'augmentation est \(\exp(\beta_j)-1\) si \(\beta_j>0\).
+d'augmentation est \(\exp(\beta_j)-1\) si \(\beta_j>0.\)
 
 Parfois, on veut considérer une transformation à la fois de la réponse
 et d'une variable explicative positive continue, un modèle log-log.
-Considérons le cas où on prend le logarithme de \(Y\) et \(X_1\), avec
+Considérons le cas où on prend le logarithme de \(Y\) et \(X_1,\) avec
 \begin{align*}
 Y= X_1^{\beta_1}\exp(\beta_0 + \beta_2X_2 + \cdots + \beta_pX_p + \varepsilon)
-\end{align*} En prenant la dérivée par rapport à \(X_1>0\), on obtient
+\end{align*} En prenant la dérivée par rapport à \(X_1>0,\) on obtient
 \begin{align*}
 \frac{\partial Y}{\partial X_1}&= \beta_1 X_1^{\beta_1-1}\exp(\beta_0 + \beta_2X_2 + \cdots + \beta_pX_p + \varepsilon)\\&= \frac{\beta_1 Y}{X_1}
 \end{align*} et réarranger cette expression nous donne \begin{align*}
 \frac{\partial X_1}{X_1}\beta_1 = \frac{\partial Y}{Y};
 \end{align*} une mesure \textbf{d'élasticité partielle}: le coefficient
 \(\beta_1\) est un pourcentage de changement de \(Y\) pour chaque
-pourcentage d'augmentation de \(X_1\), \emph{ceteris paribus}.
+pourcentage d'augmentation de \(X_1,\) \emph{ceteris paribus}.
 
 \begin{example}[Modèle de
 Cobb-Douglas]\protect\hypertarget{exm-loglog}{}\label{exm-loglog}
@@ -8229,13 +8230,13 @@ Considérons par exemple la fonction de production Cobb--Douglas
 production économique \(Y\) est liée au travail \(L\) et au capital
 \(C\) par l'intermédiaire de
 \(\mathsf{E}(Y \mid L, C) = \beta_0C^{\beta}L^{1-\beta}\) avec
-\(\beta \ dans (0,1)\).Si nous prenons les logarithmes des deux côtés
+\(\beta \ dans (0,1).\)Si nous prenons les logarithmes des deux côtés
 (puisque tous les arguments sont positifs), alors
-\(\mathsf{E}(\ln Y \mid L, C) = \beta_0^* + \beta_1 \ln C + (1-\beta_1)\ln L\).
+\(\mathsf{E}(\ln Y \mid L, C) = \beta_0^* + \beta_1 \ln C + (1-\beta_1)\ln L.\)
 Nous pourrions ajuster un modèle linéaire avec la réponse
-\(\ln Y - \ln L\) et la variable explicative \(\ln C - \ln L\), pour
-obtenir une estimation du coefficient \(\beta_1\), tandis que
-\(\beta_0^*=\ln \beta_0\). Une optimisation sous contrainte serait
+\(\ln Y - \ln L\) et la variable explicative \(\ln C - \ln L,\) pour
+obtenir une estimation du coefficient \(\beta_1,\) tandis que
+\(\beta_0^*=\ln \beta_0.\) Une optimisation sous contrainte serait
 potentiellement nécessaire pour estimer les paramètres du modèle
 linéaire résultant si les estimations se situent en dehors de l'espace
 des paramètres.
@@ -8258,17 +8259,17 @@ y(\lambda)= \begin{cases}
 les modèles résultants sont interprétables.
 
 Si on suppose que
-\(\boldsymbol{Y}(\lambda) \sim \mathsf{normale}(\mathbf{X}\boldsymbol{\beta}, \sigma^2 \mathbf{I}_n)\),
+\(\boldsymbol{Y}(\lambda) \sim \mathsf{normale}(\mathbf{X}\boldsymbol{\beta}, \sigma^2 \mathbf{I}_n),\)
 alors la vraisemblance est \begin{align*}
 L(\lambda, \boldsymbol{\beta}, \sigma; \boldsymbol{y}, \mathbf{X}) &= (2\pi\sigma^2)^{-n/2} J(\lambda, \boldsymbol{y}) \times\\& \quad \exp \left[ - \frac{1}{2\sigma^2}\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}^\top\{\boldsymbol{y}(\lambda) - \mathbf{X}\boldsymbol{\beta}\}\right],
 \end{align*} où \(J\) dénote le Jacobien de la transformation Box--Cox,
-\(J(\lambda, \boldsymbol{y})=\prod_{i=1}^n y_i^{\lambda-1}\). Pour
-chaque valeur de \(\lambda\), l'estimateur du maximum de vraisemblance
+\(J(\lambda, \boldsymbol{y})=\prod_{i=1}^n y_i^{\lambda-1}.\) Pour
+chaque valeur de \(\lambda,\) l'estimateur du maximum de vraisemblance
 est le même que celle de la régression linéaire, mais où
-\(\boldsymbol{y}\) est remplacée par \(\boldsymbol{y}(\lambda)\), soit
+\(\boldsymbol{y}\) est remplacée par \(\boldsymbol{y}(\lambda),\) soit
 \(\widehat{\boldsymbol{\beta}}_\lambda = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top \boldsymbol{y}(\lambda)\)
 and
-\(\widehat{\sigma}^2_\lambda = n^{-1}\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}^\top\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}\).
+\(\widehat{\sigma}^2_\lambda = n^{-1}\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}^\top\{ \boldsymbol{y}(\lambda) - \mathbf{X}\widehat{\boldsymbol{\beta}}_\lambda\}.\)
 
 La log-vraisemblance profilée est donc \begin{align*}
 \ell_{\mathsf{p}}(\lambda) = -\frac{n}{2}\ln(2\pi \widehat{\sigma}^2_\lambda) - \frac{n}{2} + (\lambda - 1)\sum_{i=1}^n \ln(y_i)
@@ -8282,7 +8283,7 @@ tests, parce que les modèles ont des réponses différentes. Nous pouvons
 toutefois utiliser la vraisemblance de Box--Cox, qui inclut le
 \textbf{Jacobien} de la transformation, pour évaluer la qualité de
 l'ajustement et comparer le modèle avec \(\lambda=1\) par rapport à
-\(\lambda=0\).
+\(\lambda=0.\)
 
 La transformation de Box--Cox n'est pas une solution miracle et doit
 être réservée aux cas où la transformation réduit l'hétéroscédasticité
@@ -8341,16 +8342,16 @@ normalité, mais la non-linéarité et l'hétéroscédasticité le masquent.
 }
 
 \caption{\label{fig-poisonplots}Diagnostics graphiques pour les données
-de poisons. Panneau du haut: vraisemblance profilée pour \(\lambda\).
-Panneau du milieu: (\(\lambda=1\), temps de survie) et du bas
-\((\lambda=-1\), vitesse d'absorption). Les diagnostics pour les modèles
+de poisons. Panneau du haut: vraisemblance profilée pour \(\lambda.\)
+Panneau du milieu: (\(\lambda=1,\) temps de survie) et du bas
+\((\lambda=-1,\) vitesse d'absorption). Les diagnostics pour les modèles
 représentent les résidus ordinaires versus valeurs ajustées et diagramme
 quantile-quantile des résidus studentisés.}
 
 \end{figure}%
 
 L'intervalle de confiance à 95\% basé sur la log-vraisemblance profilée
-pour le paramètre du modèle Box--Cox contient \(\lambda=-1\). La
+pour le paramètre du modèle Box--Cox contient \(\lambda=-1.\) La
 réciproque de la variable réponse \(Y^{-1}\) indique la vitesse d'action
 du poison, selon le type et le traitement. Les diagnostics graphiques de
 ce modèles, présentés dans le panneau du bas de la
@@ -8363,19 +8364,18 @@ Figure~\ref{fig-poisonplots} ne montrent aucune structure résiduelle.
 La régression linéaire est le modèle statistique le plus connu et le
 plus utilisé. Le nom peut sembler réducteur, mais de nombreux tests
 statistiques (\emph{t}-tests, ANOVA, Wilcoxon, Kruskal--Wallis)
-{[}peuvent être formulés à l'aide d'une régression linéaire{]}
-(https://lindeloev.github.io/tests-as-linear/linear\_tests\_cheat\_sheet.pdf),
-tandis que {[}des modèles aussi divers que les arbres, les composantes
-principales et les réseaux neuronaux profonds ne sont que des modèles de
-régression linéaire déguisés{]}
-(https://threadreaderapp.com/thread/1286420597505892352.html). Ce qui
-change sous le capot d'un modèle à l'autre, c'est la méthode
-d'optimisation (par exemple, les moindres carrés ordinaires,
-l'optimisation sous contrainte ou la descente de gradient stochastique)
-et le choix des variables explicatives entrant dans le modèle (bases de
-splines pour la régression non paramétrique, variable indicatrice
-sélectionnée via une recherche glouton pour les arbres, fonctions
-d'activation pour les réseaux neuronaux).
+\href{https://lindeloev.github.io/tests-as-linear/linear_tests_cheat_sheet.pdf}{peuvent
+être formulés à l'aide d'une régression linéaire}, tandis que
+\href{https://threadreaderapp.com/thread/1286420597505892352.html}{des
+modèles aussi divers que les arbres, les composantes principales et les
+réseaux neuronaux profonds ne sont que des modèles de régression
+linéaire déguisés}. Ce qui change sous le capot d'un modèle à l'autre,
+c'est la méthode d'optimisation (par exemple, les moindres carrés
+ordinaires, l'optimisation sous contrainte ou la descente de gradient
+stochastique) et le choix des variables explicatives entrant dans le
+modèle (bases de splines pour la régression non paramétrique, variable
+indicatrice sélectionnée via une recherche gloutonne pour les arbres,
+fonctions d'activation pour les réseaux neuronaux).
 
 \bookmarksetup{startatroot}
 
