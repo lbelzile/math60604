@@ -126,7 +126,7 @@ L'écart-type *d'une statistique* est appelé **erreur-type**; il ne doit pas ê
 
 ## Proportion échantillonale et tirages uniformes
 
-Pour illustrer le concept de variabilité échantillonnale, nous suivons l'exemple de [Matthew Crump] (https://www.crumplab.com/statistics/foundations-for-inference.html) et considérons des échantillons provenant d'une distribution uniforme sur $\{1, 2, \ldots, 10\}$: chaque entier de cet intervalle a la même probabilité d'être tiré.
+Pour illustrer le concept de variabilité échantillonnale, nous suivons l'exemple de [Matthew Crump](https://www.crumplab.com/statistics/foundations-for-inference.html) et considérons des échantillons provenant d'une distribution uniforme sur $\{1, 2, \ldots, 10\}$: chaque entier de cet intervalle a la même probabilité d'être tiré.
 
 ```{r}
 #| label: fig-unifsamp1
@@ -619,7 +619,7 @@ Si les effectifs de chaque cellule sont importants, la distribution nulle du tes
 
 
 
-Une autre solution pour obtenir un point de référence permettant d'évaluer le caractère exagéré du rapport de cotes observé consiste à utiliser des simulations: les tests de permutation sont efficaces [illustrés par Jared Wilber] (https://www.jwilber.me/permutationtest/).  Considérons une base de données contenant les données brutes avec 93 lignes, une pour chaque gestionnaie, avec pour chacune un indicateur d'`action` et le `sexe` de l'employé hypothétique présenté dans la tâche.
+Une autre solution pour obtenir un point de référence permettant d'évaluer le caractère exagéré du rapport de cotes observé consiste à utiliser des simulations: les tests de permutation sont efficaces [illustrés par Jared Wilber](https://www.jwilber.me/permutationtest/).  Considérons une base de données contenant les données brutes avec 93 lignes, une pour chaque gestionnaie, avec pour chacune un indicateur d'`action` et le `sexe` de l'employé hypothétique présenté dans la tâche.
 
 ```{r}
 #| label: dat-long-test-rosen
@@ -919,3 +919,4 @@ Ce chapitre s'est concentré sur la présentation des outils du métier et de qu
 -->
 
 
+M
